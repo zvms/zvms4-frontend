@@ -225,6 +225,12 @@ export const enUS = {
     name: 'History',
     title: "History of {name}'s Impression",
     empty: 'No History'
+  },
+  member: {
+    name: 'Name',
+    status: 'Status',
+    class: 'Class',
+    impression: 'Impression',
   }
 }
 
@@ -447,6 +453,17 @@ export const zhCN = {
       first: '初审',
       last: '终审'
     }
+  },
+  history: {
+    name: '历史',
+    title: '{name}的义工感想历史',
+    empty: '无历史'
+  },
+  member: {
+    name: '姓名',
+    status: '状态',
+    class: '班级',
+    impression: '感想',
   }
 }
 
@@ -670,6 +687,17 @@ export const zhTW = {
       first: '初審',
       last: '終審'
     }
+  },
+  history: {
+    name: '歷史',
+    title: '{name}的義工感想歷史',
+    empty: '無歷史'
+  },
+  member: {
+    name: '姓名',
+    status: '狀態',
+    class: '班級',
+    impression: '感想',
   }
 }
 
@@ -894,6 +922,17 @@ export const jaJP = {
       first: '初審査',
       last: '最終審査'
     }
+  },
+  history: {
+    name: '歴史',
+    title: '{name}のボランティア感想の歴史',
+    empty: '歴史なし'
+  },
+  member: {
+    name: '名前',
+    status: '状態',
+    class: 'クラス',
+    impression: '感想',
   }
 }
 
@@ -1114,10 +1153,17 @@ export const frFR = {
     rejected: 'Rejeté',
     pending: 'En Attente',
     effective: 'Effectif',
-    steps: {
-      first: 'Première',
-      last: 'Dernière'
-    }
+  },
+  history: {
+    name: 'Histoire',
+    title: "Histoire de l'Impression de {name}",
+    empty: 'Aucune histoire'
+  },
+  member: {
+    name: 'Nom',
+    status: 'Statut',
+    class: 'Classe',
+    impression: 'Impression',
   }
 }
 

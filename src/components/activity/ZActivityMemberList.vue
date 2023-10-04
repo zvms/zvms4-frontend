@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ZButtonOrCard } from '@/components'
+import { ZButtonOrCard, ZActivityMember, ZActivityStatus } from '@/components'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs } from 'vue'
 import { User } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
+import { ElTable, ElTableColumn, ElButton } from 'element-plus'
+import { getUserClassByCode } from '@/utils/getClass'
 
 const user = useUserStore()
 const { t } = useI18n()
@@ -29,6 +31,19 @@ const { activity } = toRefs(props)
     <template #text>
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
-    <template #default> </template>
+    <template #default>
+      <ElTable :data="activity.members">
+        <ElTableColumn prop="_id" :label="t('activity.member.name')">
+          <template #default="scope">
+            <ZActivityMember :id="scope.row._id" />
+          </template>
+        </ElTableColumn>
+        <ElTableColumn prop="status" :label="t('activity.member.status')">
+          <template #default="scope">
+            <ZActivityStatus :type="scope.row.status" />
+          </template>
+        </ElTableColumn>
+      </ElTable>
+    </template>
   </ZButtonOrCard>
 </template>

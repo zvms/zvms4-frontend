@@ -56,32 +56,32 @@ const show = ref(false)
       <ElSkeletonItem variant="text" width="192px" />
     </template>
   </ElSkeleton>
-  <div v-if="show === true || mode === 'card'">
-    <Teleport to="body">
-      <ElDialog
-        v-if="popType === 'dialog'"
-        v-model="show"
-        :fullscreen="fullscreen"
-        :modal="modal ? modal : true"
-        :title="title"
-        :width="width"
-        :center="center ? center : true"
-        :z-index="zIndex ?? 9999"
-      >
-        <slot name="default" />
-      </ElDialog>
-      <ElDrawer
-        v-if="popType === 'drawer'"
-        v-model="show"
-        :fullscreen="fullscreen"
-        :modal="modal ? modal : true"
-        :title="title"
-        :size="width"
-        :direction="direction ?? 'rtl'"
-      >
-        <slot name="default" />
-      </ElDrawer>
-    </Teleport>
+  <Teleport to="body" v-if="show">
+    <ElDialog
+      v-if="popType === 'dialog'"
+      v-model="show"
+      :fullscreen="fullscreen"
+      :modal="modal ? modal : true"
+      :title="title"
+      :width="width"
+      :center="center ? center : true"
+      :z-index="zIndex ?? 9999"
+    >
+      <slot name="default" />
+    </ElDialog>
+    <ElDrawer
+      v-if="popType === 'drawer'"
+      v-model="show"
+      :fullscreen="fullscreen"
+      :modal="modal ? modal : true"
+      :title="title"
+      :size="width"
+      :direction="direction ?? 'rtl'"
+    >
+      <slot name="default" />
+    </ElDrawer>
+  </Teleport>
+  <div v-if="mode === 'card'">
     <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading">
       <slot name="default" />
     </ElCard>
