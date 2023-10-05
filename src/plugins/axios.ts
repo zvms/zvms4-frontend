@@ -4,9 +4,15 @@ import nprogress from 'nprogress'
 // Create a Axios Instance
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  timeout: 3000
+  baseURL: 'http://172.31.2.4:4000/api/',
+  withCredentials: true,
+  timeout: 6000,
+  headers: {
+    "Content-type": "application/json",
+  },
 })
+
+axiosInstance.defaults.withCredentials = true
 
 // Request Interceptor
 

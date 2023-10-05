@@ -1,0 +1,6 @@
+name: Read User Activity
+path: /user/:id/activity
+method: GET
+params:
+- id: number # 学号
+response: ActivityInstance[]

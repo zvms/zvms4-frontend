@@ -14,6 +14,8 @@ import 'element-plus/theme-chalk/index.css'
 import 'vant/lib/index.css'
 import 'animate.css/animate.min.css'
 
+import { zhCn } from 'element-plus/es/locale/index.mjs'
+
 import persistedstate from 'pinia-plugin-persistedstate'
 import { pad } from './plugins/ua'
 
@@ -23,7 +25,8 @@ app.use(createPinia().use(persistedstate))
 app.use(router)
 
 app.use(ElementPlus, {
-  size: pad() ? 'large' : 'default'
+  size: 'default',
+  locale: zhCn
 })
 app.use(Vant)
 

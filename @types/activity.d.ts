@@ -1,13 +1,22 @@
-import { ObjectId } from 'mongodb'
-
 export interface Activity {
-  _id: ObjectId
+  _id: string
   type: ActivityType
   name: string
   description: string
   members: ActivityMember[]
   duration: number // hours
-  impression: string
+}
+
+export interface ActivityCreate extends Omit<Activity, 'members'> {
+  members: string[]
+}
+
+export type ActivityQuery = {
+  _id: string;
+  type: ActivityType;
+  name: string;
+  memberCounts: number;
+  duration: number;
 }
 
 export interface Registration {
@@ -23,8 +32,10 @@ export interface ClassRegistration {
 }
 
 export interface ActivityMember {
-  _id: ObjectId
+  _id: string
   status: MemberActivityStatus
+  impression: string
+  duration?: number // hours, if is undefined, use the activity's duration
 }
 
 export type ActivityType = 'specified' | 'special' | 'off-campus'
@@ -48,7 +59,11 @@ export interface SpecifiedActivity extends Activity {
 
 export interface SpecialActivity extends Activity {
   type: 'special'
-  subtype: 'on-campus' | 'off-campus' | 'large-scale-activity'
+  subtype: 'on-campus' | 'off-campus' | 'large-scale'
+}
+
+export interface SpecialActivityCreate extends Omit<SpecialActivity, 'members'> {
+  members: string[]
 }
 
 export interface OffCampusActivity extends Activity {
@@ -56,4 +71,9 @@ export interface OffCampusActivity extends Activity {
   timeRange: [string, string] // ISO-8601
 }
 
+export interface OffCampusActivityCreate extends Omit<OffCampusActivity, 'members'> {
+  members: string[]
+}
+
 export type ActivityInstance = SpecifiedActivity | SpecialActivity | OffCampusActivity
+export type ActivityCreateInstance = SpecifiedActivity | SpecialActivityCreate | OffCampusActivityCreate

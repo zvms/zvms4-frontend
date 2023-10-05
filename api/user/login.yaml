@@ -1,0 +1,9 @@
+name: User Login
+path: /user/login
+method: POST
+body:
+- name: number # 学号 / 分配 ID
+- password: string # after md5
+response:
+- token: token # 登录成功后返回的 token(JSON Web Token)
+- id: ObjectId # 用户 ID

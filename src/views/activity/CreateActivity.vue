@@ -1,0 +1,68 @@
+<script setup lang="ts">
+import { ElTabs, ElTabPane } from 'element-plus'
+import CreateOffCampus from './CreateOffCampus.vue'
+import CreateSpecial from './CreateSpecial.vue'
+import CreateSpecified from './CreateSpecified.vue'
+import CreateHome from './CreateHome.vue'
+import { ref, type Component, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
+const path = ref(route.params?.type ?? '')
+
+const tab = ref(path.value as string)
+
+watch(
+  tab,
+  () => {
+    router.push(`/activity/create/${path.value}`)
+  },
+  { immediate: true }
+)
+
+watch(
+  () => route.params?.type,
+  (type) => {
+    if (typeof type === 'string') {
+      console.log(type)
+      tab.value = type
+    }
+  },
+  { immediate: true }
+)
+
+const tabs = ref<{ label: string; value: string; component: Component }[]>([
+  {
+    label: '主页',
+    value: '',
+    component: CreateHome
+  },
+  {
+    label: '指定义工',
+    value: 'specified',
+    component: CreateSpecified
+  },
+  {
+    label: '特定义工',
+    value: 'special',
+    component: CreateSpecial
+  },
+  {
+    label: '校外义工',
+    value: 'off-campus',
+    component: CreateOffCampus
+  }
+])
+</script>
+
+<template>
+  <div class="p-4" style="width: 100%">
+    <ElTabs v-model="tab" class="pl-4" tab-position="left">
+      <ElTabPane v-for="pane in tabs" :key="pane.value" :name="pane.value" :label="pane.label">
+        <Component :is="pane.component" @move="(mov: string) => tab = mov" />
+      </ElTabPane>
+    </ElTabs>
+  </div>
+</template>

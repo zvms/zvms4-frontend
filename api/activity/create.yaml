@@ -1,0 +1,5 @@
+name: Create Activity
+path: /activity/create
+method: POST
+body: ActivityInstance
+response: ObjectId

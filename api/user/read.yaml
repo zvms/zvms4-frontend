@@ -1,0 +1,6 @@
+name: Read User
+path: /user/:id
+params:
+- id: number # 学号
+method: GET
+response: User

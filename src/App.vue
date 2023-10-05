@@ -1,18 +1,62 @@
 <script setup lang="ts">
-import { ElContainer, ElAside, ElHeader, ElFooter, ElIcon } from 'element-plus'
+import { ArrowDown, User, SwitchButton } from '@element-plus/icons-vue'
+import {
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElFooter,
+  ElIcon,
+  ElRow,
+  ElCol,
+  ElButton,
+  ElButtonGroup,
+  ElPopover
+} from 'element-plus'
 import { RouterView } from 'vue-router'
+import { useUserStore } from './stores/user'
+import { useRouter } from 'vue-router'
+import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
+import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
+import UserNav from './views/user/UserNav.vue'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+function logout() {
+  userStore.removeUser()
+  router.push('/user/login')
+}
 </script>
 
 <template>
   <ElContainer>
     <ElHeader>
-      <div class="text-2xl pt-4 px-6 tit">
-        <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
-        镇海中学义工管理系统
-      </div>
+      <ElRow class="pt-4 px-6">
+        <ElCol :span="8">
+          <div class="text-2xl tit" @dblclick="router.push('/')">
+            <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
+            ZVMS 4.1
+          </div>
+        </ElCol>
+        <ElCol :span="8"> </ElCol>
+        <ElCol :span="8">
+          <ElButtonGroup class="user">
+            <ElButton text bg :icon="User" type="primary">{{ userStore.isLogin ? userStore.name : '未登录' }}</ElButton>
+            <ElPopover>
+              <template #reference>
+                <ElButton text bg :icon="ArrowDown" :disabled="!userStore.isLogin" type="primary" />
+              </template>
+              <ElButton text :icon="Feedback" class="action-btn p-4">问题反馈</ElButton><br />
+              <ElButton text :icon="Password" class="action-btn p-4">密码修改</ElButton><br />
+              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">退出登录</ElButton>
+            </ElPopover>
+          </ElButtonGroup>
+        </ElCol>
+      </ElRow>
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
-        <RouterView />
+      <UserNav style="height: 100%" v-if="userStore.isLogin" />
+      <RouterView />
     </ElContainer>
     <ElFooter class="footer">
       <p class="text-center">&copy; 2018-2023 镇海中学义管会</p>
@@ -35,9 +79,18 @@ import { RouterView } from 'vue-router'
   border: 0 0 2px 0;
 }
 
+.action-btn {
+  width: 100%;
+}
+
 .icon {
   position: relative;
   top: 40%;
   transform: translateY(16%);
+}
+
+.user {
+  position: absolute;
+  right: 0;
 }
 </style>

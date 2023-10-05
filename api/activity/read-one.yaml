@@ -1,0 +1,6 @@
+name: Read One Activity
+path: /activity/:id
+method: GET
+params:
+- id: ObjectId
+response: ActivityInstance

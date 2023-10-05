@@ -1,23 +1,30 @@
 import axios from '@/plugins/axios'
-import type { User } from '@/../@types/user'
-import type { ObjectId } from 'mongodb'
+import type { LoginResult, User } from '@/../@types/user'
+import ObjectId from 'bson-objectid'
+import { getUserPosition } from '@/utils/getPosition'
+import type { Response } from '@/../@types/response'
+import { getUserClass } from '@/utils/getClass'
 
-export async function getUser(id: number): Promise<User> {
-  return (await axios.get(`/user/${id}`)).data as User
+export const handlerUserInformation = (id: number, user: LoginResult) =>
+  ({
+    _id: new ObjectId().toHexString(),
+    id,
+    name: user.username,
+    sex: 'unknown',
+    position: getUserPosition(user.permission),
+    class: getUserClass(id, user.classId)
+  }) as User<string>
+
+export async function getUser(id: number) {
+  const result = (await axios.get(`/user/${id}`)).data as Response<LoginResult>
+  return handlerUserInformation(id, result.data)
 }
 
-export async function createUser(user: User): Promise<ObjectId> {
-  return (await axios.post('/user', user)).data as ObjectId
-}
-
-export async function updateUser(user: User): Promise<void> {
-  await axios.put(`/user/${user.id}`, user)
-}
-
-export async function patchUser(id: number, user: Partial<User>): Promise<void> {
-  await axios.patch(`/user/${id}`, user)
-}
-
-export async function deleteUser(id: number): Promise<void> {
-  await axios.delete(`/user/${id}`)
+export async function modifyPassword(id: number, validate: string, password: string) {
+  return await axios.post(`/user/${id}/modify-password`, {
+    data: {
+      oldPassword: validate,
+      newPassword: password
+    }
+  })
 }

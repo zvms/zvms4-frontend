@@ -7,17 +7,19 @@ import {
   ElFormItem,
   ElButton,
   ElNotification,
-  type FormItemRule,
   ElRow,
   ElCol
 } from 'element-plus'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { UserLogin } from '@/api/user/auth'
-import type { Arrayable } from 'element-plus/es/utils/typescript.mjs'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
 const user = ref<number>()
 const password = ref<string>('')
 const loginfield = ref()
+const userStore = useUserStore()
+const router = useRouter()
 
 function refresh() {
   user.value = undefined
@@ -26,33 +28,28 @@ function refresh() {
 
 async function login() {
   const result = await UserLogin(user.value as number, password.value as string)
-  if (result.status === 'error') {
-    ElNotification({})
+  if (result.errorn > 1) {
+    ElNotification({
+      title: '登录失败',
+      message: result.toString(),
+      type: 'error'
+    })
+  } else {
+    ElNotification({
+      title: '登录成功',
+      message: '欢迎使用，' + userStore.name + '。',
+      type: 'success',
+      position: 'bottom-right'
+    })
+    userStore.setUser(user.value as number, password.value as string).then(() => {
+      router.push('/user/')
+    })
   }
 }
 
 watch(user, async () => {
   const result = await loginfield.value.validate()
   console.log(result)
-})
-
-const rules = ref<Record<string, Arrayable<FormItemRule>>>({
-  id: [
-    {
-      type: 'number',
-      required: true,
-      message: '请输入账号',
-      trigger: 'change'
-    }
-  ],
-  password: [
-    {
-      required: true,
-      message: '请输入密码',
-      trigger: 'change',
-      validator: (x) => x !== undefined && x !== null
-    }
-  ]
 })
 </script>
 
@@ -67,7 +64,7 @@ const rules = ref<Record<string, Arrayable<FormItemRule>>>({
         <p class="align-right motto">励志 进取 勤奋 健美</p>
       </ElCol>
     </ElRow>
-    <ElForm ref="loginfield" :rules="rules">
+    <ElForm ref="loginfield">
       <ElFormItem label="账号" prop="id">
         <ElInput placeholder="e.g. 19191145" clearable v-model.number="user"></ElInput>
       </ElFormItem>

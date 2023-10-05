@@ -6,4 +6,11 @@
 
 body {
   user-select: none;
+  overflow: hidden;
+  position: fixed;
+  width: 100%
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
 }

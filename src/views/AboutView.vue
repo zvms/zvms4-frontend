@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElCard, ElDivider } from 'element-plus'
+import { ElCard } from 'element-plus'
 </script>
 <template>
   <div class="px-24 full py-4">

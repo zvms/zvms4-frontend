@@ -1,15 +1,41 @@
 import { ObjectId } from 'mongodb'
 
-declare interface User {
-  _id: ObjectId
+export interface User<T=ObjectId> {
+  _id: T
   id: number
   name: string
-  sex: 'male' | 'female'
-  position: 'admin' | 'minister' | 'secretary' | 'student' | 'inspector'
+  sex: 'male' | 'female' | 'unknown'
+  position: UserPosition[]
+  class: ClassType
+}
+
+export type UserPosition = 'admin' | 'inspector' | 'auditor' | 'secretary' | 'student'
+
+export interface WithPassword<T> extends T {
   password: string
 }
 
-declare interface UserLogin {
+export interface UserLogin {
   id: number
   password: string
+}
+
+export interface ClassType {
+  type: 'Z' | 'J'
+  grade: number
+  year: number
+  class: number
+  number: number
+}
+
+export interface LoginResult {
+  classId: number
+  permission: number
+  username: string
+}
+
+export interface UserActivityTimeSums {
+  specified: number
+  special: number
+  offCampus: number
 }

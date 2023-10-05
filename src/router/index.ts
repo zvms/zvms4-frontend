@@ -21,6 +21,21 @@ const router = createRouter({
       path: '/user/login',
       name: 'user-login',
       component: () => import('../views/user/UserLogin.vue')
+    },
+    {
+      path: '/user/',
+      name: 'user',
+      component: () => import('../views/user/UserHome.vue')
+    },
+    {
+      path: '/activity/create/:type',
+      name: 'activity-create-type',
+      component: () => import('../views/activity/CreateActivity.vue')
+    },
+    {
+      path: '/activity/create/',
+      name: 'activity-create',
+      component: () => import('../views/activity/CreateActivity.vue')
     }
   ]
 })

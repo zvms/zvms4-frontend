@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { ElContainer, ElAside, ElHeader } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const router = useRouter()
+
+if (!userStore.isLogin) {
+  router.push('/user/login')
+} else {
+  router.push('/user/')
+}
 </script>
 
-<template>
-  1
-</template>
+<!-- eslint-disable-next-line vue/valid-template-root -->
+<template></template>
