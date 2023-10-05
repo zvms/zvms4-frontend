@@ -1,0 +1,9 @@
+name: User Cancel the Registeration of Activity
+path: /user/:id/activity/:aid
+method: DELETE
+params:
+- id: number # 学号
+- aid: string # Activity ObjectId
+body: null
+response: null
+permission: 1

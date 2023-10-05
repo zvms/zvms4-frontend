@@ -4,3 +4,4 @@ method: GET
 params:
 - id: ObjectId
 response: ActivityInstance
+permission: 1

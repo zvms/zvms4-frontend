@@ -1,0 +1,10 @@
+name: Edit Impression
+path: /user/:id/activity/:aid/impression
+method: PATCH
+params:
+- id: number # 学号
+- aid: string # Activity ObjectId
+body:
+- impression: string
+response: null
+permission: 1

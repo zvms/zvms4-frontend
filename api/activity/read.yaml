@@ -4,3 +4,6 @@ method: GET
 queries:
 - type: "'special' | 'specified' | 'off-campus'"
 response: ActivityInstance[]
+permissions:
+- in-class: 2
+- campus: 4

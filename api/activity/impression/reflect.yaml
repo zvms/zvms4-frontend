@@ -1,0 +1,12 @@
+name: Reflect Impression
+path: /activity/:aid/impression/:id
+method: PATCH
+params:
+- aid: string # Activity ObjectId
+- id: number # 学号
+body:
+- status: MemberActivityStatus
+response: null
+permissions:
+- in-class(first): 2
+- campus(final): 4

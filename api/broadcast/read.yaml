@@ -1,0 +1,5 @@
+name: Read Broadcasts
+path: /broadcast
+method: GET
+response: Broadcast[]
+permission: 4

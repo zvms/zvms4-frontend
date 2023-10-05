@@ -4,3 +4,4 @@ params:
 - id: number # 学号
 method: GET
 response: User
+permission: 1

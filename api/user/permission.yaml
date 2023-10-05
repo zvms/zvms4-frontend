@@ -1,0 +1,9 @@
+name: Alter User's Permission
+path: /user/:id/permission
+method: PATCH
+params:
+- id: number # 学号
+body:
+- permission: number
+response: null
+permission: 16
