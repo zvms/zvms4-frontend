@@ -13,6 +13,8 @@ div.zjr {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  zoom: 60%;
+  border-radius: 4px;
 }
 
 h1.zjr {
