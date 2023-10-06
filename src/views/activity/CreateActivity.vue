@@ -45,7 +45,7 @@ const tabs = ref<{ label: string; value: string; component: Component }[]>([
     component: CreateSpecified
   },
   {
-    label: '特定义工',
+    label: '特殊义工',
     value: 'special',
     component: CreateSpecial
   },
@@ -55,13 +55,23 @@ const tabs = ref<{ label: string; value: string; component: Component }[]>([
     component: CreateOffCampus
   }
 ])
+
+function mov (mov: string) {
+  tab.value = mov
+}
 </script>
 
 <template>
   <div class="p-4" style="width: 100%">
     <ElTabs v-model="tab" class="pl-4" tab-position="left">
       <ElTabPane v-for="pane in tabs" :key="pane.value" :name="pane.value" :label="pane.label">
-        <Component :is="pane.component" @move="(mov: string) => tab = mov" />
+        <Transition
+          enter-active-class="animate__animated animate__fadeInDown"
+          leave-active-class="animate__animated animate__fadeOutUp"
+          appear
+        >
+          <Component :is="pane.component" @move="mov" />
+        </Transition>
       </ElTabPane>
     </ElTabs>
   </div>

@@ -1,30 +1,35 @@
 import axios from '@/plugins/axios'
-import type { LoginResult, User } from '@/../@types/user'
-import ObjectId from 'bson-objectid'
-import { getUserPosition } from '@/utils/getPosition'
+import type { User } from '@/../@types/user'
 import type { Response } from '@/../@types/response'
-import { getUserClass } from '@/utils/getClass'
-
-export const handlerUserInformation = (id: number, user: LoginResult) =>
-  ({
-    _id: new ObjectId().toHexString(),
-    id,
-    name: user.username,
-    sex: 'unknown',
-    position: getUserPosition(user.permission),
-    class: getUserClass(id, user.classId)
-  }) as User<string>
+import { ElNotification } from 'element-plus'
 
 export async function getUser(id: number) {
-  const result = (await axios.get(`/user/${id}`)).data as Response<LoginResult>
-  return handlerUserInformation(id, result.data)
+  const result = (await axios(`/user/${id}`)).data as Response<User<string>>
+  if (result.status === 'error') {
+    ElNotification({
+      title: '获取用户信息错误（' + result.code + '）',
+      message: result.message,
+      type: 'error'
+    })
+    return null
+  }
+  return result.data
 }
 
 export async function modifyPassword(id: number, validate: string, password: string) {
-  return await axios.post(`/user/${id}/modify-password`, {
+  const result = await axios(`/user/${id}/password`, {
     data: {
       oldPassword: validate,
-      newPassword: password
-    }
-  })
+      newPassword: password,
+      action: 'modify'
+    },
+    method: 'PATCH'
+  }) as Response<null>
+  if (result.status === 'error') {
+    ElNotification({
+      title: '修改密码错误（' + result.code + '）',
+      message: result.message,
+      type: 'error'
+    })
+  }
 }

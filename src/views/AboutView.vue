@@ -1,21 +1,23 @@
 <script lang="ts" setup>
 import { ElButton, ElButtonGroup, ElCard, ElDrawer } from 'element-plus'
-import ZhangZisu from '@/views/collaborators/ZhangZisu.vue'
-import LuJinxuan from '@/views/collaborators/LuJinxuan.vue'
-import ZhuChengyang from '@/views/collaborators/ZhuChengyang.vue'
-import ChenChen from '@/views/collaborators/ChenChen.vue'
-import ShenLechen from '@/views/collaborators/ShenLechen.vue'
-import HuangHanting from '@/views/collaborators/HuangHanting.vue'
-import ZhouShengjie from '@/views/collaborators/ZhouShengjie.vue'
-import QiuNianchu from '@/views/collaborators/QiuNianchu.vue'
-import XiongTongrui from '@/views/collaborators/XiongTongrui.vue'
-import ChenLiuchang from '@/views/collaborators/ChenLiuchang.vue'
-import WuChengyu from '@/views/collaborators/WuChengyu.vue'
-import BaoYihan from '@/views/collaborators/BaoYihan.vue'
-import ZhaiYanqi from '@/views/collaborators/ZhaiYanqi.vue'
-import HuangHaojie from '@/views/collaborators/HuangHaojie.vue'
-import ZhangShengze from '@/views/collaborators/ZhangShengze.vue'
-import ZhouJirui from '@/views/collaborators/ZhouJirui.vue'
+import {
+  ZhangZisu,
+  LuJinxuan,
+  ZhuChengyang,
+  ChenChen,
+  ShenLechen,
+  HuangHanting,
+  ZhouShengjie,
+  QiuNianchu,
+  XiongTongrui,
+  ChenLiuchang,
+  WuChengyu,
+  BaoYihan,
+  ZhaiYanqi,
+  HuangHaojie,
+  ZhangShengze,
+  ZhouJirui
+} from './collaborators'
 import { ref, type Component as VueComponent, watch } from 'vue'
 import TablerBrandJavascript from '@/icons/stacks/TablerBrandJavascript.vue'
 import TablerBrandTypescript from '@/icons/stacks/TablerBrandTypescript.vue'

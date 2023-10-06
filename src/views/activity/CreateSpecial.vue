@@ -11,7 +11,7 @@ import {
   ElSelect,
   ElOption,
   ElTooltip,
-ElNotification
+  ElNotification
 } from 'element-plus'
 import { ArrowRight, Refresh, InfoFilled } from '@element-plus/icons-vue'
 import { getUser } from '@/api/user/crud'
@@ -77,13 +77,15 @@ async function register() {
 <template>
   <div class="px-24 full card">
     <ElCard shadow="hover" class="px-4">
-      <ElTooltip
-        content="特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。它的参与者无需填写感想。"
-        effect="light"
-        placement="top"
-      >
-        <p class="text-2xl py-2 px-4">创建特殊义工<ElButton :icon="InfoFilled" text size="small" circle /></p>
-      </ElTooltip>
+      <p class="text-2xl py-2 px-4">
+        创建特殊义工<ElTooltip
+          content="特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。它的参与者无需填写感想。"
+          effect="light"
+          placement="top"
+        >
+          <ElButton :icon="InfoFilled" text size="small" circle />
+        </ElTooltip>
+      </p>
       <ElForm class="py-4">
         <ElFormItem label="名称">
           <ElInput v-model="activity.name" placeholder="请输入名称" />

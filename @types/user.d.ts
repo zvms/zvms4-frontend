@@ -28,14 +28,8 @@ export interface ClassType {
   number: number
 }
 
-export interface LoginResult {
-  classId: number
-  permission: number
-  username: string
-}
-
 export interface UserActivityTimeSums {
-  specified: number
-  special: number
+  onCampus: number
   offCampus: number
+  largeScale: number
 }
