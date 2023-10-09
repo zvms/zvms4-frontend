@@ -2,7 +2,8 @@ name: Read All Activities
 path: /activity
 method: GET
 queries:
-- type: "'special' | 'specified' | 'off-campus'"
+- type: "'special' | 'specified' | 'off-campus' | 'all'"
+- range: "'in-class' | 'campus'"
 response: ActivityInstance[]
 permissions:
 - in-class: 2
