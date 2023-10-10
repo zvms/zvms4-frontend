@@ -15,7 +15,7 @@ import {
   ElTooltip
 } from 'element-plus'
 import { ArrowRight, Delete, InfoFilled, Plus, Refresh } from '@element-plus/icons-vue'
-import { createSpecifiedActivity } from '@/api/activity/create'
+import { createActivity } from '@/api/activity/create'
 
 const activity = reactive<SpecifiedActivity>({
   _id: new ObjectId().toHexString(),
@@ -53,11 +53,11 @@ function removeClass(id: number) {
 const inSchool = ref('校内义工')
 
 async function register() {
-  const result = await createSpecifiedActivity(activity)
-  if (result.errorn === 1) {
+  const result = await createActivity(activity)
+  if (result) {
     ElNotification({
       title: '创建成功',
-      message: '义工 ID：' + result.data,
+      message: '义工 ID：' + result,
       type: 'success'
     })
   }
