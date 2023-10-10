@@ -1,4 +1,4 @@
-declare interface Feedback {
+export interface Feedback {
   _id: string;
   title: string;
   content: string;

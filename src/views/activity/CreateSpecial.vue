@@ -15,7 +15,7 @@ import {
 } from 'element-plus'
 import { ArrowRight, Refresh, InfoFilled } from '@element-plus/icons-vue'
 import { getUser } from '@/api/user/crud'
-import { createSpecialActivity } from '@/api/activity/create'
+import { createActivity } from '@/api/activity/create'
 
 const subtypes: Array<{
   label: string
@@ -63,11 +63,11 @@ async function query(id: string) {
 }
 
 async function register() {
-  const result = await createSpecialActivity(activity)
-  if (result.errorn === 1) {
+  const result = await createActivity(activity)
+  if (result) {
     ElNotification({
       title: '创建成功',
-      message: '义工 ID：' + result.data,
+      message: '义工 ID：' + result as string,
       type: 'success'
     })
   }
