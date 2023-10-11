@@ -72,6 +72,10 @@ function logout() {
   position: absolute;
   width: 100%;
   bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
 }
 
 .tit {
