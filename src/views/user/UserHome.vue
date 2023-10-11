@@ -78,22 +78,35 @@ const total = reactive({
         <ElRow class="fill py-4 statistic">
           <ElCol :span="2" />
           <ElCol :span="4">
-            <ElStatistic
-              title="总时间"
-              :value="user.volTime.offCampus + user.volTime.special + user.volTime.specified"
-            />
+            <ElStatistic title="义工总时间" :value="user.volTime.offCampus + user.volTime.onCampus + user.volTime.largeScale">
+              <template #suffix>
+                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+              </template>
+            </ElStatistic>
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="校外义工时间" :value="user.volTime.offCampus" />
+            <ElStatistic title="校内义工时间" :value="user.volTime.onCampus">
+              <template #suffix>
+                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+              </template>
+            </ElStatistic>
           </ElCol>
           <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="特殊义工时间" :value="user.volTime.special" />
+            <ElStatistic title="校外义工时间" :value="user.volTime.offCampus">
+              <template #suffix>
+                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+              </template>
+            </ElStatistic>
           </ElCol>
           <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="指定义工时间" :value="user.volTime.specified" />
+            <ElStatistic title="指定义工时间" :value="user.volTime.largeScale">
+              <template #suffix>
+                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+              </template>
+            </ElStatistic>
           </ElCol>
           <ElCol :span="2" />
         </ElRow>
