@@ -4,5 +4,5 @@ method: POST
 body: ActivityInstance
 response: ObjectId
 permission:
-- special: 1
-- specified: 4
+  special: 1
+  specified: 4

@@ -77,3 +77,4 @@ export interface OffCampusActivityCreate extends Omit<OffCampusActivity, 'member
 
 export type ActivityInstance = SpecifiedActivity | SpecialActivity | OffCampusActivity
 export type ActivityCreateInstance = SpecifiedActivity | SpecialActivityCreate | OffCampusActivityCreate
+export type ActivityDisplayInstance = Omit<ActivityInstance, 'description'>

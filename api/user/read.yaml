@@ -1,7 +1,7 @@
 name: Read User
 path: /user/:id
 params:
-- id: number # 学号
+  id: number # 学号
 method: GET
 response: User
 permission: 1

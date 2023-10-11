@@ -1,6 +1,4 @@
-import { ObjectId } from 'mongodb'
-
-export interface User<T=ObjectId> {
+export interface User<T=string> {
   _id: T
   id: number
   name: string

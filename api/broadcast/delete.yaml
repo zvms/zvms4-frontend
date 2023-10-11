@@ -2,6 +2,6 @@ name: Delete Broadcast
 path: /broadcast/:id
 method: DELETE
 params:
-- id: string # ObjectId
+  id: string # ObjectId
 response: null
 permission: 4

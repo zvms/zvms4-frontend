@@ -2,7 +2,7 @@ name: Modify Broadcast
 path: /broadcast/:id
 method: PUT
 params:
-- id: string # ObjectId
+  id: string # ObjectId
 body: Broadcast
 response: null
 permission: 4

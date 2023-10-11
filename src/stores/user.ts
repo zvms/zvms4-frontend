@@ -7,11 +7,11 @@ import { getUserTime } from '@/api/user/time'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    id: 0,
-    name: '',
+    id: 20230616,
+    name: '吴承宇',
     sex: 'male',
-    position: [] as UserPosition[],
-    class: '',
+    position: ['admin'] as UserPosition[],
+    class: '高一（6）班',
     token: '',
     isLogin: false,
     volTime: {

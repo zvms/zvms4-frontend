@@ -28,13 +28,7 @@ function refresh() {
 
 async function login() {
   const result = await UserLogin(user.value as number, password.value as string)
-  if (result.errorn > 1) {
-    ElNotification({
-      title: '登录失败',
-      message: result.toString(),
-      type: 'error'
-    })
-  } else {
+  if (result) {
     ElNotification({
       title: '登录成功',
       message: '欢迎使用，' + userStore.name + '。',

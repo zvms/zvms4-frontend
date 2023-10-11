@@ -1,7 +1,7 @@
 name: Read User Broadcasts
 path: /user/:id/broadcast
 params:
-- id: number # 学号
+  id: number # 学号
 method: GET
 response: Broadcast[]
 permission: 1
