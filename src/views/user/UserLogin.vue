@@ -15,6 +15,10 @@ import { UserLogin } from '@/api/user/auth'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
+if(useUserStore().isLogin) {
+  useRouter().push('/user/')
+}
+
 const user = ref<number>()
 const password = ref<string>('')
 const loginfield = ref()

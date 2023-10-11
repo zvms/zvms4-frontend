@@ -31,11 +31,15 @@ const total = reactive({
   special: 0,
   offCampus: 0
 })
+
+// dynamic greeting
+const nowTime = new Date().getHours()
+const greeting = nowTime < 6 ? '清晨好' : nowTime < 9 ? '早上好' : nowTime < 12 ? '上午好' : nowTime < 14 ? '中午好' : nowTime < 17 ? '下午好' : nowTime < 19 ? '傍晚好' : nowTime < 22 ? '晚上好' : '夜里好'
 </script>
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">你好，{{ user.name }}。</p>
+    <p class="text-2xl py-8">{{ greeting }}，{{ user.name }}。</p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>
