@@ -8,16 +8,17 @@ import { getUserTime } from '@/api/user/time'
 export const useUserStore = defineStore('user', {
   state: () => ({
     id: 20230616,
+    _id: '60c9b1b0e6b3a3b4b8b0b0b0',
     name: '吴承宇',
     sex: 'male',
     position: ['admin'] as UserPosition[],
     class: '高一（6）班',
     token: '',
-    isLogin: false,
+    isLogin: true,
     volTime: {
-      largeScale: 0,
-      onCampus: 0,
-      offCampus: 0
+      largeScale: 114,
+      onCampus: 514,
+      offCampus: 1919810
     } as UserActivityTimeSums
   }),
   actions: {
@@ -25,7 +26,8 @@ export const useUserStore = defineStore('user', {
       const result = await UserLogin(user, password)
       if (result) {
         const information = (await getUser(user)) as User<string>
-        this.id = information?.id
+        this._id = information?._id
+        this.id = user
         this.name = information?.name
         this.position = information?.position
         this.class = getClassName(information?.class)
@@ -35,6 +37,7 @@ export const useUserStore = defineStore('user', {
     },
     async refreshUser() {
       const result =(await getUser(this.id)) as User<string>
+      this._id = result._id
       this.id = result.id
       this.name = result.name
       this.position = result.position

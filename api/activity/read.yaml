@@ -4,6 +4,9 @@ method: GET
 queries:
   type: "'special' | 'specified' | 'off-campus' | 'all'"
   range: "'in-class' | 'campus'"
+  query: string # search query
+  range: [number, number]
+    default: [0, -1]
 response: ActivityInstance[]
 permissions:
   in-class: 2
