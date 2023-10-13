@@ -45,7 +45,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        status: 'approved',
+        status: 'effective',
         impression: '丁真'
       }
     ],
@@ -116,12 +116,16 @@ const reflect = ref(
             {{ activityTypes.find((x) => x.value === row.type)?.label }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="duration" label="时长" />
+        <ElTableColumn prop="duration" label="时长">
+          <template #default="{ row }">
+            {{ row.duration }} <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+          </template>
+        </ElTableColumn>
         <ElTableColumn v-if="role === 'student'" label="状态">
           <template #default="{ row }">
             <ElTag
               v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x._id === user._id)"
-              :key="idx"
+              :key="tag._id"
               :type="status[tag.status].color"
             >
               {{ status[tag.status].label }}
