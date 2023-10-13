@@ -14,7 +14,6 @@ import {
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import TablerSum from '@/icons/TablerSum.vue'
-import { reactive } from 'vue'
 
 const user = useUserStore()
 
@@ -25,12 +24,6 @@ const positionList = {
   inspector: '督导员',
   admin: '管理员'
 }
-
-const total = reactive({
-  specified: 0,
-  special: 0,
-  offCampus: 0
-})
 </script>
 
 <template>

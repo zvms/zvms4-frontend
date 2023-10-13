@@ -39,7 +39,7 @@ const { height } = useWindowSize()
       <ElIcon><InfoFilled /></ElIcon>
       <template #title>关于</template>
     </ElMenuItem>
-    <ElMenuItem index="/background" v-if="user.position.includes('admin')">
+    <ElMenuItem index="/administration" v-if="user.position.includes('admin')">
       <ElIcon><MaterialSymbolsSettings /></ElIcon>
       <template #title>后台</template>
     </ElMenuItem>
