@@ -36,6 +36,11 @@ const router = createRouter({
       path: '/activity/create/',
       name: 'activity-create',
       component: () => import('../views/activity/CreateActivity.vue')
+    },
+    {
+      path: '/activity/',
+      name: 'activity',
+      component: () => import('../views/user/UserActivity.vue')
     }
   ]
 })

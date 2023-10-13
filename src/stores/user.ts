@@ -16,9 +16,9 @@ export const useUserStore = defineStore('user', {
     token: '',
     isLogin: true,
     volTime: {
-      largeScale: 114,
-      onCampus: 514,
-      offCampus: 1919810
+      largeScale: 1919810,
+      onCampus: 114,
+      offCampus: 514
     } as UserActivityTimeSums
   }),
   actions: {

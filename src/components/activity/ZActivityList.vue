@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-  ActivityStatus,
+  type ActivityStatus,
   type ActivityDisplayInstance,
   type ActivityMember,
   type MemberActivityStatus,
@@ -30,7 +30,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     name: '2021-2022年度第一学期学生社团招新',
     members: [
       {
-        _id: '60b9b6b9a9b0f3c4b8e1b0a2',
+        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
         status: 'rejected',
         impression: '丁真'
       }
@@ -44,7 +44,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     name: '2021-2022年度第一学期学生社团招新',
     members: [
       {
-        _id: '60b9b6b9a9b0f3c4b8e1b0a4',
+        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
         status: 'approved',
         impression: '丁真'
       }
@@ -57,7 +57,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     name: '2021-2022年度第一学期学生社团招新',
     members: [
       {
-        _id: '60b9b6b9a9b0f3c4b8e1b0a6',
+        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
         status: 'first-instance-approved',
         impression: '丁真'
       }
@@ -107,32 +107,40 @@ const reflect = ref(
 </script>
 
 <template>
-  <ElCard shadow="never">
-    <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))">
-      <ElTableColumn prop="name" label="名称" />
-      <ElTableColumn prop="type" label="类型">
-        <template #default="{ row }">
-          {{ activityTypes.find((x) => x.value === row.type)?.label }}
-        </template>
-      </ElTableColumn>
-      <ElTableColumn prop="duration" label="时长" />
-      <ElTableColumn v-if="role === 'student'" label="状态">
-        <template #default="{ row }">
-          <ElTag
-            v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x._id === user._id)"
-            :key="idx"
-            :type="status[tag.status].color"
-          >
-            {{ status[tag.status].label }}
-          </ElTag>
-        </template>
-      </ElTableColumn>
-      <ElTableColumn v-else label="待审核">
-        <template #default="{ row }">
-          {{ (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x.status === reflect && row.type === 'specified').length }}
-          条
-        </template>
-      </ElTableColumn>
-    </ElTable>
-  </ElCard>
+  <div class="card px-12">
+    <ElCard shadow="never">
+      <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))">
+        <ElTableColumn prop="name" label="名称" />
+        <ElTableColumn prop="type" label="类型">
+          <template #default="{ row }">
+            {{ activityTypes.find((x) => x.value === row.type)?.label }}
+          </template>
+        </ElTableColumn>
+        <ElTableColumn prop="duration" label="时长" />
+        <ElTableColumn v-if="role === 'student'" label="状态">
+          <template #default="{ row }">
+            <ElTag
+              v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x._id === user._id)"
+              :key="idx"
+              :type="status[tag.status].color"
+            >
+              {{ status[tag.status].label }}
+            </ElTag>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn v-else label="待审核">
+          <template #default="{ row }">
+            {{ (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x.status === reflect && row.type === 'specified').length }}
+            条
+          </template>
+        </ElTableColumn>
+      </ElTable>
+    </ElCard>
+  </div>
 </template>
+
+<style scoped>
+.card {
+  width: 100%;
+}
+</style>
