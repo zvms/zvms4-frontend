@@ -14,6 +14,8 @@ import {
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import TablerSum from '@/icons/TablerSum.vue'
+import dayjs from 'dayjs'
+import { ref } from 'vue'
 
 const user = useUserStore()
 
@@ -24,11 +26,14 @@ const positionList = {
   inspector: '督导员',
   admin: '管理员'
 }
+
+const nowTime = dayjs().hour()
+const greeting = ref(nowTime < 12 ? '早上好' : nowTime < 18 ? '下午好' : '晚上好')
 </script>
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">你好，{{ user.name }}。</p>
+    <p class="text-2xl py-8">{{ greeting }}，{{ user.name }}。</p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>
