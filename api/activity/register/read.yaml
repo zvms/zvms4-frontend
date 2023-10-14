@@ -3,5 +3,5 @@ path: /user/:id/activity/register
 method: GET
 params:
   id: number # 学号
-response: ActivityInstance[]
+response: SpecifiedActivity[]
 permission: 1

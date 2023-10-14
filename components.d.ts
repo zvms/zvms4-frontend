@@ -19,7 +19,9 @@ declare module 'vue' {
     StandardJudge: typeof import('./src/components/activity/StandardJudge.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+    ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
+    ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
   }

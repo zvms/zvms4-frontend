@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import {
-  type ActivityStatus,
   type ActivityDisplayInstance,
   type ActivityMember,
-  type MemberActivityStatus,
   type SpecialActivity,
   type SpecifiedActivity
 } from '@/../@types/activity'
@@ -25,6 +23,7 @@ import dayjs from 'dayjs'
 import { Appointment, Star, Association } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
+import ZActivityCard from './ZActivityCard.vue'
 
 const user = useUserStore()
 
@@ -51,12 +50,13 @@ const activity = ref<ActivityDisplayInstance[]>([
       }
     ],
     duration: 1,
-    time: dayjs().toString()
+    time: dayjs('2023-11-13 00:00:00').toJSON()
   },
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a3',
     type: 'special',
-    subtype: 'larce-scale',
+    description: '这是一条活动描述',
+    subtype: 'large-scale',
     name: '义工 B',
     members: [
       {
@@ -66,11 +66,12 @@ const activity = ref<ActivityDisplayInstance[]>([
       }
     ],
     duration: 8,
-    time: dayjs().toString()
-  } as unknown as Omit<SpecialActivity, 'description'>,
+    time: dayjs().toJSON()
+  } as SpecialActivity,
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a5',
     type: 'specified',
+    description: '这是一条活动描述',
     name: '义工 C',
     members: [
       {
@@ -79,19 +80,23 @@ const activity = ref<ActivityDisplayInstance[]>([
         impression: '丁真'
       }
     ],
-    register: [
-      {
-        class: 202306,
-        max: 4
-      },
-      {
-        class: 202302,
-        max: 4
-      }
-    ],
+    registration: {
+      classes: [
+        {
+          class: 202306,
+          max: 4
+        },
+        {
+          class: 202302,
+          max: 4
+        }
+      ],
+      place: 'A101',
+      deadline: dayjs(new Date('2023-11-13 00:00:00')).toJSON()
+    },
     duration: 4,
-    time: dayjs().toString()
-  } as unknown as Omit<SpecifiedActivity, 'description'>
+    time: dayjs().toJSON()
+  } as SpecifiedActivity
 ])
 
 const dialogs = ref(activity.value.map(() => false))
