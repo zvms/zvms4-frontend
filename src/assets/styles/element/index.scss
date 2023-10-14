@@ -1,0 +1,13 @@
+$--colors: (
+  'secondary': (
+    'base': #626aef
+  ),
+);
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: $--colors
+);
+
+// @use "element-plus/theme-chalk/src/index.scss" as *;
+
+// @debug $--colors;

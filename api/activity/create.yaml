@@ -1,5 +1,5 @@
 name: Create Activity
-path: /activity/create
+path: /activity
 method: POST
 body: ActivityInstance
 response: ObjectId

@@ -1,5 +1,5 @@
 name: User Cancel the Registeration of Activity
-path: /user/:id/activity/:aid
+path: /user/:id/activity/:aid/register
 method: DELETE
 params:
   id: number # 学号

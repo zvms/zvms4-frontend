@@ -1,6 +1,6 @@
 name: User Register Activity
-path: /user/:id/activity/:aid
-method: POST
+path: /user/:id/activity/:aid/register
+method: PUT
 params:
   id: number # 学号
   aid: string # Activity ObjectId

@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
     _id: '60c9b1b0e6b3a3b4b8b0b0b0',
     name: '吴承宇',
     sex: 'male',
-    position: ['admin'] as UserPosition[],
+    position: ['admin', 'auditor'] as UserPosition[],
     class: '高一（6）班',
     token: '',
     isLogin: true,

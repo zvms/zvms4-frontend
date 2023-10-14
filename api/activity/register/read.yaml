@@ -1,0 +1,7 @@
+name: Get Registerable Activities
+path: /user/:id/activity/register
+method: GET
+params:
+  id: number # 学号
+response: ActivityInstance[]
+permission: 1
