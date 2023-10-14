@@ -1,0 +1,14 @@
+.entry {
+  font-family: 'Source Han Sans SC' !important;
+  font-weight: bold;
+}
+
+.text {
+  font-family: 'Source Han Serif SC' !important;
+  font-weight: normal;
+}
+
+.inscription {
+  font-family: 'Source Han Serif SC' !important;
+  text-align: right;
+}

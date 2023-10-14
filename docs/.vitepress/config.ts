@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import './index.css'
 
 export default defineConfig({
   lang: 'en-US',
