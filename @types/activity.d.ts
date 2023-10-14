@@ -5,6 +5,7 @@ export interface Activity {
   description: string
   members: ActivityMember[]
   duration: number // hours
+  time: string // ISO-8601
 }
 
 export interface ActivityCreate extends Omit<Activity, 'members'> {
@@ -53,7 +54,6 @@ export type MemberActivityStatus =
 
 export interface SpecifiedActivity extends Activity {
   type: 'specified'
-  time: string // ISO-8601
   registration: Registration
 }
 
@@ -68,7 +68,6 @@ export interface SpecialActivityCreate extends Omit<SpecialActivity, 'members'> 
 
 export interface OffCampusActivity extends Activity {
   type: 'off-campus'
-  timeRange: [string, string] // ISO-8601
 }
 
 export interface OffCampusActivityCreate extends Omit<OffCampusActivity, 'members'> {

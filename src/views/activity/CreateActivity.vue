@@ -6,6 +6,11 @@ import CreateSpecified from './CreateSpecified.vue'
 import CreateHome from './CreateHome.vue'
 import { ref, type Component, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useHeaderStore } from '@/stores/header'
+
+const header = useHeaderStore()
+
+header.setHeader('创建义工')
 
 const route = useRoute()
 const router = useRouter()

@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -15,9 +16,11 @@ declare module 'vue' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StandardJudge: typeof import('./src/components/activity/StandardJudge.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
+    ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
   }
 }

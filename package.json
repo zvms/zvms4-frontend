@@ -18,6 +18,7 @@
     "serve:docs": "vitepress serve docs"
   },
   "dependencies": {
+    "@icon-park/vue-next": "^1.4.2",
     "@types/ua-parser-js": "^0.7.37",
     "async-validator": "^4.2.5",
     "bson-objectid": "^2.0.4",
@@ -47,6 +48,7 @@
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
+    "cypress": "^13.3.1",
     "dayjs": "^1.11.10",
     "element-plus": "^2.3.14",
     "eslint": "^8.50.0",

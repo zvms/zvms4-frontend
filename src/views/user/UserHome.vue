@@ -9,15 +9,20 @@ import {
   ElButton,
   ElDivider,
   ElCard,
-  ElStatistic
+  ElSwitch
 } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import TablerSum from '@/icons/TablerSum.vue'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
+import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
+import { useHeaderStore } from '@/stores/header';
 
+const header = useHeaderStore()
 const user = useUserStore()
+
+header.setHeader('主页')
 
 const positionList = {
   student: '学生',
@@ -29,6 +34,16 @@ const positionList = {
 
 const nowTime = dayjs().hour()
 const greeting = ref(nowTime < 12 ? '早上好' : nowTime < 18 ? '下午好' : '晚上好')
+
+const useTransform = ref(true)
+
+console.log(user)
+
+function transform() {
+  if (user.volTime.onCampus <= 30) return 0
+  const result = Math.floor((user.volTime.onCampus - 30) / 3)
+  return result > 6 ? 6 : result
+}
 </script>
 
 <template>
@@ -76,35 +91,23 @@ const greeting = ref(nowTime < 12 ? '早上好' : nowTime < 18 ? '下午好' : '
         <ElRow class="fill py-4 statistic">
           <ElCol :span="2" />
           <ElCol :span="4">
-            <ElStatistic title="义工总时间" :value="user.volTime.offCampus + user.volTime.onCampus + user.volTime.largeScale">
-              <template #suffix>
-                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-              </template>
-            </ElStatistic>
+            <ZTimeJudge type="largeScale" :realTime="user.volTime.largeScale" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="校内义工时间" :value="user.volTime.onCampus">
-              <template #suffix>
-                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-              </template>
-            </ElStatistic>
+            <ZTimeJudge type="onCampus" :realTime="user.volTime.onCampus" />
           </ElCol>
           <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="校外义工时间" :value="user.volTime.offCampus">
-              <template #suffix>
-                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-              </template>
-            </ElStatistic>
+            <ZTimeJudge
+              type="offCampus"
+              :realTime="user.volTime.offCampus + (useTransform ? transform() : 0)"
+            />
           </ElCol>
           <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="4">
-            <ElStatistic title="指定义工时间" :value="user.volTime.largeScale">
-              <template #suffix>
-                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-              </template>
-            </ElStatistic>
+            超出折算<br />
+            <ElSwitch v-model="useTransform" />
           </ElCol>
           <ElCol :span="2" />
         </ElRow>

@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { useRoute, useRouter } from 'vue-router'
 import MdiEye from '@/icons/MdiEye.vue'
+import MdiUmbrella from '@/icons/MdiUmbrella.vue'
 import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
 import { useWindowSize } from '@vueuse/core'
 
@@ -30,6 +31,10 @@ const { height } = useWindowSize()
     <ElMenuItem index="/activity/create">
       <ElIcon><CirclePlusFilled /></ElIcon>
       <template #title>创建</template>
+    </ElMenuItem>
+    <ElMenuItem index="/umbrella">
+      <ElIcon><MdiUmbrella /></ElIcon>
+      <template #title>漂流伞</template>
     </ElMenuItem>
     <ElMenuItem index="/activity/management" v-if="!user.position.includes('student') || user.position.length > 1">
       <ElIcon><Management /></ElIcon>

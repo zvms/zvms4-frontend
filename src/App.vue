@@ -18,9 +18,11 @@ import { useRouter } from 'vue-router'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from './views/user/UserNav.vue'
+import { useHeaderStore } from './stores/header'
 
 const router = useRouter()
 const userStore = useUserStore()
+const headerStore = useHeaderStore()
 
 function logout() {
   userStore.removeUser()
@@ -35,20 +37,24 @@ function logout() {
         <ElCol :span="8">
           <div class="text-2xl tit" @dblclick="router.push('/')">
             <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
-            ZVMS 4.1
+            {{ headerStore.header }}
           </div>
         </ElCol>
         <ElCol :span="8"> </ElCol>
         <ElCol :span="8">
           <ElButtonGroup class="user">
-            <ElButton text bg :icon="User" type="primary">{{ userStore.isLogin ? userStore.name : '未登录' }}</ElButton>
+            <ElButton text bg :icon="User" type="primary">{{
+              userStore.isLogin ? userStore.name : '未登录'
+            }}</ElButton>
             <ElPopover>
               <template #reference>
                 <ElButton text bg :icon="ArrowDown" :disabled="!userStore.isLogin" type="primary" />
               </template>
               <ElButton text :icon="Feedback" class="action-btn p-4">问题反馈</ElButton><br />
               <ElButton text :icon="Password" class="action-btn p-4">密码修改</ElButton><br />
-              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">退出登录</ElButton>
+              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout"
+                >退出登录</ElButton
+              >
             </ElPopover>
           </ElButtonGroup>
         </ElCol>

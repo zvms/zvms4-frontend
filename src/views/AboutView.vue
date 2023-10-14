@@ -34,6 +34,11 @@ import SimpleIconsFastapi from '@/icons/stacks/SimpleIconsFastapi.vue'
 import EpElementPlus from '@/icons/stacks/EpElementPlus.vue'
 import TablerBrandMongodb from '@/icons/stacks/TablerBrandMongodb.vue'
 import TablerBrandNodejs from '@/icons/stacks/TablerBrandNodejs.vue'
+import { useHeaderStore } from '@/stores/header'
+
+const header = useHeaderStore()
+
+header.setHeader('关于')
 
 const collaborators = [
   {
@@ -119,6 +124,12 @@ const currentStack = ref<number>()
 const openDialog = ref<boolean>(false)
 const openStackDialog = ref<boolean>(false)
 const curComponent = ref<VueComponent>()
+
+watch(openDialog, () => {
+  if (openDialog.value === false) {
+    header.setHeader('关于')
+  }
+})
 
 watch(currentCollaborator, (newVal) => {
   const target = collaborators.find((item) => item.dispName === newVal)

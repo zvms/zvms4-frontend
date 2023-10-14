@@ -10,6 +10,7 @@ import {
 import { ElDrawer, ElDialog, ElCard, ElTable, ElTableColumn, ElInput, ElTag } from 'element-plus'
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
+import dayjs from 'dayjs'
 
 const user = useUserStore()
 
@@ -35,7 +36,8 @@ const activity = ref<ActivityDisplayInstance[]>([
         impression: '丁真'
       }
     ],
-    duration: 1
+    duration: 1,
+    time: dayjs().toString()
   },
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a3',
@@ -49,7 +51,8 @@ const activity = ref<ActivityDisplayInstance[]>([
         impression: '丁真'
       }
     ],
-    duration: 8
+    duration: 8,
+    time: dayjs().toString()
   } as unknown as Omit<SpecialActivity, 'description'>,
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a5',
@@ -72,7 +75,8 @@ const activity = ref<ActivityDisplayInstance[]>([
         max: 4
       }
     ],
-    duration: 4
+    duration: 4,
+    time: dayjs().toString()
   } as unknown as Omit<SpecifiedActivity, 'description'>
 ])
 
@@ -93,12 +97,12 @@ const activityTypes = [
 
 const status = {
   registered: { label: '已报名', color: '' },
-  attended: { label: '已参加', color: 'success' },
+  attended: { label: '初审中', color: '' },
   'first-instance-rejected': { label: '初审未通过', color: 'warning' },
-  'first-instance-approved': { label: '初审通过', color: 'success' },
-  'last-instance-rejected': { label: '终审未通过', color: 'danger' },
+  'first-instance-approved': { label: '终审中', color: '' },
+  'last-instance-rejected': { label: '终审未通过', color: 'warning' },
   effective: { label: '有效', color: 'success' },
-  rejected: { label: '已拒绝', color: 'danger' }
+  rejected: { label: '拒绝', color: 'danger' }
 } as Record<string, { label: string; color: '' | 'success' | 'warning' | 'danger' }>
 
 const reflect = ref(
@@ -109,8 +113,13 @@ const reflect = ref(
 <template>
   <div class="card px-12">
     <ElCard shadow="never">
-      <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))">
+      <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
         <ElTableColumn prop="name" label="名称" />
+        <ElTableColumn prop="time" label="日期">
+          <template #default="{ row }">
+            {{ dayjs(row.time).format('YYYY-MM-DD') }}
+          </template>
+        </ElTableColumn>
         <ElTableColumn prop="type" label="类型">
           <template #default="{ row }">
             {{ activityTypes.find((x) => x.value === row.type)?.label }}
@@ -125,7 +134,7 @@ const reflect = ref(
           <template #default="{ row }">
             <ElTag
               v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter((x: ActivityMember) => x._id === user._id)"
-              :key="tag._id"
+              :key="idx"
               :type="status[tag.status].color"
             >
               {{ status[tag.status].label }}

@@ -11,9 +11,10 @@ import {
   ElSelect,
   ElOption,
   ElTooltip,
-  ElNotification
+  ElNotification,
+  ElDatePicker
 } from 'element-plus'
-import { ArrowRight, Refresh, InfoFilled } from '@element-plus/icons-vue'
+import { ArrowRight, Refresh, InfoFilled, Timer, Star } from '@element-plus/icons-vue'
 import { getUser } from '@/api/user/crud'
 import { createActivity } from '@/api/activity/create'
 
@@ -44,8 +45,9 @@ const activity = reactive<SpecialActivityCreate>({
   description: '',
   type: 'special',
   members: [],
-  duration: 0,
-  subtype: 'on-campus'
+  duration: undefined as unknown as number,
+  subtype: '' as unknown as 'on-campus' | 'off-campus' | 'large-scale',
+  time: ''
 })
 
 async function query(id: string) {
@@ -67,7 +69,7 @@ async function register() {
   if (result) {
     ElNotification({
       title: '创建成功',
-      message: '义工 ID：' + result as string,
+      message: ('义工 ID：' + result) as string,
       type: 'success'
     })
   }
@@ -75,17 +77,17 @@ async function register() {
 </script>
 
 <template>
-  <div class="px-24 full card">
+  <div class="px-8 py-2 full card">
+    <p class="text-2xl py-2 px-4">
+      创建特殊义工<ElTooltip
+        content="特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。它的参与者无需填写感想。"
+        effect="light"
+        placement="top"
+      >
+        <ElButton :icon="InfoFilled" text size="small" circle />
+      </ElTooltip>
+    </p>
     <ElCard shadow="hover" class="px-4">
-      <p class="text-2xl py-2 px-4">
-        创建特殊义工<ElTooltip
-          content="特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。它的参与者无需填写感想。"
-          effect="light"
-          placement="top"
-        >
-          <ElButton :icon="InfoFilled" text size="small" circle />
-        </ElTooltip>
-      </p>
       <ElForm class="py-4">
         <ElFormItem label="名称">
           <ElInput v-model="activity.name" placeholder="请输入名称" />
@@ -99,7 +101,7 @@ async function register() {
           />
         </ElFormItem>
         <ElFormItem label="类型">
-          <ElSelect v-model="activity.subtype" class="full">
+          <ElSelect v-model="activity.subtype" class="full" :prefix-icon="Star" placeholder="请选择特殊义工类型">
             <ElOption
               v-for="subtype in subtypes"
               :key="subtype.value"
@@ -109,8 +111,17 @@ async function register() {
             />
           </ElSelect>
         </ElFormItem>
+        <ElFormItem label="时间">
+          <ElDatePicker
+            class="full"
+            style="width: 100%"
+            type="datetime"
+            v-model="activity.time"
+            placeholder="请选择时间"
+          />
+        </ElFormItem>
         <ElFormItem label="时长">
-          <ElInput v-model.number="activity.duration" placeholder="请输入有效时长" />
+          <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
         </ElFormItem>
         <ElFormItem label="成员">
           <ElSelect

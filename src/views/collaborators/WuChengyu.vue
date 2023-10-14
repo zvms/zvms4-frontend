@@ -22,6 +22,11 @@ import SimpleIconsEsbuild from '@/icons/stacks/SimpleIconsEsbuild.vue'
 import MdiElectronFramework from '@/icons/stacks/MdiElectronFramework.vue'
 import TablerBrandJavascript from '@/icons/stacks/TablerBrandJavascript.vue'
 import TablerBrandTypescript from '@/icons/stacks/TablerBrandTypescript.vue'
+import { useHeaderStore } from '@/stores/header'
+
+const header = useHeaderStore()
+
+header.setHeader('关于｜吴承宇')
 
 function openGitHub() {
   ElNotification({
@@ -90,7 +95,9 @@ const interests = [
     </ElButtonGroup>
   </p>
   <br />
-  <ElButton text bg @click="openGitHub" type="primary">View me on GitHub: https://github.com/7086cmd/</ElButton>
+  <ElButton text bg @click="openGitHub" type="primary"
+    >View me on GitHub: https://github.com/7086cmd/</ElButton
+  >
   <code> // Never write comments. </code>
   <p class="self-introd">
     Participated in great projects: 蛟川书院纪检部管理平台

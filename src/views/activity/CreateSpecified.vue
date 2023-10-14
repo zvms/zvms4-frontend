@@ -14,7 +14,7 @@ import {
   ElRow,
   ElTooltip
 } from 'element-plus'
-import { ArrowRight, Delete, InfoFilled, Plus, Refresh } from '@element-plus/icons-vue'
+import { ArrowRight, Delete, InfoFilled, Plus, Refresh, Timer, Location } from '@element-plus/icons-vue'
 import { createActivity } from '@/api/activity/create'
 
 const activity = reactive<SpecifiedActivity>({
@@ -23,7 +23,7 @@ const activity = reactive<SpecifiedActivity>({
   description: '',
   type: 'specified',
   members: [],
-  duration: 0,
+  duration: undefined as unknown as number,
   registration: {
     deadline: '',
     place: '',
@@ -65,17 +65,16 @@ async function register() {
 </script>
 
 <template>
-  <div class="px-24 full card">
-    <ElCard shadow="hover" class="px-4">
-      <ElTooltip
+  <div class="px-8 py-2 full card">
+    <p class="text-2xl py-2 px-4">
+      创建指定义工<ElTooltip
         content="指定义工是管理员创建的义工，以招募的形式发布，需要指定每个班可报名的最大人数。"
         effect="light"
         placement="top"
-      >
-        <p class="text-2xl py-2 px-4">
-          创建指定义工<ElButton :icon="InfoFilled" text size="small" circle />
-        </p>
-      </ElTooltip>
+        ><ElButton :icon="InfoFilled" text size="small" circle
+      /></ElTooltip>
+    </p>
+    <ElCard shadow="hover" class="px-4">
       <ElForm class="py-4">
         <ElFormItem label="名称">
           <ElInput v-model="activity.name" placeholder="请输入名称" />
@@ -88,6 +87,9 @@ async function register() {
             placeholder="请输入描述"
           />
         </ElFormItem>
+        <ElFormItem label="种类" v-if="activity.registration.classes.length <= 1">
+          <ElInput v-model="inSchool" readonly />
+        </ElFormItem>
         <ElFormItem label="时间">
           <ElDatePicker
             class="full"
@@ -97,8 +99,8 @@ async function register() {
             placeholder="请选择时间"
           />
         </ElFormItem>
-        <ElFormItem label="子类">
-          <ElInput v-model="inSchool" readonly />
+        <ElFormItem label="时长">
+          <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
         </ElFormItem>
         <ElFormItem label="报名" class="full">
           <ElCard shadow="hover" class="full">
@@ -113,7 +115,7 @@ async function register() {
                 />
               </ElFormItem>
               <ElFormItem label="义工地点" class="py-2">
-                <ElInput v-model="activity.registration.place" placeholder="请输入义工地点" />
+                <ElInput v-model="activity.registration.place" :prefix-icon="Location" placeholder="请输入义工地点" />
               </ElFormItem>
               <ElFormItem
                 v-for="(classes, idx) in activity.registration.classes"
@@ -161,9 +163,6 @@ async function register() {
               </ElFormItem>
             </ElForm>
           </ElCard>
-        </ElFormItem>
-        <ElFormItem label="名称">
-          <ElInput v-model="activity.name" placeholder="请输入名称" />
         </ElFormItem>
         <div class="actions text-right">
           <ElButton type="warning" :icon="Refresh" text bg>重置</ElButton>

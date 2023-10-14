@@ -13,7 +13,7 @@ import {
   ElDatePicker,
   ElTooltip
 } from 'element-plus'
-import { ArrowRight, Refresh, InfoFilled } from '@element-plus/icons-vue'
+import { ArrowRight, Refresh, InfoFilled, Timer } from '@element-plus/icons-vue'
 import { getUser } from '@/api/user/crud'
 
 const subtype = ref('校外义工')
@@ -26,8 +26,8 @@ const activity = reactive<OffCampusActivityCreate>({
   description: '',
   members: [],
   type: 'off-campus',
-  duration: 0,
-  timeRange: ['', '']
+  duration: undefined as unknown as number,
+  time: ''
 })
 
 async function query(id: string) {
@@ -46,15 +46,16 @@ async function query(id: string) {
 </script>
 
 <template>
-  <div class="px-24 full card">
-    <ElCard shadow="hover" class="px-4">
-      <ElTooltip
+  <div class="px-8 py-2 full card">
+    <p class="text-2xl py-2 px-4">
+      创建校外义工<ElTooltip
         content="校外义工是任何人都可以创建的义工，创建时必须指定所有参加者。"
         effect="light"
         placement="top"
-      >
-        <p class="text-2xl py-2 px-4">创建校外义工<ElButton :icon="InfoFilled" text circle size="small" /></p>
+        ><ElButton :icon="InfoFilled" text circle size="small" />
       </ElTooltip>
+    </p>
+    <ElCard shadow="hover" class="px-4">
       <ElForm class="py-4">
         <ElFormItem label="名称">
           <ElInput v-model="activity.name" placeholder="请输入名称" />
@@ -67,14 +68,20 @@ async function query(id: string) {
             placeholder="请输入描述"
           />
         </ElFormItem>
-        <ElFormItem label="类型">
+        <ElFormItem label="种类">
           <ElInput readonly v-model="subtype" />
         </ElFormItem>
         <ElFormItem label="时间">
-          <ElDatePicker type="datetimerange" v-model="activity.timeRange" />
+          <ElDatePicker
+            class="full"
+            style="width: 100%"
+            type="datetime"
+            v-model="activity.time"
+            placeholder="请选择时间"
+          />
         </ElFormItem>
         <ElFormItem label="时长">
-          <ElInput v-model.number="activity.duration" placeholder="请输入有效时长" />
+          <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
         </ElFormItem>
         <ElFormItem label="成员">
           <ElSelect
