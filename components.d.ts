@@ -7,7 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -16,10 +17,12 @@ declare module 'vue' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    StandardJudge: typeof import('./src/components/activity/StandardJudge.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
+    ZActivityDescriptions: typeof import('./src/components/activity/ZActivityDescriptions.vue')['default']
+    ZActivityImpression: typeof import('./src/components/activity/ZActivityImpression.vue')['default']
+    ZActivityImpressionManager: typeof import('./src/components/activity/ZActivityImpressionManager.vue')['default']
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']

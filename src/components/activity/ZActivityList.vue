@@ -13,8 +13,6 @@ import {
   ElTableColumn,
   ElInput,
   ElTag,
-  ElDescriptions,
-  ElDescriptionsItem,
   ElButton
 } from 'element-plus'
 import { ref, toRefs } from 'vue'
@@ -23,7 +21,7 @@ import dayjs from 'dayjs'
 import { Appointment, Star, Association } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
-import ZActivityCard from './ZActivityCard.vue'
+import ZActivityDescriptions from './ZActivityDescriptions.vue'
 
 const user = useUserStore()
 
@@ -152,45 +150,7 @@ const color = ref(
       <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
         <ElTableColumn type="expand">
           <template #default="{ row }">
-            <ElDescriptions class="px-8" border>
-              <template #title>
-                <span class="code"
-                  >Activity Id
-                  <ElButton text bg size="small" class="code">{{ row._id }}</ElButton></span
-                >
-              </template>
-              <ElDescriptionsItem label="名称">{{ row.name }}</ElDescriptionsItem>
-              <ElDescriptionsItem label="日期">{{
-                dayjs(row.time).format('YYYY-MM-DD')
-              }}</ElDescriptionsItem>
-              <ElDescriptionsItem label="类型">
-                <ElButton size="small" text :icon="icon[row.type]">{{
-                  activityTypes.find((x) => x.value === row.type)?.label
-                }}</ElButton>
-              </ElDescriptionsItem>
-              <ElDescriptionsItem label="状态" v-if="role === 'student'">
-                <ElTag
-                  v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter(
-                    (x: ActivityMember) => x._id === user._id
-                  )"
-                  :key="idx"
-                  :type="status[tag.status].color"
-                >
-                  {{ status[tag.status].label }}
-                </ElTag>
-              </ElDescriptionsItem>
-              <ElDescriptionsItem label="时长">
-                {{ row.duration }}
-                <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-              </ElDescriptionsItem>
-              <ElDescriptionsItem label="感想">
-                {{ row.members.find((x: ActivityMember) => x._id === user._id)?.impression.length }}
-                <span style="font-size: 12px; color: --el-text-color-secondary">字</span>
-              </ElDescriptionsItem>
-              <ElDescriptionsItem label="详情">
-                {{ row.description }}
-              </ElDescriptionsItem>
-            </ElDescriptions>
+            <ZActivityDescriptions :activity="row" :role="role" />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" label="名称" />

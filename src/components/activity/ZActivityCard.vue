@@ -90,14 +90,14 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           <ElButton text bg size="small" :icon="Location">{{ activity.registration.place }}</ElButton>
         </ElFormItem>
         <ElFormItem label="时长">
-          <span class="text-lg">{{ activity.duration }}</span
+          <span class="text-xl">{{ activity.duration }}</span
           >&nbsp;
           <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
         </ElFormItem>
       </ElForm>
       <div v-if="activity.type === 'specified'">
         <p>
-          已有 <span class="text-red-600 text-2xl">{{ activity.members.length }}</span> 人报名
+          已有 <span class="text-xl">{{ activity.members.length }}</span> 人报名
         </p>
         <ElDivider />
         <ElCountdown
