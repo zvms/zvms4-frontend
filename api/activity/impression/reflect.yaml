@@ -1,6 +1,6 @@
 name: Reflect Impression
 path: /activity/:aid/impression/:id
-method: PATCH
+method: PUT
 params:
 - aid: string # Activity ObjectId
 - id: number # 学号

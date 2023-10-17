@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElSkelecton: typeof import('element-plus/es')['ElSkelecton']
     ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -22,6 +23,7 @@ declare module 'vue' {
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
     ZActivityDescriptions: typeof import('./src/components/activity/ZActivityDescriptions.vue')['default']
     ZActivityImpression: typeof import('./src/components/activity/ZActivityImpression.vue')['default']
+    ZActivityImpressionDrawer: typeof import('./src/components/activity/ZActivityImpressionDrawer.vue')['default']
     ZActivityImpressionManager: typeof import('./src/components/activity/ZActivityImpressionManager.vue')['default']
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']

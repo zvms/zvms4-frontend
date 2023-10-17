@@ -34,6 +34,7 @@ export interface ClassRegistration {
 
 export interface ActivityMember {
   _id: string
+  number: number
   status: MemberActivityStatus
   impression: string
   duration?: number // hours, if is undefined, use the activity's duration

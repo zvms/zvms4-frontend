@@ -1,6 +1,6 @@
 name: Edit Impression
 path: /user/:id/activity/:aid/impression
-method: PATCH
+method: PUT
 params:
 - id: number # 学号
 - aid: string # Activity ObjectId
