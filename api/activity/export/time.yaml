@@ -1,0 +1,10 @@
+name: Export Activity With Time
+description: Export Activity
+path: /activity/export/time
+method: POST
+body:
+  type: "'all' | 'range'"
+  format: "'csv' | 'json'"
+  range: [string, string] # [start, end] ISO 8601
+response: string # Task ID
+permission: 8

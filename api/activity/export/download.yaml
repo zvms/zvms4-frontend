@@ -1,0 +1,11 @@
+name: Download Exported Activity
+description: Download Exported Activity
+path: /activity/export/download/:id
+method: GET
+params:
+  id: string # Task ID
+response_header:
+  Content-Type: "'text/csv' | 'application/json'"
+  Content-Disposition: "'attachment; filename=export.csv' | 'attachment; filename=export.json'"
+response: string # Exported Activity
+permission: 0
