@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import ZActivityCard from '@/components/activity/ZActivityCard.vue';
-import type { SpecifiedActivity } from '@/../@types/activity';
-import { ref } from 'vue';
-import dayjs from 'dayjs';
-import { ElCol, ElRow } from 'element-plus';
+import ZActivityCard from '@/components/activity/ZActivityCard.vue'
+import type { SpecifiedActivity } from '@/../@types/activity'
+import { ref } from 'vue'
+import dayjs from 'dayjs'
+import { ElCol, ElRow, ElPagination } from 'element-plus'
 
 const registrations = ref<SpecifiedActivity[]>([
   {
@@ -14,6 +14,7 @@ const registrations = ref<SpecifiedActivity[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
+        number: 20230616,
         status: 'first-instance-approved',
         impression: '丁真'
       }
@@ -43,6 +44,7 @@ const registrations = ref<SpecifiedActivity[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b2b0b0b0',
+        number: 20230616,
         status: 'first-instance-approved',
         impression: '丁真'
       }
@@ -72,6 +74,67 @@ const registrations = ref<SpecifiedActivity[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b3',
+        number: 20230616,
+        status: 'first-instance-approved',
+        impression: '丁真'
+      }
+    ],
+    registration: {
+      classes: [
+        {
+          class: 202306,
+          max: 4
+        },
+        {
+          class: 202302,
+          max: 4
+        }
+      ],
+      place: 'A101',
+      deadline: dayjs('2023-11-13 00:00:00').toJSON()
+    },
+    duration: 4,
+    time: dayjs().toJSON()
+  },
+  {
+    _id: '60b9b6b9a9b0f3c4b8e1b0a5',
+    type: 'specified',
+    description: '这是一条活动描述',
+    name: '义工 C',
+    members: [
+      {
+        _id: '60c9b1b0e6b3a3b4b2b0b0b0',
+        number: 20230616,
+        status: 'first-instance-approved',
+        impression: '丁真'
+      }
+    ],
+    registration: {
+      classes: [
+        {
+          class: 202306,
+          max: 4
+        },
+        {
+          class: 202302,
+          max: 4
+        }
+      ],
+      place: 'A101',
+      deadline: dayjs('2023-10-13 00:00:00').toJSON()
+    },
+    duration: 4,
+    time: dayjs('2023-11-13 00:00:00').toJSON()
+  },
+  {
+    _id: '60b9b6b9a9b0f3c4b8e1b0a3',
+    type: 'specified',
+    description: '这是一条活动描述',
+    name: '义工 C',
+    members: [
+      {
+        _id: '60c9b1b0e6b3a3b4b8b0b0b3',
+        number: 20230616,
         status: 'first-instance-approved',
         impression: '丁真'
       }
@@ -93,13 +156,30 @@ const registrations = ref<SpecifiedActivity[]>([
     duration: 4,
     time: dayjs().toJSON()
   }
-]);
+])
+
+const page = ref(1)
 </script>
 
 <template>
-  <ElRow>
-    <ElCol :span="8" v-for="registration in registrations" :key="registration._id">
-      <ZActivityCard :activity="registration" />
-    </ElCol>
-  </ElRow>
+  <div>
+    <ElRow class="py-8">
+      <ElCol
+        :span="8"
+        v-for="registration in registrations.filter(
+          (_, id) => id < 3 * page && id >= 3 * (page - 1)
+        )"
+        :key="registration._id"
+      >
+        <ZActivityCard :activity="registration" />
+      </ElCol>
+    </ElRow>
+    <ElPagination
+      :total="registrations.length"
+      layout="total, prev, pager, next, jumper"
+      background
+      :page-size="3"
+      v-model:current-page="page"
+    />
+  </div>
 </template>

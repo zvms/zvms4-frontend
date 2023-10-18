@@ -5,23 +5,17 @@ import {
   type SpecialActivity,
   type SpecifiedActivity
 } from '@/../@types/activity'
-import {
-  ElDrawer,
-  ElDialog,
-  ElCard,
-  ElTable,
-  ElTableColumn,
-  ElTag,
-  ElButton
-} from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElTag, ElButton } from 'element-plus'
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
 import { Appointment, Star, Association } from '@icon-park/vue-next'
+import { Box } from '@element-plus/icons-vue'
+import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
 import type { Component as VueComponent } from 'vue'
-import { Edit, EditPen } from '@element-plus/icons-vue'
 import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
+import UserResgister from '@/views/activity/UserRegister.vue'
 
 const user = useUserStore()
 
@@ -43,6 +37,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
+        number: 20230616,
         status: 'rejected',
         impression: '丁真'
       }
@@ -59,6 +54,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
+        number: 20230616,
         status: 'effective',
         impression: '丁真'
       }
@@ -74,6 +70,7 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
+        number: 20230616,
         status: 'first-instance-approved',
         impression: '丁真'
       }
@@ -96,8 +93,6 @@ const activity = ref<ActivityDisplayInstance[]>([
     time: dayjs().toJSON()
   } as SpecifiedActivity
 ])
-
-const dialogs = ref(activity.value.map(() => false))
 
 const activityTypes = [
   {
@@ -134,21 +129,38 @@ const icon = {
   'off-campus': Association
 } as Record<string, VueComponent>
 
-const color = ref(
-  ['primary', 'success', 'warning', 'danger', 'info'][Math.floor(Math.random() * 5)] as
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
-)
+const registerForSpecified = ref(false)
 </script>
 
 <template>
   <div class="card px-12">
+    <ElDialog title="报名指定义工" fullscreen center v-model="registerForSpecified">
+      <UserResgister />
+    </ElDialog>
     <ElCard shadow="never">
       <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
         <ElTableColumn type="expand">
+          <template #header>
+            <ElButton
+              v-if="role !== 'student'"
+              :icon="Box"
+              type="success"
+              text
+              bg
+              circle
+              size="small"
+            />
+            <ElButton
+              v-else
+              :icon="MaterialSymbolsAppRegistration"
+              type="success"
+              text
+              bg
+              circle
+              size="small"
+              @click="registerForSpecified = true"
+            />
+          </template>
           <template #default="{ row }">
             <ZActivityDescriptions :activity="row" :role="role" />
           </template>

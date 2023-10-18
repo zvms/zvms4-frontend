@@ -5,7 +5,6 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
-import UserRegister from '../activity/UserRegister.vue'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -45,10 +44,6 @@ watch(
       <ElTabPane name="" label="我的义工">
         <p class="text-2xl py-4 px-12">我的义工列表</p>
         <ZActivityList role="student" :activities="[]" />
-      </ElTabPane>
-      <ElTabPane name="register" label="义工报名">
-        <p class="text-2xl py-4 px-12">报名指定义工</p>
-        <UserRegister class="px-10" />
       </ElTabPane>
       <ElTabPane v-if="user.position.includes('auditor')" name="management" label="义工审计">
         <p class="text-2xl py-4 px-12">审计部成员全校义工管理</p>

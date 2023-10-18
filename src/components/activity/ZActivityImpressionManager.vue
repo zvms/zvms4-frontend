@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowRight, ArrowLeft, Close, Check, Delete } from '@element-plus/icons-vue'
+import { ArrowRight, Close, Check, Delete } from '@element-plus/icons-vue'
 import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import {
@@ -13,7 +13,8 @@ import {
   ElSkeleton,
   ElRow,
   ElCol,
-  ElButtonGroup
+  ElPagination,
+  ElPopconfirm
 } from 'element-plus'
 import { userModifyImpression } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
@@ -117,44 +118,31 @@ async function curserTo(index: number) {
         </p>
         <ElSkeleton v-if="loading" :rows="3" animated :throttle="500" />
         <p v-else class="px-4">{{ current?.impression }}</p>
+        <ElRow class="py-4">
+          <ElCol :span="6">
+            <ElPagination
+              layout="prev, pager, next, jumper"
+              :total="activity.members.length"
+              background
+              @current-change="curserTo"
+            />
+          </ElCol>
+          <ElCol :span="2"></ElCol>
+          <ElCol :span="16">
+            <div style="text-align: right">
+              <ElPopconfirm title="拒绝后将公示全校，不可撤销、计入时间" width="368">
+                <template #reference>
+                  <ElButton v-if="role === 'auditor'" type="danger" :icon="Delete" text bg>
+                    拒绝
+                  </ElButton>
+                </template>
+              </ElPopconfirm>
+              <ElButton type="warning" :icon="Close" text bg>打回</ElButton>
+              <ElButton type="success" :icon="Check" text bg>通过</ElButton>
+            </div>
+          </ElCol>
+        </ElRow>
       </ElCard>
-      <ElRow class="py-4 bottom">
-        <ElCol :span="8">
-          <ElButtonGroup>
-            <ElButton
-              round
-              text
-              bg
-              :icon="ArrowLeft"
-              @click="curserTo(current?.index ?? 0 - 1)"
-              :disabled="current?.index === 0"
-              :type="current?.index === 0 ? 'primary' : 'danger'"
-            />
-            <ElButton round text bg type="primary">{{
-              current
-                ? `第 ${current?.index as number + 1} 条，共 ${activity.members.length} 条`
-                : '正在加载中'
-            }}</ElButton>
-            <ElButton
-              round
-              text
-              bg
-              @click="curserTo(current?.index ?? 0 + 1)"
-              :disabled="current?.index === activity.members.length - 1"
-              :icon="ArrowRight"
-              :type="current?.index === activity.members.length - 1 ? 'primary' : 'danger'"
-            />
-          </ElButtonGroup>
-        </ElCol>
-        <ElCol :span="10"></ElCol>
-        <ElCol :span="6">
-          <div style="text-align: right">
-            <ElButton type="danger" :icon="Delete" text bg>驳斥</ElButton>
-            <ElButton type="warning" :icon="Close" text bg>驳回</ElButton>
-            <ElButton type="success" :icon="Check" text bg>通过</ElButton>
-          </div>
-        </ElCol>
-      </ElRow>
     </div>
   </div>
 </template>
