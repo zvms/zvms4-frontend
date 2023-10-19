@@ -38,7 +38,7 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
     <ElRow>
       <ElCol :span="8">
         <div class="px-4">
-          <ElCard shadow="hover" @mouseover="useHover('specified').enter" @mouseleave="useHover('specified').leave">
+          <ElCard shadow="hover" @mouseover="useHover('specified').enter" @mouseleave="useHover('specified').leave" @click="move('specified')">
             <p class="text-xl py-2 px-2">
               <ElButton type="info" :icon="Appointment" text bg circle />
               <ElDivider direction="vertical" />指定义工

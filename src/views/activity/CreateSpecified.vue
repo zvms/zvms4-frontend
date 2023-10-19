@@ -103,7 +103,7 @@ async function register() {
           <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
         </ElFormItem>
         <ElFormItem label="报名" class="full">
-          <ElCard shadow="hover" class="full">
+          <ElCard shadow="never" class="full">
             <ElForm label-position="left">
               <ElFormItem label="截止时间" class="py-2">
                 <ElDatePicker
