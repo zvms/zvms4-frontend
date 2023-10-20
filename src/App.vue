@@ -31,7 +31,7 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @context.prevent>
+  <ElContainer @contextmenu.prevent>
     <ElHeader>
       <ElRow class="pt-4 px-6">
         <ElCol :span="8">
