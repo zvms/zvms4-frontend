@@ -66,13 +66,15 @@ const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
-  const result = await getUser(activity.value.members[index].number)
+  // const result = await getUser(activity.value.members[index].number)
+  const result = { name: 'a' }
+  console.log(index, result)
   current.value = {
     index,
-    id: activity.value.members[index].number,
+    id: activity.value.members[index - 1].number,
     name: result?.name ?? '未知',
-    impression: activity.value.members[index].impression,
-    _id: activity.value.members[index]._id
+    impression: activity.value.members[index - 1].impression,
+    _id: activity.value.members[index - 1]._id
   }
   loading.value = false
 }
@@ -122,8 +124,11 @@ async function curserTo(index: number) {
           <ElCol :span="6">
             <ElPagination
               layout="prev, pager, next, jumper"
-              :total="activity.members.length"
+              :page-count="activity.members.length"
               background
+              hide-on-single-page
+              :default-page-size="1"
+              :page-size="1"
               @current-change="curserTo"
             />
           </ElCol>

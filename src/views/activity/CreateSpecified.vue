@@ -12,10 +12,20 @@ import {
   ElInput,
   ElNotification,
   ElRow,
-  ElTooltip
+  ElTooltip,
+  ElScrollbar
 } from 'element-plus'
-import { ArrowRight, Delete, InfoFilled, Plus, Refresh, Timer, Location } from '@element-plus/icons-vue'
+import {
+  ArrowRight,
+  Delete,
+  InfoFilled,
+  Plus,
+  Refresh,
+  Timer,
+  Location
+} from '@element-plus/icons-vue'
 import { createActivity } from '@/api/activity/create'
+import { useWindowSize } from '@vueuse/core'
 
 const activity = reactive<SpecifiedActivity>({
   _id: new ObjectId().toHexString(),
@@ -62,6 +72,9 @@ async function register() {
     })
   }
 }
+
+const { height } = useWindowSize()
+const scrollableCardHeight = (height.value - 64) * 0.72
 </script>
 
 <template>
@@ -76,94 +89,104 @@ async function register() {
     </p>
     <ElCard shadow="hover" class="px-4">
       <ElForm class="py-4">
-        <ElFormItem label="名称">
-          <ElInput v-model="activity.name" placeholder="请输入名称" />
-        </ElFormItem>
-        <ElFormItem label="描述">
-          <ElInput
-            type="textarea"
-            :autosize="{ minRows: 2 }"
-            v-model="activity.description"
-            placeholder="请输入描述"
-          />
-        </ElFormItem>
-        <ElFormItem label="种类" v-if="activity.registration.classes.length <= 1">
-          <ElInput v-model="inSchool" readonly />
-        </ElFormItem>
-        <ElFormItem label="时间">
-          <ElDatePicker
-            class="full"
-            style="width: 100%"
-            type="datetime"
-            v-model="activity.time"
-            placeholder="请选择时间"
-          />
-        </ElFormItem>
-        <ElFormItem label="时长">
-          <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
-        </ElFormItem>
-        <ElFormItem label="报名" class="full">
-          <ElCard shadow="hover" class="full">
-            <ElForm label-position="left">
-              <ElFormItem label="截止时间" class="py-2">
-                <ElDatePicker
-                  class="full"
-                  style="width: 100%"
-                  type="datetime"
-                  v-model="activity.registration.deadline"
-                  placeholder="请选择截止时间"
-                />
-              </ElFormItem>
-              <ElFormItem label="义工地点" class="py-2">
-                <ElInput v-model="activity.registration.place" :prefix-icon="Location" placeholder="请输入义工地点" />
-              </ElFormItem>
-              <ElFormItem
-                v-for="(classes, idx) in activity.registration.classes"
-                :key="idx"
-                label="参与班级"
-                class="py-2"
-              >
-                <Transition
-                  enter-active-class="animate__animated animate__fadeIn"
-                  leave-active-class="animate__animated animate__fadeOut"
-                  appear
+        <ElScrollbar :height="scrollableCardHeight + 'px'">
+          <ElFormItem label="名称">
+            <ElInput v-model="activity.name" placeholder="请输入名称" />
+          </ElFormItem>
+          <ElFormItem label="描述">
+            <ElInput
+              type="textarea"
+              :autosize="{ minRows: 2 }"
+              v-model="activity.description"
+              placeholder="请输入描述"
+            />
+          </ElFormItem>
+          <ElFormItem label="种类">
+            <ElInput v-model="inSchool" readonly />
+          </ElFormItem>
+          <ElFormItem label="时间">
+            <ElDatePicker
+              class="full"
+              style="width: 100%"
+              type="datetime"
+              v-model="activity.time"
+              placeholder="请选择时间"
+            />
+          </ElFormItem>
+          <ElFormItem label="时长">
+            <ElInput
+              v-model.number="activity.duration"
+              :prefix-icon="Timer"
+              placeholder="请输入有效时长"
+            />
+          </ElFormItem>
+          <ElFormItem label="报名" class="full">
+            <ElCard shadow="hover" class="full">
+              <ElForm label-position="left">
+                <ElFormItem label="截止时间" class="py-2">
+                  <ElDatePicker
+                    class="full"
+                    style="width: 100%"
+                    type="datetime"
+                    v-model="activity.registration.deadline"
+                    placeholder="请选择截止时间"
+                  />
+                </ElFormItem>
+                <ElFormItem label="义工地点" class="py-2">
+                  <ElInput
+                    v-model="activity.registration.place"
+                    :prefix-icon="Location"
+                    placeholder="请输入义工地点"
+                  />
+                </ElFormItem>
+                <ElFormItem
+                  v-for="(classes, idx) in activity.registration.classes"
+                  :key="idx"
+                  label="参与班级"
+                  class="py-2"
                 >
-                  <ElRow class="full">
-                    <ElCol :span="1">{{ idx + 1 }}</ElCol>
-                    <ElCol :span="6">
-                      <ElFormItem label="班级">
-                        <ElInput v-model="classes.class" placeholder="请输入班级" />
-                      </ElFormItem>
-                    </ElCol>
-                    <ElCol :span="1" />
-                    <ElCol :span="6">
-                      <ElFormItem label="最少人数">
-                        <ElInput v-model.number="classes.min" placeholder="请输入最小人数" />
-                      </ElFormItem>
-                    </ElCol>
-                    <ElCol :span="1" />
-                    <ElCol :span="6">
-                      <ElFormItem label="最多人数">
-                        <ElInput v-model.number="classes.max" placeholder="请输入最大人数" />
-                      </ElFormItem>
-                    </ElCol>
-                    <ElCol :span="1" />
-                    <ElCol :span="2" class="full text-right">
-                      <ElButton
-                        text
-                        bg
-                        circle
-                        :type="idx === 0 ? 'success' : 'danger'"
-                        :icon="idx === 0 ? Plus : Delete"
-                        @click="idx === 0 ? createClass() : removeClass(idx)"
-                      />
-                    </ElCol>
-                  </ElRow>
-                </Transition>
-              </ElFormItem>
-            </ElForm>
-          </ElCard>
-        </ElFormItem>
+                  <Transition
+                    enter-active-class="animate__animated animate__fadeIn"
+                    leave-active-class="animate__animated animate__fadeOut"
+                    appear
+                  >
+                    <ElRow class="full">
+                      <ElCol :span="1">{{ idx + 1 }}</ElCol>
+                      <ElCol :span="6">
+                        <ElFormItem label="班级">
+                          <ElInput v-model="classes.class" placeholder="请输入班级" />
+                        </ElFormItem>
+                      </ElCol>
+                      <ElCol :span="1" />
+                      <ElCol :span="6">
+                        <ElFormItem label="最少人数">
+                          <ElInput v-model.number="classes.min" placeholder="请输入最小人数" />
+                        </ElFormItem>
+                      </ElCol>
+                      <ElCol :span="1" />
+                      <ElCol :span="6">
+                        <ElFormItem label="最多人数">
+                          <ElInput v-model.number="classes.max" placeholder="请输入最大人数" />
+                        </ElFormItem>
+                      </ElCol>
+                      <ElCol :span="1" />
+                      <ElCol :span="2" class="full text-right">
+                        <ElButton
+                          text
+                          bg
+                          circle
+                          :type="idx === 0 ? 'success' : 'danger'"
+                          :icon="idx === 0 ? Plus : Delete"
+                          @click="idx === 0 ? createClass() : removeClass(idx)"
+                        />
+                      </ElCol>
+                    </ElRow>
+                  </Transition>
+                </ElFormItem>
+              </ElForm>
+            </ElCard>
+          </ElFormItem>
+        </ElScrollbar>
         <div class="actions text-right">
           <ElButton type="warning" :icon="Refresh" text bg>重置</ElButton>
           <ElButton type="primary" :icon="ArrowRight" text bg @click="register">创建</ElButton>
