@@ -2,8 +2,16 @@ name: User Register Activity
 path: /user/:id/activity/:aid/register
 method: PUT
 params:
-  id: number # 学号
-  aid: string # Activity ObjectId
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (number)
+  - name: aid
+    in: path
+    type: string
+    required: true
+    description: The activity id (Object Id)
 body: null
 response: null
 permission: 1

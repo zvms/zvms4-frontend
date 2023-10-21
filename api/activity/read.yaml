@@ -1,12 +1,28 @@
 name: Read All Activities
 path: /activity
 method: GET
-queries:
-  type: "'special' | 'specified' | 'off-campus' | 'all'"
-  range: "'in-class' | 'campus'"
-  query: string # search query
-  range: [number, number]
-    default: [0, -1]
+params:
+  - name: type
+    in: query
+    type: "'in-class' | 'campus' | 'off-campus' | 'all'"
+    required: false
+    description: The type of activities to return
+  - name: range
+    in: query
+    type: [number, number]
+    required: false
+    description: The range of activities to return
+    default: [0, -1] # all
+  - name: query
+    in: query
+    type: string
+    required: false
+    description: The search query
+  - name: mode
+    in: query
+    type: "'in-class' | 'campus'"
+    required: false
+    description: The mode of activities to return
 response: ActivityInstance[]
 permissions:
   in-class: 2

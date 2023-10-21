@@ -2,8 +2,12 @@ name: Read All Impressions
 path: /activity/:aid/impression
 method: GET
 params:
-- aid: string # Activity ObjectId
+  - name: aid
+    in: path
+    type: string
+    required: true
+    description: The activity id
 response: ActivityMember[]
 permissions:
-- in-class: 2
-- campus: 4
+  in-class: 2
+  campus: 4

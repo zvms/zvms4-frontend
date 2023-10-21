@@ -3,9 +3,13 @@ description: Download Exported Activity
 path: /activity/export/download/:id
 method: GET
 params:
-  id: string # Task ID
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The Task Id (UUID v4)
 response_header:
   Content-Type: "'text/csv' | 'application/json'"
   Content-Disposition: "'attachment; filename=export.csv' | 'attachment; filename=export.json'"
-response: string # Exported Activity
+response: File
 permission: 0

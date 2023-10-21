@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@faker-js/faker": "^8.2.0",
     "@rushstack/eslint-patch": "^1.5.1",
     "@tsconfig/node18": "^18.2.2",
     "@types/js-md5": "^0.7.0",

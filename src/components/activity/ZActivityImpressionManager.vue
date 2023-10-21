@@ -66,8 +66,7 @@ const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
-  // const result = await getUser(activity.value.members[index].number)
-  const result = { name: 'a' }
+  const result = await getUser(activity.value.members[index].number)
   console.log(index, result)
   current.value = {
     index,

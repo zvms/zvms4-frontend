@@ -1,11 +1,27 @@
-name: User Login
-path: /user/login
+name: User Authorization
+path: /user/auth
 method: POST
-body:
-  name: number # 学号 / 分配 ID
-  password: string # after md5
-  role: "'short' | 'long'"
+params:
+  - name: id
+    in: body
+    type: number
+    required: true
+    description: The user id (number)
+  - name: password
+    in: body
+    type: string
+    required: true
+    description: The user password (after aes-128)
+  - name: role
+    in: body
+    type: string
+    required: true
+    description: The user auth role ('short' or 'long')
 response:
-  token: token # 登录成功后返回的 token(JSON Web Token)
-  id: ObjectId # 用户 ID
+  - name: token
+    type: string
+    description: The user token (jwt)
+  - name: id
+    type: string
+    description: The user id (ObjectId)
 permission: 0

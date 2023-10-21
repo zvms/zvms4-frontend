@@ -2,6 +2,10 @@ name: Read User Activity
 path: /user/:id/activity
 method: GET
 params:
-  id: number # 学号
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (number)
 response: ActivityInstance[]
 permission: 1

@@ -2,9 +2,17 @@ name: Alter User's Permission
 path: /user/:id/permission
 method: POST
 params:
-  id: number # 学号
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (number)
 body:
-  permission: number
+  - name: permission
+    in: body
+    type: number
+    required: true
+    description: The user permission
 response: null
 permission: 16
 short: true

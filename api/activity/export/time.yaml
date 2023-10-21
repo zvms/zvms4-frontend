@@ -3,8 +3,20 @@ description: Export Activity
 path: /activity/export/time
 method: POST
 body:
-  type: "'all' | 'range'"
-  format: "'csv' | 'json'"
-  range: [string, string] # [start, end] ISO 8601
+  - name: type
+    in: body
+    type: "'all' | 'range'"
+    required: true
+    description: The type of export
+  - name: format
+    in: body
+    type: "'csv' | 'json'"
+    required: true
+    description: The format of export
+  - name: range
+    in: body
+    type: '[string, string]' # [start, end] ISO 8601
+    required: false
+    description: The range of export ([start, end] ISO 8601)
 response: string # Task ID
 permission: 8
