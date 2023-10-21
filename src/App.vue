@@ -31,7 +31,7 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @contextmenu.prevent>
+  <ElContainer @contextmenu.prevent class="bg-slate-50">
     <ElHeader>
       <ElRow class="pt-4 px-6">
         <ElCol :span="8">
@@ -62,7 +62,7 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView />
+      <RouterView class="bg-white view"/>
     </ElContainer>
     <ElFooter class="footer">
       <p class="text-center">&copy; 2018-2023 镇海中学义管会</p>
@@ -97,6 +97,10 @@ function logout() {
   position: relative;
   top: 40%;
   transform: translateY(16%);
+}
+
+.view {
+  border-radius: 1rem;
 }
 
 .user {

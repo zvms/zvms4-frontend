@@ -217,14 +217,6 @@ const registerForSpecified = ref(false)
         <ElTableColumn fixed="right" label="感想">
           <template #default="props">
             <ZActivityImpressionDrawer :activity="props.row" :role="role" />
-            <!-- <ElButton
-              text
-              bg
-              @click="dialogs[props.$index] = true"
-              :icon="role === 'student' ? Edit : EditPen"
-              :type="color"
-              >{{ role === 'student' ? '填写' : '审阅' }}</ElButton
-            > -->
           </template>
         </ElTableColumn>
       </ElTable>
