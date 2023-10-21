@@ -59,4 +59,5 @@ export function createApiDocumentContent(api: Api, language: 'zh-CN' | 'en-US' =
       )}\n\n`
     : ''
   const content = `${nameContent}${descriptionContent}${pathContent}${dataContent}${paramsContent}${responseContent}${permissionsContent}${responseHeaderContent}`
+  return content
 }
