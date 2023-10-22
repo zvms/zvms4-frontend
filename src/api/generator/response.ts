@@ -1,16 +1,16 @@
-import type { ResponseItem, Response } from './.d'
+import type { Response } from './.d'
 
 export function createResponseDocumentContent(
   response: Response,
   language: 'zh-CN' | 'en-US' = 'zh-CN'
 ) {
+  if (typeof response === 'string') return response
   const isChinese = language === 'zh-CN'
   const keys = isChinese ? ['名称', '类型', '描述'] : ['Name', 'Type', 'Description']
-  const content = keys.reduce((prev, curr) => {
-    return prev + `| ${curr} `
-  }, '| --- | --- | --- |\n')
-  const responseContent = (response as ResponseItem[]).reduce((prev, curr) => {
-    return prev + `| ${curr.name} | ${curr.type} | ${curr.description || ''} |\n`
-  }, '')
+  const generateLine = (items: string[]) => '| ' + items.join(' | ') + ' |\n'
+  const content = generateLine(keys) + generateLine(keys.map(() => '---'))
+  const responseContent = response
+    .map((x) => generateLine([x.name, '`' + x.type + '`', x.description ?? '']))
+    .join('')
   return content + responseContent
 }

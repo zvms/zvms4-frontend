@@ -15,7 +15,7 @@ body:
     description: The format of export
   - name: range
     in: body
-    type: '[string, string]' # [start, end] ISO 8601
+    type: 'Array<string>' # [start, end] ISO 8601
     required: false
     description: The range of export ([start, end] ISO 8601)
 response: string # Task ID

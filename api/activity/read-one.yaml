@@ -1,8 +1,8 @@
 name: Read One Activity
-path: /activity/:id
+path: /activity/:aid
 method: GET
 params:
-  - name: id
+  - name: aid
     in: path
     type: string
     required: true

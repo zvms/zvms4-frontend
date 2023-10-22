@@ -9,10 +9,10 @@ params:
     description: The type of activities to return
   - name: range
     in: query
-    type: [number, number]
+    type: 'Array<number>'
     required: false
     description: The range of activities to return
-    default: [0, -1] # all
+    default: '[0, -1]' # all
   - name: query
     in: query
     type: string

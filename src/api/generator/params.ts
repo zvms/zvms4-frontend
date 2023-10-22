@@ -13,16 +13,12 @@ export function createParamsDocumentContent(
     query: isChinese ? '查询' : 'Query',
     path: isChinese ? '路径' : 'Path'
   }
-  const content = keys.reduce((prev, curr) => {
-    return prev + `| ${curr} `
-  }, '| --- | --- | --- | --- | --- |\n')
-  const paramsContent = params.reduce((prev, curr) => {
-    return (
-      prev +
-      `| ${curr.name} | ${curr.type} | ${ins[curr.in]} | ${curr.required ? '是' : '否'} | ${
-        curr.description || ''
-      } |\n`
+  const generateLine = (items: string[]) => '| ' + items.join(' | ') + ' |\n'
+  const content = generateLine(keys) + generateLine(keys.map(() => '---'))
+  const paramsContent = params
+    .map((x) =>
+      generateLine([x.name, '`' + x.type + '`', ins[x.in], x.required ? '是' : '否', x.description as string])
     )
-  }, '')
+    .join('')
   return content + paramsContent
 }
