@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ArrowDown, User, SwitchButton } from '@element-plus/icons-vue'
+import { ArrowDown, User, SwitchButton, Notification } from '@element-plus/icons-vue'
 import {
   ElContainer,
-  ElAside,
   ElHeader,
   ElFooter,
   ElIcon,
@@ -31,16 +30,16 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @contextmenu.prevent class="bg-slate-50">
+  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-slate-700">
     <ElHeader>
-      <ElRow class="pt-4 px-6">
-        <ElCol :span="8">
+      <ElRow class="pt-4 px-4">
+        <ElCol :span="10">
           <div class="text-2xl tit" @dblclick="router.push('/')">
             <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
             {{ headerStore.header }}
           </div>
         </ElCol>
-        <ElCol :span="8"> </ElCol>
+        <ElCol :span="6" />
         <ElCol :span="8">
           <ElButtonGroup class="user">
             <ElButton text bg :icon="User" type="primary">{{
@@ -51,6 +50,7 @@ function logout() {
                 <ElButton text bg :icon="ArrowDown" :disabled="!userStore.isLogin" type="primary" />
               </template>
               <ElButton text :icon="Feedback" class="action-btn p-4">问题反馈</ElButton><br />
+              <ElButton text :icon="Notification" class="action-btn p-4">通知中心</ElButton><br />
               <ElButton text :icon="Password" class="action-btn p-4">密码修改</ElButton><br />
               <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout"
                 >退出登录</ElButton
@@ -62,10 +62,10 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView class="bg-white view"/>
+      <RouterView class="bg-white dark:bg-black view"/>
     </ElContainer>
     <ElFooter class="footer">
-      <p class="text-center">&copy; 2018-2023 镇海中学义管会</p>
+      <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT License</p>
     </ElFooter>
   </ElContainer>
 </template>
@@ -87,6 +87,7 @@ function logout() {
 .tit {
   width: 100%;
   border: 0 0 2px 0;
+  padding-left: 2rem;
 }
 
 .action-btn {

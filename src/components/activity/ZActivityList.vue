@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {
-  type ActivityDisplayInstance,
-  type ActivityMember,
-  type SpecialActivity,
-  type SpecifiedActivity
+import type {
+  ActivityDisplayInstance,
+  ActivityMember,
+  SpecialActivity,
+  SpecifiedActivity
 } from '@/../@types/activity'
 import { ElDialog, ElTable, ElTableColumn, ElTag, ElButton } from 'element-plus'
 import { ref, toRefs } from 'vue'

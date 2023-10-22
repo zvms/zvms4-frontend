@@ -13,7 +13,6 @@ export function getUserGrade(year: number) {
 
 export function getUserClass(id: number, classN?: number) {
   const year = Math.floor(id / 10000)
-  console.log(id, year, classN, (classN as number) % 100)
   const classNum = classN ? classN % 100 : Math.floor((id % 10000) / 100)
   return {
     grade: getUserGrade(year),
@@ -27,6 +26,12 @@ export function getUserClass(id: number, classN?: number) {
 export function getClassName(classType: ClassType) {
   const title = classType.type === 'J' ? '蛟' : '高'
   const grades = ['一', '二', '三']
+  if (classType.grade === 0) return '未知班级'
+  if (classType.class === 0) return `${classType.year} 级`
+  if (classType.grade >= 3)
+    return `${classType.year} 级 ${
+      classType.class > 10 ? `蛟 ${classType.class - 10}` : `${classType.class}`
+    } 班`
   const grade = grades[classType.grade - 1]
-  return `${title}${grade}（${classType.class}）班`
+  return `${title}${grade}（${classType.class % 10}）班`
 }

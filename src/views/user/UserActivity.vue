@@ -9,7 +9,7 @@ import { useUserStore } from '@/stores/user'
 const header = useHeaderStore()
 const user = useUserStore()
 
-header.setHeader('创建义工')
+header.setHeader('义工管理')
 
 const route = useRoute()
 const router = useRouter()
@@ -46,11 +46,11 @@ watch(
         <ZActivityList role="student" :activities="[]" />
       </ElTabPane>
       <ElTabPane v-if="user.position.includes('auditor')" name="management" label="义工审计">
-        <p class="text-2xl py-4 px-12">审计部成员全校义工管理</p>
+        <p class="text-2xl py-4 px-12">全校义工管理</p>
         <ZActivityList role="auditor" :activities="[]" />
       </ElTabPane>
       <ElTabPane v-if="user.position.includes('secretary')" name="management" label="班级义工">
-        <p class="text-2xl py-4 px-12">团支书班级义工管理</p>
+        <p class="text-2xl py-4 px-12">班级义工管理</p>
         <ZActivityList role="secretary" :activities="[]" />
       </ElTabPane>
     </ElTabs>

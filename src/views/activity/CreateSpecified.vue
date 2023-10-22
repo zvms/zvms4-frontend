@@ -74,7 +74,7 @@ async function register() {
 }
 
 const { height } = useWindowSize()
-const scrollableCardHeight = (height.value - 64) * 0.72
+const scrollableCardHeight = (height.value - 64) * 0.6
 </script>
 
 <template>

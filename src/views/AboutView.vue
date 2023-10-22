@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElButton, ElButtonGroup, ElCard, ElDrawer } from 'element-plus'
+import { ElButton, ElButtonGroup, ElCard, ElDrawer, ElSwitch, ElTooltip } from 'element-plus'
 import {
   ZhangZisu,
   LuJinxuan,
@@ -19,105 +19,114 @@ import {
   ZhouJirui
 } from './collaborators'
 import { ref, type Component as VueComponent, watch } from 'vue'
-import TablerBrandJavascript from '@/icons/stacks/TablerBrandJavascript.vue'
-import TablerBrandTypescript from '@/icons/stacks/TablerBrandTypescript.vue'
-import TablerBrandVue from '@/icons/stacks/TablerBrandVue.vue'
-import MdiElectronFramework from '@/icons/stacks/MdiElectronFramework.vue'
-import SimpleIconsVuetify from '@/icons/stacks/SimpleIconsVuetify.vue'
-import TablerBrandPython from '@/icons/stacks/TablerBrandPython.vue'
-import SimpleIconsWebpack from '@/icons/stacks/SimpleIconsWebpack.vue'
-import SimpleIconsFlask from '@/icons/stacks/SimpleIconsFlask.vue'
-import SimpleIconsSqlite from '@/icons/stacks/SimpleIconsSqlite.vue'
-import TablerBrandVite from '@/icons/stacks/TablerBrandVite.vue'
-import TablerBrandBootstrap from '@/icons/stacks/TablerBrandBootstrap.vue'
-import SimpleIconsFastapi from '@/icons/stacks/SimpleIconsFastapi.vue'
-import EpElementPlus from '@/icons/stacks/EpElementPlus.vue'
-import TablerBrandMongodb from '@/icons/stacks/TablerBrandMongodb.vue'
-import TablerBrandNodejs from '@/icons/stacks/TablerBrandNodejs.vue'
+import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
 import { useHeaderStore } from '@/stores/header'
+import { getUserClass, getClassName } from '@/utils/getClass'
+import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()
+const user = useUserStore()
 
 header.setHeader('关于')
 
 const collaborators = [
   {
     dispName: '张子苏',
-    component: ZhangZisu
+    component: ZhangZisu,
+    grade: 201800,
+    name: '张子苏'
   },
   {
     dispName: 'neko_moyi',
-    component: LuJinxuan
+    component: LuJinxuan,
+    grade: 201900,
+    name: '卢锦轩'
   },
   {
     dispName: 'Zecyle',
-    component: ZhuChengyang
+    component: ZhuChengyang,
+    grade: 202007,
+    name: '朱程炀'
   },
   {
     dispName: 'fpc5719',
-    component: ChenChen
+    component: ChenChen,
+    grade: 202000,
+    name: '陈琛'
   },
   {
     dispName: 'So1aric',
-    component: ShenLechen
+    component: ShenLechen,
+    grade: 202105,
+    name: '沈乐宸'
   },
   {
     dispName: 'solecour',
-    component: HuangHanting
+    component: HuangHanting,
+    grade: 202100,
+    name: '黄瀚庭'
   },
   {
     dispName: 'dblark',
-    component: ZhouShengjie
+    component: ZhouShengjie,
+    grade: 202100,
+    name: '周圣杰'
   },
   {
     dispName: 'qnc',
-    component: QiuNianchu
+    component: QiuNianchu,
+    grade: 202209,
+    name: '邱念楚'
   },
   {
     dispName: '_Kerman',
-    component: XiongTongrui
+    component: XiongTongrui,
+    grade: 202203,
+    name: '熊桐睿'
   },
   {
     dispName: 'clc',
-    component: ChenLiuchang
+    component: ChenLiuchang,
+    grade: 202204,
+    name: '陈浏畅'
   },
   {
     dispName: '7086cmd',
-    component: WuChengyu
+    component: WuChengyu,
+    grade: 202306,
+    name: '吴承宇'
   },
   {
     dispName: 'byh',
-    component: BaoYihan
+    component: BaoYihan,
+    grade: 202307,
+    name: '鲍屹涵'
   },
   {
     dispName: 'zyq',
-    component: ZhaiYanqi
+    component: ZhaiYanqi,
+    grade: 202312,
+    name: '翟彦琪'
   },
   {
     dispName: 'haojie',
-    component: HuangHaojie
+    component: HuangHaojie,
+    grade: 202205,
+    name: '黄浩杰'
   },
   {
     dispName: 'zsz',
-    component: ZhangShengze
+    component: ZhangShengze,
+    grade: 202200,
+    name: '张圣泽'
   },
   {
     dispName: 'zjr',
-    component: ZhouJirui
-  },
-  {
-    dispName: 'hhj',
-    component: HuangHaojie
-  },
-  {
-    dispName: 'zsz',
-    component: ZhangShengze
-  },
-  {
-    dispName: 'zjr',
-    component: ZhouJirui
+    component: ZhouJirui,
+    grade: 202100,
+    name: '周济睿'
   }
-] as Array<{ dispName: string; component: VueComponent }>
+] as Array<{ dispName: string; component: VueComponent; grade: number; name: string }>
 
 const currentCollaborator = ref<string>('')
 const currentStack = ref<number>()
@@ -154,46 +163,9 @@ function useStackDialog(version: number) {
   openStackDialog.value = true
 }
 
-const V1List = ['张子苏', 'neko_moyi', 'Zecyle', 'fpc5719', 'So1aric', 'solecour', 'dblark']
+const V1List = ['neko_moyi', 'Zecyle', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
-const V4List = ['qnc', 'clc', '7086cmd', 'byh', 'zyq']
-
-const stacksV0 = [
-  TablerBrandTypescript,
-  TablerBrandJavascript,
-  TablerBrandVue,
-  SimpleIconsVuetify,
-  TablerBrandNodejs
-]
-const stacksV1 = [
-  TablerBrandTypescript,
-  TablerBrandPython,
-  TablerBrandVue,
-  MdiElectronFramework,
-  SimpleIconsVuetify,
-  SimpleIconsSqlite,
-  SimpleIconsFlask,
-  SimpleIconsWebpack
-]
-const stacksV2 = [
-  TablerBrandTypescript,
-  TablerBrandPython,
-  TablerBrandVue,
-  TablerBrandVite,
-  SimpleIconsVuetify,
-  SimpleIconsSqlite,
-  SimpleIconsFlask
-]
-const stacksV3 = [TablerBrandPython, SimpleIconsFlask, SimpleIconsSqlite, TablerBrandBootstrap]
-const stacksV4 = [
-  TablerBrandTypescript,
-  TablerBrandPython,
-  TablerBrandVue,
-  TablerBrandVite,
-  EpElementPlus,
-  TablerBrandMongodb,
-  SimpleIconsFastapi
-]
+const V4List = ['clc', '7086cmd', 'byh', 'zyq']
 
 const versions = [
   { collaborators: ['张子苏'] },
@@ -206,32 +178,32 @@ const versions = [
 const stacks = [
   {
     version: 0,
-    stacks: stacksV0,
+    stacks: TeckStackV0,
     repos: ['zhangzisu/zvms-frontend', 'zhangzisu/zvms']
   },
   {
     version: 1,
-    stacks: stacksV1,
-    repos: ['zvms/zvms-electron', 'zvms/zvms-backend']
+    stacks: TeckStackV1,
+    repos: ['zvms/zvms1-electron', 'zvms/zvms1-frontend', 'zvms/zvms1-backend']
   },
   {
     version: 2,
-    stacks: stacksV2,
+    stacks: TeckStackV2,
     repos: ['zvms/zvms']
   },
   {
     version: 3,
-    stacks: stacksV3,
+    stacks: TeckStackV3,
     repos: ['zvmsbackend/zvms3']
   },
   {
     version: 4,
-    stacks: stacksV4,
+    stacks: TeckStackV4,
     repos: ['zvms/zvms4-frontend', 'zvms/zvms4-backend']
   }
 ] as Array<{
   version: number
-  stacks: VueComponent[]
+  stacks: { icon: VueComponent; name: string; classify: string }[]
   repos: string[]
 }>
 
@@ -244,6 +216,8 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
     | 'danger'
     | 'info'
 }
+
+const displayGitHubName = ref(true)
 </script>
 <template>
   <div class="full px-4">
@@ -260,6 +234,9 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
     <div class="py-4">
       <ElCard shadow="never" class="full">
         <p class="text-xl">关于开发者</p>
+        <div style="text-align: right">
+          <ElSwitch active-text="开发用名" inactive-text="真实身份" v-model="displayGitHubName" />
+        </div>
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
             本项目
@@ -270,44 +247,45 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
             <ElButtonGroup>
               <ElButton
                 text
+                bg
                 v-for="(collaborator, idx) in version.collaborators"
                 :key="idx"
                 :type="useRandomColor()"
                 @click="useCollaboratorDialog(collaborator)"
                 size="small"
               >
-                {{ collaborator }}
+                {{
+                  displayGitHubName
+                    ? collaborator
+                    : `${collaborators.find((x) => x.dispName === collaborator)?.name}`
+                }}
               </ElButton>
             </ElButtonGroup>
-            设计。
+            开发。
           </div>
           <p class="py-2">
-            同时，感谢
-            <ElButton
+            同时，感谢<ElButton
               text
               bg
               :type="useRandomColor()"
               @click="useCollaboratorDialog('hhj')"
               size="small"
-              >hhj</ElButton
+              >{{ displayGitHubName ? 'hhj' : '黄浩杰' }}</ElButton
             >
-            提供和部署的校外服务器、
-            <ElButton
+            提供和部署的校外服务器、<ElButton
               text
               bg
               :type="useRandomColor()"
               @click="useCollaboratorDialog('zsz')"
               size="small"
-              >zsz</ElButton
-            >
-            的新版（Version 2.0 - latest）图标以及
-            <ElButton
+              >{{ displayGitHubName ? 'zsz' : '张圣泽' }}</ElButton
+            >的新版（Version 2.0 - latest）图标以及<ElButton
               text
               bg
               :type="useRandomColor()"
               @click="useCollaboratorDialog('zjr')"
               size="small"
-              >zjr</ElButton
+              >{{ displayGitHubName ? 'zjr' : '周济睿' }}</ElButton
             >
             的疯狂测试。
           </p>
@@ -319,7 +297,15 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
       size="75%"
       v-model="openDialog"
       center
-      :title="'关于 ' + currentCollaborator"
+      :title="`关于 ${currentCollaborator}${
+        '（' +
+        getClassName(
+          getUserClass(
+            (collaborators.find((x) => x.dispName === currentCollaborator)?.grade as number) * 100
+          )
+        ) +
+        '）'
+      }）`"
     >
       <Component class="px-8 text-xl" :is="curComponent" />
     </ElDrawer>
@@ -332,15 +318,14 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
     >
       技术栈：
       <ElButtonGroup>
-        <ElButton
+        <ElTooltip
           v-for="(stack, idx) in stacks[currentStack as number].stacks"
           :key="idx"
-          :icon="stack"
-          :type="useRandomColor()"
-          circle
-          text
-          bg
-        />
+          :content="stack.name"
+          effect="light"
+        >
+          <ElButton :icon="stack.icon" :type="useRandomColor()" circle text bg />
+        </ElTooltip>
       </ElButtonGroup>
       <br /><br />
       仓库：
