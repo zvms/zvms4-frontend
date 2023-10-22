@@ -62,7 +62,8 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView class="bg-white dark:bg-black view"/>
+      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-black view"/>
+      <RouterView v-else class="bg-slate-50 dark:bg-slate-900 view"/>
     </ElContainer>
     <ElFooter class="footer">
       <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT License</p>
@@ -102,6 +103,7 @@ function logout() {
 
 .view {
   border-radius: 1rem;
+  width: 100%
 }
 
 .user {

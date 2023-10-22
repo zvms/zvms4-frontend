@@ -8,16 +8,20 @@ import {
   ElButton,
   ElNotification,
   ElRow,
-  ElCol
+  ElCol,
+  ElDialog
 } from 'element-plus'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { UserLogin } from '@/api/user/auth'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { useWindowSize } from '@vueuse/core'
 
-if(useUserStore().isLogin) {
+if (useUserStore().isLogin) {
   useRouter().push('/user/')
 }
+
+const { height } = useWindowSize()
 
 const user = ref<number>()
 const password = ref<string>('')
@@ -49,44 +53,59 @@ watch(user, async () => {
   const result = await loginfield.value.validate()
   console.log(result)
 })
+
+const open = ref(true)
 </script>
 
 <template>
-  <ElCard shadow="hover" class="login-field text-center">
-    <ElRow>
-      <ElCol :span="6"> </ElCol>
-      <ElCol :span="12">
-        <p class="text-2xl py-4">登录</p>
-      </ElCol>
-      <ElCol :span="6">
-        <p class="align-right motto">励志 进取 勤奋 健美</p>
-      </ElCol>
-    </ElRow>
-    <ElForm ref="loginfield">
-      <ElFormItem label="账号" prop="id">
-        <ElInput placeholder="e.g. 19191145" clearable v-model.number="user"></ElInput>
-      </ElFormItem>
-      <ElFormItem label="密码" prop="password">
-        <ElInput type="password" v-model="password" clearable show-password></ElInput>
-      </ElFormItem>
-      <div class="actions">
-        <ElButton type="warning" @click="refresh" text bg :icon="Refresh">重置</ElButton>
-        <ElButton type="primary" @click="login" text bg :icon="ArrowRight">登录</ElButton>
-      </div>
-    </ElForm>
-  </ElCard>
+  <div class="login-field text-center bg-white">
+    <ElDialog
+      v-model="open"
+      draggable
+      :modal="false"
+      append-to-body
+      width="60%"
+      :show-close="false"
+    >
+      <ElRow style="width: 100%">
+        <ElCol :span="3" />
+        <ElCol :span="12">
+          <p class="text-2xl py-4 pl-8">登录</p>
+        </ElCol>
+        <ElCol :span="3">
+          <p class="align-right motto">励志 进取 勤奋 健美</p>
+        </ElCol>
+      </ElRow>
+      <ElForm ref="loginfield">
+        <ElFormItem label="账号" prop="id">
+          <ElInput placeholder="e.g. 19191145" clearable v-model.number="user"></ElInput>
+        </ElFormItem>
+        <ElFormItem label="密码" prop="password">
+          <ElInput type="password" v-model="password" clearable show-password></ElInput>
+        </ElFormItem>
+        <div class="actions">
+          <ElButton type="warning" @click="refresh" text bg :icon="Refresh">重置</ElButton>
+          <ElButton type="primary" @click="login" text bg :icon="ArrowRight">登录</ElButton>
+        </div>
+      </ElForm>
+    </ElDialog>
+  </div>
 </template>
 
 <style scoped>
 .login-field {
   width: 60%;
+  height: v-bind(height * 0.88 + 'px');
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   top: 50%;
-  transform: translateY(40%);
 }
+
+/* .panel {
+  height: v-bind(height * 0.32 + 'px');
+} */
 
 .actions {
   text-align: right;

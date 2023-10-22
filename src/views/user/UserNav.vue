@@ -5,8 +5,12 @@ import {
   InfoFilled,
   Management,
   Sunny,
-  Moon
+  Moon,
+  SwitchButton,
+  Notification
 } from '@element-plus/icons-vue'
+import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
+import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import { ElButton, ElDivider, ElIcon, ElMenu, ElMenuItem, ElTooltip } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -27,6 +31,55 @@ const dark = useDark()
 const path = ref(new URL(window.location.href).pathname)
 
 const { height } = useWindowSize()
+
+const actions: Array<{
+  icon: VueComponent
+  name: string
+  path: string
+  show: boolean
+  action: () => void
+}> = [
+  {
+    icon: Feedback,
+    name: '问题反馈',
+    path: '/feedback/',
+    show: true,
+    action: () => {
+      router.push('/feedback/')
+      routeTo('/feedback/')
+    }
+  },
+  {
+    icon: Notification,
+    name: '通知中心',
+    path: '/notification/',
+    show: true,
+    action: () => {
+      router.push('/notification/')
+      routeTo('/notification/')
+    }
+  },
+  {
+    icon: Password,
+    name: '密码修改',
+    path: '/password',
+    show: true,
+    action: () => {
+      router.push('/password')
+      routeTo('/password')
+    }
+  },
+  {
+    icon: SwitchButton,
+    name: '退出登录',
+    path: '/logout',
+    show: true,
+    action: () => {
+      user.removeUser()
+      router.push('/user/login')
+    }
+  }
+]
 
 const navs: Array<{
   icon: VueComponent
@@ -87,7 +140,7 @@ function routeTo(page: string) {
 <template>
   <div class="px-2 bg-slate-50 dark:bg-slate-700 pl-3 menu">
     <div v-for="nav in navs" :key="nav.path">
-      <div class="py-2" v-if="nav.show">
+      <div class="py-1" v-if="nav.show">
         <ElTooltip
           v-if="nav.show"
           :content="nav.name"
@@ -108,6 +161,29 @@ function routeTo(page: string) {
       </div>
     </div>
     <ElDivider />
+
+    <div v-for="nav in actions" :key="nav.path">
+      <div class="py-1" v-if="nav.show">
+        <ElTooltip
+          v-if="nav.show"
+          :content="nav.name"
+          placement="right"
+          :effect="dark ? 'dark' : 'light'"
+        >
+          <ElButton
+            :icon="nav.icon"
+            size="large"
+            text
+            v-if="nav.path === path"
+            :type="nav.path === path ? 'primary' : ''"
+            circle
+            @click="nav.action"
+          >
+          </ElButton>
+        </ElTooltip>
+      </div>
+    </div>
+    <ElDivider v-if="!navs.map(x => x.path).includes(path)" />
     <ElButton disabled :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
   </div>
 </template>

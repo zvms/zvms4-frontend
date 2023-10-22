@@ -43,14 +43,14 @@ export function generateValue(type: string, name: string): Arrayable<string | nu
   if (type === 'number') {
     return faker.number.int()
   }
-  if (type.includes('|')) {
-    const types = type.split('|').map((x) => x.trim())
-    const counts = faker.number.int({ min: 1, max: types.length })
-    return types[counts]
-      .split('')
-      .filter((x) => x !== "'")
-      .join('')
-  }
+  // if (type.includes('|')) {
+  //   const types = type.split('|').map((x) => x.trim())
+  //   const counts = faker.number.int({ min: 1, max: types.length })
+  //   return types[counts]
+  //     .split('')
+  //     .filter((x) => x !== "'")
+  //     .join('')
+  // }
   if (type.startsWith('Array')) {
     const types = type
       .slice(6, -1)
