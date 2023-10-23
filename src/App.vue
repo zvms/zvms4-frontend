@@ -33,7 +33,7 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-slate-700">
+  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-slate-800">
     <ElHeader>
       <ElRow class="pt-4 px-4">
         <ElCol :span="16">
@@ -65,19 +65,17 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-black view" />
+      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-slate-900 view" />
       <RouterView v-else class="bg-slate-50 dark:bg-slate-900 view" />
     </ElContainer>
-    <ElFooter class="footer">
-      <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT License</p>
+    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-800">
+      <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT Licensed</p>
     </ElFooter>
   </ElContainer>
 </template>
 
 <style scoped>
 .footer {
-  background-color: #f5f5f5;
-  color: #666;
   font-size: 0.8rem;
   position: absolute;
   width: 100%;

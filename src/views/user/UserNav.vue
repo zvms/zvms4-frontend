@@ -157,7 +157,7 @@ function routeTo(page: string) {
 </script>
 
 <template>
-  <div class="px-2 bg-slate-50 dark:bg-slate-700 pl-3 menu">
+  <div class="px-2 bg-slate-50 dark:bg-slate-800 pl-3 menu">
     <div v-for="nav in navs" :key="nav.path">
       <div class="py-1" v-if="nav.show">
         <ElTooltip
@@ -226,7 +226,6 @@ function routeTo(page: string) {
       </ElPopover>
       <br />
       <ElButton
-        disabled
         :icon="dark ? Moon : Sunny"
         size="large"
         text
