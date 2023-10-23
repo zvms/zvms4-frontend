@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
+import { useWindowSize } from '@vueuse/core'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -17,6 +18,10 @@ const router = useRouter()
 const path = ref(route.params?.type ?? '')
 
 const tab = ref(path.value as string)
+
+const { width, height } = useWindowSize()
+
+const useVertical = ref(width.value < height.value)
 
 watch(
   tab,
@@ -40,7 +45,7 @@ watch(
 
 <template>
   <div class="p-4" style="width: 100%">
-    <ElTabs v-model="tab" class="pl-4" tab-position="left">
+    <ElTabs v-model="tab" class="pl-4" :tab-position="useVertical ? 'top' : 'left'">
       <ElTabPane name="" label="我的义工">
         <p class="text-2xl py-4 px-12">我的义工列表</p>
         <ZActivityList role="student" :activities="[]" />

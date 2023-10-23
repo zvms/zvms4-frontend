@@ -3,7 +3,6 @@ import {
   CirclePlusFilled,
   HomeFilled,
   InfoFilled,
-  Management,
   Sunny,
   Moon,
   SwitchButton,
@@ -11,7 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElIcon, ElMenu, ElMenuItem, ElTooltip } from 'element-plus'
+import { ElButton, ElDivider, ElPopover, ElTooltip } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { useRoute, useRouter } from 'vue-router'
@@ -22,11 +21,31 @@ import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
+import MdiTranslate from '@/icons/MdiTranslate.vue'
+import { Chinese, English } from '@icon-park/vue-next'
 
 const user = useUserStore()
 const router = useRouter()
 const dark = useDark()
-// const route = useRoute()
+
+const languages = ref<
+  Array<{
+    icon: VueComponent
+    display: string
+    value: string
+  }>
+>([
+  {
+    icon: Chinese,
+    display: '简体中文',
+    value: 'zh-CN'
+  },
+  {
+    icon: English,
+    display: 'English',
+    value: 'en-US'
+  }
+])
 
 const path = ref(new URL(window.location.href).pathname)
 
@@ -111,12 +130,12 @@ const navs: Array<{
     path: '/umbrella',
     show: false
   },
-  {
-    icon: Management,
-    name: '管理',
-    path: '/activity/management',
-    show: user.position.filter((x) => x !== 'student' && x !== 'secretary').length > 0
-  },
+  // {
+  //   icon: Management,
+  //   name: '管理',
+  //   path: '/activity/management',
+  //   show: user.position.filter((x) => x !== 'student' && x !== 'secretary').length > 0
+  // },
   {
     icon: InfoFilled,
     name: '关于',
@@ -183,8 +202,36 @@ function routeTo(page: string) {
         </ElTooltip>
       </div>
     </div>
-    <ElDivider v-if="!navs.map(x => x.path).includes(path)" />
-    <ElButton disabled :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
+    <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
+    <div class="bottom">
+      <ElPopover placement="right" width="192px">
+        <template #reference>
+          <ElButton :icon="MdiTranslate" size="large" text bg circle />
+        </template>
+        <div v-for="language in languages" :key="language.value">
+          <ElButton
+            :icon="language.icon"
+            class="full"
+            text
+            :bg="user.language === language.value"
+            @click="user.setLanguage(language.value)"
+            :type="user.language === language.value ? 'primary' : ''"
+          >
+            {{ language.display }}
+          </ElButton>
+          <br />
+        </div>
+      </ElPopover>
+      <br />
+      <ElButton
+        disabled
+        :icon="dark ? Moon : Sunny"
+        size="large"
+        text
+        circle
+        @click="dark = !dark"
+      />
+    </div>
   </div>
 </template>
 
@@ -192,5 +239,15 @@ function routeTo(page: string) {
 .menu {
   width: 4rem;
   min-height: v-bind(height * 0.88 + 'px');
+}
+
+.full {
+  width: 100%;
+}
+
+.bottom {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 2.5rem;
 }
 </style>

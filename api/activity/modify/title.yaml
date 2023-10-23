@@ -1,0 +1,15 @@
+name: Modify Activity Title
+description: Modify the title of an activity
+path: /activity/:aid/title
+method: PUT
+params:
+  - name: aid
+    in: path
+    type: string
+    required: true
+    description: The activity id
+  - name: title
+    in: body
+    type: string
+    required: true
+    description: The new title of the activity

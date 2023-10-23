@@ -17,8 +17,10 @@ import TablerSum from '@/icons/TablerSum.vue'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
-import { useHeaderStore } from '@/stores/header';
+import { useHeaderStore } from '@/stores/header'
+import { useWindowSize } from '@vueuse/core'
 
+const { width, height } = useWindowSize()
 const header = useHeaderStore()
 const user = useUserStore()
 
@@ -73,7 +75,7 @@ function transform() {
       <ElCard shadow="hover">
         <ElRow>
           <ElCol :span="12">
-            <p class="text-xl">义工时间统计</p>
+            <p class="text-xl">义工时间</p>
           </ElCol>
           <ElCol :span="12" style="text-align: right">
             <ElButton
@@ -89,27 +91,32 @@ function transform() {
           </ElCol>
         </ElRow>
         <ElRow class="fill py-4 statistic">
-          <ElCol :span="2" />
-          <ElCol :span="4">
+          <ElCol v-if="width > height" :span="2" />
+          <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge type="largeScale" :realTime="user.volTime.largeScale" />
+            <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
-          <ElCol :span="4">
+          <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge type="onCampus" :realTime="user.volTime.onCampus" />
+            <ElDivider v-if="width < height" />
           </ElCol>
-          <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
-          <ElCol :span="4">
+          <ElCol v-if="width > height" :span="1"
+            ><ElDivider direction="vertical" class="height-full"
+          /></ElCol>
+          <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge
               type="offCampus"
               :realTime="user.volTime.offCampus + (useTransform ? transform() : 0)"
             />
           </ElCol>
-          <ElCol :span="1"><ElDivider direction="vertical" class="height-full" /></ElCol>
-          <ElCol :span="4">
+          <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
+          <ElCol v-if="width < height" :span="1" />
+          <ElCol :span="width < height ? 8 : 4">
             超出折算<br />
             <ElSwitch v-model="useTransform" />
           </ElCol>
-          <ElCol :span="2" />
+          <ElCol v-if="width > height" :span="2" />
         </ElRow>
       </ElCard>
     </div>

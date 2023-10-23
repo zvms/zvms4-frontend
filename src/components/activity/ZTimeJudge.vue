@@ -27,9 +27,9 @@ if (!standard?.value || isNaN(standard?.value)) {
 }
 
 const titles = {
-  largeScale: '大型实践时间',
-  onCampus: '校内义工时间',
-  offCampus: '校外义工时间'
+  largeScale: '大型实践',
+  onCampus: '校内义工',
+  offCampus: '校外义工'
 }
 
 function calculateLoss() {
@@ -38,14 +38,14 @@ function calculateLoss() {
     return {
       icon: CaretBottom,
       class: 'lower',
-      text: `距离标准还差`,
+      text: `还差`,
       loss: loss
     }
   } else {
     return {
       icon: CaretTop,
       class: 'upper',
-      text: `超出标准`,
+      text: `超出`,
       loss: -loss
     }
   }

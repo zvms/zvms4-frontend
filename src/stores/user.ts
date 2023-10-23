@@ -4,6 +4,7 @@ import type { User, UserActivityTimeSums, UserPosition } from '@/../@types/user'
 import { defineStore } from 'pinia'
 import { getClassName } from '@/utils/getClass'
 import { getUserTime } from '@/api/user/time'
+import { usePreferredLanguages } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -19,7 +20,8 @@ export const useUserStore = defineStore('user', {
       largeScale: 1919,
       onCampus: 114,
       offCampus: 514
-    } as UserActivityTimeSums
+    } as UserActivityTimeSums,
+    language: usePreferredLanguages().value[0]
   }),
   actions: {
     async setUser(user: number, password: string) {
@@ -36,7 +38,7 @@ export const useUserStore = defineStore('user', {
       }
     },
     async refreshUser() {
-      const result =(await getUser(this.id)) as User<string>
+      const result = (await getUser(this.id)) as User<string>
       this._id = result._id
       this.id = result.id
       this.name = result.name
@@ -62,6 +64,9 @@ export const useUserStore = defineStore('user', {
       this.volTime.offCampus = result.offCampus
       this.volTime.onCampus = result.onCampus
       this.volTime.largeScale = result.largeScale
+    },
+    async setLanguage(language: string) {
+      this.language = language
     }
   },
   persist: {

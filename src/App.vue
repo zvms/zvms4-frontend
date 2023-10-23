@@ -18,6 +18,9 @@ import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from './views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
+import { pad } from './plugins/ua'
+
+const toast = pad() ? '学海平板' : '普通访问'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -33,13 +36,13 @@ function logout() {
   <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-slate-700">
     <ElHeader>
       <ElRow class="pt-4 px-4">
-        <ElCol :span="10">
+        <ElCol :span="16">
           <div class="text-2xl tit" @dblclick="router.push('/')">
             <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
             {{ headerStore.header }}
+            <span class="text-sm">{{ toast }}</span>
           </div>
         </ElCol>
-        <ElCol :span="6" />
         <ElCol :span="8">
           <ElButtonGroup class="user">
             <ElButton text bg :icon="User" type="primary">{{
@@ -62,8 +65,8 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-black view"/>
-      <RouterView v-else class="bg-slate-50 dark:bg-slate-900 view"/>
+      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-black view" />
+      <RouterView v-else class="bg-slate-50 dark:bg-slate-900 view" />
     </ElContainer>
     <ElFooter class="footer">
       <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT License</p>
@@ -103,7 +106,7 @@ function logout() {
 
 .view {
   border-radius: 1rem;
-  width: 100%
+  width: 100%;
 }
 
 .user {

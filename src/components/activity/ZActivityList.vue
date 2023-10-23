@@ -16,6 +16,9 @@ import type { Component as VueComponent } from 'vue'
 import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
+import { useWindowSize } from '@vueuse/core'
+
+const { width, height } = useWindowSize()
 
 const user = useUserStore()
 
@@ -140,7 +143,7 @@ const registerForSpecified = ref(false)
 </script>
 
 <template>
-  <div class="card px-12">
+  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
     <ElDialog title="报名指定义工" fullscreen center v-model="registerForSpecified">
       <UserResgister />
     </ElDialog>

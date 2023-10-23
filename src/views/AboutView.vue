@@ -109,7 +109,7 @@ const collaborators = [
     name: '翟彦琪'
   },
   {
-    dispName: 'haojie',
+    dispName: 'hhj',
     component: HuangHaojie,
     grade: 202205,
     name: '黄浩杰'
@@ -305,7 +305,7 @@ const displayGitHubName = ref(true)
           )
         ) +
         '）'
-      }）`"
+      }`"
     >
       <Component class="px-8 text-xl" :is="curComponent" />
     </ElDrawer>

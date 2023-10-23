@@ -4,6 +4,9 @@ import type { SpecifiedActivity } from '@/../@types/activity'
 import { ref } from 'vue'
 import dayjs from 'dayjs'
 import { ElCol, ElRow, ElPagination } from 'element-plus'
+import { useWindowSize } from '@vueuse/core'
+
+const { width, height } = useWindowSize()
 
 const registrations = ref<SpecifiedActivity[]>([
   {
@@ -159,15 +162,17 @@ const registrations = ref<SpecifiedActivity[]>([
 ])
 
 const page = ref(1)
+
+const per = ref(width.value < height.value ? 2 : 3)
 </script>
 
 <template>
   <div>
-    <ElRow class="py-8">
+    <ElRow class="py-3">
       <ElCol
-        :span="8"
+        :span="24 / per"
         v-for="registration in registrations.filter(
-          (_, id) => id < 3 * page && id >= 3 * (page - 1)
+          (_, id) => id < per * page && id >= per * (page - 1)
         )"
         :key="registration._id"
       >
@@ -178,7 +183,7 @@ const page = ref(1)
       :total="registrations.length"
       layout="total, prev, pager, next, jumper"
       background
-      :page-size="3"
+      :page-size="per"
       v-model:current-page="page"
     />
   </div>

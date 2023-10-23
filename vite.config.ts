@@ -18,7 +18,7 @@ export default defineConfig({
     vue(),
     vueJsx(),
     legacy(),
-    basicSsl(),
+    // basicSsl(),
     vueDevtools(),
     pwa({
       registerType: 'autoUpdate',

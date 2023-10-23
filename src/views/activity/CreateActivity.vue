@@ -7,8 +7,10 @@ import CreateHome from './CreateHome.vue'
 import { ref, type Component, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
+import { useWindowSize } from '@vueuse/core'
 
 const header = useHeaderStore()
+const { width, height } = useWindowSize()
 
 header.setHeader('创建义工')
 
@@ -61,14 +63,14 @@ const tabs = ref<{ label: string; value: string; component: Component }[]>([
   }
 ])
 
-function mov (mov: string) {
+function mov(mov: string) {
   tab.value = mov
 }
 </script>
 
 <template>
   <div class="p-4" style="width: 100%">
-    <ElTabs v-model="tab" class="pl-4" tab-position="left">
+    <ElTabs v-model="tab" class="pl-4" :tab-position="width < height ? 'top' : 'left'">
       <ElTabPane v-for="pane in tabs" :key="pane.value" :name="pane.value" :label="pane.label">
         <Transition
           enter-active-class="animate__animated animate__fadeInDown"
