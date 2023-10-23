@@ -15,7 +15,8 @@
     "format": "prettier --write src/",
     "dev:docs": "vitepress dev docs",
     "build:docs": "vitepress build docs",
-    "serve:docs": "vitepress serve docs"
+    "serve:docs": "vitepress serve docs",
+    "preview:docs": "vitepress preview docs"
   },
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
