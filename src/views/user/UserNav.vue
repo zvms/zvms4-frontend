@@ -10,7 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElPopover, ElTooltip } from 'element-plus'
+import { ElButton, ElDivider, ElPopover, ElTooltip, ElButtonGroup } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { useRoute, useRouter } from 'vue-router'
@@ -206,21 +206,23 @@ function routeTo(page: string) {
     <div class="bottom">
       <ElPopover placement="right" width="192px">
         <template #reference>
-          <ElButton :icon="MdiTranslate" size="large" text bg circle />
+          <ElButton :icon="MdiTranslate" size="large" text circle />
         </template>
-        <div v-for="language in languages" :key="language.value">
-          <ElButton
-            :icon="language.icon"
-            class="full"
-            text
-            :bg="user.language === language.value"
-            @click="user.setLanguage(language.value)"
-            :type="user.language === language.value ? 'primary' : ''"
-          >
-            {{ language.display }}
-          </ElButton>
-          <br />
-        </div>
+        <ElButtonGroup class="full">
+          <div v-for="language in languages" :key="language.value">
+            <ElButton
+              :icon="language.icon"
+              class="full"
+              text
+              :bg="user.language === language.value"
+              @click="user.setLanguage(language.value)"
+              :type="user.language === language.value ? 'primary' : ''"
+            >
+              {{ language.display }}
+            </ElButton>
+            <br />
+          </div>
+        </ElButtonGroup>
       </ElPopover>
       <br />
       <ElButton
@@ -247,7 +249,7 @@ function routeTo(page: string) {
 
 .bottom {
   position: absolute;
-  left: 0.5rem;
-  bottom: 2.5rem;
+  left: 0.72rem;
+  bottom: 4rem;
 }
 </style>
