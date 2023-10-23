@@ -73,7 +73,7 @@ async function register() {
   }
 }
 
-const { height } = useWindowSize()
+const { width, height } = useWindowSize()
 const scrollableCardHeight = (height.value - 64) * 0.6
 </script>
 
@@ -101,9 +101,6 @@ const scrollableCardHeight = (height.value - 64) * 0.6
               placeholder="请输入描述"
             />
           </ElFormItem>
-          <ElFormItem label="种类">
-            <ElInput v-model="inSchool" readonly />
-          </ElFormItem>
           <ElFormItem label="时间">
             <ElDatePicker
               class="full"
@@ -119,6 +116,9 @@ const scrollableCardHeight = (height.value - 64) * 0.6
               :prefix-icon="Timer"
               placeholder="请输入有效时长"
             />
+          </ElFormItem>
+          <ElFormItem label="种类">
+            <ElInput v-model="inSchool" readonly />
           </ElFormItem>
           <ElFormItem label="报名" class="full">
             <ElCard shadow="hover" class="full">
@@ -152,20 +152,20 @@ const scrollableCardHeight = (height.value - 64) * 0.6
                   >
                     <ElRow class="full">
                       <ElCol :span="1">{{ idx + 1 }}</ElCol>
-                      <ElCol :span="6">
+                      <ElCol :span="width > height ? 6 : 10">
                         <ElFormItem label="班级">
                           <ElInput v-model="classes.class" placeholder="请输入班级" />
                         </ElFormItem>
                       </ElCol>
                       <ElCol :span="1" />
-                      <ElCol :span="6">
-                        <ElFormItem label="最少人数">
+                      <ElCol v-if="width > height" :span="6">
+                        <ElFormItem label="最少">
                           <ElInput v-model.number="classes.min" placeholder="请输入最小人数" />
                         </ElFormItem>
                       </ElCol>
-                      <ElCol :span="1" />
-                      <ElCol :span="6">
-                        <ElFormItem label="最多人数">
+                      <ElCol v-if="width > height" :span="1" />
+                      <ElCol :span="width > height ? 6 : 10">
+                        <ElFormItem label="最多">
                           <ElInput v-model.number="classes.max" placeholder="请输入最大人数" />
                         </ElFormItem>
                       </ElCol>

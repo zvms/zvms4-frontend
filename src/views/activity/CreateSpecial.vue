@@ -100,17 +100,6 @@ async function register() {
             placeholder="请输入描述"
           />
         </ElFormItem>
-        <ElFormItem label="类型">
-          <ElSelect v-model="activity.subtype" class="full" :prefix-icon="Star" placeholder="请选择特殊义工类型">
-            <ElOption
-              v-for="subtype in subtypes"
-              :key="subtype.value"
-              :label="subtype.label"
-              :value="subtype.value"
-              :disabled="subtype.disabled"
-            />
-          </ElSelect>
-        </ElFormItem>
         <ElFormItem label="时间">
           <ElDatePicker
             class="full"
@@ -122,6 +111,17 @@ async function register() {
         </ElFormItem>
         <ElFormItem label="时长">
           <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
+        </ElFormItem>
+        <ElFormItem label="类型">
+          <ElSelect v-model="activity.subtype" class="full" :prefix-icon="Star" placeholder="请选择特殊义工类型">
+            <ElOption
+              v-for="subtype in subtypes"
+              :key="subtype.value"
+              :label="subtype.label"
+              :value="subtype.value"
+              :disabled="subtype.disabled"
+            />
+          </ElSelect>
         </ElFormItem>
         <ElFormItem label="成员">
           <ElSelect

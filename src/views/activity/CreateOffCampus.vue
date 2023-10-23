@@ -68,9 +68,6 @@ async function query(id: string) {
             placeholder="请输入描述"
           />
         </ElFormItem>
-        <ElFormItem label="种类">
-          <ElInput readonly v-model="subtype" />
-        </ElFormItem>
         <ElFormItem label="时间">
           <ElDatePicker
             class="full"
@@ -82,6 +79,9 @@ async function query(id: string) {
         </ElFormItem>
         <ElFormItem label="时长">
           <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
+        </ElFormItem>
+        <ElFormItem label="种类">
+          <ElInput readonly v-model="subtype" />
         </ElFormItem>
         <ElFormItem label="成员">
           <ElSelect
