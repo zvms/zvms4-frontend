@@ -1,4 +1,4 @@
-export interface User<T=string> {
+export interface User<T = string> {
   _id: T
   id: number
   name: string
@@ -7,7 +7,7 @@ export interface User<T=string> {
   class: ClassType
 }
 
-export type UserPosition = 'admin' | 'inspector' | 'auditor' | 'secretary' | 'student'
+export type UserPosition = 'system' | 'admin' | 'auditor' | 'department' | 'secretary' | 'student'
 
 export interface WithPassword<T> extends T {
   password: string

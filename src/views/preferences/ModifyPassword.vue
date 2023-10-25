@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue'
-import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
 import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
 
 const props = defineProps<{
@@ -31,6 +31,13 @@ const number = ref<number>(0)
       </ElFormItem>
       <ElFormItem class="py-2" label="确认密码">
         <ElInput type="password" v-model="confirmPassword" />
+      </ElFormItem>
+      <ElFormItem class="py-2">
+        <div style="text-align: right">
+          <ElButton type="primary" text bg :disabled="newPassword !== confirmPassword">
+            {{ type === 'reset' ? '重置' : '修改' }}
+          </ElButton>
+        </div>
       </ElFormItem>
     </ElForm>
   </div>
