@@ -45,7 +45,7 @@ const activity = reactive<SpecifiedActivity>({
       }
     ]
   },
-  time: ''
+  date: ''
 })
 
 function createClass() {
@@ -106,7 +106,7 @@ const scrollableCardHeight = (height.value - 64) * 0.6
               class="full"
               style="width: 100%"
               type="datetime"
-              v-model="activity.time"
+              v-model="activity.date"
               placeholder="请选择时间"
             />
           </ElFormItem>
@@ -152,7 +152,7 @@ const scrollableCardHeight = (height.value - 64) * 0.6
                   >
                     <ElRow class="full">
                       <ElCol :span="1">{{ idx + 1 }}</ElCol>
-                      <ElCol :span="width > height ? 6 : 10">
+                      <ElCol :span="width > height ? 6 : 8">
                         <ElFormItem label="班级">
                           <ElInput v-model="classes.class" placeholder="请输入班级" />
                         </ElFormItem>
@@ -164,7 +164,7 @@ const scrollableCardHeight = (height.value - 64) * 0.6
                         </ElFormItem>
                       </ElCol>
                       <ElCol v-if="width > height" :span="1" />
-                      <ElCol :span="width > height ? 6 : 10">
+                      <ElCol :span="width > height ? 6 : 8">
                         <ElFormItem label="最多">
                           <ElInput v-model.number="classes.max" placeholder="请输入最大人数" />
                         </ElFormItem>

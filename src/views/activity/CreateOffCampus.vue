@@ -27,7 +27,7 @@ const activity = reactive<OffCampusActivityCreate>({
   members: [],
   type: 'off-campus',
   duration: undefined as unknown as number,
-  time: ''
+  date: ''
 })
 
 async function query(id: string) {
@@ -73,7 +73,7 @@ async function query(id: string) {
             class="full"
             style="width: 100%"
             type="datetime"
-            v-model="activity.time"
+            v-model="activity.date"
             placeholder="请选择时间"
           />
         </ElFormItem>

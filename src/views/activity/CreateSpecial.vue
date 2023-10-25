@@ -37,6 +37,33 @@ const subtypes: Array<{
   }
 ]
 
+const classifies: Array<{
+  label: string
+  value: SpecialActivityCreate['classify']
+  disabled?: boolean
+}> = [
+  {
+    label: '竞赛获奖',
+    value: 'prize'
+  },
+  {
+    label: '数据导入',
+    value: 'import'
+  },
+  {
+    label: '大型实践',
+    value: 'scale'
+  },
+  {
+    label: '社团活动',
+    value: 'club'
+  },
+  {
+    label: '其他',
+    value: 'other'
+  }
+]
+
 const options = reactive<{ value: string; label: string }[]>([])
 
 const activity = reactive<SpecialActivityCreate>({
@@ -47,7 +74,8 @@ const activity = reactive<SpecialActivityCreate>({
   members: [],
   duration: undefined as unknown as number,
   subtype: '' as unknown as 'on-campus' | 'off-campus' | 'large-scale',
-  time: ''
+  date: '',
+  classify: '' as unknown as SpecialActivityCreate['classify']
 })
 
 async function query(id: string) {
@@ -105,15 +133,40 @@ async function register() {
             class="full"
             style="width: 100%"
             type="datetime"
-            v-model="activity.time"
-            placeholder="请选择时间"
+            v-model="activity.date"
+            placeholder="请选择日期"
           />
         </ElFormItem>
         <ElFormItem label="时长">
-          <ElInput v-model.number="activity.duration" :prefix-icon="Timer" placeholder="请输入有效时长" />
+          <ElInput
+            v-model.number="activity.duration"
+            :prefix-icon="Timer"
+            placeholder="请输入有效时长"
+          />
+        </ElFormItem>
+        <ElFormItem label="分类">
+          <ElSelect
+            v-model="activity.classify"
+            class="full"
+            :prefix-icon="Star"
+            placeholder="请选择特殊义工分类"
+          >
+            <ElOption
+              v-for="classify in classifies"
+              :key="classify.value"
+              :label="classify.label"
+              :value="classify.value"
+              :disabled="classify.disabled"
+            />
+          </ElSelect>
         </ElFormItem>
         <ElFormItem label="类型">
-          <ElSelect v-model="activity.subtype" class="full" :prefix-icon="Star" placeholder="请选择特殊义工类型">
+          <ElSelect
+            v-model="activity.subtype"
+            class="full"
+            :prefix-icon="Star"
+            placeholder="请选择特殊义工类型"
+          >
             <ElOption
               v-for="subtype in subtypes"
               :key="subtype.value"
