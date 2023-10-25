@@ -9,6 +9,7 @@ import router from './router'
 
 import ElementPlus from 'element-plus'
 import Vant from 'vant'
+import VConsole from 'vconsole'
 
 import 'element-plus/theme-chalk/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
@@ -19,6 +20,8 @@ import { zhCn } from 'element-plus/es/locale/index.mjs'
 
 import persistedstate from 'pinia-plugin-persistedstate'
 import { pad } from './plugins/ua'
+
+const vConsole = new VConsole()
 
 const app = createApp(App)
 

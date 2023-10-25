@@ -5,7 +5,7 @@ export interface Activity {
   description: string
   members: ActivityMember[]
   duration: number // hours
-  time: string // ISO-8601
+  date: string // ISO-8601
 }
 
 export interface ActivityCreate extends Omit<Activity, 'members'> {
@@ -13,11 +13,11 @@ export interface ActivityCreate extends Omit<Activity, 'members'> {
 }
 
 export type ActivityQuery = {
-  _id: string;
-  type: ActivityType;
-  name: string;
-  memberCounts: number;
-  duration: number;
+  _id: string
+  type: ActivityType
+  name: string
+  memberCounts: number
+  duration: number
 }
 
 export interface Registration {
@@ -33,22 +33,32 @@ export interface ClassRegistration {
 }
 
 export interface ActivityMember {
-  _id: string
-  number: number
+  _id: string // ObjectId
   status: MemberActivityStatus
   impression: string
   duration?: number // hours, if is undefined, use the activity's duration
+  history: ActivityMemberHistory[]
 }
 
-export type ActivityType = 'specified' | 'special' | 'off-campus'
+export interface ActivityMemberHistory {
+  impression: string
+  duration: number // hours
+  date: string // ISO-8601
+  actioner: string // ObjectId
+  action: MemberActivityStatus
+}
 
-export type ActivityStatus = 'created' | 'canceled' | 'completed'
+export type ActivityType = 'specified' | 'special' | 'off-campus' | 'scale'
+
+export type ActivityStatus = 'created' | 'completed' | 'pending'
 
 export type MemberActivityStatus =
   | 'registered'
   | 'attended'
+  | 'draft'
+  | 'first-instance'
   | 'first-instance-rejected'
-  | 'first-instance-approved'
+  | 'last-instance'
   | 'last-instance-rejected'
   | 'effective'
   | 'rejected'
@@ -61,6 +71,12 @@ export interface SpecifiedActivity extends Activity {
 export interface SpecialActivity extends Activity {
   type: 'special'
   subtype: 'on-campus' | 'off-campus' | 'large-scale'
+  classify: 'prize' | 'import' | 'scale' | 'club' | 'other'
+}
+
+export interface ScaleActivity extends SpecialActivity {
+  subtype: 'large-scale'
+  registration: Registration
 }
 
 export interface SpecialActivityCreate extends Omit<SpecialActivity, 'members'> {
@@ -76,5 +92,8 @@ export interface OffCampusActivityCreate extends Omit<OffCampusActivity, 'member
 }
 
 export type ActivityInstance = SpecifiedActivity | SpecialActivity | OffCampusActivity
-export type ActivityCreateInstance = SpecifiedActivity | SpecialActivityCreate | OffCampusActivityCreate
+export type ActivityCreateInstance =
+  | SpecifiedActivity
+  | SpecialActivityCreate
+  | OffCampusActivityCreate
 export type ActivityDisplayInstance = Omit<ActivityInstance, 'description'>

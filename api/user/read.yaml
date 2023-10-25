@@ -5,7 +5,7 @@ params:
     in: path
     type: string
     required: true
-    description: The user id (number)
+    description: The user id (number or ObjectId)
 method: GET
 response: User
 permission: 1

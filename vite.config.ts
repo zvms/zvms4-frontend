@@ -19,7 +19,7 @@ export default defineConfig({
     vueJsx(),
     legacy(),
     // basicSsl(),
-    vueDevtools(),
+    // vueDevtools(),
     pwa({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
