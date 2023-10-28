@@ -4,9 +4,9 @@ method: POST
 params:
   - name: id
     in: body
-    type: number
+    type: string
     required: true
-    description: The user id (number)
+    description: The user id (ObjectId)
   - name: password
     in: body
     type: string
@@ -21,7 +21,4 @@ response:
   - name: token
     type: string
     description: The user token (jwt)
-  - name: id
-    type: string
-    description: The user id (ObjectId)
 permission: 0

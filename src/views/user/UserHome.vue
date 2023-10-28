@@ -19,10 +19,12 @@ import { ref } from 'vue'
 import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
 import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
 const user = useUserStore()
+const { t } = useI18n()
 
 header.setHeader('主页')
 
@@ -31,11 +33,19 @@ const positionList = {
   secretary: '书记',
   auditor: '审核员',
   inspector: '督导员',
-  admin: '管理员'
+  admin: '管理员',
+  department: '实践部',
+  system: '系统'
 }
 
 const nowTime = dayjs().hour()
-const greeting = ref(nowTime < 12 ? '早上好' : nowTime < 18 ? '下午好' : '晚上好')
+const greeting = ref(
+  nowTime < 12
+    ? t('home.greetings.morning')
+    : nowTime < 18
+    ? t('home.greetings.afternoon')
+    : t('home.greetings.evening')
+)
 
 const useTransform = ref(true)
 
@@ -50,12 +60,12 @@ function transform() {
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">{{ greeting }}，{{ user.name }}。</p>
+    <p class="text-2xl py-8">{{ t('home.greeting', { greet: greeting, name: user.name }) }}</p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>
           <template #title>
-            <p class="text-xl">个人信息详情</p>
+            <p class="text-xl">{{ t('home.panels.information.title') }}</p>
           </template>
           <template #extra>
             <ElButton type="success" :icon="Refresh" text bg circle @click="user.refreshUser" />
@@ -75,7 +85,7 @@ function transform() {
       <ElCard shadow="hover">
         <ElRow>
           <ElCol :span="12">
-            <p class="text-xl">义工时间</p>
+            <p class="text-xl">{{ t('home.panels.time.title') }}</p>
           </ElCol>
           <ElCol :span="12" style="text-align: right">
             <ElButton

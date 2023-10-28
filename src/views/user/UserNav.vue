@@ -23,10 +23,14 @@ import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import MdiTranslate from '@/icons/MdiTranslate.vue'
 import { Chinese, English } from '@icon-park/vue-next'
+import { useI18n } from 'vue-i18n'
 
 const user = useUserStore()
 const router = useRouter()
 const dark = useDark()
+const { t, locale } = useI18n({
+  useScope: 'global'
+})
 
 const languages = ref<
   Array<{
@@ -60,7 +64,7 @@ const actions: Array<{
 }> = [
   {
     icon: Feedback,
-    name: '问题反馈',
+    name: t('nav.feedback'),
     path: '/feedback/',
     show: true,
     action: () => {
@@ -70,7 +74,7 @@ const actions: Array<{
   },
   {
     icon: Notification,
-    name: '通知中心',
+    name: t('nav.broadcast'),
     path: '/notification/',
     show: true,
     action: () => {
@@ -80,7 +84,7 @@ const actions: Array<{
   },
   {
     icon: Password,
-    name: '密码修改',
+    name: t('nav.reset'),
     path: '/password',
     show: true,
     action: () => {
@@ -90,7 +94,7 @@ const actions: Array<{
   },
   {
     icon: SwitchButton,
-    name: '退出登录',
+    name: t('nav.exit'),
     path: '/logout',
     show: true,
     action: () => {
@@ -108,19 +112,19 @@ const navs: Array<{
 }> = [
   {
     icon: HomeFilled,
-    name: '首页',
+    name: t('nav.home'),
     path: '/user/',
     show: true
   },
   {
     icon: MdiEye,
-    name: '查看',
+    name: t('nav.activity'),
     path: '/activity/',
     show: true
   },
   {
     icon: CirclePlusFilled,
-    name: '创建',
+    name: t('nav.create'),
     path: '/activity/create',
     show: true
   },
@@ -138,13 +142,13 @@ const navs: Array<{
   // },
   {
     icon: InfoFilled,
-    name: '关于',
+    name: t('nav.about'),
     path: '/about',
     show: true
   },
   {
     icon: MaterialSymbolsSettings,
-    name: '后台',
+    name: t('nav.preferences'),
     path: '/administration',
     show: user.position.includes('admin')
   }
@@ -153,6 +157,11 @@ const navs: Array<{
 function routeTo(page: string) {
   path.value = page
   router.push(page)
+}
+
+function setLanguage(language: string) {
+  user.setLanguage(language)
+  locale.value = language
 }
 </script>
 
@@ -215,7 +224,7 @@ function routeTo(page: string) {
               class="full"
               text
               :bg="user.language === language.value"
-              @click="user.setLanguage(language.value)"
+              @click="setLanguage(language.value)"
               :type="user.language === language.value ? 'primary' : ''"
             >
               {{ language.display }}
@@ -225,13 +234,7 @@ function routeTo(page: string) {
         </ElButtonGroup>
       </ElPopover>
       <br />
-      <ElButton
-        :icon="dark ? Moon : Sunny"
-        size="large"
-        text
-        circle
-        @click="dark = !dark"
-      />
+      <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
     </div>
   </div>
 </template>

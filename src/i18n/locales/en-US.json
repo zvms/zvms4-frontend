@@ -1,1 +1,159 @@
-{}
+{
+  "login": {
+    "title": "Login",
+    "username": "Account",
+    "password": "Password",
+    "actions": {
+      "login": "Login",
+      "reset": "Reset"
+    },
+    "placeholders": {
+      "username": "Please input the Number e.g. 19191145",
+      "password": "Please input the Password"
+    }
+  },
+  "home": {
+    "greeting": "{greet}, {name}!",
+    "greetings": {
+      "morning": "Morning",
+      "afternoon": "Afternoom",
+      "evening": "Evening"
+    },
+    "panels": {
+      "information": {
+        "title": "Personal Information"
+      },
+      "time": {
+        "title": "Activity Time",
+        "discount": "Discount",
+        "unit": "Hour | Hours",
+        "least": "{type}: {least} Hours at least"
+      }
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "activity": "Activity List",
+    "create": "Create Activity",
+    "broadcast": "Notification Center",
+    "preferrences": "Preferrences",
+    "system": "System",
+    "about": "Acout",
+    "logout": "Exit",
+    "feedback": "Feedback",
+    "reset": "Reset Password",
+    "language": "Languages",
+    "dark": "Dark Mode",
+    "languages": {
+      "zh-CN": "简体中文",
+      "en-US": "English"
+    }
+  },
+  "activity": {
+    "panels": {
+      "mine": "My Activity",
+      "admin": "Activities",
+      "register": "Register",
+      "export": "Export"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Please input the keyword."
+    },
+    "columns": {
+      "type": "Type",
+      "types": {
+        "specified": "Specified Activity",
+        "special": "Special Activity",
+        "off-campus": "Off Campus Activity",
+        "scale": "Scale Activity"
+      },
+      "shorts": {
+        "specified": "Specified",
+        "special": "Special",
+        "off-campus": "Off Campus",
+        "scale": "Scale"
+      },
+      "explanations": {
+        "specified": "Specified Activities are volunteers created by the administrator, posted as a recruitment, and need to specify the maximum number of people who can sign up for each class.",
+        "special": "Special Activities are volunteers created by administrators for contest winners, large practices, etc. Participants are not required to fill out a testimonial.",
+        "off-campus": "Off-Campus Activities are volunteers that can be created by anyone, and all participants must be designated at the time of creation. It is limited to off-campus social activities on weekends and holidays during the semester.",
+        "scale": "Scale Activities are volunteers that can be created by anyone, and all participants must be designated at the time of creation. It is limited to off-campus social practices during winter and summer vacation."
+      },
+      "name": "Name",
+      "description": "Description",
+      "time": "Time",
+      "date": "Date",
+      "person": "Members",
+      "class": "Classes",
+      "duration": "Reward",
+      "classify": "Classify",
+      "impression": "Impression",
+      "registration": {
+        "title": "Registration",
+        "deadline": "Deadline",
+        "location": "Location",
+        "class": "Class",
+        "remaining-time": "Remaining Time",
+        "remaining-positions": "Remaining Positions",
+        "registered": "Registered",
+        "unregistered": "Unregistered",
+        "unregisterable": "Unregisterable",
+        "register": "Register",
+        "unregister": "Unregister"
+      },
+      "specifies": {
+        "on-campus": "Activities on Campus",
+        "off-campus": "Activities off Campus",
+        "large-scale": "Large-scale Activities"
+      },
+      "specials": {
+        "prize": "Competition Prize",
+        "import": "Importance",
+        "club": "Club Activity",
+        "deduction": "Deduction",
+        "others": "Others"
+      },
+      "actions": {
+        "create": "Create",
+        "write": "Write",
+        "edit": "Edit",
+        "reflect": "Reflect"
+      }
+    }
+  },
+  "about": {
+    "about-project": "About ZVMS",
+    "about-developers": "About Developers",
+    "footer": "Zhenhai Middle School Student Volunteer Autonomous Management Committee Technology Department",
+    "license": "MIT Licensed"
+  },
+  "broadcast": {
+    "pages": {
+      "create": "发布通知",
+      "home": "通知中心",
+      "edit": "编辑通知",
+      "view": "查看通知"
+    },
+    "create": {
+      "title": "发布通知",
+      "elements": {
+        "title": "标题",
+        "content": "内容",
+        "type": "类型",
+        "recievers": "接收者",
+        "types": {
+          "pinned": "置顶",
+          "important": "重要",
+          "normal": "普通"
+        },
+        "global": "全体成员",
+        "anonymous": "匿名",
+        "actions": {
+          "create": "发布",
+          "reset": "重置"
+        }
+      }
+    }
+  }
+}

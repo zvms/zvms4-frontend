@@ -3,6 +3,8 @@ import { ElButton, ElIcon, ElStatistic, ElTooltip } from 'element-plus'
 import { toRefs } from 'vue'
 import { ref } from 'vue'
 import { CaretTop, CaretBottom, Warning } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
+import { reactive } from 'vue'
 
 const props = defineProps<{
   type: 'largeScale' | 'onCampus' | 'offCampus'
@@ -11,6 +13,8 @@ const props = defineProps<{
 }>()
 
 const { type, realTime: real } = toRefs(props)
+
+const { t } = useI18n()
 
 const standard = ref(0)
 
@@ -26,11 +30,15 @@ if (!standard?.value || isNaN(standard?.value)) {
   standard.value = props.standardTime as number
 }
 
-const titles = {
-  largeScale: '大型实践',
-  onCampus: '校内义工',
-  offCampus: '校外义工'
-}
+const largeScale = ref(t('activity.columns.specifies.large-scale'))
+const onCampus = ref(t('activity.columns.specifies.on-campus'))
+const offCampus = ref(t('activity.columns.specifies.off-campus'))
+
+const titles = reactive({
+  largeScale,
+  onCampus,
+  offCampus
+})
 
 function calculateLoss() {
   const loss = standard.value - real.value
@@ -57,14 +65,17 @@ function calculateLoss() {
     <template #title>
       <span style="display: inline-flex; align-items: center">
         {{ titles[type] }}
-        <ElTooltip effect="light" :content="`${titles[type]}时长至少为 ${standard} 小时`"
+        <ElTooltip
+          effect="light"
+          :content="t('home.panels.time.least', { type: titles[type], least: standard })"
           ><ElButton text bg circle size="small" :icon="Warning"
         /></ElTooltip>
       </span>
     </template>
     <template #suffix>
       <div class="footer-item">
-        <span style="font-family: 12px">小时</span>&nbsp;
+        <span style="font-family: 12px">{{ t('home.panels.time.unit') }}</span
+        >&nbsp;
         <span :class="calculateLoss().class">
           <span>{{ calculateLoss().loss }}</span>
           <ElIcon style="font-size: 9px"><Component :is="calculateLoss().icon" /></ElIcon>

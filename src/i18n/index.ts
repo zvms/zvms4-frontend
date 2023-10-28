@@ -9,5 +9,6 @@ export default createI18n({
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS
-  }
+  },
+  legacy: false
 })
