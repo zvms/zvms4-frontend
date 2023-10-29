@@ -21,7 +21,7 @@
     "greeting": "{greet}, {name}!",
     "greetings": {
       "morning": "Morning",
-      "afternoon": "Afternoom",
+      "afternoon": "Afternoon",
       "evening": "Evening"
     },
     "positions": {
@@ -62,7 +62,7 @@
     "activity": "List",
     "create": "Create",
     "broadcast": "Notification",
-    "preferrences": "Preferrences",
+    "preferences": "Preferences",
     "system": "System",
     "about": "About",
     "logout": "Exit",
