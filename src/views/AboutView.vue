@@ -106,7 +106,7 @@ const collaborators = [
     dispName: 'zyq',
     component: ZhaiYanqi,
     grade: 202312,
-    name: '翟彦琪'
+    name: '翟彦棋'
   },
   {
     dispName: 'hhj',

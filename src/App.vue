@@ -18,6 +18,7 @@ import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from './views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
+import { useWindowSize } from '@vueuse/core'
 import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 
@@ -28,6 +29,8 @@ const toast = pad() ? t('platform.xh') : t('platform.normal')
 const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
+
+const { height } = useWindowSize()
 
 function logout() {
   userStore.removeUser()
@@ -75,16 +78,22 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-gray-950 view" />
+      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-gray-950 view fragment-container" />
       <RouterView v-else class="bg-slate-50 dark:bg-gray-900 view" />
     </ElContainer>
-    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900">
+    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900 footer-container">
       <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
     </ElFooter>
   </ElContainer>
 </template>
 
 <style scoped>
+.footer-container {
+  height: v-bind(height * 0.05 + 'px');
+  overflow-y: scroll;
+  z-index: 999;
+}
+
 .footer {
   font-size: 0.8rem;
   position: absolute;
@@ -93,7 +102,16 @@ function logout() {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 3rem;
+  /* height: 3rem; */
+}
+
+.fragment-container{
+  /* height: v-bind(height - '3rem'); */
+  /* all is height, and - 3rem is this height */
+  height: v-bind(height * 0.88 + 'px');
+  overflow-y: scroll;
+  /* max-width: 100vw; */
+  /* margin: 0 auto; */
 }
 
 .tit {
