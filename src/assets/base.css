@@ -69,7 +69,7 @@ body {
   /* background-color: #fefefe; */
   transition:
     color 0.5s,
-    background-color 0.5s;
+    background-color 0.5s !important;
   line-height: 1.6;
   font-family:
     Inter,

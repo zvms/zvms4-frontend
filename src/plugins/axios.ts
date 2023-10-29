@@ -1,5 +1,6 @@
 import axios from 'axios'
 import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 // Create a Axios Instance
 

@@ -4,10 +4,12 @@ import { ElCard, ElCol, ElRow, ElButton, ElDivider } from 'element-plus'
 import { Appointment, Star, Association } from '@icon-park/vue-next'
 import { reactive, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 const emits = defineEmits(['move'])
 
 const { width, height } = useWindowSize()
+const { t } = useI18n()
 
 const span = ref(width.value < height.value ? 24 : 8)
 
@@ -39,7 +41,7 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
 
 <template>
   <div class="px-8 py-2" style="width: 100%">
-    <p class="text-2xl py-2 px-4">创建义工</p>
+    <p class="text-2xl py-2 px-4">{{ t('nav.create') }}</p>
     <ElRow>
       <ElCol :span="span">
         <div class="px-4 py-2">
@@ -50,10 +52,10 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
           >
             <p class="text-xl py-2 px-2">
               <ElButton type="info" :icon="Appointment" text bg circle />
-              <ElDivider direction="vertical" />指定义工
+              <ElDivider direction="vertical" />{{ t('activity.columns.types.specified') }}
             </p>
             <p class="py-2 px-2">
-              指定义工是管理员创建的义工，以招募的形式发布，需指定每个班可报名的最大人数。
+              {{ t('activity.columns.explanations.specified') }}
             </p>
             <div style="text-align: right">
               <ElButton
@@ -64,7 +66,9 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
                 :bg="hovers.specified"
                 :circle="!hovers.specified"
                 :round="hovers.specified"
-                ><span v-if="hovers.specified">创建</span></ElButton
+                ><span v-if="hovers.specified">{{
+                  t('activity.columns.actions.create')
+                }}</span></ElButton
               >
             </div>
           </ElCard>
@@ -79,10 +83,10 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
           >
             <p class="text-xl py-2 px-2">
               <ElButton type="info" :icon="Star" text bg circle />
-              <ElDivider direction="vertical" />特殊义工
+              <ElDivider direction="vertical" />{{ t('activity.columns.types.special') }}
             </p>
             <p class="py-2 px-2">
-              特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。参与者无需填写感想。
+              {{ t('activity.columns.explanations.special') }}
             </p>
             <div style="text-align: right">
               <ElButton
@@ -93,7 +97,9 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
                 :bg="hovers.special"
                 :circle="!hovers.special"
                 :round="hovers.special"
-                ><span v-if="hovers.special">创建</span></ElButton
+                ><span v-if="hovers.special">{{
+                  t('activity.columns.actions.create')
+                }}</span></ElButton
               >
             </div>
           </ElCard>
@@ -108,9 +114,9 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
           >
             <p class="text-xl py-2 px-2">
               <ElButton type="info" :icon="Association" text bg circle />
-              <ElDivider direction="vertical" />校外义工
+              <ElDivider direction="vertical" />{{ t('activity.columns.types.off-campus') }}
             </p>
-            <p class="py-2 px-2">校外义工是任何人都可以创建的义工，创建时必须指定所有参加者。</p>
+            <p class="py-2 px-2">{{ t('activity.columns.explanations.off-campus') }}</p>
             <div style="text-align: right">
               <ElButton
                 type="primary"
@@ -120,7 +126,9 @@ function useHover(item: 'special' | 'specified' | 'offCampus') {
                 :bg="hovers.offCampus"
                 :circle="!hovers.offCampus"
                 :round="hovers.offCampus"
-                ><span v-if="hovers.offCampus">创建</span></ElButton
+                ><span v-if="hovers.offCampus">{{
+                  t('activity.columns.actions.create')
+                }}</span></ElButton
               >
             </div>
           </ElCard>

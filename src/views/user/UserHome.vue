@@ -29,13 +29,13 @@ const { t } = useI18n()
 header.setHeader('主页')
 
 const positionList = {
-  student: '学生',
-  secretary: '书记',
-  auditor: '审核员',
-  inspector: '督导员',
-  admin: '管理员',
-  department: '实践部',
-  system: '系统'
+  student: t('home.positions.student'),
+  secretary: t('home.positions.secretary'),
+  auditor: t('home.positions.auditor'),
+  inspector: t('home.positions.inspector'),
+  admin: t('home.positions.admin'),
+  department: t('home.positions.department'),
+  system: t('home.positions.system')
 }
 
 const nowTime = dayjs().hour()
@@ -72,10 +72,10 @@ function transform() {
             <ElDivider direction="vertical" />
             <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />
           </template>
-          <ElDescriptionsItem label="姓名">{{ user.name }}</ElDescriptionsItem>
-          <ElDescriptionsItem label="学号">{{ user.id }}</ElDescriptionsItem>
-          <ElDescriptionsItem label="班级">{{ user.class }}</ElDescriptionsItem>
-          <ElDescriptionsItem label="身份">
+          <ElDescriptionsItem :label="t('home.labels.name')">{{ user.name }}</ElDescriptionsItem>
+          <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
+          <ElDescriptionsItem :label="t('home.labels.class')">{{ user.class }}</ElDescriptionsItem>
+          <ElDescriptionsItem :label="t('home.labels.identify')">
             <ElTag v-for="tag in user.position" :key="tag">{{ positionList[tag] }}</ElTag>
           </ElDescriptionsItem>
         </ElDescriptions>
@@ -123,7 +123,7 @@ function transform() {
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol v-if="width < height" :span="1" />
           <ElCol :span="width < height ? 8 : 4">
-            超出折算<br />
+            {{ t('home.panels.time.discount') }}<br />
             <ElSwitch v-model="useTransform" />
           </ElCol>
           <ElCol v-if="width > height" :span="2" />

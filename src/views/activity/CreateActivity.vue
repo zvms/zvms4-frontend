@@ -8,11 +8,13 @@ import { ref, type Component, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 const header = useHeaderStore()
 const { width, height } = useWindowSize()
+const { t } = useI18n()
 
-header.setHeader('创建义工')
+header.setHeader(t('nav.create'))
 
 const route = useRoute()
 const router = useRouter()
@@ -42,22 +44,22 @@ watch(
 
 const tabs = ref<{ label: string; value: string; component: Component }[]>([
   {
-    label: '主页',
+    label: t('nav.home'),
     value: '',
     component: CreateHome
   },
   {
-    label: '指定义工',
+    label: t('activity.columns.shorts.specified'),
     value: 'specified',
     component: CreateSpecified
   },
   {
-    label: '特殊义工',
+    label: t('activity.columns.shorts.special'),
     value: 'special',
     component: CreateSpecial
   },
   {
-    label: '校外义工',
+    label: t('activity.columns.shorts.off-campus'),
     value: 'off-campus',
     component: CreateOffCampus
   }

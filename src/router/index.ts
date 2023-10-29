@@ -46,6 +46,11 @@ const router = createRouter({
       path: '/umbrella/',
       name: 'umbrella',
       component: () => import('../views/umbrella/UmbrellaHome.vue')
+    },
+    {
+      path: '/broadcast/',
+      name: 'broadcast',
+      component: () => import('../views/broadcast/BroadcastHome.vue')
     }
   ]
 })

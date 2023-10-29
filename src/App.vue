@@ -19,8 +19,11 @@ import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from './views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
 import { pad } from './plugins/ua'
+import { useI18n } from 'vue-i18n'
 
-const toast = pad() ? '学海平板' : '普通访问'
+const { t } = useI18n()
+
+const toast = pad() ? t('platform.xh') : t('platform.normal')
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -33,7 +36,7 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-slate-800">
+  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-gray-900">
     <ElHeader>
       <ElRow class="pt-4 px-4">
         <ElCol :span="16">
@@ -46,18 +49,25 @@ function logout() {
         <ElCol :span="8">
           <ElButtonGroup class="user">
             <ElButton text bg :icon="User" type="primary">{{
-              userStore.isLogin ? userStore.name : '未登录'
+              userStore.isLogin ? userStore.name : t('login.unlogined')
             }}</ElButton>
             <ElPopover>
               <template #reference>
                 <ElButton text bg :icon="ArrowDown" :disabled="!userStore.isLogin" type="primary" />
               </template>
-              <ElButton text :icon="Feedback" class="action-btn p-4">问题反馈</ElButton><br />
-              <ElButton text :icon="Notification" class="action-btn p-4">通知中心</ElButton><br />
-              <ElButton text :icon="Password" class="action-btn p-4">密码修改</ElButton><br />
-              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout"
-                >退出登录</ElButton
-              >
+              <ElButton text :icon="Feedback" class="action-btn p-4">{{
+                t('nav.feedback')
+              }}</ElButton
+              ><br />
+              <ElButton text :icon="Notification" class="action-btn p-4">{{
+                t('nav.broadcast')
+              }}</ElButton
+              ><br />
+              <ElButton text :icon="Password" class="action-btn p-4">{{ t('nav.reset') }}</ElButton
+              ><br />
+              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
+                t('nav.logout')
+              }}</ElButton>
             </ElPopover>
           </ElButtonGroup>
         </ElCol>
@@ -65,11 +75,11 @@ function logout() {
     </ElHeader>
     <ElContainer style="width: 100%; height: 100%">
       <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-slate-900 view" />
-      <RouterView v-else class="bg-slate-50 dark:bg-slate-900 view" />
+      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-gray-950 view" />
+      <RouterView v-else class="bg-slate-50 dark:bg-gray-900 view" />
     </ElContainer>
-    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-800">
-      <p class="text-center">&copy; 2018-2023 镇海中学义管会技术部 MIT Licensed</p>
+    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900">
+      <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
     </ElFooter>
   </ElContainer>
 </template>
@@ -110,5 +120,14 @@ function logout() {
 .user {
   position: absolute;
   right: 0;
+}
+</style>
+
+<style>
+body {
+  transition:
+    color 0.5s,
+    background-color 0.5s !important;
+  filter: grayscale(1);
 }
 </style>

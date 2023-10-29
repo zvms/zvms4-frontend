@@ -5,9 +5,11 @@ export interface Broadcast {
   content: string
   time: string // ISO-8601
   publisher: string
-  receiver: string[] // ObjectId[]
-  route: string // Route to URL
+  receivers: string[] // ObjectId[]
+  route?: string // Route to URL
   anonymous: boolean
+  expire: string // ISO-8601
+  type: 'pin' | 'important' | 'normal'
 }
 
 export interface BraodcastBroadcast extends Broadcast {
