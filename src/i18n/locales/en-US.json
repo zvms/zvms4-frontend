@@ -116,8 +116,10 @@
       "duration": "Duration",
       "classify": "Classify",
       "impression": "Impression",
+      "reward": "Reward",
       "registration": {
         "title": "Registration",
+        "name": "Register for Specified Activities",
         "deadline": "Deadline",
         "location": "Location",
         "class": "Class(es) | Class | Classes",
@@ -133,8 +135,12 @@
         "registered": "Registered",
         "unregistered": "Unregistered",
         "unregisterable": "Unregisterable",
+        "status": "Status",
         "register": "Register",
-        "unregister": "Unregister"
+        "unregister": "Unregister",
+        "format": "DD day(s) HH:mm",
+        "remain": "{time} before the activity starts.",
+        "prompt-registered": " person registered. | person registered. | people registered."
       },
       "specifies": {
         "on-campus": "Activities on Campus",
@@ -197,5 +203,8 @@
       }
     }
   },
-  "placeholder": "Please {action} the {target}."
+  "placeholder": "Please {action} the {target}.",
+  "date-format": "YYYY-MM-DD",
+  "time-format": "HH:mm",
+  "datetime-format": "YYYY-MM-DD HH:mm"
 }

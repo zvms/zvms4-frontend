@@ -9,7 +9,8 @@ import {
   ElCol,
   ElButton,
   ElButtonGroup,
-  ElPopover
+  ElPopover,
+  ElConfigProvider
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -21,8 +22,16 @@ import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
 import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
+import { watch, ref } from 'vue'
+import { zhCn, en } from 'element-plus/es/locale/index.mjs'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+const langPack = ref(locale.value === 'zh-CN' ? zhCn : en)
+
+watch(locale, () => {
+  langPack.value = locale.value === 'zh-CN' ? zhCn : en
+})
 
 const toast = pad() ? t('platform.xh') : t('platform.normal')
 
@@ -39,52 +48,67 @@ function logout() {
 </script>
 
 <template>
-  <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-gray-900">
-    <ElHeader>
-      <ElRow class="pt-4 px-4">
-        <ElCol :span="16">
-          <div class="text-2xl tit" @dblclick="router.push('/')">
-            <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
-            {{ headerStore.header }}
-            <span class="text-sm">{{ toast }}</span>
-          </div>
-        </ElCol>
-        <ElCol :span="8">
-          <ElButtonGroup class="user">
-            <ElButton text bg :icon="User" type="primary">{{
-              userStore.isLogin ? userStore.name : t('login.unlogined')
-            }}</ElButton>
-            <ElPopover>
-              <template #reference>
-                <ElButton text bg :icon="ArrowDown" :disabled="!userStore.isLogin" type="primary" />
-              </template>
-              <ElButton text :icon="Feedback" class="action-btn p-4">{{
-                t('nav.feedback')
-              }}</ElButton
-              ><br />
-              <ElButton text :icon="Notification" class="action-btn p-4">{{
-                t('nav.broadcast')
-              }}</ElButton
-              ><br />
-              <ElButton text :icon="Password" class="action-btn p-4">{{ t('nav.reset') }}</ElButton
-              ><br />
-              <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
-                t('nav.logout')
+  <ElConfigProvider :locale="langPack">
+    <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-gray-900">
+      <ElHeader>
+        <ElRow class="pt-4 px-4">
+          <ElCol :span="16">
+            <div class="text-2xl tit" @dblclick="router.push('/')">
+              <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
+              {{ headerStore.header }}
+              <span class="text-sm">{{ toast }}</span>
+            </div>
+          </ElCol>
+          <ElCol :span="8">
+            <ElButtonGroup class="user">
+              <ElButton text bg :icon="User" type="primary">{{
+                userStore.isLogin ? userStore.name : t('login.unlogined')
               }}</ElButton>
-            </ElPopover>
-          </ElButtonGroup>
-        </ElCol>
-      </ElRow>
-    </ElHeader>
-    <ElContainer style="width: 100%; height: 100%">
-      <UserNav style="height: 100%" v-if="userStore.isLogin" />
-      <RouterView v-if="userStore.isLogin" class="bg-white dark:bg-gray-950 view fragment-container" />
-      <RouterView v-else class="bg-slate-50 dark:bg-gray-900 view" />
+              <ElPopover>
+                <template #reference>
+                  <ElButton
+                    text
+                    bg
+                    :icon="ArrowDown"
+                    :disabled="!userStore.isLogin"
+                    type="primary"
+                  />
+                </template>
+                <ElButton text :icon="Feedback" class="action-btn p-4">{{
+                  t('nav.feedback')
+                }}</ElButton
+                ><br />
+                <ElButton text :icon="Notification" class="action-btn p-4">{{
+                  t('nav.broadcast')
+                }}</ElButton
+                ><br />
+                <ElButton text :icon="Password" class="action-btn p-4">{{
+                  t('nav.reset')
+                }}</ElButton
+                ><br />
+                <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
+                  t('nav.logout')
+                }}</ElButton>
+              </ElPopover>
+            </ElButtonGroup>
+          </ElCol>
+        </ElRow>
+      </ElHeader>
+      <ElContainer style="width: 100%; height: 100%">
+        <UserNav style="height: 100%" v-if="userStore.isLogin" />
+        <RouterView
+          v-if="userStore.isLogin"
+          class="bg-white dark:bg-gray-950 view fragment-container"
+        />
+        <RouterView v-else class="bg-slate-50 dark:bg-gray-900 view" />
+      </ElContainer>
+      <ElFooter
+        class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900 footer-container"
+      >
+        <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
+      </ElFooter>
     </ElContainer>
-    <ElFooter class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900 footer-container">
-      <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
-    </ElFooter>
-  </ElContainer>
+  </ElConfigProvider>
 </template>
 
 <style scoped>
@@ -105,7 +129,7 @@ function logout() {
   /* height: 3rem; */
 }
 
-.fragment-container{
+.fragment-container {
   /* height: v-bind(height - '3rem'); */
   /* all is height, and - 3rem is this height */
   height: v-bind(height * 0.88 + 'px');
@@ -146,6 +170,6 @@ body {
   transition:
     color 0.5s,
     background-color 0.5s !important;
-  filter: grayscale(1);
+  /* filter: grayscale(1); */
 }
 </style>

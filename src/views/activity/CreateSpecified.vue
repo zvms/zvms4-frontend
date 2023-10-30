@@ -63,7 +63,7 @@ function removeClass(id: number) {
   activity.registration.classes.splice(id, 1)
 }
 
-const inSchool = ref('校内义工')
+const inSchool = ref(t('activity.columns.specifies.on-campus'))
 
 async function register() {
   const result = await createActivity(activity)

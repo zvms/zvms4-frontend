@@ -17,7 +17,9 @@ import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const { width, height } = useWindowSize()
 
 const user = useUserStore()
@@ -144,7 +146,12 @@ const registerForSpecified = ref(false)
 
 <template>
   <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
-    <ElDialog title="报名指定义工" fullscreen center v-model="registerForSpecified">
+    <ElDialog
+      :title="t('activity.columns.registration.name')"
+      fullscreen
+      center
+      v-model="registerForSpecified"
+    >
       <UserResgister />
     </ElDialog>
     <ElCard shadow="never">

@@ -17,12 +17,14 @@ import {
   ElDivider,
   ElForm,
   ElFormItem,
-  ElPopover,
+  ElPopover
 } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { ref, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const user = useUserStore()
+const { t } = useI18n()
 
 const props = defineProps<{
   activity: SpecifiedActivity
@@ -45,7 +47,6 @@ const hovered = ref(false)
 
 const passedToRegister = ref(dayjs(activity.value.registration.deadline).isBefore(dayjs()))
 const registered = ref(activity.value.members.map((x) => x._id).includes(user._id))
-
 </script>
 
 <template>
@@ -53,57 +54,64 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
     <ElCard shadow="hover" @mouseover="hovered = true" @mouseleave="hovered = false">
       <p class="text-xl py-4">
         {{ activity.name }}
-        <ElButton
-          v-if="registered"
-          :icon="CircleCheck"
-          type="success"
-          text
-          round
-          >已报名</ElButton
-        >
-        <ElButton v-else-if="passedToRegister" :icon="CircleClose" type="danger" text round
-          >报名已经截止</ElButton
-        >
-        <ElButton v-else :icon="Warning" type="warning" text round>未报名</ElButton>
+        <ElButton v-if="registered" :icon="CircleCheck" type="success" text round>{{
+          t('activity.columns.registration.registered')
+        }}</ElButton>
+        <ElButton v-else-if="passedToRegister" :icon="CircleClose" type="danger" text round>{{
+          t('activity.columns.registration.unregisterable')
+        }}</ElButton>
+        <ElButton v-else :icon="Warning" type="warning" text round>{{
+          t('activity.columns.registration.unregistered')
+        }}</ElButton>
       </p>
-      <ElForm>
-        <ElFormItem label="解释">
+      <ElForm label-position="right" label-width="96px">
+        <ElFormItem :label="t('activity.columns.description')">
           <p>{{ activity.description }}</p>
         </ElFormItem>
-        <ElFormItem label="时间">
+        <ElFormItem :label="t('activity.columns.date')">
           <ElPopover placement="right" trigger="hover" :width="384">
             <template #reference>
               <ElButton text bg size="small" :icon="Time">{{
-                dayjs(activity.time).format('YYYY-MM-DD HH:mm:ss')
+                dayjs(activity.date).format('YYYY-MM-DD HH:mm:ss')
               }}</ElButton>
             </template>
             <ElCountdown
-              :value="dayjs(activity.time)"
+              :value="dayjs(activity.date)"
               :title="
-                '距离义工开始（' + dayjs(activity.time).format('YYYY-MM-DD HH:mm:ss') + '）还有'
+                t('activity.columns.registration.format', {
+                  time: dayjs(activity.date).format('YYYY-MM-DD HH:mm:ss')
+                })
               "
-              format="DD 天 HH 小时 mm 分钟"
+              format="MM-DD HH:mm:ss"
             />
           </ElPopover>
         </ElFormItem>
-        <ElFormItem label="地点" v-if="activity.type === 'specified'">
-          <ElButton text bg size="small" :icon="Location">{{ activity.registration.place }}</ElButton>
+        <ElFormItem
+          :label="t('activity.columns.registration.location')"
+          v-if="activity.type === 'specified'"
+        >
+          <ElButton text bg size="small" :icon="Location">{{
+            activity.registration.place
+          }}</ElButton>
         </ElFormItem>
-        <ElFormItem label="时长">
+        <ElFormItem :label="t('activity.columns.reward')">
           <span class="text-xl">{{ activity.duration }}</span
           >&nbsp;
-          <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+          <span style="font-size: 12px; color: --el-text-color-secondary">{{
+            t('home.panels.time.unit', activity.duration)
+          }}</span>
         </ElFormItem>
       </ElForm>
       <div v-if="activity.type === 'specified'">
         <p>
-          已有 <span class="text-xl">{{ activity.members.length }}</span> 人报名
+          <span class="text-xl pl-8">{{ activity.members.length }}</span>
+          {{ t('activity.columns.registration.prompt-registered') }}
         </p>
         <ElDivider />
         <ElCountdown
           :value="dayjs(activity.registration.deadline)"
-          :title="'剩余报名时间'"
-          format="DD 天 HH 小时 mm 分钟"
+          :title="t('activity.columns.registration.remaining-time')"
+          format="HH:mm:ss"
         />
       </div>
       <div style="text-align: right">
@@ -117,7 +125,7 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           :round="hovered"
           :circle="!hovered"
         >
-          <span v-if="hovered">取消报名</span>
+          <span v-if="hovered">{{ t('activity.columns.registration.unregister') }}</span>
         </ElButton>
         <ElButton
           v-else
@@ -130,7 +138,7 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           :round="hovered"
           :circle="!hovered"
         >
-          <span v-if="hovered">报名</span>
+          <span v-if="hovered">{{ t('activity.columns.registration.register') }}</span>
         </ElButton>
       </div>
     </ElCard>
