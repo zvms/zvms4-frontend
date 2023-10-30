@@ -17,22 +17,21 @@ import {
 import { ArrowRight, Refresh, InfoFilled, Timer, Star } from '@element-plus/icons-vue'
 import { getUser } from '@/api/user/crud'
 import { createActivity } from '@/api/activity/create'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const subtypes: Array<{
-  label: string
   value: SpecialActivityCreate['subtype']
   disabled?: boolean
 }> = [
   {
-    label: '校内义工',
     value: 'on-campus'
   },
   {
-    label: '校外义工',
     value: 'off-campus'
   },
   {
-    label: '大型实践',
     value: 'large-scale'
   }
 ]
@@ -43,23 +42,23 @@ const classifies: Array<{
   disabled?: boolean
 }> = [
   {
-    label: '竞赛获奖',
+    label: t('activity.columns.specials.prize'),
     value: 'prize'
   },
   {
-    label: '数据导入',
+    label: t('activity.columns.specials.import'),
     value: 'import'
   },
   {
-    label: '大型实践',
+    label: t('activity.columns.specials.scale'),
     value: 'scale'
   },
   {
-    label: '社团活动',
+    label: t('activity.columns.specials.club'),
     value: 'club'
   },
   {
-    label: '其他',
+    label: t('activity.columns.specials.other'),
     value: 'other'
   }
 ]
@@ -107,79 +106,121 @@ async function register() {
 <template>
   <div class="px-8 py-2 full card">
     <p class="text-2xl py-2 px-4">
-      创建特殊义工<ElTooltip
-        content="特殊义工是管理员创建的义工，用于竞赛获奖，大型实践等场合。它的参与者无需填写感想。"
+      {{
+        t('activity.columns.title', {
+          create: t('activity.columns.actions.create'),
+          type: t('activity.columns.types.special')
+        })
+      }}<ElTooltip
+        :content="t('activity.columns.explanations.special')"
         effect="light"
         placement="top"
-      >
-        <ElButton :icon="InfoFilled" text size="small" circle />
+        ><ElButton :icon="InfoFilled" text circle size="small" />
       </ElTooltip>
     </p>
     <ElCard shadow="hover" class="px-4">
-      <ElForm class="py-4">
-        <ElFormItem label="名称">
-          <ElInput v-model="activity.name" placeholder="请输入名称" />
+      <ElForm class="py-4" label-position="right" label-width="96px">
+        <ElFormItem :label="t('activity.columns.name')">
+          <ElInput
+            v-model="activity.name"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.input'),
+                target: t('activity.columns.name')
+              })
+            "
+          />
         </ElFormItem>
-        <ElFormItem label="描述">
+        <ElFormItem :label="t('activity.columns.description')">
           <ElInput
             type="textarea"
             :autosize="{ minRows: 2 }"
             v-model="activity.description"
-            placeholder="请输入描述"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.input'),
+                target: t('activity.columns.description')
+              })
+            "
           />
         </ElFormItem>
-        <ElFormItem label="时间">
+        <ElFormItem :label="t('activity.columns.time')">
           <ElDatePicker
             class="full"
             style="width: 100%"
             type="datetime"
             v-model="activity.date"
-            placeholder="请选择日期"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.pick'),
+                target: t('activity.columns.time')
+              })
+            "
           />
         </ElFormItem>
-        <ElFormItem label="时长">
+        <ElFormItem :label="t('activity.columns.duration')">
           <ElInput
             v-model.number="activity.duration"
             :prefix-icon="Timer"
-            placeholder="请输入有效时长"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.input'),
+                target: t('activity.columns.duration')
+              })
+            "
           />
         </ElFormItem>
-        <ElFormItem label="分类">
+        <ElFormItem :label="t('activity.columns.classify')">
           <ElSelect
             v-model="activity.classify"
             class="full"
             :prefix-icon="Star"
-            placeholder="请选择特殊义工分类"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.select'),
+                target: t('activity.columns.classify')
+              })
+            "
           >
             <ElOption
               v-for="classify in classifies"
               :key="classify.value"
-              :label="classify.label"
+              :label="t('activity.columns.specials.' + classify.value)"
               :value="classify.value"
               :disabled="classify.disabled"
             />
           </ElSelect>
         </ElFormItem>
-        <ElFormItem label="类型">
+        <ElFormItem :label="t('activity.columns.type')">
           <ElSelect
             v-model="activity.subtype"
             class="full"
             :prefix-icon="Star"
-            placeholder="请选择特殊义工类型"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.select'),
+                target: t('activity.columns.type')
+              })
+            "
           >
             <ElOption
               v-for="subtype in subtypes"
               :key="subtype.value"
-              :label="subtype.label"
+              :label="t('activity.columns.specifies.' + subtype.value)"
               :value="subtype.value"
               :disabled="subtype.disabled"
             />
           </ElSelect>
         </ElFormItem>
-        <ElFormItem label="成员">
+        <ElFormItem :label="t('activity.columns.person', activity.members.length)">
           <ElSelect
             v-model="activity.members"
-            placeholder="请输入成员"
+            :placeholder="
+              t('placeholder', {
+                action: t('activity.columns.actions.select'),
+                target: t('activity.columns.person', activity.members.length)
+              })
+            "
             filterable
             allow-create
             multiple
@@ -198,8 +239,12 @@ async function register() {
           </ElSelect>
         </ElFormItem>
         <div class="actions text-right">
-          <ElButton type="warning" :icon="Refresh" text bg>重置</ElButton>
-          <ElButton type="primary" :icon="ArrowRight" text bg @click="register">创建</ElButton>
+          <ElButton type="warning" :icon="Refresh" text bg>{{
+            t('activity.columns.actions.reset')
+          }}</ElButton>
+          <ElButton type="primary" :icon="ArrowRight" text bg>{{
+            t('activity.columns.actions.create')
+          }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

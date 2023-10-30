@@ -120,7 +120,14 @@
         "title": "Registration",
         "deadline": "Deadline",
         "location": "Location",
-        "class": "Class",
+        "class": "Class(es) | Class | Classes",
+        "single-class": {
+          "class": "Class",
+          "min": "Min",
+          "max": "Max",
+          "min-text": "People Required (min)",
+          "max-text": "People Required (max)"
+        },
         "remaining-time": "Remaining Time",
         "remaining-positions": "Remaining Positions",
         "registered": "Registered",
@@ -136,10 +143,11 @@
       },
       "specials": {
         "prize": "Competition Prize",
-        "import": "Importance",
+        "import": "Import Data",
         "club": "Club Activity",
         "deduction": "Deduction",
-        "others": "Others"
+        "other": "Others",
+        "scale": "Large Scale"
       },
       "actions": {
         "create": "Create",

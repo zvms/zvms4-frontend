@@ -64,7 +64,7 @@ async function query(id: string) {
       </ElTooltip>
     </p>
     <ElCard shadow="hover" class="px-4">
-      <ElForm class="py-4" label-position="right" label-width="64px">
+      <ElForm class="py-4" label-position="right" label-width="96px">
         <ElFormItem :label="t('activity.columns.name')">
           <ElInput
             v-model="activity.name"
@@ -145,8 +145,12 @@ async function query(id: string) {
           </ElSelect>
         </ElFormItem>
         <div class="actions text-right">
-          <ElButton type="warning" :icon="Refresh" text bg>{{ t('activity.columns.actions.reset') }}</ElButton>
-          <ElButton type="primary" :icon="ArrowRight" text bg>{{ t('activity.columns.actions.create') }}</ElButton>
+          <ElButton type="warning" :icon="Refresh" text bg>{{
+            t('activity.columns.actions.reset')
+          }}</ElButton>
+          <ElButton type="primary" :icon="ArrowRight" text bg>{{
+            t('activity.columns.actions.create')
+          }}</ElButton>
         </div>
       </ElForm>
     </ElCard>
