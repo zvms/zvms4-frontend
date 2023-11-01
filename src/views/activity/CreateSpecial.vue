@@ -15,7 +15,7 @@ import {
   ElDatePicker
 } from 'element-plus'
 import { ArrowRight, Refresh, InfoFilled, Timer, Star } from '@element-plus/icons-vue'
-import { getUser } from '@/api/user/crud'
+import { getUsers } from '@/api/user/crud'
 import { createActivity } from '@/api/activity/create'
 import { useI18n } from 'vue-i18n'
 
@@ -82,12 +82,14 @@ async function query(id: string) {
     options.pop()
   }
   if (id.length !== 8) return
-  const result = await getUser(parseInt(id))
+  const result = await getUsers(parseInt(id))
   if (result) {
-    options.push({
-      value: id,
-      label: result.name
-    })
+    options.push(
+      ...result.map((x) => ({
+        value: x._id,
+        label: x.name
+      }))
+    )
   }
 }
 
@@ -239,12 +241,12 @@ async function register() {
           </ElSelect>
         </ElFormItem>
         <div class="actions text-right">
-          <ElButton type="warning" :icon="Refresh" text bg>{{
-            t('activity.columns.actions.reset')
-          }}</ElButton>
-          <ElButton type="primary" :icon="ArrowRight" text bg>{{
-            t('activity.columns.actions.create')
-          }}</ElButton>
+          <ElButton type="warning" :icon="Refresh" text bg>
+            {{ t('activity.columns.actions.reset') }}
+          </ElButton>
+          <ElButton type="primary" :icon="ArrowRight" text bg @click="register">
+            {{ t('activity.columns.actions.create') }}
+          </ElButton>
         </div>
       </ElForm>
     </ElCard>

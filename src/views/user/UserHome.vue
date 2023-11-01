@@ -26,7 +26,7 @@ const header = useHeaderStore()
 const user = useUserStore()
 const { t } = useI18n()
 
-header.setHeader('主页')
+header.setHeader(t('nav.home'))
 
 const positionList = {
   student: t('home.positions.student'),

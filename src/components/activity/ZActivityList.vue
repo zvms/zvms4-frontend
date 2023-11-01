@@ -56,6 +56,24 @@ const activity = ref<ActivityDisplayInstance[]>([
     description: '这是一条活动描述',
     classify: 'prize',
     subtype: 'large-scale',
+    name: '义工 D',
+    members: [
+      {
+        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
+        status: 'first-instance-rejected',
+        impression: '丁真',
+        history: []
+      }
+    ],
+    duration: 8,
+    date: dayjs().toJSON()
+  } as SpecialActivity,
+  {
+    _id: '60b9b6b9a9b0f3c4b8e1b0a3',
+    type: 'special',
+    description: '这是一条活动描述',
+    classify: 'prize',
+    subtype: 'large-scale',
     name: '义工 B',
     members: [
       {
@@ -65,7 +83,7 @@ const activity = ref<ActivityDisplayInstance[]>([
         history: []
       }
     ],
-    duration: 8,
+    duration: 2,
     date: dayjs().toJSON()
   } as SpecialActivity,
   {

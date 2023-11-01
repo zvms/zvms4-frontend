@@ -14,7 +14,7 @@ import {
   ElTooltip
 } from 'element-plus'
 import { ArrowRight, Refresh, InfoFilled, Timer } from '@element-plus/icons-vue'
-import { getUser } from '@/api/user/crud'
+import { getUsers } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -38,12 +38,9 @@ async function query(id: string) {
     options.pop()
   }
   if (id.length !== 8) return
-  const result = await getUser(parseInt(id))
+  const result = await getUsers(parseInt(id))
   if (result) {
-    options.push({
-      value: id,
-      label: result.name
-    })
+    options.push(...result.map((item) => ({ value: item._id, label: item.name })))
   }
 }
 </script>

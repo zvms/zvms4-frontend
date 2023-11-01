@@ -6,11 +6,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 const header = useHeaderStore()
 const user = useUserStore()
+const { t } = useI18n()
 
-header.setHeader('义工管理')
+header.setHeader(t('nav.activity'))
 
 const route = useRoute()
 const router = useRouter()
@@ -46,16 +48,24 @@ watch(
 <template>
   <div class="p-4" style="width: 100%">
     <ElTabs v-model="tab" class="pl-4" :tab-position="useVertical ? 'top' : 'left'">
-      <ElTabPane name="" label="我的义工">
-        <p class="text-2xl py-4 px-12">我的义工列表</p>
+      <ElTabPane name="" :label="t('activity.panels.mine')">
+        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.mine') }}</p>
         <ZActivityList role="student" :activities="[]" />
       </ElTabPane>
-      <ElTabPane v-if="user.position.includes('auditor')" name="management" label="义工审计">
-        <p class="text-2xl py-4 px-12">全校义工管理</p>
+      <ElTabPane
+        v-if="user.position.includes('auditor')"
+        name="management"
+        :label="t('activity.panels.admin.global')"
+      >
+        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.global') }}</p>
         <ZActivityList role="auditor" :activities="[]" />
       </ElTabPane>
-      <ElTabPane v-if="user.position.includes('secretary')" name="management" label="班级义工">
-        <p class="text-2xl py-4 px-12">班级义工管理</p>
+      <ElTabPane
+        v-if="user.position.includes('secretary')"
+        name="management"
+        :label="t('activity.panels.admin.secretary')"
+      >
+        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.class') }}</p>
         <ZActivityList role="secretary" :activities="[]" />
       </ElTabPane>
     </ElTabs>

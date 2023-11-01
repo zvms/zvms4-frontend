@@ -77,10 +77,18 @@
   },
   "activity": {
     "panels": {
-      "mine": "My Activity",
-      "admin": "Activities",
+      "mine": "Mine",
+      "admin": {
+        "secretary": "Class",
+        "global": "Campus"
+      },
       "register": "Register",
-      "export": "Export"
+      "export": "Export",
+      "title": {
+        "mine": "My Activities",
+        "class": "Activities in Class",
+        "global": "Activities on Campus"
+      }
     },
     "search": {
       "title": "Search",
@@ -219,7 +227,24 @@
     "about-project": "About ZVMS",
     "about-developers": "About Developers",
     "footer": "Zhenhai Middle School Student Volunteer Autonomous Management Committee Technology Department",
-    "license": "MIT Licensed"
+    "license": "MIT Licensed",
+    "switch": {
+      "real": "Real Name",
+      "nick": "Nickname"
+    },
+    "version": {
+      "0": "The version",
+      "1": "of the project is developed by ",
+      "2": ". Thanks!",
+      "stack": "Tech Stack: ",
+      "repo": "Repository: "
+    },
+    "thank": {
+      "mean": "Meanwhile, thanks to the off campus server provided by ",
+      "icon": ", icon of new version (2.0 - latest) designed by ",
+      "test": ", and the crazy test by ",
+      "end": "."
+    }
   },
   "broadcast": {
     "pages": {

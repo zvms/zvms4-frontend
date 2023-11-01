@@ -4,11 +4,14 @@ import ZActivityImpressionManager from './ZActivityImpressionManager.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   activity: ActivityInstance
   role: 'student' | 'auditor' | 'secretary'
 }>()
+
+const { t } = useI18n()
 
 const { activity, role } = toRefs(props)
 
@@ -23,7 +26,11 @@ const show = ref(false)
       text
       @click="show = true"
     >
-      {{ role === 'student' ? '填写' : '审批' }}
+      {{
+        role === 'student'
+          ? t('activity.columns.impression-page.actions.write')
+          : t('activity.columns.impression-page.actions.reflect')
+      }}
     </ElButton>
     <Teleport to="body">
       <ElDialog
@@ -31,7 +38,7 @@ const show = ref(false)
         v-model="show"
         fullscreen
         center
-        title="填写义工感想"
+        :title="t('activity.columns.impression-page.write.title')"
       >
         <ZActivityImpressionManager
           :activity="activity"
@@ -45,7 +52,11 @@ const show = ref(false)
         v-model="show"
         center
         fullscreen
-        :title="`审批义工感想（${role === 'auditor' ? '终审' : '初审'}）`"
+        :title="
+          t('activity.columns.impression-page.reflect.title', {
+            mode: role === 'auditor' ? 'Global' : 'Class'
+          })
+        "
       >
         <ZActivityImpressionManager
           :activity="activity"

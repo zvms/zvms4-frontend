@@ -22,12 +22,14 @@ import { ref, type Component as VueComponent, watch } from 'vue'
 import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
 import { useHeaderStore } from '@/stores/header'
 import { getUserClass, getClassName } from '@/utils/getClass'
-import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '@/stores/user'
+import { useI18n } from 'vue-i18n'
 
 const header = useHeaderStore()
-const user = useUserStore()
+// const user = useUserStore()
+const { t } = useI18n()
 
-header.setHeader('关于')
+header.setHeader(t('nav.about'))
 
 const collaborators = [
   {
@@ -223,7 +225,7 @@ const displayGitHubName = ref(true)
   <div class="full px-4">
     <div class="py-4">
       <ElCard shadow="never" class="full">
-        <p class="text-xl">关于 ZVMS</p>
+        <p class="text-xl">{{ t('about.about-project') }}</p>
         <p class="text-l pl-4">
           <span class="large">Z</span>henhai High School <span class="large">V</span>olunteer
           <span class="large">M</span>anagement <span class="large">S</span>ystem
@@ -233,17 +235,21 @@ const displayGitHubName = ref(true)
     </div>
     <div class="py-4">
       <ElCard shadow="never" class="full">
-        <p class="text-xl">关于开发者</p>
+        <p class="text-xl">{{ t('about.about-developers') }}</p>
         <div style="text-align: right">
-          <ElSwitch active-text="开发用名" inactive-text="真实身份" v-model="displayGitHubName" />
+          <ElSwitch
+            :active-text="t('about.switch.real')"
+            :inactive-text="t('about.switch.nick')"
+            v-model="displayGitHubName"
+          />
         </div>
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
-            本项目
+            {{ t('about.version.0') }}
             <ElButton text bg :type="useRandomColor()" @click="useStackDialog(id)" size="small">
               v{{ id }}.x
             </ElButton>
-            版本由
+            {{ t('about.version.1') }}
             <ElButtonGroup>
               <ElButton
                 text
@@ -261,10 +267,11 @@ const displayGitHubName = ref(true)
                 }}
               </ElButton>
             </ElButtonGroup>
-            开发。
+            {{ t('about.version.2') }}
           </div>
           <p class="py-2">
-            同时，感谢<ElButton
+            {{ t('about.thank.mean') }}
+            <ElButton
               text
               bg
               :type="useRandomColor()"
@@ -272,14 +279,17 @@ const displayGitHubName = ref(true)
               size="small"
               >{{ displayGitHubName ? 'hhj' : '黄浩杰' }}</ElButton
             >
-            提供和部署的校外服务器、<ElButton
+            {{ t('about.thank.icon') }}
+            <ElButton
               text
               bg
               :type="useRandomColor()"
               @click="useCollaboratorDialog('zsz')"
               size="small"
               >{{ displayGitHubName ? 'zsz' : '张圣泽' }}</ElButton
-            >的新版（Version 2.0 - latest）图标以及<ElButton
+            >
+            {{ t('about.thank.test') }}
+            <ElButton
               text
               bg
               :type="useRandomColor()"
@@ -287,7 +297,7 @@ const displayGitHubName = ref(true)
               size="small"
               >{{ displayGitHubName ? 'zjr' : '周济睿' }}</ElButton
             >
-            的疯狂测试。
+            {{ t('about.thank.end') }}
           </p>
         </div>
       </ElCard>
