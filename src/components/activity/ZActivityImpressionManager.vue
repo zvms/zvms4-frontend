@@ -2,6 +2,7 @@
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ArrowRight, Close, Check, Delete } from '@element-plus/icons-vue'
+import { Save } from '@icon-park/vue-next'
 import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import {
@@ -18,6 +19,7 @@ import {
 } from 'element-plus'
 import { userModifyImpression } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -26,6 +28,7 @@ const props = defineProps<{
 }>()
 
 const user = useUserStore()
+const { t } = useI18n()
 
 const emits = defineEmits(['update:modelValue', 'finish'])
 
@@ -66,11 +69,11 @@ const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
-  const result = await getUser(activity.value.members[index].number)
+  const result = await getUser(activity.value.members[index]._id)
   console.log(index, result)
   current.value = {
     index,
-    id: activity.value.members[index - 1].number,
+    id: result?.id ?? 0,
     name: result?.name ?? '未知',
     impression: activity.value.members[index - 1].impression,
     _id: activity.value.members[index - 1]._id
@@ -84,17 +87,22 @@ async function curserTo(index: number) {
 <template>
   <div>
     <ElCollapse v-model="activeNames" accordion class="py-4">
-      <ElCollapseItem title="义工详情" name="1">
+      <ElCollapseItem :title="t('activity.columns.impression-page.general.detail')" name="1">
         <ZActivityDescriptions :activity="activity" :role="role" />
       </ElCollapseItem>
     </ElCollapse>
     <div>
       <ElCard v-if="role === 'student'" shadow="hover">
-        <p class="text-xl py-4">感想填写</p>
+        <p class="text-xl py-4">{{ t('activity.columns.impression-page.write.title') }}</p>
         <ElInput
           type="textarea"
           v-model="impression"
-          placeholder="请输入感想"
+          :placeholder="
+            t('placeholder', {
+              action: 'input',
+              target: t('activity.columns.impression')
+            })
+          "
           :autosize="{ minRows: 2 }"
           minlength="30"
           maxlength="1024"
@@ -107,15 +115,25 @@ async function curserTo(index: number) {
             :disabled="impression.length < 30"
             text
             bg
+            :icon="Save"
+          >
+            {{ t('activity.columns.impression-page.write.action.save') }}
+          </ElButton>
+          <ElButton
+            type="success"
+            @click="submit"
+            :disabled="impression.length < 30"
+            text
+            bg
             :icon="ArrowRight"
           >
-            提交
+            {{ t('activity.columns.impression-page.write.action.submit') }}
           </ElButton>
         </div>
       </ElCard>
       <ElCard shadow="hover" v-else>
         <p class="text-xl py-4">
-          感想<span v-if="!loading"> By {{ current?.name }}</span>
+          {{ t('activity.columns.impression') }}<span v-if="!loading"> By {{ current?.name }}</span>
         </p>
         <ElSkeleton v-if="loading" :rows="3" animated :throttle="500" />
         <p v-else class="px-4">{{ current?.impression }}</p>
@@ -134,15 +152,22 @@ async function curserTo(index: number) {
           <ElCol :span="2"></ElCol>
           <ElCol :span="16">
             <div style="text-align: right">
-              <ElPopconfirm title="拒绝后将公示全校，不可撤销、计入时间" width="368">
+              <ElPopconfirm
+                :title="t('activity.columns.impression-page.reflect.buttons.ensure')"
+                width="368"
+              >
                 <template #reference>
                   <ElButton v-if="role === 'auditor'" type="danger" :icon="Delete" text bg>
-                    拒绝
+                    {{ t('activity.columns.impression-page.reflect.buttons.refuse') }}
                   </ElButton>
                 </template>
               </ElPopconfirm>
-              <ElButton type="warning" :icon="Close" text bg>打回</ElButton>
-              <ElButton type="success" :icon="Check" text bg>通过</ElButton>
+              <ElButton type="warning" :icon="Close" text bg>{{
+                t('activity.columns.impression-page.reflect.buttons.reject')
+              }}</ElButton>
+              <ElButton type="success" :icon="Check" text bg>{{
+                t('activity.columns.impression-page.reflect.buttons.approve')
+              }}</ElButton>
             </div>
           </ElCol>
         </ElRow>

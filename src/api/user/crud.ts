@@ -3,7 +3,7 @@ import type { User } from '@/../@types/user'
 import type { Response } from '@/../@types/response'
 import { ElNotification } from 'element-plus'
 
-export async function getUser(id: number) {
+export async function getUser(id: string) {
   const result = (await axios(`/user/${id}`)).data as Response<User<string>>
   if (result.status === 'error') {
     ElNotification({

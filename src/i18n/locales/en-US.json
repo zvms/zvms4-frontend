@@ -115,8 +115,43 @@
       "class": "Class(es) | Class | Classes",
       "duration": "Duration",
       "classify": "Classify",
+      "reflect": "Reflect",
+      "pending": "Pending",
+      "units": {
+        "item": "item | item | items",
+        "hour": "hour | hour | hours",
+        "word": "word | word | words"
+      },
+      "write": "Write",
       "impression": "Impression",
       "reward": "Reward",
+      "impression-page": {
+        "actions": {
+          "write": "Write",
+          "reflect": "Reflect"
+        },
+        "write": {
+          "title": "Write Impression",
+          "prompt": "Impression",
+          "action": {
+            "save": "Save",
+            "submit": "Submit"
+          }
+        },
+        "reflect": {
+          "title": "Reflect Impressions ({mode})",
+          "buttons": {
+            "approve": "Approve",
+            "reject": "Reject",
+            "refuse": "Refuse",
+            "ensure": "Refusal will be publicized to the entire school, irrevocable, time counted."
+          },
+          "prompt": " by {name}"
+        },
+        "general": {
+          "detail": "Detail of Activity"
+        }
+      },
       "registration": {
         "title": "Registration",
         "name": "Register for Specified Activities",
@@ -165,6 +200,18 @@
         "select": "Select",
         "switch": "Switch",
         "reset": "Reset"
+      },
+      "status": {
+        "title": "Status",
+        "registered": "Registered",
+        "attended": "Attended",
+        "draft": "Draft",
+        "first-instance": "First Instance",
+        "first-instance-rejected": "First Instance Rejected",
+        "last-instance": "Last Instance",
+        "last-instance-rejected": "Last Instance Rejected",
+        "effective": "Effective",
+        "rejected": "Rejected"
       }
     }
   },

@@ -54,7 +54,6 @@ export type ActivityStatus = 'created' | 'completed' | 'pending'
 
 export type MemberActivityStatus =
   | 'registered'
-  | 'attended'
   | 'draft'
   | 'first-instance'
   | 'first-instance-rejected'

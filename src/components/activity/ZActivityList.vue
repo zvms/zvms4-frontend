@@ -5,19 +5,19 @@ import type {
   SpecialActivity,
   SpecifiedActivity
 } from '@/../@types/activity'
-import { ElDialog, ElTable, ElTableColumn, ElTag, ElButton } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElButton } from 'element-plus'
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Appointment, Star, Association } from '@icon-park/vue-next'
 import { Box } from '@element-plus/icons-vue'
 import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import type { Component as VueComponent } from 'vue'
 import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import ZActivityType from '@/components/tags/ZActivityType.vue'
+import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -42,30 +42,31 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
         status: 'rejected',
-        impression: '丁真'
+        impression: '丁真',
+        history: []
       }
     ],
     duration: 1,
-    time: dayjs('2023-11-13 00:00:00').toJSON()
+    date: dayjs('2023-11-13 00:00:00').toJSON()
   },
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a3',
     type: 'special',
     description: '这是一条活动描述',
+    classify: 'prize',
     subtype: 'large-scale',
     name: '义工 B',
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
         status: 'effective',
-        impression: '丁真'
+        impression: '丁真',
+        history: []
       }
     ],
     duration: 8,
-    time: dayjs().toJSON()
+    date: dayjs().toJSON()
   } as SpecialActivity,
   {
     _id: '60b9b6b9a9b0f3c4b8e1b0a5',
@@ -75,16 +76,16 @@ const activity = ref<ActivityDisplayInstance[]>([
     members: [
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
-        status: 'first-instance-approved',
-        impression: '丁真'
+        status: 'first-instance',
+        impression: '丁真',
+        history: []
       },
 
       {
         _id: '60c9b1b0e6b3a3b4b8b0b0b1',
-        number: 20230224,
-        status: 'first-instance-approved',
-        impression: '丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真'
+        status: 'last-instance',
+        impression: '丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真',
+        history: []
       }
     ],
     registration: {
@@ -102,44 +103,13 @@ const activity = ref<ActivityDisplayInstance[]>([
       deadline: dayjs(new Date('2023-11-13 00:00:00')).toJSON()
     },
     duration: 4,
-    time: dayjs().toJSON()
+    date: dayjs().toJSON()
   } as SpecifiedActivity
 ])
-
-const activityTypes = [
-  {
-    label: '指定义工',
-    value: 'specified'
-  },
-  {
-    label: '特殊义工',
-    value: 'special'
-  },
-  {
-    label: '校外义工',
-    value: 'off-campus'
-  }
-]
-
-const status = {
-  registered: { label: '已报名', color: '' },
-  attended: { label: '初审中', color: '' },
-  'first-instance-rejected': { label: '初审未通过', color: 'warning' },
-  'first-instance-approved': { label: '终审中', color: '' },
-  'last-instance-rejected': { label: '终审未通过', color: 'warning' },
-  effective: { label: '有效', color: 'success' },
-  rejected: { label: '拒绝', color: 'danger' }
-} as Record<string, { label: string; color: '' | 'success' | 'warning' | 'danger' }>
 
 const reflect = ref(
   role.value === 'student' ? '' : role.value === 'auditor' ? 'first-instance-approved' : 'attended'
 )
-
-const icon = {
-  specified: Appointment,
-  special: Star,
-  'off-campus': Association
-} as Record<string, VueComponent>
 
 const registerForSpecified = ref(false)
 </script>
@@ -182,49 +152,54 @@ const registerForSpecified = ref(false)
             <ZActivityDescriptions :activity="row" :role="role" />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="name" label="名称" />
-        <ElTableColumn prop="time" label="日期">
+        <ElTableColumn prop="name" :label="t('activity.columns.name')" />
+        <ElTableColumn prop="time" :label="t('activity.columns.date')">
           <template #default="{ row }">
             {{ dayjs(row.time).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" label="类型">
+        <ElTableColumn prop="type" :label="t('activity.columns.type')">
           <template #default="{ row }">
-            <ElButton size="small" text :icon="icon[row.type]">{{
-              activityTypes.find((x) => x.value === row.type)?.label
-            }}</ElButton>
+            <ZActivityType :type="row.type" size="small" />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="duration" label="时长">
+        <ElTableColumn prop="duration" :label="t('activity.columns.duration')">
           <template #default="{ row }">
             {{ row.duration }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
+            <span style="font-size: 12px; color: --el-text-color-secondary">{{
+              t('activity.columns.units.hour', row.duration)
+            }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="role === 'student'" label="状态">
+        <ElTableColumn v-if="role === 'student'" :label="t('activity.columns.status.title')">
           <template #default="{ row }">
-            <ElTag
-              v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter(
-                (x: ActivityMember) => x._id === user._id
-              )"
-              :key="idx"
-              :type="status[tag.status].color"
-            >
-              {{ status[tag.status].label }}
-            </ElTag>
+            <ZActivityStatus
+              :type="
+                (row as ActivityDisplayInstance).members.find(
+                  (x: ActivityMember) => x._id === user._id
+                )?.status
+              "
+            />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else label="待审">
+        <ElTableColumn v-else :label="t('activity.columns.pending')">
           <template #default="{ row }">
             {{
               (row as ActivityDisplayInstance).members.filter(
                 (x: ActivityMember) => x.status === reflect && row.type === 'specified'
               ).length
             }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">条感想</span>
+            <span style="font-size: 12px; color: --el-text-color-secondary">{{
+              t(
+                'activity.columns.units.item',
+                (row as ActivityDisplayInstance).members.filter(
+                  (x: ActivityMember) => x.status === reflect && row.type === 'specified'
+                ).length
+              )
+            }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn fixed="right" label="感想">
+        <ElTableColumn fixed="right" :label="t('activity.columns.impression')">
           <template #default="props">
             <ZActivityImpressionDrawer :activity="props.row" :role="role" />
           </template>
