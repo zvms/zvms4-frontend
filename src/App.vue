@@ -170,6 +170,6 @@ body {
   transition:
     color 0.5s,
     background-color 0.5s !important;
-  filter: grayscale(1);
+  /* filter: grayscale(1); */
 }
 </style>

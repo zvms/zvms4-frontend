@@ -4,12 +4,10 @@ export interface Activity {
   name: string
   description: string
   members: ActivityMember[]
-  duration: number // hours
+  duration: number // Not higher than this value in members' field, hours.
   date: string // ISO-8601
-}
-
-export interface ActivityCreate extends Omit<Activity, 'members'> {
-  members: string[]
+  createdAt: string // ISO-8601
+  updatedAt: string // ISO-8601
 }
 
 export type ActivityQuery = {
@@ -36,8 +34,9 @@ export interface ActivityMember {
   _id: string // ObjectId
   status: MemberActivityStatus
   impression: string
-  duration?: number // hours, if is undefined, use the activity's duration
+  duration: number
   history: ActivityMemberHistory[]
+  images: string[]
 }
 
 export interface ActivityMemberHistory {
@@ -48,9 +47,7 @@ export interface ActivityMemberHistory {
   action: MemberActivityStatus
 }
 
-export type ActivityType = 'specified' | 'special' | 'off-campus' | 'scale'
-
-export type ActivityStatus = 'created' | 'completed' | 'pending'
+export type ActivityType = 'specified' | 'special' | 'social' | 'scale'
 
 export type MemberActivityStatus =
   | 'registered'
@@ -67,32 +64,66 @@ export interface SpecifiedActivity extends Activity {
   registration: Registration
 }
 
+export interface SocialActivity extends Activity {
+  type: 'social'
+  image: string[]
+}
+
+export interface ScaleActivity extends Activity {
+  type: 'scale'
+}
+
+export type SpecialActivityClassification = 'prize' | 'import' | 'club' | 'deduction' | 'other'
+
 export interface SpecialActivity extends Activity {
   type: 'special'
   subtype: 'on-campus' | 'off-campus' | 'large-scale'
-  classify: 'prize' | 'import' | 'scale' | 'club' | 'other'
+  classify: SpecialActivityClassification
 }
 
-export interface ScaleActivity extends SpecialActivity {
-  subtype: 'large-scale'
-  registration: Registration
+export type PrizeLevel = 'district' | 'city' | 'province' | 'national' | 'international'
+
+export type PrizeType = 'personal' | 'team'
+
+export type PrizeClassify = 'sports' | 'academy' | 'art' | 'other'
+
+export interface Prize {
+  level: PrizeLevel
+  type: PrizeType
+  classify: PrizeClassify
 }
 
-export interface SpecialActivityCreate extends Omit<SpecialActivity, 'members'> {
-  members: string[]
+export interface PrizeSpecialActivity extends SpecialActivity {
+  classify: 'prize'
+  subtype: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
+  prize: Prize
 }
 
-export interface OffCampusActivity extends Activity {
-  type: 'off-campus'
+export interface ImportSpecialActivity extends SpecialActivity {
+  classify: 'import'
+  subtype: 'on-campus' | 'off-campus' | 'large-scale'
 }
 
-export interface OffCampusActivityCreate extends Omit<OffCampusActivity, 'members'> {
-  members: string[]
+export interface ClubSpecialActivity extends SpecialActivity {
+  classify: 'club'
+  subtype: 'on-campus' | 'off-campus'
+  club: string
 }
 
-export type ActivityInstance = SpecifiedActivity | SpecialActivity | OffCampusActivity
-export type ActivityCreateInstance =
-  | SpecifiedActivity
-  | SpecialActivityCreate
-  | OffCampusActivityCreate
-export type ActivityDisplayInstance = Omit<ActivityInstance, 'description'>
+export interface DeductionSpecialActivity extends SpecialActivity {
+  classify: 'deduction'
+  subtype: 'on-campus' | 'off-campus' | 'large-scale'
+  reason: string
+}
+
+export type OtherSpecialActivity = SpecialActivity
+
+export type SpecialActivityInstance =
+  | PrizeSpecialActivity
+  | ImportSpecialActivity
+  | ClubSpecialActivity
+  | DeductionSpecialActivity
+  | OtherSpecialActivity
+
+export type ActivityInstance = SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivityInstance
+
