@@ -103,12 +103,12 @@ function transform() {
         <ElRow class="fill py-4 statistic">
           <ElCol v-if="width > height" :span="2" />
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="largeScale" :realTime="user.volTime.largeScale" />
+            <ZTimeJudge type="large-scale" :realTime="user.volTime.largeScale" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="onCampus" :realTime="user.volTime.onCampus" />
+            <ZTimeJudge type="on-campus" :realTime="user.volTime.onCampus" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol v-if="width > height" :span="1"
@@ -116,7 +116,7 @@ function transform() {
           /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge
-              type="offCampus"
+              type="off-campus"
               :realTime="user.volTime.offCampus + (useTransform ? transform() : 0)"
             />
           </ElCol>

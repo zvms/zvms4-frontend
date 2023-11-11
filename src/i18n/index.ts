@@ -1,7 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import { useLocalStorage } from '@vueuse/core'
-import zhCN from './locales/zh-CN.json'
-import enUS from './locales/en-US.json'
+import { zhCN, enUS } from './locales'
 
 export default createI18n({
   locale: useLocalStorage('locale', 'en-US').value ?? navigator.language ?? 'en-US',

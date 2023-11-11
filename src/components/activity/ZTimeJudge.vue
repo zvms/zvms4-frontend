@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import { reactive } from 'vue'
 
 const props = defineProps<{
-  type: 'largeScale' | 'onCampus' | 'offCampus'
+  type: 'large-scale' | 'on-campus' | 'off-campus'
   standardTime?: number
   realTime: number
 }>()
@@ -19,9 +19,9 @@ const { t } = useI18n()
 const standard = ref(0)
 
 if (!standard?.value || isNaN(standard?.value)) {
-  if (type.value === 'largeScale') {
+  if (type.value === 'large-scale') {
     standard.value = 18
-  } else if (type.value === 'onCampus') {
+  } else if (type.value === 'on-campus') {
     standard.value = 30
   } else {
     standard.value = 15
@@ -29,16 +29,6 @@ if (!standard?.value || isNaN(standard?.value)) {
 } else {
   standard.value = props.standardTime as number
 }
-
-const largeScale = ref(t('activity.columns.specifies.large-scale'))
-const onCampus = ref(t('activity.columns.specifies.on-campus'))
-const offCampus = ref(t('activity.columns.specifies.off-campus'))
-
-const titles = reactive({
-  largeScale,
-  onCampus,
-  offCampus
-})
 
 function calculateLoss() {
   const loss = standard.value - real.value
@@ -64,10 +54,15 @@ function calculateLoss() {
   <ElStatistic :value="real">
     <template #title>
       <span style="display: inline-flex; align-items: center">
-        {{ titles[type] }}
+        {{ t(`activity.classify.${type}.name`) }}
         <ElTooltip
           effect="light"
-          :content="t('home.panels.time.least', { type: titles[type], least: standard })"
+          :content="
+            t('home.panels.time.least', {
+              type: t(`activity.classify.${type}.name`),
+              least: standard
+            })
+          "
           ><ElButton text bg circle size="small" :icon="Warning"
         /></ElTooltip>
       </span>

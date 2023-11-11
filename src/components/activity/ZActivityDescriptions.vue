@@ -2,7 +2,6 @@
 import { ElDescriptions, ElDescriptionsItem, ElButton } from 'element-plus'
 import dayjs from 'dayjs'
 import type {
-  ActivityDisplayInstance,
   ActivityInstance,
   ActivityMember
 } from '@/../@types/activity'
@@ -57,7 +56,7 @@ const activityTypes = [
     <ElDescriptionsItem :label="t('activity.columns.status.title')" v-if="role === 'student'">
       <ZActivityStatus
         :type="
-          (activity as ActivityDisplayInstance).members.find(
+          (activity as ActivityInstance).members.find(
             (x: ActivityMember) => x._id === user._id
           )?.status
         "

@@ -48,24 +48,24 @@ watch(
 <template>
   <div class="p-4" style="width: 100%">
     <ElTabs v-model="tab" class="pl-4" :tab-position="useVertical ? 'top' : 'left'">
-      <ElTabPane name="" :label="t('activity.panels.mine')">
-        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.mine') }}</p>
+      <ElTabPane name="" :label="t('nav.activities.mine')">
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
         <ZActivityList role="student" :activities="[]" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('auditor')"
-        name="management"
-        :label="t('activity.panels.admin.global')"
+        name="campus"
+        :label="t('nav.activities.campus')"
       >
-        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.global') }}</p>
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
         <ZActivityList role="auditor" :activities="[]" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('secretary')"
-        name="management"
-        :label="t('activity.panels.admin.secretary')"
+        name="class"
+        :label="t('nav.activities.class')"
       >
-        <p class="text-2xl py-4 px-12">{{ t('activity.panels.title.class') }}</p>
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
         <ZActivityList role="secretary" :activities="[]" />
       </ElTabPane>
     </ElTabs>

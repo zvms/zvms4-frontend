@@ -77,7 +77,7 @@ export type SpecialActivityClassification = 'prize' | 'import' | 'club' | 'deduc
 
 export interface SpecialActivity extends Activity {
   type: 'special'
-  subtype: 'on-campus' | 'off-campus' | 'large-scale'
+  mode: 'on-campus' | 'off-campus' | 'large-scale'
   classify: SpecialActivityClassification
 }
 
@@ -95,24 +95,24 @@ export interface Prize {
 
 export interface PrizeSpecialActivity extends SpecialActivity {
   classify: 'prize'
-  subtype: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
+  mode: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
   prize: Prize
 }
 
 export interface ImportSpecialActivity extends SpecialActivity {
   classify: 'import'
-  subtype: 'on-campus' | 'off-campus' | 'large-scale'
+  mode: 'on-campus' | 'off-campus' | 'large-scale'
 }
 
 export interface ClubSpecialActivity extends SpecialActivity {
   classify: 'club'
-  subtype: 'on-campus' | 'off-campus'
+  mode: 'on-campus' | 'off-campus'
   club: string
 }
 
 export interface DeductionSpecialActivity extends SpecialActivity {
   classify: 'deduction'
-  subtype: 'on-campus' | 'off-campus' | 'large-scale'
+  mode: 'on-campus' | 'off-campus' | 'large-scale'
   reason: string
 }
 
@@ -125,5 +125,4 @@ export type SpecialActivityInstance =
   | DeductionSpecialActivity
   | OtherSpecialActivity
 
-export type ActivityInstance = SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivityInstance
-
+export type ActivityInstance = Activity | SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivityInstance

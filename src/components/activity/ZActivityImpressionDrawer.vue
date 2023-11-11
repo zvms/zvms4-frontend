@@ -28,8 +28,8 @@ const show = ref(false)
     >
       {{
         role === 'student'
-          ? t('activity.columns.impression-page.actions.write')
-          : t('activity.columns.impression-page.actions.reflect')
+          ? t('activity.impression.actions.write')
+          : t('activity.impression.actions.reflect')
       }}
     </ElButton>
     <Teleport to="body">
@@ -38,7 +38,7 @@ const show = ref(false)
         v-model="show"
         fullscreen
         center
-        :title="t('activity.columns.impression-page.write.title')"
+        :title="t('activity.impression.page.write.title')"
       >
         <ZActivityImpressionManager
           :activity="activity"
@@ -53,7 +53,7 @@ const show = ref(false)
         center
         fullscreen
         :title="
-          t('activity.columns.impression-page.reflect.title', {
+          t('activity.impression.page.reflect.title', {
             mode: role === 'auditor' ? 'Global' : 'Class'
           })
         "

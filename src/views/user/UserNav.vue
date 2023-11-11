@@ -112,19 +112,19 @@ const navs: Array<{
 }> = [
   {
     icon: HomeFilled,
-    name: t('nav.home'),
+    name: 'home',
     path: '/user/',
     show: true
   },
   {
     icon: MdiEye,
-    name: t('nav.activity'),
+    name: 'activity',
     path: '/activity/',
     show: true
   },
   {
     icon: CirclePlusFilled,
-    name: t('nav.create'),
+    name: 'create',
     path: '/activity/create',
     show: true
   },
@@ -142,13 +142,13 @@ const navs: Array<{
   // },
   {
     icon: InfoFilled,
-    name: t('nav.about'),
+    name: 'about',
     path: '/about',
     show: true
   },
   {
     icon: MaterialSymbolsSettings,
-    name: t('nav.preferences'),
+    name: 'preferences',
     path: '/administration',
     show: user.position.includes('admin')
   }
@@ -171,7 +171,7 @@ function setLanguage(language: string) {
       <div class="py-1" v-if="nav.show">
         <ElTooltip
           v-if="nav.show"
-          :content="nav.name"
+          :content="t(`nav.${nav.name}`)"
           placement="right"
           :effect="dark ? 'dark' : 'light'"
         >

@@ -15,6 +15,8 @@ const props = defineProps<{
 
 const { type, size } = toRefs(props)
 
+console.log(type)
+
 const effective = type?.value! in statuses
 </script>
 
@@ -27,9 +29,9 @@ const effective = type?.value! in statuses
     text
     bg
   >
-    {{ t('activity.columns.status.' + type) }}
+    {{ t('activity.status.' + type) }}
   </ElButton>
-  <ElButton v-else type="danger" :size="size" text bg>
-    {{ t('activity.columns.status.unknown') }}
+  <ElButton v-else type="danger" :size="size" text>
+    {{ t('activity.status.unknown') }}
   </ElButton>
 </template>

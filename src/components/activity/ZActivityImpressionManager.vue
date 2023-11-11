@@ -109,15 +109,8 @@ async function curserTo(index: number) {
           show-word-limit
         />
         <div style="text-align: right" class="py-4">
-          <ElButton
-            type="primary"
-            @click="submit"
-            :disabled="impression.length < 30"
-            text
-            bg
-            :icon="Save"
-          >
-            {{ t('activity.columns.impression-page.write.action.save') }}
+          <ElButton type="primary" @click="submit" text bg :icon="Save">
+            {{ t('activity.impression.page.write.actions.save') }}
           </ElButton>
           <ElButton
             type="success"
@@ -127,7 +120,7 @@ async function curserTo(index: number) {
             bg
             :icon="ArrowRight"
           >
-            {{ t('activity.columns.impression-page.write.action.submit') }}
+            {{ t('activity.impression.page.write.actions.submit') }}
           </ElButton>
         </div>
       </ElCard>
@@ -153,20 +146,20 @@ async function curserTo(index: number) {
           <ElCol :span="16">
             <div style="text-align: right">
               <ElPopconfirm
-                :title="t('activity.columns.impression-page.reflect.buttons.ensure')"
+                :title="t('activity.impression.page.reflect.actions.check')"
                 width="368"
               >
                 <template #reference>
                   <ElButton v-if="role === 'auditor'" type="danger" :icon="Delete" text bg>
-                    {{ t('activity.columns.impression-page.reflect.buttons.refuse') }}
+                    {{ t('activity.impression.page.reflect.actions.refuse') }}
                   </ElButton>
                 </template>
               </ElPopconfirm>
               <ElButton type="warning" :icon="Close" text bg>{{
-                t('activity.columns.impression-page.reflect.buttons.reject')
+                t('activity.impression.page.reflect.actions.reject')
               }}</ElButton>
               <ElButton type="success" :icon="Check" text bg>{{
-                t('activity.columns.impression-page.reflect.buttons.approve')
+                t('activity.impression.page.reflect.actions.approve')
               }}</ElButton>
             </div>
           </ElCol>

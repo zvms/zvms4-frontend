@@ -55,20 +55,20 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
       <p class="text-xl py-4">
         {{ activity.name }}
         <ElButton v-if="registered" :icon="CircleCheck" type="success" text round>{{
-          t('activity.columns.registration.registered')
+          t('activity.registration.status.registered')
         }}</ElButton>
         <ElButton v-else-if="passedToRegister" :icon="CircleClose" type="danger" text round>{{
-          t('activity.columns.registration.unregisterable')
+          t('activity.registration.status.unregisterable')
         }}</ElButton>
         <ElButton v-else :icon="Warning" type="warning" text round>{{
-          t('activity.columns.registration.unregistered')
+          t('activity.registration.status.unregistered')
         }}</ElButton>
       </p>
       <ElForm label-position="right" label-width="96px">
-        <ElFormItem :label="t('activity.columns.description')">
+        <ElFormItem :label="t('activity.form.description')">
           <p>{{ activity.description }}</p>
         </ElFormItem>
-        <ElFormItem :label="t('activity.columns.date')">
+        <ElFormItem :label="t('activity.form.date')">
           <ElPopover placement="right" trigger="hover" :width="384">
             <template #reference>
               <ElButton text bg size="small" :icon="Time">{{
@@ -82,23 +82,23 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
                   time: dayjs(activity.date).format('YYYY-MM-DD HH:mm:ss')
                 })
               "
-              format="MM-DD HH:mm:ss"
+              format="DD d HH:mm:ss"
             />
           </ElPopover>
         </ElFormItem>
         <ElFormItem
-          :label="t('activity.columns.registration.location')"
+          :label="t('activity.registration.location')"
           v-if="activity.type === 'specified'"
         >
           <ElButton text bg size="small" :icon="Location">{{
             activity.registration.place
           }}</ElButton>
         </ElFormItem>
-        <ElFormItem :label="t('activity.columns.reward')">
+        <ElFormItem :label="t('activity.impression.reward')">
           <span class="text-xl">{{ activity.duration }}</span
           >&nbsp;
           <span style="font-size: 12px; color: --el-text-color-secondary">{{
-            t('home.panels.time.unit', activity.duration)
+            t('activity.units.hour', activity.duration)
           }}</span>
         </ElFormItem>
       </ElForm>
@@ -110,7 +110,7 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
         <ElDivider />
         <ElCountdown
           :value="dayjs(activity.registration.deadline)"
-          :title="t('activity.columns.registration.remaining-time')"
+          :title="t('activity.registration.remain.time')"
           format="HH:mm:ss"
         />
       </div>
@@ -125,7 +125,7 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           :round="hovered"
           :circle="!hovered"
         >
-          <span v-if="hovered">{{ t('activity.columns.registration.unregister') }}</span>
+          <span v-if="hovered">{{ t('activity.registration.actions.unregister') }}</span>
         </ElButton>
         <ElButton
           v-else
@@ -138,7 +138,7 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           :round="hovered"
           :circle="!hovered"
         >
-          <span v-if="hovered">{{ t('activity.columns.registration.register') }}</span>
+          <span v-if="hovered">{{ t('activity.registration.actions.register') }}</span>
         </ElButton>
       </div>
     </ElCard>

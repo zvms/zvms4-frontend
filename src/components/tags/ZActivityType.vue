@@ -23,17 +23,17 @@ const types = ref<
     color: 'primary',
     icon: Appointment
   },
-  special: {
-    color: 'warning',
-    icon: Star
-  },
-  'off-campus': {
+  social: {
     color: 'success',
     icon: Association
   },
   scale: {
-    color: 'danger',
+    color: 'warning',
     icon: Vacation
+  },
+  special: {
+    color: 'danger',
+    icon: Star
   }
 })
 
@@ -47,11 +47,10 @@ const effective = type?.value! in types.value
     :type="types[type as ActivityType].color"
     :size="size ?? 'small'"
     text
-    bg
   >
-    {{ t('activity.columns.shorts.' + type) }}
+    {{ t(`activity.type.${type}.short`) }}
   </ElButton>
-  <ElButton v-else type="danger" :size="size" text bg>
-    {{ t('activity.columns.shorts.unknown') }}
+  <ElButton v-else type="danger" :size="size" text>
+    {{ t('activity.type.unknown') }}
   </ElButton>
 </template>
