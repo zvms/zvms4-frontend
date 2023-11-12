@@ -22,7 +22,7 @@ function setLanguage(language: string) {
 
 const languages = ref<
   Array<{
-    icon: VueComponent
+    icon?: VueComponent
     display: string
     value: string
   }>
@@ -36,6 +36,26 @@ const languages = ref<
     icon: English,
     display: 'English',
     value: 'en-US'
+  },
+  {
+    display: '繁體中文',
+    value: 'zh-TW',
+  },
+  {
+    display: '日本語',
+    value: 'ja-JP',
+  },
+  {
+    display: '한국어',
+    value: 'ko-KR',
+  },
+  {
+    display: 'Français',
+    value: 'fr-FR'
+  },
+  {
+    display: 'Русский',
+    value: 'ru-RU',
   }
 ])
 </script>

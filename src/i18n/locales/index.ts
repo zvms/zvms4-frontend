@@ -16,3 +16,38 @@ export const zhCN = {
   home: home.zhCN,
   nav: nav.zhCN
 }
+
+export const zhTW = {
+  about: about.zhTW,
+  activity: activity.zhTW,
+  home: home.zhTW,
+  nav: nav.zhTW
+}
+
+export const jaJP = {
+  about: about.jaJP,
+  activity: activity.jaJP,
+  home: home.jaJP,
+  nav: nav.jaJP
+}
+
+export const koKR = {
+  about: about.koKR,
+  activity: activity.koKR,
+  home: home.koKR,
+  nav: nav.koKR
+}
+
+export const ruRU = {
+  about: about.ruRU,
+  activity: activity.ruRU,
+  home: home.ruRU,
+  nav: nav.ruRU
+}
+
+export const frFR = {
+  about: about.frFR,
+  activity: activity.frFR,
+  home: home.frFR,
+  nav: nav.frFR
+}

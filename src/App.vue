@@ -25,16 +25,37 @@ import { useWindowSize } from '@vueuse/core'
 import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
-import { zhCn, en } from 'element-plus/es/locale/index.mjs'
+import { zhCn, en, ja, ko, zhTw, fr, ru } from 'element-plus/es/locale/index.mjs'
 import ZSelectLanguage from './components/form/ZSelectLanguage.vue'
 import ZVerticalNav from './components/form/ZVerticalNav.vue'
 
 const { t, locale } = useI18n()
 
-const langPack = ref(locale.value === 'zh-CN' ? zhCn : en)
+function getLocale(ident: string) {
+  switch (ident) {
+    case 'zh-CN':
+      return zhCn
+    case 'en-US':
+      return en
+    case 'ja-JP':
+      return ja
+    case 'ko-KR':
+      return ko
+    case 'zh-TW':
+      return zhTw
+    case 'fr-FR':
+      return fr
+    case 'ru-RU':
+      return ru
+    default:
+      return en
+  }
+}
+
+const langPack = ref(getLocale(locale.value))
 
 watch(locale, () => {
-  langPack.value = locale.value === 'zh-CN' ? zhCn : en
+  langPack.value = getLocale(locale.value)
 })
 
 const toast = pad() ? t('platform.xh') : t('platform.normal')
@@ -78,7 +99,7 @@ function logout() {
                 <ElButton text bg :icon="User" type="primary">{{
                   userStore.isLogin ? userStore.name : t('login.unlogined')
                 }}</ElButton>
-                <ElPopover>
+                <ElPopover width="216px">
                   <template #reference>
                     <ElButton
                       text
