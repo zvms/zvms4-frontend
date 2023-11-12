@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElCard: typeof import('element-plus/es')['ElCard']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -24,11 +25,14 @@ declare module 'vue' {
     ZActivityImpressionDrawer: typeof import('./src/components/activity/ZActivityImpressionDrawer.vue')['default']
     ZActivityImpressionManager: typeof import('./src/components/activity/ZActivityImpressionManager.vue')['default']
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
+    ZActivityMember: typeof import('./src/components/activity/ZActivityMember.vue')['default']
     ZActivityRegisterCard: typeof import('./src/components/activity/ZActivityRegisterCard.vue')['default']
     ZActivityStatus: typeof import('./src/components/tags/ZActivityStatus.vue')['default']
     ZActivityType: typeof import('./src/components/tags/ZActivityType.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
+    ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
+    ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }
 }

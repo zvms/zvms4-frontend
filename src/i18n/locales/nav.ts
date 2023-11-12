@@ -4,7 +4,7 @@ export const enUS = {
   activities: {
     mine: 'Mine',
     class: 'Class',
-    campus: 'Campus',
+    campus: 'Campus'
   },
   create: 'Create',
   creates: {
@@ -12,7 +12,7 @@ export const enUS = {
     specified: 'Specified',
     social: 'Social',
     scale: 'Scale',
-    special: 'Special',
+    special: 'Special'
   },
   broadcast: 'Notification',
   preferences: 'Preferences',
@@ -26,6 +26,16 @@ export const enUS = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English'
+  },
+  pages: {
+    NotFound: {
+      title: '404 Not Found',
+      description: 'The page you are looking for does not exist.',
+      action: {
+        back: 'Back to Home',
+        report: 'Report'
+      }
+    }
   }
 }
 
@@ -35,7 +45,7 @@ export const zhCN = {
   activities: {
     mine: '我的义工',
     class: '班级义工',
-    campus: '全校义工',
+    campus: '全校义工'
   },
   create: '创建义工',
   creates: {
@@ -43,7 +53,7 @@ export const zhCN = {
     specified: '指定义工',
     social: '社会义工',
     scale: '实践义工',
-    special: '特殊义工',
+    special: '特殊义工'
   },
   broadcast: '通知面板',
   preferences: '偏好设置',
@@ -57,5 +67,15 @@ export const zhCN = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English'
+  },
+  pages: {
+    NotFound: {
+      title: '404 页面未找到',
+      description: '您访问的页面不存在。',
+      action: {
+        back: '返回首页',
+        report: '报告问题'
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElPopover, ElTooltip, ElButtonGroup } from 'element-plus'
+import { ElButton, ElDivider, ElTooltip } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { useRoute, useRouter } from 'vue-router'
@@ -21,9 +21,8 @@ import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
-import MdiTranslate from '@/icons/MdiTranslate.vue'
-import { Chinese, English } from '@icon-park/vue-next'
 import { useI18n } from 'vue-i18n'
+import ZSelectLanguage from '@/components/form/ZSelectLanguage.vue'
 
 const user = useUserStore()
 const router = useRouter()
@@ -31,25 +30,6 @@ const dark = useDark()
 const { t, locale } = useI18n({
   useScope: 'global'
 })
-
-const languages = ref<
-  Array<{
-    icon: VueComponent
-    display: string
-    value: string
-  }>
->([
-  {
-    icon: Chinese,
-    display: '简体中文',
-    value: 'zh-CN'
-  },
-  {
-    icon: English,
-    display: 'English',
-    value: 'en-US'
-  }
-])
 
 const path = ref(new URL(window.location.href).pathname)
 
@@ -158,11 +138,6 @@ function routeTo(page: string) {
   path.value = page
   router.push(page)
 }
-
-function setLanguage(language: string) {
-  user.setLanguage(language)
-  locale.value = language
-}
 </script>
 
 <template>
@@ -213,26 +188,7 @@ function setLanguage(language: string) {
     </div>
     <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
     <div class="bottom">
-      <ElPopover placement="right" width="192px">
-        <template #reference>
-          <ElButton :icon="MdiTranslate" size="large" text circle />
-        </template>
-        <ElButtonGroup class="full">
-          <div v-for="language in languages" :key="language.value">
-            <ElButton
-              :icon="language.icon"
-              class="full"
-              text
-              :bg="user.language === language.value"
-              @click="setLanguage(language.value)"
-              :type="user.language === language.value ? 'primary' : ''"
-            >
-              {{ language.display }}
-            </ElButton>
-            <br />
-          </div>
-        </ElButtonGroup>
-      </ElPopover>
+      <ZSelectLanguage placement="right" />
       <br />
       <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
     </div>

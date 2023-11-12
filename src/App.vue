@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ArrowDown, User, SwitchButton, Notification } from '@element-plus/icons-vue'
+import { ApplicationMenu } from '@icon-park/vue-next'
 import {
   ElContainer,
   ElHeader,
@@ -10,7 +11,8 @@ import {
   ElButton,
   ElButtonGroup,
   ElPopover,
-  ElConfigProvider
+  ElConfigProvider,
+  ElDivider
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -24,6 +26,8 @@ import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
+import ZSelectLanguage from './components/form/ZSelectLanguage.vue'
+import ZVerticalNav from './components/form/ZVerticalNav.vue'
 
 const { t, locale } = useI18n()
 
@@ -39,7 +43,16 @@ const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
 
-const { height } = useWindowSize()
+const { width, height } = useWindowSize()
+
+const verticalMode = ref<boolean>(width.value < height.value * 1.2)
+
+watch(
+  () => width.value,
+  (w) => {
+    verticalMode.value = w < height.value * 1.2
+  }
+)
 
 function logout() {
   userStore.removeUser()
@@ -60,42 +73,47 @@ function logout() {
             </div>
           </ElCol>
           <ElCol :span="8">
-            <ElButtonGroup class="user">
-              <ElButton text bg :icon="User" type="primary">{{
-                userStore.isLogin ? userStore.name : t('login.unlogined')
-              }}</ElButton>
-              <ElPopover>
-                <template #reference>
-                  <ElButton
-                    text
-                    bg
-                    :icon="ArrowDown"
-                    :disabled="!userStore.isLogin"
-                    type="primary"
-                  />
-                </template>
-                <ElButton text :icon="Feedback" class="action-btn p-4">{{
-                  t('nav.feedback')
-                }}</ElButton
-                ><br />
-                <ElButton text :icon="Notification" class="action-btn p-4">{{
-                  t('nav.broadcast')
-                }}</ElButton
-                ><br />
-                <ElButton text :icon="Password" class="action-btn p-4">{{
-                  t('nav.reset')
-                }}</ElButton
-                ><br />
-                <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
-                  t('nav.logout')
+            <div class="user">
+              <ElButtonGroup>
+                <ElButton text bg :icon="User" type="primary">{{
+                  userStore.isLogin ? userStore.name : t('login.unlogined')
                 }}</ElButton>
-              </ElPopover>
-            </ElButtonGroup>
+                <ElPopover>
+                  <template #reference>
+                    <ElButton
+                      text
+                      bg
+                      :icon="ArrowDown"
+                      :disabled="!userStore.isLogin"
+                      type="primary"
+                    />
+                  </template>
+                  <ElButton text :icon="Feedback" class="action-btn p-4">{{
+                    t('nav.feedback')
+                  }}</ElButton
+                  ><br />
+                  <ElButton text :icon="Notification" class="action-btn p-4">{{
+                    t('nav.broadcast')
+                  }}</ElButton
+                  ><br />
+                  <ElButton text :icon="Password" class="action-btn p-4">{{
+                    t('nav.reset')
+                  }}</ElButton
+                  ><br />
+                  <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
+                    t('nav.logout')
+                  }}</ElButton>
+                </ElPopover>
+              </ElButtonGroup>
+              <ElDivider v-if="verticalMode" direction="vertical" />
+              <ZSelectLanguage v-if="verticalMode" placement="bottom" class="pr-1" />
+              <ZVerticalNav v-if="verticalMode" />
+            </div>
           </ElCol>
         </ElRow>
       </ElHeader>
       <ElContainer style="width: 100%; height: 100%">
-        <UserNav style="height: 100%" v-if="userStore.isLogin" />
+        <UserNav style="height: 100%" v-if="!verticalMode && userStore.isLogin" />
         <RouterView
           v-if="userStore.isLogin"
           class="bg-white dark:bg-gray-950 view fragment-container"

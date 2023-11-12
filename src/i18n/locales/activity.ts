@@ -58,11 +58,23 @@ export const enUS = {
     duration: 'Duration',
     classify: 'Classify',
     pending: 'Pending',
+    upload: {
+      name: 'Upload',
+      prompt: 'Click or drag file to this area to upload',
+      allow: 'Allow only {type} file',
+    },
+    actions: {
+      submit: 'Submit',
+      cancel: 'Cancel',
+      save: 'Save',
+      reset: 'Reset'
+    }
   },
   units: {
     item: 'item | item | items',
     hour: 'hour | hour | hours',
-    word: 'word | word | words'
+    word: 'word | word | words',
+    person: 'person | person | people'
   },
   impression: {
     write: 'Write',
@@ -107,7 +119,7 @@ export const enUS = {
     location: 'Location',
     class: 'Class(es) | Class | Classes',
     count: ' person registered |  person registered | people registered',
-    singe: {
+    single: {
       class: 'Class',
       min: 'Min',
       max: 'Max'
@@ -130,6 +142,7 @@ export const enUS = {
   },
   special: {
     classify: {
+      name: 'Classify',
       prize: 'Prize',
       import: 'Import',
       club: 'Club',
@@ -137,7 +150,9 @@ export const enUS = {
       other: 'Other'
     },
     prize: {
+      name: 'Prize',
       level: {
+        name: 'Level',
         district: 'District',
         city: 'City',
         province: 'Province',
@@ -145,10 +160,12 @@ export const enUS = {
         international: 'International'
       },
       type: {
+        name: 'Type',
         personal: 'Personal',
         team: 'Team'
       },
       classify: {
+        name: 'Classify',
         sports: 'Sports',
         academy: 'Academy',
         art: 'Art',
@@ -186,11 +203,11 @@ export const zhCN = {
         '社会义工是由团支书以上的人员可以创建，创建时需要指定所有参与人员，仅限于在学期内周末节假日校外的义工。'
     },
     scale: {
-      name: '规模义工',
-      short: '规模',
+      name: '实践义工',
+      short: '实践',
       key: 'scale',
       description:
-        '规模义工是由任何人都可以创建，创建时需要指定所有参与人员，仅限于在寒暑假期间根据学校文件的社会实践。'
+        '实践义工是由任何人都可以创建，创建时需要指定所有参与人员，仅限于在寒暑假期间根据学校文件的社会实践。'
     },
     special: {
       name: '特殊义工',
@@ -228,11 +245,23 @@ export const zhCN = {
     duration: '时长',
     classify: '分类',
     pending: '等待审核',
+    actions: {
+      submit: '提交',
+      cancel: '取消',
+      save: '保存',
+      reset: '重置'
+    },
+    upload: {
+      name: '上传',
+      prompt: '点击或拖拽文件到此区域上传',
+      allow: '仅允许 {type} 文件'
+    }
   },
   units: {
     item: '项',
     hour: '小时',
-    word: '字'
+    word: '字',
+    person: '人'
   },
   impression: {
     write: '填写',
@@ -277,7 +306,7 @@ export const zhCN = {
     location: '地点',
     class: '班级',
     count: '人已报名',
-    singe: {
+    single: {
       class: '班级',
       min: '最小',
       max: '最大'
@@ -300,14 +329,17 @@ export const zhCN = {
   },
   special: {
     classify: {
+      name: '分类',
       prize: '获奖',
-      import: '数据导入',
+      import: '导入',
       club: '社团',
       deduction: '扣分',
       other: '其他'
     },
     prize: {
+      name: '获奖',
       level: {
+        name: '级别',
         district: '区级',
         city: '市级',
         province: '省级',
@@ -315,10 +347,12 @@ export const zhCN = {
         international: '国际级'
       },
       type: {
+        name: '类型',
         personal: '个人',
         team: '团队'
       },
       classify: {
+        name: '分类',
         sports: '体育',
         academy: '学科',
         art: '艺术',

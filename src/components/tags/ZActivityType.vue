@@ -3,8 +3,10 @@ import { useI18n } from 'vue-i18n'
 import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
 import { ElButton } from 'element-plus'
 import { ref, toRefs, type Component as VueComponent } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 
 const { t } = useI18n()
+const { width, height } = useWindowSize()
 
 type ActivityType = 'specified' | 'special' | 'off-campus' | 'scale'
 
@@ -42,7 +44,7 @@ const effective = type?.value! in types.value
 
 <template>
   <ElButton
-    v-if="effective"
+    v-if="effective && width > height * 1.2"
     :icon="types[type as ActivityType].icon"
     :type="types[type as ActivityType].color"
     :size="size ?? 'small'"
@@ -50,6 +52,14 @@ const effective = type?.value! in types.value
   >
     {{ t(`activity.type.${type}.short`) }}
   </ElButton>
+  <ElButton
+    v-else-if="effective"
+    :icon="types[type as ActivityType].icon"
+    :type="types[type as ActivityType].color"
+    :size="size ?? 'small'"
+    circle
+    text
+  />
   <ElButton v-else type="danger" :size="size" text>
     {{ t('activity.type.unknown') }}
   </ElButton>
