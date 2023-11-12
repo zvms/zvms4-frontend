@@ -90,9 +90,9 @@ watch(useless, () => {
 <template>
   <ElButton :icon="ApplicationMenu" size="large" text circle @click="show = !show" />
   <div class="full">
-    <ElDrawer v-model="show" direction="ltr" size="45%" :with-header="false" :modal="false">
+    <ElDrawer v-model="show" direction="rtl" size="45%" :with-header="false" :modal="false">
       <div class="menu full">
-        <div class="py-2">
+        <div class="py-2" style="text-align: right">
           <ElButton :icon="Close" text circle @click="show = !show" />
         </div>
         <ElButtonGroup class="full">
@@ -110,6 +110,17 @@ watch(useless, () => {
             {{ t(`nav.${nav.name}`) }}
           </ElButton>
         </ElButtonGroup>
+        <p class="px-2 py-2 pt-8 font-serif">
+          开发、测试时大多使用横屏，横屏效果更佳，竖屏效果也还行。菜单为了区分 ZVMS
+          3，从左边移到了右边。由于使用的组件库和学海浏览器自身问题，ZVMS 3 显眼的主题功能暂不会完整呈现。
+        </p>
+        <p class="px-2 py-2 font-serif">
+          Development and testing mostly use landscape, landscape effect is better, portrait effect
+          is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3. Due
+          to the component library and the browser itself, the prominent theme function of ZVMS 3
+          will not be fully presented for the time being.
+        </p>
+        <p class="px-2 py-2 text-right font-mono">By Wu Chengyu</p>
       </div>
       <div class="bottom px-6">
         <ElForm>
