@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ElButton, ElButtonGroup, ElNotification, ElTooltip } from 'element-plus'
-import type { Component as VueComponent } from 'vue'
-import { PersonalStacks, PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
+import { PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
 import { useHeaderStore } from '@/stores/header'
 
 const header = useHeaderStore()
@@ -14,16 +13,6 @@ function openGitHub() {
     message: '如果这样就让你润出去的话未免有些……（   ）（3 分）',
     type: 'warning'
   })
-}
-
-function randomColor() {
-  const colors = ['primary', 'success', 'warning', 'danger', 'info']
-  return colors[Math.floor(Math.random() * colors.length)] as
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
 }
 </script>
 <template>
@@ -39,24 +28,15 @@ function randomColor() {
         <ElButton text bg circle :icon="interest.icon" />
       </ElTooltip>
     </ElButtonGroup>
-    <br />
-    <span class="text-lg">个人技术栈推荐：</span>
-    <ElButtonGroup>
-      <ElTooltip
-        :content="stack.name"
-        effect="light"
-        v-for="(stack, idx) in PersonalStacks"
-        :key="idx"
-      >
-        <ElButton style="fill: currentColor" text bg circle :icon="stack.icon" />
-      </ElTooltip>
-    </ElButtonGroup>
   </p>
   <br />
-  <ElButton text bg @click="openGitHub" type="primary"
-    >View me on GitHub: https://github.com/7086cmd/</ElButton
-  >
-  <code> // Never write comments. </code>
+  <img
+    @click="openGitHub"
+    src="https://img.shields.io/badge/-@7086cmd-181717?style=for-the-badge&logo=github&logoColor=white"
+  />
+  <img
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=7086cmd&layout=compact&hide_border=true"
+  />
   <p class="self-introd">
     开发过的项目有：蛟川书院纪检部管理平台
     <sup>

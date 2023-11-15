@@ -1,5 +1,14 @@
 <script lang="ts" setup>
-import { ElButton, ElButtonGroup, ElCard, ElDrawer, ElSwitch, ElTooltip } from 'element-plus'
+import {
+  ElButton,
+  ElButtonGroup,
+  ElCard,
+  ElDrawer,
+  ElSwitch,
+  ElTooltip,
+  ElSpace,
+  ElNotification
+} from 'element-plus'
 import {
   ZhangZisu,
   LuJinxuan,
@@ -220,6 +229,14 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 
 const displayGitHubName = ref(true)
+
+function openGitHub() {
+  ElNotification({
+    title: '不行',
+    message: '如果这样就让你润出去的话未免有些……（   ）（3 分）',
+    type: 'warning'
+  })
+}
 </script>
 <template>
   <div class="full px-4">
@@ -339,16 +356,16 @@ const displayGitHubName = ref(true)
       </ElButtonGroup>
       <br /><br />
       仓库：
-      <ElButtonGroup>
-        <ElButton
-          v-for="(repo, idx) in stacks[currentStack as number].repos"
-          text
-          bg
+      <ElSpace>
+        <img
+          @click="openGitHub"
+          v-for="(name, idx) in stacks[currentStack as number].repos"
           :key="idx"
-          :type="useRandomColor()"
-          >{{ repo }}</ElButton
-        >
-      </ElButtonGroup>
+          :src="`https://github-readme-stats.vercel.app/api/pin/?username=${
+            name.split('/')[0]
+          }&repo=${name.split('/')[1]}`"
+        />
+      </ElSpace>
     </ElDrawer>
   </div>
 </template>
