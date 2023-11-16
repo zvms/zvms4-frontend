@@ -11,7 +11,8 @@ import {
   ElButtonGroup,
   ElPopover,
   ElConfigProvider,
-  ElDivider
+  ElDivider,
+  ElNotification
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -77,11 +78,20 @@ function logout() {
   userStore.removeUser()
   router.push('/user/login')
 }
+
+function feedback() {
+  ElNotification({
+    title: '反馈渠道关闭',
+    message: `出于某些不可抗力因素，反馈渠道关闭，详情请咨询蛟二（3）班 楼瀚文同学。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy.`,
+    type: 'warning',
+    position: 'bottom-right'
+  })
+}
 </script>
 
 <template>
   <ElConfigProvider :locale="langPack">
-    <ElContainer @contextmenu.prevent class="bg-slate-50 dark:bg-gray-900">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900">
       <ElHeader>
         <ElRow class="pt-4 px-4">
           <ElCol :span="16">
@@ -107,7 +117,7 @@ function logout() {
                       type="primary"
                     />
                   </template>
-                  <ElButton text :icon="Feedback" class="action-btn p-4">{{
+                  <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">{{
                     t('nav.feedback')
                   }}</ElButton
                   ><br />
@@ -134,12 +144,12 @@ function logout() {
         <UserNav style="height: 100%" v-if="!verticalMode && userStore.isLogin" />
         <RouterView
           v-if="userStore.isLogin"
-          class="bg-white dark:bg-gray-950 view fragment-container"
+          class="bg-slate-50 dark:bg-gray-950 view fragment-container"
         />
-        <RouterView v-else class="bg-slate-50 dark:bg-gray-900 view" />
+        <RouterView v-else class="bg-slate-100 dark:bg-gray-900 view" />
       </ElContainer>
       <ElFooter
-        class="footer bg-gray-100 text-gray-400 dark:text-gray-300 dark:bg-gray-900 footer-container"
+        class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
         <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
       </ElFooter>

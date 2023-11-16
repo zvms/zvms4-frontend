@@ -182,7 +182,11 @@ export const enUS = {
     'last-instance': 'Last Instance',
     'last-instance-rejected': 'Last Instance Rejected',
     effective: 'Effective',
-    rejected: 'Rejected'
+    rejected: 'Rejected',
+    steps: {
+      first: 'First',
+      last: 'Last'
+    }
   }
 }
 
@@ -368,7 +372,11 @@ export const zhCN = {
     'last-instance': '终审中',
     'last-instance-rejected': '终审驳回',
     effective: '有效',
-    rejected: '拒绝'
+    rejected: '拒绝',
+    steps: {
+      first: '初审',
+      last: '终审'
+    }
   }
 }
 
@@ -555,7 +563,11 @@ export const zhTW = {
     'last-instance': '終審中',
     'last-instance-rejected': '終審駁回',
     effective: '有效',
-    rejected: '拒絕'
+    rejected: '拒絕',
+    steps: {
+      first: '初審',
+      last: '終審'
+    }
   }
 }
 
@@ -743,7 +755,11 @@ export const jaJP = {
     'last-instance': '最終審査中',
     'last-instance-rejected': '最終審査拒否',
     effective: '有効',
-    rejected: '拒否'
+    rejected: '拒否',
+    steps: {
+      first: '初審査',
+      last: '最終審査'
+    }
   }
 }
 
@@ -931,7 +947,11 @@ export const frFR = {
     'last-instance': 'Dernière Instance',
     'last-instance-rejected': 'Dernière Instance Rejetée',
     effective: 'Effectif',
-    rejected: 'Rejetée'
+    rejected: 'Rejetée',
+    steps: {
+      first: 'Première',
+      last: 'Dernière'
+    }
   }
 }
 
@@ -1120,7 +1140,11 @@ export const koKR = {
     'last-instance': '종심사',
     'last-instance-rejected': '종심사 거절',
     effective: '유효',
-    rejected: '거절'
+    rejected: '거절',
+    steps: {
+      first: '초심사',
+      last: '종심사'
+    }
   }
 }
 
@@ -1275,6 +1299,10 @@ export const ruRU = {
     'last-instance': 'Последний',
     'last-instance-rejected': 'Последний отказ',
     effective: 'Эффективный',
-    rejected: 'Отклонено'
+    rejected: 'Отклонено',
+    steps: {
+      first: 'Первичный',
+      last: 'Последний'
+    }
   }
 }

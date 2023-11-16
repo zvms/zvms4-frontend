@@ -23,8 +23,6 @@ const tab = ref(path.value as string)
 
 const { width, height } = useWindowSize()
 
-const useVertical = ref(width.value < height.value)
-
 watch(
   tab,
   () => {
@@ -47,7 +45,7 @@ watch(
 
 <template>
   <div class="p-4" style="width: 100%">
-    <ElTabs v-model="tab" class="pl-4" :tab-position="useVertical ? 'top' : 'left'">
+    <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane name="" :label="t('nav.activities.mine')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
         <ZActivityList role="student" :activities="[]" />

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
-import { ElButton } from 'element-plus'
+import { ElButton, ElTooltip } from 'element-plus'
 import { ref, toRefs, type Component as VueComponent } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
@@ -49,17 +49,21 @@ const effective = type?.value! in types.value
     :type="types[type as ActivityType].color"
     :size="size ?? 'small'"
     text
+    bg
+    round
   >
     {{ t(`activity.type.${type}.short`) }}
   </ElButton>
-  <ElButton
-    v-else-if="effective"
-    :icon="types[type as ActivityType].icon"
-    :type="types[type as ActivityType].color"
-    :size="size ?? 'small'"
-    circle
-    text
-  />
+  <ElTooltip v-else-if="effective" :content="t(`activity.type.${type}.short`)">
+    <ElButton
+      :icon="types[type as ActivityType].icon"
+      :type="types[type as ActivityType].color"
+      :size="size ?? 'small'"
+      circle
+      text
+      bg
+    />
+  </ElTooltip>
   <ElButton v-else type="danger" :size="size" text>
     {{ t('activity.type.unknown') }}
   </ElButton>
