@@ -41,10 +41,10 @@ const positionList = {
 const nowTime = dayjs().hour()
 const greeting = ref(
   nowTime < 12
-    ? t('home.greetings.morning')
+    ? 'morning'
     : nowTime < 18
-    ? t('home.greetings.afternoon')
-    : t('home.greetings.evening')
+    ? 'afternoon'
+    : 'evening'
 )
 
 const useTransform = ref(true)
@@ -60,7 +60,7 @@ function transform() {
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">{{ t('home.greeting', { greet: greeting, name: user.name }) }}</p>
+    <p class="text-2xl py-8">{{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}</p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>
@@ -76,7 +76,7 @@ function transform() {
           <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.class')">{{ user.class }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.identify')">
-            <ElTag v-for="tag in user.position" :key="tag">{{ positionList[tag] }}</ElTag>
+            <ElTag v-for="tag in user.position" :key="tag">{{ t('home.positions.' + tag) }}</ElTag>
           </ElDescriptionsItem>
         </ElDescriptions>
       </ElCard>

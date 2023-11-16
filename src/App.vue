@@ -21,11 +21,10 @@ import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from './views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
-import { pad } from './plugins/ua'
+// import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
 import { zhCn, en, ja, ko, zhTw, fr, ru } from 'element-plus/es/locale/index.mjs'
-import ZSelectLanguage from './components/form/ZSelectLanguage.vue'
 import ZVerticalNav from './components/form/ZVerticalNav.vue'
 
 const { t, locale } = useI18n()
