@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ArrowDown, User, SwitchButton, Notification } from '@element-plus/icons-vue'
-import { ApplicationMenu } from '@icon-park/vue-next'
 import {
   ElContainer,
   ElHeader,
@@ -58,7 +57,7 @@ watch(locale, () => {
   langPack.value = getLocale(locale.value)
 })
 
-const toast = pad() ? t('platform.xh') : t('platform.normal')
+const toast = /* pad() ? t('platform.xh') : t('platform.normal') */ ''
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -127,7 +126,6 @@ function logout() {
                 </ElPopover>
               </ElButtonGroup>
               <ElDivider v-if="verticalMode" direction="vertical" />
-              <ZSelectLanguage v-if="verticalMode" placement="bottom" class="pr-1" />
               <ZVerticalNav v-if="verticalMode" />
             </div>
           </ElCol>

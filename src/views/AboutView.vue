@@ -242,7 +242,7 @@ function openGitHub() {
   <div class="full px-4">
     <div class="py-4">
       <ElCard shadow="never" class="full">
-        <p class="text-xl">{{ t('about.about-project') }}</p>
+        <p class="text-xl">{{ t('about.about.project') }}</p>
         <p class="text-l pl-4">
           <span class="large">Z</span>henhai High School <span class="large">V</span>olunteer
           <span class="large">M</span>anagement <span class="large">S</span>ystem
@@ -252,21 +252,21 @@ function openGitHub() {
     </div>
     <div class="py-4">
       <ElCard shadow="never" class="full">
-        <p class="text-xl">{{ t('about.about-developers') }}</p>
+        <p class="text-xl">{{ t('about.about.developers') }}</p>
         <div style="text-align: right">
           <ElSwitch
-            :active-text="t('about.switch.real')"
-            :inactive-text="t('about.switch.nick')"
+            :active-text="t('about.switch.nick')"
+            :inactive-text="t('about.switch.real')"
             v-model="displayGitHubName"
           />
         </div>
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
-            {{ t('about.version.0') }}
+            {{ t('about.repository.version.0') }}
             <ElButton text bg :type="useRandomColor()" @click="useStackDialog(id)" size="small">
               v{{ id }}.x
             </ElButton>
-            {{ t('about.version.1') }}
+            {{ t('about.repository.version.1') }}
             <ElButtonGroup>
               <ElButton
                 text
@@ -284,10 +284,10 @@ function openGitHub() {
                 }}
               </ElButton>
             </ElButtonGroup>
-            {{ t('about.version.2') }}
+            {{ t('about.repository.version.2') }}
           </div>
           <p class="py-2">
-            {{ t('about.thank.mean') }}
+            {{ t('about.repository.thank.mean') }}
             <ElButton
               text
               bg
@@ -296,7 +296,7 @@ function openGitHub() {
               size="small"
               >{{ displayGitHubName ? 'hhj' : '黄浩杰' }}</ElButton
             >
-            {{ t('about.thank.icon') }}
+            {{ t('about.repository.thank.icon') }}
             <ElButton
               text
               bg
@@ -305,7 +305,7 @@ function openGitHub() {
               size="small"
               >{{ displayGitHubName ? 'zsz' : '张圣泽' }}</ElButton
             >
-            {{ t('about.thank.test') }}
+            {{ t('about.repository.thank.test') }}
             <ElButton
               text
               bg
@@ -314,7 +314,7 @@ function openGitHub() {
               size="small"
               >{{ displayGitHubName ? 'zjr' : '周济睿' }}</ElButton
             >
-            {{ t('about.thank.end') }}
+            {{ t('about.repository.thank.end') }}
           </p>
         </div>
       </ElCard>

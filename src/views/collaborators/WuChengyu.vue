@@ -2,6 +2,7 @@
 import { ElButton, ElButtonGroup, ElNotification, ElTooltip } from 'element-plus'
 import { PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
 import { useHeaderStore } from '@/stores/header'
+import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
 
@@ -35,6 +36,7 @@ function openGitHub() {
     src="https://img.shields.io/badge/-@7086cmd-181717?style=for-the-badge&logo=github&logoColor=white"
   />
   <img
+    v-if="!pad()"
     src="https://github-readme-stats.vercel.app/api/top-langs/?username=7086cmd&layout=compact&hide_border=true"
   />
   <p class="self-introd">

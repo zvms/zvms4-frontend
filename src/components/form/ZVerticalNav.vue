@@ -19,8 +19,9 @@ import type { Component as VueComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import ZSelectLanguage from '@/components/form/ZSelectLanguage.vue'
 import { watch } from 'vue'
+import ZSelectLanguage from './ZSelectLanguage.vue'
+import { pad } from '@/plugins/ua'
 
 const user = useUserStore()
 const router = useRouter()
@@ -88,9 +89,9 @@ watch(useless, () => {
 </script>
 
 <template>
-  <ElButton :icon="ApplicationMenu" size="large" text circle @click="show = !show" />
+  <ElButton :icon="ApplicationMenu" text circle @click="show = !show" />
   <div class="full">
-    <ElDrawer v-model="show" direction="rtl" size="45%" :with-header="false" :modal="false">
+    <ElDrawer v-model="show" direction="rtl" size="45%" :with-header="false">
       <div class="menu full">
         <div class="py-2" style="text-align: right">
           <ElButton :icon="Close" text circle @click="show = !show" />
@@ -110,10 +111,6 @@ watch(useless, () => {
             {{ t(`nav.${nav.name}`) }}
           </ElButton>
         </ElButtonGroup>
-        <p class="px-2 py-2 pt-8 font-serif">
-          开发、测试时大多使用横屏，横屏效果更佳，竖屏效果也还行。菜单为了区分 ZVMS
-          3，从左边移到了右边。由于使用的组件库和学海浏览器自身问题，ZVMS 3 显眼的主题功能暂不会完整呈现。
-        </p>
         <p class="px-2 py-2 font-serif">
           Development and testing mostly use landscape, landscape effect is better, portrait effect
           is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3. Due
@@ -123,8 +120,11 @@ watch(useless, () => {
         <p class="px-2 py-2 text-right font-mono">By Wu Chengyu</p>
       </div>
       <div class="bottom px-6">
-        <ElForm>
-          <ElFormItem :label="t('nav.dark')">
+        <ElForm label-position="right" label-width="120px">
+          <ElFormItem :label="t('nav.language')">
+            <ZSelectLanguage type="select" placement="bottom" class="full" />
+          </ElFormItem>
+          <ElFormItem :label="t('nav.dark')" v-if="!pad()">
             <ElSwitch
               v-model="useless"
               inline-prompt

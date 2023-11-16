@@ -27,7 +27,7 @@ import ZSelectLanguage from '@/components/form/ZSelectLanguage.vue'
 const user = useUserStore()
 const router = useRouter()
 const dark = useDark()
-const { t, locale } = useI18n({
+const { t } = useI18n({
   useScope: 'global'
 })
 
@@ -188,7 +188,7 @@ function routeTo(page: string) {
     </div>
     <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
     <div class="bottom">
-      <ZSelectLanguage placement="right" />
+      <ZSelectLanguage type="button" placement="right" />
       <br />
       <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
     </div>

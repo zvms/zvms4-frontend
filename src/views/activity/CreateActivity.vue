@@ -78,7 +78,7 @@ watch(
 
 <template>
   <div class="p-4" style="width: 100%">
-    <ElTabs v-model="tab" class="pl-4" :tab-position="width < height ? 'top' : 'left'">
+    <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane
         v-for="pane in tabs"
         :key="pane.value"

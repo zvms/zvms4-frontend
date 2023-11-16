@@ -2,8 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import MdiTranslate from '@/icons/MdiTranslate.vue'
 import { Chinese, English } from '@icon-park/vue-next'
-import { type Component as VueComponent, ref } from 'vue'
-import { ElButton, ElButtonGroup, ElPopover } from 'element-plus'
+import { type Component as VueComponent, ref, toRefs } from 'vue'
+import { ElButton, ElButtonGroup, ElOption, ElPopover, ElSelect } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 
 const { locale } = useI18n({
@@ -13,7 +13,12 @@ const user = useUserStore()
 
 const props = defineProps<{
   placement: 'bottom' | 'right'
+  type: 'button' | 'select'
 }>()
+
+const { placement, type } = toRefs(props)
+
+console.log(type)
 
 function setLanguage(language: string) {
   user.setLanguage(language)
@@ -61,7 +66,7 @@ const languages = ref<
 </script>
 
 <template>
-  <ElPopover :placement="props.placement" width="192px">
+  <ElPopover :placement="placement" width="192px" v-if="type === 'button'">
     <template #reference>
       <ElButton
         :icon="MdiTranslate"
@@ -86,6 +91,19 @@ const languages = ref<
       </div>
     </ElButtonGroup>
   </ElPopover>
+  <ElSelect
+    v-else-if="type === 'select'"
+    class="full"
+    v-model="user.language"
+    @change="setLanguage"
+  >
+    <ElOption
+      v-for="language in languages"
+      :key="language.value"
+      :label="language.display"
+      :value="language.value"
+    />
+  </ElSelect>
 </template>
 
 <style scoped>
