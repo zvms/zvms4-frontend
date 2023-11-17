@@ -7,6 +7,8 @@ import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { getAllActivities } from '@/api/activity/read'
+import type { ActivityInstance } from '@/../@types/activity'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -22,6 +24,14 @@ const path = ref(route.params?.type ?? '')
 const tab = ref(path.value as string)
 
 const { width, height } = useWindowSize()
+
+const activities = ref<ActivityInstance[]>([])
+
+getAllActivities('campus', {
+  type: 'all'
+}).then((res) => {
+  activities.value = res as ActivityInstance[]
+})
 
 watch(
   tab,
@@ -48,7 +58,7 @@ watch(
     <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane name="" :label="t('nav.activities.mine')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
-        <ZActivityList role="student" :activities="[]" />
+        <ZActivityList role="student" :activities="activities" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('auditor')"
@@ -56,7 +66,7 @@ watch(
         :label="t('nav.activities.campus')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
-        <ZActivityList role="auditor" :activities="[]" />
+        <ZActivityList role="auditor" :activities="activities" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('secretary')"
@@ -64,7 +74,7 @@ watch(
         :label="t('nav.activities.class')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
-        <ZActivityList role="secretary" :activities="[]" />
+        <ZActivityList role="secretary" :activities="activities" />
       </ElTabPane>
     </ElTabs>
   </div>

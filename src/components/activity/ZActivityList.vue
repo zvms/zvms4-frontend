@@ -12,7 +12,6 @@ import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
 import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
-import activity from './test'
 import ZActivityDetails from './ZActivityDetails.vue'
 
 const { t } = useI18n()
@@ -47,7 +46,7 @@ const registerForSpecified = ref(false)
       <UserResgister />
     </ElDialog>
     <ElCard shadow="never">
-      <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
+      <ElTable :data="activities.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
         <ElTableColumn type="expand">
           <template #header>
             <ElButton
