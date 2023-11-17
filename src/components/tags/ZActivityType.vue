@@ -11,12 +11,13 @@ const { width, height } = useWindowSize()
 type ActivityType = 'specified' | 'special' | 'off-campus' | 'scale'
 
 const props = defineProps<{
-  type?: ActivityType
+  type: ActivityType
   size?: 'large' | 'default' | 'small'
   color?: boolean
+  mode?: 'auto' | 'full' | 'icon'
 }>()
 
-const { type, size } = toRefs(props)
+const { type, size, mode } = toRefs(props)
 
 const types = ref<
   Record<string, { color: 'primary' | 'warning' | 'success' | 'danger'; icon: VueComponent }>
@@ -44,7 +45,7 @@ const effective = type?.value! in types.value
 
 <template>
   <ElButton
-    v-if="effective && width > height * 1.2"
+    v-if="(effective && width > height * 1.2) || mode === 'full'"
     :icon="types[type as ActivityType].icon"
     :type="types[type as ActivityType].color"
     :size="size ?? 'small'"
@@ -54,7 +55,7 @@ const effective = type?.value! in types.value
   >
     {{ t(`activity.type.${type}.short`) }}
   </ElButton>
-  <ElTooltip v-else-if="effective" :content="t(`activity.type.${type}.short`)">
+  <ElTooltip v-else-if="effective || mode === 'icon'" :content="t(`activity.type.${type}.short`)">
     <ElButton
       :icon="types[type as ActivityType].icon"
       :type="types[type as ActivityType].color"

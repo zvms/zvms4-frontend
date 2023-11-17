@@ -5,7 +5,7 @@ import type { Component as VueComponent } from 'vue'
 const props = defineProps<{
   size?: 'large' | 'default' | 'small'
   popType?: 'drawer' | 'dialog'
-  mode?: 'card' | 'button'
+  mode: 'card' | 'button'
   width?: string
   direction?: 'rtl' | 'ltr' | 'ttb' | 'btt'
   loading?: boolean
@@ -14,10 +14,23 @@ const props = defineProps<{
   fullscreen?: boolean
   modal?: boolean
   title?: string
+  center?: boolean
 }>()
 
-const { size, popType, mode, width, direction, loading, type, icon, fullscreen, modal, title } =
-  toRefs(props)
+const {
+  size,
+  popType,
+  mode,
+  width,
+  direction,
+  loading,
+  type,
+  icon,
+  fullscreen,
+  modal,
+  title,
+  center
+} = toRefs(props)
 
 const show = ref(false)
 </script>
@@ -29,7 +42,7 @@ const show = ref(false)
         <ElSkeletonItem variant="text" />
       </template>
       <template #default>
-        <ElButton text bg :size="size" :type="type ?? 'primary'" :icon="icon">
+        <ElButton text bg :size="size" :type="type ?? 'primary'" :icon="icon" @click="show = true">
           <slot name="text" />
         </ElButton>
       </template>
@@ -38,8 +51,9 @@ const show = ref(false)
       v-if="popType === 'dialog'"
       v-model="show"
       :fullscreen="fullscreen"
-      :modal="modal"
+      :modal="modal ? modal : true"
       :title="title"
+      :center="center ? center : true"
     >
       <slot name="default" />
     </ElDialog>
@@ -47,7 +61,7 @@ const show = ref(false)
       v-if="popType === 'drawer'"
       v-model="show"
       :fullscreen="fullscreen"
-      :modal="modal"
+      :modal="modal ? modal : true"
       :title="title"
       :size="width"
       :direction="direction ?? 'rtl'"

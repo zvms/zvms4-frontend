@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -36,5 +35,8 @@ declare module 'vue' {
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

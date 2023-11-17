@@ -28,24 +28,8 @@ const { t } = useI18n()
 
 header.setHeader(t('nav.home'))
 
-const positionList = {
-  student: t('home.positions.student'),
-  secretary: t('home.positions.secretary'),
-  auditor: t('home.positions.auditor'),
-  inspector: t('home.positions.inspector'),
-  admin: t('home.positions.admin'),
-  department: t('home.positions.department'),
-  system: t('home.positions.system')
-}
-
 const nowTime = dayjs().hour()
-const greeting = ref(
-  nowTime < 12
-    ? 'morning'
-    : nowTime < 18
-    ? 'afternoon'
-    : 'evening'
-)
+const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
 
 const useTransform = ref(true)
 
@@ -60,7 +44,9 @@ function transform() {
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">{{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}</p>
+    <p class="text-2xl py-8">
+      {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
+    </p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>

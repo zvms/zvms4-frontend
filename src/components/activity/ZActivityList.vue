@@ -6,7 +6,6 @@ import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
 import { Box } from '@element-plus/icons-vue'
 import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
 import { useWindowSize } from '@vueuse/core'
@@ -14,6 +13,7 @@ import { useI18n } from 'vue-i18n'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
 import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
 import activity from './test'
+import ZActivityDetails from './ZActivityDetails.vue'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -71,7 +71,7 @@ const registerForSpecified = ref(false)
             />
           </template>
           <template #default="{ row }">
-            <ZActivityDescriptions :activity="row" :role="role" />
+            <ZActivityDetails :activity="row" :mode="role" />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
