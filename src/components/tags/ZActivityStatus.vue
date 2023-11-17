@@ -55,7 +55,7 @@ const effective = type?.value! in statuses
       bg
     />
   </ElTooltip>
-  <ElButton v-else type="danger" :size="size" text>
-    {{ t('activity.status.unknown') }}
+  <ElButton v-else type="danger" :size="size ?? 'small'" text bg round>
+    {{ t('activity.type.unknown') }}
   </ElButton>
 </template>

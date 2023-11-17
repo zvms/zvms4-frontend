@@ -20,6 +20,7 @@ import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
 import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { reactive, watch } from 'vue'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -36,10 +37,33 @@ const useTransform = ref(true)
 console.log(user)
 
 function transform() {
-  if (user.volTime.onCampus <= 30) return 0
-  const result = Math.floor((user.volTime.onCampus - 30) / 3)
+  if (user.time.onCampus <= 30) return 0
+  const result = Math.floor((user.time.onCampus - 30) / 3)
   return result > 6 ? 6 : result
 }
+
+const time = reactive({
+  largeScale: 0,
+  onCampus: 0,
+  offCampus: 0
+})
+
+refreshSumTime()
+
+function refreshSumTime() {
+  user.getUserActivityTime().then(() => {
+    time.largeScale = user.time.largeScale
+    time.onCampus = user.time.onCampus
+    time.offCampus = user.time.offCampus
+    if (useTransform.value) {
+      time.offCampus += transform()
+    }
+  })
+}
+
+watch(useTransform, () => {
+  refreshSumTime()
+})
 </script>
 
 <template>
@@ -89,12 +113,12 @@ function transform() {
         <ElRow class="fill py-4 statistic">
           <ElCol v-if="width > height" :span="2" />
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="large-scale" :realTime="user.volTime.largeScale" />
+            <ZTimeJudge type="large-scale" :realTime="user.time.largeScale" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="on-campus" :realTime="user.volTime.onCampus" />
+            <ZTimeJudge type="on-campus" :realTime="user.time.onCampus" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol v-if="width > height" :span="1"
@@ -103,7 +127,7 @@ function transform() {
           <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge
               type="off-campus"
-              :realTime="user.volTime.offCampus + (useTransform ? transform() : 0)"
+              :realTime="user.time.offCampus + (useTransform ? transform() : 0)"
             />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>

@@ -69,7 +69,7 @@ function calculateLoss() {
     </template>
     <template #suffix>
       <div class="footer-item">
-        <span style="font-family: 12px">{{ t('home.panels.time.unit') }}</span
+        <span style="font-family: 12px">{{ t('home.panels.time.unit', real) }}</span
         >&nbsp;
         <span :class="calculateLoss().class">
           <span>{{ calculateLoss().loss }}</span>

@@ -4,7 +4,8 @@ export interface User<T = string> {
   name: string
   sex: 'male' | 'female' | 'unknown'
   position: UserPosition[]
-  class: ClassType
+  // class: ClassType
+  code: number
 }
 
 export type UserPosition = 'system' | 'admin' | 'auditor' | 'department' | 'secretary' | 'student'
