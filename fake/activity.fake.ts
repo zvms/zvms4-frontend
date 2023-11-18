@@ -100,7 +100,7 @@ function generateCode() {
   const grade = fakeCN.number.int({ min: 21, max: 23 })
   const class_ = fakeCN.number.int({ min: 1, max: 10 })
   const number = fakeCN.number.int({ min: 1, max: 60 })
-  return school * 100000 + grade * 10000 + class_ * 100 + number
+  return school * 1000000 + grade * 10000 + class_ * 100 + number
 }
 
 function createPerson(id?: string) {

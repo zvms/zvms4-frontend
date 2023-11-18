@@ -28,7 +28,6 @@ interface Class {
 
 export function getUserGrade(year: number) {
   const y = dayjs().year()
-  console.log(y, year)
   if (dayjs().month() < 8) {
     return y - year
   } else {
@@ -37,7 +36,6 @@ export function getUserGrade(year: number) {
 }
 
 export function getUserClass(id: number, code?: number) {
-  // code > id
   const classinfo = code ? getUserClassByCode(code) : getUserClassByNumber(id)
   const grade = getUserGrade(classinfo.year)
   return {
@@ -63,17 +61,17 @@ export function getUserClassByNumber(id: number) {
 }
 
 export function getUserClassByCode(code: number) {
-  const year = Math.floor(code / 10000)
+  const year = Math.floor((code % 1000000) / 10000) + 2000
   const grade = getUserGrade(year)
   const classid = Math.floor((code % 10000) / 100)
-  if (code.toString().startsWith('09')) {
+  if (code.toString(8).startsWith('09')) {
     return {
       type: classid <= 8 ? 'Z' : 'J',
       year,
       grade,
       class: classid <= 8 ? classid : classid - 8
     }
-  } else if (code.toString().startsWith('39')) {
+  } else if (code.toString(8).startsWith('39')) {
     return {
       type: classid <= 2 ? 'Z' : 'J',
       year,
@@ -95,7 +93,7 @@ export function getClassName(classType: Class) {
   const grades = ['一', '二', '三']
   if (classType.grade === 0) return '未知班级'
   if (classType.class === 0) return `${classType.year} 级`
-  if (classType.grade >= 3)
+  if (classType.grade > 3)
     return `${classType.year} 级 ${
       classType.class > 10 ? `蛟 ${classType.class - 10}` : `${classType.class}`
     } 班`

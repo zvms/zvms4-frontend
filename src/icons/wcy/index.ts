@@ -9,7 +9,6 @@ import Apple from './Apple.vue'
 import Starbucks from './Starbucks.vue'
 import KFC from './KFC.vue'
 import Clash from './Clash.vue'
-import Edge from './Edge.vue'
 import Keynote from './Keynote.vue'
 import macOS from './macOS.vue'
 
@@ -24,6 +23,5 @@ export const PersonalPreferences: Array<{ icon: Component; name: string; classif
   { icon: Starbucks, name: 'Starbucks', classify: 'brand' },
   { icon: KFC, name: 'KFC', classify: 'brand' },
   { icon: macOS, name: 'macOS', classify: 'os' },
-  { icon: Edge, name: 'Edge', classify: 'browser' },
   { icon: Keynote, name: 'Keynote', classify: 'tool' },
 ]

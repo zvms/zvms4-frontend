@@ -256,7 +256,7 @@ watch(
           </template>
         </ElTableColumn>
       </ElTable>
-      <div class="py-2">
+      <div class="py-2" v-if="activities.length !== 0">
         <ElPagination
           v-model:current-page="activePage"
           v-model:page-size="pageSize"

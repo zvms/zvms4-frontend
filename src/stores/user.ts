@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', {
     name: '',
     sex: 'male',
     position: ['admin'] as UserPosition[],
-    class: '高一（6）班',
+    class: '',
     token: '',
     code: 0,
     isLogin: true,
@@ -33,7 +33,7 @@ export const useUserStore = defineStore('user', {
         this.id = information?.id
         this.name = information?.name
         this.position = information?.position
-        this.class = getUserClassName(information.id, information?.code)
+        this.class = getUserClassName(information.id, information.code)
         this.token = ''
         this.code = information.code
         this.isLogin = true

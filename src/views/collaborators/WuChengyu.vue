@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElButton, ElButtonGroup, ElNotification, ElTooltip } from 'element-plus'
+import { ElButton, ElButtonGroup, ElCol, ElNotification, ElRow, ElTooltip } from 'element-plus'
 import { PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
 import { useHeaderStore } from '@/stores/header'
 import { pad } from '@/plugins/ua'
@@ -15,6 +15,11 @@ function openGitHub() {
     type: 'warning'
   })
 }
+
+function randomColor() {
+  const list = ['primary', 'success', 'warning', 'danger', 'info']
+  return list[Math.floor(Math.random() * list.length)] as 'primary' | 'success' | 'warning' | 'danger' | 'info'
+}
 </script>
 <template>
   <p class="text-2xl">
@@ -26,7 +31,7 @@ function openGitHub() {
         v-for="(interest, idx) in PersonalPreferences"
         :key="idx"
       >
-        <ElButton text bg circle :icon="interest.icon" />
+        <ElButton text bg circle :type="randomColor()" :icon="interest.icon" />
       </ElTooltip>
     </ElButtonGroup>
   </p>
@@ -35,11 +40,21 @@ function openGitHub() {
     @click="openGitHub"
     src="https://img.shields.io/badge/-@7086cmd-181717?style=for-the-badge&logo=github&logoColor=white"
   />
-  <img
-    v-if="!pad()"
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=7086cmd&layout=compact&hide_border=true"
-  />
-  <p class="self-introd">
+  <ElRow>
+    <ElCol :span="12">
+      <img
+        v-if="!pad()"
+        src="https://github-readme-stats.vercel.app/api/top-langs/?username=7086cmd&layout=compact&hide_border=true"
+      />
+    </ElCol>
+    <ElCol :span="12">
+      <img
+        v-if="!pad()"
+        src="https://github-readme-stats.vercel.app/api?username=7086cmd&show_icons=true"
+      />
+    </ElCol>
+  </ElRow>
+  <p class="self-introd py-2">
     开发过的项目有：蛟川书院纪检部管理平台
     <sup>
       <ElButtonGroup>
