@@ -8,6 +8,7 @@ export interface Activity {
   date: string // ISO-8601
   createdAt: string // ISO-8601
   updatedAt: string // ISO-8601
+  creator: string // ObjectId
 }
 
 export type ActivityQuery = {
@@ -125,4 +126,9 @@ export type SpecialActivityInstance =
   | DeductionSpecialActivity
   | OtherSpecialActivity
 
-export type ActivityInstance = Activity | SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivityInstance
+export type ActivityInstance =
+  | Activity
+  | SpecifiedActivity
+  | SocialActivity
+  | ScaleActivity
+  | SpecialActivityInstance

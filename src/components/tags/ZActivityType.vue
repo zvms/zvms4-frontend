@@ -4,11 +4,10 @@ import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
 import { ElButton, ElTooltip } from 'element-plus'
 import { ref, toRefs, type Component as VueComponent } from 'vue'
 import { useWindowSize } from '@vueuse/core'
+import type { ActivityType } from '@/../@types/activity'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
-
-type ActivityType = 'specified' | 'special' | 'off-campus' | 'scale'
 
 const props = defineProps<{
   type: ActivityType

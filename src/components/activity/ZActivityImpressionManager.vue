@@ -135,6 +135,7 @@ async function curserTo(index: number) {
             <ElPagination
               layout="prev, pager, next, jumper"
               :page-count="activity.members.length"
+              :pager-count="3"
               background
               hide-on-single-page
               :default-page-size="1"

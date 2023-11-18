@@ -15,9 +15,23 @@ function generateActivity(_id?: string) {
         )
       ),
     duration: Math.floor(Math.random() * 10),
+    registration: generateRegistration(),
     date: fakeCN.date.recent().toISOString(),
     createdAt: fakeCN.date.recent().toISOString(),
-    updatedAt: fakeCN.date.recent().toISOString()
+    updatedAt: fakeCN.date.recent().toISOString(),
+    creator: new ObjectID().toHexString()
+  }
+}
+
+function generateRegistration() {
+  return {
+    place: fakeCN.location.city(),
+    deadline: fakeCN.date.recent().toISOString(),
+    classes: new Array(Math.floor(Math.random() * 10)).fill(0).map((x) => ({
+      class:
+        fakeCN.number.int({ min: 2021, max: 2023 }) * 100 + fakeCN.number.int({ min: 1, max: 20 }),
+      max: fakeCN.number.int({ min: 1, max: 30 })
+    }))
   }
 }
 

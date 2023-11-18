@@ -12,7 +12,7 @@ export const statuses = {
   },
   draft: {
     icon: Edit,
-    color: 'primary'
+    color: 'info'
   },
   'first-instance': {
     icon: Loading,

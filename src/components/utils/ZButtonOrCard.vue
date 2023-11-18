@@ -15,6 +15,7 @@ const props = defineProps<{
   modal?: boolean
   title?: string
   center?: boolean
+  round?: boolean
 }>()
 
 const {
@@ -42,7 +43,15 @@ const show = ref(false)
         <ElSkeletonItem variant="text" />
       </template>
       <template #default>
-        <ElButton text bg :size="size" :type="type ?? 'primary'" :icon="icon" @click="show = true">
+        <ElButton
+          :round="round"
+          text
+          bg
+          :size="size"
+          :type="type ?? 'primary'"
+          :icon="icon"
+          @click="show = true"
+        >
           <slot name="text" />
         </ElButton>
       </template>
