@@ -68,7 +68,9 @@ export const enUS = {
       cancel: 'Cancel',
       save: 'Save',
       reset: 'Reset'
-    }
+    },
+    details: 'Details',
+    impression: 'Impression'
   },
   units: {
     item: 'item | item | items',
@@ -104,7 +106,7 @@ export const enUS = {
           refuse: 'Refuse',
           check: 'Refusal will be publicized to the entire school, irrevocable, time uncountable.'
         },
-        prompt: 'by {name}',
+        prompt: 'Impression written by {name}',
         history: {
           title: 'History',
           empty: 'No history'
@@ -258,7 +260,9 @@ export const zhCN = {
       name: '上传',
       prompt: '点击或拖拽文件到此区域上传',
       allow: '仅允许 {type} 文件'
-    }
+    },
+    details: '详情',
+    impression: '感想'
   },
   units: {
     item: '项',
@@ -869,7 +873,7 @@ export const frFR = {
           refuse: 'Refuser',
           check: "Le refus sera rendu public à toute l'école, irrévocable, le temps non compté."
         },
-        prompt: 'par {name}',
+        prompt: "Impression écrite par {name}",
         history: {
           title: 'Histoire',
           empty: 'Aucune histoire'
@@ -1123,7 +1127,7 @@ export const koKR = {
           refuse: '거절',
           check: '거절은 전교에 공개되며 취소할 수 없습니다.'
         },
-        prompt: '{name} 님의 봉사 감상',
+        prompt: '{name}의 봉사 감상',
         history: {
           title: '기록',
           empty: '기록 없음'
@@ -1254,7 +1258,7 @@ export const ruRU = {
           refuse: 'Отказать',
           check: 'Отказ будет опубликован во всей школе, необратимый, время не будет учтено.'
         },
-        prompt: 'от {name}',
+        prompt: 'Впечатление от {name}',
         history: {
           title: 'История',
           empty: 'Нет истории'

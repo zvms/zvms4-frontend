@@ -1,13 +1,13 @@
-import { faker as fakeCN } from '@faker-js/faker/locale/zh_CN'
+import { faker } from '@faker-js/faker/locale/zh_CN'
 import ObjectID from 'bson-objectid'
 
 function generateActivity(_id?: string) {
   return {
     _id: _id ? _id : new ObjectID().toHexString(),
     type: ['specified', 'special', 'social', 'scale'][Math.floor(Math.random() * 4)],
-    name: fakeCN.lorem.words(),
-    description: fakeCN.lorem.paragraph(),
-    members: new Array(Math.floor(Math.random() * 10))
+    name: faker.lorem.words(),
+    description: faker.lorem.paragraph(),
+    members: new Array(Math.floor(Math.random() * 10) + 1)
       .fill(0)
       .map((_, idx) =>
         generateActivityMember(
@@ -16,21 +16,21 @@ function generateActivity(_id?: string) {
       ),
     duration: Math.floor(Math.random() * 10),
     registration: generateRegistration(),
-    date: fakeCN.date.recent().toISOString(),
-    createdAt: fakeCN.date.recent().toISOString(),
-    updatedAt: fakeCN.date.recent().toISOString(),
+    date: faker.date.recent().toISOString(),
+    createdAt: faker.date.recent().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
     creator: new ObjectID().toHexString()
   }
 }
 
 function generateRegistration() {
   return {
-    place: fakeCN.location.city(),
-    deadline: fakeCN.date.recent().toISOString(),
-    classes: new Array(Math.floor(Math.random() * 10)).fill(0).map((x) => ({
+    place: faker.location.city(),
+    deadline: faker.date.recent().toISOString(),
+    classes: new Array(Math.floor(Math.random() * 10)).fill(0).map(() => ({
       class:
-        fakeCN.number.int({ min: 2021, max: 2023 }) * 100 + fakeCN.number.int({ min: 1, max: 20 }),
-      max: fakeCN.number.int({ min: 1, max: 30 })
+        faker.number.int({ min: 2021, max: 2023 }) * 100 + faker.number.int({ min: 1, max: 20 }),
+      max: faker.number.int({ min: 1, max: 30 })
     }))
   }
 }
@@ -48,7 +48,7 @@ function generateActivityMember(_id: string) {
       'effective',
       'rejected'
     ][Math.floor(Math.random() * 8)],
-    impression: fakeCN.lorem.paragraph(),
+    impression: faker.lorem.paragraph(),
     duration: Math.floor(Math.random() * 10),
     history: new Array(Math.floor(Math.random() * 10))
       .fill(0)
@@ -59,9 +59,9 @@ function generateActivityMember(_id: string) {
 
 function generateActivityMemberHistory(_id: string) {
   return {
-    impression: fakeCN.lorem.paragraph(),
+    impression: faker.lorem.paragraph(),
     duration: Math.floor(Math.random() * 10),
-    date: fakeCN.date.recent().toISOString(),
+    date: faker.date.recent().toISOString(),
     actioner: _id,
     action: [
       'registered',
@@ -78,17 +78,17 @@ function generateActivityMemberHistory(_id: string) {
 
 function generateNumber() {
   return (
-    fakeCN.number.int({
+    faker.number.int({
       min: 2021,
       max: 2023
     }) *
       10000 +
-    fakeCN.number.int({
+    faker.number.int({
       min: 1,
       max: 20
     }) *
       100 +
-    fakeCN.number.int({
+    faker.number.int({
       min: 1,
       max: 60
     })
@@ -96,10 +96,10 @@ function generateNumber() {
 }
 
 function generateCode() {
-  const school = [0, 3][fakeCN.number.int({ min: 0, max: 1 })] * 10 + 9
-  const grade = fakeCN.number.int({ min: 21, max: 23 })
-  const class_ = fakeCN.number.int({ min: 1, max: 10 })
-  const number = fakeCN.number.int({ min: 1, max: 60 })
+  const school = [0, 3][faker.number.int({ min: 0, max: 1 })] * 10 + 9
+  const grade = faker.number.int({ min: 21, max: 23 })
+  const class_ = faker.number.int({ min: 1, max: 10 })
+  const number = faker.number.int({ min: 1, max: 60 })
   return school * 1000000 + grade * 10000 + class_ * 100 + number
 }
 
@@ -107,14 +107,14 @@ function createPerson(id?: string) {
   return {
     _id: id ? id : new ObjectID().toHexString(),
     id: generateNumber(),
-    name: fakeCN.person.fullName(),
-    sex: fakeCN.person.sex(),
-    position: new Array(fakeCN.number.int({ min: 1, max: 3 }))
+    name: faker.person.fullName(),
+    sex: faker.person.sex(),
+    position: new Array(faker.number.int({ min: 1, max: 3 }))
       .fill(0)
       .map(
         () =>
           ['system', 'admin', 'auditor', 'department', 'secretary', 'student'][
-            fakeCN.number.int({ min: 0, max: 5 })
+            faker.number.int({ min: 0, max: 5 })
           ]
       ),
     code: generateCode()
@@ -203,7 +203,7 @@ export default [
   {
     url: '/api/user/:id',
     method: 'GET',
-    response({ params }) {
+    response() {
       return {
         code: 200,
         data: createPerson('65577f940238690a167beb5e')
@@ -217,10 +217,20 @@ export default [
       return {
         code: 200,
         data: {
-          onCampus: fakeCN.number.int({ min: 0, max: 50 }),
-          offCampus: fakeCN.number.int({ min: 0, max: 50 }),
-          largeScale: fakeCN.number.int({ min: 0, max: 50 })
+          onCampus: faker.number.int({ min: 0, max: 50 }),
+          offCampus: faker.number.int({ min: 0, max: 50 }),
+          largeScale: faker.number.int({ min: 0, max: 50 })
         }
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/activity',
+    method: 'GET',
+    response() {
+      return {
+        code: 200,
+        data: new Array(Math.floor(Math.random() * 12)).fill(0).map(() => generateActivity())
       }
     }
   }

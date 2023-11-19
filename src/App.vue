@@ -213,6 +213,7 @@ function feedback() {
 
 <style>
 body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   transition:
     color 0.5s,
     background-color 0.5s !important;

@@ -8,24 +8,6 @@ interface Class {
   year: number
 }
 
-/*
- * Code:
- * yy = year % 100
- * 1 - 09yy01
- * 2 - 09yy02
- * ...
- * 6 - 09yy06
- * 7 - 09yy07
- * 8 - 09yy08
- * J1 - 09yy09
- * J2 - 09yy10
- * 9 - 39yy01
- * 10 - 39yy02
- * J3 - 39yy03
- * ...
- * J7 - 39yy07
- */
-
 export function getUserGrade(year: number) {
   const y = dayjs().year()
   if (dayjs().month() < 8) {

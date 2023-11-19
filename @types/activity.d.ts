@@ -43,7 +43,7 @@ export interface ActivityMember {
 export interface ActivityMemberHistory {
   impression: string
   duration: number // hours
-  date: string // ISO-8601
+  time: string // ISO-8601
   actioner: string // ObjectId
   action: MemberActivityStatus
 }

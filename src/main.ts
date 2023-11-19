@@ -20,9 +20,8 @@ import 'animate.css/animate.min.css'
 import { zhCn } from 'element-plus/es/locale/index.mjs'
 
 import persistedstate from 'pinia-plugin-persistedstate'
-import { pad } from './plugins/ua'
 
-const vConsole = new VConsole()
+new VConsole()
 
 const app = createApp(App)
 

@@ -3,7 +3,6 @@ import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ArrowRight, Close, Check, Delete } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import {
   ElCollapse,
@@ -11,7 +10,6 @@ import {
   ElInput,
   ElButton,
   ElCard,
-  ElSkeleton,
   ElRow,
   ElCol,
   ElPagination,
@@ -20,6 +18,8 @@ import {
 import { userModifyImpression } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
+import ZActivityDetails from './ZActivityDetails.vue'
+import ZActivityMember from './ZActivityMember.vue'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -59,18 +59,16 @@ interface ImpressionCursor {
 
 const current = ref<ImpressionCursor>({
   index: 0,
-  id: 20230616,
-  name: '吴承宇',
-  impression:
-    '114514, 1919810. 114514, 1919810. 114514, 1919810. 114514, 1919810. 114514, 1919810.',
-  _id: '60c9b1b0e6b3a3b4b8b0b0b0'
+  id: 0,
+  name: '',
+  impression: '',
+  _id: ''
 })
 const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
-  const result = await getUser(activity.value.members[index]._id)
-  console.log(index, result)
+  const result = await getUser(activity.value.members[index - 1]._id)
   current.value = {
     index,
     id: result?.id ?? 0,
@@ -79,30 +77,29 @@ async function curserTo(index: number) {
     _id: activity.value.members[index - 1]._id
   }
   loading.value = false
+  console.log(current.value)
 }
 
-// curserTo(0)
+curserTo(1)
+
+// console.log(activity.value.members)
+
+const serif = ref(false)
 </script>
 
 <template>
   <div>
     <ElCollapse v-model="activeNames" accordion class="py-4">
-      <ElCollapseItem :title="t('activity.columns.impression-page.general.detail')" name="1">
-        <ZActivityDescriptions :activity="activity" :role="role" />
+      <ElCollapseItem :title="t('activity.form.details')" name="1">
+        <ZActivityDetails :activity="activity" :mode="role" />
       </ElCollapseItem>
     </ElCollapse>
     <div>
       <ElCard v-if="role === 'student'" shadow="hover">
-        <p class="text-xl py-4">{{ t('activity.columns.impression-page.write.title') }}</p>
+        <p class="text-xl py-4">{{ t('activity.form.impression') }}</p>
         <ElInput
           type="textarea"
           v-model="impression"
-          :placeholder="
-            t('placeholder', {
-              action: 'input',
-              target: t('activity.columns.impression')
-            })
-          "
           :autosize="{ minRows: 2 }"
           minlength="30"
           maxlength="1024"
@@ -124,12 +121,18 @@ async function curserTo(index: number) {
           </ElButton>
         </div>
       </ElCard>
-      <ElCard shadow="hover" v-else>
+      <ElCard shadow="hover" v-loading="loading" v-else>
         <p class="text-xl py-4">
-          {{ t('activity.columns.impression') }}<span v-if="!loading"> By {{ current?.name }}</span>
+          <ElRow>
+            <ElCol :span="12">
+              {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
+            </ElCol>
+            <ElCol :span="12" style="text-align: right">
+              <ZActivityMember :id="current?._id" />
+            </ElCol>
+          </ElRow>
         </p>
-        <ElSkeleton v-if="loading" :rows="3" animated :throttle="500" />
-        <p v-else class="px-4">{{ current?.impression }}</p>
+        <p class="px-4">{{ current?.impression }}</p>
         <ElRow class="py-4">
           <ElCol :span="6">
             <ElPagination

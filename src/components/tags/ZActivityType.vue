@@ -52,7 +52,7 @@ const effective = type?.value! in types.value
     bg
     round
   >
-    {{ t(`activity.type.${type}.short`) }}
+    {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
   </ElButton>
   <ElTooltip v-else-if="effective || mode === 'icon'" :content="t(`activity.type.${type}.short`)">
     <ElButton

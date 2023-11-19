@@ -5,7 +5,6 @@ import {
   ElDescriptions,
   ElDescriptionsItem,
   ElRow,
-  ElTag,
   ElButton,
   ElDivider,
   ElCard,
@@ -21,6 +20,7 @@ import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { reactive, watch } from 'vue'
+import ZUserPosition from '@/components/tags/ZUserPosition.vue'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -86,7 +86,7 @@ watch(useTransform, () => {
           <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.class')">{{ user.class }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.identify')">
-            <ElTag v-for="tag in user.position" :key="tag">{{ t('home.positions.' + tag) }}</ElTag>
+            <ZUserPosition :position="user.position" group />
           </ElDescriptionsItem>
         </ElDescriptions>
       </ElCard>

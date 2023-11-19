@@ -28,7 +28,7 @@ export async function getAllActivities(
   return result.data
 }
 
-export async function getUserActivities(id: number) {
+export async function getUserActivities(id: string) {
   const result = (await axios(`/user/${id}/activity`)).data as Response<ActivityInstance[]>
   if (result.status === 'error') {
     ElNotification({

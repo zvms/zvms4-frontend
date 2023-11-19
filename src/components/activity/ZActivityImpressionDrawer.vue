@@ -2,20 +2,44 @@
 import { ElDialog, ElButton } from 'element-plus'
 import ZActivityImpressionManager from './ZActivityImpressionManager.vue'
 import type { ActivityInstance } from '@/../@types/activity'
-import { toRefs, ref } from 'vue'
+import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
+import { getActivity } from '@/api/activity/read'
 
 const props = defineProps<{
-  activity: ActivityInstance
+  id: string
   role: 'student' | 'auditor' | 'secretary'
+  modelValue?: boolean
 }>()
+
+const emits = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
 
-const { activity, role } = toRefs(props)
+const { role, modelValue, id } = toRefs(props)
 
-const show = ref(false)
+const activity = ref<ActivityInstance>()
+const loading = ref(false)
+
+const show = ref(modelValue.value ?? false)
+
+watch(show, () => {
+  emits('update:modelValue', show.value)
+})
+
+function openDialog() {
+  loading.value = true
+  getActivity(id.value).then((res) => {
+    loading.value = false
+    show.value = true
+    activity.value = res
+  })
+}
+
+watch(modelValue, () => {
+  show.value = modelValue.value ?? false
+})
 </script>
 
 <template>
@@ -24,7 +48,8 @@ const show = ref(false)
       :icon="role === 'student' ? Edit : EditPen"
       :type="role === 'student' ? 'primary' : 'danger'"
       text
-      @click="show = true"
+      :loading="loading"
+      @click="openDialog"
     >
       {{
         role === 'student'
@@ -34,7 +59,7 @@ const show = ref(false)
     </ElButton>
     <Teleport to="body">
       <ElDialog
-        v-if="role === 'student'"
+        v-if="role === 'student' && activity"
         v-model="show"
         fullscreen
         center
@@ -48,7 +73,7 @@ const show = ref(false)
         />
       </ElDialog>
       <ElDialog
-        v-else
+        v-else-if="activity"
         v-model="show"
         center
         fullscreen

@@ -27,9 +27,12 @@ const { width, height } = useWindowSize()
 
 const activities = ref<ActivityInstance[]>([])
 
+const loading = ref(true)
+
 getAllActivities('campus', {
   type: 'all'
 }).then((res) => {
+  loading.value = false
   activities.value = res as ActivityInstance[]
 })
 
@@ -58,7 +61,7 @@ watch(
     <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane name="" :label="t('nav.activities.mine')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
-        <ZActivityList role="student" :activities="activities" />
+        <ZActivityList role="student" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('auditor')"
@@ -66,7 +69,7 @@ watch(
         :label="t('nav.activities.campus')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
-        <ZActivityList role="auditor" :activities="activities" />
+        <ZActivityList role="auditor" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('secretary')"
@@ -74,7 +77,7 @@ watch(
         :label="t('nav.activities.class')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
-        <ZActivityList role="secretary" :activities="activities" />
+        <ZActivityList role="secretary" :activities="activities" :loading="loading" />
       </ElTabPane>
     </ElTabs>
   </div>

@@ -40,7 +40,7 @@ const show = ref(false)
   <div>
     <ElSkeleton :loading="loading" v-if="mode === 'button'">
       <template #template>
-        <ElSkeletonItem variant="text" />
+        <ElSkeletonItem variant="text" width="192px" />
       </template>
       <template #default>
         <ElButton

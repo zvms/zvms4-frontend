@@ -8,12 +8,16 @@ import { Timer, Calendar, Location, ArrowRight, Plus, Edit } from '@element-plus
 import dayjs from 'dayjs'
 import StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite from '@/icons/StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite.vue'
 import ZActivityMember from './ZActivityMember.vue'
+import { useUserStore } from '@/stores/user'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   activity: ActivityInstance
   mode: 'student' | 'secretary' | 'auditor'
 }>()
 
+const user = useUserStore()
+const { t } = useI18n()
 const { activity, mode } = toRefs(props)
 
 const hovered = ref(false)
@@ -115,6 +119,18 @@ function submitDescription() {
         :icon="Location"
       >
         {{ (activity as SpecifiedActivity).registration.place }}
+      </ElButton>
+      <ElButton
+        v-if="mode === 'student'"
+        size="small"
+        text
+        bg
+        round
+        type="info"
+        class="py-2"
+        :icon="Timer"
+      >
+        {{ activity.members.find(x => x._id === user._id)?.duration }} h
       </ElButton>
     </div>
     <ElRow>

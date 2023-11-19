@@ -21,6 +21,7 @@ import { useI18n } from 'vue-i18n'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
 import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
 import ZActivityDetails from './ZActivityDetails.vue'
+import { getActivity } from './getActivity'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -28,16 +29,21 @@ const { width, height } = useWindowSize()
 const user = useUserStore()
 
 const props = defineProps<{
-  activities: ActivityInstance[]
   role: 'auditor' | 'secretary' | 'student'
 }>()
 
 const activePage = ref(1)
 const pageSize = ref(8)
 
-const { activities } = toRefs(props)
-
 const { role } = toRefs(props)
+const loading = ref(true)
+
+const activities = ref<ActivityInstance[]>([])
+
+getActivity(user._id, role.value).then((res) => {
+  loading.value = false
+  activities.value = res ?? []
+})
 
 const reflect = ref(
   role.value === 'student' ? '' : role.value === 'auditor' ? 'first-instance-approved' : 'attended'
@@ -101,16 +107,16 @@ function onSortChange({ column, order }: { column: string; order: string }) {
 }
 
 watch(
-  () => props.activities,
-  (activities) => {
-    items.value = activities
+  activities,
+  () => {
+    items.value = activities.value
   },
   { immediate: true }
 )
 </script>
 
 <template>
-  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
+  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
     <ElDialog
       :title="t('activity.registration.title')"
       fullscreen
@@ -252,7 +258,7 @@ watch(
             <ElInput v-model="searchWord" size="small" :prefix-icon="Search" />
           </template>
           <template #default="props">
-            <ZActivityImpressionDrawer :activity="props.row" :role="role" />
+            <ZActivityImpressionDrawer :id="props.row._id" :role="role" />
           </template>
         </ElTableColumn>
       </ElTable>
