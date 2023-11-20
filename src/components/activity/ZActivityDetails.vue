@@ -2,14 +2,15 @@
 import type { ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
+import History from '@/icons/MaterialSymbolsLightHistoryRounded.vue'
 import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
-import { Timer, Calendar, Location, ArrowRight, Plus, Edit } from '@element-plus/icons-vue'
+import { Timer, Calendar, Location, ArrowRight, Plus, Edit, User } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
-import StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite from '@/icons/StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite.vue'
 import ZActivityMember from './ZActivityMember.vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
+import ZActivityHistory from './ZActivityHistory.vue'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -130,18 +131,17 @@ function submitDescription() {
         class="py-2"
         :icon="Timer"
       >
-        {{ activity.members.find(x => x._id === user._id)?.duration }} h
+        {{ activity.members.find((x) => x._id === user._id)?.duration }} h
       </ElButton>
+      <ZActivityHistory
+        v-if="mode === 'student'"
+        :history="activity.members.find((x) => x._id === user._id)?.history"
+      />
     </div>
     <ElRow>
       <ElCol :span="6">
         <div class="pl-4 py-2">
-          <ZActivityMember
-            :id="activity.creator"
-            :icon="
-              StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
-            "
-          />
+          <ZActivityMember :id="activity.creator" :icon="User" />
         </div>
       </ElCol>
       <ElCol :span="18">

@@ -179,10 +179,8 @@ export const enUS = {
     title: 'Status',
     registered: 'Registered',
     draft: 'Draft',
-    'first-instance': 'First Instance',
-    'first-instance-rejected': 'First Instance Rejected',
-    'last-instance': 'Last Instance',
-    'last-instance-rejected': 'Last Instance Rejected',
+    refused: 'Refused',
+    pending: 'Pending',
     effective: 'Effective',
     rejected: 'Rejected',
     steps: {
@@ -298,7 +296,7 @@ export const zhCN = {
           refuse: '拒绝',
           check: '拒绝将会公开到全校，不可撤销，不可计入时间。'
         },
-        prompt: '来自 {name} 的义工感想',
+        prompt: '{name}的义工感想',
         history: {
           title: '历史',
           empty: '无历史'
@@ -369,14 +367,11 @@ export const zhCN = {
   },
   status: {
     title: '状态',
-    registered: '已报名',
     draft: '草稿',
-    'first-instance': '初审中',
-    'first-instance-rejected': '初审驳回',
-    'last-instance': '终审中',
-    'last-instance-rejected': '终审驳回',
+    pending: '审核中',
     effective: '有效',
-    rejected: '拒绝',
+    rejected: '驳回',
+    refused: '拒绝',
     steps: {
       first: '初审',
       last: '终审'
@@ -489,7 +484,7 @@ export const zhTW = {
           refuse: '拒絕',
           check: '拒絕將會公開到全校，不可撤銷，不可計入時間。'
         },
-        prompt: '來自 {name} 的義工感想',
+        prompt: '{name}的義工感想',
         history: {
           title: '歷史',
           empty: '無歷史'
@@ -560,14 +555,11 @@ export const zhTW = {
   },
   status: {
     title: '狀態',
-    registered: '已報名',
     draft: '草稿',
-    'first-instance': '初審中',
-    'first-instance-rejected': '初審駁回',
-    'last-instance': '終審中',
-    'last-instance-rejected': '終審駁回',
+    rejected: '駁回',
+    pending: '審核中',
+    refused: '拒絕',
     effective: '有效',
-    rejected: '拒絕',
     steps: {
       first: '初審',
       last: '終審'
@@ -752,14 +744,11 @@ export const jaJP = {
   },
   status: {
     title: '状態',
-    registered: '登録済み',
     draft: '下書き',
-    'first-instance': '初審査中',
-    'first-instance-rejected': '初審査拒否',
-    'last-instance': '最終審査中',
-    'last-instance-rejected': '最終審査拒否',
-    effective: '有効',
+    refused: '拒否',
     rejected: '拒否',
+    pending: '審査中',
+    effective: '有効',
     steps: {
       first: '初審査',
       last: '最終審査'
@@ -873,7 +862,7 @@ export const frFR = {
           refuse: 'Refuser',
           check: "Le refus sera rendu public à toute l'école, irrévocable, le temps non compté."
         },
-        prompt: "Impression écrite par {name}",
+        prompt: 'Impression écrite par {name}',
         history: {
           title: 'Histoire',
           empty: 'Aucune histoire'
@@ -944,14 +933,11 @@ export const frFR = {
   },
   status: {
     title: 'Statut',
-    registered: 'Inscrit',
     draft: 'Brouillon',
-    'first-instance': 'Première Instance',
-    'first-instance-rejected': 'Première Instance Rejetée',
-    'last-instance': 'Dernière Instance',
-    'last-instance-rejected': 'Dernière Instance Rejetée',
+    refused: 'Refusé',
+    rejected: 'Rejeté',
+    pending: 'En Attente',
     effective: 'Effectif',
-    rejected: 'Rejetée',
     steps: {
       first: 'Première',
       last: 'Dernière'
@@ -1097,7 +1083,6 @@ export const koKR = {
         other: '기타'
       }
     }
-
   },
   impression: {
     write: '작성',
@@ -1137,14 +1122,11 @@ export const koKR = {
   },
   status: {
     title: '상태',
-    registered: '등록됨',
     draft: '초안',
-    'first-instance': '초심사',
-    'first-instance-rejected': '초심사 거절',
-    'last-instance': '종심사',
-    'last-instance-rejected': '종심사 거절',
+    rejected: '거절됨',
+    pending: '심사 중',
     effective: '유효',
-    rejected: '거절',
+    refused: '거절',
     steps: {
       first: '초심사',
       last: '종심사'
@@ -1296,14 +1278,11 @@ export const ruRU = {
   },
   status: {
     title: 'Статус',
-    registered: 'Зарегистрирован',
     draft: 'Черновик',
-    'first-instance': 'Первичный',
-    'first-instance-rejected': 'Первичный отказ',
-    'last-instance': 'Последний',
-    'last-instance-rejected': 'Последний отказ',
-    effective: 'Эффективный',
     rejected: 'Отклонено',
+    pending: 'В ожидании',
+    effective: 'Эффективный',
+    refused: 'Отклонено',
     steps: {
       first: 'Первичный',
       last: 'Последний'

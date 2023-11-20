@@ -7,7 +7,7 @@ function generateActivity(_id?: string) {
     type: ['specified', 'special', 'social', 'scale'][Math.floor(Math.random() * 4)],
     name: faker.lorem.words(),
     description: faker.lorem.paragraph(),
-    members: new Array(Math.floor(Math.random() * 10) + 1)
+    members: new Array(Math.floor(Math.random() * 25) + 1)
       .fill(0)
       .map((_, idx) =>
         generateActivityMember(
@@ -38,16 +38,7 @@ function generateRegistration() {
 function generateActivityMember(_id: string) {
   return {
     _id,
-    status: [
-      'registered',
-      'draft',
-      'first-instance',
-      'first-instance-rejected',
-      'last-instance',
-      'last-instance-rejected',
-      'effective',
-      'rejected'
-    ][Math.floor(Math.random() * 8)],
+    status: ['draft', 'pending', 'effective', 'rejected', 'refused'][Math.floor(Math.random() * 5)],
     impression: faker.lorem.paragraph(),
     duration: Math.floor(Math.random() * 10),
     history: new Array(Math.floor(Math.random() * 10))
@@ -63,16 +54,7 @@ function generateActivityMemberHistory(_id: string) {
     duration: Math.floor(Math.random() * 10),
     date: faker.date.recent().toISOString(),
     actioner: _id,
-    action: [
-      'registered',
-      'draft',
-      'first-instance',
-      'first-instance-rejected',
-      'last-instance',
-      'last-instance-rejected',
-      'effective',
-      'rejected'
-    ][Math.floor(Math.random() * 8)]
+    action: ['draft', 'pending', 'effective', 'rejected', 'refused'][Math.floor(Math.random() * 5)]
   }
 }
 
@@ -129,7 +111,7 @@ export default [
       return {
         status: 'success',
         code: 200,
-        data: new Array(Math.floor(Math.random() * 12)).fill(0).map(() => generateActivity())
+        data: new Array(Math.floor(Math.random() * 800)).fill(0).map(() => generateActivity())
       }
     },
     timeout: 1000
@@ -230,7 +212,7 @@ export default [
     response() {
       return {
         code: 200,
-        data: new Array(Math.floor(Math.random() * 12)).fill(0).map(() => generateActivity())
+        data: new Array(Math.floor(Math.random() * 100)).fill(0).map(() => generateActivity())
       }
     }
   }

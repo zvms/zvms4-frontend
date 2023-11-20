@@ -9,6 +9,7 @@ export interface Activity {
   createdAt: string // ISO-8601
   updatedAt: string // ISO-8601
   creator: string // ObjectId
+  status: ActivityStatus
 }
 
 export type ActivityQuery = {
@@ -50,15 +51,9 @@ export interface ActivityMemberHistory {
 
 export type ActivityType = 'specified' | 'special' | 'social' | 'scale'
 
-export type MemberActivityStatus =
-  | 'registered'
-  | 'draft'
-  | 'first-instance'
-  | 'first-instance-rejected'
-  | 'last-instance'
-  | 'last-instance-rejected'
-  | 'effective'
-  | 'rejected'
+export type MemberActivityStatus = 'draft' | 'pending' | 'effective' | 'refused' | 'rejected'
+
+export type ActivityStatus = 'pending' | 'effective' | 'refused'
 
 export interface SpecifiedActivity extends Activity {
   type: 'specified'

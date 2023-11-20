@@ -13,7 +13,9 @@ import {
   ElRow,
   ElCol,
   ElPagination,
-  ElPopconfirm
+  ElPopconfirm,
+  ElForm,
+  ElFormItem
 } from 'element-plus'
 import { userModifyImpression } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
@@ -55,6 +57,7 @@ interface ImpressionCursor {
   name: string
   impression: string
   _id: string
+  duration: number
 }
 
 const current = ref<ImpressionCursor>({
@@ -62,7 +65,8 @@ const current = ref<ImpressionCursor>({
   id: 0,
   name: '',
   impression: '',
-  _id: ''
+  _id: '',
+  duration: 0
 })
 const loading = ref(false)
 
@@ -74,7 +78,8 @@ async function curserTo(index: number) {
     id: result?.id ?? 0,
     name: result?.name ?? '未知',
     impression: activity.value.members[index - 1].impression,
-    _id: activity.value.members[index - 1]._id
+    _id: activity.value.members[index - 1]._id,
+    duration: activity.value.members[index - 1].duration
   }
   loading.value = false
   console.log(current.value)
@@ -88,7 +93,7 @@ const serif = ref(false)
 </script>
 
 <template>
-  <div>
+  <div class="dialog">
     <ElCollapse v-model="activeNames" accordion class="py-4">
       <ElCollapseItem :title="t('activity.form.details')" name="1">
         <ZActivityDetails :activity="activity" :mode="role" />
@@ -122,7 +127,7 @@ const serif = ref(false)
         </div>
       </ElCard>
       <ElCard shadow="hover" v-loading="loading" v-else>
-        <p class="text-xl py-4">
+        <p class="text-xl py-2">
           <ElRow>
             <ElCol :span="12">
               {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
@@ -132,22 +137,22 @@ const serif = ref(false)
             </ElCol>
           </ElRow>
         </p>
-        <p class="px-4">{{ current?.impression }}</p>
-        <ElRow class="py-4">
-          <ElCol :span="6">
-            <ElPagination
-              layout="prev, pager, next, jumper"
-              :page-count="activity.members.length"
-              :pager-count="3"
-              background
-              hide-on-single-page
-              :default-page-size="1"
-              :page-size="1"
-              @current-change="curserTo"
-            />
+        <p :class="['px-4', `font-${serif ? 'serif' : 'sans'}`]" style="font-size: 16px">
+          {{ current?.impression }}
+        </p>
+        <ElRow class="py-4 px-2">
+          <ElCol :span="12">
+            <ElForm label-position="right" label-width="64px">
+              <ElFormItem :label="t('activity.form.duration')">
+                <ElInput v-model="current.duration" :readonly="role !== 'secretary'">
+                  <template #append>
+                    {{ t('activity.units.hour', current.duration) }}
+                  </template>
+                </ElInput>
+              </ElFormItem>
+            </ElForm>
           </ElCol>
-          <ElCol :span="2"></ElCol>
-          <ElCol :span="16">
+          <ElCol :span="12">
             <div style="text-align: right">
               <ElPopconfirm
                 :title="t('activity.impression.page.reflect.actions.check')"
@@ -168,6 +173,17 @@ const serif = ref(false)
             </div>
           </ElCol>
         </ElRow>
+        <ElPagination
+          class="px-2"
+          layout="total, prev, pager, next, jumper"
+          :pager-count="3"
+          :total="activity.members.length"
+          background
+          hide-on-single-page
+          :default-page-size="1"
+          :page-size="1"
+          @current-change="curserTo"
+        />
       </ElCard>
     </div>
   </div>
@@ -178,5 +194,9 @@ const serif = ref(false)
   position: relative;
   bottom: 0;
   transform: translateY(80%);
+}
+
+.dialog {
+  overflow: hidden !important;
 }
 </style>

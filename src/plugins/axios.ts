@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css'
 const axiosInstance = axios.create({
   baseURL: '/api/',
   withCredentials: true,
-  timeout: 6000,
+  timeout: 12000,
   headers: {
     'Content-type': 'application/json'
   }

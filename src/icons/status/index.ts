@@ -1,28 +1,15 @@
-import MaterialSymbolsAppRegistration from './MaterialSymbolsAppRegistration.vue'
 import MaterialSymbolsBoxEdit from './MaterialSymbolsBoxEdit.vue'
-import { Check, Close, Edit } from '@element-plus/icons-vue'
+import { Check, Close, Edit, CaretLeft } from '@element-plus/icons-vue'
 import { Loading } from '@icon-park/vue-next'
 import type { MemberActivityStatus } from '@/../@types/activity'
 import type { Component } from 'vue'
 
 export const statuses = {
-  registered: {
-    icon: MaterialSymbolsAppRegistration,
-    color: 'success'
-  },
   draft: {
     icon: Edit,
     color: 'info'
   },
-  'first-instance': {
-    icon: Loading,
-    color: 'primary'
-  },
-  'first-instance-rejected': {
-    icon: MaterialSymbolsBoxEdit,
-    color: 'warning'
-  },
-  'last-instance': {
+  pending: {
     icon: Loading,
     color: 'primary'
   },
@@ -30,12 +17,12 @@ export const statuses = {
     icon: Check,
     color: 'success'
   },
-  rejected: {
+  refused: {
     icon: Close,
     color: 'danger'
   },
-  'last-instance-rejected': {
-    icon: MaterialSymbolsBoxEdit,
+  rejected: {
+    icon: CaretLeft,
     color: 'warning'
   }
 } as Record<

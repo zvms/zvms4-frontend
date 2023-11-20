@@ -45,22 +45,9 @@ getActivity(user._id, role.value).then((res) => {
   activities.value = res ?? []
 })
 
-const reflect = ref(
-  role.value === 'student' ? '' : role.value === 'auditor' ? 'first-instance-approved' : 'attended'
-)
-
 const registerForSpecified = ref(false)
 
-const statusFilter = [
-  'registered',
-  'draft',
-  'first-instance',
-  'first-instance-rejected',
-  'last-instance',
-  'last-instance-rejected',
-  'effective',
-  'rejected'
-]
+const statusFilter = ['draft', 'pending', 'rejected', 'effective', 'refused']
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -240,14 +227,14 @@ watch(
           <template #default="{ row }">
             {{
               (row as ActivityInstance).members.filter(
-                (x: ActivityMember) => x.status === reflect && row.type === 'specified'
+                (x: ActivityMember) => x.status === 'pending'
               ).length
             }}
             <span style="font-size: 12px; color: --el-text-color-secondary">{{
               t(
                 'activity.units.item',
                 (row as ActivityInstance).members.filter(
-                  (x: ActivityMember) => x.status === reflect && row.type === 'specified'
+                  (x: ActivityMember) => x.status === 'pending'
                 ).length
               )
             }}</span>
@@ -266,6 +253,7 @@ watch(
         <ElPagination
           v-model:current-page="activePage"
           v-model:page-size="pageSize"
+          :pager-count="3"
           :total="items.length"
           layout="total, prev, pager, next, sizes, jumper"
           background

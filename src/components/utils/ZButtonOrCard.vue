@@ -16,6 +16,7 @@ const props = defineProps<{
   title?: string
   center?: boolean
   round?: boolean
+  zIndex?: number
 }>()
 
 const {
@@ -30,7 +31,8 @@ const {
   fullscreen,
   modal,
   title,
-  center
+  center,
+  zIndex
 } = toRefs(props)
 
 const show = ref(false)
@@ -56,27 +58,30 @@ const show = ref(false)
         </ElButton>
       </template>
     </ElSkeleton>
-    <ElDialog
-      v-if="popType === 'dialog'"
-      v-model="show"
-      :fullscreen="fullscreen"
-      :modal="modal ? modal : true"
-      :title="title"
-      :center="center ? center : true"
-    >
-      <slot name="default" />
-    </ElDialog>
-    <ElDrawer
-      v-if="popType === 'drawer'"
-      v-model="show"
-      :fullscreen="fullscreen"
-      :modal="modal ? modal : true"
-      :title="title"
-      :size="width"
-      :direction="direction ?? 'rtl'"
-    >
-      <slot name="default" />
-    </ElDrawer>
+    <Teleport to="body">
+      <ElDialog
+        v-if="popType === 'dialog'"
+        v-model="show"
+        :fullscreen="fullscreen"
+        :modal="modal ? modal : true"
+        :title="title"
+        :center="center ? center : true"
+        :z-index="zIndex ?? 9999"
+      >
+        <slot name="default" />
+      </ElDialog>
+      <ElDrawer
+        v-if="popType === 'drawer'"
+        v-model="show"
+        :fullscreen="fullscreen"
+        :modal="modal ? modal : true"
+        :title="title"
+        :size="width"
+        :direction="direction ?? 'rtl'"
+      >
+        <slot name="default" />
+      </ElDrawer>
+    </Teleport>
     <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading">
       <slot name="default" />
     </ElCard>
