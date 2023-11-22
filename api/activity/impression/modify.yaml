@@ -17,5 +17,10 @@ params:
     type: string
     required: true
     description: The new impression of the activity
+  - name: submit
+    in: body
+    type: boolean
+    required: true
+    description: Whether to submit the impression (true) or just save it (false)
 response: null
 permission: 1

@@ -4,7 +4,7 @@ method: GET
 params:
   - name: type
     in: query
-    type: "'in-class' | 'campus' | 'off-campus' | 'all'"
+    type: "'specified' | 'social' | 'scale' | 'special' | 'all'"
     required: false
     description: The type of activities to return
   - name: range

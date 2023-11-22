@@ -187,6 +187,11 @@ export const enUS = {
       first: 'First',
       last: 'Last'
     }
+  },
+  history: {
+    name: 'History',
+    title: "History of {name}'s Impression",
+    empty: 'No History'
   }
 }
 

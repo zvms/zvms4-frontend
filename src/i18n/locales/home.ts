@@ -51,7 +51,7 @@ export const zhCN = {
     secretary: '团支书',
     auditor: '审计员',
     inspector: '督导员',
-    department: '审计部',
+    department: '实践部',
     system: '系统',
     admin: '管理员'
   },
@@ -92,7 +92,7 @@ export const zhTW = {
     secretary: '團支書',
     auditor: '審計員',
     inspector: '督導員',
-    department: '審計部',
+    department: '實踐部',
     system: '系統',
     admin: '管理員'
   },
@@ -133,7 +133,7 @@ export const jaJP = {
     secretary: '団支書',
     auditor: '審査員',
     inspector: '監査員',
-    department: '監査部',
+    department: '実践部',
     system: 'システム',
     admin: '管理者'
   },
@@ -215,7 +215,7 @@ export const koKR = {
     secretary: '부장',
     auditor: '감사원',
     inspector: '감사원',
-    department: '감사부',
+    department: '실천부',
     system: '시스템',
     admin: '관리자'
   },

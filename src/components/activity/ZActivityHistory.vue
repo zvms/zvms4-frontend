@@ -4,7 +4,6 @@ import type { ActivityMemberHistory, MemberActivityStatus } from '@/../@types/ac
 import { toRefs, type Component as VueComponent, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { statuses } from '@/icons/status'
-import ZActivityStatus from '../tags/ZActivityStatus.vue'
 import ZActivityMember from './ZActivityMember.vue'
 import { useI18n } from 'vue-i18n'
 import { Clock, Timer } from '@element-plus/icons-vue'
@@ -18,10 +17,10 @@ const { history } = toRefs(props)
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
-const min = ref(height.value * 0.45)
+const min = ref(height.value * 0.6)
 
 watch(width, () => {
-  min.value = height.value * 0.45
+  min.value = height.value * 0.6
 })
 
 const statusMap: Record<
@@ -32,15 +31,15 @@ const statusMap: Record<
   }
 > = {
   draft: {
-    type: '',
+    type: 'wait',
     icon: statuses.draft.icon
   },
   pending: {
-    type: 'process',
+    type: '',
     icon: statuses.pending.icon
   },
   rejected: {
-    type: 'wait',
+    type: 'process',
     icon: statuses.rejected.icon
   },
   refused: {
@@ -79,9 +78,10 @@ const statusMap: Record<
             :key="idx"
             :status="statusMap[item.action].type"
             :icon="statusMap[item.action].icon"
+            style="width: 100%"
           >
             <template #title>
-              <p class="text-xl">
+              <p class="text-xl w-full">
                 {{ t('activity.status.' + item.action) }}
                 <ElButton class="px-2" text bg round size="small" type="info" :icon="Clock">
                   {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
@@ -99,6 +99,7 @@ const statusMap: Record<
                 <ZActivityMember :id="item.actioner" :icon="User" />
               </div>
             </template>
+            <br />
           </ElStep>
         </ElSteps>
       </ElScrollbar>

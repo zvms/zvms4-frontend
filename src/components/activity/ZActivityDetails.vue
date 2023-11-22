@@ -2,14 +2,12 @@
 import type { ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
-import History from '@/icons/MaterialSymbolsLightHistoryRounded.vue'
 import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
 import { Timer, Calendar, Location, ArrowRight, Plus, Edit, User } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import ZActivityMember from './ZActivityMember.vue'
 import { useUserStore } from '@/stores/user'
-import { useI18n } from 'vue-i18n'
 import ZActivityHistory from './ZActivityHistory.vue'
 
 const props = defineProps<{
@@ -18,17 +16,11 @@ const props = defineProps<{
 }>()
 
 const user = useUserStore()
-const { t } = useI18n()
 const { activity, mode } = toRefs(props)
 
 const hovered = ref(false)
 
 function getDateStatusColor(date: string) {
-  /**
-   * After: success
-   * Before: warning
-   * Today: primary
-   */
   const now = dayjs()
   const target = dayjs(date)
   if (target.isAfter(now, 'date')) return 'success'

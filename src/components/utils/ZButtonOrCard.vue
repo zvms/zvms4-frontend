@@ -39,25 +39,25 @@ const show = ref(false)
 </script>
 
 <template>
+  <ElSkeleton :loading="loading" v-if="mode === 'button'">
+    <template #template>
+      <ElSkeletonItem variant="text" width="192px" />
+    </template>
+    <template #default>
+      <ElButton
+        :round="round"
+        text
+        bg
+        :size="size"
+        :type="type ?? 'primary'"
+        :icon="icon"
+        @click="show = true"
+      >
+        <slot name="text" />
+      </ElButton>
+    </template>
+  </ElSkeleton>
   <div>
-    <ElSkeleton :loading="loading" v-if="mode === 'button'">
-      <template #template>
-        <ElSkeletonItem variant="text" width="192px" />
-      </template>
-      <template #default>
-        <ElButton
-          :round="round"
-          text
-          bg
-          :size="size"
-          :type="type ?? 'primary'"
-          :icon="icon"
-          @click="show = true"
-        >
-          <slot name="text" />
-        </ElButton>
-      </template>
-    </ElSkeleton>
     <Teleport to="body">
       <ElDialog
         v-if="popType === 'dialog'"
