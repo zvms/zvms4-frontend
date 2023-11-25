@@ -21,6 +21,7 @@ import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { reactive, watch } from 'vue'
 import ZUserPosition from '@/components/tags/ZUserPosition.vue'
+import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -64,10 +65,13 @@ function refreshSumTime() {
 watch(useTransform, () => {
   refreshSumTime()
 })
+
+const usr = ref('')
 </script>
 
 <template>
   <div class="px-20 fill" style="width: 100%">
+    <ZSelectPerson v-model="usr" :filter-start="2" full-width />
     <p class="text-2xl py-8">
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
     </p>

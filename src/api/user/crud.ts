@@ -4,7 +4,7 @@ import type { Response } from '@/../@types/response'
 import { ElNotification } from 'element-plus'
 
 export async function getUser(id: string) {
-  const result = (await axios(`/user/${id}`)).data as Response<User<string>>
+  const result = (await axios(`/user/${id}`)).data as Response<User>
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户信息错误（' + result.code + '）',
@@ -16,8 +16,14 @@ export async function getUser(id: string) {
   return result.data
 }
 
-export async function getUsers(id: number) {
-  const result = (await axios(`/user/${id}`)).data as Response<User<string>[]>
+export async function getUsers(id: string) {
+  const result = (
+    await axios(`/user`, {
+      params: {
+        id
+      }
+    })
+  ).data as Response<User[]>
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户信息错误（' + result.code + '）',

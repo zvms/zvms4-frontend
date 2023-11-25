@@ -203,6 +203,34 @@ export default [
     }
   },
   {
+    url: '/api/user',
+    method: 'GET',
+    response() {
+      return {
+        code: 200,
+        data: [
+          ...new Array(
+            faker.number.int({
+              min: 1,
+              max: 4
+            })
+          )
+            .fill(0)
+            .map(() => createPerson()),
+          createPerson('65577f940238690a167beb5e'),
+          ...new Array(
+            faker.number.int({
+              min: 2,
+              max: 10
+            })
+          )
+            .fill(0)
+            .map(() => createPerson())
+        ]
+      }
+    }
+  },
+  {
     url: '/api/user/:id/time',
     method: 'GET',
     response() {
