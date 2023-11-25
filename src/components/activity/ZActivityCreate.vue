@@ -45,7 +45,7 @@ import {
 import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
 
 const { t } = useI18n()
-const { width, height } = useWindowSize()
+const { height } = useWindowSize()
 
 const props = defineProps<{
   type: ActivityType

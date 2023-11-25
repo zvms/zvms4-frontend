@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ElButton, ElTooltip } from 'element-plus'
 import { toRefs } from 'vue'
-import { statuses } from '@/icons/status'
+import { memberActivityStatuses } from '@/icons/status'
 import type { MemberActivityStatus } from '@/../@types/activity'
-import { useWindowSize } from '@vueuse/core'
+import ZButtonTag from '../utils/ZButtonTag.vue'
 
 const { t } = useI18n()
-const { width, height } = useWindowSize()
 
 const props = defineProps<{
   type?: MemberActivityStatus
@@ -17,32 +15,16 @@ const props = defineProps<{
 
 const { type, size } = toRefs(props)
 
-const effective = type?.value! in statuses
+const effective = type?.value! in memberActivityStatuses
 </script>
 
 <template>
-  <ElButton
-    v-if="effective && width > height * 1.5"
-    :icon="statuses[type as MemberActivityStatus].icon"
-    :type="statuses[type as MemberActivityStatus].color"
+  <ZButtonTag
     :size="size ?? 'small'"
-    text
-    bg
-    round
+    :type="memberActivityStatuses[type as MemberActivityStatus].color"
+    :icon="memberActivityStatuses[type as MemberActivityStatus].icon"
+    :unknown="!effective"
   >
     {{ t('activity.status.' + type) }}
-  </ElButton>
-  <ElTooltip v-else-if="effective" :content="t('activity.status.' + type)" :effect="'light'">
-    <ElButton
-      :icon="statuses[type as MemberActivityStatus].icon"
-      :type="statuses[type as MemberActivityStatus].color"
-      :size="size ?? 'small'"
-      circle
-      text
-      bg
-    />
-  </ElTooltip>
-  <ElButton v-else type="danger" :size="size ?? 'small'" text bg round>
-    {{ t('activity.type.unknown') }}
-  </ElButton>
+  </ZButtonTag>
 </template>

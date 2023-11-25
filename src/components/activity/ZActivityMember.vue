@@ -8,14 +8,14 @@ import { User as UserIcon } from '@element-plus/icons-vue'
 
 const props = defineProps<{ id: string; icon?: VueComponent }>()
 const { id, icon } = toRefs(props)
-const person = ref<User<string>>()
+const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
 
 if (id.value)
   getUser(id.value).then((res) => {
     if (!res) error.value = true
-    else person.value = res as User<string>
+    else person.value = res as User
     console.log(res)
     loading.value = false
   })
@@ -24,7 +24,7 @@ watch(id, () => {
   if (id.value)
     getUser(id.value).then((res) => {
       if (!res) error.value = true
-      else person.value = res as User<string>
+      else person.value = res as User
       console.log(res)
       loading.value = false
     })

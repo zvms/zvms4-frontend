@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
-import { ElButton, ElTooltip } from 'element-plus'
 import { ref, toRefs, type Component as VueComponent } from 'vue'
-import { useWindowSize } from '@vueuse/core'
 import type { ActivityType } from '@/../@types/activity'
+import ZButtonTag from '../utils/ZButtonTag.vue'
 
 const { t } = useI18n()
-const { width, height } = useWindowSize()
 
 const props = defineProps<{
   type: ActivityType
@@ -43,28 +41,12 @@ const effective = type?.value! in types.value
 </script>
 
 <template>
-  <ElButton
-    v-if="(effective && width > height * 1.2) || mode === 'full'"
-    :icon="types[type as ActivityType].icon"
-    :type="types[type as ActivityType].color"
+  <ZButtonTag
     :size="size ?? 'small'"
-    text
-    bg
-    round
+    :type="types[type as ActivityType].color"
+    :icon="types[type as ActivityType].icon"
+    :unknown="!effective"
   >
     {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
-  </ElButton>
-  <ElTooltip v-else-if="effective || mode === 'icon'" :content="t(`activity.type.${type}.short`)">
-    <ElButton
-      :icon="types[type as ActivityType].icon"
-      :type="types[type as ActivityType].color"
-      :size="size ?? 'small'"
-      circle
-      text
-      bg
-    />
-  </ElTooltip>
-  <ElButton v-else type="danger" :size="size ?? 'small'" text bg round>
-    {{ t('activity.type.unknown') }}
-  </ElButton>
+  </ZButtonTag>
 </template>

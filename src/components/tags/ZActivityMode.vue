@@ -1,0 +1,49 @@
+<script lang="ts" setup>
+import type { ActivityMode } from '@/../@types/activity'
+import { Vacation, School, CityGate } from '@icon-park/vue-next'
+import type { Component as VueComponent } from 'vue'
+import ZButtonTag from '../utils/ZButtonTag.vue'
+import { useI18n } from 'vue-i18n'
+import { toRefs } from 'vue'
+
+const { t } = useI18n()
+
+const props = defineProps<{
+  mode?: ActivityMode
+  size?: 'large' | 'default' | 'small'
+}>()
+
+const { mode, size } = toRefs(props)
+
+const modes: Record<
+  ActivityMode,
+  {
+    icon: VueComponent
+    color: 'primary' | 'warning' | 'success'
+  }
+> = {
+  'on-campus': {
+    icon: School,
+    color: 'primary'
+  },
+  'off-campus': {
+    icon: CityGate,
+    color: 'success'
+  },
+  'large-scale': {
+    icon: Vacation,
+    color: 'warning'
+  }
+}
+</script>
+
+<template>
+  <ZButtonTag
+    :size="size ?? 'small'"
+    :type="modes[mode as ActivityMode].color"
+    :icon="modes[mode as ActivityMode].icon"
+    :unknown="!mode || !(mode in modes)"
+  >
+    {{ t(`activity.mode.${mode}.short`) }}
+  </ZButtonTag>
+</template>
