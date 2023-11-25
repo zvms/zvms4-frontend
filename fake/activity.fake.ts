@@ -128,6 +128,16 @@ export default [
     }
   },
   {
+    url: '/api/activity',
+    method: 'post',
+    response() {
+      return {
+        status: 'success',
+        code: 200
+      }
+    }
+  },
+  {
     url: '/api/activity/:id',
     method: 'put',
     response({ params }) {

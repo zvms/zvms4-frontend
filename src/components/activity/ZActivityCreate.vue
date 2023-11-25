@@ -63,7 +63,9 @@ const activity = reactive<ActivityInstance>({
   duration: undefined as unknown as number,
   date: '',
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-  updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+  updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+  creator: '',
+  status: 'pending'
 })
 
 const registration = reactive<Registration>({
@@ -132,7 +134,7 @@ watch(height, () => {
     </p>
     <div class="p-4">
       <ElCard shadow="hover" class="full">
-        <ElForm label-position="right" label-width="96px">
+        <ElForm label-position="right" label-width="108px">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
             <ElFormItem :label="t('activity.form.name')" required>
               <ElInput v-model="activity.name" />
@@ -143,7 +145,11 @@ watch(height, () => {
             <ElFormItem :label="t('activity.form.date')" required>
               <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
             </ElFormItem>
-            <ElFormItem v-if="type === 'special'" :label="t('activity.special.classify.name')" required>
+            <ElFormItem
+              v-if="type === 'special'"
+              :label="t('activity.special.classify.name')"
+              required
+            >
               <ElSelect v-model="special.classify" class="full">
                 <ElOption
                   v-for="classify in classifyOfSpecial"
@@ -158,7 +164,7 @@ watch(height, () => {
               :label="t('activity.special.prize.name')"
             >
               <ElCard shadow="hover" class="full">
-                <ElForm label-position="right" label-width="64px" class="full">
+                <ElForm label-position="right" label-width="72px" class="full">
                   <ElFormItem :label="t('activity.special.prize.level.name')" class="py-1" required>
                     <ElSelect v-model="special.prize.level" class="full">
                       <ElOption
@@ -179,7 +185,11 @@ watch(height, () => {
                       />
                     </ElSelect>
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.special.prize.classify.name')" class="py-1" required>
+                  <ElFormItem
+                    :label="t('activity.special.prize.classify.name')"
+                    class="py-1"
+                    required
+                  >
                     <ElSelect v-model="special.prize.classify" class="full">
                       <ElOption
                         v-for="classify in prize.classify"
@@ -218,7 +228,7 @@ watch(height, () => {
             </ElFormItem>
             <ElFormItem v-if="type === 'specified'" :label="t('activity.registration.name')">
               <ElCard shadow="hover" class="full">
-                <ElForm label-position="right" label-width="84px" class="full">
+                <ElForm label-position="right" label-width="96px" class="full">
                   <ElFormItem :label="t('activity.registration.location')" class="py-2" required>
                     <ElInput :prefix-icon="Location" v-model="registration.place" required />
                   </ElFormItem>

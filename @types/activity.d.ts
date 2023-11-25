@@ -62,11 +62,11 @@ export interface SpecifiedActivity extends Activity {
 
 export interface SocialActivity extends Activity {
   type: 'social'
-  image: string[]
 }
 
 export interface ScaleActivity extends Activity {
   type: 'scale'
+  url: string // FTP Social Practice Report Location.
 }
 
 export type SpecialActivityClassification = 'prize' | 'import' | 'club' | 'deduction' | 'other'
