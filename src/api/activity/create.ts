@@ -1,11 +1,18 @@
 import axios from '@/plugins/axios'
 import type { Response } from '@/../@types/response'
-import type { ActivityCreateInstance } from '@/../@types/activity'
+import type {
+  Activity,
+  ActivityInstance,
+  ActivityMember,
+  Prize,
+  Registration,
+  Special,
+} from '@/../@types/activity'
 import { ElNotification } from 'element-plus'
 
-export async function createActivity(activity: ActivityCreateInstance) {
+export async function createActivity(activity: ActivityInstance) {
   const result = (
-    await axios('/activity/create', {
+    await axios('/activity', {
       method: 'post',
       data: activity,
       withCredentials: true
@@ -20,9 +27,35 @@ export async function createActivity(activity: ActivityCreateInstance) {
   } else {
     ElNotification({
       title: '创建义工成功',
-      message: '义工 ID 为' + result.data,
+      message: 'ID 为 ' + result.data,
       type: 'success'
     })
     return result.data
   }
+}
+
+export async function createActivityWithDividedData(
+  base: Activity,
+  members: ActivityMember[],
+  registration?: Registration,
+  special?: Special,
+  prize?: Prize
+) {
+  if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
+    special = undefined
+    prize = undefined
+  }
+  if (base.type === 'special' || base.type === 'scale' || base.type === 'social') {
+    registration = undefined
+  }
+  const activity = {
+    ...base,
+    members,
+    registration,
+    special: {
+      ...special,
+      prize
+    }
+  }
+  await createActivity(activity)
 }

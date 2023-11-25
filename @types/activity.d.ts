@@ -74,10 +74,21 @@ export interface ScaleActivity extends Activity {
 
 export type SpecialActivityClassification = 'prize' | 'import' | 'club' | 'deduction' | 'other'
 
+export interface Special {
+  classify: SpecialActivityClassification
+  mode: 'on-campus' | 'off-campus' | 'large-scale'
+}
+
+export interface PrizeSpecial extends Special {
+  classify: 'prize'
+  prize: Prize
+}
+
+export type SpecialInstance = PrizeSpecial | Special
+
 export interface SpecialActivity extends Activity {
   type: 'special'
-  mode: 'on-campus' | 'off-campus' | 'large-scale'
-  classify: SpecialActivityClassification
+  special: SpecialInstance
 }
 
 export type PrizeLevel = 'district' | 'city' | 'province' | 'national' | 'international'
@@ -93,9 +104,11 @@ export interface Prize {
 }
 
 export interface PrizeSpecialActivity extends SpecialActivity {
-  classify: 'prize'
-  mode: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
-  prize: Prize
+  special: {
+    classify: 'prize'
+    mode: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
+    prize: Prize
+  }
 }
 
 export interface ImportSpecialActivity extends SpecialActivity {

@@ -133,7 +133,8 @@ export default [
     response() {
       return {
         status: 'success',
-        code: 200
+        code: 200,
+        data: new ObjectID().toHexString()
       }
     }
   },

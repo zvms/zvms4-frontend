@@ -8,7 +8,9 @@ import type {
   PrizeType,
   Registration,
   SpecialActivityClassification,
-  ActivityMode
+  ActivityMode,
+  Prize,
+  Special
 } from '@/../@types/activity'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -43,9 +45,11 @@ import {
   Location
 } from '@element-plus/icons-vue'
 import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
+import { createActivityWithDividedData } from '@/api/activity/create'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
+const load = ref(false)
 
 const props = defineProps<{
   type: ActivityType
@@ -129,16 +133,18 @@ const registrationFunctions = {
   }
 }
 
-const special = reactive({
+const special = reactive<Special>({
   classify: '' as unknown as SpecialActivityClassification,
-  prize: {
-    level: '' as unknown as PrizeLevel,
-    type: '' as unknown as PrizeType,
-    classify: '' as unknown as PrizeClassify
-  }
+  mode: '' as unknown as ActivityMode
 })
 
-const prize = {
+const prize = reactive<Prize>({
+  level: '' as unknown as PrizeLevel,
+  type: '' as unknown as PrizeType,
+  classify: '' as unknown as PrizeClassify
+})
+
+const prizes = {
   level: ['district', 'city', 'province', 'national', 'international'],
   type: ['personal', 'team'],
   classify: ['sports', 'academy', 'art', 'other']
@@ -153,6 +159,12 @@ const scrollableCardHeight = ref((height.value - 64) * 0.6)
 watch(height, () => {
   scrollableCardHeight.value = (height.value - 64) * 0.6
 })
+
+async function submit() {
+  load.value = true
+  await createActivityWithDividedData(activity, members, registration, special)
+  load.value = false
+}
 </script>
 
 <template>
@@ -204,9 +216,9 @@ watch(height, () => {
               <ElCard shadow="hover" class="full">
                 <ElForm label-position="right" label-width="72px" class="full">
                   <ElFormItem :label="t('activity.special.prize.level.name')" class="py-1" required>
-                    <ElSelect v-model="special.prize.level" class="full">
+                    <ElSelect v-model="prize.level" class="full">
                       <ElOption
-                        v-for="level in prize.level"
+                        v-for="level in prizes.level"
                         :key="level"
                         :label="t('activity.special.prize.level.' + level)"
                         :value="level"
@@ -214,9 +226,9 @@ watch(height, () => {
                     </ElSelect>
                   </ElFormItem>
                   <ElFormItem :label="t('activity.special.prize.type.name')" class="py-1" required>
-                    <ElSelect v-model="special.prize.type" class="full">
+                    <ElSelect v-model="prize.type" class="full">
                       <ElOption
-                        v-for="prizeType in prize.type"
+                        v-for="prizeType in prizes.type"
                         :key="prizeType"
                         :label="t('activity.special.prize.type.' + prizeType)"
                         :value="prizeType"
@@ -228,9 +240,9 @@ watch(height, () => {
                     class="py-1"
                     required
                   >
-                    <ElSelect v-model="special.prize.classify" class="full">
+                    <ElSelect v-model="prize.classify" class="full">
                       <ElOption
-                        v-for="classify in prize.classify"
+                        v-for="classify in prizes.classify"
                         :key="classify"
                         :label="t('activity.special.prize.classify.' + classify)"
                         :value="classify"
@@ -325,7 +337,7 @@ watch(height, () => {
             </ElFormItem>
             <ElFormItem
               v-if="
-                type !== 'special' || special.classify !== 'club' && special.classify !== 'import'
+                type !== 'special' || (special.classify !== 'club' && special.classify !== 'import')
               "
               :label="t('activity.form.person', members.length)"
               :required="type !== 'specified'"
@@ -378,7 +390,7 @@ watch(height, () => {
             <ElButton type="warning" :icon="Refresh" text bg>{{
               t('activity.form.actions.reset')
             }}</ElButton>
-            <ElButton type="primary" :icon="ArrowRight" text bg>{{
+            <ElButton type="primary" :icon="ArrowRight" text bg @click="submit" :loading="load">{{
               t('activity.form.actions.submit')
             }}</ElButton>
           </div>
