@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type {
+  ActivityMember,
   ActivityInstance,
   ActivityType,
   PrizeClassify,
   PrizeLevel,
   PrizeType,
   Registration,
-  SpecialActivityClassification
+  SpecialActivityClassification,
+  ActivityMode
 } from '@/../@types/activity'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -40,6 +42,7 @@ import {
   Delete,
   Location
 } from '@element-plus/icons-vue'
+import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -78,6 +81,41 @@ const registration = reactive<Registration>({
     }
   ]
 })
+
+const modeMap = {
+  specified: 'on-campus',
+  social: 'off-campus',
+  scale: 'large-scale'
+} as Record<ActivityType, ActivityMode>
+
+const members = reactive<ActivityMember[]>([
+  {
+    _id: '',
+    status: type.value === 'special' ? 'effective' : 'draft',
+    impression: '',
+    mode: modeMap[type.value],
+    duration: activity.duration ?? (undefined as unknown as number),
+    history: [],
+    images: []
+  }
+])
+
+const membersFunctions = {
+  add() {
+    members.push({
+      _id: '',
+      status: type.value === 'special' ? 'effective' : 'draft',
+      impression: '',
+      mode: modeMap[type.value],
+      duration: members[0].duration ?? (undefined as unknown as number),
+      history: [],
+      images: []
+    })
+  },
+  remove(ord: number) {
+    members.splice(ord, 1)
+  }
+}
 
 const registrationFunctions = {
   add() {
@@ -283,6 +321,56 @@ watch(height, () => {
                     </ElFormItem>
                   </div>
                 </ElForm>
+              </ElCard>
+            </ElFormItem>
+            <ElFormItem
+              v-if="
+                type !== 'special' || special.classify !== 'club' && special.classify !== 'import'
+              "
+              :label="t('activity.form.person', members.length)"
+              :required="type !== 'specified'"
+            >
+              <ElCard shadow="hover" class="w-full">
+                <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
+                  <Transition
+                    enter-active-class="animate__animated animate__fadeIn"
+                    leave-active-class="animate__animated animate__fadeOut"
+                    appear
+                  >
+                    <ElRow class="full">
+                      <ElCol :span="16" :xs="12" :sm="14">
+                        <ZSelectPerson
+                          v-model="member._id"
+                          :placeholder="t('activity.form.person')"
+                          :filter-start="2"
+                          full-width
+                        >
+                          <template #prepend> {{ idx + 1 }} </template>
+                        </ZSelectPerson>
+                      </ElCol>
+                      <ElCol :span="2" style="text-align: center">
+                        <ElDivider direction="vertical" />
+                      </ElCol>
+                      <ElCol :span="6" :xs="10" :sm="8">
+                        <ElInput
+                          :placeholder="t('activity.form.duration')"
+                          v-model.number="member.duration"
+                          class="full"
+                        >
+                          <template #append>
+                            <ElButton
+                              :icon="idx === 0 ? Plus : Delete"
+                              circle
+                              @click="
+                                idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
+                              "
+                            />
+                          </template>
+                        </ElInput>
+                      </ElCol>
+                    </ElRow>
+                  </Transition>
+                </div>
               </ElCard>
             </ElFormItem>
           </ElScrollbar>

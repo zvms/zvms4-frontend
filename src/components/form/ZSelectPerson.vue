@@ -64,6 +64,8 @@ async function filter(number: string) {
     :loading="load"
     filterable
     remote
+    size="default"
+    remote-show-suffix
   >
     <ElOption
       v-for="item in options"
@@ -79,5 +81,8 @@ async function filter(number: string) {
         {{ item.number }}, {{ item.class }}
       </span>
     </ElOption>
+    <template #prefix>
+      <slot name="prepend"></slot>
+    </template>
   </ElSelect>
 </template>

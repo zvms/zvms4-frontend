@@ -36,6 +36,7 @@ export interface ActivityMember {
   _id: string // ObjectId
   status: MemberActivityStatus
   impression: string
+  mode: ActivityMode
   duration: number
   history: ActivityMemberHistory[]
   images: string[]
@@ -54,6 +55,8 @@ export type ActivityType = 'specified' | 'special' | 'social' | 'scale'
 export type MemberActivityStatus = 'draft' | 'pending' | 'effective' | 'refused' | 'rejected'
 
 export type ActivityStatus = 'pending' | 'effective' | 'refused'
+
+export type ActivityMode = 'on-campus' | 'off-campus' | 'large-scale'
 
 export interface SpecifiedActivity extends Activity {
   type: 'specified'
