@@ -1,6 +1,6 @@
-name: Modify Activity Title
-description: Modify the title of an activity
-path: /activity/:aid/title
+name: Modify Activity Description
+description: Modify the description of an activity
+path: /activity/:aid/description
 method: PUT
 params:
   - name: aid
@@ -8,11 +8,11 @@ params:
     type: string
     required: true
     description: The activity id
-  - name: title
+  - name: description
     in: body
     type: string
     required: true
-    description: The new title of the activity
+    description: The new description of the activity
 permission:
   creator: 2
   others: 16

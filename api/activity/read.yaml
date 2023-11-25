@@ -25,5 +25,5 @@ params:
     description: The mode of activities to return
 response: ActivityInstance[]
 permissions:
-  in-class: 2
-  campus: 4
+  in-class: 1
+  campus: 2

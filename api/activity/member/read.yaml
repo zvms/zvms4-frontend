@@ -1,5 +1,5 @@
 name: Get Registerable Activities
-path: /user/:id/activity/register
+path: /user/:id/activity/registerable
 method: GET
 params:
   - name: id
@@ -8,4 +8,3 @@ params:
     required: true
     description: The user id (number)
 response: SpecifiedActivity[]
-permission: 1
