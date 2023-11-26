@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ElButton, ElButtonGroup, ElNotification, ElTooltip } from 'element-plus'
-import type { Component as VueComponent } from 'vue'
-import { PersonalStacks, PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
+import { ElButton, ElButtonGroup, ElCol, ElNotification, ElRow, ElTooltip } from 'element-plus'
+import { PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
 import { useHeaderStore } from '@/stores/header'
+import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
 
@@ -17,13 +17,8 @@ function openGitHub() {
 }
 
 function randomColor() {
-  const colors = ['primary', 'success', 'warning', 'danger', 'info']
-  return colors[Math.floor(Math.random() * colors.length)] as
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
+  const list = ['primary', 'success', 'warning', 'danger', 'info']
+  return list[Math.floor(Math.random() * list.length)] as 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 </script>
 <template>
@@ -36,28 +31,30 @@ function randomColor() {
         v-for="(interest, idx) in PersonalPreferences"
         :key="idx"
       >
-        <ElButton text bg circle :icon="interest.icon" />
-      </ElTooltip>
-    </ElButtonGroup>
-    <br />
-    <span class="text-lg">个人技术栈推荐：</span>
-    <ElButtonGroup>
-      <ElTooltip
-        :content="stack.name"
-        effect="light"
-        v-for="(stack, idx) in PersonalStacks"
-        :key="idx"
-      >
-        <ElButton style="fill: currentColor" text bg circle :icon="stack.icon" />
+        <ElButton text bg circle :type="randomColor()" :icon="interest.icon" />
       </ElTooltip>
     </ElButtonGroup>
   </p>
   <br />
-  <ElButton text bg @click="openGitHub" type="primary"
-    >View me on GitHub: https://github.com/7086cmd/</ElButton
-  >
-  <code> // Never write comments. </code>
-  <p class="self-introd">
+  <img
+    @click="openGitHub"
+    src="https://img.shields.io/badge/-@7086cmd-181717?style=for-the-badge&logo=github&logoColor=white"
+  />
+  <ElRow>
+    <ElCol :span="12">
+      <img
+        v-if="!pad()"
+        src="https://github-readme-stats.vercel.app/api/top-langs/?username=7086cmd&layout=compact&hide_border=true"
+      />
+    </ElCol>
+    <ElCol :span="12">
+      <img
+        v-if="!pad()"
+        src="https://github-readme-stats.vercel.app/api?username=7086cmd&show_icons=true"
+      />
+    </ElCol>
+  </ElRow>
+  <p class="self-introd py-2">
     开发过的项目有：蛟川书院纪检部管理平台
     <sup>
       <ElButtonGroup>

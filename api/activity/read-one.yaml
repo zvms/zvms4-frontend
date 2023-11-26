@@ -8,4 +8,3 @@ params:
     required: true
     description: The activity id (Object Id)
 response: ActivityInstance
-permission: 1

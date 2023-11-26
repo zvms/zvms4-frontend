@@ -10,7 +10,7 @@ export async function getAllActivities(
   }
 ) {
   const result = (
-    await axios('/activities', {
+    await axios('/activity', {
       params: {
         type: filter.type,
         range
@@ -28,8 +28,8 @@ export async function getAllActivities(
   return result.data
 }
 
-export async function getUserActivities(id: number) {
-  const result = (await axios(`/user/${id}/activities`)).data as Response<ActivityInstance[]>
+export async function getUserActivities(id: string) {
+  const result = (await axios(`/user/${id}/activity`)).data as Response<ActivityInstance[]>
   if (result.status === 'error') {
     ElNotification({
       title: `获取用户义工列表失败（${result.code}）`,
@@ -41,7 +41,8 @@ export async function getUserActivities(id: number) {
   return result.data
 }
 
-export async function getActivity(id: string) { // id: ObjectId
+export async function getActivity(id: string) {
+  // id: ObjectId
   const result = (await axios(`/activity/${id}`)).data as Response<ActivityInstance>
   if (result.status === 'error') {
     ElNotification({

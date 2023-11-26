@@ -1,10 +1,14 @@
-
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 128 128"><path fill="#ff6f00" d="m61.55 128l-21.84-12.68V40.55L6.81 59.56l.08-28.32L61.55 0zM66.46 0v128l21.84-12.68V79.31l16.49 9.53l-.1-24.63l-16.39-9.36v-14.3l32.89 19.01l-.08-28.32z"></path></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564l.015-5.31zm21.43 5.311l-.014-5.31L12.46 0v24l4.095-2.378V14.87l3.092 1.788l-.018-4.618l-3.074-1.756V7.603l6.168 3.564z"
+    ></path>
+  </svg>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'DeviconTensorflow'
+  name: 'SimpleIconsTensorflow'
 }
 </script>

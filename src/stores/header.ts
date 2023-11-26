@@ -3,12 +3,12 @@ import { defineStore } from "pinia";
 
 export const useHeaderStore = defineStore("header", {
   state: () => ({
-    header: 'ZVMS 4.1',
-    base: 'ZVMS 4.1'
+    header: 'ZVMS 4.2',
+    base: 'ZVMS 4.2'
   }),
   actions: {
     setHeader(header: string) {
-      this.header = this.base + '｜' + header
+      // this.header = this.base + '｜' + header
       useTitle('镇海中学义工管理系统' + ' - ' + header.replaceAll('｜', ' - '))
     }
   }

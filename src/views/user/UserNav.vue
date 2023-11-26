@@ -10,7 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElPopover, ElTooltip, ElButtonGroup } from 'element-plus'
+import { ElButton, ElDivider, ElTooltip } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { useRoute, useRouter } from 'vue-router'
@@ -21,35 +21,15 @@ import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
-import MdiTranslate from '@/icons/MdiTranslate.vue'
-import { Chinese, English } from '@icon-park/vue-next'
 import { useI18n } from 'vue-i18n'
+import ZSelectLanguage from '@/components/form/ZSelectLanguage.vue'
 
 const user = useUserStore()
 const router = useRouter()
 const dark = useDark()
-const { t, locale } = useI18n({
+const { t } = useI18n({
   useScope: 'global'
 })
-
-const languages = ref<
-  Array<{
-    icon: VueComponent
-    display: string
-    value: string
-  }>
->([
-  {
-    icon: Chinese,
-    display: '简体中文',
-    value: 'zh-CN'
-  },
-  {
-    icon: English,
-    display: 'English',
-    value: 'en-US'
-  }
-])
 
 const path = ref(new URL(window.location.href).pathname)
 
@@ -112,19 +92,19 @@ const navs: Array<{
 }> = [
   {
     icon: HomeFilled,
-    name: t('nav.home'),
+    name: 'home',
     path: '/user/',
     show: true
   },
   {
     icon: MdiEye,
-    name: t('nav.activity'),
+    name: 'activity',
     path: '/activity/',
     show: true
   },
   {
     icon: CirclePlusFilled,
-    name: t('nav.create'),
+    name: 'create',
     path: '/activity/create',
     show: true
   },
@@ -142,13 +122,13 @@ const navs: Array<{
   // },
   {
     icon: InfoFilled,
-    name: t('nav.about'),
+    name: 'about',
     path: '/about',
     show: true
   },
   {
     icon: MaterialSymbolsSettings,
-    name: t('nav.preferences'),
+    name: 'preferences',
     path: '/administration',
     show: user.position.includes('admin')
   }
@@ -158,20 +138,15 @@ function routeTo(page: string) {
   path.value = page
   router.push(page)
 }
-
-function setLanguage(language: string) {
-  user.setLanguage(language)
-  locale.value = language
-}
 </script>
 
 <template>
-  <div class="px-2 bg-slate-50 dark:bg-gray-900 pl-3 menu">
+  <div class="px-2 bg-slate-100 dark:bg-gray-900 pl-3 menu">
     <div v-for="nav in navs" :key="nav.path">
       <div class="py-1" v-if="nav.show">
         <ElTooltip
           v-if="nav.show"
-          :content="nav.name"
+          :content="t(`nav.${nav.name}`)"
           placement="right"
           :effect="dark ? 'dark' : 'light'"
         >
@@ -213,26 +188,7 @@ function setLanguage(language: string) {
     </div>
     <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
     <div class="bottom">
-      <ElPopover placement="right" width="192px">
-        <template #reference>
-          <ElButton :icon="MdiTranslate" size="large" text circle />
-        </template>
-        <ElButtonGroup class="full">
-          <div v-for="language in languages" :key="language.value">
-            <ElButton
-              :icon="language.icon"
-              class="full"
-              text
-              :bg="user.language === language.value"
-              @click="setLanguage(language.value)"
-              :type="user.language === language.value ? 'primary' : ''"
-            >
-              {{ language.display }}
-            </ElButton>
-            <br />
-          </div>
-        </ElButtonGroup>
-      </ElPopover>
+      <ZSelectLanguage type="button" placement="right" />
       <br />
       <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
     </div>

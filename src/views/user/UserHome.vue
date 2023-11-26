@@ -5,7 +5,6 @@ import {
   ElDescriptions,
   ElDescriptionsItem,
   ElRow,
-  ElTag,
   ElButton,
   ElDivider,
   ElCard,
@@ -20,47 +19,58 @@ import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
 import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { reactive, watch } from 'vue'
+import ZUserPosition from '@/components/tags/ZUserPosition.vue'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
 const user = useUserStore()
 const { t } = useI18n()
 
-header.setHeader('主页')
-
-const positionList = {
-  student: t('home.positions.student'),
-  secretary: t('home.positions.secretary'),
-  auditor: t('home.positions.auditor'),
-  inspector: t('home.positions.inspector'),
-  admin: t('home.positions.admin'),
-  department: t('home.positions.department'),
-  system: t('home.positions.system')
-}
+header.setHeader(t('nav.home'))
 
 const nowTime = dayjs().hour()
-const greeting = ref(
-  nowTime < 12
-    ? t('home.greetings.morning')
-    : nowTime < 18
-    ? t('home.greetings.afternoon')
-    : t('home.greetings.evening')
-)
+const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
 
 const useTransform = ref(true)
 
 console.log(user)
 
 function transform() {
-  if (user.volTime.onCampus <= 30) return 0
-  const result = Math.floor((user.volTime.onCampus - 30) / 3)
+  if (user.time.onCampus <= 30) return 0
+  const result = Math.floor((user.time.onCampus - 30) / 3)
   return result > 6 ? 6 : result
 }
+
+const time = reactive({
+  largeScale: 0,
+  onCampus: 0,
+  offCampus: 0
+})
+
+refreshSumTime()
+
+function refreshSumTime() {
+  user.getUserActivityTime().then(() => {
+    time.largeScale = user.time.largeScale
+    time.onCampus = user.time.onCampus
+    time.offCampus = user.time.offCampus
+    if (useTransform.value) {
+      time.offCampus += transform()
+    }
+  })
+}
+
+watch(useTransform, () => {
+  refreshSumTime()
+})
 </script>
 
 <template>
   <div class="px-20 fill" style="width: 100%">
-    <p class="text-2xl py-8">{{ t('home.greeting', { greet: greeting, name: user.name }) }}</p>
+    <p class="text-2xl py-8">
+      {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
+    </p>
     <div class="py-4">
       <ElCard shadow="hover">
         <ElDescriptions class="fill" border>
@@ -76,7 +86,7 @@ function transform() {
           <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.class')">{{ user.class }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.identify')">
-            <ElTag v-for="tag in user.position" :key="tag">{{ positionList[tag] }}</ElTag>
+            <ZUserPosition :position="user.position" group />
           </ElDescriptionsItem>
         </ElDescriptions>
       </ElCard>
@@ -103,12 +113,12 @@ function transform() {
         <ElRow class="fill py-4 statistic">
           <ElCol v-if="width > height" :span="2" />
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="largeScale" :realTime="user.volTime.largeScale" />
+            <ZTimeJudge type="large-scale" :realTime="user.time.largeScale" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="onCampus" :realTime="user.volTime.onCampus" />
+            <ZTimeJudge type="on-campus" :realTime="user.time.onCampus" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol v-if="width > height" :span="1"
@@ -116,8 +126,8 @@ function transform() {
           /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
             <ZTimeJudge
-              type="offCampus"
-              :realTime="user.volTime.offCampus + (useTransform ? transform() : 0)"
+              type="off-campus"
+              :realTime="user.time.offCampus + (useTransform ? transform() : 0)"
             />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>

@@ -1,6 +1,6 @@
-name: User Cancel the Registeration of Activity
-path: /user/:id/activity/:aid/register
-method: DELETE
+name: Append User into an Activity
+path: /activity/:aid/member/:id
+method: PUT
 params:
   - name: id
     in: path
@@ -14,4 +14,3 @@ params:
     description: The activity id (Object Id)
 body: null
 response: null
-permission: 1

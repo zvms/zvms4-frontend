@@ -4,7 +4,7 @@ import type { Response } from '@/../@types/response'
 import type { LoginResult } from '@/../@types/login'
 import { ElNotification } from 'element-plus'
 
-export async function UserLogin(user: number, password: string) {
+export async function UserLogin(user: string, password: string) {
   const result = await axios('/user/login', {
     method: 'POST',
     data: {

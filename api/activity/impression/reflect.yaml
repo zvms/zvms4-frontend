@@ -1,5 +1,5 @@
 name: Reflect Impression
-path: /activity/:aid/impression/:id
+path: /activity/:aid/user/:id
 method: PUT
 params:
   - name: aid
@@ -17,7 +17,10 @@ params:
     type: string
     required: true
     description: The new status of the activity
+  - name: duration
+    in: body
+    type: number
+    required: true
+    description: The duration of the activity
 response: null
-permissions:
-  in-class(first): 2
-  campus(final): 4
+permissions: 4

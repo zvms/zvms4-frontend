@@ -1,10 +1,14 @@
-
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="1.16em" height="1em" viewBox="0 0 256 222"><path fill="#1697F6" d="m130.711 49.564l-51.043 88.428L128 221.754l64.015-110.877L256 0h-96.692z"></path><path fill="#AEDDFF" d="m64.015 110.877l3.352 5.831l47.748-82.742L134.734 0H0z"></path><path fill="#1867C0" d="M159.308 0C183.503 79.623 128 221.754 128 221.754l-48.332-83.762L159.308 0Z"></path><path fill="#7BC6FF" d="M134.734 0C32.794 0 67.367 116.708 67.367 116.708L134.734 0Z"></path></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M6.312 12.564L12.636 1.2H0l6.312 11.364ZM14.94 1.2L7.464 14.64L12 22.8L24 1.2h-9.06Zm4.98 2.4L12 17.856l-1.788-3.216L16.344 3.6h3.576ZM6.312 7.62L4.08 3.6h4.476L6.312 7.62Z"
+    ></path>
+  </svg>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'LogosVuetifyjs'
+  name: 'SimpleIconsVuetify'
 }
 </script>

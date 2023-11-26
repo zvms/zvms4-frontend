@@ -1,154 +1,131 @@
 <script setup lang="ts">
-import type {
-  ActivityDisplayInstance,
-  ActivityMember,
-  SpecialActivity,
-  SpecifiedActivity
-} from '@/../@types/activity'
-import { ElDialog, ElTable, ElTableColumn, ElTag, ElButton } from 'element-plus'
-import { ref, toRefs } from 'vue'
+import type { ActivityInstance, ActivityMember } from '@/../@types/activity'
+import {
+  ElDialog,
+  ElTable,
+  ElTableColumn,
+  ElButton,
+  ElPagination,
+  ElCard,
+  ElInput
+} from 'element-plus'
+import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Appointment, Star, Association } from '@icon-park/vue-next'
-import { Box } from '@element-plus/icons-vue'
+import { Box, Search } from '@element-plus/icons-vue'
 import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import type { Component as VueComponent } from 'vue'
-import ZActivityDescriptions from './ZActivityDescriptions.vue'
 import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
 import { useWindowSize } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+import ZActivityType from '@/components/tags/ZActivityType.vue'
+import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
+import ZActivityDetails from './ZActivityDetails.vue'
+import { getActivity } from './getActivity'
 
+const { t } = useI18n()
 const { width, height } = useWindowSize()
 
 const user = useUserStore()
 
 const props = defineProps<{
-  activities: ActivityDisplayInstance[]
   role: 'auditor' | 'secretary' | 'student'
 }>()
 
-const titleFilter = ref('')
+const activePage = ref(1)
+const pageSize = ref(8)
 
 const { role } = toRefs(props)
+const loading = ref(true)
 
-const activity = ref<ActivityDisplayInstance[]>([
-  {
-    // MongoDB _ID: HEX 12
-    _id: '60b9b6b9a9b0f3c4b8e1b0a1',
-    type: 'off-campus',
-    name: '义工 A',
-    members: [
-      {
-        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
-        status: 'rejected',
-        impression: '丁真'
-      }
-    ],
-    duration: 1,
-    time: dayjs('2023-11-13 00:00:00').toJSON()
-  },
-  {
-    _id: '60b9b6b9a9b0f3c4b8e1b0a3',
-    type: 'special',
-    description: '这是一条活动描述',
-    subtype: 'large-scale',
-    name: '义工 B',
-    members: [
-      {
-        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
-        status: 'effective',
-        impression: '丁真'
-      }
-    ],
-    duration: 8,
-    time: dayjs().toJSON()
-  } as SpecialActivity,
-  {
-    _id: '60b9b6b9a9b0f3c4b8e1b0a5',
-    type: 'specified',
-    description: '这是一条活动描述',
-    name: '义工 C',
-    members: [
-      {
-        _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-        number: 20230616,
-        status: 'first-instance-approved',
-        impression: '丁真'
-      },
+const activities = ref<ActivityInstance[]>([])
 
-      {
-        _id: '60c9b1b0e6b3a3b4b8b0b0b1',
-        number: 20230224,
-        status: 'first-instance-approved',
-        impression: '丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真丁真'
-      }
-    ],
-    registration: {
-      classes: [
-        {
-          class: 202306,
-          max: 4
-        },
-        {
-          class: 202302,
-          max: 4
-        }
-      ],
-      place: 'A101',
-      deadline: dayjs(new Date('2023-11-13 00:00:00')).toJSON()
-    },
-    duration: 4,
-    time: dayjs().toJSON()
-  } as SpecifiedActivity
-])
-
-const activityTypes = [
-  {
-    label: '指定义工',
-    value: 'specified'
-  },
-  {
-    label: '特殊义工',
-    value: 'special'
-  },
-  {
-    label: '校外义工',
-    value: 'off-campus'
-  }
-]
-
-const status = {
-  registered: { label: '已报名', color: '' },
-  attended: { label: '初审中', color: '' },
-  'first-instance-rejected': { label: '初审未通过', color: 'warning' },
-  'first-instance-approved': { label: '终审中', color: '' },
-  'last-instance-rejected': { label: '终审未通过', color: 'warning' },
-  effective: { label: '有效', color: 'success' },
-  rejected: { label: '拒绝', color: 'danger' }
-} as Record<string, { label: string; color: '' | 'success' | 'warning' | 'danger' }>
-
-const reflect = ref(
-  role.value === 'student' ? '' : role.value === 'auditor' ? 'first-instance-approved' : 'attended'
-)
-
-const icon = {
-  specified: Appointment,
-  special: Star,
-  'off-campus': Association
-} as Record<string, VueComponent>
+getActivity(user._id, role.value).then((res) => {
+  loading.value = false
+  activities.value = res ?? []
+})
 
 const registerForSpecified = ref(false)
+
+const statusFilter = ['draft', 'pending', 'rejected', 'effective', 'refused']
+
+const tableMaxHeight = ref(height.value * 0.56)
+
+watch(width, () => {
+  tableMaxHeight.value = height.value * 0.56
+})
+
+const searchWord = ref('')
+
+const items = ref<ActivityInstance[]>([])
+
+function filter() {
+  items.value = activities.value.filter((x) => x.name.includes(searchWord.value))
+}
+
+watch(searchWord, filter)
+
+filter()
+
+onSortChange({
+  column: 'date',
+  order: 'ascending'
+})
+
+function onSortChange({ column, order }: { column: string; order: string }) {
+  activePage.value = 1
+  if (column === 'date') {
+    items.value.sort((a, b) => {
+      if (order === 'ascending') {
+        return dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1
+      } else {
+        return dayjs(a.date).isBefore(dayjs(b.date)) ? 1 : -1
+      }
+    })
+  } else if (column === 'name') {
+    items.value.sort((a, b) => {
+      if (order === 'ascending') {
+        return a.name.localeCompare(b.name)
+      } else {
+        return b.name.localeCompare(a.name)
+      }
+    })
+  }
+}
+
+watch(
+  activities,
+  () => {
+    items.value = activities.value
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
-  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
-    <ElDialog title="报名指定义工" fullscreen center v-model="registerForSpecified">
+  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
+    <ElDialog
+      :title="t('activity.registration.title')"
+      fullscreen
+      center
+      v-model="registerForSpecified"
+    >
       <UserResgister />
     </ElDialog>
     <ElCard shadow="never">
-      <ElTable :data="activity.filter((x) => x.name.includes(titleFilter))" table-layout="auto">
+      <ElTable
+        :max-height="tableMaxHeight"
+        :data="
+          items.filter(
+            (x, idx) =>
+              idx < activePage * pageSize &&
+              idx >= (activePage - 1) * pageSize &&
+              x.name.includes(searchWord)
+          )
+        "
+        table-layout="auto"
+        :on-sort-change="onSortChange"
+      >
         <ElTableColumn type="expand">
           <template #header>
             <ElButton
@@ -172,57 +149,118 @@ const registerForSpecified = ref(false)
             />
           </template>
           <template #default="{ row }">
-            <ZActivityDescriptions :activity="row" :role="role" />
+            <ZActivityDetails :activity="row" :mode="role" />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="name" label="名称" />
-        <ElTableColumn prop="time" label="日期">
+        <ElTableColumn prop="name" :label="t('activity.form.name')" />
+        <ElTableColumn prop="date" :label="t('activity.form.date')" sortable>
           <template #default="{ row }">
-            {{ dayjs(row.time).format('YYYY-MM-DD') }}
+            {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" label="类型">
+        <ElTableColumn
+          prop="type"
+          :label="t('activity.form.type')"
+          :filters="[
+            { text: t('activity.type.specified.name'), value: 'specified' },
+            { text: t('activity.type.social.name'), value: 'social' },
+            { text: t('activity.type.scale.name'), value: 'scale' },
+            { text: t('activity.type.special.name'), value: 'special' }
+          ]"
+          :filter-method="(value, row) => row.type === value"
+        >
           <template #default="{ row }">
-            <ElButton size="small" text :icon="icon[row.type]">{{
-              activityTypes.find((x) => x.value === row.type)?.label
-            }}</ElButton>
+            <ZActivityType :type="row.type" size="small" />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="duration" label="时长">
-          <template #default="{ row }">
-            {{ row.duration }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">小时</span>
-          </template>
-        </ElTableColumn>
-        <ElTableColumn v-if="role === 'student'" label="状态">
-          <template #default="{ row }">
-            <ElTag
-              v-for="(tag, idx) in (row as ActivityDisplayInstance).members.filter(
-                (x: ActivityMember) => x._id === user._id
-              )"
-              :key="idx"
-              :type="status[tag.status].color"
-            >
-              {{ status[tag.status].label }}
-            </ElTag>
-          </template>
-        </ElTableColumn>
-        <ElTableColumn v-else label="待审">
+        <ElTableColumn
+          v-if="role === 'student'"
+          :label="t('activity.form.duration')"
+          sortable
+          :sort-method="
+            (a, b) =>
+              ((a as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                ?.duration ?? a.duration) -
+              ((b as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                ?.duration ?? b.duration)
+          "
+        >
           <template #default="{ row }">
             {{
-              (row as ActivityDisplayInstance).members.filter(
-                (x: ActivityMember) => x.status === reflect && row.type === 'specified'
-              ).length
+              (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                ?.duration ?? row.duration
             }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">条感想</span>
+            <span style="font-size: 12px; color: --el-text-color-secondary">{{
+              t(
+                'activity.units.hour',
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                  ?.duration ?? row.duration
+              )
+            }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn fixed="right" label="感想">
+        <ElTableColumn
+          v-if="role === 'student'"
+          :label="t('activity.status.title')"
+          :filters="
+            statusFilter.map((x) => ({
+              text: t('activity.status.' + x),
+              value: x
+            }))
+          "
+          :filter-method="
+            (value, row) =>
+              (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                ?.status === value
+          "
+        >
+          <template #default="{ row }">
+            <ZActivityStatus
+              :type="
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                  ?.status
+              "
+            />
+          </template>
+        </ElTableColumn>
+        <ElTableColumn v-else :label="t('activity.form.pending')">
+          <template #default="{ row }">
+            {{
+              (row as ActivityInstance).members.filter(
+                (x: ActivityMember) => x.status === 'pending'
+              ).length
+            }}
+            <span style="font-size: 12px; color: --el-text-color-secondary">{{
+              t(
+                'activity.units.item',
+                (row as ActivityInstance).members.filter(
+                  (x: ActivityMember) => x.status === 'pending'
+                ).length
+              )
+            }}</span>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn fixed="right">
+          <template #header>
+            <ElInput v-model="searchWord" size="small" :prefix-icon="Search" />
+          </template>
           <template #default="props">
-            <ZActivityImpressionDrawer :activity="props.row" :role="role" />
+            <ZActivityImpressionDrawer :id="props.row._id" :role="role" />
           </template>
         </ElTableColumn>
       </ElTable>
+      <div class="py-2" v-if="activities.length !== 0">
+        <ElPagination
+          v-model:current-page="activePage"
+          v-model:page-size="pageSize"
+          :pager-count="3"
+          :total="items.length"
+          layout="total, prev, pager, next, sizes, jumper"
+          background
+          :page-sizes="[3, 5, 8, 10, 15, 20]"
+          :on-current-change="onSortChange"
+        />
+      </div>
     </ElCard>
   </div>
 </template>

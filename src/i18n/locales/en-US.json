@@ -77,10 +77,18 @@
   },
   "activity": {
     "panels": {
-      "mine": "My Activity",
-      "admin": "Activities",
+      "mine": "Mine",
+      "admin": {
+        "secretary": "Class",
+        "global": "Campus"
+      },
       "register": "Register",
-      "export": "Export"
+      "export": "Export",
+      "title": {
+        "mine": "My Activities",
+        "class": "Activities in Class",
+        "global": "Activities on Campus"
+      }
     },
     "search": {
       "title": "Search",
@@ -115,19 +123,67 @@
       "class": "Class(es) | Class | Classes",
       "duration": "Duration",
       "classify": "Classify",
+      "reflect": "Reflect",
+      "pending": "Pending",
+      "units": {
+        "item": "item | item | items",
+        "hour": "hour | hour | hours",
+        "word": "word | word | words"
+      },
+      "write": "Write",
       "impression": "Impression",
+      "reward": "Reward",
+      "impression-page": {
+        "actions": {
+          "write": "Write",
+          "reflect": "Reflect"
+        },
+        "write": {
+          "title": "Write Impression",
+          "prompt": "Impression",
+          "action": {
+            "save": "Save",
+            "submit": "Submit"
+          }
+        },
+        "reflect": {
+          "title": "Reflect Impressions ({mode})",
+          "buttons": {
+            "approve": "Approve",
+            "reject": "Reject",
+            "refuse": "Refuse",
+            "ensure": "Refusal will be publicized to the entire school, irrevocable, time counted."
+          },
+          "prompt": " by {name}"
+        },
+        "general": {
+          "detail": "Detail of Activity"
+        }
+      },
       "registration": {
         "title": "Registration",
+        "name": "Register for Specified Activities",
         "deadline": "Deadline",
         "location": "Location",
-        "class": "Class",
+        "class": "Class(es) | Class | Classes",
+        "single-class": {
+          "class": "Class",
+          "min": "Min",
+          "max": "Max",
+          "min-text": "People Required (min)",
+          "max-text": "People Required (max)"
+        },
         "remaining-time": "Remaining Time",
         "remaining-positions": "Remaining Positions",
         "registered": "Registered",
         "unregistered": "Unregistered",
         "unregisterable": "Unregisterable",
+        "status": "Status",
         "register": "Register",
-        "unregister": "Unregister"
+        "unregister": "Unregister",
+        "format": "DD day(s) HH:mm",
+        "remain": "{time} before the activity starts.",
+        "prompt-registered": " person registered. | person registered. | people registered."
       },
       "specifies": {
         "on-campus": "Activities on Campus",
@@ -136,10 +192,11 @@
       },
       "specials": {
         "prize": "Competition Prize",
-        "import": "Importance",
+        "import": "Import Data",
         "club": "Club Activity",
         "deduction": "Deduction",
-        "others": "Others"
+        "other": "Others",
+        "scale": "Large Scale"
       },
       "actions": {
         "create": "Create",
@@ -151,6 +208,18 @@
         "select": "Select",
         "switch": "Switch",
         "reset": "Reset"
+      },
+      "status": {
+        "title": "Status",
+        "registered": "Registered",
+        "attended": "Attended",
+        "draft": "Draft",
+        "first-instance": "First Instance",
+        "first-instance-rejected": "First Instance Rejected",
+        "last-instance": "Last Instance",
+        "last-instance-rejected": "Last Instance Rejected",
+        "effective": "Effective",
+        "rejected": "Rejected"
       }
     }
   },
@@ -158,7 +227,24 @@
     "about-project": "About ZVMS",
     "about-developers": "About Developers",
     "footer": "Zhenhai Middle School Student Volunteer Autonomous Management Committee Technology Department",
-    "license": "MIT Licensed"
+    "license": "MIT Licensed",
+    "switch": {
+      "real": "Real Name",
+      "nick": "Nickname"
+    },
+    "version": {
+      "0": "The version",
+      "1": "of the project is developed by ",
+      "2": ". Thanks!",
+      "stack": "Tech Stack: ",
+      "repo": "Repository: "
+    },
+    "thank": {
+      "mean": "Meanwhile, thanks to the off campus server provided by ",
+      "icon": ", icon of new version (2.0 - latest) designed by ",
+      "test": ", and the crazy test by ",
+      "end": "."
+    }
   },
   "broadcast": {
     "pages": {
@@ -189,5 +275,8 @@
       }
     }
   },
-  "placeholder": "Please {action} the {target}."
+  "placeholder": "Please {action} the {target}.",
+  "date-format": "YYYY-MM-DD",
+  "time-format": "HH:mm",
+  "datetime-format": "YYYY-MM-DD HH:mm"
 }

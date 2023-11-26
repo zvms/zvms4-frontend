@@ -5,12 +5,12 @@ import 'nprogress/nprogress.css'
 // Create a Axios Instance
 
 const axiosInstance = axios.create({
-  baseURL: 'http://172.31.2.4:4000/api/',
+  baseURL: '/api/',
   withCredentials: true,
-  timeout: 6000,
+  timeout: 12000,
   headers: {
-    "Content-type": "application/json",
-  },
+    'Content-type': 'application/json'
+  }
 })
 
 axiosInstance.defaults.withCredentials = true
@@ -18,11 +18,11 @@ axiosInstance.defaults.withCredentials = true
 // Request Interceptor
 
 axiosInstance.interceptors.request.use(
-  config => {
+  (config) => {
     nprogress.start()
     return config
   },
-  error => {
+  (error) => {
     nprogress.done()
     return Promise.reject(error)
   }
@@ -31,11 +31,11 @@ axiosInstance.interceptors.request.use(
 // Response Interceptor
 
 axiosInstance.interceptors.response.use(
-  response => {
+  (response) => {
     nprogress.done()
     return response
   },
-  error => {
+  (error) => {
     nprogress.done()
     return Promise.reject(error)
   }

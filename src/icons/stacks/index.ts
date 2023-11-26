@@ -14,8 +14,6 @@ import GitHub from './GitHub.vue'
 import Gravatar from './Gravatar.vue'
 import JavaScript from './JavaScript.vue'
 import JWT from './JWT.vue'
-import JSON from './JSON.vue'
-import JSON5 from './JSON5.vue'
 import Koa from './Koa.vue'
 import MongoDB from './MongoDB.vue'
 import MySQL from './MySQL.vue'
@@ -27,7 +25,6 @@ import PNpm from './PNpm.vue'
 import Prettier from './Prettier.vue'
 import Quasar from './Quasar.vue'
 import Rollup from './Rollup.vue'
-import Sass from './Sass.vue'
 import SocketIO from './SocketIO.vue'
 import Stylus from './Stylus.vue'
 import SQLite from './SQLite.vue'
@@ -134,35 +131,22 @@ export const TeckStackV4: Array<{ icon: Component; name: string; classify: strin
 ]
 
 export const TeckStackMagV0: Array<{ icon: Component; name: string; classify: string }> = [
-  { icon: Axios, name: 'Axios', classify: 'server' },
-  { icon: JavaScript, name: 'JavaScript', classify: 'language' },
-  { icon: JSON, name: 'JSON', classify: 'database' },
   { icon: Koa, name: 'Koa', classify: 'server' },
   { icon: Node, name: 'Node', classify: 'language' },
-  { icon: PNpm, name: 'PNpm', classify: 'package-manager' },
-  { icon: Prettier, name: 'Prettier', classify: 'code-tool' },
   { icon: Quasar, name: 'Quasar', classify: 'ui' },
   { icon: SocketIO, name: 'SocketIO', classify: 'server' },
   { icon: Vue, name: 'Vue', classify: 'framework' },
 ]
 
 export const TeckStackMagV1: Array<{ icon: Component; name: string; classify: string }> = [
-  { icon: Axios, name: 'Axios', classify: 'server' },
   { icon: Babel, name: 'Babel', classify: 'code-tool' },
   { icon: Electron, name: 'Electron', classify: 'framework' },
   { icon: ElementPlus, name: 'ElementPlus', classify: 'ui' },
   { icon: ESBuild, name: 'ESBuild', classify: 'dev-tool' },
-  { icon: ESLint, name: 'ESLint', classify: 'code-tool' },
-  { icon: GitHub, name: 'GitHub', classify: 'git' },
-  { icon: JavaScript, name: 'JavaScript', classify: 'language' },
-  { icon: JSON5, name: 'JSON5', classify: 'database' },
   { icon: Koa, name: 'Koa', classify: 'server' },
   { icon: Node, name: 'Node', classify: 'language' },
-  { icon: PNpm, name: 'PNpm', classify: 'package-manager' },
-  { icon: Prettier, name: 'Prettier', classify: 'code-tool' },
   { icon: Rollup, name: 'Rollup', classify: 'dev-tool' },
   { icon: TypeScript, name: 'TypeScript', classify: 'language' },
   { icon: Vite, name: 'Vite', classify: 'dev-tool' },
   { icon: Vue, name: 'Vue', classify: 'framework' },
-  { icon: Vue, name: 'Vue-Router', classify: 'router' },
 ]

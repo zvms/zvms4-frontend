@@ -3,10 +3,9 @@ import type { Response } from '@/../@types/response'
 import type { UserActivityTimeSums } from '@/../@types/user'
 import { ElNotification } from 'element-plus'
 
-export async function getUserTime(user: number) {
-  const result = (await axios(`/user/${user}/time`, {
-    withCredentials: true
-  })) as Response<UserActivityTimeSums>
+export async function getUserTime(user: string) {
+  const result = (await axios(`/user/${user}/time`)).data as Response<UserActivityTimeSums>
+  console.log(result)
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户时间错误（' + result.code + '）',

@@ -18,4 +18,3 @@ params:
     required: true
     description: The new impression of the activity
 response: null
-permission: 1

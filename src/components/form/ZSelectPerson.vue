@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { getUser } from '@/api/user/crud'
+import { getUsers } from '@/api/user/crud'
+import { getClassName, getUserClass } from '@/utils/getClass'
 import { ElSelect, ElOption } from 'element-plus'
 import { ref, toRefs } from 'vue'
 
 const props = defineProps<{
-  modelValue: number | number[]
+  modelValue: string | string[]
   filterStart: number // 位数，6-8
   fullWidth?: boolean
   disabled?: boolean
@@ -13,31 +14,58 @@ const props = defineProps<{
 
 const { modelValue, filterStart, fullWidth, disabled, multiple } = toRefs(props)
 
-const number = ref<number | number[]>(modelValue.value)
-const options = [] as Array<{ label: string; value: string; disabled?: boolean; number: number }>
+const id = ref<string | string[]>(modelValue.value)
+const options = ref<
+  {
+    label: string
+    value: string
+    disabled?: boolean
+    number: number
+    class: string
+  }[]
+>([])
 
 const load = ref(false)
 
-async function filter(number: number) {
+async function filter(number: string) {
   load.value = true
-  while (options.length > 0) options.pop()
   if (number.toString().length >= filterStart.value) {
-    const result = await getUser(number)
+    const result = await getUsers(number)
     if (result) {
-      options.push({ label: result.name, value: result._id, number: result.id })
+      console.log(result)
+      options.value = result.map((x) => {
+        return {
+          label: x.name,
+          value: x._id.toString(),
+          number: x.id,
+          class: getClassName(getUserClass(x.id, x.code))
+        }
+      })
+      console.log(options, 'options')
+      load.value = false
+      return options
+    } else {
+      load.value = false
+      options.value = []
     }
+  } else {
+    load.value = false
+    options.value = []
   }
-  load.value = false
 }
 </script>
 
 <template>
   <ElSelect
-    v-model="number"
+    v-model="id"
     :disabled="disabled"
     :style="{ width: fullWidth ? '100%' : 'auto' }"
     :filter-method="filter"
     :loading="load"
+    filterable
+    remote
+    size="default"
+    remote-show-suffix
   >
     <ElOption
       v-for="item in options"
@@ -49,7 +77,12 @@ async function filter(number: number) {
       remote
     >
       <span style="float: left">{{ item.label }}</span>
-      <span style="float: right; color: #aaaaaa; font-size: 13px">{{ item.number }}</span>
+      <span style="float: right; color: #aaaaaa; font-size: 13px">
+        {{ item.number }}, {{ item.class }}
+      </span>
     </ElOption>
+    <template #prefix>
+      <slot name="prepend"></slot>
+    </template>
   </ElSelect>
 </template>

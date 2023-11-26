@@ -2,21 +2,22 @@ import { UserLogin } from '@/api/user/auth'
 import { getUser } from '@/api/user/crud'
 import type { User, UserActivityTimeSums, UserPosition } from '@/../@types/user'
 import { defineStore } from 'pinia'
-import { getClassName } from '@/utils/getClass'
+import { getUserClassName } from '@/utils/getClass'
 import { getUserTime } from '@/api/user/time'
 import { usePreferredLanguages } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    id: 20230616,
-    _id: '60c9b1b0e6b3a3b4b8b0b0b0',
-    name: '吴承宇',
+    id: 0,
+    _id: '65577f940238690a167beb5e',
+    name: '',
     sex: 'male',
-    position: ['admin', 'auditor'] as UserPosition[],
-    class: '高一（6）班',
+    position: ['admin'] as UserPosition[],
+    class: '',
     token: '',
+    code: 0,
     isLogin: true,
-    volTime: {
+    time: {
       largeScale: 1919,
       onCampus: 114,
       offCampus: 514
@@ -24,26 +25,27 @@ export const useUserStore = defineStore('user', {
     language: usePreferredLanguages().value[0]
   }),
   actions: {
-    async setUser(user: number, password: string) {
+    async setUser(user: string, password: string) {
       const result = await UserLogin(user, password)
       if (result) {
         const information = (await getUser(user)) as User<string>
         this._id = information?._id
-        this.id = user
+        this.id = information?.id
         this.name = information?.name
         this.position = information?.position
-        this.class = getClassName(information?.class)
+        this.class = getUserClassName(information.id, information.code)
         this.token = ''
+        this.code = information.code
         this.isLogin = true
       }
     },
     async refreshUser() {
-      const result = (await getUser(this.id)) as User<string>
+      const result = (await getUser(this._id)) as User<string>
       this._id = result._id
       this.id = result.id
       this.name = result.name
       this.position = result.position
-      this.class = getClassName(result.class)
+      this.class = getUserClassName(result.id, result.code)
       this.token = ''
       this.isLogin = true
     },
@@ -60,10 +62,10 @@ export const useUserStore = defineStore('user', {
       this.isLogin = false
     },
     async getUserActivityTime() {
-      const result = (await getUserTime(this.id)) as UserActivityTimeSums
-      this.volTime.offCampus = result.offCampus
-      this.volTime.onCampus = result.onCampus
-      this.volTime.largeScale = result.largeScale
+      const result = (await getUserTime(this._id)) as UserActivityTimeSums
+      this.time.offCampus = result.offCampus
+      this.time.onCampus = result.onCampus
+      this.time.largeScale = result.largeScale
     },
     async setLanguage(language: string) {
       this.language = language

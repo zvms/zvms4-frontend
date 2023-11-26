@@ -4,5 +4,10 @@ method: POST
 body: ActivityInstance
 response: ObjectId
 permission:
-  special: 1
-  specified: 4
+  special:
+    import: 16
+    club: 4
+    prize: 4
+    deduction: 8
+    other: 2
+  specified: 2

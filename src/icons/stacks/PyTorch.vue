@@ -1,10 +1,14 @@
-
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 128 128"><path fill="#EE4C2C" d="m100.1 38.3l-9.2 9.2c15.1 15.1 15.1 39.4 0 54.3c-15.1 15.1-39.4 15.1-54.3 0c-15.1-15.1-15.1-39.4 0-54.3l24-24l3.4-3.4V2L27.8 38.2C7.7 58.3 7.7 90.8 27.8 111s52.6 20.1 72.4 0c20.1-20.2 20.1-52.5-.1-72.7z"></path><circle cx="82.1" cy="29.4" r="6.7" fill="#EE4C2C" transform="rotate(-88.939 82.069 29.398) scale(.99997)"></circle></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M12.005 0L4.952 7.053a9.865 9.865 0 0 0 0 14.022a9.866 9.866 0 0 0 14.022 0c3.984-3.9 3.986-10.205.085-14.023l-1.744 1.743c2.904 2.905 2.904 7.634 0 10.538s-7.634 2.904-10.538 0s-2.904-7.634 0-10.538l4.647-4.646l.582-.665zm3.568 3.899a1.327 1.327 0 0 0-1.327 1.327a1.327 1.327 0 0 0 1.327 1.328A1.327 1.327 0 0 0 16.9 5.226A1.327 1.327 0 0 0 15.573 3.9z"
+    ></path>
+  </svg>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'DeviconPytorch'
+  name: 'SimpleIconsPytorch'
 }
 </script>

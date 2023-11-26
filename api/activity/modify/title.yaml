@@ -13,3 +13,6 @@ params:
     type: string
     required: true
     description: The new title of the activity
+permission:
+  creator: 2
+  others: 16
