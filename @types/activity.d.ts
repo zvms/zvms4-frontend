@@ -84,11 +84,31 @@ export interface PrizeSpecial extends Special {
   prize: Prize
 }
 
-export type SpecialInstance = PrizeSpecial | Special
+export interface ImportSpecial extends Special {
+  classify: 'import'
+}
+
+export interface ClubSpecial extends Special {
+  classify: 'club'
+  mode: 'on-campus' | 'off-campus'
+}
+
+export interface DeductionSpecial extends Special {
+  classify: 'deduction'
+  reason: string
+}
+
+export type SpecialInstance =
+  | PrizeSpecial
+  | ImportSpecial
+  | ClubSpecial
+  | DeductionSpecial
+  | Special
 
 export interface SpecialActivity extends Activity {
   type: 'special'
   special: SpecialInstance
+  mode: ActivityMode
 }
 
 export type PrizeLevel = 'district' | 'city' | 'province' | 'national' | 'international'
@@ -103,43 +123,9 @@ export interface Prize {
   classify: PrizeClassify
 }
 
-export interface PrizeSpecialActivity extends SpecialActivity {
-  special: {
-    classify: 'prize'
-    mode: 'on-campus' | 'off-campus' // It can be edited manually, according the latest rule.
-    prize: Prize
-  }
-}
-
-export interface ImportSpecialActivity extends SpecialActivity {
-  classify: 'import'
-  mode: 'on-campus' | 'off-campus' | 'large-scale'
-}
-
-export interface ClubSpecialActivity extends SpecialActivity {
-  classify: 'club'
-  mode: 'on-campus' | 'off-campus'
-  club: string
-}
-
-export interface DeductionSpecialActivity extends SpecialActivity {
-  classify: 'deduction'
-  mode: 'on-campus' | 'off-campus' | 'large-scale'
-  reason: string
-}
-
-export type OtherSpecialActivity = SpecialActivity
-
-export type SpecialActivityInstance =
-  | PrizeSpecialActivity
-  | ImportSpecialActivity
-  | ClubSpecialActivity
-  | DeductionSpecialActivity
-  | OtherSpecialActivity
-
 export type ActivityInstance =
   | Activity
   | SpecifiedActivity
   | SocialActivity
   | ScaleActivity
-  | SpecialActivityInstance
+  | SpecialActivity
