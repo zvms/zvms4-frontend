@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
 import ObjectID from 'bson-objectid'
 
-function generateActivity(_id?: string) {
+function generateActivity(_id?: string, serie: boolean = true) {
   return {
     _id: _id ? _id : new ObjectID().toHexString(),
     type: ['specified', 'special', 'social', 'scale'][Math.floor(Math.random() * 4)],
@@ -11,7 +11,8 @@ function generateActivity(_id?: string) {
       .fill(0)
       .map((_, idx) =>
         generateActivityMember(
-          idx === 0 ? '65577f940238690a167beb5e' : new ObjectID().toHexString()
+          idx === 0 ? '65577f940238690a167beb5e' : new ObjectID().toHexString(),
+          serie
         )
       ),
     duration: Math.floor(Math.random() * 10),
@@ -35,13 +36,13 @@ function generateRegistration() {
   }
 }
 
-function generateActivityMember(_id: string) {
+function generateActivityMember(_id: string, serie: boolean = true) {
   return {
     _id,
     status: ['draft', 'pending', 'effective', 'rejected', 'refused'][Math.floor(Math.random() * 5)],
-    impression: faker.lorem.paragraph(),
+    impression: serie ? '' : faker.lorem.paragraph(),
     duration: Math.floor(Math.random() * 10),
-    history: new Array(Math.floor(Math.random() * 10))
+    history: serie ? [] : new Array(Math.floor(Math.random() * 10))
       .fill(0)
       .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
     images: []
@@ -111,7 +112,7 @@ export default [
       return {
         status: 'success',
         code: 200,
-        data: new Array(Math.floor(Math.random() * 800)).fill(0).map(() => generateActivity())
+        data: new Array(Math.floor(Math.random() * 400)).fill(0).map(() => generateActivity())
       }
     },
     timeout: 1000
@@ -123,7 +124,7 @@ export default [
       return {
         status: 'success',
         code: 200,
-        data: generateActivity(params.id)
+        data: generateActivity(params.id, false)
       }
     }
   },
@@ -210,19 +211,11 @@ export default [
       return {
         code: 200,
         data: [
-          ...new Array(
-            faker.number.int({
-              min: 1,
-              max: 4
-            })
-          )
-            .fill(0)
-            .map(() => createPerson()),
           createPerson('65577f940238690a167beb5e'),
           ...new Array(
             faker.number.int({
-              min: 2,
-              max: 10
+              min: 4,
+              max: 15
             })
           )
             .fill(0)

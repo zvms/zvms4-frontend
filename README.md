@@ -1,68 +1,15 @@
-# zvms-latest
+# The Front End of ZVMS 4
 
-This template should help get you started developing with Vue 3 in Vite.
+> ZVMS 4|前端
 
-## Recommended IDE Setup
+The v4 of ZVMS is developing with many features planned in other earlier versions but not realized, which can give you a new experience using this platform.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+ZVMS 4 搭载了许多先前版本所想要实现却没有实现的功能。它可以给予你全新的体验。
 
-## Type Support for `.vue` Imports in TS
+We can check if you are using XueHai pad with UA (Samsung pad, Android Webkit), in order to extend the platform but make you use the pad properly in the school. For example, the weather report and auto route to maps and so on will not displayed in pads.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+我们可以通过 User Agent 自动判断您是使用学海平板访问抑或者普通访问，以便让你合规使用学海平板。例如，天气预报，外链将不会在学海平板中生效。
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+The most feature of v4 is the data structure. We use `mongodb` instead of `sqlite`, which can make us manage data more convenient and effective.
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-pnpm test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-pnpm build
-pnpm test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+V4 最大的更新是对于数据结构。我们使用了 `mongodb`，这种非关系型数据库可以帮助你更好地管理义工数据。
