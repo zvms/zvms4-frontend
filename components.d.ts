@@ -7,13 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
     ZActivityCreate: typeof import('./src/components/activity/ZActivityCreate.vue')['default']
-    ZActivityDescriptions: typeof import('./src/components/activity/ZActivityDescriptions.vue')['default']
     ZActivityDetails: typeof import('./src/components/activity/ZActivityDetails.vue')['default']
     ZActivityHistory: typeof import('./src/components/activity/ZActivityHistory.vue')['default']
     ZActivityImpressionDrawer: typeof import('./src/components/activity/ZActivityImpressionDrawer.vue')['default']
@@ -33,8 +29,5 @@ declare module 'vue' {
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
