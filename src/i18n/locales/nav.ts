@@ -4,7 +4,8 @@ export const enUS = {
   activities: {
     mine: 'Mine',
     class: 'Class',
-    campus: 'Campus'
+    campus: 'Campus',
+    register: 'Register'
   },
   create: 'Create',
   creates: {
@@ -30,7 +31,7 @@ export const enUS = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
@@ -50,7 +51,8 @@ export const zhCN = {
   activities: {
     mine: '我的义工',
     class: '班级义工',
-    campus: '全校义工'
+    campus: '全校义工',
+    register: '义工报名'
   },
   create: '创建义工',
   creates: {
@@ -76,7 +78,7 @@ export const zhCN = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
@@ -96,7 +98,8 @@ export const zhTW = {
   activities: {
     mine: '我的義工',
     class: '班級義工',
-    campus: '全校義工'
+    campus: '全校義工',
+    register: '義工報名'
   },
   create: '創建義工',
   creates: {
@@ -122,7 +125,7 @@ export const zhTW = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
@@ -142,7 +145,8 @@ export const jaJP = {
   activities: {
     mine: '私のボランティア',
     class: 'クラスボランティア',
-    campus: '全校ボランティア'
+    campus: '全校ボランティア',
+    register: 'ボランティア登録'
   },
   create: 'ボランティアを作成する',
   creates: {
@@ -168,7 +172,7 @@ export const jaJP = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
@@ -188,7 +192,8 @@ export const frFR = {
   activities: {
     mine: 'Mes bénévoles',
     class: 'Bénévoles de classe',
-    campus: 'Bénévoles de l\'école'
+    campus: "Bénévoles de l'école",
+    register: 'Inscription bénévole'
   },
   create: 'Créer un bénévole',
   creates: {
@@ -203,7 +208,7 @@ export const frFR = {
   system: 'Paramètres système',
   about: 'À propos de',
   logout: 'Se déconnecter',
-  feedback: 'Retour d\'information',
+  feedback: "Retour d'information",
   reset: 'Modification du mot de passe',
   language: 'Langue',
   dark: 'Mode sombre',
@@ -214,14 +219,14 @@ export const frFR = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
       title: '404 Page non trouvée',
-      description: 'La page que vous recherchez n\'existe pas.',
+      description: "La page que vous recherchez n'existe pas.",
       action: {
-        back: 'Retour à l\'accueil',
+        back: "Retour à l'accueil",
         report: 'Signaler un problème'
       }
     }
@@ -234,7 +239,8 @@ export const koKR = {
   activities: {
     mine: '내 봉사자',
     class: '반 봉사자',
-    campus: '학교 봉사자'
+    campus: '학교 봉사자',
+    register: '봉사자 등록'
   },
   create: '봉사자 만들기',
   creates: {
@@ -260,7 +266,7 @@ export const koKR = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {
@@ -280,7 +286,8 @@ export const ruRU = {
   activities: {
     mine: 'Мои волонтеры',
     class: 'Волонтеры класса',
-    campus: 'Волонтеры школы'
+    campus: 'Волонтеры школы',
+    register: 'Регистрация волонтеров'
   },
   create: 'Создать волонтера',
   creates: {
@@ -306,7 +313,7 @@ export const ruRU = {
     'ja-JP': '日本語',
     'fr-FR': 'Français',
     'ko-KR': '한국어',
-    'ru-RU': 'Русский',
+    'ru-RU': 'Русский'
   },
   pages: {
     NotFound: {

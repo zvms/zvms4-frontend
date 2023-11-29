@@ -15,12 +15,11 @@ import { Refresh } from '@element-plus/icons-vue'
 import TablerSum from '@/icons/TablerSum.vue'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
-import ZTimeJudge from '@/components/activity/ZTimeJudge.vue'
 import { useHeaderStore } from '@/stores/header'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { reactive, watch } from 'vue'
-import ZUserPosition from '@/components/tags/ZUserPosition.vue'
+import { ZUserPosition, ZActivityMemberTimeJudge } from '@/components'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -113,19 +112,19 @@ watch(useTransform, () => {
         <ElRow class="fill py-4 statistic">
           <ElCol v-if="width > height" :span="2" />
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="large-scale" :realTime="user.time.largeScale" />
+            <ZActivityMemberTimeJudge type="large-scale" :realTime="user.time.largeScale" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge type="on-campus" :realTime="user.time.onCampus" />
+            <ZActivityMemberTimeJudge type="on-campus" :realTime="user.time.onCampus" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol v-if="width > height" :span="1"
             ><ElDivider direction="vertical" class="height-full"
           /></ElCol>
           <ElCol :span="width < height ? 10 : 4">
-            <ZTimeJudge
+            <ZActivityMemberTimeJudge
               type="off-campus"
               :realTime="user.time.offCampus + (useTransform ? transform() : 0)"
             />

@@ -44,7 +44,7 @@ import {
   Delete,
   Location
 } from '@element-plus/icons-vue'
-import ZSelectPerson from '@/components/form/ZSelectPerson.vue'
+import { ZSelectPerson } from '@/components'
 import { createActivityWithDividedData } from '@/api/activity/create'
 
 const { t } = useI18n()

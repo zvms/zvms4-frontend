@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
 import { ref, toRefs, type Component as VueComponent } from 'vue'
 import type { ActivityType } from '@/../@types/activity'
-import ZButtonTag from '../utils/ZButtonTag.vue'
+import { ZButtonTag } from '@/components'
 
 const { t } = useI18n()
 

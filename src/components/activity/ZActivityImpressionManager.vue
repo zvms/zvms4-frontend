@@ -20,8 +20,7 @@ import {
 import { userModifyImpression } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
-import ZActivityDetails from './ZActivityDetails.vue'
-import ZActivityMember from './ZActivityMember.vue'
+import { ZActivityMember, ZActivityDetails } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance

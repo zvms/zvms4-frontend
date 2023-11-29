@@ -14,14 +14,16 @@ import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
 import { Box, Search } from '@element-plus/icons-vue'
 import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
 import UserResgister from '@/views/activity/UserRegister.vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import ZActivityType from '@/components/tags/ZActivityType.vue'
-import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
-import ZActivityDetails from './ZActivityDetails.vue'
 import { getActivity } from './getActivity'
+import {
+  ZActivityImpressionDrawer,
+  ZActivityType,
+  ZActivityStatus,
+  ZActivityDetails
+} from '@/components'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()

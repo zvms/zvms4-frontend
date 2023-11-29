@@ -2,7 +2,7 @@
 import type { ActivityMode } from '@/../@types/activity'
 import { Vacation, School, CityGate } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
-import ZButtonTag from '../utils/ZButtonTag.vue'
+import { ZButtonTag } from '@/components'
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
 

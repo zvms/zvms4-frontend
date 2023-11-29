@@ -6,13 +6,12 @@ import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
 import ZActivityType from '@/components/tags/ZActivityType.vue'
 import { Timer, Calendar, Location, ArrowRight, Plus, Edit, User } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
-import ZActivityMember from './ZActivityMember.vue'
 import { useUserStore } from '@/stores/user'
-import ZActivityHistory from './ZActivityHistory.vue'
+import { ZActivityHistory, ZActivityMember } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance
-  mode: 'student' | 'secretary' | 'auditor'
+  mode: 'student' | 'secretary' | 'auditor' | 'register'
 }>()
 
 const user = useUserStore()

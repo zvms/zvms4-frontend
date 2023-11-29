@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
 import { memberActivityStatuses } from '@/icons/status'
 import type { MemberActivityStatus } from '@/../@types/activity'
-import ZButtonTag from '../utils/ZButtonTag.vue'
+import { ZButtonTag } from '@/components'
 
 const { t } = useI18n()
 

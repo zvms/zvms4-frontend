@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ElDialog, ElButton } from 'element-plus'
-import ZActivityImpressionManager from './ZActivityImpressionManager.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from '@/api/activity/read'
+import { ZActivityImpressionManager } from '@/components'
 
 const props = defineProps<{
   id: string

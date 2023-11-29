@@ -2,9 +2,9 @@
 import type { User } from '@/../@types/user'
 import { toRefs, ref, watch } from 'vue'
 import { getUser } from '@/api/user/crud'
-import ZButtonOrCard from '../utils/ZButtonOrCard.vue'
 import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
+import { ZButtonOrCard } from '@/components'
 
 const props = defineProps<{ id: string; icon?: VueComponent }>()
 const { id, icon } = toRefs(props)
