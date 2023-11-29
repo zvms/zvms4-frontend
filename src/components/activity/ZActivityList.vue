@@ -12,9 +12,7 @@ import {
 import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Box, Search } from '@element-plus/icons-vue'
-import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import UserResgister from '@/views/activity/UserRegister.vue'
+import { Box, Search, PieChart } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
@@ -108,11 +106,10 @@ watch(
   <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
     <ElDialog
       :title="t('activity.registration.title')"
-      fullscreen
+      width="80%"
       center
       v-model="registerForSpecified"
     >
-      <UserResgister />
     </ElDialog>
     <ElCard shadow="never">
       <ElTable
@@ -131,7 +128,7 @@ watch(
         <ElTableColumn type="expand">
           <template #header>
             <ElButton
-              v-if="role !== 'student'"
+              v-if="role === 'auditor'"
               :icon="Box"
               type="success"
               text
@@ -141,7 +138,7 @@ watch(
             />
             <ElButton
               v-else
-              :icon="MaterialSymbolsAppRegistration"
+              :icon="PieChart"
               type="success"
               text
               bg

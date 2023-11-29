@@ -84,7 +84,8 @@ export const enUS = {
     reward: 'Reward',
     actions: {
       write: 'Write',
-      reflect: 'Reflect'
+      reflect: 'Reflect',
+      view: 'View'
     },
     page: {
       write: {
@@ -291,7 +292,8 @@ export const zhCN = {
     reward: '奖励',
     actions: {
       write: '填写',
-      reflect: '审批'
+      reflect: '审批',
+      view: '查看'
     },
     page: {
       write: {
@@ -491,7 +493,8 @@ export const zhTW = {
     reward: '獎勵',
     actions: {
       write: '填寫',
-      reflect: '審批'
+      reflect: '審批',
+      view: '查看'
     },
     page: {
       write: {
@@ -692,7 +695,8 @@ export const jaJP = {
     reward: '報酬',
     actions: {
       write: '記入',
-      reflect: '承認'
+      reflect: '承認',
+      view: '見る'
     },
     page: {
       write: {
@@ -893,7 +897,8 @@ export const frFR = {
     reward: 'Récompense',
     actions: {
       write: 'Écrire',
-      reflect: 'Réfléchir'
+      reflect: 'Réfléchir',
+      view: 'Voir'
     },
     page: {
       write: {
@@ -1167,7 +1172,8 @@ export const koKR = {
     reward: '보상',
     actions: {
       write: '작성',
-      reflect: '피드백'
+      reflect: '피드백',
+      view: '보기'
     },
     page: {
       write: {
@@ -1295,7 +1301,8 @@ export const ruRU = {
     reward: 'Награда',
     actions: {
       write: 'Написать',
-      reflect: 'Отзыв'
+      reflect: 'Отзыв',
+      view: 'Посмотреть'
     },
     page: {
       write: {

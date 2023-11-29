@@ -6,6 +6,9 @@ import { Edit, EditPen } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from '@/api/activity/read'
 import { ZActivityImpressionManager } from '@/components'
+import { useUserStore } from '@/stores/user'
+
+const user = useUserStore()
 
 const props = defineProps<{
   id: string
