@@ -1,3 +1,5 @@
+<!-- Warning: this component is useless!! Please look at CreateActivity.vue -->
+
 <script setup lang="ts">
 import { ArrowRight } from '@element-plus/icons-vue'
 import { ElCard, ElCol, ElRow, ElButton, ElDivider } from 'element-plus'

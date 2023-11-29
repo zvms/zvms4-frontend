@@ -55,9 +55,14 @@ const router = createRouter({
       component: () => import('../views/umbrella/UmbrellaHome.vue')
     },
     {
-      path: '/broadcast/',
-      name: 'broadcast',
-      component: () => import('../views/broadcast/BroadcastHome.vue')
+      path: '/notifications/',
+      name: 'notifications',
+      component: () => import('../views/notifications/NotificationHome.vue')
+    },
+    {
+      path: '/notifications/create',
+      name: 'notifications-create',
+      component: ()=>import('../views/notifications/NotificationCreate.vue')
     }
   ]
 })

@@ -74,6 +74,10 @@ watch(
   }
 )
 
+function broadcast() {
+  router.push('/notifications/')
+}
+
 function logout() {
   userStore.removeUser()
   router.push('/user/login')
@@ -121,7 +125,7 @@ function feedback() {
                     t('nav.feedback')
                   }}</ElButton
                   ><br />
-                  <ElButton text :icon="Notification" class="action-btn p-4">{{
+                  <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">{{
                     t('nav.broadcast')
                   }}</ElButton
                   ><br />
