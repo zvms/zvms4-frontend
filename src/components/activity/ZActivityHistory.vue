@@ -3,11 +3,10 @@ import { ElButton, ElStep, ElSteps, ElScrollbar } from 'element-plus'
 import type { ActivityMemberHistory, MemberActivityStatus } from '@/../@types/activity'
 import { toRefs, type Component as VueComponent, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { statuses } from '@/icons/status'
-import ZActivityMember from './ZActivityMember.vue'
+import { ZActivityMember, ZButtonOrCard } from '@/components'
+import { memberActivityStatuses } from '@/icons/status'
 import { useI18n } from 'vue-i18n'
 import { Clock, Timer } from '@element-plus/icons-vue'
-import ZButtonOrCard from '../utils/ZButtonOrCard.vue'
 import { useWindowSize } from '@vueuse/core'
 import { History, User } from '@icon-park/vue-next'
 
@@ -32,23 +31,23 @@ const statusMap: Record<
 > = {
   draft: {
     type: 'wait',
-    icon: statuses.draft.icon
+    icon: memberActivityStatuses.draft.icon
   },
   pending: {
     type: '',
-    icon: statuses.pending.icon
+    icon: memberActivityStatuses.pending.icon
   },
   rejected: {
     type: 'process',
-    icon: statuses.rejected.icon
+    icon: memberActivityStatuses.rejected.icon
   },
   refused: {
     type: 'error',
-    icon: statuses.refused.icon
+    icon: memberActivityStatuses.refused.icon
   },
   effective: {
     type: 'success',
-    icon: statuses.effective.icon
+    icon: memberActivityStatuses.effective.icon
   }
 }
 </script>

@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import { ElDialog, ElButton } from 'element-plus'
-import ZActivityImpressionManager from './ZActivityImpressionManager.vue'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from '@/api/activity/read'
+import { ZActivityImpressionManager } from '@/components'
+import { useUserStore } from '@/stores/user'
+
+const user = useUserStore()
 
 const props = defineProps<{
   id: string
-  role: 'student' | 'auditor' | 'secretary'
+  role: 'student' | 'auditor'
   modelValue?: boolean
 }>()
 
@@ -77,11 +80,7 @@ watch(modelValue, () => {
         v-model="show"
         center
         fullscreen
-        :title="
-          t('activity.impression.page.reflect.title', {
-            mode: role === 'auditor' ? 'Global' : 'Class'
-          })
-        "
+        :title="t('activity.impression.page.reflect.title')"
       >
         <ZActivityImpressionManager
           :activity="activity"

@@ -84,7 +84,8 @@ export const enUS = {
     reward: 'Reward',
     actions: {
       write: 'Write',
-      reflect: 'Reflect'
+      reflect: 'Reflect',
+      view: 'View'
     },
     page: {
       write: {
@@ -172,6 +173,18 @@ export const enUS = {
         academy: 'Academy',
         art: 'Art',
         other: 'Other'
+      },
+      ranking: {
+        levels: {
+          above: 'Above than First Prize',
+          first: 'First Prize',
+          second: 'Second Prize',
+          third: 'Third Prize'
+        },
+        ranking: {
+          name: 'Ranking',
+          rank: 'Rank {start} - {end}'
+        }
       }
     }
   },
@@ -279,7 +292,8 @@ export const zhCN = {
     reward: '奖励',
     actions: {
       write: '填写',
-      reflect: '反馈'
+      reflect: '审批',
+      view: '查看'
     },
     page: {
       write: {
@@ -367,6 +381,18 @@ export const zhCN = {
         academy: '学科',
         art: '艺术',
         other: '其他'
+      },
+      ranking: {
+        levels: {
+          above: '一等奖以上',
+          first: '一等奖',
+          second: '二等奖',
+          third: '三等奖'
+        },
+        ranking: {
+          name: '名次',
+          rank: '第 {start} - {end} 名'
+        }
       }
     }
   },
@@ -467,7 +493,8 @@ export const zhTW = {
     reward: '獎勵',
     actions: {
       write: '填寫',
-      reflect: '反饋'
+      reflect: '審批',
+      view: '查看'
     },
     page: {
       write: {
@@ -555,6 +582,18 @@ export const zhTW = {
         academy: '學科',
         art: '藝術',
         other: '其他'
+      },
+      ranking: {
+        levels: {
+          above: '一等獎以上',
+          first: '一等獎',
+          second: '二等獎',
+          third: '三等獎'
+        },
+        ranking: {
+          name: '名次',
+          rank: '第 {start} - {end} 名'
+        }
       }
     }
   },
@@ -656,7 +695,8 @@ export const jaJP = {
     reward: '報酬',
     actions: {
       write: '記入',
-      reflect: 'フィードバック'
+      reflect: '承認',
+      view: '見る'
     },
     page: {
       write: {
@@ -744,6 +784,18 @@ export const jaJP = {
         academy: 'アカデミー',
         art: 'アート',
         other: 'その他'
+      },
+      ranking: {
+        levels: {
+          above: '一等賞以上',
+          first: '一等賞',
+          second: '二等賞',
+          third: '三等賞'
+        },
+        ranking: {
+          name: 'ランキング',
+          rank: 'ランク {start} - {end}'
+        }
       }
     }
   },
@@ -845,7 +897,8 @@ export const frFR = {
     reward: 'Récompense',
     actions: {
       write: 'Écrire',
-      reflect: 'Réfléchir'
+      reflect: 'Réfléchir',
+      view: 'Voir'
     },
     page: {
       write: {
@@ -933,6 +986,18 @@ export const frFR = {
         academy: 'Académie',
         art: 'Art',
         other: 'Autre'
+      },
+      ranking: {
+        levels: {
+          above: 'Au-dessus du Premier Prix',
+          first: 'Premier Prix',
+          second: 'Deuxième Prix',
+          third: 'Troisième Prix'
+        },
+        ranking: {
+          name: 'Classer',
+          rank: 'Rang {start} - {end}'
+        }
       }
     }
   },
@@ -1086,6 +1151,18 @@ export const koKR = {
         academy: '학술',
         art: '예술',
         other: '기타'
+      },
+      ranking: {
+        levels: {
+          above: '1등상 이상',
+          first: '1등상',
+          second: '2등상',
+          third: '3등상'
+        },
+        ranking: {
+          name: '순위',
+          rank: '{start} - {end}위'
+        }
       }
     }
   },
@@ -1095,7 +1172,8 @@ export const koKR = {
     reward: '보상',
     actions: {
       write: '작성',
-      reflect: '피드백'
+      reflect: '피드백',
+      view: '보기'
     },
     page: {
       write: {
@@ -1223,7 +1301,8 @@ export const ruRU = {
     reward: 'Награда',
     actions: {
       write: 'Написать',
-      reflect: 'Отзыв'
+      reflect: 'Отзыв',
+      view: 'Посмотреть'
     },
     page: {
       write: {
@@ -1279,6 +1358,51 @@ export const ruRU = {
       register: 'Зарегистрироваться',
       unregister: 'Отменить регистрацию',
       back: 'Назад'
+    }
+  },
+  special: {
+    classify: {
+      name: 'Классифицировать',
+      prize: 'Приз',
+      import: 'Импорт',
+      club: 'Клуб',
+      deduction: 'Вычет',
+      other: 'Другое'
+    },
+    prize: {
+      name: 'Приз',
+      level: {
+        name: 'Уровень',
+        district: 'Район',
+        city: 'Город',
+        province: 'Провинция',
+        national: 'Национальный',
+        international: 'Международный'
+      },
+      type: {
+        name: 'Тип',
+        personal: 'Личный',
+        team: 'Команда'
+      },
+      classify: {
+        name: 'Классифицировать',
+        sports: 'Спорт',
+        academy: 'Академия',
+        art: 'Искусство',
+        other: 'Другое'
+      },
+      ranking: {
+        levels: {
+          above: 'Выше первого приза',
+          first: 'Первый приз',
+          second: 'Второй приз',
+          third: 'Третий приз'
+        },
+        ranking: {
+          name: 'Ранжирование',
+          rank: 'Ранг {start} - {end}'
+        }
+      }
     }
   },
   status: {

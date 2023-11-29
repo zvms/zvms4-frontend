@@ -12,16 +12,16 @@ import {
 import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Box, Search } from '@element-plus/icons-vue'
-import MaterialSymbolsAppRegistration from '@/icons/MaterialSymbolsAppRegistration.vue'
-import ZActivityImpressionDrawer from './ZActivityImpressionDrawer.vue'
-import UserResgister from '@/views/activity/UserRegister.vue'
+import { Box, Search, PieChart } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import ZActivityType from '@/components/tags/ZActivityType.vue'
-import ZActivityStatus from '@/components/tags/ZActivityStatus.vue'
-import ZActivityDetails from './ZActivityDetails.vue'
 import { getActivity } from './getActivity'
+import {
+  ZActivityImpressionDrawer,
+  ZActivityType,
+  ZActivityStatus,
+  ZActivityDetails
+} from '@/components'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -106,11 +106,10 @@ watch(
   <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
     <ElDialog
       :title="t('activity.registration.title')"
-      fullscreen
+      width="80%"
       center
       v-model="registerForSpecified"
     >
-      <UserResgister />
     </ElDialog>
     <ElCard shadow="never">
       <ElTable
@@ -129,7 +128,7 @@ watch(
         <ElTableColumn type="expand">
           <template #header>
             <ElButton
-              v-if="role !== 'student'"
+              v-if="role === 'auditor'"
               :icon="Box"
               type="success"
               text
@@ -139,7 +138,7 @@ watch(
             />
             <ElButton
               v-else
-              :icon="MaterialSymbolsAppRegistration"
+              :icon="PieChart"
               type="success"
               text
               bg
@@ -200,13 +199,15 @@ watch(
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="role === 'student'"
+          v-if="role === 'student' || role === 'secretary'"
           :label="t('activity.status.title')"
           :filters="
-            statusFilter.map((x) => ({
-              text: t('activity.status.' + x),
-              value: x
-            }))
+            statusFilter
+              .filter((x) => role === 'student' || (x !== 'rejected' && x !== 'draft'))
+              .map((x) => ({
+                text: t('activity.status.' + x),
+                value: x
+              }))
           "
           :filter-method="
             (value, row) =>
@@ -216,14 +217,16 @@ watch(
         >
           <template #default="{ row }">
             <ZActivityStatus
+              v-if="role === 'student'"
               :type="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                   ?.status
               "
             />
+            <ZActivityStatus v-else :type="row.status" />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else :label="t('activity.form.pending')">
+        <ElTableColumn v-else-if="role === 'auditor'" :label="t('activity.form.pending')">
           <template #default="{ row }">
             {{
               (row as ActivityInstance).members.filter(
@@ -245,7 +248,11 @@ watch(
             <ElInput v-model="searchWord" size="small" :prefix-icon="Search" />
           </template>
           <template #default="props">
-            <ZActivityImpressionDrawer :id="props.row._id" :role="role" />
+            <ZActivityImpressionDrawer
+              v-if="role !== 'secretary'"
+              :id="props.row._id"
+              :role="role"
+            />
           </template>
         </ElTableColumn>
       </ElTable>

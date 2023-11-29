@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import type {
+  ActivityMember,
   ActivityInstance,
   ActivityType,
   PrizeClassify,
   PrizeLevel,
   PrizeType,
   Registration,
-  SpecialActivityClassification
+  SpecialActivityClassification,
+  ActivityMode,
+  Prize,
+  Special
 } from '@/../@types/activity'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -40,9 +44,12 @@ import {
   Delete,
   Location
 } from '@element-plus/icons-vue'
+import { ZSelectPerson } from '@/components'
+import { createActivityWithDividedData } from '@/api/activity/create'
 
 const { t } = useI18n()
-const { width, height } = useWindowSize()
+const { height } = useWindowSize()
+const load = ref(false)
 
 const props = defineProps<{
   type: ActivityType
@@ -63,7 +70,9 @@ const activity = reactive<ActivityInstance>({
   duration: undefined as unknown as number,
   date: '',
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-  updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+  updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+  creator: '',
+  status: 'pending'
 })
 
 const registration = reactive<Registration>({
@@ -77,6 +86,41 @@ const registration = reactive<Registration>({
   ]
 })
 
+const modeMap = {
+  specified: 'on-campus',
+  social: 'off-campus',
+  scale: 'large-scale'
+} as Record<ActivityType, ActivityMode>
+
+const members = reactive<ActivityMember[]>([
+  {
+    _id: '',
+    status: type.value === 'special' ? 'effective' : 'draft',
+    impression: '',
+    mode: modeMap[type.value],
+    duration: activity.duration ?? (undefined as unknown as number),
+    history: [],
+    images: []
+  }
+])
+
+const membersFunctions = {
+  add() {
+    members.push({
+      _id: '',
+      status: type.value === 'special' ? 'effective' : 'draft',
+      impression: '',
+      mode: modeMap[type.value],
+      duration: members[0].duration ?? (undefined as unknown as number),
+      history: [],
+      images: []
+    })
+  },
+  remove(ord: number) {
+    members.splice(ord, 1)
+  }
+}
+
 const registrationFunctions = {
   add() {
     registration.classes.push({
@@ -89,16 +133,18 @@ const registrationFunctions = {
   }
 }
 
-const special = reactive({
+const special = reactive<Special>({
   classify: '' as unknown as SpecialActivityClassification,
-  prize: {
-    level: '' as unknown as PrizeLevel,
-    type: '' as unknown as PrizeType,
-    classify: '' as unknown as PrizeClassify
-  }
+  mode: '' as unknown as ActivityMode
 })
 
-const prize = {
+const prize = reactive<Prize>({
+  level: '' as unknown as PrizeLevel,
+  type: '' as unknown as PrizeType,
+  classify: '' as unknown as PrizeClassify
+})
+
+const prizes = {
   level: ['district', 'city', 'province', 'national', 'international'],
   type: ['personal', 'team'],
   classify: ['sports', 'academy', 'art', 'other']
@@ -113,6 +159,12 @@ const scrollableCardHeight = ref((height.value - 64) * 0.6)
 watch(height, () => {
   scrollableCardHeight.value = (height.value - 64) * 0.6
 })
+
+async function submit() {
+  load.value = true
+  await createActivityWithDividedData(activity, members, registration, special)
+  load.value = false
+}
 </script>
 
 <template>
@@ -132,7 +184,7 @@ watch(height, () => {
     </p>
     <div class="p-4">
       <ElCard shadow="hover" class="full">
-        <ElForm label-position="right" label-width="96px">
+        <ElForm label-position="right" label-width="108px">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
             <ElFormItem :label="t('activity.form.name')" required>
               <ElInput v-model="activity.name" />
@@ -143,7 +195,11 @@ watch(height, () => {
             <ElFormItem :label="t('activity.form.date')" required>
               <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
             </ElFormItem>
-            <ElFormItem v-if="type === 'special'" :label="t('activity.special.classify.name')" required>
+            <ElFormItem
+              v-if="type === 'special'"
+              :label="t('activity.special.classify.name')"
+              required
+            >
               <ElSelect v-model="special.classify" class="full">
                 <ElOption
                   v-for="classify in classifyOfSpecial"
@@ -158,11 +214,11 @@ watch(height, () => {
               :label="t('activity.special.prize.name')"
             >
               <ElCard shadow="hover" class="full">
-                <ElForm label-position="right" label-width="64px" class="full">
+                <ElForm label-position="right" label-width="72px" class="full">
                   <ElFormItem :label="t('activity.special.prize.level.name')" class="py-1" required>
-                    <ElSelect v-model="special.prize.level" class="full">
+                    <ElSelect v-model="prize.level" class="full">
                       <ElOption
-                        v-for="level in prize.level"
+                        v-for="level in prizes.level"
                         :key="level"
                         :label="t('activity.special.prize.level.' + level)"
                         :value="level"
@@ -170,19 +226,23 @@ watch(height, () => {
                     </ElSelect>
                   </ElFormItem>
                   <ElFormItem :label="t('activity.special.prize.type.name')" class="py-1" required>
-                    <ElSelect v-model="special.prize.type" class="full">
+                    <ElSelect v-model="prize.type" class="full">
                       <ElOption
-                        v-for="prizeType in prize.type"
+                        v-for="prizeType in prizes.type"
                         :key="prizeType"
                         :label="t('activity.special.prize.type.' + prizeType)"
                         :value="prizeType"
                       />
                     </ElSelect>
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.special.prize.classify.name')" class="py-1" required>
-                    <ElSelect v-model="special.prize.classify" class="full">
+                  <ElFormItem
+                    :label="t('activity.special.prize.classify.name')"
+                    class="py-1"
+                    required
+                  >
+                    <ElSelect v-model="prize.classify" class="full">
                       <ElOption
-                        v-for="classify in prize.classify"
+                        v-for="classify in prizes.classify"
                         :key="classify"
                         :label="t('activity.special.prize.classify.' + classify)"
                         :value="classify"
@@ -218,7 +278,7 @@ watch(height, () => {
             </ElFormItem>
             <ElFormItem v-if="type === 'specified'" :label="t('activity.registration.name')">
               <ElCard shadow="hover" class="full">
-                <ElForm label-position="right" label-width="84px" class="full">
+                <ElForm label-position="right" label-width="96px" class="full">
                   <ElFormItem :label="t('activity.registration.location')" class="py-2" required>
                     <ElInput :prefix-icon="Location" v-model="registration.place" required />
                   </ElFormItem>
@@ -275,12 +335,62 @@ watch(height, () => {
                 </ElForm>
               </ElCard>
             </ElFormItem>
+            <ElFormItem
+              v-if="
+                type !== 'special' || (special.classify !== 'club' && special.classify !== 'import')
+              "
+              :label="t('activity.form.person', members.length)"
+              :required="type !== 'specified'"
+            >
+              <ElCard shadow="hover" class="w-full">
+                <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
+                  <Transition
+                    enter-active-class="animate__animated animate__fadeIn"
+                    leave-active-class="animate__animated animate__fadeOut"
+                    appear
+                  >
+                    <ElRow class="full">
+                      <ElCol :span="16" :xs="12" :sm="14">
+                        <ZSelectPerson
+                          v-model="member._id"
+                          :placeholder="t('activity.form.person')"
+                          :filter-start="2"
+                          full-width
+                        >
+                          <template #prepend> {{ idx + 1 }} </template>
+                        </ZSelectPerson>
+                      </ElCol>
+                      <ElCol :span="2" style="text-align: center">
+                        <ElDivider direction="vertical" />
+                      </ElCol>
+                      <ElCol :span="6" :xs="10" :sm="8">
+                        <ElInput
+                          :placeholder="t('activity.form.duration')"
+                          v-model.number="member.duration"
+                          class="full"
+                        >
+                          <template #append>
+                            <ElButton
+                              :icon="idx === 0 ? Plus : Delete"
+                              circle
+                              @click="
+                                idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
+                              "
+                            />
+                          </template>
+                        </ElInput>
+                      </ElCol>
+                    </ElRow>
+                  </Transition>
+                </div>
+              </ElCard>
+            </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right">
             <ElButton type="warning" :icon="Refresh" text bg>{{
               t('activity.form.actions.reset')
             }}</ElButton>
-            <ElButton type="primary" :icon="ArrowRight" text bg>{{
+            <ElButton type="primary" :icon="ArrowRight" text bg @click="submit" :loading="load">{{
               t('activity.form.actions.submit')
             }}</ElButton>
           </div>

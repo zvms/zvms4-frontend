@@ -1,5 +1,5 @@
-name: Edit Impression
-path: /user/:id/activity/:aid/impression
+name: Change User Activity Status
+path: /user/:id/activity/:aid/status
 method: PUT
 params:
   - name: id
@@ -12,9 +12,13 @@ params:
     type: string
     required: true
     description: The activity id (Object Id)
-  - name: impression
+  - name: status
     in: body
-    type: string
+    type: MemberActivityStatus
     required: true
-    description: The new impression of the activity
+    description: The new status of the activity
 response: null
+permission:
+  effective: 4
+  rejected: 4
+  refused: 4

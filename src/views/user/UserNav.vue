@@ -22,7 +22,7 @@ import type { Component as VueComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import ZSelectLanguage from '@/components/form/ZSelectLanguage.vue'
+import { ZSelectLanguage } from '@/components'
 
 const user = useUserStore()
 const router = useRouter()

@@ -1,10 +1,9 @@
-export interface User<T = string> {
-  _id: T
+export interface User {
+  _id: string // ObjectId
   id: number
   name: string
   sex: 'male' | 'female' | 'unknown'
   position: UserPosition[]
-  // class: ClassType
   code: number
 }
 

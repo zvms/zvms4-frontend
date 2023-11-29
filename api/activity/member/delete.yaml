@@ -1,6 +1,6 @@
-name: User Register Activity
-path: /user/:id/activity/:aid/register
-method: PUT
+name: Remove User From Activity
+path: /activity/:aid/member/:id
+method: DELETE
 params:
   - name: id
     in: path
@@ -14,4 +14,3 @@ params:
     description: The activity id (Object Id)
 body: null
 response: null
-permission: 1
