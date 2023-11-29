@@ -9,7 +9,7 @@ import { ZActivityImpressionManager } from '@/components'
 
 const props = defineProps<{
   id: string
-  role: 'student' | 'auditor' | 'secretary'
+  role: 'student' | 'auditor'
   modelValue?: boolean
 }>()
 
@@ -77,11 +77,7 @@ watch(modelValue, () => {
         v-model="show"
         center
         fullscreen
-        :title="
-          t('activity.impression.page.reflect.title', {
-            mode: role === 'auditor' ? 'Global' : 'Class'
-          })
-        "
+        :title="t('activity.impression.page.reflect.title')"
       >
         <ZActivityImpressionManager
           :activity="activity"

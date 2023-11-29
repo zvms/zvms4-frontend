@@ -202,13 +202,15 @@ watch(
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="role === 'student'"
+          v-if="role === 'student' || role === 'secretary'"
           :label="t('activity.status.title')"
           :filters="
-            statusFilter.map((x) => ({
-              text: t('activity.status.' + x),
-              value: x
-            }))
+            statusFilter
+              .filter((x) => role === 'student' || (x !== 'rejected' && x !== 'draft'))
+              .map((x) => ({
+                text: t('activity.status.' + x),
+                value: x
+              }))
           "
           :filter-method="
             (value, row) =>
@@ -218,14 +220,16 @@ watch(
         >
           <template #default="{ row }">
             <ZActivityStatus
+              v-if="role === 'student'"
               :type="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                   ?.status
               "
             />
+            <ZActivityStatus v-else :type="row.status" />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else :label="t('activity.form.pending')">
+        <ElTableColumn v-else-if="role === 'auditor'" :label="t('activity.form.pending')">
           <template #default="{ row }">
             {{
               (row as ActivityInstance).members.filter(
@@ -247,7 +251,11 @@ watch(
             <ElInput v-model="searchWord" size="small" :prefix-icon="Search" />
           </template>
           <template #default="props">
-            <ZActivityImpressionDrawer :id="props.row._id" :role="role" />
+            <ZActivityImpressionDrawer
+              v-if="role !== 'secretary'"
+              :id="props.row._id"
+              :role="role"
+            />
           </template>
         </ElTableColumn>
       </ElTable>

@@ -24,7 +24,7 @@ import { ZActivityMember, ZActivityDetails } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance
-  role: 'student' | 'auditor' | 'secretary'
+  role: 'student' | 'auditor'
   submitable?: boolean
 }>()
 
@@ -143,7 +143,7 @@ const serif = ref(false)
           <ElCol :span="12">
             <ElForm label-position="right" label-width="64px">
               <ElFormItem :label="t('activity.form.duration')">
-                <ElInput v-model="current.duration" :readonly="role !== 'secretary'">
+                <ElInput v-model="current.duration">
                   <template #append>
                     {{ t('activity.units.hour', current.duration) }}
                   </template>
@@ -158,7 +158,7 @@ const serif = ref(false)
                 width="368"
               >
                 <template #reference>
-                  <ElButton v-if="role === 'auditor'" type="danger" :icon="Delete" text bg>
+                  <ElButton type="danger" :icon="Delete" text bg>
                     {{ t('activity.impression.page.reflect.actions.refuse') }}
                   </ElButton>
                 </template>

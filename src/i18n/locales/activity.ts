@@ -291,7 +291,7 @@ export const zhCN = {
     reward: '奖励',
     actions: {
       write: '填写',
-      reflect: '反馈'
+      reflect: '审批'
     },
     page: {
       write: {
@@ -491,7 +491,7 @@ export const zhTW = {
     reward: '獎勵',
     actions: {
       write: '填寫',
-      reflect: '反饋'
+      reflect: '審批'
     },
     page: {
       write: {
@@ -692,7 +692,7 @@ export const jaJP = {
     reward: '報酬',
     actions: {
       write: '記入',
-      reflect: 'フィードバック'
+      reflect: '承認'
     },
     page: {
       write: {

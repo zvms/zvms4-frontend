@@ -20,7 +20,8 @@ function generateActivity(_id?: string, serie: boolean = true) {
     date: faker.date.recent().toISOString(),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
-    creator: new ObjectID().toHexString()
+    creator: new ObjectID().toHexString(),
+    status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)]
   }
 }
 
@@ -42,9 +43,11 @@ function generateActivityMember(_id: string, serie: boolean = true) {
     status: ['draft', 'pending', 'effective', 'rejected', 'refused'][Math.floor(Math.random() * 5)],
     impression: serie ? '' : faker.lorem.paragraph(),
     duration: Math.floor(Math.random() * 10),
-    history: serie ? [] : new Array(Math.floor(Math.random() * 10))
-      .fill(0)
-      .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
+    history: serie
+      ? []
+      : new Array(Math.floor(Math.random() * 10))
+          .fill(0)
+          .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
     images: []
   }
 }

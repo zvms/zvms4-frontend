@@ -63,6 +63,9 @@ watch(
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
         <ZActivityList role="student" :activities="activities" :loading="loading" />
       </ElTabPane>
+      <ElTabPane name="register" :label="t('nav.activities.register')">
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.register') }}</p>
+      </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('auditor')"
         name="campus"
