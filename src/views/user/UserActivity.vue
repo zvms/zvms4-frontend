@@ -61,18 +61,10 @@ watch(
     <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane name="" :label="t('nav.activities.mine')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
-        <ZActivityList role="student" :activities="activities" :loading="loading" />
+        <ZActivityList role="mine" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane name="register" :label="t('nav.activities.register')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.register') }}</p>
-      </ElTabPane>
-      <ElTabPane
-        v-if="user.position.includes('auditor')"
-        name="campus"
-        :label="t('nav.activities.campus')"
-      >
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
-        <ZActivityList role="auditor" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('secretary')"
@@ -80,7 +72,15 @@ watch(
         :label="t('nav.activities.class')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
-        <ZActivityList role="secretary" :activities="activities" :loading="loading" />
+        <ZActivityList role="class" :activities="activities" :loading="loading" />
+      </ElTabPane>
+      <ElTabPane
+        v-if="user.position.includes('auditor') || user.position.includes('department')"
+        name="campus"
+        :label="t('nav.activities.campus')"
+      >
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
+        <ZActivityList role="campus" :activities="activities" :loading="loading" />
       </ElTabPane>
     </ElTabs>
   </div>

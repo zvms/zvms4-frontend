@@ -247,7 +247,28 @@ export default [
     response() {
       return {
         code: 200,
+        status: 'success',
         data: new Array(Math.floor(Math.random() * 100)).fill(0).map(() => generateActivity())
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/activity/:aid/status',
+    method: 'PUT',
+    response() {
+      return {
+        code: 200,
+        status: 'success',
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/activity/:aid/impression',
+    method: 'PUT',
+    response() {
+      return {
+        code: 200,
+        status: 'success',
       }
     }
   }

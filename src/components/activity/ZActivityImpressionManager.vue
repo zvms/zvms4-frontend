@@ -3,7 +3,7 @@ import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ArrowRight, Close, Check, Delete } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import type { ActivityInstance } from '@/../@types/activity'
+import type { ActivityInstance, MemberActivityStatus } from '@/../@types/activity'
 import {
   ElCollapse,
   ElCollapseItem,
@@ -15,12 +15,13 @@ import {
   ElPagination,
   ElPopconfirm,
   ElForm,
-  ElFormItem
+  ElFormItem,
+  ElDivider
 } from 'element-plus'
-import { userModifyImpression } from '@/api/activity/put-impression'
+import { userModifyImpression, userModifyStatus } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
-import { ZActivityMember, ZActivityDetails } from '@/components'
+import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -43,11 +44,11 @@ const impression = ref(
 
 const activeNames = ref<string[]>(['1'])
 
-function submit() {
+async function submit(submit: boolean) {
   emits('update:modelValue', impression.value)
-  emits('finish')
   if (!submitable?.value) return
-  userModifyImpression(user.id, activity.value._id, impression.value)
+  await userModifyImpression(user._id, activity.value._id, impression.value, submit)
+  emits('finish')
 }
 
 interface ImpressionCursor {
@@ -57,6 +58,7 @@ interface ImpressionCursor {
   impression: string
   _id: string
   duration: number
+  status: MemberActivityStatus
 }
 
 const current = ref<ImpressionCursor>({
@@ -65,7 +67,8 @@ const current = ref<ImpressionCursor>({
   name: '',
   impression: '',
   _id: '',
-  duration: 0
+  duration: 0,
+  status: 'pending'
 })
 const loading = ref(false)
 
@@ -78,7 +81,8 @@ async function curserTo(index: number) {
     name: result?.name ?? '未知',
     impression: activity.value.members[index - 1].impression,
     _id: activity.value.members[index - 1]._id,
-    duration: activity.value.members[index - 1].duration
+    duration: activity.value.members[index - 1].duration,
+    status: activity.value.members[index - 1].status
   }
   loading.value = false
   console.log(current.value)
@@ -110,12 +114,12 @@ const serif = ref(false)
           show-word-limit
         />
         <div style="text-align: right" class="py-4">
-          <ElButton type="primary" @click="submit" text bg :icon="Save">
+          <ElButton type="primary" @click="submit(false)" text bg :icon="Save">
             {{ t('activity.impression.page.write.actions.save') }}
           </ElButton>
           <ElButton
             type="success"
-            @click="submit"
+            @click="submit(true)"
             :disabled="impression.length < 30"
             text
             bg
@@ -130,16 +134,29 @@ const serif = ref(false)
           <ElRow>
             <ElCol :span="12">
               {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
+              <ZActivityStatus class="px-1" :type="current?.status" />
             </ElCol>
             <ElCol :span="12" style="text-align: right">
               <ZActivityMember :id="current?._id" />
             </ElCol>
           </ElRow>
         </p>
-        <p :class="['px-4', `font-${serif ? 'serif' : 'sans'}`]" style="font-size: 16px">
+        <p :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']" style="font-size: 16px">
           {{ current?.impression }}
         </p>
-        <ElRow class="py-4 px-2">
+        <ElPagination
+          class="px-2 py-2"
+          layout="total, prev, pager, next, jumper"
+          :pager-count="3"
+          :total="activity.members.length"
+          background
+          hide-on-single-page
+          :default-page-size="1"
+          :page-size="1"
+          @current-change="curserTo"
+        />
+        <ElDivider v-if="current.status === 'pending'" />
+        <ElRow class="py-2 px-2" v-if="current.status === 'pending'">
           <ElCol :span="12">
             <ElForm label-position="right" label-width="64px">
               <ElFormItem :label="t('activity.form.duration')">
@@ -156,6 +173,7 @@ const serif = ref(false)
               <ElPopconfirm
                 :title="t('activity.impression.page.reflect.actions.check')"
                 width="368"
+                @confirm="userModifyStatus(current._id, activity._id, 'refused')"
               >
                 <template #reference>
                   <ElButton type="danger" :icon="Delete" text bg>
@@ -163,26 +181,25 @@ const serif = ref(false)
                   </ElButton>
                 </template>
               </ElPopconfirm>
-              <ElButton type="warning" :icon="Close" text bg>{{
-                t('activity.impression.page.reflect.actions.reject')
-              }}</ElButton>
-              <ElButton type="success" :icon="Check" text bg>{{
-                t('activity.impression.page.reflect.actions.approve')
-              }}</ElButton>
+              <ElButton
+                type="warning"
+                :icon="Close"
+                text
+                bg
+                @click="userModifyStatus(current._id, activity._id, 'rejected')"
+                >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
+              >
+              <ElButton
+                type="success"
+                :icon="Check"
+                text
+                bg
+                @click="userModifyStatus(current._id, activity._id, 'effective')"
+                >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
+              >
             </div>
           </ElCol>
         </ElRow>
-        <ElPagination
-          class="px-2"
-          layout="total, prev, pager, next, jumper"
-          :pager-count="3"
-          :total="activity.members.length"
-          background
-          hide-on-single-page
-          :default-page-size="1"
-          :page-size="1"
-          @current-change="curserTo"
-        />
       </ElCard>
     </div>
   </div>

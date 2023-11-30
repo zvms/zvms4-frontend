@@ -252,6 +252,13 @@ watch(
               v-if="role !== 'class'"
               :id="props.row._id"
               :role="role"
+              :readonly="
+                role === 'mine' &&
+                !['effective', 'refused'].includes(
+                  (props.row as ActivityInstance).members.find((x) => x._id === user._id)?.status ?? ''
+                )
+                || role === 'campus' && !user.position.includes('auditor')
+              "
             />
           </template>
         </ElTableColumn>

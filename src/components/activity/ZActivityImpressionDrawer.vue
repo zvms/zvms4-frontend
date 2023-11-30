@@ -2,7 +2,7 @@
 import { ElDialog, ElButton } from 'element-plus'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref, watch } from 'vue'
-import { Edit, EditPen } from '@element-plus/icons-vue'
+import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from '@/api/activity/read'
 import { ZActivityImpressionManager } from '@/components'
@@ -14,13 +14,14 @@ const props = defineProps<{
   id: string
   role: 'mine' | 'campus'
   modelValue?: boolean
+  readonly: boolean
 }>()
 
 const emits = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
 
-const { role, modelValue, id } = toRefs(props)
+const { role, modelValue, id, readonly } = toRefs(props)
 
 const activity = ref<ActivityInstance>()
 const loading = ref(false)
@@ -48,16 +49,17 @@ watch(modelValue, () => {
 <template>
   <div class="end">
     <ElButton
-      :icon="role === 'mine' ? Edit : EditPen"
-      :type="role === 'mine' ? 'primary' : 'danger'"
+      :icon="readonly ? View : role === 'mine' ? Edit : EditPen"
+      :type="readonly ? 'info' : role === 'mine' ? 'primary' : 'danger'"
       text
       :loading="loading"
       @click="openDialog"
     >
       {{
-        role === 'mine'
-          ? t('activity.impression.actions.write')
-          : t('activity.impression.actions.reflect')
+        t(
+          'activity.impression.actions.' +
+            (readonly ? 'view' : role === 'mine' ? 'write' : 'reflect')
+        )
       }}
     </ElButton>
     <Teleport to="body">
