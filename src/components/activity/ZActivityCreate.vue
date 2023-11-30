@@ -298,13 +298,15 @@ async function submit() {
                         appear
                       >
                         <ElRow class="full">
-                          <ElCol :span="16" :xs="12" :sm="14">
+                          <ElCol :span="2">
+                            <span class="px-2 text-grey"> {{ idx + 1 }} </span>
+                          </ElCol>
+                          <ElCol :span="14" :xs="10" :sm="12">
                             <ElInput
                               :placeholder="t('activity.registration.single.class')"
-                              v-mode="classification.class"
-                            >
-                              <template #prepend> {{ idx + 1 }} </template>
-                            </ElInput>
+                              v-model.number="classification.class"
+                              class="full"
+                            />
                           </ElCol>
                           <ElCol :span="2" style="text-align: center">
                             <ElDivider direction="vertical" />
@@ -318,7 +320,6 @@ async function submit() {
                               <template #append>
                                 <ElButton
                                   :icon="idx === 0 ? Plus : Delete"
-                                  circle
                                   @click="
                                     idx === 0
                                       ? registrationFunctions.add()

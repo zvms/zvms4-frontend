@@ -47,7 +47,14 @@ const router = createRouter({
     {
       path: '/activity/',
       name: 'activity',
-      component: () => import('../views/user/UserActivity.vue')
+      component: () => import('../views/user/UserActivity.vue'),
+      children: [
+        {
+          path: '/activity/register/',
+          name: 'activity-register',
+          component: () => import('../views/activity/UserRegister.vue')
+        },
+      ]
     },
     {
       path: '/umbrella/',

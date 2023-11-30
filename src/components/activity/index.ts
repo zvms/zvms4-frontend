@@ -1,3 +1,4 @@
+export { default as ZActivityCreate } from './ZActivityCreate.vue'
 export { default as ZActivityDetails } from './ZActivityDetails.vue'
 export { default as ZActivityHistory } from './ZActivityHistory.vue'
 export { default as ZActivityImpressionDrawer } from './ZActivityImpressionDrawer.vue'
