@@ -44,11 +44,21 @@ const impression = ref(
 
 const activeNames = ref<string[]>(['1'])
 
+const load = ref(false)
+
 async function submit(submit: boolean) {
   emits('update:modelValue', impression.value)
+  load.value = true
   if (!submitable?.value) return
   await userModifyImpression(user._id, activity.value._id, impression.value, submit)
   emits('finish')
+  load.value = false
+}
+
+async function reflect(status: 'effective' | 'rejected' | 'refused') {
+  load.value = true
+  await userModifyStatus(user._id, activity.value._id, status)
+  load.value = false
 }
 
 interface ImpressionCursor {
@@ -114,7 +124,7 @@ const serif = ref(false)
           show-word-limit
         />
         <div style="text-align: right" class="py-4">
-          <ElButton type="primary" @click="submit(false)" text bg :icon="Save">
+          <ElButton type="primary" @click="submit(false)" text bg :icon="Save" :loading="load">
             {{ t('activity.impression.page.write.actions.save') }}
           </ElButton>
           <ElButton
@@ -124,6 +134,7 @@ const serif = ref(false)
             text
             bg
             :icon="ArrowRight"
+            :loading="load"
           >
             {{ t('activity.impression.page.write.actions.submit') }}
           </ElButton>
@@ -176,7 +187,7 @@ const serif = ref(false)
                 @confirm="userModifyStatus(current._id, activity._id, 'refused')"
               >
                 <template #reference>
-                  <ElButton type="danger" :icon="Delete" text bg>
+                  <ElButton type="danger" :icon="Delete" text bg :loading="load">
                     {{ t('activity.impression.page.reflect.actions.refuse') }}
                   </ElButton>
                 </template>
@@ -186,6 +197,7 @@ const serif = ref(false)
                 :icon="Close"
                 text
                 bg
+                :loading="load"
                 @click="userModifyStatus(current._id, activity._id, 'rejected')"
                 >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
               >
@@ -194,6 +206,7 @@ const serif = ref(false)
                 :icon="Check"
                 text
                 bg
+                :loading="load"
                 @click="userModifyStatus(current._id, activity._id, 'effective')"
                 >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
               >
