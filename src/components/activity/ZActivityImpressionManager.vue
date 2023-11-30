@@ -24,7 +24,7 @@ import { ZActivityMember, ZActivityDetails } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance
-  role: 'student' | 'auditor'
+  role: 'mine' | 'campus'
   submitable?: boolean
 }>()
 
@@ -36,7 +36,7 @@ const emits = defineEmits(['update:modelValue', 'finish'])
 const { activity, role, submitable } = toRefs(props)
 
 const impression = ref(
-  role.value === 'student' && activity.value.members.map((x) => x._id).includes(user._id)
+  role.value === 'mine' && activity.value.members.map((x) => x._id).includes(user._id)
     ? (activity.value.members.find((x) => x._id === user._id)?.impression as string)
     : ''
 )
@@ -99,7 +99,7 @@ const serif = ref(false)
       </ElCollapseItem>
     </ElCollapse>
     <div>
-      <ElCard v-if="role === 'student'" shadow="hover">
+      <ElCard v-if="role === 'mine'" shadow="hover">
         <p class="text-xl py-4">{{ t('activity.form.impression') }}</p>
         <ElInput
           type="textarea"

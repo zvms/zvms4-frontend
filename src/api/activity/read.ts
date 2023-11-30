@@ -4,7 +4,7 @@ import type { ActivityInstance } from '@/../@types/activity'
 import { ElNotification } from 'element-plus'
 
 export async function getAllActivities(
-  range: 'in-class' | 'campus',
+  range: 'class' | 'campus',
   filter: {
     type: 'special' | 'specified' | 'off-campus' | 'all'
   }

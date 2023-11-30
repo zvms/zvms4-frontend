@@ -11,7 +11,7 @@ import { ZActivityHistory, ZActivityMember } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance
-  mode: 'student' | 'secretary' | 'auditor' | 'register'
+  mode: 'mine' | 'class' | 'campus' | 'register'
 }>()
 
 const user = useUserStore()
@@ -113,7 +113,7 @@ function submitDescription() {
         {{ (activity as SpecifiedActivity).registration.place }}
       </ElButton>
       <ElButton
-        v-if="mode === 'student'"
+        v-if="mode === 'mine'"
         size="small"
         text
         bg
@@ -125,7 +125,7 @@ function submitDescription() {
         {{ activity.members.find((x) => x._id === user._id)?.duration }} h
       </ElButton>
       <ZActivityHistory
-        v-if="mode === 'student'"
+        v-if="mode === 'mine'"
         :history="activity.members.find((x) => x._id === user._id)?.history"
       />
     </div>

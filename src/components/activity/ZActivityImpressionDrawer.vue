@@ -12,7 +12,7 @@ const user = useUserStore()
 
 const props = defineProps<{
   id: string
-  role: 'student' | 'auditor'
+  role: 'mine' | 'campus'
   modelValue?: boolean
 }>()
 
@@ -48,21 +48,21 @@ watch(modelValue, () => {
 <template>
   <div class="end">
     <ElButton
-      :icon="role === 'student' ? Edit : EditPen"
-      :type="role === 'student' ? 'primary' : 'danger'"
+      :icon="role === 'mine' ? Edit : EditPen"
+      :type="role === 'mine' ? 'primary' : 'danger'"
       text
       :loading="loading"
       @click="openDialog"
     >
       {{
-        role === 'student'
+        role === 'mine'
           ? t('activity.impression.actions.write')
           : t('activity.impression.actions.reflect')
       }}
     </ElButton>
     <Teleport to="body">
       <ElDialog
-        v-if="role === 'student' && activity"
+        v-if="role === 'mine' && activity"
         v-model="show"
         fullscreen
         center

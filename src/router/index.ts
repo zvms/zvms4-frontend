@@ -54,6 +54,11 @@ const router = createRouter({
           name: 'activity-register',
           component: () => import('../views/activity/UserRegister.vue')
         },
+        {
+          path: '/activity/:type',
+          name: 'activity-type',
+          component: () => import('../views/activity/CreatePage.vue')
+        }
       ]
     },
     {
