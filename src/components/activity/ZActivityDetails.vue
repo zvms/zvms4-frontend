@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
+import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
 import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
@@ -51,7 +51,21 @@ function submitDescription() {
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
         </template>
       </ElInput>
-      <ZActivityType class="px-2" :type="activity.type" mode="full" />
+      <ZActivityType
+        v-if="activity.type !== 'special'"
+        class="px-2"
+        :type="activity.type"
+        mode="full"
+        show-special
+      />
+      <ZActivityType
+        v-else
+        class="px-2"
+        type="special"
+        mode="full"
+        show-special
+        :special="(activity as SpecialActivity).special.classify"
+      />
       <Transition
         appear
         enter-active-class="animate__animated animate__fadeIn"

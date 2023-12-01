@@ -184,7 +184,7 @@ const serif = ref(false)
               <ElPopconfirm
                 :title="t('activity.impression.page.reflect.actions.check')"
                 width="368"
-                @confirm="userModifyStatus(current._id, activity._id, 'refused')"
+                @confirm="reflect('refused')"
               >
                 <template #reference>
                   <ElButton type="danger" :icon="Delete" text bg :loading="load">
@@ -198,7 +198,7 @@ const serif = ref(false)
                 text
                 bg
                 :loading="load"
-                @click="userModifyStatus(current._id, activity._id, 'rejected')"
+                @click="reflect('rejected')"
                 >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
               >
               <ElButton
@@ -207,7 +207,7 @@ const serif = ref(false)
                 text
                 bg
                 :loading="load"
-                @click="userModifyStatus(current._id, activity._id, 'effective')"
+                @click="reflect('effective')"
                 >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
               >
             </div>

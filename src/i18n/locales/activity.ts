@@ -30,7 +30,7 @@ export const enUS = {
     },
     unknown: 'Unknown'
   },
-  classify: {
+  mode: {
     'on-campus': {
       name: 'Activities on Campus',
       short: 'On Campus',
