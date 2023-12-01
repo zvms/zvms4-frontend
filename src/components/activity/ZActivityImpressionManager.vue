@@ -117,12 +117,16 @@ const serif = ref(false)
         <p class="text-xl py-4">{{ t('activity.form.impression') }}</p>
         <ElInput
           type="textarea"
+          v-if="submitable"
           v-model="impression"
           :autosize="{ minRows: 2 }"
           minlength="30"
           maxlength="1024"
           show-word-limit
         />
+        <p v-else :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']" style="font-size: 16px">
+          {{ impression }}
+        </p>
         <div style="text-align: right" class="py-4">
           <ElButton type="primary" @click="submit(false)" text bg :icon="Save" :loading="load">
             {{ t('activity.impression.page.write.actions.save') }}
