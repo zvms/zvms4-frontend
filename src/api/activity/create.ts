@@ -34,6 +34,8 @@ export async function createActivity(activity: ActivityInstance) {
   }
 }
 
+export default createActivity
+
 export async function createActivityWithDividedData(
   base: Activity,
   members: ActivityMember[],
@@ -56,6 +58,6 @@ export async function createActivityWithDividedData(
       ...special,
       prize
     }
-  }
+  } as ActivityInstance
   await createActivity(activity)
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowRight, Close, Check, Delete } from '@element-plus/icons-vue'
+import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
 import type { ActivityInstance, MemberActivityStatus } from '@/../@types/activity'
 import {
@@ -19,12 +19,16 @@ import {
   ElDivider,
   ElUpload,
   ElCarousel,
-  ElCarouselItem
+  ElCarouselItem,
+  ElImage,
+  ElEmpty,
+  ElIcon
 } from 'element-plus'
-import { userModifyImpression, userModifyStatus } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
 import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
+import { getImage } from '@/api/activity/image'
+import api from '@/api'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -53,14 +57,14 @@ async function submit(submit: boolean) {
   emits('update:modelValue', impression.value)
   load.value = true
   if (!submitable?.value) return
-  await userModifyImpression(user._id, activity.value._id, impression.value, submit)
+  await api.activity.impression.modify(user._id, activity.value._id, impression.value, submit)
   emits('finish')
   load.value = false
 }
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
   load.value = true
-  await userModifyStatus(user._id, activity.value._id, status)
+  await api.activity.status.modify(user._id, activity.value._id, status)
   load.value = false
 }
 
@@ -72,6 +76,7 @@ interface ImpressionCursor {
   _id: string
   duration: number
   status: MemberActivityStatus
+  images: string[]
 }
 
 const current = ref<ImpressionCursor>({
@@ -81,13 +86,15 @@ const current = ref<ImpressionCursor>({
   impression: '',
   _id: '',
   duration: 0,
-  status: 'pending'
+  status: 'pending',
+  images: []
 })
 const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
   const result = await getUser(activity.value.members[index - 1]._id)
+  const images = await Promise.all(activity.value.members[index - 1].images.map((x) => getImage(x)))
   current.value = {
     index,
     id: result?.id ?? 0,
@@ -95,7 +102,8 @@ async function curserTo(index: number) {
     impression: activity.value.members[index - 1].impression,
     _id: activity.value.members[index - 1]._id,
     duration: activity.value.members[index - 1].duration,
-    status: activity.value.members[index - 1].status
+    status: activity.value.members[index - 1].status,
+    images
   }
   loading.value = false
   console.log(current.value)
@@ -116,7 +124,7 @@ const serif = ref(false)
       </ElCollapseItem>
       <ElCollapseItem :title="t('activity.form.impression')" name="2">
         <ElCard v-if="role === 'mine'" shadow="hover">
-          <p class="text-xl py-2">{{ t('activity.impression.page.mine') }}</p>
+          <p class="text-xl py-2">{{ t('activity.impression.page.write.mine') }}</p>
           <ElInput
             type="textarea"
             v-if="submitable"
@@ -227,7 +235,40 @@ const serif = ref(false)
         name="3"
       >
         <ElCard shadow="hover" class="w-full" v-if="role === 'mine'">
-          <ElUpload class="w-full" list-type="picture-card"></ElUpload>
+          <ElUpload
+            class="w-full"
+            list-type="picture-card"
+            accept="image/png, image/jpg, image/jpeg, image/webp"
+          >
+            <ElIcon><Plus /></ElIcon>
+            <template #file="{ file }">
+              <div>
+                <ElImage class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                <span class="el-upload-list__item-actions">
+                  <span class="el-upload-list__item-preview">
+                    <ElIcon><zoom-in /></ElIcon>
+                  </span>
+                  <span class="el-upload-list__item-delete">
+                    <ElIcon><Download /></ElIcon>
+                  </span>
+                  <span class="el-upload-list__item-delete">
+                    <ElIcon><Delete /></ElIcon>
+                  </span>
+                </span>
+              </div>
+            </template>
+          </ElUpload>
+        </ElCard>
+        <ElCard shadow="hover" class="w-full" v-else>
+          <ElEmpty
+            v-if="current.images.length === 0"
+            :description="t('activity.image.empty.name')"
+          />
+          <ElCarousel v-else :autoplay="false" class="w-full">
+            <ElCarouselItem v-for="(item, index) in current.images" :key="index">
+              <ElImage :src="item" />
+            </ElCarouselItem>
+          </ElCarousel>
         </ElCard>
       </ElCollapseItem>
     </ElCollapse>

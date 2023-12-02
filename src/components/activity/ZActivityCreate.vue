@@ -45,8 +45,8 @@ import {
   Location
 } from '@element-plus/icons-vue'
 import { ZSelectPerson } from '@/components'
-import { createActivityWithDividedData } from '@/api/activity/create'
 import { Vacation, School, CityGate } from '@icon-park/vue-next'
+import api from '@/api'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -175,7 +175,7 @@ watch(height, () => {
 
 async function submit() {
   load.value = true
-  await createActivityWithDividedData(activity, members, registration, special)
+  await api.activity.insert(activity, members, registration, special)
   load.value = false
 }
 

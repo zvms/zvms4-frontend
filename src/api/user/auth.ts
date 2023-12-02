@@ -4,7 +4,7 @@ import type { Response } from '@/../@types/response'
 import type { LoginResult } from '@/../@types/login'
 import { ElNotification } from 'element-plus'
 
-export async function UserLogin(user: string, password: string) {
+async function UserLogin(user: string, password: string) {
   const result = await axios('/user/login', {
     method: 'POST',
     data: {
@@ -22,3 +22,6 @@ export async function UserLogin(user: string, password: string) {
   }
   return result.data
 }
+
+export { UserLogin as useLongTermAuth }
+export { useShortTermToken as useShortTermAuth } from './short-term'

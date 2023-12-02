@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
-import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
 import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
-import ZActivityType from '@/components/tags/ZActivityType.vue'
 import { Timer, Calendar, Location, ArrowRight, Plus, Edit, User } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
-import { ZActivityHistory, ZActivityMember } from '@/components'
+import { ZActivityHistory, ZActivityMember, ZActivityType, ZButtonOrCard } from '@/components'
 
 const props = defineProps<{
   activity: ActivityInstance

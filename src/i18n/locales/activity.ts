@@ -87,6 +87,9 @@ export const enUS = {
     },
     select: {
       name: 'Select'
+    },
+    empty: {
+      name: 'Empty'
     }
   },
   impression: {
@@ -308,6 +311,9 @@ export const zhCN = {
     },
     select: {
       name: '选择'
+    },
+    empty: {
+      name: '无图片'
     }
   },
   impression: {
@@ -524,6 +530,9 @@ export const zhTW = {
     },
     select: {
       name: '選擇'
+    },
+    empty: {
+      name: '無圖片'
     }
   },
   impression: {
@@ -735,6 +744,9 @@ export const jaJP = {
     },
     select: {
       name: '選択'
+    },
+    empty: {
+      name: '画像なし'
     }
   },
   units: {
@@ -952,6 +964,9 @@ export const frFR = {
     },
     select: {
       name: 'Sélectionner'
+    },
+    empty: {
+      name: 'Vide'
     }
   },
   units: {

@@ -1,9 +1,7 @@
-import { UserLogin } from '@/api/user/auth'
-import { getUser } from '@/api/user/crud'
+import api from '@/api'
 import type { User, UserActivityTimeSums, UserPosition } from '@/../@types/user'
 import { defineStore } from 'pinia'
 import { getUserClassName } from '@/utils/getClass'
-import { getUserTime } from '@/api/user/time'
 import { usePreferredLanguages } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', {
@@ -26,9 +24,9 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async setUser(user: string, password: string) {
-      const result = await UserLogin(user, password)
+      const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
-        const information = (await getUser(user)) as User<string>
+        const information = (await api.user.readOne(user)) as User
         this._id = information?._id
         this.id = information?.id
         this.name = information?.name
@@ -40,7 +38,7 @@ export const useUserStore = defineStore('user', {
       }
     },
     async refreshUser() {
-      const result = (await getUser(this._id)) as User<string>
+      const result = (await api.user.readOne(this._id)) as User
       this._id = result._id
       this.id = result.id
       this.name = result.name
@@ -62,7 +60,7 @@ export const useUserStore = defineStore('user', {
       this.isLogin = false
     },
     async getUserActivityTime() {
-      const result = (await getUserTime(this._id)) as UserActivityTimeSums
+      const result = (await api.user.time.read(this._id)) as UserActivityTimeSums
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
       this.time.largeScale = result.largeScale

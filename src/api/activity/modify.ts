@@ -1,7 +1,7 @@
 import axios from '@/plugins/axios'
 import type { Response } from '@/../@types/response'
 
-export async function modifyActivityTitle(aid: string, title: string) {
+async function modifyActivityTitle(aid: string, title: string) {
   const result = (
     await axios({
       url: `/activity/${aid}/title`,
@@ -17,7 +17,7 @@ export async function modifyActivityTitle(aid: string, title: string) {
   return
 }
 
-export async function modifyActivityDescription(aid: string, description: string) {
+async function modifyActivityDescription(aid: string, description: string) {
   const result = (
     await axios({
       url: `/activity/${aid}/description`,
@@ -31,4 +31,9 @@ export async function modifyActivityDescription(aid: string, description: string
     return result
   }
   return
+}
+
+export {
+  modifyActivityDescription as description,
+  modifyActivityTitle as title
 }

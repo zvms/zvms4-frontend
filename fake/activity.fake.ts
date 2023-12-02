@@ -284,5 +284,27 @@ export default [
         status: 'success',
       }
     }
+  },
+  {
+    url: '/api/image',
+    method: 'PUT',
+    response() {
+      return {
+        code: 200,
+        status: 'success',
+        data: new ObjectID().toHexString()
+      }
+    }
+  },
+  {
+    url: '/api/image/:id',
+    method: 'GET',
+    response({ params }) {
+      return {
+        code: 200,
+        status: 'success',
+        data: `http://v3.zhzx.top:44285/static/pictures/${params.id}`
+      }
+    }
   }
 ]

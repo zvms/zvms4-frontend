@@ -4,7 +4,6 @@ import { toRefs } from 'vue'
 import { ref } from 'vue'
 import { CaretTop, CaretBottom, Warning } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { reactive } from 'vue'
 
 const props = defineProps<{
   type: 'large-scale' | 'on-campus' | 'off-campus'

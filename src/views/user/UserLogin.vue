@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import {
-  ElCard,
   ElInput,
   ElForm,
   ElFormItem,
@@ -12,10 +11,11 @@ import {
   ElDialog
 } from 'element-plus'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
-import { UserLogin } from '@/api/user/auth'
+import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
+import { ZSelectPerson } from '@/components'
 
 if (useUserStore().isLogin) {
   useRouter().push('/user/')
@@ -23,19 +23,19 @@ if (useUserStore().isLogin) {
 
 const { height } = useWindowSize()
 
-const user = ref<number>()
+const user = ref('')
 const password = ref<string>('')
 const loginfield = ref()
 const userStore = useUserStore()
 const router = useRouter()
 
 function refresh() {
-  user.value = undefined
+  user.value = ''
   password.value = ''
 }
 
 async function login() {
-  const result = await UserLogin(user.value as number, password.value as string)
+  const result = await api.user.auth.useLongTermAuth(user.value, password.value as string)
   if (result) {
     ElNotification({
       title: '登录成功',
@@ -43,7 +43,7 @@ async function login() {
       type: 'success',
       position: 'bottom-right'
     })
-    userStore.setUser(user.value as number, password.value as string).then(() => {
+    userStore.setUser(user.value, password.value as string).then(() => {
       router.push('/user/')
     })
   }
@@ -78,7 +78,7 @@ const open = ref(true)
       </ElRow>
       <ElForm ref="loginfield">
         <ElFormItem label="账号" prop="id">
-          <ElInput placeholder="e.g. 19191145" clearable v-model.number="user"></ElInput>
+          <ZSelectPerson v-model="user" :filter-start="6" placeholder="请选择账号" />
         </ElFormItem>
         <ElFormItem label="密码" prop="password">
           <ElInput type="password" v-model="password" clearable show-password></ElInput>

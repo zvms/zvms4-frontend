@@ -4,9 +4,9 @@ import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { getActivity } from '@/api/activity/read'
 import { ZActivityImpressionManager } from '@/components'
 import { useUserStore } from '@/stores/user'
+import api from '@/api'
 
 const user = useUserStore()
 
@@ -34,7 +34,7 @@ watch(show, () => {
 
 function openDialog() {
   loading.value = true
-  getActivity(id.value).then((res) => {
+  api.activity.readOne(id.value).then((res) => {
     loading.value = false
     show.value = true
     activity.value = res
