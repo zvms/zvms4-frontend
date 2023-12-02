@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { User } from '@/../@types/user'
 import { toRefs, ref, watch } from 'vue'
-import { getUser } from '@/api/user/crud'
 import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard } from '@/components'
+import api from '@/api'
 
 const props = defineProps<{ id: string; icon?: VueComponent }>()
 const { id, icon } = toRefs(props)
@@ -13,19 +13,17 @@ const loading = ref(true)
 const error = ref(false)
 
 if (id.value)
-  getUser(id.value).then((res) => {
+  api.user.readOne(id.value).then((res) => {
     if (!res) error.value = true
     else person.value = res as User
-    console.log(res)
     loading.value = false
   })
 
 watch(id, () => {
   if (id.value)
-    getUser(id.value).then((res) => {
+    api.user.readOne(id.value).then((res) => {
       if (!res) error.value = true
       else person.value = res as User
-      console.log(res)
       loading.value = false
     })
 })

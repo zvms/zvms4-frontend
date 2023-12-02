@@ -34,7 +34,7 @@ watch(show, () => {
 
 function openDialog() {
   loading.value = true
-  api.activity.readOne(id.value).then((res) => {
+  api.activity.read.single(id.value).then((res) => {
     loading.value = false
     show.value = true
     activity.value = res

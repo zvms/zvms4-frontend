@@ -2,6 +2,7 @@ import axios from '@/plugins/axios'
 import type { Response } from '@/../@types/response'
 import type { ActivityInstance } from '@/../@types/activity'
 import { ElNotification } from 'element-plus'
+import { read as mine } from '@/api/user/activity'
 
 async function getAllActivities(
   range: 'class' | 'campus',
@@ -42,4 +43,13 @@ async function getActivity(id: string) {
   return result.data
 }
 
-export { getAllActivities as read, getActivity as readOne }
+const exports = {
+  campus: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
+    getAllActivities('campus', filter),
+  class: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
+    getAllActivities('class', filter),
+  mine,
+  single: (id: string) => getActivity(id)
+}
+
+export { exports as read }

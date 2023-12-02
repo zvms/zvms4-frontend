@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { getUsers } from '@/api/user/crud'
 import { getClassName, getUserClass } from '@/utils/getClass'
 import { ElSelect, ElOption } from 'element-plus'
 import { ref, toRefs } from 'vue'
+import api from '@/api'
 
 const props = defineProps<{
   modelValue: string | string[]
@@ -30,7 +30,7 @@ const load = ref(false)
 async function filter(number: string) {
   load.value = true
   if (number.toString().length >= filterStart.value) {
-    const result = await getUsers(number)
+    const result = await api.user.read(number)
     if (result) {
       console.log(result)
       options.value = result.map((x) => {

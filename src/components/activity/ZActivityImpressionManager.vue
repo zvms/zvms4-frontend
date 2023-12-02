@@ -24,7 +24,6 @@ import {
   ElEmpty,
   ElIcon
 } from 'element-plus'
-import { getUser } from '@/api/user/crud'
 import { useI18n } from 'vue-i18n'
 import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
 import { getImage } from '@/api/activity/image'
@@ -93,7 +92,7 @@ const loading = ref(false)
 
 async function curserTo(index: number) {
   loading.value = true
-  const result = await getUser(activity.value.members[index - 1]._id)
+  const result = await api.user.readOne(activity.value.members[index - 1]._id)
   const images = await Promise.all(activity.value.members[index - 1].images.map((x) => getImage(x)))
   current.value = {
     index,
@@ -106,7 +105,6 @@ async function curserTo(index: number) {
     images
   }
   loading.value = false
-  console.log(current.value)
 }
 
 curserTo(1)

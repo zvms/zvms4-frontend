@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ElTabs, ElTabPane } from 'element-plus'
-import ZActivityList from '@/components/activity/ZActivityList.vue'
+import { ZActivityList } from '@/components'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { getAllActivities } from '@/api/activity/read'
 import type { ActivityInstance } from '@/../@types/activity'
+import api from '@/api'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -29,7 +29,7 @@ const activities = ref<ActivityInstance[]>([])
 
 const loading = ref(true)
 
-getAllActivities('campus', {
+api.activity.read.campus({
   type: 'all'
 }).then((res) => {
   loading.value = false
