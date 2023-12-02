@@ -67,7 +67,11 @@ export const enUS = {
       submit: 'Submit',
       cancel: 'Cancel',
       save: 'Save',
-      reset: 'Reset'
+      reset: 'Reset',
+      delete: {
+        name: 'Delete',
+        confirm: 'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
+      }
     },
     details: 'Details',
     impression: 'Impression',
@@ -286,7 +290,11 @@ export const zhCN = {
       submit: '提交',
       cancel: '取消',
       save: '保存',
-      reset: '重置'
+      reset: '重置',
+      delete: {
+        name: '删除',
+        confirm: '删除后包括感想等数据皆不可恢复，确定删除？'
+      }
     },
     upload: {
       name: '上传',
@@ -505,7 +513,11 @@ export const zhTW = {
       submit: '提交',
       cancel: '取消',
       save: '保存',
-      reset: '重置'
+      reset: '重置',
+      delete: {
+        name: '刪除',
+        confirm: '刪除後包括感想等數據皆不可恢復，確定刪除？'
+      }
     },
     upload: {
       name: '上傳',
@@ -725,7 +737,11 @@ export const jaJP = {
       submit: '提出',
       cancel: 'キャンセル',
       save: '保存',
-      reset: 'リセット'
+      reset: 'リセット',
+      delete: {
+        name: '削除',
+        confirm: '削除後、感想などのデータも含めて復元できなくなります。削除しますか？'
+      }
     },
     upload: {
       name: 'アップロード',
@@ -945,7 +961,11 @@ export const frFR = {
       submit: 'Soumettre',
       cancel: 'Annuler',
       save: 'Sauvegarder',
-      reset: 'Réinitialiser'
+      reset: 'Réinitialiser',
+      delete: {
+        name: 'Supprimer',
+        confirm: 'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
+      }
     },
     upload: {
       name: 'Télécharger',
