@@ -30,4 +30,7 @@ declare module 'vue' {
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

@@ -62,6 +62,21 @@ function generateActivityMemberHistory(_id: string) {
   }
 }
 
+function generateNotification(_id: string) {
+  return {
+    _id,
+    global: true,
+    title: 'Fuck off!',
+    content: 'Fuck off! ' + _id,
+    time: faker.date.recent().toISOString(),
+    expire: faker.date.recent().toISOString(),
+    publisher: 'CT', // TODO: ?
+    receivers: [], // TODO: ?
+    anonymous: false, // TODO: ?
+    type: 'normal'
+  }
+}
+
 function generateNumber() {
   return (
     faker.number.int({
@@ -248,6 +263,16 @@ export default [
       return {
         code: 200,
         data: new Array(Math.floor(Math.random() * 100)).fill(0).map(() => generateActivity())
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/broadcast',
+    method: 'GET',
+    response({ params}) {
+      return {
+        code: 200,
+        data: new Array(100).fill(generateNotification(params.id))
       }
     }
   }
