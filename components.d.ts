@@ -7,15 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElCard: typeof import('element-plus/es')['ElCard']
-    ElScroll: typeof import('element-plus/es')['ElScroll']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
     ZActivityCreate: typeof import('./src/components/activity/ZActivityCreate.vue')['default']
-    ZActivityDescriptions: typeof import('./src/components/activity/ZActivityDescriptions.vue')['default']
     ZActivityDetails: typeof import('./src/components/activity/ZActivityDetails.vue')['default']
     ZActivityHistory: typeof import('./src/components/activity/ZActivityHistory.vue')['default']
     ZActivityImpressionDrawer: typeof import('./src/components/activity/ZActivityImpressionDrawer.vue')['default']
@@ -26,7 +20,6 @@ declare module 'vue' {
     ZActivityRegisterCard: typeof import('./src/components/activity/ZActivityRegisterCard.vue')['default']
     ZActivityStatus: typeof import('./src/components/tags/ZActivityStatus.vue')['default']
     ZActivityType: typeof import('./src/components/tags/ZActivityType.vue')['default']
-    ZAttributeTag: typeof import('./src/components/tags/ZAttributeTag.vue')['default']
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']

@@ -1,0 +1,12 @@
+name: Get Image
+description: Get images from the server
+path: /image/:id
+method: GET
+query:
+  - name: id
+    type: string
+    in: path
+    required: true
+    description: Image id
+response:
+  url: string

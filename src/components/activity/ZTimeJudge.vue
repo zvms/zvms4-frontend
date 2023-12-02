@@ -54,12 +54,12 @@ function calculateLoss() {
   <ElStatistic :value="real">
     <template #title>
       <span style="display: inline-flex; align-items: center">
-        {{ t(`activity.classify.${type}.name`) }}
+        {{ t(`activity.mode.${type}.name`) }}
         <ElTooltip
           effect="light"
           :content="
             t('home.panels.time.least', {
-              type: t(`activity.classify.${type}.name`),
+              type: t(`activity.mode.${type}.name`),
               least: standard
             })
           "

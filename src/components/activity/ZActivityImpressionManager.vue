@@ -16,7 +16,10 @@ import {
   ElPopconfirm,
   ElForm,
   ElFormItem,
-  ElDivider
+  ElDivider,
+  ElUpload,
+  ElCarousel,
+  ElCarouselItem
 } from 'element-plus'
 import { userModifyImpression, userModifyStatus } from '@/api/activity/put-impression'
 import { getUser } from '@/api/user/crud'
@@ -42,7 +45,7 @@ const impression = ref(
     : ''
 )
 
-const activeNames = ref<string[]>(['1'])
+const activeNames = ref<string[]>(['1', '2'])
 
 const load = ref(false)
 
@@ -107,118 +110,127 @@ const serif = ref(false)
 
 <template>
   <div class="dialog">
-    <ElCollapse v-model="activeNames" accordion class="py-4">
+    <ElCollapse v-model="activeNames" class="py-4">
       <ElCollapseItem :title="t('activity.form.details')" name="1">
         <ZActivityDetails :activity="activity" :mode="role" />
       </ElCollapseItem>
-    </ElCollapse>
-    <div>
-      <ElCard v-if="role === 'mine'" shadow="hover">
-        <p class="text-xl py-4">{{ t('activity.form.impression') }}</p>
-        <ElInput
-          type="textarea"
-          v-if="submitable"
-          v-model="impression"
-          :autosize="{ minRows: 2 }"
-          minlength="30"
-          maxlength="1024"
-          show-word-limit
-        />
-        <p v-else :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']" style="font-size: 16px">
-          {{ impression }}
-        </p>
-        <div style="text-align: right" class="py-4">
-          <ElButton type="primary" @click="submit(false)" text bg :icon="Save" :loading="load">
-            {{ t('activity.impression.page.write.actions.save') }}
-          </ElButton>
-          <ElButton
-            type="success"
-            @click="submit(true)"
-            :disabled="impression.length < 30"
-            text
-            bg
-            :icon="ArrowRight"
-            :loading="load"
-          >
-            {{ t('activity.impression.page.write.actions.submit') }}
-          </ElButton>
-        </div>
-      </ElCard>
-      <ElCard shadow="hover" v-loading="loading" v-else>
-        <p class="text-xl py-2">
-          <ElRow>
+      <ElCollapseItem :title="t('activity.form.impression')" name="2">
+        <ElCard v-if="role === 'mine'" shadow="hover">
+          <p class="text-xl py-2">{{ t('activity.impression.page.mine') }}</p>
+          <ElInput
+            type="textarea"
+            v-if="submitable"
+            v-model="impression"
+            :autosize="{ minRows: 2 }"
+            minlength="30"
+            maxlength="1024"
+            show-word-limit
+          />
+          <p v-else :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']">
+            {{ impression }}
+          </p>
+          <div v-if="submitable" style="text-align: right" class="py-4">
+            <ElButton type="primary" @click="submit(false)" text bg :icon="Save" :loading="load">
+              {{ t('activity.impression.page.write.actions.save') }}
+            </ElButton>
+            <ElButton
+              type="success"
+              @click="submit(true)"
+              :disabled="impression.length < 30"
+              text
+              bg
+              :icon="ArrowRight"
+              :loading="load"
+            >
+              {{ t('activity.impression.page.write.actions.submit') }}
+            </ElButton>
+          </div>
+        </ElCard>
+        <ElCard shadow="hover" v-loading="loading" v-else>
+          <p class="text-xl py-2">
+            <ElRow>
+              <ElCol :span="12">
+                {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
+                <ZActivityStatus class="px-1" :type="current?.status" />
+              </ElCol>
+              <ElCol :span="12" style="text-align: right">
+                <ZActivityMember :id="current?._id" />
+              </ElCol>
+            </ElRow>
+          </p>
+          <p :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']" style="font-size: 16px">
+            {{ current?.impression }}
+          </p>
+          <ElPagination
+            class="px-2 py-2"
+            layout="total, prev, pager, next, jumper"
+            :pager-count="3"
+            :total="activity.members.length"
+            background
+            hide-on-single-page
+            :default-page-size="1"
+            :page-size="1"
+            @current-change="curserTo"
+          />
+          <ElDivider v-if="current.status === 'pending'" />
+          <ElRow class="py-2 px-2" v-if="current.status === 'pending'">
             <ElCol :span="12">
-              {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
-              <ZActivityStatus class="px-1" :type="current?.status" />
+              <ElForm label-position="right" label-width="64px">
+                <ElFormItem :label="t('activity.form.duration')">
+                  <ElInput v-model="current.duration">
+                    <template #append>
+                      {{ t('activity.units.hour', current.duration) }}
+                    </template>
+                  </ElInput>
+                </ElFormItem>
+              </ElForm>
             </ElCol>
-            <ElCol :span="12" style="text-align: right">
-              <ZActivityMember :id="current?._id" />
+            <ElCol :span="12">
+              <div style="text-align: right">
+                <ElPopconfirm
+                  :title="t('activity.impression.page.reflect.actions.check')"
+                  width="368"
+                  @confirm="reflect('refused')"
+                >
+                  <template #reference>
+                    <ElButton type="danger" :icon="Delete" text bg :loading="load">
+                      {{ t('activity.impression.page.reflect.actions.refuse') }}
+                    </ElButton>
+                  </template>
+                </ElPopconfirm>
+                <ElButton
+                  type="warning"
+                  :icon="Close"
+                  text
+                  bg
+                  :loading="load"
+                  @click="reflect('rejected')"
+                  >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
+                >
+                <ElButton
+                  type="success"
+                  :icon="Check"
+                  text
+                  bg
+                  :loading="load"
+                  @click="reflect('effective')"
+                  >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
+                >
+              </div>
             </ElCol>
           </ElRow>
-        </p>
-        <p :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']" style="font-size: 16px">
-          {{ current?.impression }}
-        </p>
-        <ElPagination
-          class="px-2 py-2"
-          layout="total, prev, pager, next, jumper"
-          :pager-count="3"
-          :total="activity.members.length"
-          background
-          hide-on-single-page
-          :default-page-size="1"
-          :page-size="1"
-          @current-change="curserTo"
-        />
-        <ElDivider v-if="current.status === 'pending'" />
-        <ElRow class="py-2 px-2" v-if="current.status === 'pending'">
-          <ElCol :span="12">
-            <ElForm label-position="right" label-width="64px">
-              <ElFormItem :label="t('activity.form.duration')">
-                <ElInput v-model="current.duration">
-                  <template #append>
-                    {{ t('activity.units.hour', current.duration) }}
-                  </template>
-                </ElInput>
-              </ElFormItem>
-            </ElForm>
-          </ElCol>
-          <ElCol :span="12">
-            <div style="text-align: right">
-              <ElPopconfirm
-                :title="t('activity.impression.page.reflect.actions.check')"
-                width="368"
-                @confirm="reflect('refused')"
-              >
-                <template #reference>
-                  <ElButton type="danger" :icon="Delete" text bg :loading="load">
-                    {{ t('activity.impression.page.reflect.actions.refuse') }}
-                  </ElButton>
-                </template>
-              </ElPopconfirm>
-              <ElButton
-                type="warning"
-                :icon="Close"
-                text
-                bg
-                :loading="load"
-                @click="reflect('rejected')"
-                >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
-              >
-              <ElButton
-                type="success"
-                :icon="Check"
-                text
-                bg
-                :loading="load"
-                @click="reflect('effective')"
-                >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
-              >
-            </div>
-          </ElCol>
-        </ElRow>
-      </ElCard>
-    </div>
+        </ElCard>
+      </ElCollapseItem>
+      <ElCollapseItem
+        :title="t('activity.form.image')"
+        :disabled="activity.type !== 'social'"
+        name="3"
+      >
+        <ElCard shadow="hover" class="w-full" v-if="role === 'mine'">
+          <ElUpload class="w-full" list-type="picture-card"></ElUpload>
+        </ElCard>
+      </ElCollapseItem>
+    </ElCollapse>
   </div>
 </template>
 
@@ -227,9 +239,5 @@ const serif = ref(false)
   position: relative;
   bottom: 0;
   transform: translateY(80%);
-}
-
-.dialog {
-  overflow: hidden !important;
 }
 </style>

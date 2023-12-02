@@ -70,13 +70,24 @@ export const enUS = {
       reset: 'Reset'
     },
     details: 'Details',
-    impression: 'Impression'
+    impression: 'Impression',
+    image: 'Image'
   },
   units: {
     item: 'item | item | items',
     hour: 'hour | hour | hours',
     word: 'word | word | words',
     person: 'person | person | people'
+  },
+  image: {
+    upload: {
+      name: 'Upload',
+      prompt: 'Click or drag image to this area to upload',
+      allow: 'Allow only {type} image'
+    },
+    select: {
+      name: 'Select'
+    }
   },
   impression: {
     write: 'Write',
@@ -90,6 +101,8 @@ export const enUS = {
     page: {
       write: {
         title: 'Write Impression',
+        view: 'View Impression',
+        mine: 'My Impression',
         prompt: 'Please write your impression here',
         type: 'Type',
         actions: {
@@ -238,7 +251,7 @@ export const zhCN = {
         '特殊义工是由管理员创建的比赛获奖、社团活动统计的义工等，参与人员不需要提交感想。'
     }
   },
-  classify: {
+  mode: {
     'on-campus': {
       name: '校内义工',
       short: '校内',
@@ -278,13 +291,24 @@ export const zhCN = {
       allow: '仅允许 {type} 文件'
     },
     details: '详情',
-    impression: '感想'
+    impression: '感想',
+    image: '图片'
   },
   units: {
     item: '项',
     hour: '小时',
     word: '字',
     person: '人'
+  },
+  image: {
+    upload: {
+      name: '上传',
+      prompt: '点击或拖拽图片到此区域上传',
+      allow: '仅允许 {type} 图片'
+    },
+    select: {
+      name: '选择'
+    }
   },
   impression: {
     write: '填写',
@@ -298,6 +322,8 @@ export const zhCN = {
     page: {
       write: {
         title: '填写感想',
+        view: '查看感想',
+        mine: '我的感想',
         prompt: '请在此填写感想',
         type: '类型',
         actions: {
@@ -441,7 +467,7 @@ export const zhTW = {
     },
     unknown: '未知'
   },
-  classify: {
+  mode: {
     'on-campus': {
       name: '校內義工',
       short: '校內',
@@ -479,13 +505,26 @@ export const zhTW = {
       name: '上傳',
       prompt: '點擊或拖拽文件到此區域上傳',
       allow: '僅允許 {type} 文件'
-    }
+    },
+    details: '詳情',
+    impression: '感想',
+    image: '圖片'
   },
   units: {
     item: '項',
     hour: '小時',
     word: '字',
     person: '人'
+  },
+  image: {
+    upload: {
+      name: '上傳',
+      prompt: '點擊或拖拽圖片到此區域上傳',
+      allow: '僅允許 {type} 圖片'
+    },
+    select: {
+      name: '選擇'
+    }
   },
   impression: {
     write: '填寫',
@@ -499,6 +538,8 @@ export const zhTW = {
     page: {
       write: {
         title: '填寫感想',
+        view: '查看感想',
+        mine: '我的感想',
         prompt: '請在此填寫感想',
         type: '類型',
         actions: {
@@ -643,7 +684,7 @@ export const jaJP = {
     },
     unknown: '未知'
   },
-  classify: {
+  mode: {
     'on-campus': {
       name: '校内ボランティア',
       short: '校内',
@@ -681,6 +722,19 @@ export const jaJP = {
       name: 'アップロード',
       prompt: 'ここにファイルをクリックまたはドラッグしてアップロードします',
       allow: 'ファイルのみを許可する {type}'
+    },
+    details: '詳細',
+    impression: '感想',
+    image: '画像'
+  },
+  image: {
+    upload: {
+      name: 'アップロード',
+      prompt: 'ここに画像をクリックまたはドラッグしてアップロードします',
+      allow: '画像のみを許可する {type}'
+    },
+    select: {
+      name: '選択'
     }
   },
   units: {
@@ -701,6 +755,8 @@ export const jaJP = {
     page: {
       write: {
         title: '感想を記入',
+        view: '感想を見る',
+        mine: '私の感想',
         prompt: 'ここに感想を記入してください',
         type: 'タイプ',
         actions: {
@@ -845,7 +901,7 @@ export const frFR = {
     },
     unknown: 'Inconnu'
   },
-  classify: {
+  mode: {
     'on-campus': {
       name: 'Activités sur le Campus',
       short: 'Sur le Campus',
@@ -883,6 +939,19 @@ export const frFR = {
       name: 'Télécharger',
       prompt: 'Cliquez ou faites glisser le fichier dans cette zone pour le télécharger',
       allow: 'Autoriser uniquement le fichier {type}'
+    },
+    details: 'Détails',
+    impression: 'Impression',
+    image: 'Image'
+  },
+  image: {
+    upload: {
+      name: 'Télécharger',
+      prompt: "Cliquez ou faites glisser l'image dans cette zone pour le télécharger",
+      allow: "Autoriser uniquement l'image {type}"
+    },
+    select: {
+      name: 'Sélectionner'
     }
   },
   units: {
@@ -903,6 +972,8 @@ export const frFR = {
     page: {
       write: {
         title: "Écrire l'Impression",
+        view: "Voir l'Impression",
+        mine: 'Mon Impression',
         prompt: 'Veuillez écrire votre impression ici',
         type: 'Type',
         actions: {
@@ -1015,406 +1086,6 @@ export const frFR = {
   }
 }
 
-export const koKR = {
-  type: {
-    specified: {
-      name: '지정 봉사',
-      short: '지정',
-      key: 'specified',
-      description:
-        '지정 봉사는 관리자가 생성하고 모집으로 게시하며 각 반별로 최대 등록 인원을 지정해야 합니다.'
-    },
-    social: {
-      name: '사회 봉사',
-      short: '사회',
-      key: 'social',
-      description:
-        '사회 봉사는 부장 이상의 사람이 생성할 수 있으며 생성 시 모든 참여자를 지정해야 합니다. 학기 중 주말 및 공휴일에 교외에서만 봉사할 수 있습니다.'
-    },
-    scale: {
-      name: '실천 봉사',
-      short: '실천',
-      key: 'scale',
-      description:
-        '실천 봉사는 누구나 생성할 수 있으며 생성 시 모든 참여자를 지정해야 합니다. 방학 중에는 학교 파일에 따라 사회 실천이 제한됩니다.'
-    },
-    special: {
-      name: '특수 봉사',
-      short: '특수',
-      key: 'special',
-      description:
-        '특수 봉사는 관리자가 대회 수상자, 대규모 등을 위해 생성하는 봉사 등입니다. 참가자는 감상을 제출할 필요가 없습니다.'
-    },
-    unknown: '알 수 없음'
-  },
-  classify: {
-    'on-campus': {
-      name: '교내 봉사',
-      short: '교내',
-      key: 'on-campus'
-    },
-    'off-campus': {
-      name: '교외 봉사',
-      short: '교외',
-      key: 'off-campus'
-    },
-    'large-scale': {
-      name: '대형 실천',
-      short: '실천',
-      key: 'large-scale'
-    }
-  },
-  form: {
-    type: '유형',
-    title: '{create} {type}',
-    name: '이름',
-    description: '설명',
-    date: '날짜',
-    person: '멤버',
-    class: '반',
-    duration: '시간',
-    classify: '분류',
-    pending: '심사 대기',
-    actions: {
-      submit: '제출',
-      cancel: '취소',
-      save: '저장',
-      reset: '재설정'
-    },
-    upload: {
-      name: '업로드',
-      prompt: '여기를 클릭하거나 파일을 이 영역으로 드래그하여 업로드합니다.',
-      allow: '{type} 파일만 허용'
-    }
-  },
-  units: {
-    item: '개',
-    hour: '시간',
-    word: '단어',
-    person: '명'
-  },
-  registration: {
-    name: '등록',
-    title: '지정 봉사 등록',
-    deadline: '마감일',
-    location: '장소',
-    class: '반',
-    count: '명이 등록',
-    single: {
-      class: '반',
-      min: '최소',
-      max: '최대'
-    },
-    remain: {
-      time: '남은 시간',
-      position: '남은 자리'
-    },
-    status: {
-      title: '상태',
-      registered: '등록됨',
-      unregistered: '미등록',
-      unregisterable: '등록 불가'
-    },
-    actions: {
-      register: '등록',
-      unregister: '등록 취소',
-      back: '돌아가기'
-    }
-  },
-  special: {
-    classify: {
-      name: '분류',
-      prize: '수상',
-      import: '가져오기',
-      club: '동아리',
-      deduction: '감점',
-      other: '기타'
-    },
-    prize: {
-      name: '수상',
-      level: {
-        name: '수준',
-        district: '지역',
-        city: '시',
-        province: '도',
-        national: '국가',
-        international: '국제'
-      },
-      type: {
-        name: '유형',
-        personal: '개인',
-        team: '팀'
-      },
-      classify: {
-        name: '분류',
-        sports: '스포츠',
-        academy: '학술',
-        art: '예술',
-        other: '기타'
-      },
-      ranking: {
-        levels: {
-          above: '1등상 이상',
-          first: '1등상',
-          second: '2등상',
-          third: '3등상'
-        },
-        ranking: {
-          name: '순위',
-          rank: '{start} - {end}위'
-        }
-      }
-    }
-  },
-  impression: {
-    write: '작성',
-    name: '감상',
-    reward: '보상',
-    actions: {
-      write: '작성',
-      reflect: '피드백',
-      view: '보기'
-    },
-    page: {
-      write: {
-        title: '감상 작성',
-        prompt: '여기에 감상을 작성하세요',
-        type: '유형',
-        actions: {
-          submit: '제출',
-          cancel: '취소',
-          save: '저장'
-        }
-      },
-      reflect: {
-        title: '감상 승인',
-        reward: '봉사 시간 획득',
-        actions: {
-          approve: '승인',
-          reject: '거절',
-          refuse: '거절',
-          check: '거절은 전교에 공개되며 취소할 수 없습니다.'
-        },
-        prompt: '{name}의 봉사 감상',
-        history: {
-          title: '기록',
-          empty: '기록 없음'
-        }
-      }
-    }
-  },
-  status: {
-    title: '상태',
-    draft: '초안',
-    rejected: '거절됨',
-    pending: '심사 중',
-    effective: '유효',
-    refused: '거절',
-    steps: {
-      first: '초심사',
-      last: '종심사'
-    }
-  }
-}
+export const koKR = {}
 
-export const ruRU = {
-  type: {
-    specified: {
-      name: 'Указанный волонтер',
-      short: 'Указанный',
-      key: 'specified',
-      description:
-        'Указанный волонтер создается администратором, публикуется как набор и должен указать максимальное количество людей, которые могут зарегистрироваться для каждого класса.'
-    },
-    social: {
-      name: 'Социальный волонтер',
-      short: 'Социальный',
-      key: 'social',
-      description:
-        'Социальный волонтер может быть создан любым человеком, и все участники должны быть назначены при создании. Он ограничен волонтерами на выходные и праздничные дни вне кампуса в течение семестра.'
-    },
-    scale: {
-      name: 'Практический волонтер',
-      short: 'Практический',
-      key: 'scale',
-      description:
-        'Практический волонтер может быть создан любым человеком, и все участники должны быть назначены при создании. Он ограничен социальными волонтерами во время зимних и летних каникул в соответствии с файлом широкого распространения школы.'
-    },
-    special: {
-      name: 'Специальный волонтер',
-      short: 'Специальный',
-      key: 'special',
-      description:
-        'Специальный волонтер создается администратором для победителей конкурсов, масштабных и т. Д. Участникам не нужно отправлять впечатление.'
-    },
-    unknown: 'Неизвестный'
-  },
-  classify: {
-    'on-campus': {
-      name: 'Волонтеры на кампусе',
-      short: 'На кампусе',
-      key: 'on-campus'
-    },
-    'off-campus': {
-      name: 'Волонтеры за пределами кампуса',
-      short: 'Вне кампуса',
-      key: 'off-campus'
-    },
-    'large-scale': {
-      name: 'Практика во время каникул',
-      short: 'Практика',
-      key: 'large-scale'
-    }
-  },
-  form: {
-    type: 'Тип',
-    title: '{create} {type}',
-    name: 'Имя',
-    description: 'Описание',
-    date: 'Дата',
-    person: 'Член(ы)',
-    class: 'Класс(ы)',
-    duration: 'Продолжительность',
-    classify: 'Классифицировать',
-    pending: 'В ожидании',
-    actions: {
-      submit: 'Отправить',
-      cancel: 'Отмена',
-      save: 'Сохранить',
-      reset: 'Сброс'
-    },
-    upload: {
-      name: 'Загрузить',
-      prompt: 'Нажмите здесь или перетащите файл в эту область, чтобы загрузить',
-      allow: 'Разрешить только файл {type}'
-    }
-  },
-  units: {
-    item: 'пункт',
-    hour: 'час',
-    word: 'слово',
-    person: 'человек'
-  },
-  impression: {
-    write: 'Написать',
-    name: 'Впечатление',
-    reward: 'Награда',
-    actions: {
-      write: 'Написать',
-      reflect: 'Отзыв',
-      view: 'Посмотреть'
-    },
-    page: {
-      write: {
-        title: 'Написать впечатление',
-        prompt: 'Пожалуйста, напишите свое впечатление здесь',
-        type: 'Тип',
-        actions: {
-          submit: 'Отправить',
-          cancel: 'Отмена',
-          save: 'Сохранить'
-        }
-      },
-      reflect: {
-        title: 'Подтвердить впечатление',
-        reward: 'Получить волонтерское время',
-        actions: {
-          approve: 'Утвердить',
-          reject: 'Отклонить',
-          refuse: 'Отказать',
-          check: 'Отказ будет опубликован во всей школе, необратимый, время не будет учтено.'
-        },
-        prompt: 'Впечатление от {name}',
-        history: {
-          title: 'История',
-          empty: 'Нет истории'
-        }
-      }
-    }
-  },
-  registration: {
-    name: 'Регистрация',
-    title: 'Зарегистрируйтесь на указанную волонтерскую деятельность',
-    deadline: 'Крайний срок',
-    location: 'Место',
-    class: 'Класс(ы)',
-    count: ' человек зарегистрирован |  человек зарегистрирован | человек зарегистрированы',
-    single: {
-      class: 'Класс',
-      min: 'Мин',
-      max: 'Макс'
-    },
-    remain: {
-      time: 'Оставшееся время',
-      position: 'Оставшаяся позиция'
-    },
-    status: {
-      title: 'Статус',
-      registered: 'Зарегистрирован',
-      unregistered: 'Не зарегистрирован',
-      unregisterable: 'Не регистрируемый'
-    },
-    actions: {
-      register: 'Зарегистрироваться',
-      unregister: 'Отменить регистрацию',
-      back: 'Назад'
-    }
-  },
-  special: {
-    classify: {
-      name: 'Классифицировать',
-      prize: 'Приз',
-      import: 'Импорт',
-      club: 'Клуб',
-      deduction: 'Вычет',
-      other: 'Другое'
-    },
-    prize: {
-      name: 'Приз',
-      level: {
-        name: 'Уровень',
-        district: 'Район',
-        city: 'Город',
-        province: 'Провинция',
-        national: 'Национальный',
-        international: 'Международный'
-      },
-      type: {
-        name: 'Тип',
-        personal: 'Личный',
-        team: 'Команда'
-      },
-      classify: {
-        name: 'Классифицировать',
-        sports: 'Спорт',
-        academy: 'Академия',
-        art: 'Искусство',
-        other: 'Другое'
-      },
-      ranking: {
-        levels: {
-          above: 'Выше первого приза',
-          first: 'Первый приз',
-          second: 'Второй приз',
-          third: 'Третий приз'
-        },
-        ranking: {
-          name: 'Ранжирование',
-          rank: 'Ранг {start} - {end}'
-        }
-      }
-    }
-  },
-  status: {
-    title: 'Статус',
-    draft: 'Черновик',
-    rejected: 'Отклонено',
-    pending: 'В ожидании',
-    effective: 'Эффективный',
-    refused: 'Отклонено',
-    steps: {
-      first: 'Первичный',
-      last: 'Последний'
-    }
-  }
-}
+export const ruRU = {}

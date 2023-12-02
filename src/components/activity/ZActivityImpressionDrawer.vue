@@ -73,7 +73,8 @@ watch(modelValue, () => {
         <ZActivityImpressionManager
           :activity="activity"
           :role="role"
-          submitable
+          :submitable="!readonly"
+          :readonly="readonly"
           @finish="show = false"
         />
       </ElDialog>
