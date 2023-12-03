@@ -3,7 +3,7 @@ import type { Response } from '@/../@types/response'
 import type { UserActivityTimeSums } from '@/../@types/user'
 import { ElNotification } from 'element-plus'
 
-export async function getUserTime(user: string) {
+async function getUserTime(user: string) {
   const result = (await axios(`/user/${user}/time`)).data as Response<UserActivityTimeSums>
   console.log(result)
   if (result.status === 'error') {
@@ -16,3 +16,5 @@ export async function getUserTime(user: string) {
   }
   return result.data
 }
+
+export { getUserTime as read }

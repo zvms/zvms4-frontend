@@ -2,9 +2,10 @@ import axios from '@/plugins/axios'
 import type { Response } from '@/../@types/response'
 import type { ActivityInstance } from '@/../@types/activity'
 import { ElNotification } from 'element-plus'
+import { read as mine } from '@/api/user/activity'
 
-export async function getAllActivities(
-  range: 'in-class' | 'campus',
+async function getAllActivities(
+  range: 'class' | 'campus',
   filter: {
     type: 'special' | 'specified' | 'off-campus' | 'all'
   }
@@ -28,20 +29,7 @@ export async function getAllActivities(
   return result.data
 }
 
-export async function getUserActivities(id: string) {
-  const result = (await axios(`/user/${id}/activity`)).data as Response<ActivityInstance[]>
-  if (result.status === 'error') {
-    ElNotification({
-      title: `获取用户义工列表失败（${result.code}）`,
-      message: result.message,
-      type: 'error'
-    })
-    return
-  }
-  return result.data
-}
-
-export async function getActivity(id: string) {
+async function getActivity(id: string) {
   // id: ObjectId
   const result = (await axios(`/activity/${id}`)).data as Response<ActivityInstance>
   if (result.status === 'error') {
@@ -54,3 +42,14 @@ export async function getActivity(id: string) {
   }
   return result.data
 }
+
+const exports = {
+  campus: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
+    getAllActivities('campus', filter),
+  class: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
+    getAllActivities('class', filter),
+  mine,
+  single: (id: string) => getActivity(id)
+}
+
+export { exports as read }

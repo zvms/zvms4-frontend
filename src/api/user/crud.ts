@@ -3,7 +3,7 @@ import type { User } from '@/../@types/user'
 import type { Response } from '@/../@types/response'
 import { ElNotification } from 'element-plus'
 
-export async function getUser(id: string) {
+async function getUser(id: string) {
   const result = (await axios(`/user/${id}`)).data as Response<User>
   if (result.status === 'error') {
     ElNotification({
@@ -13,10 +13,10 @@ export async function getUser(id: string) {
     })
     return null
   }
-  return result.data
+  return result.data as User
 }
 
-export async function getUsers(id: string) {
+async function getUsers(id: string) {
   const result = (
     await axios(`/user`, {
       params: {
@@ -52,3 +52,5 @@ export async function modifyPassword(id: number, validate: string, password: str
     })
   }
 }
+
+export { getUser as readOne, getUsers as read, modifyPassword as modify }

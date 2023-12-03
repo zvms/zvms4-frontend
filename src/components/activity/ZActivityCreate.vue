@@ -10,7 +10,8 @@ import type {
   SpecialActivityClassification,
   ActivityMode,
   Prize,
-  Special
+  Special,
+Activity
 } from '@/../@types/activity'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -33,8 +34,7 @@ import {
   ElDivider
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
-import { watch } from 'vue'
-import { ref } from 'vue'
+import { watch, ref, type Component as VueComponent } from 'vue'
 import {
   InfoFilled,
   Refresh,
@@ -45,7 +45,8 @@ import {
   Location
 } from '@element-plus/icons-vue'
 import { ZSelectPerson } from '@/components'
-import { createActivityWithDividedData } from '@/api/activity/create'
+import { Vacation, School, CityGate } from '@icon-park/vue-next'
+import api from '@/api'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -61,7 +62,7 @@ watch(type, () => {
   console.log(type)
 })
 
-const activity = reactive<ActivityInstance>({
+const activity = reactive<ActivityInstance | Activity>({
   _id: '',
   type: type.value,
   name: '',
@@ -150,9 +151,21 @@ const prizes = {
   classify: ['sports', 'academy', 'art', 'other']
 }
 
-const mode = ['on-campus', 'off-campus', 'large-scale']
+const modes = ['on-campus', 'off-campus', 'large-scale'] as ActivityMode[]
 
-const classifyOfSpecial = ['prize', 'import', 'club', 'deduction', 'other']
+const modeIcons: Record<ActivityMode, VueComponent> = {
+  'on-campus': School,
+  'off-campus': CityGate,
+  'large-scale': Vacation
+}
+
+const classifyOfSpecial = [
+  'prize',
+  'import',
+  'club',
+  'deduction',
+  'other'
+] as SpecialActivityClassification[]
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 
@@ -162,8 +175,19 @@ watch(height, () => {
 
 async function submit() {
   load.value = true
-  await createActivityWithDividedData(activity, members, registration, special)
+  await api.activity.insert(activity, members, registration, special)
   load.value = false
+}
+
+function isAllowToUseMode(mode: ActivityMode) {
+  if (activity.type === 'specified') return mode === 'on-campus'
+  if (activity.type === 'social') return mode === 'off-campus'
+  if (activity.type === 'scale') return mode === 'large-scale'
+  if (activity.type === 'special') {
+    if (special.classify === 'prize') return mode !== 'large-scale'
+    return true
+  }
+  return false
 }
 </script>
 
@@ -301,15 +325,18 @@ async function submit() {
                           <ElCol :span="16" :xs="12" :sm="14">
                             <ElInput
                               :placeholder="t('activity.registration.single.class')"
-                              v-mode="classification.class"
+                              v-model.number="classification.class"
+                              class="full"
                             >
-                              <template #prepend> {{ idx + 1 }} </template>
+                              <template #prepend>
+                                {{ idx + 1 }}
+                              </template>
                             </ElInput>
                           </ElCol>
-                          <ElCol :span="2" style="text-align: center">
+                          <ElCol :span="1" style="text-align: center">
                             <ElDivider direction="vertical" />
                           </ElCol>
-                          <ElCol :span="6" :xs="10" :sm="8">
+                          <ElCol :span="7" :xs="11" :sm="9">
                             <ElInput
                               :placeholder="t('activity.registration.single.max')"
                               v-model.number="classification.max"
@@ -318,7 +345,6 @@ async function submit() {
                               <template #append>
                                 <ElButton
                                   :icon="idx === 0 ? Plus : Delete"
-                                  circle
                                   @click="
                                     idx === 0
                                       ? registrationFunctions.add()
@@ -350,7 +376,7 @@ async function submit() {
                     appear
                   >
                     <ElRow class="full">
-                      <ElCol :span="16" :xs="12" :sm="14">
+                      <ElCol :span="10" :xs="8" :sm="8">
                         <ZSelectPerson
                           v-model="member._id"
                           :placeholder="t('activity.form.person')"
@@ -360,10 +386,27 @@ async function submit() {
                           <template #prepend> {{ idx + 1 }} </template>
                         </ZSelectPerson>
                       </ElCol>
-                      <ElCol :span="2" style="text-align: center">
+                      <ElCol :span="1" style="text-align: center">
                         <ElDivider direction="vertical" />
                       </ElCol>
-                      <ElCol :span="6" :xs="10" :sm="8">
+                      <ElCol :span="8" :xs="6" :sm="6">
+                        <ElSelect v-model="member.mode" class="full">
+                          <ElOption
+                            v-for="mode in modes"
+                            :key="mode"
+                            :value="mode"
+                            :disabled="!isAllowToUseMode(mode)"
+                            :label="t(`activity.mode.${mode}.short`)"
+                          />
+                          <template #prefix>
+                            <component :is="modeIcons[member.mode]" />
+                          </template>
+                        </ElSelect>
+                      </ElCol>
+                      <ElCol :span="1" style="text-align: center">
+                        <ElDivider direction="vertical" />
+                      </ElCol>
+                      <ElCol :span="6" :xs="8" :sm="8">
                         <ElInput
                           :placeholder="t('activity.form.duration')"
                           v-model.number="member.duration"

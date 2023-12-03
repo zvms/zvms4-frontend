@@ -29,7 +29,7 @@ const { width, height } = useWindowSize()
 const user = useUserStore()
 
 const props = defineProps<{
-  role: 'auditor' | 'secretary' | 'student'
+  role: 'campus' | 'class' | 'mine'
 }>()
 
 const activePage = ref(1)
@@ -128,7 +128,7 @@ watch(
         <ElTableColumn type="expand">
           <template #header>
             <ElButton
-              v-if="role === 'auditor'"
+              v-if="role === 'campus'"
               :icon="Box"
               type="success"
               text
@@ -173,7 +173,7 @@ watch(
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="role === 'student'"
+          v-if="role === 'mine'"
           :label="t('activity.form.duration')"
           sortable
           :sort-method="
@@ -199,11 +199,11 @@ watch(
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="role === 'student' || role === 'secretary'"
+          v-if="role === 'mine' || role === 'class'"
           :label="t('activity.status.title')"
           :filters="
             statusFilter
-              .filter((x) => role === 'student' || (x !== 'rejected' && x !== 'draft'))
+              .filter((x) => role === 'mine' || (x !== 'rejected' && x !== 'draft'))
               .map((x) => ({
                 text: t('activity.status.' + x),
                 value: x
@@ -217,7 +217,7 @@ watch(
         >
           <template #default="{ row }">
             <ZActivityStatus
-              v-if="role === 'student'"
+              v-if="role === 'mine'"
               :type="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                   ?.status
@@ -226,7 +226,7 @@ watch(
             <ZActivityStatus v-else :type="row.status" />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else-if="role === 'auditor'" :label="t('activity.form.pending')">
+        <ElTableColumn v-else-if="role === 'campus'" :label="t('activity.form.pending')">
           <template #default="{ row }">
             {{
               (row as ActivityInstance).members.filter(
@@ -249,9 +249,16 @@ watch(
           </template>
           <template #default="props">
             <ZActivityImpressionDrawer
-              v-if="role !== 'secretary'"
+              v-if="role !== 'class'"
               :id="props.row._id"
               :role="role"
+              :readonly="
+                role === 'mine' &&
+                !['effective', 'refused'].includes(
+                  (props.row as ActivityInstance).members.find((x) => x._id === user._id)?.status ?? ''
+                )
+                || role === 'campus' && !user.position.includes('auditor')
+              "
             />
           </template>
         </ElTableColumn>

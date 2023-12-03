@@ -1,12 +1,11 @@
-import { getAllActivities, getUserActivities } from "@/api/activity/read";
+import api from '@/api'
 
-export async function getActivity(user: string, mode: 'student' | 'secretary' | 'auditor') {
-  if (mode === 'student') {
-    const activities = await getUserActivities(user)
-    console.log(activities)
+export async function getActivity(user: string, mode: 'mine' | 'class' | 'campus') {
+  if (mode === 'mine') {
+    const activities = await api.activity.read.mine(user)
     return activities
   } else {
-    const activities = await getAllActivities(mode === 'auditor' ? 'campus' : 'in-class', {
+    const activities = await api.activity.read.campus({
       type: 'all'
     })
     return activities

@@ -21,7 +21,20 @@ function generateActivity(_id?: string, serie: boolean = true) {
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
     creator: new ObjectID().toHexString(),
-    status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)]
+    status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)],
+    special: generateSpecial(),
+  }
+}
+
+function generateSpecial() {
+  return {
+    classify: ['prize', 'import', 'club', 'deduction', 'other'][Math.floor(Math.random() * 5)],
+    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)],
+    prize: {
+      level: ['district', 'city', 'province', 'national', 'international'][Math.floor(Math.random() * 5)],
+      type: ['personal', 'team'][Math.floor(Math.random() * 2)],
+      classify: ['sports', 'academy', 'art', 'other'][Math.floor(Math.random() * 4)],
+    }
   }
 }
 
@@ -262,17 +275,8 @@ export default [
     response() {
       return {
         code: 200,
+        status: 'success',
         data: new Array(Math.floor(Math.random() * 100)).fill(0).map(() => generateActivity())
-      }
-    }
-  },
-  {
-    url: '/api/user/:id/broadcast',
-    method: 'GET',
-    response({ params}) {
-      return {
-        code: 200,
-        data: new Array(100).fill(generateNotification(params.id))
       }
     }
   }

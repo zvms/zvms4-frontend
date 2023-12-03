@@ -14,14 +14,18 @@ const props = defineProps<{
   icon?: VueComponent
   unknown?: boolean
   force?: 'full' | 'short'
+  onlyDisplayIcon?: boolean
 }>()
 
-const { size, type, icon, unknown, force } = toRefs(props)
+const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
 </script>
 
 <template>
   <ElButton
-    v-if="(!unknown && width > height * 1.5 && force !== 'short') || force === 'full'"
+    v-if="
+      ((!unknown && width > height * 1.5 && force !== 'short') || force === 'full') &&
+      !onlyDisplayIcon
+    "
     :icon="icon"
     :type="type"
     :size="size ?? 'small'"
@@ -35,9 +39,25 @@ const { size, type, icon, unknown, force } = toRefs(props)
     <template #content>
       <slot></slot>
     </template>
-    <ElButton :icon="icon" :type="type" :size="size ?? 'small'" circle text bg />
+    <ElButton
+      :icon="icon"
+      :type="type"
+      :size="size ?? 'small'"
+      :circle="!onlyDisplayIcon"
+      :round="onlyDisplayIcon"
+      text
+      bg
+    />
   </ElTooltip>
-  <ElButton v-else type="danger" :icon="Remove" :size="size ?? 'small'" text bg round>
+  <ElButton
+    v-else-if="!onlyDisplayIcon"
+    type="danger"
+    :icon="Remove"
+    :size="size ?? 'small'"
+    text
+    bg
+  >
     {{ t('activity.type.unknown') }}
   </ElButton>
+  <ElButton v-else type="danger" :icon="Remove" :size="size ?? 'small'" text bg />
 </template>

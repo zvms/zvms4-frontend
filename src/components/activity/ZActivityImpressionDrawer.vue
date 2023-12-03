@@ -2,25 +2,26 @@
 import { ElDialog, ElButton } from 'element-plus'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs, ref, watch } from 'vue'
-import { Edit, EditPen } from '@element-plus/icons-vue'
+import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { getActivity } from '@/api/activity/read'
 import { ZActivityImpressionManager } from '@/components'
 import { useUserStore } from '@/stores/user'
+import api from '@/api'
 
 const user = useUserStore()
 
 const props = defineProps<{
   id: string
-  role: 'student' | 'auditor'
+  role: 'mine' | 'campus'
   modelValue?: boolean
+  readonly: boolean
 }>()
 
 const emits = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
 
-const { role, modelValue, id } = toRefs(props)
+const { role, modelValue, id, readonly } = toRefs(props)
 
 const activity = ref<ActivityInstance>()
 const loading = ref(false)
@@ -33,7 +34,7 @@ watch(show, () => {
 
 function openDialog() {
   loading.value = true
-  getActivity(id.value).then((res) => {
+  api.activity.read.single(id.value).then((res) => {
     loading.value = false
     show.value = true
     activity.value = res
@@ -48,21 +49,22 @@ watch(modelValue, () => {
 <template>
   <div class="end">
     <ElButton
-      :icon="role === 'student' ? Edit : EditPen"
-      :type="role === 'student' ? 'primary' : 'danger'"
+      :icon="readonly ? View : role === 'mine' ? Edit : EditPen"
+      :type="readonly ? 'info' : role === 'mine' ? 'primary' : 'danger'"
       text
       :loading="loading"
       @click="openDialog"
     >
       {{
-        role === 'student'
-          ? t('activity.impression.actions.write')
-          : t('activity.impression.actions.reflect')
+        t(
+          'activity.impression.actions.' +
+            (readonly ? 'view' : role === 'mine' ? 'write' : 'reflect')
+        )
       }}
     </ElButton>
     <Teleport to="body">
       <ElDialog
-        v-if="role === 'student' && activity"
+        v-if="role === 'mine' && activity"
         v-model="show"
         fullscreen
         center
@@ -71,7 +73,8 @@ watch(modelValue, () => {
         <ZActivityImpressionManager
           :activity="activity"
           :role="role"
-          submitable
+          :submitable="!readonly"
+          :readonly="readonly"
           @finish="show = false"
         />
       </ElDialog>

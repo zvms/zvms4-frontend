@@ -123,9 +123,4 @@ export interface Prize {
   classify: PrizeClassify
 }
 
-export type ActivityInstance =
-  | Activity
-  | SpecifiedActivity
-  | SocialActivity
-  | ScaleActivity
-  | SpecialActivity
+export type ActivityInstance = SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivity

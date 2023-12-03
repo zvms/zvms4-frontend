@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ElTabs, ElTabPane } from 'element-plus'
-import ZActivityList from '@/components/activity/ZActivityList.vue'
+import { ZActivityList } from '@/components'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useUserStore } from '@/stores/user'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { getAllActivities } from '@/api/activity/read'
 import type { ActivityInstance } from '@/../@types/activity'
+import api from '@/api'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -29,7 +29,7 @@ const activities = ref<ActivityInstance[]>([])
 
 const loading = ref(true)
 
-getAllActivities('campus', {
+api.activity.read.campus({
   type: 'all'
 }).then((res) => {
   loading.value = false
@@ -61,18 +61,10 @@ watch(
     <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
       <ElTabPane name="" :label="t('nav.activities.mine')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
-        <ZActivityList role="student" :activities="activities" :loading="loading" />
+        <ZActivityList role="mine" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane name="register" :label="t('nav.activities.register')">
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.register') }}</p>
-      </ElTabPane>
-      <ElTabPane
-        v-if="user.position.includes('auditor')"
-        name="campus"
-        :label="t('nav.activities.campus')"
-      >
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
-        <ZActivityList role="auditor" :activities="activities" :loading="loading" />
       </ElTabPane>
       <ElTabPane
         v-if="user.position.includes('secretary')"
@@ -80,7 +72,15 @@ watch(
         :label="t('nav.activities.class')"
       >
         <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
-        <ZActivityList role="secretary" :activities="activities" :loading="loading" />
+        <ZActivityList role="class" :activities="activities" :loading="loading" />
+      </ElTabPane>
+      <ElTabPane
+        v-if="user.position.includes('auditor') || user.position.includes('department')"
+        name="campus"
+        :label="t('nav.activities.campus')"
+      >
+        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
+        <ZActivityList role="campus" :activities="activities" :loading="loading" />
       </ElTabPane>
     </ElTabs>
   </div>

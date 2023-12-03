@@ -26,6 +26,7 @@ declare module 'vue' {
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
+    ZSpecialActivityClassify: typeof import('./src/components/tags/ZSpecialActivityClassify.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']

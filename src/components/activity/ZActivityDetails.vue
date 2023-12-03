@@ -1,20 +1,22 @@
 <script lang="ts" setup>
-import type { ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
+import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
-import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
-import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol } from 'element-plus'
-import ZActivityType from '@/components/tags/ZActivityType.vue'
-import { Timer, Calendar, Location, ArrowRight, Plus, Edit, User } from '@element-plus/icons-vue'
+import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol, ElPopconfirm } from 'element-plus'
+import { Timer, Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
-import { ZActivityHistory, ZActivityMember } from '@/components'
+import { ZActivityHistory, ZActivityMember, ZActivityType, ZButtonOrCard } from '@/components'
+import { useI18n } from 'vue-i18n'
+import api from '@/api'
+import { getUserClass } from '@/utils/getClass'
 
 const props = defineProps<{
   activity: ActivityInstance
-  mode: 'student' | 'secretary' | 'auditor' | 'register'
+  mode: 'mine' | 'class' | 'campus' | 'register'
 }>()
 
 const user = useUserStore()
+const { t } = useI18n()
 const { activity, mode } = toRefs(props)
 
 const hovered = ref(false)
@@ -40,6 +42,8 @@ function submitDescription() {
   editDescription.value = false
   activity.value.description = description.value
 }
+
+const deleteActivity = (id: string) => api.activity.deleteOne(id)
 </script>
 
 <template>
@@ -51,7 +55,21 @@ function submitDescription() {
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
         </template>
       </ElInput>
-      <ZActivityType class="px-2" :type="activity.type" mode="full" />
+      <ZActivityType
+        v-if="activity.type !== 'special'"
+        class="px-2"
+        :type="activity.type"
+        mode="full"
+        show-special
+      />
+      <ZActivityType
+        v-else
+        class="px-2"
+        type="special"
+        mode="full"
+        show-special
+        :special="(activity as SpecialActivity).special.classify"
+      />
       <Transition
         appear
         enter-active-class="animate__animated animate__fadeIn"
@@ -113,7 +131,7 @@ function submitDescription() {
         {{ (activity as SpecifiedActivity).registration.place }}
       </ElButton>
       <ElButton
-        v-if="mode === 'student'"
+        v-if="mode === 'mine'"
         size="small"
         text
         bg
@@ -125,7 +143,7 @@ function submitDescription() {
         {{ activity.members.find((x) => x._id === user._id)?.duration }} h
       </ElButton>
       <ZActivityHistory
-        v-if="mode === 'student'"
+        v-if="mode === 'mine'"
         :history="activity.members.find((x) => x._id === user._id)?.history"
       />
     </div>
@@ -137,32 +155,24 @@ function submitDescription() {
       </ElCol>
       <ElCol :span="18">
         <div class="pl-4 py-2" style="text-align: right">
-          <ElButtonGroup>
-            <ElButton
-              class="px-2"
-              :icon="Plus"
-              type="success"
-              text
-              :bg="hovered"
-              :round="hovered"
-              :circle="!hovered"
-              size="small"
-            >
-              {{ hovered ? dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') : '' }}
-            </ElButton>
-            <ElButton
-              class="px-2"
-              :icon="Edit"
-              type="warning"
-              text
-              :bg="hovered"
-              :round="hovered"
-              :circle="!hovered"
-              size="small"
-            >
-              {{ hovered ? dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') : '' }}
-            </ElButton>
-          </ElButtonGroup>
+          <ElPopconfirm
+            v-if="
+              mode !== 'mine' &&
+              mode !== 'register' &&
+              (user._id === activity.creator ||
+                user.position.includes('admin') ||
+                user.position.includes('system'))
+            "
+            :title="t('activity.form.actions.delete.confirm')"
+            width="328px"
+            @confirm="deleteActivity(activity._id)"
+          >
+            <template #reference>
+              <ElButton :icon="Delete" type="danger" size="small" text bg round>
+                {{ t('activity.form.actions.delete.name') }}
+              </ElButton>
+            </template>
+          </ElPopconfirm>
         </div>
       </ElCol>
     </ElRow>
