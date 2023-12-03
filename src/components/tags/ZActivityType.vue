@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
-import { ref, toRefs, type Component as VueComponent } from 'vue'
+import { toRefs } from 'vue'
 import type { ActivityType, SpecialActivityClassification } from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify } from '@/components'
 import { ElButtonGroup } from 'element-plus'
+import classifications from './classifications'
 
 const { t } = useI18n()
 
@@ -20,28 +20,9 @@ const props = defineProps<{
 
 const { type, size, mode, special } = toRefs(props)
 
-const types = ref<
-  Record<string, { color: 'primary' | 'warning' | 'success' | 'danger'; icon: VueComponent }>
->({
-  specified: {
-    color: 'primary',
-    icon: Appointment
-  },
-  social: {
-    color: 'success',
-    icon: Association
-  },
-  scale: {
-    color: 'warning',
-    icon: Vacation
-  },
-  special: {
-    color: 'danger',
-    icon: Star
-  }
-})
+const types = classifications.type
 
-const effective = type?.value! in types.value
+const effective = type?.value! in types
 </script>
 
 <template>
@@ -55,7 +36,7 @@ const effective = type?.value! in types.value
     {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
   </ZButtonTag>
   <ElButtonGroup v-else>
-    <ZButtonTag :size="size ?? 'small'" type="danger" :icon="Star">
+    <ZButtonTag :size="size ?? 'small'" type="danger" :icon="classifications.type.special.icon">
       {{ t(`activity.type.special.${mode === 'full' ? 'name' : 'short'}`) }}
     </ZButtonTag>
     <ZSpecialActivityClassify :classify="special ?? 'other'" :size="size" :mode="mode" />

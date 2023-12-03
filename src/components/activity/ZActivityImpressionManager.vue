@@ -31,7 +31,7 @@ import api from '@/api'
 
 const props = defineProps<{
   activity: ActivityInstance
-  role: 'mine' | 'campus'
+  role: 'mine' | 'campus' | 'class'
   submitable?: boolean
 }>()
 
@@ -50,11 +50,11 @@ const impression = ref(
 
 const activeNames = ref<string[]>(['1', '2'])
 
-const load = ref(false)
+const load = ref<'draft' | 'pending' | 'refused' | 'rejected' | 'effective' | false>(false)
 
 async function submit(submit: boolean) {
   emits('update:modelValue', impression.value)
-  load.value = true
+  load.value = submit ? 'pending' : 'draft'
   if (!submitable?.value) return
   await api.activity.impression.modify(user._id, activity.value._id, impression.value, submit)
   emits('finish')
@@ -62,9 +62,14 @@ async function submit(submit: boolean) {
 }
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
-  load.value = true
+  load.value = status
   await api.activity.status.modify(user._id, activity.value._id, status)
   load.value = false
+  if (current.value && current.value.index < activity.value.members.length) {
+    curserTo(current.value.index + 1)
+  } else {
+    emits('finish')
+  }
 }
 
 interface ImpressionCursor {
@@ -118,7 +123,11 @@ const serif = ref(false)
   <div class="dialog">
     <ElCollapse v-model="activeNames" class="py-4">
       <ElCollapseItem :title="t('activity.form.details')" name="1">
-        <ZActivityDetails :activity="activity" :mode="role" />
+        <ZActivityDetails
+          :activity="activity"
+          :mode="activity.members.map(x => x._id).includes(current._id) ? 'mine' : 'campus'"
+          :perspective="role === 'mine' ? user._id : current._id ?? user._id"
+        />
       </ElCollapseItem>
       <ElCollapseItem :title="t('activity.form.impression')" name="2">
         <ElCard v-if="role === 'mine'" shadow="hover">
@@ -136,7 +145,14 @@ const serif = ref(false)
             {{ impression }}
           </p>
           <div v-if="submitable" style="text-align: right" class="py-4">
-            <ElButton type="primary" @click="submit(false)" text bg :icon="Save" :loading="load">
+            <ElButton
+              type="primary"
+              @click="submit(false)"
+              text
+              bg
+              :icon="Save"
+              :loading="load === 'draft'"
+            >
               {{ t('activity.impression.page.write.actions.save') }}
             </ElButton>
             <ElButton
@@ -146,7 +162,7 @@ const serif = ref(false)
               text
               bg
               :icon="ArrowRight"
-              :loading="load"
+              :loading="load === 'pending'"
             >
               {{ t('activity.impression.page.write.actions.submit') }}
             </ElButton>
@@ -178,8 +194,16 @@ const serif = ref(false)
             :page-size="1"
             @current-change="curserTo"
           />
-          <ElDivider v-if="current.status === 'pending'" />
-          <ElRow class="py-2 px-2" v-if="current.status === 'pending'">
+          <ElRow
+            class="py-2 px-2"
+            v-if="
+              (role === 'campus' &&
+                current.status === 'pending' &&
+                (user.position.includes('auditor') || user.position.includes('admin'))) ||
+              user.position.includes('system')
+            "
+          >
+            <ElDivider />
             <ElCol :span="12">
               <ElForm label-position="right" label-width="64px">
                 <ElFormItem :label="t('activity.form.duration')">
@@ -199,7 +223,7 @@ const serif = ref(false)
                   @confirm="reflect('refused')"
                 >
                   <template #reference>
-                    <ElButton type="danger" :icon="Delete" text bg :loading="load">
+                    <ElButton type="danger" :icon="Delete" text bg :loading="load === 'refused'">
                       {{ t('activity.impression.page.reflect.actions.refuse') }}
                     </ElButton>
                   </template>
@@ -209,19 +233,21 @@ const serif = ref(false)
                   :icon="Close"
                   text
                   bg
-                  :loading="load"
+                  :loading="load === 'rejected'"
                   @click="reflect('rejected')"
-                  >{{ t('activity.impression.page.reflect.actions.reject') }}</ElButton
                 >
+                  {{ t('activity.impression.page.reflect.actions.reject') }}
+                </ElButton>
                 <ElButton
                   type="success"
                   :icon="Check"
                   text
                   bg
-                  :loading="load"
+                  :loading="load === 'effective'"
                   @click="reflect('effective')"
-                  >{{ t('activity.impression.page.reflect.actions.approve') }}</ElButton
                 >
+                  {{ t('activity.impression.page.reflect.actions.approve') }}
+                </ElButton>
               </div>
             </ElCol>
           </ElRow>

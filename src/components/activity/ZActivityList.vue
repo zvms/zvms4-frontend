@@ -20,7 +20,9 @@ import {
   ZActivityImpressionDrawer,
   ZActivityType,
   ZActivityStatus,
-  ZActivityDetails
+  ZActivityDetails,
+  ZActivityDuration,
+ZActivityCard
 } from '@/components'
 
 const { t } = useI18n()
@@ -148,7 +150,7 @@ watch(
             />
           </template>
           <template #default="{ row }">
-            <ZActivityDetails :activity="row" :mode="role" />
+            <ZActivityCard :_id="row._id" :mode="role" :perspective="user._id" />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
@@ -159,6 +161,7 @@ watch(
         </ElTableColumn>
         <ElTableColumn
           prop="type"
+          v-if="role !== 'mine'"
           :label="t('activity.form.type')"
           :filters="[
             { text: t('activity.type.specified.name'), value: 'specified' },
@@ -185,17 +188,17 @@ watch(
           "
         >
           <template #default="{ row }">
-            {{
-              (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
-                ?.duration ?? row.duration
-            }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">{{
-              t(
-                'activity.units.hour',
+            <ZActivityDuration
+              :mode="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
-                  ?.duration ?? row.duration
-              )
-            }}</span>
+                  ?.mode
+              "
+              :duration="
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                  ?.duration ?? 0
+              "
+              force="short"
+            />
           </template>
         </ElTableColumn>
         <ElTableColumn
@@ -249,15 +252,19 @@ watch(
           </template>
           <template #default="props">
             <ZActivityImpressionDrawer
-              v-if="role !== 'class'"
               :id="props.row._id"
               :role="role"
               :readonly="
-                role === 'mine' &&
-                !['effective', 'refused'].includes(
-                  (props.row as ActivityInstance).members.find((x) => x._id === user._id)?.status ?? ''
-                )
-                || role === 'campus' && !user.position.includes('auditor')
+                (role === 'mine' &&
+                  !['effective', 'refused'].includes(
+                    (props.row as ActivityInstance).members.find((x) => x._id === user._id)
+                      ?.status ?? ''
+                  )) ||
+                (role === 'campus' && !user.position.includes('auditor')) ||
+                (props.row as ActivityInstance).members.filter(
+                  (x: ActivityMember) => x.status === 'pending'
+                ).length === 0 ||
+                role === 'class'
               "
             />
           </template>

@@ -148,6 +148,7 @@ function routeTo(page: string) {
           :content="t(`nav.${nav.name}`)"
           placement="right"
           :effect="dark ? 'dark' : 'light'"
+          :show-after="200"
         >
           <ElButton
             :icon="nav.icon"
@@ -171,6 +172,7 @@ function routeTo(page: string) {
           :content="nav.name"
           placement="right"
           :effect="dark ? 'dark' : 'light'"
+          :show-after="200"
         >
           <ElButton
             :icon="nav.icon"

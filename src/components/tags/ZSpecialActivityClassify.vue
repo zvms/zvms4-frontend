@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { Data, Other } from '@icon-park/vue-next'
-import { ref, toRefs, type Component as VueComponent } from 'vue'
+import { toRefs } from 'vue'
 import type { SpecialActivityClassification } from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
-import { Minus, Trophy, User } from '@element-plus/icons-vue'
+import classifications from './classifications'
 
 const { t } = useI18n()
 
@@ -17,35 +16,9 @@ const props = defineProps<{
 
 const { classify, size } = toRefs(props)
 
-const classifies = ref<
-  Record<SpecialActivityClassification, {
-    color: 'primary' | 'warning' | 'success' | 'danger' | 'info';
-    icon: VueComponent
-  }>
->({
-  prize: {
-    color: 'success',
-    icon: Trophy
-  },
-  import: {
-    color: 'warning',
-    icon: Data
-  },
-  club: {
-    color: 'primary',
-    icon: User
-  },
-  deduction: {
-    color: 'danger',
-    icon: Minus
-  },
-  other: {
-    color: 'info',
-    icon: Other
-  }
-})
+const classifies = classifications.specials
 
-const effective = classify?.value! in classifies.value
+const effective = classify?.value! in classifies
 </script>
 
 <template>

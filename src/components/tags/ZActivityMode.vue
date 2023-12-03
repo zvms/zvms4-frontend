@@ -11,6 +11,7 @@ const { t } = useI18n()
 const props = defineProps<{
   mode?: ActivityMode
   size?: 'large' | 'default' | 'small'
+  short?: boolean
 }>()
 
 const { mode, size } = toRefs(props)
@@ -43,6 +44,7 @@ const modes: Record<
     :type="modes[mode as ActivityMode].color"
     :icon="modes[mode as ActivityMode].icon"
     :unknown="!mode || !(mode in modes)"
+    :force="short ? 'short' : undefined"
   >
     {{ t(`activity.mode.${mode}.short`) }}
   </ZButtonTag>

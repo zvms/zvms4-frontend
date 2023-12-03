@@ -1,23 +1,30 @@
 <script lang="ts" setup>
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
-import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol, ElPopconfirm } from 'element-plus'
-import { Timer, Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
+import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm } from 'element-plus'
+import { Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
-import { ZActivityHistory, ZActivityMember, ZActivityType, ZButtonOrCard } from '@/components'
+import {
+  ZActivityDuration,
+  ZActivityHistory,
+  ZActivityMember,
+  ZActivityStatus,
+  ZActivityType,
+  ZButtonOrCard
+} from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
-import { getUserClass } from '@/utils/getClass'
 
 const props = defineProps<{
   activity: ActivityInstance
   mode: 'mine' | 'class' | 'campus' | 'register'
+  perspective?: string // `mine` with other's user ObjectId
 }>()
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode } = toRefs(props)
+const { activity, mode, perspective } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -70,15 +77,7 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
         show-special
         :special="(activity as SpecialActivity).special.classify"
       />
-      <Transition
-        appear
-        enter-active-class="animate__animated animate__fadeIn"
-        leave-active-class="animate__animated animate__fadeOut"
-      >
-        <ElButton v-if="hovered" size="small" class="px-2" type="info" text bg round>
-          {{ activity._id }}
-        </ElButton>
-      </Transition>
+      <ZActivityStatus :type="activity.status" class="px-2" />
     </p>
     <p
       v-if="!editDescription"
@@ -130,21 +129,19 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
       >
         {{ (activity as SpecifiedActivity).registration.place }}
       </ElButton>
-      <ElButton
+      <ZActivityDuration
+        class="px-2"
         v-if="mode === 'mine'"
-        size="small"
-        text
-        bg
-        round
-        type="info"
-        class="py-2"
-        :icon="Timer"
-      >
-        {{ activity.members.find((x) => x._id === user._id)?.duration }} h
-      </ElButton>
+        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
+        :duration="activity.members.find((x) => x._id === perspective ?? user._id)?.duration ?? 0"
+        :status="activity.members.find((x) => x._id === perspective ?? user._id)?.status"
+        force="full"
+      />
       <ZActivityHistory
+        class="px-2"
         v-if="mode === 'mine'"
-        :history="activity.members.find((x) => x._id === user._id)?.history"
+        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
+        :history="activity.members.find((x) => x._id === perspective ?? user._id)?.history"
       />
     </div>
     <ElRow>

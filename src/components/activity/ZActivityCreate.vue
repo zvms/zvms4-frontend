@@ -11,7 +11,7 @@ import type {
   ActivityMode,
   Prize,
   Special,
-Activity
+  Activity
 } from '@/../@types/activity'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -217,7 +217,19 @@ function isAllowToUseMode(mode: ActivityMode) {
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
             <ElFormItem :label="t('activity.form.date')" required>
-              <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
+              <ElDatePicker
+                v-if="type !== 'specified'"
+                class="full"
+                style="width: 100%"
+                v-model="activity.date"
+              />
+              <ElDatePicker
+                v-else
+                class="full"
+                style="width: 100%"
+                v-model="activity.date"
+                type="datetime"
+              />
             </ElFormItem>
             <ElFormItem
               v-if="type === 'special'"

@@ -14,7 +14,7 @@ const user = useUserStore()
 const props = defineProps<{
   placement: 'bottom' | 'right'
   type: 'button' | 'select'
-  withText: boolean
+  withText?: boolean
 }>()
 
 const { placement, type, withText } = toRefs(props)

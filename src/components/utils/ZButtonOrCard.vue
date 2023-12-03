@@ -65,6 +65,7 @@ const show = ref(false)
         :fullscreen="fullscreen"
         :modal="modal ? modal : true"
         :title="title"
+        :width="width"
         :center="center ? center : true"
         :z-index="zIndex ?? 9999"
       >

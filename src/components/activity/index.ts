@@ -6,3 +6,4 @@ export { default as ZActivityImpressionManager } from './ZActivityImpressionMana
 export { default as ZActivityList } from './ZActivityList.vue'
 export { default as ZActivityMember } from './ZActivityMember.vue'
 export { default as ZActivityMemberTimeJudge } from './ZTimeJudge.vue'
+export { default as ZActivityCard } from './ZActivityCard.vue'

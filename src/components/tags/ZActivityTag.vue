@@ -4,27 +4,30 @@ import { toRefs } from 'vue'
 import type { MemberActivityStatus } from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
+import type { TypeSet, Set } from './classifications'
 
 const { t } = useI18n()
 
 const props = defineProps<{
-  type?: MemberActivityStatus
+  type?: TypeSet,
+  set: Set,
   size?: 'large' | 'default' | 'small'
   color?: boolean
+  i18n: string
 }>()
 
-const { type, size } = toRefs(props)
+const { type, size, set } = toRefs(props)
 
-const effective = type?.value! in classifications.member
+const effective = type?.value! in classifications[set.value]
 </script>
 
 <template>
   <ZButtonTag
     :size="size ?? 'small'"
-    :type="classifications.member[type as MemberActivityStatus].color"
-    :icon="classifications.member[type as MemberActivityStatus].icon"
+    :type="classifications[set][type as TypeSet].color"
+    :icon="classifications[set][type as TypeSet].icon"
     :unknown="!effective"
   >
-    {{ t('activity.status.' + type) }}
+    {{ t(i18n.replace('{type}', type ?? '')) }}
   </ZButtonTag>
 </template>
