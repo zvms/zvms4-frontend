@@ -14,9 +14,10 @@ const user = useUserStore()
 const props = defineProps<{
   placement: 'bottom' | 'right'
   type: 'button' | 'select'
+  withText: boolean
 }>()
 
-const { placement, type } = toRefs(props)
+const { placement, type, withText } = toRefs(props)
 
 console.log(type)
 
@@ -44,15 +45,15 @@ const languages = ref<
   },
   {
     display: '繁體中文',
-    value: 'zh-TW',
+    value: 'zh-TW'
   },
   {
     display: '日本語',
-    value: 'ja-JP',
+    value: 'ja-JP'
   },
   {
     display: '한국어',
-    value: 'ko-KR',
+    value: 'ko-KR'
   },
   {
     display: 'Français',
@@ -60,7 +61,7 @@ const languages = ref<
   },
   {
     display: 'Русский',
-    value: 'ru-RU',
+    value: 'ru-RU'
   }
 ])
 </script>
@@ -69,11 +70,21 @@ const languages = ref<
   <ElPopover :placement="placement" width="192px" v-if="type === 'button'">
     <template #reference>
       <ElButton
+        v-if="!withText"
         :icon="MdiTranslate"
         :size="props.placement === 'bottom' ? '' : 'large'"
         text
         circle
       />
+      <ElButton
+        v-if="!withText"
+        type="primary"
+        :icon="MdiTranslate"
+        :size="props.placement === 'bottom' ? '' : 'large'"
+        text
+      >
+        {{ locale }}
+      </ElButton>
     </template>
     <ElButtonGroup class="full">
       <div v-for="language in languages" :key="language.value">

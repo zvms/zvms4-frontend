@@ -42,6 +42,21 @@ export const enUS = {
         report: 'Report'
       }
     }
+  },
+  login: {
+    actions: {
+      login: 'Login',
+      reset: 'Reset',
+      register: 'Register',
+      logout: 'Logout'
+    },
+    motto: 'Aspiration, Enterprising, Diligence, Fitness',
+    form: {
+      account: 'Account',
+      password: 'Password'
+    },
+    registration:
+      'Please contact the platform administrator such as the League Branch Secretary for registration.'
   }
 }
 
@@ -89,6 +104,20 @@ export const zhCN = {
         report: '报告问题'
       }
     }
+  },
+  login: {
+    actions: {
+      login: '登录',
+      reset: '重置',
+      register: '注册',
+      logout: '登出'
+    },
+    motto: '励志 进取 勤奋 健美',
+    form: {
+      account: '账号',
+      password: '密码'
+    },
+    registration: '请联系团支书等平台管理员进行注册。'
   }
 }
 
@@ -136,6 +165,20 @@ export const zhTW = {
         report: '報告問題'
       }
     }
+  },
+  login: {
+    actions: {
+      login: '登錄',
+      reset: '重置',
+      register: '註冊',
+      logout: '登出'
+    },
+    motto: '勵志 進取 勤奮 健美',
+    form: {
+      account: '賬號',
+      password: '密碼'
+    },
+    registration: '請聯繫團支書等平臺管理員進行註冊。'
   }
 }
 
@@ -183,6 +226,20 @@ export const jaJP = {
         report: '問題を報告する'
       }
     }
+  },
+  login: {
+    actions: {
+      login: 'ログイン',
+      reset: 'リセット',
+      register: '登録',
+      logout: 'ログアウト'
+    },
+    motto: '志望、進取、勤勉、健美',
+    form: {
+      account: 'アカウント',
+      password: 'パスワード'
+    },
+    registration: '登録については、団支部書記などのプラットフォーム管理者にご連絡ください。'
   }
 }
 
@@ -230,6 +287,21 @@ export const frFR = {
         report: 'Signaler un problème'
       }
     }
+  },
+  login: {
+    actions: {
+      login: 'S identifier',
+      reset: 'Réinitialiser',
+      register: "S'inscrire",
+      logout: 'Se déconnecter'
+    },
+    motto: 'Aspiration, Entreprise, Diligence, Fitness',
+    form: {
+      account: 'Compte',
+      password: 'Mot de passe'
+    },
+    registration:
+      "Veuillez contacter l'administrateur de la plate-forme tel que le secrétaire de la branche de la Ligue pour vous inscrire."
   }
 }
 
