@@ -173,7 +173,7 @@ const serif = ref(false)
             <ElRow>
               <ElCol :span="12">
                 {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
-                <ZActivityStatus class="px-1" :type="current?.status" />
+                <ZActivityStatus force="full" class="px-1" :type="current?.status" />
               </ElCol>
               <ElCol :span="12" style="text-align: right">
                 <ZActivityMember :id="current?._id" />

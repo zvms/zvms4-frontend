@@ -11,6 +11,7 @@ const props = defineProps<{
   type?: MemberActivityStatus
   size?: 'large' | 'default' | 'small'
   color?: boolean
+  force?: 'full' | 'short'
 }>()
 
 const { type, size } = toRefs(props)
@@ -24,6 +25,7 @@ const effective = type?.value! in classifications.member
     :type="classifications.member[type as MemberActivityStatus].color"
     :icon="classifications.member[type as MemberActivityStatus].icon"
     :unknown="!effective"
+    :force="force"
   >
     {{ t('activity.status.' + type) }}
   </ZButtonTag>

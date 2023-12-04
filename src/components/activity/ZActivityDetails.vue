@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
-import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm } from 'element-plus'
+import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
 import { Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
@@ -62,22 +62,27 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
         </template>
       </ElInput>
-      <ZActivityType
-        v-if="activity.type !== 'special'"
-        class="px-2"
-        :type="activity.type"
-        mode="full"
-        show-special
-      />
-      <ZActivityType
-        v-else
-        class="px-2"
-        type="special"
-        mode="full"
-        show-special
-        :special="(activity as SpecialActivity).special.classify"
-      />
-      <ZActivityStatus :type="activity.status" class="px-2" />
+      <ElButtonGroup>
+        <ZActivityType
+          v-if="activity.type !== 'special'"
+          class="px-2"
+          :type="activity.type"
+          mode="full"
+          show-special
+          force="full"
+          :status="activity.status"
+        />
+        <ZActivityType
+          v-else
+          class="px-2"
+          type="special"
+          mode="full"
+          force="full"
+          show-special
+          :special="(activity as SpecialActivity).special.classify"
+          :status="activity.status"
+        />
+      </ElButtonGroup>
     </p>
     <p
       v-if="!editDescription"

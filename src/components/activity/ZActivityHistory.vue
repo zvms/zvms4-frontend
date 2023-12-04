@@ -63,7 +63,7 @@ const statusMap: Record<
     center
     pop-type="dialog"
     direction="rtl"
-    width="60%"
+    width="80%"
     type="warning"
     text
     bg

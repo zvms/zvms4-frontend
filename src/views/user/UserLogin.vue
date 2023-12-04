@@ -70,13 +70,13 @@ const openDialog = ref(false)
     <div :style="`height: ${height * 0.25}px`"></div>
     <ElCard class="login-field text-center bg-white px-4 w-full" shadow="hover">
       <ElRow class="w-full py-1">
-        <ElCol :span="10" />
-        <ElCol :span="2">
+        <ElCol :span="8" />
+        <ElCol :span="6">
           <p class="text-2xl py-1 pl-8" style="text-align: center">
             {{ t('nav.login.actions.login') }}
           </p>
         </ElCol>
-        <ElCol :span="12">
+        <ElCol :span="10">
           <p class="align-right motto" style="text-align: right">{{ t('nav.login.motto') }}</p>
         </ElCol>
       </ElRow>
@@ -116,8 +116,8 @@ const openDialog = ref(false)
 
 <style scoped>
 .login-field {
-  width: 60%;
-  height: v-bind(height * 0.3 + 'px') !important;
+  width: 80%;
+  height: 256px !important;
   text-align: center;
   margin-left: auto;
   margin-right: auto;

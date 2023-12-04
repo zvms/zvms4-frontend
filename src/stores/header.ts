@@ -9,7 +9,7 @@ export const useHeaderStore = defineStore("header", {
   actions: {
     setHeader(header: string) {
       // this.header = this.base + '｜' + header
-      useTitle('镇海中学义工管理系统' + ' - ' + header.replaceAll('｜', ' - '))
+      useTitle('ZVMS' + ' - ' + header.replaceAll('｜', ' - '))
     }
   }
 })

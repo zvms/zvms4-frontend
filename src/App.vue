@@ -138,8 +138,8 @@ function feedback() {
                   </ElButton>
                 </ElPopover>
               </ElButtonGroup>
-              <ElDivider v-if="verticalMode" direction="vertical" />
-              <ZVerticalNav v-if="verticalMode" />
+              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
+              <ZVerticalNav v-if="verticalMode && userStore.isLogin" />
             </div>
           </ElCol>
         </ElRow>

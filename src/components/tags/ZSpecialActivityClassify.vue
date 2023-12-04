@@ -12,6 +12,7 @@ const props = defineProps<{
   size?: 'large' | 'default' | 'small'
   color?: boolean
   mode?: 'auto' | 'full' | 'icon'
+  force?: 'full' | 'short'
 }>()
 
 const { classify, size } = toRefs(props)
@@ -27,6 +28,7 @@ const effective = classify?.value! in classifies
     :type="classifies[classify as SpecialActivityClassification].color"
     :icon="classifies[classify as SpecialActivityClassification].icon"
     :unknown="!effective"
+    :force="force"
   >
     {{ t(`activity.special.classify.${classify}`) }}
   </ZButtonTag>

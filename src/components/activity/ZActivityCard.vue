@@ -3,7 +3,7 @@ import { toRefs } from 'vue'
 import api from '@/api'
 import { ref } from 'vue'
 import type { ActivityInstance } from '@/../@types/activity'
-import { ElResult } from 'element-plus'
+import { ElResult, ElSkeleton } from 'element-plus'
 import { ZActivityDetails } from '.'
 
 const props = defineProps<{
@@ -41,4 +41,5 @@ api.activity.read.single(_id.value).then((res) => {
     />
     <ElResult v-else-if="error" status="error" title="404" sub-title="活动不存在" />
   </div>
+  <ElSkeleton v-else v-model="loading" :rows="4" animated />
 </template>

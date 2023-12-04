@@ -23,6 +23,6 @@ console.log(props)
     <ElButton text :icon="force === 'full' ? Timer : undefined" bg round size="small" type="info">
       {{ duration }} h
     </ElButton>
-    <ZActivityStatus v-if="status" :type="status" />
+    <ZActivityStatus :force="force" v-if="status" :type="status" />
   </ElButtonGroup>
 </template>

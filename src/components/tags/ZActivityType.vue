@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
-import type { ActivityType, SpecialActivityClassification } from '@/../@types/activity'
+import type {
+  ActivityType,
+  SpecialActivityClassification,
+  ActivityStatus
+} from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
-import { ZSpecialActivityClassify } from '@/components'
+import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
 import classifications from './classifications'
 
@@ -16,9 +20,11 @@ const props = defineProps<{
   size?: 'large' | 'default' | 'small'
   color?: boolean
   mode?: 'auto' | 'full' | 'icon'
+  force?: 'full' | 'short'
+  status?: ActivityStatus
 }>()
 
-const { type, size, mode, special } = toRefs(props)
+const { type, size, mode, special, status } = toRefs(props)
 
 const types = classifications.type
 
@@ -26,19 +32,23 @@ const effective = type?.value! in types
 </script>
 
 <template>
-  <ZButtonTag
-    v-if="type !== 'special' || !showSpecial"
-    :size="size ?? 'small'"
-    :type="types[type as ActivityType].color"
-    :icon="types[type as ActivityType].icon"
-    :unknown="!effective"
-  >
-    {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
-  </ZButtonTag>
-  <ElButtonGroup v-else>
-    <ZButtonTag :size="size ?? 'small'" type="danger" :icon="classifications.type.special.icon">
-      {{ t(`activity.type.special.${mode === 'full' ? 'name' : 'short'}`) }}
+  <ElButtonGroup>
+    <ZButtonTag
+      :size="size ?? 'small'"
+      :type="types[type as ActivityType].color"
+      :icon="types[type as ActivityType].icon"
+      :unknown="!effective"
+      :force="force"
+    >
+      {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
     </ZButtonTag>
-    <ZSpecialActivityClassify :classify="special ?? 'other'" :size="size" :mode="mode" />
+    <ZSpecialActivityClassify
+      v-if="special && showSpecial && type === 'special'"
+      :classify="special ?? 'other'"
+      :size="size"
+      :force="force"
+      :mode="mode"
+    />
+    <ZActivityStatus v-if="status" :type="status" :force="force" />
   </ElButtonGroup>
 </template>
