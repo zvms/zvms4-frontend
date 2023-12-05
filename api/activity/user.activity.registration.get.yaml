@@ -1,0 +1,10 @@
+name: Get Registerable Activities
+path: /user/:id/activity/registration
+method: GET
+params:
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (ObjectId)
+response: SpecifiedActivity[]

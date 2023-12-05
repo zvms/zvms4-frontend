@@ -1,0 +1,6 @@
+name: Create Notification
+path: /notification
+method: POST
+body: NotificationInstance
+response: string # ObjectId
+permission: 4

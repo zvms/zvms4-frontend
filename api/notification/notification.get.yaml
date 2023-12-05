@@ -1,0 +1,5 @@
+name: Read Notifications
+path: /notification
+method: GET
+response: NotificationInstance[]
+permission: 2

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElButton, ElStep, ElSteps, ElScrollbar } from 'element-plus'
+import { ElButton, ElStep, ElSteps, ElScrollbar, ElCol, ElRow, ElEmpty } from 'element-plus'
 import type {
   ActivityMemberHistory,
   MemberActivityStatus,
@@ -75,7 +75,7 @@ const statusMap: Record<
       {{ t('activity.impression.page.reflect.history.title') }}
     </template>
     <template #default>
-      <ElScrollbar :height="min">
+      <ElScrollbar :height="min" v-if="history.length !== 0">
         <ElSteps direction="vertical" :space="100" :active="history?.length" style="width: 100%">
           <ElStep
             v-for="(item, idx) in history"
@@ -85,32 +85,36 @@ const statusMap: Record<
             style="width: 100%"
           >
             <template #title>
-              <p class="text-xl w-full">
-                {{ t('activity.status.' + item.action) }}
-                <ElButton class="px-2" text bg round size="small" type="info" :icon="Clock">
-                  {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
-                </ElButton>
-                <ZActivityDuration
-                  class="px-2"
-                  :mode="mode"
-                  :duration="item.duration"
-                  force="full"
-                />
-              </p>
+              <ElRow>
+                <ElCol :span="4">
+                  <p class="text-xl w-full">
+                    {{ t('activity.status.' + item.action) }}
+                  </p>
+                </ElCol>
+                <ElCol :span="14">
+                    <ElButton class="px-2" text bg round size="small" type="info" :icon="Clock">
+                      {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
+                    </ElButton>
+                    <ZActivityDuration
+                      class="px-2"
+                      :mode="mode"
+                      :duration="item.duration"
+                    />
+                </ElCol>
+                <ElCol :span="6" style="text-align: right">
+                  <ZActivityMember :id="item.actioner" :icon="User" />
+                </ElCol>
+              </ElRow>
             </template>
             <template #description>
               <p class="py-2 pl-4 text-sm text-gray-500 w-full">
                 {{ item.impression }}
               </p>
-              <div class="py-2 pl-4" style="text-align: right">
-                <ZActivityMember :id="item.actioner" :icon="User" />
-              </div>
-              <br />
             </template>
-            <br />
           </ElStep>
         </ElSteps>
       </ElScrollbar>
+      <ElEmpty v-else :content="t('activity.history.empty')" />
     </template>
   </ZButtonOrCard>
 </template>

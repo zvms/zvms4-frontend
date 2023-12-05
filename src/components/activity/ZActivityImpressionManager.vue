@@ -146,7 +146,7 @@ const serif = ref(false)
           </p>
           <div v-if="submitable" style="text-align: right" class="py-4">
             <ElButton
-              type="primary"
+              type="info"
               @click="submit(false)"
               text
               bg
@@ -156,7 +156,7 @@ const serif = ref(false)
               {{ t('activity.impression.page.write.actions.save') }}
             </ElButton>
             <ElButton
-              type="success"
+              type="primary"
               @click="submit(true)"
               :disabled="impression.length < 30"
               text
@@ -171,11 +171,11 @@ const serif = ref(false)
         <ElCard shadow="hover" v-loading="loading" v-else>
           <p class="text-xl py-2">
             <ElRow>
-              <ElCol :span="12">
+              <ElCol :span="18">
                 {{ t('activity.impression.page.reflect.prompt', { name: current?.name }) }}
                 <ZActivityStatus force="full" class="px-1" :type="current?.status" />
               </ElCol>
-              <ElCol :span="12" style="text-align: right">
+              <ElCol :span="6" style="text-align: right">
                 <ZActivityMember :id="current?._id" />
               </ElCol>
             </ElRow>
@@ -185,6 +185,7 @@ const serif = ref(false)
           </p>
           <ElPagination
             class="px-2 py-2"
+            v-model:current-page="current.index"
             layout="total, prev, pager, next, jumper"
             :pager-count="3"
             :total="activity.members.length"
