@@ -11,6 +11,7 @@ const props = defineProps<{
   mode: 'mine' | 'class' | 'campus' | 'register'
   perspective?: string // `mine` with other's user ObjectId
 }>()
+const emits = defineEmits(['refresh'])
 
 const { _id, mode, perspective } = toRefs(props)
 
@@ -29,6 +30,8 @@ api.activity.read.single(_id.value).then((res) => {
   error.value = true
   loading.value = false
 })
+
+const refresh = () => emits('refresh')
 </script>
 
 <template>
@@ -38,6 +41,7 @@ api.activity.read.single(_id.value).then((res) => {
       :activity="activity"
       :mode="mode"
       :perspective="perspective"
+      @refresh="refresh"
     />
     <ElResult v-else-if="error" status="error" title="404" sub-title="活动不存在" />
   </div>

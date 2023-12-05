@@ -60,7 +60,7 @@ function generateActivityMember(_id: string, serie: boolean = true) {
     duration: Math.floor(Math.random() * 10),
     history: serie
       ? []
-      : new Array(Math.floor(Math.random() * 3))
+      : new Array(Math.floor(Math.random() * 8))
           .fill(0)
           .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
     images: [],

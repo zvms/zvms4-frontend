@@ -20,9 +20,8 @@ import {
   ZActivityImpressionDrawer,
   ZActivityType,
   ZActivityStatus,
-  ZActivityDetails,
   ZActivityDuration,
-ZActivityCard
+  ZActivityCard
 } from '@/components'
 
 const { t } = useI18n()
@@ -42,10 +41,15 @@ const loading = ref(true)
 
 const activities = ref<ActivityInstance[]>([])
 
-getActivity(user._id, role.value).then((res) => {
-  loading.value = false
-  activities.value = res ?? []
-})
+function refresh() {
+  loading.value = true
+  getActivity(user._id, role.value).then((res) => {
+    loading.value = false
+    activities.value = res ?? []
+  })
+}
+
+refresh()
 
 const registerForSpecified = ref(false)
 
@@ -150,7 +154,7 @@ watch(
             />
           </template>
           <template #default="{ row }">
-            <ZActivityCard :_id="row._id" :mode="role" :perspective="user._id" />
+            <ZActivityCard :_id="row._id" :mode="role" :perspective="user._id" @refresh="refresh" />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />

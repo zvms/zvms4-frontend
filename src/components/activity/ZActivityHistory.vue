@@ -75,7 +75,7 @@ const statusMap: Record<
       {{ t('activity.impression.page.reflect.history.title') }}
     </template>
     <template #default>
-      <ElScrollbar :height="min" v-if="history.length !== 0">
+      <ElScrollbar :height="min" v-if="history?.length !== 0">
         <ElSteps direction="vertical" :space="100" :active="history?.length" style="width: 100%">
           <ElStep
             v-for="(item, idx) in history"
@@ -91,17 +91,11 @@ const statusMap: Record<
                     {{ t('activity.status.' + item.action) }}
                   </p>
                 </ElCol>
-                <ElCol :span="14">
-                    <ElButton class="px-2" text bg round size="small" type="info" :icon="Clock">
-                      {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
-                    </ElButton>
-                    <ZActivityDuration
-                      class="px-2"
-                      :mode="mode"
-                      :duration="item.duration"
-                    />
-                </ElCol>
-                <ElCol :span="6" style="text-align: right">
+                <ElCol :span="20" style="text-align: right">
+                  <ElButton class="px-2" text bg round size="small" type="info" :icon="Clock">
+                    {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
+                  </ElButton>
+                  <ZActivityDuration class="px-2" :mode="mode" :duration="item.duration" />
                   <ZActivityMember :id="item.actioner" :icon="User" />
                 </ElCol>
               </ElRow>

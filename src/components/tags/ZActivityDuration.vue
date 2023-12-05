@@ -13,8 +13,6 @@ const props = defineProps<{
 }>()
 
 const { mode, duration, force, status } = toRefs(props)
-
-console.log(props)
 </script>
 
 <template>

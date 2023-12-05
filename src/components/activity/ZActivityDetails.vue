@@ -2,25 +2,27 @@
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
-import { Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
+import { Calendar, Location, ArrowRight, Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
   ZActivityDuration,
   ZActivityHistory,
   ZActivityMember,
-  ZActivityStatus,
   ZActivityType,
-  ZButtonOrCard
+  ZButtonOrCard,
+  ZActivityMemberList
 } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
+import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 
 const props = defineProps<{
   activity: ActivityInstance
   mode: 'mine' | 'class' | 'campus' | 'register'
   perspective?: string // `mine` with other's user ObjectId
 }>()
+const emits = defineEmits(['refresh'])
 
 const user = useUserStore()
 const { t } = useI18n()
@@ -50,7 +52,10 @@ function submitDescription() {
   activity.value.description = description.value
 }
 
-const deleteActivity = (id: string) => api.activity.deleteOne(id)
+async function deleteActivity(id: string) {
+  await api.activity.deleteOne(id)
+  emits('refresh')
+}
 </script>
 
 <template>
@@ -148,11 +153,17 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
         :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
         :history="activity.members.find((x) => x._id === perspective ?? user._id)?.history"
       />
+      <ZActivityMemberList class="px-2" :activity="activity" />
     </div>
     <ElRow>
       <ElCol :span="6">
         <div class="pl-4 py-2">
-          <ZActivityMember :id="activity.creator" :icon="User" />
+          <ZActivityMember
+            :id="activity.creator"
+            :icon="
+              StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
+            "
+          />
         </div>
       </ElCol>
       <ElCol :span="18">

@@ -42,8 +42,8 @@ export const enUS = {
       key: 'off-campus'
     },
     'large-scale': {
-      name: 'Scale Practice during Vacation',
-      short: 'Scale',
+      name: 'Large-scale Practice',
+      short: 'Scale Practice',
       key: 'large-scale'
     }
   },
@@ -941,7 +941,7 @@ export const frFR = {
       key: 'off-campus'
     },
     'large-scale': {
-      name: 'Pratique à Grande Échelle pendant les Vacances',
+      name: 'Pratique à Grande Échelle pendant',
       short: 'Grande Échelle',
       key: 'large-scale'
     }
