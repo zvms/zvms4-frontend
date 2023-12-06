@@ -70,7 +70,8 @@ export const enUS = {
       reset: 'Reset',
       delete: {
         name: 'Delete',
-        confirm: 'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
+        confirm:
+          'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
       }
     },
     details: 'Details',
@@ -231,6 +232,13 @@ export const enUS = {
     status: 'Status',
     class: 'Class',
     impression: 'Impression',
+    dialog: {
+      title: 'Member List of {name}',
+      actions: {
+        add: 'Add',
+        remove: 'Remove'
+      }
+    }
   }
 }
 
@@ -464,6 +472,13 @@ export const zhCN = {
     status: '状态',
     class: '班级',
     impression: '感想',
+    dialog: {
+      title: '{name}的成员列表',
+      actions: {
+        add: '添加',
+        remove: '移除'
+      }
+    }
   }
 }
 
@@ -698,6 +713,13 @@ export const zhTW = {
     status: '狀態',
     class: '班級',
     impression: '感想',
+    dialog: {
+      title: '{name}的成員列表',
+      actions: {
+        add: '添加',
+        remove: '移除'
+      }
+    }
   }
 }
 
@@ -933,6 +955,13 @@ export const jaJP = {
     status: '状態',
     class: 'クラス',
     impression: '感想',
+    dialog: {
+      title: '{name}のメンバーリスト',
+      actions: {
+        add: '追加',
+        remove: '削除'
+      }
+    }
   }
 }
 
@@ -1003,7 +1032,8 @@ export const frFR = {
       reset: 'Réinitialiser',
       delete: {
         name: 'Supprimer',
-        confirm: 'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
+        confirm:
+          'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
       }
     },
     upload: {
@@ -1152,7 +1182,7 @@ export const frFR = {
     refused: 'Refusé',
     rejected: 'Rejeté',
     pending: 'En Attente',
-    effective: 'Effectif',
+    effective: 'Effectif'
   },
   history: {
     name: 'Histoire',
@@ -1164,6 +1194,13 @@ export const frFR = {
     status: 'Statut',
     class: 'Classe',
     impression: 'Impression',
+    dialog: {
+      title: 'Liste des Membres de {name}',
+      actions: {
+        add: 'Ajouter',
+        remove: 'Supprimer'
+      }
+    }
   }
 }
 
