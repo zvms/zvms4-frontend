@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ZButtonOrCard, ZActivityMember, ZActivityStatus } from '@/components'
+import { ZButtonOrCard, ZActivityMember, ZActivityStatus, ZActivityDuration } from '@/components'
 import type { ActivityInstance } from '@/../@types/activity'
 import { toRefs } from 'vue'
-import { User } from '@element-plus/icons-vue'
+import { User, Minus } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import { ElTable, ElTableColumn, ElButton, ElScrollbar } from 'element-plus'
-import { getUserClassByCode } from '@/utils/getClass'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
 
@@ -48,6 +47,22 @@ const { activity } = toRefs(props)
           <ElTableColumn prop="status" :label="t('activity.member.status')">
             <template #default="scope">
               <ZActivityStatus :type="scope.row.status" force="full" />
+            </template>
+          </ElTableColumn>
+          <ElTableColumn prop="duration" :label="t('activity.form.duration')">
+            <template #default="scope">
+              <ZActivityDuration
+                :duration="scope.row.duration"
+                :mode="scope.row.mode"
+                force="full"
+              />
+            </template>
+          </ElTableColumn>
+          <ElTableColumn fixed="right">
+            <template #default="scope">
+              <ElButton text bg round size="small" type="danger" @click="scope" :icon="Minus">
+                {{ t('activity.member.dialog.actions.remove') }}
+              </ElButton>
             </template>
           </ElTableColumn>
         </ElTable>
