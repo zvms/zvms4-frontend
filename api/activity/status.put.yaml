@@ -15,5 +15,6 @@ params:
     description: The new status of the activity
 response: null
 permission:
-  effective: 1
-  rejected: 1
+  specified: 2
+  social: 1
+  scale: 1

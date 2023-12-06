@@ -89,13 +89,13 @@ async function deleteActivity(id: string) {
         />
       </ElButtonGroup>
     </p>
-    <p
+    <div
       v-if="!editDescription"
       class="text-sm text-gray-500 pt-2 pl-4"
       @dblclick="editDescription = true"
     >
-      {{ activity.description }}
-    </p>
+      <p v-for="desc in activity.description.split('\n')" :key="desc">{{ desc }}</p>
+    </div>
     <div v-else class="pt-2 pl-4">
       <ElInput
         v-model="description"
@@ -125,7 +125,7 @@ async function deleteActivity(id: string) {
         class="py-2"
         :icon="Calendar"
       >
-        {{ dayjs(activity.date).format('YYYY-MM-DD') }}
+        {{ dayjs(activity.date).format(activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD') }}
       </ElButton>
       <ElButton
         v-if="activity.type === 'specified'"

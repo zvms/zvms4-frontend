@@ -130,6 +130,7 @@ watch(
         "
         table-layout="auto"
         :on-sort-change="onSortChange"
+        stripe
       >
         <ElTableColumn type="expand">
           <template #header>

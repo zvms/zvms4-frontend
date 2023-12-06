@@ -32,7 +32,7 @@ const { activity } = toRefs(props)
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <ElTable :data="activity.members">
+      <ElTable :data="activity.members" stripe>
         <ElTableColumn prop="_id" :label="t('activity.member.name')">
           <template #default="scope">
             <ZActivityMember :id="scope.row._id" />
@@ -40,7 +40,7 @@ const { activity } = toRefs(props)
         </ElTableColumn>
         <ElTableColumn prop="status" :label="t('activity.member.status')">
           <template #default="scope">
-            <ZActivityStatus :type="scope.row.status" />
+            <ZActivityStatus :type="scope.row.status" force="full" />
           </template>
         </ElTableColumn>
       </ElTable>
