@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ElCard, ElTable, ElTableColumn } from 'element-plus';
-import { useWindowSize } from '@vueuse/core';
-import {ref, watch} from 'vue'
-import {getMyNotifications} from '@/api/notifications/read'
-import type { Broadcast } from '@/../@types/broadcast';
-import type { Ref } from 'vue';
+import { ElCard, ElTable, ElTableColumn } from 'element-plus'
+import { useWindowSize } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import dayjs from 'dayjs'
+import { getMyNotifications } from '@/api/notifications/read'
+import type { Broadcast } from '@/../@types/broadcast'
+import type { Ref } from 'vue'
 
 const loading = ref(true)
 
@@ -17,22 +18,23 @@ watch(width, () => {
 
 const notifications: Ref<Broadcast[]> = ref([])
 
-getMyNotifications('0').then((res: Broadcast[])=>{
-    loading.value = false
-    notifications.value = res ?? []
+getMyNotifications('0').then((res) => {
+  loading.value = false
+  notifications.value = (res as Broadcast[]) ?? []
 })
 </script>
 
 <template>
-    <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
-        <ElCard shadow="never" :data="notifications">
-            <ElTable>
-                <ElTableColumn type="expand" label="Title">
-                    <template #default="{row}">
-                        <strong>{{ row.title }}</strong>
-                    </template>
-                </ElTableColumn>
-            </ElTable>
-        </ElCard>
+  <div class="p-5" v-loading="loading">
+    <div v-for="(item, index) in notifications" :key="index" class="p-2">
+      <ElCard shadow="never">
+        <div class="flex justify-between p-2">
+          <span class="font-bold text-xl">{{ item.title }}</span>
+          <span>{{ item.publisher ?? '匿名' }}</span>
+        </div>
+        <div>{{ item.content }}</div>
+        <div class="p-3 float-right">at {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}</div>
+      </ElCard>
     </div>
-</template> 
+  </div>
+</template>

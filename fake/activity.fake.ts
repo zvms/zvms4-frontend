@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
+import {generateNumber} from './utils'
 import ObjectID from 'bson-objectid'
 
 function generateActivity(_id?: string, serie: boolean = true) {
@@ -73,40 +74,6 @@ function generateActivityMemberHistory(_id: string) {
     actioner: _id,
     action: ['draft', 'pending', 'effective', 'rejected', 'refused'][Math.floor(Math.random() * 5)]
   }
-}
-
-function generateNotification(_id: string) {
-  return {
-    _id,
-    global: true,
-    title: 'Fuck off!',
-    content: 'Fuck off! ' + _id,
-    time: faker.date.recent().toISOString(),
-    expire: faker.date.recent().toISOString(),
-    publisher: 'CT', // TODO: ?
-    receivers: [], // TODO: ?
-    anonymous: false, // TODO: ?
-    type: 'normal'
-  }
-}
-
-function generateNumber() {
-  return (
-    faker.number.int({
-      min: 2021,
-      max: 2023
-    }) *
-      10000 +
-    faker.number.int({
-      min: 1,
-      max: 20
-    }) *
-      100 +
-    faker.number.int({
-      min: 1,
-      max: 60
-    })
-  )
 }
 
 function generateCode() {
