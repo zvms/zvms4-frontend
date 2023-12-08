@@ -1,23 +1,32 @@
 <script lang="ts" setup>
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
-import { ElButton, ElInput, ElButtonGroup, ElRow, ElCol, ElPopconfirm } from 'element-plus'
-import { Timer, Calendar, Location, ArrowRight, User, Delete } from '@element-plus/icons-vue'
+import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
+import { Calendar, Location, ArrowRight, Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
-import { ZActivityHistory, ZActivityMember, ZActivityType, ZButtonOrCard } from '@/components'
+import {
+  ZActivityDuration,
+  ZActivityHistory,
+  ZActivityMember,
+  ZActivityType,
+  ZButtonOrCard,
+  ZActivityMemberList
+} from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
-import { getUserClass } from '@/utils/getClass'
+import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 
 const props = defineProps<{
   activity: ActivityInstance
   mode: 'mine' | 'class' | 'campus' | 'register'
+  perspective?: string // `mine` with other's user ObjectId
 }>()
+const emits = defineEmits(['refresh'])
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode } = toRefs(props)
+const { activity, mode, perspective } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -43,7 +52,10 @@ function submitDescription() {
   activity.value.description = description.value
 }
 
-const deleteActivity = (id: string) => api.activity.deleteOne(id)
+async function deleteActivity(id: string) {
+  await api.activity.deleteOne(id)
+  emits('refresh')
+}
 </script>
 
 <template>
@@ -55,38 +67,35 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
         </template>
       </ElInput>
-      <ZActivityType
-        v-if="activity.type !== 'special'"
-        class="px-2"
-        :type="activity.type"
-        mode="full"
-        show-special
-      />
-      <ZActivityType
-        v-else
-        class="px-2"
-        type="special"
-        mode="full"
-        show-special
-        :special="(activity as SpecialActivity).special.classify"
-      />
-      <Transition
-        appear
-        enter-active-class="animate__animated animate__fadeIn"
-        leave-active-class="animate__animated animate__fadeOut"
-      >
-        <ElButton v-if="hovered" size="small" class="px-2" type="info" text bg round>
-          {{ activity._id }}
-        </ElButton>
-      </Transition>
+      <ElButtonGroup>
+        <ZActivityType
+          v-if="activity.type !== 'special'"
+          class="px-2"
+          :type="activity.type"
+          mode="full"
+          show-special
+          force="full"
+          :status="activity.status"
+        />
+        <ZActivityType
+          v-else
+          class="px-2"
+          type="special"
+          mode="full"
+          force="full"
+          show-special
+          :special="(activity as SpecialActivity).special.classify"
+          :status="activity.status"
+        />
+      </ElButtonGroup>
     </p>
-    <p
+    <div
       v-if="!editDescription"
       class="text-sm text-gray-500 pt-2 pl-4"
       @dblclick="editDescription = true"
     >
-      {{ activity.description }}
-    </p>
+      <p v-for="desc in activity.description.split('\n')" :key="desc">{{ desc }}</p>
+    </div>
     <div v-else class="pt-2 pl-4">
       <ElInput
         v-model="description"
@@ -116,7 +125,7 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
         class="py-2"
         :icon="Calendar"
       >
-        {{ dayjs(activity.date).format('YYYY-MM-DD') }}
+        {{ dayjs(activity.date).format(activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD') }}
       </ElButton>
       <ElButton
         v-if="activity.type === 'specified'"
@@ -130,27 +139,31 @@ const deleteActivity = (id: string) => api.activity.deleteOne(id)
       >
         {{ (activity as SpecifiedActivity).registration.place }}
       </ElButton>
-      <ElButton
+      <ZActivityDuration
+        class="px-2"
         v-if="mode === 'mine'"
-        size="small"
-        text
-        bg
-        round
-        type="info"
-        class="py-2"
-        :icon="Timer"
-      >
-        {{ activity.members.find((x) => x._id === user._id)?.duration }} h
-      </ElButton>
-      <ZActivityHistory
-        v-if="mode === 'mine'"
-        :history="activity.members.find((x) => x._id === user._id)?.history"
+        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
+        :duration="activity.members.find((x) => x._id === perspective ?? user._id)?.duration ?? 0"
+        :status="activity.members.find((x) => x._id === perspective ?? user._id)?.status"
+        force="full"
       />
+      <ZActivityHistory
+        class="px-2"
+        v-if="mode === 'mine'"
+        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
+        :history="activity.members.find((x) => x._id === perspective ?? user._id)?.history"
+      />
+      <ZActivityMemberList class="px-2" :activity="activity" />
     </div>
     <ElRow>
       <ElCol :span="6">
         <div class="pl-4 py-2">
-          <ZActivityMember :id="activity.creator" :icon="User" />
+          <ZActivityMember
+            :id="activity.creator"
+            :icon="
+              StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
+            "
+          />
         </div>
       </ElCol>
       <ElCol :span="18">

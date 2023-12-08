@@ -12,7 +12,7 @@ const user = useUserStore()
 
 const props = defineProps<{
   id: string
-  role: 'mine' | 'campus'
+  role: 'mine' | 'campus' | 'class'
   modelValue?: boolean
   readonly: boolean
 }>()

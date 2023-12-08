@@ -94,8 +94,8 @@ function feedback() {
 </script>
 
 <template>
-  <ElConfigProvider :locale="langPack">
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900">
+  <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 h-full">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 h-full">
       <ElHeader>
         <ElRow class="pt-4 px-4">
           <ElCol :span="16">
@@ -108,10 +108,10 @@ function feedback() {
           <ElCol :span="8">
             <div class="user">
               <ElButtonGroup>
-                <ElButton text bg :icon="User" type="primary">{{
-                  userStore.isLogin ? userStore.name : t('login.unlogined')
-                }}</ElButton>
-                <ElPopover width="216px">
+                <ElButton text bg :icon="User" type="primary">
+                  {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
+                </ElButton>
+                <ElPopover width="216px" v-if="userStore.isLogin">
                   <template #reference>
                     <ElButton
                       text
@@ -121,36 +121,38 @@ function feedback() {
                       type="primary"
                     />
                   </template>
-                  <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">{{
-                    t('nav.feedback')
-                  }}</ElButton
-                  ><br />
-                  <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">{{
-                    t('nav.broadcast')
-                  }}</ElButton
-                  ><br />
-                  <ElButton text :icon="Password" class="action-btn p-4">{{
-                    t('nav.reset')
-                  }}</ElButton
-                  ><br />
-                  <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">{{
-                    t('nav.logout')
-                  }}</ElButton>
+                  <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">
+                    {{ t('nav.feedback') }}
+                  </ElButton>
+                  <br />
+                  <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">
+                    {{ t('nav.broadcast') }}
+                  </ElButton>
+                  <br />
+                  <ElButton text :icon="Password" class="action-btn p-4">
+                    {{ t('nav.reset') }}
+                  </ElButton>
+                  <br />
+                  <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">
+                    {{ t('nav.logout') }}
+                  </ElButton>
                 </ElPopover>
               </ElButtonGroup>
-              <ElDivider v-if="verticalMode" direction="vertical" />
-              <ZVerticalNav v-if="verticalMode" />
+              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
+              <ZVerticalNav v-if="verticalMode && userStore.isLogin" />
             </div>
           </ElCol>
         </ElRow>
       </ElHeader>
-      <ElContainer style="width: 100%; height: 100%">
+      <ElContainer v-if="userStore.isLogin" style="width: 100%; height: 100%">
         <UserNav style="height: 100%" v-if="!verticalMode && userStore.isLogin" />
         <RouterView
           v-if="userStore.isLogin"
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
         />
-        <RouterView v-else class="bg-slate-100 dark:bg-gray-900 view" />
+      </ElContainer>
+      <ElContainer style="height: 100%" v-else>
+        <RouterView />
       </ElContainer>
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"

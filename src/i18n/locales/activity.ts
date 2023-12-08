@@ -42,8 +42,8 @@ export const enUS = {
       key: 'off-campus'
     },
     'large-scale': {
-      name: 'Scale Practice during Vacation',
-      short: 'Scale',
+      name: 'Large-scale Practice',
+      short: 'Scale Practice',
       key: 'large-scale'
     }
   },
@@ -70,7 +70,8 @@ export const enUS = {
       reset: 'Reset',
       delete: {
         name: 'Delete',
-        confirm: 'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
+        confirm:
+          'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
       }
     },
     details: 'Details',
@@ -225,6 +226,19 @@ export const enUS = {
     name: 'History',
     title: "History of {name}'s Impression",
     empty: 'No History'
+  },
+  member: {
+    name: 'Name',
+    status: 'Status',
+    class: 'Class',
+    impression: 'Impression',
+    dialog: {
+      title: 'Member List of {name}',
+      actions: {
+        add: 'Add',
+        remove: 'Remove'
+      }
+    }
   }
 }
 
@@ -446,6 +460,24 @@ export const zhCN = {
     steps: {
       first: '初审',
       last: '终审'
+    }
+  },
+  history: {
+    name: '历史',
+    title: '{name}的义工感想历史',
+    empty: '无历史'
+  },
+  member: {
+    name: '姓名',
+    status: '状态',
+    class: '班级',
+    impression: '感想',
+    dialog: {
+      title: '{name}的成员列表',
+      actions: {
+        add: '添加',
+        remove: '移除'
+      }
     }
   }
 }
@@ -669,6 +701,24 @@ export const zhTW = {
     steps: {
       first: '初審',
       last: '終審'
+    }
+  },
+  history: {
+    name: '歷史',
+    title: '{name}的義工感想歷史',
+    empty: '無歷史'
+  },
+  member: {
+    name: '姓名',
+    status: '狀態',
+    class: '班級',
+    impression: '感想',
+    dialog: {
+      title: '{name}的成員列表',
+      actions: {
+        add: '添加',
+        remove: '移除'
+      }
     }
   }
 }
@@ -894,6 +944,24 @@ export const jaJP = {
       first: '初審査',
       last: '最終審査'
     }
+  },
+  history: {
+    name: '歴史',
+    title: '{name}のボランティア感想の歴史',
+    empty: '歴史なし'
+  },
+  member: {
+    name: '名前',
+    status: '状態',
+    class: 'クラス',
+    impression: '感想',
+    dialog: {
+      title: '{name}のメンバーリスト',
+      actions: {
+        add: '追加',
+        remove: '削除'
+      }
+    }
   }
 }
 
@@ -941,7 +1009,7 @@ export const frFR = {
       key: 'off-campus'
     },
     'large-scale': {
-      name: 'Pratique à Grande Échelle pendant les Vacances',
+      name: 'Pratique à Grande Échelle pendant',
       short: 'Grande Échelle',
       key: 'large-scale'
     }
@@ -964,7 +1032,8 @@ export const frFR = {
       reset: 'Réinitialiser',
       delete: {
         name: 'Supprimer',
-        confirm: 'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
+        confirm:
+          'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
       }
     },
     upload: {
@@ -1113,10 +1182,24 @@ export const frFR = {
     refused: 'Refusé',
     rejected: 'Rejeté',
     pending: 'En Attente',
-    effective: 'Effectif',
-    steps: {
-      first: 'Première',
-      last: 'Dernière'
+    effective: 'Effectif'
+  },
+  history: {
+    name: 'Histoire',
+    title: "Histoire de l'Impression de {name}",
+    empty: 'Aucune histoire'
+  },
+  member: {
+    name: 'Nom',
+    status: 'Statut',
+    class: 'Classe',
+    impression: 'Impression',
+    dialog: {
+      title: 'Liste des Membres de {name}',
+      actions: {
+        add: 'Ajouter',
+        remove: 'Supprimer'
+      }
     }
   }
 }

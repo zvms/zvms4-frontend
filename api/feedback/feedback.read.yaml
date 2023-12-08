@@ -1,0 +1,5 @@
+name: Read Feedbacks
+path: /feedback
+method: GET
+response: Feedback[]
+permission: 2

@@ -10,11 +10,8 @@ interface Class {
 
 export function getUserGrade(year: number) {
   const y = dayjs().year()
-  if (dayjs().month() < 8) {
-    return y - year
-  } else {
-    return y - year + 1
-  }
+  console.log('get-grade', year, y)
+  return y - year + dayjs().month() < 8 ? 0 : 1
 }
 
 export function getUserClass(id: number, code?: number) {
@@ -42,7 +39,7 @@ export function getUserClassByNumber(id: number) {
   } as Class
 }
 
-export function getUserClassByCode(code: number) {
+export function getUserClassByCode(code: number): Class {
   const year = Math.floor((code % 1000000) / 10000) + 2000
   const grade = getUserGrade(year)
   const classid = Math.floor((code % 10000) / 100)

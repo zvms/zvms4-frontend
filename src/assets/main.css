@@ -17,10 +17,6 @@ body {
   display: none; /* Chrome Safari */
 }
 
-/* svg {
-  filter: grayscale(1);
-} */
-
 @font-face {
   font-family: 'Source Han Sans SC';
   src: url('./SourceHanSansSC-Regular.woff2');

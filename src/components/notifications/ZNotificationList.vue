@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ElCard, ElTable, ElTableColumn } from 'element-plus'
+import { ElCard } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { getMyNotifications } from '@/api/notifications/read'
-import type { Broadcast } from '@/../@types/broadcast'
-import type { Ref } from 'vue'
+import type { BroadcastInstance } from '@/../@types/broadcast'
+import api from '@/api'
+import { useUserStore } from '@/stores/user'
 
 const loading = ref(true)
+
+const user = useUserStore()
 
 // Deal with window size
 const { width, height } = useWindowSize()
@@ -16,11 +18,13 @@ watch(width, () => {
   tableMaxHeight.value = height.value * 0.56
 })
 
-const notifications: Ref<Broadcast[]> = ref([])
+const notifications = ref<BroadcastInstance[]>([])
 
-getMyNotifications('0').then((res) => {
+console.log(api.notification)
+
+api.notification.read.mine(user._id).then((res: BroadcastInstance[]) => {
   loading.value = false
-  notifications.value = (res as Broadcast[]) ?? []
+  notifications.value = res ?? []
 })
 </script>
 

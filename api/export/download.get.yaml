@@ -1,0 +1,15 @@
+name: Download Exported Activity
+description: Download Exported Activity
+path: /export/download/:id
+method: GET
+params:
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The Task Id (UUID v4)
+response_header:
+  Content-Type: "'text/csv' | 'application/json'"
+  Content-Disposition: "'attachment; filename=export.csv' | 'attachment; filename=export.json'"
+response: File
+permission: 0

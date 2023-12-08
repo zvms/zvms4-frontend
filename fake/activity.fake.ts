@@ -23,7 +23,7 @@ function generateActivity(_id?: string, serie: boolean = true) {
     updatedAt: faker.date.recent().toISOString(),
     creator: new ObjectID().toHexString(),
     status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)],
-    special: generateSpecial(),
+    special: generateSpecial()
   }
 }
 
@@ -32,9 +32,11 @@ function generateSpecial() {
     classify: ['prize', 'import', 'club', 'deduction', 'other'][Math.floor(Math.random() * 5)],
     mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)],
     prize: {
-      level: ['district', 'city', 'province', 'national', 'international'][Math.floor(Math.random() * 5)],
+      level: ['district', 'city', 'province', 'national', 'international'][
+        Math.floor(Math.random() * 5)
+      ],
       type: ['personal', 'team'][Math.floor(Math.random() * 2)],
-      classify: ['sports', 'academy', 'art', 'other'][Math.floor(Math.random() * 4)],
+      classify: ['sports', 'academy', 'art', 'other'][Math.floor(Math.random() * 4)]
     }
   }
 }
@@ -59,10 +61,11 @@ function generateActivityMember(_id: string, serie: boolean = true) {
     duration: Math.floor(Math.random() * 10),
     history: serie
       ? []
-      : new Array(Math.floor(Math.random() * 10))
+      : new Array(Math.floor(Math.random() * 8))
           .fill(0)
           .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
-    images: []
+    images: [],
+    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)]
   }
 }
 
@@ -244,6 +247,26 @@ export default [
         code: 200,
         status: 'success',
         data: new Array(Math.floor(Math.random() * 100)).fill(0).map(() => generateActivity())
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/activity/:aid/status',
+    method: 'PUT',
+    response() {
+      return {
+        code: 200,
+        status: 'success'
+      }
+    }
+  },
+  {
+    url: '/api/user/:id/activity/:aid/impression',
+    method: 'PUT',
+    response() {
+      return {
+        code: 200,
+        status: 'success'
       }
     }
   }

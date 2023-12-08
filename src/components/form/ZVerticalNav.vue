@@ -91,11 +91,8 @@ watch(useless, () => {
 <template>
   <ElButton :icon="ApplicationMenu" text circle @click="show = !show" />
   <div class="full">
-    <ElDrawer v-model="show" direction="rtl" size="45%" :with-header="false">
+    <ElDrawer v-model="show" direction="rtl" size="45%">
       <div class="menu full">
-        <div class="py-2" style="text-align: right">
-          <ElButton :icon="Close" text circle @click="show = !show" />
-        </div>
         <ElButtonGroup class="full">
           <ElButton
             v-for="nav in navs"

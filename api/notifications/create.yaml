@@ -1,6 +1,0 @@
-name: Create Broadcast
-path: /broadcast
-method: POST
-body: Broadcast
-response: string # ObjectId
-permission: 4

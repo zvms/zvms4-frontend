@@ -23,8 +23,7 @@ const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
 <template>
   <ElButton
     v-if="
-      ((!unknown && width > height * 1.5 && force !== 'short') || force === 'full') &&
-      !onlyDisplayIcon
+      ((!unknown && width > height * 1.5 && force !== 'short') || force === 'full')
     "
     :icon="icon"
     :type="type"

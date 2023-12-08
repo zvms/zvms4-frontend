@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { Appointment, Star, Association, Vacation } from '@icon-park/vue-next'
-import { ref, toRefs, type Component as VueComponent } from 'vue'
-import type { ActivityType, SpecialActivityClassification } from '@/../@types/activity'
+import { toRefs } from 'vue'
+import type {
+  ActivityType,
+  SpecialActivityClassification,
+  ActivityStatus
+} from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
-import { ZSpecialActivityClassify } from '@/components'
+import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
+import classifications from './classifications'
 
 const { t } = useI18n()
 
@@ -16,48 +20,35 @@ const props = defineProps<{
   size?: 'large' | 'default' | 'small'
   color?: boolean
   mode?: 'auto' | 'full' | 'icon'
+  force?: 'full' | 'short'
+  status?: ActivityStatus
 }>()
 
-const { type, size, mode, special } = toRefs(props)
+const { type, size, mode, special, status } = toRefs(props)
 
-const types = ref<
-  Record<string, { color: 'primary' | 'warning' | 'success' | 'danger'; icon: VueComponent }>
->({
-  specified: {
-    color: 'primary',
-    icon: Appointment
-  },
-  social: {
-    color: 'success',
-    icon: Association
-  },
-  scale: {
-    color: 'warning',
-    icon: Vacation
-  },
-  special: {
-    color: 'danger',
-    icon: Star
-  }
-})
+const types = classifications.type
 
-const effective = type?.value! in types.value
+const effective = type?.value! in types
 </script>
 
 <template>
-  <ZButtonTag
-    v-if="type !== 'special' || !showSpecial"
-    :size="size ?? 'small'"
-    :type="types[type as ActivityType].color"
-    :icon="types[type as ActivityType].icon"
-    :unknown="!effective"
-  >
-    {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
-  </ZButtonTag>
-  <ElButtonGroup v-else>
-    <ZButtonTag :size="size ?? 'small'" type="danger" :icon="Star">
-      {{ t(`activity.type.special.${mode === 'full' ? 'name' : 'short'}`) }}
+  <ElButtonGroup>
+    <ZButtonTag
+      :size="size ?? 'small'"
+      :type="types[type as ActivityType].color"
+      :icon="types[type as ActivityType].icon"
+      :unknown="!effective"
+      :force="force"
+    >
+      {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
     </ZButtonTag>
-    <ZSpecialActivityClassify :classify="special ?? 'other'" :size="size" :mode="mode" />
+    <ZSpecialActivityClassify
+      v-if="special && showSpecial && type === 'special'"
+      :classify="special ?? 'other'"
+      :size="size"
+      :force="force"
+      :mode="mode"
+    />
+    <ZActivityStatus v-if="status" :type="status" :force="force" />
   </ElButtonGroup>
 </template>
