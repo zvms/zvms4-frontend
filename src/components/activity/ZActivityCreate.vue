@@ -34,7 +34,7 @@ import {
   ElDivider
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
-import { watch, ref, type Component as VueComponent } from 'vue'
+import { watch, ref } from 'vue'
 import {
   InfoFilled,
   Refresh,
@@ -45,7 +45,6 @@ import {
   Location
 } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
-import { Vacation, School, CityGate } from '@icon-park/vue-next'
 import api from '@/api'
 
 const { t } = useI18n()
@@ -151,14 +150,6 @@ const prizes = {
   classify: ['sports', 'academy', 'art', 'other']
 }
 
-const modes = ['on-campus', 'off-campus', 'large-scale'] as ActivityMode[]
-
-const modeIcons: Record<ActivityMode, VueComponent> = {
-  'on-campus': School,
-  'off-campus': CityGate,
-  'large-scale': Vacation
-}
-
 const classifyOfSpecial = [
   'prize',
   'import',
@@ -179,15 +170,15 @@ async function submit() {
   load.value = false
 }
 
-function isAllowToUseMode(mode: ActivityMode) {
-  if (activity.type === 'specified') return mode === 'on-campus'
-  if (activity.type === 'social') return mode === 'off-campus'
-  if (activity.type === 'scale') return mode === 'large-scale'
+function allow(): ActivityMode[] {
+  if (activity.type === 'specified') return ['on-campus']
+  if (activity.type === 'social') return ['off-campus']
+  if (activity.type === 'scale') return ['large-scale']
   if (activity.type === 'special') {
-    if (special.classify === 'prize') return mode !== 'large-scale'
-    return true
+    if (special.classify === 'prize') ['on-campus', 'off-campus']
+    return ['on-campus', 'off-campus', 'large-scale']
   }
-  return false
+  return []
 }
 </script>
 
@@ -402,18 +393,7 @@ function isAllowToUseMode(mode: ActivityMode) {
                         <ElDivider direction="vertical" />
                       </ElCol>
                       <ElCol :span="8" :xs="6" :sm="6">
-                        <ElSelect v-model="member.mode" class="full">
-                          <ElOption
-                            v-for="mode in modes"
-                            :key="mode"
-                            :value="mode"
-                            :disabled="!isAllowToUseMode(mode)"
-                            :label="t(`activity.mode.${mode}.short`)"
-                          />
-                          <template #prefix>
-                            <component :is="modeIcons[member.mode]" />
-                          </template>
-                        </ElSelect>
+                        <ZSelectActivityMode v-model="member.mode" :allow="allow()" />
                       </ElCol>
                       <ElCol :span="1" style="text-align: center">
                         <ElDivider direction="vertical" />

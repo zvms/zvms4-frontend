@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getClassName, getUserClass } from '@/utils/getClass'
 import { ElSelect, ElOption } from 'element-plus'
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
 
 const props = defineProps<{
@@ -11,10 +11,17 @@ const props = defineProps<{
   disabled?: boolean
   multiple?: boolean
 }>()
+const emits = defineEmits(['update:modelValue'])
 
 const { modelValue, filterStart, fullWidth, disabled, multiple } = toRefs(props)
 
 const id = ref<string | string[]>(modelValue.value)
+watch(id, () => emits('update:modelValue', id.value), { immediate: true })
+watch(
+  () => id,
+  () => emits('update:modelValue', id.value),
+  { immediate: true }
+)
 const options = ref<
   {
     label: string
