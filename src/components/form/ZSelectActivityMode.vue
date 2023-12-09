@@ -35,7 +35,7 @@ const icons: Record<ActivityMode, VueComponent> = {
       :label="t(`activity.mode.${mode}.name`)"
       :disabled="!allow || !allow.includes(mode)"
     ></ElOption>
-    <template #append>
+    <template #prefix>
       <component :is="icons[mode]" />
     </template>
   </ElSelect>
