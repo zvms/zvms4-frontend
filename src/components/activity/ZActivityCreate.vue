@@ -44,7 +44,7 @@ import {
   Delete,
   Location
 } from '@element-plus/icons-vue'
-import { ZSelectPerson } from '@/components'
+import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import { Vacation, School, CityGate } from '@icon-park/vue-next'
 import api from '@/api'
 
@@ -418,22 +418,22 @@ function isAllowToUseMode(mode: ActivityMode) {
                       <ElCol :span="1" style="text-align: center">
                         <ElDivider direction="vertical" />
                       </ElCol>
-                      <ElCol :span="6" :xs="8" :sm="8">
-                        <ElInput
-                          :placeholder="t('activity.form.duration')"
-                          v-model.number="member.duration"
-                          class="full"
-                        >
-                          <template #append>
-                            <ElButton
-                              :icon="idx === 0 ? Plus : Delete"
-                              circle
-                              @click="
-                                idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
-                              "
-                            />
-                          </template>
-                        </ElInput>
+                      <ElCol :span="5" :xs="7" :sm="7">
+                        <ZInputDuration v-model="member.duration" />
+                      </ElCol>
+                      <ElCol :span="1">
+                        <div style="text-align: right">
+                          <ElButton
+                            :icon="idx === 0 ? Plus : Delete"
+                            @click="
+                              idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
+                            "
+                            :type="idx === 0 ? 'success' : 'danger'"
+                            circle
+                            text
+                            bg
+                          />
+                        </div>
                       </ElCol>
                     </ElRow>
                   </Transition>
