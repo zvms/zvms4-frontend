@@ -322,5 +322,18 @@ export default [
         status: 'success'
       }
     }
+  },
+  {
+    url: '/api/user/auth',
+    method: 'POST',
+    response() {
+      return {
+        code: 200,
+        status: 'success',
+        data: {
+          token: 'test-token'
+        }
+      }
+    }
   }
 ]
