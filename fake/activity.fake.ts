@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
-import {generateNumber} from './utils'
+import { generateNumber } from './utils'
 import ObjectID from 'bson-objectid'
 
 function generateActivity(_id?: string, serie: boolean = true) {

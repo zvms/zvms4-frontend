@@ -5,11 +5,11 @@ function generateNotification(_id: string) {
   return {
     _id,
     global: true,
-    title: 'Fuck off!',
-    content: 'Fuck off! ID: ' + _id,
+    title: 'Notification',
+    content: 'Hello! ID: ' + _id,
     time: faker.date.recent().toISOString(),
     expire: faker.date.recent().toISOString(),
-    publisher: 'CT', // TODO: ?
+    publisher: generateNumber(),
     receivers: [], // TODO: ?
     anonymous: false, // TODO: ?
     type: 'normal'
