@@ -108,7 +108,7 @@ function feedback() {
           <ElCol :span="8">
             <div class="user">
               <ElButtonGroup>
-                <ElButton text bg :icon="User" type="primary">
+                <ElButton text bg :icon="User" type="primary" v-if="userStore.isLogin">
                   {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
                 </ElButton>
                 <ElPopover width="216px" v-if="userStore.isLogin">

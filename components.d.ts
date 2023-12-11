@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElButtons: typeof import('element-plus/es')['ElButtons']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
@@ -27,7 +28,9 @@ declare module 'vue' {
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
+    ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
+    ZSelectActivityMode: typeof import('./src/components/form/ZSelectActivityMode.vue')['default']
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZSpecialActivityClassify: typeof import('./src/components/tags/ZSpecialActivityClassify.vue')['default']

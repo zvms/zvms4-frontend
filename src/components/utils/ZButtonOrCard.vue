@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElCard, ElButton, ElSkeleton, ElSkeletonItem, ElDialog, ElDrawer } from 'element-plus'
-import { toRefs, ref } from 'vue'
+import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
 const props = defineProps<{
   size?: 'large' | 'default' | 'small'
@@ -16,8 +16,9 @@ const props = defineProps<{
   title?: string
   center?: boolean
   round?: boolean
-  zIndex?: number
+  open?: boolean
 }>()
+const emits = defineEmits(['update:open'])
 
 const {
   size,
@@ -32,10 +33,27 @@ const {
   modal,
   title,
   center,
-  zIndex
+  round,
+  open
 } = toRefs(props)
 
 const show = ref(false)
+
+watch(
+  open,
+  () => {
+    show.value = open.value
+  },
+  { immediate: true }
+)
+
+watch(
+  show,
+  () => {
+    emits('update:open', show.value)
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -65,7 +83,6 @@ const show = ref(false)
       :title="title"
       :width="width"
       :center="center ? center : true"
-      :z-index="zIndex ?? 9999"
     >
       <slot name="default" />
     </ElDialog>

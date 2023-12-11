@@ -235,8 +235,11 @@ export const enUS = {
     dialog: {
       title: 'Member List of {name}',
       actions: {
+        name: 'Actions',
         add: 'Add',
-        remove: 'Remove'
+        remove: 'Remove',
+        confirm: 'After removal, it will not be able to be restored, are you sure to remove?',
+        title: 'Append Member to {activity}'
       }
     }
   }
@@ -475,8 +478,11 @@ export const zhCN = {
     dialog: {
       title: '{name}的成员列表',
       actions: {
+        name: '操作',
         add: '添加',
-        remove: '移除'
+        remove: '移除',
+        confirm: '移除后将不可恢复，确定移除？',
+        title: '添加成员至{activity}'
       }
     }
   }
@@ -716,8 +722,11 @@ export const zhTW = {
     dialog: {
       title: '{name}的成員列表',
       actions: {
+        name: '操作',
         add: '添加',
-        remove: '移除'
+        remove: '移除',
+        confirm: '移除後將不可恢復，確定移除？',
+        title: '添加成員至{activity}'
       }
     }
   }
@@ -958,8 +967,11 @@ export const jaJP = {
     dialog: {
       title: '{name}のメンバーリスト',
       actions: {
+        name: '操作',
         add: '追加',
-        remove: '削除'
+        remove: '削除',
+        confirm: '削除後、復元できなくなります。削除しますか？',
+        title: '{activity}にメンバーを追加'
       }
     }
   }
@@ -1197,8 +1209,11 @@ export const frFR = {
     dialog: {
       title: 'Liste des Membres de {name}',
       actions: {
+        name: 'Actions',
         add: 'Ajouter',
-        remove: 'Supprimer'
+        remove: 'Supprimer',
+        confirm: 'Après la suppression, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?',
+        title: 'Ajouter un Membre à {activity}'
       }
     }
   }

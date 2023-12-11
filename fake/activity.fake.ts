@@ -269,5 +269,38 @@ export default [
         status: 'success'
       }
     }
+  },
+  {
+    url: '/api/activity/:aid/member',
+    method: 'POST',
+    response() {
+      return {
+        code: 200,
+        status: 'success'
+      }
+    }
+  },
+  {
+    url: '/api/activity/:aid/member/:mid',
+    method: 'DELETE',
+    response() {
+      return {
+        code: 200,
+        status: 'success'
+      }
+    }
+  },
+  {
+    url: '/api/user/auth',
+    method: 'POST',
+    response() {
+      return {
+        code: 200,
+        status: 'success',
+        data: {
+          token: 'test-token'
+        }
+      }
+    }
   }
 ]

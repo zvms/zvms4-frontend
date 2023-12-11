@@ -56,6 +56,8 @@ async function deleteActivity(id: string) {
   await api.activity.deleteOne(id)
   emits('refresh')
 }
+
+const refresh = () => emits('refresh')
 </script>
 
 <template>
@@ -125,7 +127,11 @@ async function deleteActivity(id: string) {
         class="py-2"
         :icon="Calendar"
       >
-        {{ dayjs(activity.date).format(activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD') }}
+        {{
+          dayjs(activity.date).format(
+            activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
+          )
+        }}
       </ElButton>
       <ElButton
         v-if="activity.type === 'specified'"
@@ -153,7 +159,7 @@ async function deleteActivity(id: string) {
         :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
         :history="activity.members.find((x) => x._id === perspective ?? user._id)?.history"
       />
-      <ZActivityMemberList class="px-2" :activity="activity" />
+      <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
     </div>
     <ElRow>
       <ElCol :span="6">
