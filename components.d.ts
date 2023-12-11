@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElButtons: typeof import('element-plus/es')['ElButtons']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
