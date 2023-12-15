@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { ElCard, ElButton } from 'element-plus'
+import { ElCard, ElButton, ElPagination } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
-import { useWindowSize } from '@vueuse/core'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import dayjs from 'dayjs'
 import type { BroadcastInstance } from '@/../@types/broadcast'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
 
-const loading = ref(true)
-
 const user = useUserStore()
 
-// Deal with window size
-const { width, height } = useWindowSize()
-const tableMaxHeight = ref(height.value * 0.56)
-watch(width, () => {
-  tableMaxHeight.value = height.value * 0.56
-})
+const sliceLength = 8
+const sliceNotification = (unsliced: BroadcastInstance[]) => {
+  if (unsliced.length <= sliceLength) return [unsliced]
+  const res = []
+  for (let i = 0; i <= unsliced.length - sliceLength; i += 10) res.push(unsliced.slice(i, i + 10))
+  return res
+}
 
-const notifications = ref<BroadcastInstance[]>([])
+const notifications = ref<Array<BroadcastInstance[]>>([])
+const pageIndex = ref(1) // Start from 1
 
 const getNotifications = () => {
-  loading.value = true
   api.notification.read.mine(user._id).then((res) => {
-    loading.value = false
-    notifications.value = res ?? []
+    notifications.value = sliceNotification(res ?? [])
   })
 }
 
@@ -42,8 +39,8 @@ getNotifications()
     <div class="flex justify-end">
       <ElButton @click="refresh" circle class="p-1" :icon="Refresh" />
     </div>
-    <div v-loading="loading">
-      <div v-for="(item, index) in notifications" :key="index" class="p-2">
+    <div>
+      <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-2">
         <ElCard shadow="hover" class="p-2">
           <div class="flex justify-between p-2 pl-0">
             <span class="font-bold text-xl">{{ item.title }}</span>
@@ -54,6 +51,15 @@ getNotifications()
           <div class="p-3 float-right">at {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}</div>
         </ElCard>
       </div>
+    </div>
+    <div class="flex justify-center mt-3">
+      <ElPagination
+        background
+        hide-on-single-page
+        layout="prev, pager, next"
+        v-model:current-page="pageIndex"
+        :total="notifications.length * 10"
+      />
     </div>
   </div>
 </template>

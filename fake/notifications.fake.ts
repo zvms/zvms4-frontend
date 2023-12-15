@@ -6,10 +6,10 @@ function generateNotification(_id: string) {
     _id,
     global: true,
     title: 'Notification',
-    content: 'Hello! ID: ' + _id,
+    content: `Hello! ID: ${_id}`,
     time: faker.date.recent().toISOString(),
     expire: faker.date.recent().toISOString(),
-    publisher: generateNumber(),
+    publisher: new String(generateNumber()),
     receivers: [], // TODO: ?
     anonymous: false, // TODO: ?
     type: 'normal'
@@ -21,9 +21,11 @@ export default [
     url: '/api/user/:id/broadcast',
     method: 'get',
     response({ params }) {
+      const res = [generateNotification(params.id)]
+      for (let i = 0; i < 85; i++) res.push(generateNotification(params.id))
       return {
         code: 200,
-        data: new Array(20).fill(generateNotification(params.id))
+        data: res
       }
     }
   }
