@@ -12,7 +12,8 @@ import {
   ElPopover,
   ElConfigProvider,
   ElDivider,
-  ElNotification
+  ElNotification,
+  ElSpace
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -121,21 +122,20 @@ function feedback() {
                       type="primary"
                     />
                   </template>
-                  <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">
-                    {{ t('nav.feedback') }}
-                  </ElButton>
-                  <br />
-                  <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">
-                    {{ t('nav.broadcast') }}
-                  </ElButton>
-                  <br />
-                  <ElButton text :icon="Password" class="action-btn p-4">
-                    {{ t('nav.reset') }}
-                  </ElButton>
-                  <br />
-                  <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">
-                    {{ t('nav.logout') }}
-                  </ElButton>
+                  <ElSpace direction="vertical">
+                    <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">
+                      {{ t('nav.feedback') }}
+                    </ElButton>
+                    <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">
+                      {{ t('nav.broadcast') }}
+                    </ElButton>
+                    <ElButton text :icon="Password" class="action-btn p-4">
+                      {{ t('nav.reset') }}
+                    </ElButton>
+                    <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">
+                      {{ t('nav.logout') }}
+                    </ElButton>
+                  </ElSpace>
                 </ElPopover>
               </ElButtonGroup>
               <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />

@@ -8,7 +8,8 @@ import {
   ElButton,
   ElDivider,
   ElCard,
-  ElSwitch
+  ElSwitch,
+  ElSpace
 } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
@@ -132,8 +133,10 @@ watch(useTransform, () => {
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
           <ElCol v-if="width < height" :span="1" />
           <ElCol :span="width < height ? 8 : 4">
-            {{ t('home.panels.time.discount') }}<br />
-            <ElSwitch v-model="useTransform" />
+            <ElSpace direction="vertical">
+              <span>{{ t('home.panels.time.discount') }}</span>
+              <ElSwitch v-model="useTransform" />
+            </ElSpace>
           </ElCol>
           <ElCol v-if="width > height" :span="2" />
         </ElRow>

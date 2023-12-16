@@ -87,7 +87,7 @@ const languages = ref<
       </ElButton>
     </template>
     <ElButtonGroup class="full">
-      <div v-for="language in languages" :key="language.value">
+      <div v-for="language in languages" :key="language.value" class="m-1">
         <ElButton
           :icon="language.icon"
           class="full"
@@ -98,7 +98,6 @@ const languages = ref<
         >
           {{ language.display }}
         </ElButton>
-        <br />
       </div>
     </ElButtonGroup>
   </ElPopover>

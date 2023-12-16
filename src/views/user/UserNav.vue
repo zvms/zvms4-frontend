@@ -10,7 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElTooltip } from 'element-plus'
+import { ElButton, ElDivider, ElTooltip, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import MdiEye from '@/icons/MdiEye.vue'
@@ -188,11 +188,10 @@ function routeTo(page: string) {
       </div>
     </div>
     <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
-    <div class="bottom">
+    <ElSpace class="bottom" direction="vertical">
       <ZSelectLanguage type="button" placement="right" />
-      <br />
       <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
-    </div>
+    </ElSpace>
   </div>
 </template>
 
