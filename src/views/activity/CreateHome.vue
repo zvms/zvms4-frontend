@@ -8,7 +8,9 @@ import { reactive, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
-const emits = defineEmits(['move'])
+const emits = defineEmits<{
+  (e: 'move', value: string): void
+}>()
 
 const { width, height } = useWindowSize()
 const { t } = useI18n()

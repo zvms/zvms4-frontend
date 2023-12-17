@@ -34,7 +34,10 @@ console.log(props)
 
 const { activity } = toRefs(props)
 
-const emits = defineEmits(['register', 'unregister'])
+const emits = defineEmits<{
+  register: []
+  unregister: []
+}>()
 
 const register = () => {
   emits('register')

@@ -17,7 +17,9 @@ const props = defineProps<{
   readonly: boolean
 }>()
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+}>()
 
 const { t } = useI18n()
 

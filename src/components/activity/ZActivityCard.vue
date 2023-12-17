@@ -11,7 +11,9 @@ const props = defineProps<{
   mode: 'mine' | 'class' | 'campus' | 'register'
   perspective?: string // `mine` with other's user ObjectId
 }>()
-const emits = defineEmits(['refresh'])
+const emits = defineEmits<{
+  refresh: []
+}>()
 
 const { _id, mode, perspective } = toRefs(props)
 
@@ -20,16 +22,19 @@ const loading = ref(true)
 
 const activity = ref<ActivityInstance>()
 
-api.activity.read.single(_id.value).then((res) => {
-  if (res) {
-    activity.value = res as ActivityInstance
+api.activity.read
+  .single(_id.value)
+  .then((res) => {
+    if (res) {
+      activity.value = res as ActivityInstance
+      loading.value = false
+      return
+    } else throw ''
+  })
+  .catch(() => {
+    error.value = true
     loading.value = false
-    return
-  } else throw('')
-}).catch(() => {
-  error.value = true
-  loading.value = false
-})
+  })
 
 const refresh = () => emits('refresh')
 </script>

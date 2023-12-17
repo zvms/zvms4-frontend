@@ -22,7 +22,9 @@ const props = defineProps<{
   mode: 'mine' | 'class' | 'campus' | 'register'
   perspective?: string // `mine` with other's user ObjectId
 }>()
-const emits = defineEmits(['refresh'])
+const emits = defineEmits<{
+  refresh: []
+}>()
 
 const user = useUserStore()
 const { t } = useI18n()

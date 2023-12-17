@@ -37,7 +37,9 @@ const max = ref(height.value * 0.6)
 const props = defineProps<{
   activity: ActivityInstance
 }>()
-const emits = defineEmits(['refresh'])
+const emits = defineEmits<{
+  refresh: []
+}>()
 
 const { activity } = toRefs(props)
 const modified = ref(false)

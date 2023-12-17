@@ -5,7 +5,9 @@ import { ElInput } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{ modelValue: number; showUnit?: boolean }>()
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: number): void
+}>()
 const { t } = useI18n()
 
 const { modelValue, showUnit } = toRefs(props)

@@ -18,7 +18,9 @@ const props = defineProps<{
   round?: boolean
   open?: boolean
 }>()
-const emits = defineEmits(['update:open'])
+const emits = defineEmits<{
+  (e: 'update:open', value: boolean): void
+}>()
 
 const {
   size,

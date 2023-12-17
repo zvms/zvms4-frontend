@@ -8,7 +8,9 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const props = defineProps<{ modelValue: ActivityMode; allow?: ActivityMode[] }>()
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: ActivityMode): void
+}>()
 
 const { modelValue, allow } = toRefs(props)
 

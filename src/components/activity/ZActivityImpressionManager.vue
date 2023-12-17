@@ -38,7 +38,10 @@ const props = defineProps<{
 const user = useUserStore()
 const { t } = useI18n()
 
-const emits = defineEmits(['update:modelValue', 'finish'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string): void
+  (e: 'finish'): void
+}>()
 
 const { activity, role, submitable } = toRefs(props)
 
@@ -125,7 +128,7 @@ const serif = ref(false)
       <ElCollapseItem :title="t('activity.form.details')" name="1">
         <ZActivityDetails
           :activity="activity"
-          :mode="activity.members.map(x => x._id).includes(current._id) ? 'mine' : 'campus'"
+          :mode="activity.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
           :perspective="role === 'mine' ? user._id : current._id ?? user._id"
         />
       </ElCollapseItem>

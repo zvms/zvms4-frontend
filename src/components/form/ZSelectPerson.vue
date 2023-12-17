@@ -11,7 +11,9 @@ const props = defineProps<{
   disabled?: boolean
   multiple?: boolean
 }>()
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string | string[]): void
+}>()
 
 const { modelValue, filterStart, fullWidth, disabled, multiple } = toRefs(props)
 
