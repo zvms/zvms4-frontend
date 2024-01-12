@@ -11,9 +11,11 @@ import {
   ElDatePicker,
   ElSwitch,
   ElOption,
-  ElSelect
+  ElSelect,
+  ElPageHeader
 } from 'element-plus'
 import type { Broadcast } from '@/../@types/broadcast'
+import { ArrowLeft } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
@@ -37,10 +39,13 @@ const types = ['pinned', 'important', 'normal']
 
 <template>
   <div>
-    <p class="text-2xl px-8 py-4">
-      {{ $t('broadcast.create.title') }}
-    </p>
-    <ElForm label-position="right" label-width="98px">
+    <ElPageHeader class="text-2xl px-12 py-6" @back="$router.push('/notifications/')" :icon="ArrowLeft">
+      <template #content>
+        {{ $t('broadcast.create.header') }}
+      </template>
+    </ElPageHeader>
+    <p></p>
+    <ElForm label-position="right" label-width="128px">
       <ElFormItem :label="t('broadcast.create.elements.title')">
         <ElInput v-model="broadcast.title" />
       </ElFormItem>

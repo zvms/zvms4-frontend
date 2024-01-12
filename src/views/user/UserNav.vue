@@ -18,19 +18,25 @@ import MdiUmbrella from '@/icons/MdiUmbrella.vue'
 import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
 import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { ZSelectLanguage } from '@/components'
+import { watch } from 'vue'
 
 const user = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
 })
 
-const path = ref(new URL(window.location.href).pathname)
+const path = ref(route.fullPath)
+
+watch(route, () => {
+  path.value = route.fullPath
+})
 
 const { height } = useWindowSize()
 
@@ -54,11 +60,11 @@ const actions: Array<{
   {
     icon: Notification,
     name: t('nav.broadcast'),
-    path: '/notification/',
+    path: '/notifications/',
     show: true,
     action: () => {
-      router.push('/notification/')
-      routeTo('/notification/')
+      router.push('/notifications/')
+      routeTo('/notifications/')
     }
   },
   {
@@ -164,7 +170,6 @@ function routeTo(page: string) {
       </div>
     </div>
     <ElDivider />
-
     <div v-for="nav in actions" :key="nav.path">
       <div class="py-1" v-if="nav.show">
         <ElTooltip

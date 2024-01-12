@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { ElCard, ElButton, ElPagination } from 'element-plus'
-import { Refresh } from '@element-plus/icons-vue'
+import { ElCard, ElButton, ElPagination, ElRow, ElCol } from 'element-plus'
+import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import dayjs from 'dayjs'
 import type { BroadcastInstance } from '@/../@types/broadcast'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
+import { useRouter } from 'vue-router'
 
 const user = useUserStore()
+
+const router = useRouter()
 
 const sliceLength = 8
 const sliceNotification = (unsliced: BroadcastInstance[]) => {
@@ -36,9 +39,13 @@ getNotifications()
 
 <template>
   <div class="p-5">
-    <div class="flex justify-end">
-      <ElButton @click="refresh" circle class="p-1" :icon="Refresh" />
-    </div>
+    <ElRow>
+      <ElCol :span="12" class="text-2xl"> Notification Center </ElCol>
+      <ElCol :span="12" style="text-align: right;">
+        <ElButton type="success" text bg circle class="p-1" :icon="Plus" @click="router.push('/notifications/create')" />
+        <ElButton @click="refresh" type="primary" text bg circle class="p-1" :icon="Refresh" />
+      </ElCol>
+    </ElRow>
     <div>
       <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-2">
         <ElCard shadow="hover" class="p-2">
