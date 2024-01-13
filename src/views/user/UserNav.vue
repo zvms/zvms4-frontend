@@ -6,7 +6,8 @@ import {
   Sunny,
   Moon,
   SwitchButton,
-  Notification
+  Notification,
+  Management
 } from '@element-plus/icons-vue'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
@@ -55,7 +56,7 @@ const actions: Array<{
     action: () => {
       router.push('/feedback/')
       routeTo('/feedback/')
-    }
+    },
   },
   {
     icon: Notification,
@@ -94,48 +95,49 @@ const navs: Array<{
   name: string
   path: string
   show: boolean
+  judge: (path: string) => boolean
 }> = [
   {
     icon: HomeFilled,
     name: 'home',
     path: '/user/',
-    show: true
+    show: true,
+    judge: (path) => path.startsWith('/user')
   },
   {
     icon: MdiEye,
     name: 'activity',
     path: '/activity/',
-    show: true
+    show: true,
+    judge: (path) => path.startsWith('/activity') && !path.startsWith('/activity/create')
   },
   {
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
-    show: true
+    show: true,
+    judge: (path) => path.startsWith('/activity/create')
   },
   {
-    icon: MdiUmbrella,
-    name: '漂流伞',
-    path: '/umbrella',
-    show: false
+    icon: Management,
+    name: 'manage',
+    path: '/management',
+    show: user.position.filter((x) => x !== 'student' && x !== 'secretary').length > 0,
+    judge: (path) => path.startsWith('/management')
   },
-  // {
-  //   icon: Management,
-  //   name: '管理',
-  //   path: '/activity/management',
-  //   show: user.position.filter((x) => x !== 'student' && x !== 'secretary').length > 0
-  // },
   {
     icon: InfoFilled,
     name: 'about',
     path: '/about',
-    show: true
+    show: true,
+    judge: (path) => path.startsWith('/about')
   },
   {
     icon: MaterialSymbolsSettings,
     name: 'preferences',
-    path: '/administration',
-    show: user.position.includes('admin')
+    path: '/admin',
+    show: user.position.includes('admin'),
+    judge: (path) => path.startsWith('/admini')
   }
 ]
 
@@ -161,7 +163,7 @@ function routeTo(page: string) {
             size="large"
             text
             :bg="nav.path === path"
-            :type="nav.path === path ? 'primary' : ''"
+            :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"
           >
@@ -192,7 +194,6 @@ function routeTo(page: string) {
         </ElTooltip>
       </div>
     </div>
-    <ElDivider v-if="!navs.map((x) => x.path).includes(path)" />
     <ElSpace class="bottom" direction="vertical">
       <ZSelectLanguage type="button" placement="right" />
       <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
