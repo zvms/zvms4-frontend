@@ -12,7 +12,8 @@ import {
   ElSwitch,
   ElOption,
   ElSelect,
-  ElPageHeader
+  ElPageHeader,
+  ElCard
 } from 'element-plus'
 import type { Broadcast } from '@/../@types/broadcast'
 import { ArrowLeft } from '@element-plus/icons-vue'
@@ -38,42 +39,65 @@ const types = ['pinned', 'important', 'normal']
 </script>
 
 <template>
-  <div>
-    <ElPageHeader class="text-2xl px-12 py-6" @back="$router.push('/notifications/')" :icon="ArrowLeft">
-      <template #content>
-        {{ $t('broadcast.create.header') }}
-      </template>
-    </ElPageHeader>
+  <div class="px-4">
+    <Transition
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      appear
+    >
+      <ElPageHeader
+        class="text-2xl px-12 py-6"
+        @back="$router.push('/notifications/')"
+        :icon="ArrowLeft"
+      >
+        <template #content>
+          {{ $t('broadcast.create.header') }}
+        </template>
+      </ElPageHeader>
+    </Transition>
     <p></p>
-    <ElForm label-position="right" label-width="128px">
-      <ElFormItem :label="t('broadcast.create.elements.title')">
-        <ElInput v-model="broadcast.title" />
-      </ElFormItem>
-      <ElFormItem :label="t('broadcast.create.elements.content')">
-        <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="broadcast.content" />
-      </ElFormItem>
-      <ElFormItem :label="t('broadcast.create.elements.type')">
-        <ElSelect v-model="broadcast.type" class="full">
-          <ElOption
-            v-for="mode in types"
-            :key="mode"
-            :label="t(`broadcast.create.elements.types.${mode}`)"
-            :value="mode"
-          />
-        </ElSelect>
-      </ElFormItem>
-      <ElFormItem :label="t('broadcast.create.elements.expire')" class="full">
-        <ElDatePicker v-model="broadcast.expire" type="datetime" class="full" style="width: 100%" />
-      </ElFormItem>
-      <ElFormItem :label="t('broadcast.create.elements.global')">
-        <ElSwitch v-model="broadcast.global" />
-      </ElFormItem>
-      <ElFormItem v-if="!broadcast.global" :label="t('broadcast.create.elements.receivers')">
-      </ElFormItem>
-      <ElFormItem :label="t('broadcast.create.elements.anonymous')">
-        <ElSwitch v-model="broadcast.anonymous" />
-      </ElFormItem>
-    </ElForm>
+    <Transition
+      enter-active-class="animate__animated animate__fadeInRight"
+      leave-active-class="animate__animated animate__fadeOutLeft"
+      appear
+    >
+      <ElCard class="px-4" shadow="hover">
+        <ElForm label-position="right" label-width="108px">
+          <ElFormItem :label="t('broadcast.create.elements.title')">
+            <ElInput v-model="broadcast.title" />
+          </ElFormItem>
+          <ElFormItem :label="t('broadcast.create.elements.content')">
+            <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="broadcast.content" />
+          </ElFormItem>
+          <ElFormItem :label="t('broadcast.create.elements.type')">
+            <ElSelect v-model="broadcast.type" class="full">
+              <ElOption
+                v-for="mode in types"
+                :key="mode"
+                :label="t(`broadcast.create.elements.types.${mode}`)"
+                :value="mode"
+              />
+            </ElSelect>
+          </ElFormItem>
+          <ElFormItem :label="t('broadcast.create.elements.expire')" class="full">
+            <ElDatePicker
+              v-model="broadcast.expire"
+              type="datetime"
+              class="full"
+              style="width: 100%"
+            />
+          </ElFormItem>
+          <ElFormItem :label="t('broadcast.create.elements.global')">
+            <ElSwitch v-model="broadcast.global" />
+          </ElFormItem>
+          <ElFormItem v-if="!broadcast.global" :label="t('broadcast.create.elements.receivers')">
+          </ElFormItem>
+          <ElFormItem :label="t('broadcast.create.elements.anonymous')">
+            <ElSwitch v-model="broadcast.anonymous" />
+          </ElFormItem>
+        </ElForm>
+      </ElCard>
+    </Transition>
   </div>
 </template>
 
