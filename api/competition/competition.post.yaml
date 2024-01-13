@@ -1,0 +1,8 @@
+name: Create Competition
+path: /competition
+method: POST
+body: Competition
+response: ObjectId
+permission:
+  need-audit: 0
+  direct: 2
