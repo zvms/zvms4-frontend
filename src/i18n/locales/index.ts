@@ -3,7 +3,7 @@ import * as activity from './activity'
 import * as home from './home'
 import * as nav from './nav'
 import * as preferences from './preferences'
-import * as broadcast from './broadcast'
+import * as notification from './notification'
 
 export const enUS = {
   about: about.enUS,
@@ -11,7 +11,7 @@ export const enUS = {
   home: home.enUS,
   nav: nav.enUS,
   preferences: preferences.enUS,
-  broadcast: broadcast.enUS
+  notification: notification.enUS
 }
 
 export const zhCN = {
@@ -20,7 +20,7 @@ export const zhCN = {
   home: home.zhCN,
   nav: nav.zhCN,
   preferences: preferences.zhCN,
-  broadcast: broadcast.zhCN
+  notification: notification.zhCN
 }
 
 export const zhTW = {
@@ -29,7 +29,7 @@ export const zhTW = {
   home: home.zhTW,
   nav: nav.zhTW,
   preferences: preferences.zhTW,
-  broadcast: broadcast.zhTW
+  notification: notification.zhTW
 }
 
 export const jaJP = {
@@ -38,7 +38,7 @@ export const jaJP = {
   home: home.jaJP,
   nav: nav.jaJP,
   preferences: preferences.jaJP,
-  broadcast: broadcast.jaJP
+  notification: notification.jaJP
 }
 
 export const koKR = {
@@ -63,5 +63,5 @@ export const frFR = {
   home: home.frFR,
   nav: nav.frFR,
   preferences: preferences.frFR,
-  broadcast: broadcast.frFR
+  notification: notification.frFR
 }

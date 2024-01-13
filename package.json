@@ -61,7 +61,7 @@
     "cypress": "^13.3.2",
     "cz-conventional-changelog": "^3.3.0",
     "dayjs": "^1.11.10",
-    "element-plus": "^2.4.1",
+    "element-plus": "^2.5.1",
     "eslint": "^8.52.0",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-vue": "^9.17.0",

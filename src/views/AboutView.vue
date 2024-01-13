@@ -25,7 +25,8 @@ import {
   ZhaiYanqi,
   HuangHaojie,
   ZhangShengze,
-  ZhouJirui
+  ZhouJirui,
+  ZhangZheheng
 } from './collaborators'
 import { ref, type Component as VueComponent, watch } from 'vue'
 import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
@@ -120,6 +121,12 @@ const collaborators = [
     name: '翟彦棋'
   },
   {
+    dispName: 'zzh',
+    component: ZhangZheheng,
+    grade: 202311,
+    name: '张哲恒'
+  },
+  {
     dispName: 'hhj',
     component: HuangHaojie,
     grade: 202205,
@@ -176,7 +183,7 @@ function useStackDialog(version: number) {
 
 const V1List = ['neko_moyi', 'Zecyle', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
-const V4List = ['clc', '7086cmd', 'byh', 'zyq']
+const V4List = ['clc', '7086cmd', 'byh', 'zyq', 'zzh']
 
 const versions = [
   { collaborators: ['张子苏'] },

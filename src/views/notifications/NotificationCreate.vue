@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import {
@@ -15,14 +14,14 @@ import {
   ElPageHeader,
   ElCard
 } from 'element-plus'
-import type { Broadcast } from '@/../@types/broadcast'
+import type { Notification } from '@/../@types/notification'
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
 const user = useUserStore()
 
-const broadcast = reactive<Broadcast>({
+const notification = reactive<Notification>({
   global: false,
   title: '',
   content: '',
@@ -51,53 +50,57 @@ const types = ['pinned', 'important', 'normal']
         :icon="ArrowLeft"
       >
         <template #content>
-          {{ $t('broadcast.create.header') }}
+          {{ $t('notification.create.header') }}
         </template>
       </ElPageHeader>
     </Transition>
-    <p></p>
-    <Transition
-      enter-active-class="animate__animated animate__fadeInRight"
-      leave-active-class="animate__animated animate__fadeOutLeft"
-      appear
-    >
-      <ElCard class="px-4" shadow="hover">
-        <ElForm label-position="right" label-width="108px">
-          <ElFormItem :label="t('broadcast.create.elements.title')">
-            <ElInput v-model="broadcast.title" />
-          </ElFormItem>
-          <ElFormItem :label="t('broadcast.create.elements.content')">
-            <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="broadcast.content" />
-          </ElFormItem>
-          <ElFormItem :label="t('broadcast.create.elements.type')">
-            <ElSelect v-model="broadcast.type" class="full">
-              <ElOption
-                v-for="mode in types"
-                :key="mode"
-                :label="t(`broadcast.create.elements.types.${mode}`)"
-                :value="mode"
+    <div class="px-8">
+      <Transition
+        enter-active-class="animate__animated animate__fadeInRight"
+        leave-active-class="animate__animated animate__fadeOutLeft"
+        appear
+      >
+        <ElCard shadow="hover">
+          <ElForm label-position="right" label-width="108px">
+            <ElFormItem :label="t('notification.create.elements.title')">
+              <ElInput v-model="notification.title" />
+            </ElFormItem>
+            <ElFormItem :label="t('notification.create.elements.content')">
+              <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="notification.content" />
+            </ElFormItem>
+            <ElFormItem :label="t('notification.create.elements.type')">
+              <ElSelect v-model="notification.type" class="full">
+                <ElOption
+                  v-for="mode in types"
+                  :key="mode"
+                  :label="t(`notification.create.elements.types.${mode}`)"
+                  :value="mode"
+                />
+              </ElSelect>
+            </ElFormItem>
+            <ElFormItem :label="t('notification.create.elements.expire')" class="full">
+              <ElDatePicker
+                v-model="notification.expire"
+                type="datetime"
+                class="full"
+                style="width: 100%"
               />
-            </ElSelect>
-          </ElFormItem>
-          <ElFormItem :label="t('broadcast.create.elements.expire')" class="full">
-            <ElDatePicker
-              v-model="broadcast.expire"
-              type="datetime"
-              class="full"
-              style="width: 100%"
-            />
-          </ElFormItem>
-          <ElFormItem :label="t('broadcast.create.elements.global')">
-            <ElSwitch v-model="broadcast.global" />
-          </ElFormItem>
-          <ElFormItem v-if="!broadcast.global" :label="t('broadcast.create.elements.receivers')">
-          </ElFormItem>
-          <ElFormItem :label="t('broadcast.create.elements.anonymous')">
-            <ElSwitch v-model="broadcast.anonymous" />
-          </ElFormItem>
-        </ElForm>
-      </ElCard>
-    </Transition>
+            </ElFormItem>
+            <ElFormItem :label="t('notification.create.elements.global')">
+              <ElSwitch v-model="notification.global" />
+            </ElFormItem>
+            <ElFormItem
+              v-if="!notification.global"
+              :label="t('notification.create.elements.receivers')"
+            >
+            </ElFormItem>
+            <ElFormItem :label="t('notification.create.elements.anonymous')">
+              <ElSwitch v-model="notification.anonymous" />
+            </ElFormItem>
+          </ElForm>
+        </ElCard>
+      </Transition>
+    </div>
   </div>
 </template>
 

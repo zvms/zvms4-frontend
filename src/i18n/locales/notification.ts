@@ -10,7 +10,11 @@ export const enUS = {
       title: 'Title',
       content: 'Content',
       type: 'Type',
-      types: {},
+      types: {
+        pinned: 'Pinned',
+        important: 'Important',
+        normal: 'Normal'
+      },
       global: 'Global',
       receivers: 'Receivers',
       anonymous: 'Anonymous',
@@ -37,9 +41,9 @@ export const zhCN = {
       content: '内容',
       type: '类型',
       types: {
-        info: '信息',
-        warning: '警告',
-        error: '错误'
+        pinned: '置顶',
+        important: '重要',
+        normal: '普通'
       },
       global: '全体',
       receivers: '接收者',
@@ -67,9 +71,9 @@ export const zhTW = {
       content: '內容',
       type: '類型',
       types: {
-        info: '信息',
-        warning: '警告',
-        error: '錯誤'
+        pinned: '置頂',
+        important: '重要',
+        normal: '普通'
       },
       global: '全體',
       receivers: '接收者',
@@ -97,9 +101,9 @@ export const jaJP = {
       content: '内容',
       type: 'タイプ',
       types: {
-        info: '情報',
-        warning: '警告',
-        error: 'エラー'
+        pinned: 'ピン留め',
+        important: '重要',
+        normal: '通常'
       },
       global: '全体',
       receivers: '受信者',
@@ -127,9 +131,9 @@ export const frFR = {
       content: 'Contenu',
       type: 'Type',
       types: {
-        info: 'Information',
-        warning: 'Attention',
-        error: 'Erreur'
+        pinned: 'Épinglé',
+        important: 'Important',
+        normal: 'Normal'
       },
       global: 'Global',
       receivers: 'Destinataires',
