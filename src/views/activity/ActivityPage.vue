@@ -4,6 +4,7 @@ import { ZActivityPage } from '@/components/activity/'
 import { ref } from 'vue';
 import type { ActivityInstance } from '@/../@types/activity';
 import api from '@/api';
+import { ElLoading } from 'element-plus';
 
 const route = useRoute()
 
@@ -11,11 +12,17 @@ const _id = route.params._id as string
 
 const activity = ref<ActivityInstance>()
 
+const loading = ElLoading.service({
+  fullscreen: true,
+  text: '加载中'
+})
+
 api.activity.read.single(_id).then(res => {
   activity.value = res
+  loading.close()
 })
 </script>
 
 <template>
-  <ZActivityPage v-if="activity" :activity="activity" />
+  <ZActivityPage class="px-16 py-12" v-if="activity" :activity="activity" />
 </template>

@@ -2,7 +2,7 @@
 import type { SpecialActivity, ActivityInstance, SpecifiedActivity } from '@/../@types/activity'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
-import { Calendar, Location, ArrowRight, Delete } from '@element-plus/icons-vue'
+import { Calendar, Location, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
@@ -176,6 +176,17 @@ const refresh = () => emits('refresh')
       </ElCol>
       <ElCol :span="18">
         <div class="pl-4 py-2" style="text-align: right">
+          <ElButton
+            type="info"
+            :icon="Plus"
+            text
+            bg
+            round
+            size="small"
+            @click="$router.push('/activity/' + activity._id)"
+          >
+            {{ t('activity.form.detail') }}
+          </ElButton>
           <ElPopconfirm
             v-if="
               mode !== 'mine' &&

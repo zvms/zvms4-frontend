@@ -12,24 +12,29 @@ const user = useUserStore()
 const props = withDefaults(
   defineProps<{
     activity: ActivityInstance
-  }>(), {}
+  }>(),
+  {}
 )
 
 const { activity } = props
 
-const availibility = ref(user.position.includes('department') || user.position.includes('auditor') || user.position.includes('admin') || user.position.includes('secretary'))
+// const availibility = ref(
+//   user.position.includes('department') ||
+//     user.position.includes('auditor') ||
+//     user.position.includes('admin') ||
+//     user.position.includes('secretary')
+// )
 </script>
 
 <template>
   <div>
-    <ElPageHeader
-      v-if="activity._id"
-      :content="activity.name"
-      :icon="ArrowLeft"
-      @back="() => $router.back()"
-    />
-    <ZActivityCard v-if="activity._id" :_id="activity._id" :mode="'mine'" :activity="activity" />
-    <ZActivityMemberList v-if="activity._id && availibility" :activity="activity" />
-    <ZActivityHistory v-if="activity._id" :activity="activity" />
+    <ElPageHeader v-if="activity._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+      <template #content>
+        {{ activity.name }}
+      </template>
+    </ElPageHeader>
+    <p class="text-gray-500 dark:text-gray-400 px-4">
+      {{ activity.description }}
+    </p>
   </div>
 </template>

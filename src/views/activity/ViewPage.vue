@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ZActivityList } from '@/components'
 import { useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useUserStore } from '@/stores/user';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 const route = useRoute()
-const { t } = useI18n()
-const user = useUserStore()
 
 console.log(route)
 

@@ -73,13 +73,13 @@ const router = createRouter({
           path: '/activities/:type',
           name: 'activity-type',
           component: () => import('../views/activity/ViewPage.vue')
-        },
-        {
-          path: '/activity/:_id',
-          name: 'activity-view',
-          component: () => import('../views/activity/ActivityPage.vue')
         }
       ]
+    },
+    {
+      path: '/activity/:id',
+      name: 'activity-view',
+      component: () => import('../views/activity/ActivityPage.vue')
     },
     {
       path: '/umbrella/',

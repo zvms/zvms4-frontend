@@ -58,6 +58,7 @@ export const enUS = {
     duration: 'Duration',
     classify: 'Classify',
     pending: 'Pending',
+    detail: 'Detail',
     upload: {
       name: 'Upload',
       prompt: 'Click or drag file to this area to upload',
@@ -327,6 +328,7 @@ export const zhCN = {
     duration: '时长',
     classify: '分类',
     pending: '等待审核',
+    detail: '详细信息',
     actions: {
       submit: '提交',
       cancel: '取消',
@@ -595,6 +597,7 @@ export const zhTW = {
     duration: '時長',
     classify: '分類',
     pending: '等待審核',
+    detail: '詳細信息',
     actions: {
       submit: '提交',
       cancel: '取消',
@@ -864,6 +867,7 @@ export const jaJP = {
     duration: '時間',
     classify: '分類',
     pending: '審査待ち',
+    detail: '詳細',
     actions: {
       submit: '提出',
       cancel: 'キャンセル',
@@ -1133,6 +1137,7 @@ export const frFR = {
     duration: 'Durée',
     classify: 'Classer',
     pending: 'En Attente',
+    detail: 'Détails',
     actions: {
       submit: 'Soumettre',
       cancel: 'Annuler',

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { ElTabs, ElTabPane, ElPageHeader, ElSpace, ElButton, ElDivider } from 'element-plus'
-import { ZActivityList } from '@/components'
+import { ElPageHeader, ElSpace, ElButton, ElDivider } from 'element-plus'
 import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
-import { useUserStore } from '@/stores/user'
-import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import type { ActivityInstance } from '@/../@types/activity'
 import api from '@/api'
@@ -13,7 +10,6 @@ import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 const header = useHeaderStore()
-const user = useUserStore()
 const { t } = useI18n()
 
 header.setHeader(t('nav.activity'))
@@ -24,8 +20,6 @@ const router = useRouter()
 const path = ref(route.params?.type ?? '')
 
 const tab = ref(path.value as string)
-
-const { width, height } = useWindowSize()
 
 const activities = ref<ActivityInstance[]>([])
 const availibility = ref(true)
