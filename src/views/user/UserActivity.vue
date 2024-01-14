@@ -50,11 +50,9 @@ api.activity.read
 
 watch(
   () => route.params?.type,
-  (type) => {
-    if (typeof type === 'string') {
-      tab.value = type
-    } else {
-      tab.value = ''
+  () => {
+    if (route.path.startsWith('/activities/')) {
+      tab.value = route.path.replace('/activities/', '') ?? 'mine'
     }
   },
   { immediate: true }
@@ -101,22 +99,16 @@ const panes = [
 
 function moveTo(type: string) {
   availibility.value = false
-  if (type === 'mine') {
-    router.push(`/activities/`)
-    return
-  } else {
-    router.push(`/activities/${type}`)
-  }
-  availibility.value = true
+  router.push(`/activities/${type}`)
+  setTimeout(() => {
+    availibility.value = true
+  }, 100)
 }
 </script>
 
 <template>
   <div class="p-4" style="width: 100%">
-    <div
-      class="flex px-12 py-4"
-      v-if="panes.map((x) => (x.value === 'mine' ? '' : x.value)).includes(tab)"
-    >
+    <div class="flex px-12 py-4" v-if="[...panes.map((x) => x.value), ''].includes(tab)">
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
           {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
@@ -166,32 +158,6 @@ function moveTo(type: string) {
         </template>
       </ElPageHeader>
     </Transition>
-
-    <!-- <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
-      <ElTabPane name="" :label="t('nav.activities.mine')">
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.mine') }}</p>
-        <ZActivityList role="mine" :activities="activities" :loading="loading" />
-      </ElTabPane>
-      <ElTabPane name="register" :label="t('nav.activities.register')">
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.register') }}</p>
-      </ElTabPane>
-      <ElTabPane
-        v-if="user.position.includes('secretary')"
-        name="class"
-        :label="t('nav.activities.class')"
-      >
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.class') }}</p>
-        <ZActivityList role="class" :activities="activities" :loading="loading" />
-      </ElTabPane>
-      <ElTabPane
-        v-if="user.position.includes('auditor') || user.position.includes('department')"
-        name="campus"
-        :label="t('nav.activities.campus')"
-      >
-        <p class="text-2xl py-4 px-12">{{ t('nav.activities.campus') }}</p>
-        <ZActivityList role="campus" :activities="activities" :loading="loading" />
-      </ElTabPane>
-    </ElTabs> -->
     <RouterView v-if="availibility" />
   </div>
 </template>
