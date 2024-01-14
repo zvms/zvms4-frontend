@@ -242,6 +242,30 @@ export const enUS = {
         title: 'Append Member to {activity}'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: 'My Activities',
+        short: 'Mine'
+      },
+      class: {
+        name: 'Activities Related to Class',
+        short: 'Class'
+      },
+      campus: {
+        name: 'Activities on Campus',
+        short: 'Campus'
+      },
+      register: {
+        name: 'Activities to Register',
+        short: 'Register'
+      },
+      trophy: {
+        name: 'Activities to Reward',
+        short: 'Reward'
+      }
+    }
   }
 }
 
@@ -483,6 +507,30 @@ export const zhCN = {
         remove: '移除',
         confirm: '移除后将不可恢复，确定移除？',
         title: '添加成员至{activity}'
+      }
+    }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '我的义工',
+        short: '我的'
+      },
+      class: {
+        name: '班级义工',
+        short: '班级'
+      },
+      campus: {
+        name: '校内义工',
+        short: '校内'
+      },
+      register: {
+        name: '报名义工',
+        short: '报名'
+      },
+      trophy: {
+        name: '获奖义工',
+        short: '获奖'
       }
     }
   }
@@ -727,6 +775,30 @@ export const zhTW = {
         remove: '移除',
         confirm: '移除後將不可恢復，確定移除？',
         title: '添加成員至{activity}'
+      }
+    }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '我的義工',
+        short: '我的'
+      },
+      class: {
+        name: '班級義工',
+        short: '班級'
+      },
+      campus: {
+        name: '校內義工',
+        short: '校內'
+      },
+      register: {
+        name: '報名義工',
+        short: '報名'
+      },
+      trophy: {
+        name: '獲獎義工',
+        short: '獲獎'
       }
     }
   }
@@ -974,6 +1046,30 @@ export const jaJP = {
         title: '{activity}にメンバーを追加'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '私のボランティア',
+        short: '私の'
+      },
+      class: {
+        name: 'クラスボランティア',
+        short: 'クラス'
+      },
+      campus: {
+        name: '校内ボランティア',
+        short: '校内'
+      },
+      register: {
+        name: '登録ボランティア',
+        short: '登録'
+      },
+      trophy: {
+        name: '受賞ボランティア',
+        short: '受賞'
+      }
+    }
   }
 }
 
@@ -1212,8 +1308,33 @@ export const frFR = {
         name: 'Actions',
         add: 'Ajouter',
         remove: 'Supprimer',
-        confirm: 'Après la suppression, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?',
+        confirm:
+          'Après la suppression, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?',
         title: 'Ajouter un Membre à {activity}'
+      }
+    }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: 'Mes Bénévoles',
+        short: 'Mes'
+      },
+      class: {
+        name: 'Bénévoles de Classe',
+        short: 'Classe'
+      },
+      campus: {
+        name: 'Bénévoles sur le Campus',
+        short: 'Sur le Campus'
+      },
+      register: {
+        name: 'Bénévoles Inscrits',
+        short: 'Inscrits'
+      },
+      trophy: {
+        name: 'Bénévoles Gagnants',
+        short: 'Gagnants'
       }
     }
   }

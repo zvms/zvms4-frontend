@@ -50,7 +50,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/activity/',
+      path: '/activities/',
       name: 'activity',
       component: () => import('../views/user/UserActivity.vue'),
       children: [
@@ -60,9 +60,14 @@ const router = createRouter({
           component: () => import('../views/activity/UserRegister.vue')
         },
         {
-          path: '/activity/:type',
+          path: '/activities/:type',
           name: 'activity-type',
-          component: () => import('../views/activity/CreatePage.vue')
+          component: () => import('../views/activity/ViewPage.vue')
+        },
+        {
+          path: '/activity/:_id',
+          name: 'activity-view',
+          component: () => import('../views/activity/ActivityPage.vue')
         }
       ]
     },

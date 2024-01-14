@@ -29,7 +29,7 @@ import api from '@/api'
 
 const user = useUserStore()
 const { t } = useI18n()
-const { height, width } = useWindowSize()
+const { height } = useWindowSize()
 const open = ref(false)
 
 const max = ref(height.value * 0.6)
