@@ -3,7 +3,7 @@ import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'eleme
 import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import type { BroadcastInstance } from '@/../@types/broadcast'
+import type { NotificationInstance } from '@/../@types/notification'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
@@ -19,14 +19,14 @@ const minHeight = ref(height.value * 0.68 + 'px')
 watch(height, () => (minHeight.value = height.value * 0.68 + 'px'))
 
 const sliceLength = 8
-const sliceNotification = (unsliced: BroadcastInstance[]) => {
+const sliceNotification = (unsliced: NotificationInstance[]) => {
   if (unsliced.length <= sliceLength) return [unsliced]
   const res = []
   for (let i = 0; i <= unsliced.length - sliceLength; i += 10) res.push(unsliced.slice(i, i + 10))
   return res
 }
 
-const notifications = ref<Array<BroadcastInstance[]>>([])
+const notifications = ref<Array<NotificationInstance[]>>([])
 const pageIndex = ref(1) // Start from 1
 
 const getNotifications = () => {
