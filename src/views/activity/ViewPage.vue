@@ -9,9 +9,9 @@ const route = useRoute()
 const { t } = useI18n()
 const user = useUserStore()
 
-const type = ref(route.params?.type as 'mine' | 'class' | 'campus')
+const type = ref(route.params?.type as 'mine' | 'class' | 'campus' ?? 'mine')
 </script>
 
 <template>
-  <ZActivityList :role="type" />
+  <ZActivityList class="px-4" :role="type" />
 </template>

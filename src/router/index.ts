@@ -55,6 +55,11 @@ const router = createRouter({
       component: () => import('../views/user/UserActivity.vue'),
       children: [
         {
+          path: '/activities/',
+          name: 'activity',
+          component: () => import('../views/activity/ViewPage.vue')
+        },
+        {
           path: '/activity/register/',
           name: 'activity-register',
           component: () => import('../views/activity/UserRegister.vue')

@@ -107,9 +107,9 @@ const navs: Array<{
   {
     icon: MdiEye,
     name: 'activity',
-    path: '/activity/',
+    path: '/activities/',
     show: true,
-    judge: (path) => path.startsWith('/activity') && !path.startsWith('/activity/create')
+    judge: (path) => path.startsWith('/activity') && !path.startsWith('/activity/create') || path.startsWith('/activities')
   },
   {
     icon: CirclePlusFilled,
