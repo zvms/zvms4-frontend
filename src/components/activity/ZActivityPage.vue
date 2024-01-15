@@ -4,7 +4,16 @@ import { ZActivityCard, ZActivityHistory, ZActivityMemberList, ZActivityMember }
 import { ZActivityType, ZActivityMode } from '..'
 import { ref, withDefaults } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import { ElPageHeader, ElButton, ElSpace, ElButtonGroup, ElCollapse, ElCollapseItem, ElScrollbar } from 'element-plus'
+import {
+  ElPageHeader,
+  ElButton,
+  ElSpace,
+  ElButtonGroup,
+  ElCollapse,
+  ElCollapseItem,
+  ElScrollbar,
+  ElCard
+} from 'element-plus'
 import { ArrowLeft, Edit, Plus } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
@@ -29,12 +38,12 @@ const props = withDefaults(
 
 const { activity } = props
 
-const scroll = ref(height.value * 0.4 + 'px')
+const scroll = ref(height.value * 0.54 + 'px')
 
 watch(
   () => height.value,
   (value) => {
-    scroll.value = value * 0.4 + 'px'
+    scroll.value = value * 0.54 + 'px'
   }
 )
 
@@ -65,11 +74,18 @@ console.log(scroll.value)
     <p class="text-gray-500 dark:text-gray-400 px-4">
       {{ activity.description }}
     </p>
-    <ElCollapse v-model="collapse">
-      <ElCollapseItem name="member" :title="t('activity.form.member', 2)">
-        <ZActivityMemberList :activity="activity" />
-      </ElCollapseItem>
-    </ElCollapse>
+    <ElCard shadow="never" class="w-full py-2">
+      <ElScrollbar :height="scroll">
+        <ElCollapse v-model="collapse">
+          <ElCollapseItem name="member" :title="t('activity.form.person', 2)">
+            <ZActivityMemberList :activity="activity" mode="card" />
+          </ElCollapseItem>
+          <ElCollapseItem v-if="activity.members.map(x => x._id).includes(user._id)" name="history" :title="t('activity.history.name')">
+            <ZActivityHistory :activity="activity" display="card" />
+          </ElCollapseItem>
+        </ElCollapse>
+      </ElScrollbar>
+    </ElCard>
     <div class="py-2 flex justify-end">
       <ZActivityMember
         :id="activity.creator"
