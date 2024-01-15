@@ -18,7 +18,7 @@ function generateNotification(_id: string) {
 
 export default [
   {
-    url: '/api/user/:id/broadcast',
+    url: '/api/user/:id/notification',
     method: 'get',
     response({ params }) {
       const res = [generateNotification(params.id)]
@@ -27,6 +27,13 @@ export default [
         code: 200,
         data: res
       }
+    }
+  },
+  {
+    url: '/api/notification',
+    method: 'post',
+    reponse() {
+      return { code: 200, data: 'success' }
     }
   }
 ]

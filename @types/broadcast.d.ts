@@ -1,3 +1,5 @@
+// TODO: Refactor to the name Notification
+
 export interface Broadcast {
   _id: string
   global: boolean
@@ -18,7 +20,7 @@ export interface BraodcastBroadcast extends Broadcast {
 
 export interface SendBroadcast extends Broadcast {
   global: false
-  receiver: string[] // ObjectId[]
+  receivers: string[] // ObjectId[]
 }
 
 export type BroadcastInstance = BraodcastBroadcast | SendBroadcast

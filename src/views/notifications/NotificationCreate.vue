@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import {
@@ -11,15 +10,18 @@ import {
   ElDatePicker,
   ElSwitch,
   ElOption,
-  ElSelect
+  ElSelect,
+  ElButton
 } from 'element-plus'
-import type { Broadcast } from '@/../@types/broadcast'
+import type { BroadcastInstance } from '@/../@types/broadcast'
+import api from '@/api/'
+import type { ZSelectPerson } from '@/components'
 
 const { t } = useI18n()
 
 const user = useUserStore()
 
-const broadcast = reactive<Broadcast>({
+const broadcast = reactive<BroadcastInstance>({
   global: false,
   title: '',
   content: '',
@@ -33,6 +35,11 @@ const broadcast = reactive<Broadcast>({
 })
 
 const types = ['pinned', 'important', 'normal']
+
+const submit = () => {
+  api.notification.create(broadcast)
+  console.log(broadcast)
+}
 </script>
 
 <template>
@@ -64,9 +71,20 @@ const types = ['pinned', 'important', 'normal']
         <ElSwitch v-model="broadcast.global" />
       </ElFormItem>
       <ElFormItem v-if="!broadcast.global" :label="t('broadcast.create.elements.receivers')">
+        <!-- TODO: ZSelectPerson not working -->
+        <ZSelectPerson
+          v-model="broadcast.receivers"
+          placeholder="Select target person"
+          :filter-width="2"
+          multiple
+          full-width
+        />
       </ElFormItem>
       <ElFormItem :label="t('broadcast.create.elements.anonymous')">
         <ElSwitch v-model="broadcast.anonymous" />
+      </ElFormItem>
+      <ElFormItem>
+        <ElButton @click="submit">Submit</ElButton>
       </ElFormItem>
     </ElForm>
   </div>

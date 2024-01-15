@@ -5,7 +5,7 @@ import { ElNotification } from 'element-plus'
 
 async function createNotification(notification: BroadcastInstance) {
   const result = (
-    await axios('notifications/create', {
+    await axios('/notification', {
       method: 'post',
       data: notification,
       withCredentials: true
