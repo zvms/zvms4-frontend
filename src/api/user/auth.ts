@@ -4,14 +4,27 @@ import type { Response } from '@/../@types/response'
 import type { LoginResult } from '@/../@types/login'
 import { ElNotification } from 'element-plus'
 
+export async function getRSAPublicCert() {
+  const result = (await axios('/cert')) as Response<string>
+  if (result.status === 'error') {
+    ElNotification({
+      title: '获取公钥错误（' + result.code + '）',
+      message: result.message,
+      type: 'error'
+    })
+    return
+  }
+  return result.data
+}
+
 async function UserLogin(user: string, password: string) {
-  const result = await axios('/user/auth', {
+  const result = (await axios('/user/auth', {
     method: 'POST',
     data: {
       userident: user.toString(),
-      password: md5(password),
+      password: md5(password)
     }
-  }) as Response<LoginResult>
+  })) as Response<LoginResult>
   if (result.status === 'error') {
     ElNotification({
       title: '登录错误（' + result.code + '）',
