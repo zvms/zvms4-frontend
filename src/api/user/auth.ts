@@ -3,15 +3,18 @@ import type { Response } from '@/../@types/response'
 import type { LoginResult } from '@/../@types/login'
 import { ElNotification } from 'element-plus'
 import JSEncrypt from 'jsencrypt'
+import dayjs from 'dayjs'
 
 export async function getRSAPublicCert(): Promise<JSEncrypt | undefined> {
-  const result = (await axios('/cert', {
-    method: 'GET',
-    params: {
-      type: 'public',
-      method: 'RSA'
-    }
-  })) as Response<string>
+  const result = (
+    await axios('/cert', {
+      method: 'GET',
+      params: {
+        type: 'public',
+        method: 'RSA'
+      }
+    })
+  ).data as Response<string>
   if (result.status === 'error') {
     ElNotification({
       title: '获取公钥错误（' + result.code + '）',
@@ -28,13 +31,19 @@ export async function getRSAPublicCert(): Promise<JSEncrypt | undefined> {
 async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {
   const encrypt = await getRSAPublicCert()
   if (!encrypt) return
-  const password_encrypted = encrypt?.encrypt(password)
+  const credentials = {
+    password: password,
+    timestamp: dayjs().unix()
+  }
+  console.log(encrypt)
+  const credential = encrypt.encrypt(JSON.stringify(credentials))
+  console.log(`User ${user} login with ${term} term, with the credential ${credential}`)
   const result = (await axios('/user/auth', {
     method: 'POST',
     data: {
       userident: user.toString(),
-      password: password_encrypted,
-      role: term
+      password: credential,
+      mode: term
     }
   })) as Response<LoginResult>
   if (result.status === 'error') {

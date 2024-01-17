@@ -7,16 +7,16 @@ params:
     type: string
     required: true
     description: The user id (ObjectId)
-  - name: password
+  - name: credential
     in: body
     type: string
     required: true
-    description: The user password (after rsa-128)
-  - name: role
+    description: The user credential (after json dump with password and timestamp)
+  - name: mode
     in: body
     type: string
     required: true
-    description: The user auth role ('short' or 'long')
+    description: The user auth mode ('short' or 'long')
 response:
   - name: token
     type: string

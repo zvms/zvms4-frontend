@@ -142,6 +142,9 @@ devDependencies:
   husky:
     specifier: ^8.0.3
     version: 8.0.3
+  jose:
+    specifier: ^5.2.0
+    version: 5.2.0
   js-md5:
     specifier: ^0.8.3
     version: 0.8.3
@@ -6832,6 +6835,10 @@ packages:
       '@sideway/address': 4.1.4
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
+    dev: true
+
+  /jose@5.2.0:
+    resolution: {integrity: sha512-oW3PCnvyrcm1HMvGTzqjxxfnEs9EoFOFWi2HsEGhlFVOXxTE3K9GKWVMFoFw06yPUqwpvEWic1BmtUZBI/tIjw==}
     dev: true
 
   /js-beautify@1.14.9:

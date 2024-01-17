@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
 import { generateNumber } from './utils'
 import ObjectID from 'bson-objectid'
+import JSEncrypt from 'jsencrypt'
+import * as jose from 'jose'
 
 function generateActivity(_id?: string, serie: boolean = true) {
   return {
@@ -96,7 +98,11 @@ function createPerson(id?: string) {
     position:
       faker.number.int({ min: 0, max: 3 }) === 0
         ? ['student', 'secretary', 'department', 'auditor', 'admin']
-        : [['teacher', 'secretary', 'department', 'auditor', 'admin'][Math.floor(Math.random() * 5)]],
+        : [
+            ['teacher', 'secretary', 'department', 'auditor', 'admin'][
+              Math.floor(Math.random() * 5)
+            ]
+          ],
     code: generateCode()
   }
 }
@@ -294,7 +300,9 @@ export default [
         code: 200,
         status: 'success',
         data: {
-          token: 'test-token'
+          token:
+            'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTc3Zjk0MDIzODY5MGExNjdiZWI1ZSIsIm5hbWUiOiJhZG1pbiIsInNleCI6IjIwMjEtMDQtMjZUMjA6MjA6MjYuMjY2WiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNjE4NjY0NjI2LCJleHAiOjE2M',
+          _id: '65577f940238690a167beb5e'
         }
       }
     }
