@@ -18,7 +18,7 @@ export interface BraodcastNotification extends Notification {
 
 export interface SendNotification extends Notification {
   global: false
-  receiver: string[] // ObjectId[]
+  receivers: string[] // ObjectId[]
 }
 
 export type NotificationInstance = BraodcastNotification | SendNotification

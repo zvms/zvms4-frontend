@@ -61,7 +61,7 @@ getNotifications()
     </ElRow>
     <ElScrollbar :height="minHeight">
       <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-2">
-        <ElCard shadow="hover" class="p-2">
+        <ElCard shadow="hover" class="p-1">
           <div class="flex justify-between p-2 pl-0">
             <span class="font-bold text-xl">{{ item.title }}</span>
             <ZActivityMember v-if="item.publisher" id="item.publisher" />

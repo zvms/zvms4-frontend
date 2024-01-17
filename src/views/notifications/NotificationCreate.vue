@@ -35,6 +35,11 @@ const notification = reactive<Notification>({
 })
 
 const types = ['pinned', 'important', 'normal']
+
+const submit = () => {
+  api.notification.create(broadcast)
+  console.log(broadcast)
+}
 </script>
 
 <template>
