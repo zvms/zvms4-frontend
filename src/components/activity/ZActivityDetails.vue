@@ -73,23 +73,13 @@ const refresh = () => emits('refresh')
       </ElInput>
       <ElButtonGroup>
         <ZActivityType
-          v-if="activity.type !== 'special'"
           class="px-2"
           :type="activity.type"
           mode="full"
           show-special
           force="full"
           :status="activity.status"
-        />
-        <ZActivityType
-          v-else
-          class="px-2"
-          type="special"
-          mode="full"
-          force="full"
-          show-special
-          :special="(activity as SpecialActivity).special.classify"
-          :status="activity.status"
+          :special="activity.type === 'special' ? activity.special.classify : undefined"
         />
       </ElButtonGroup>
     </p>

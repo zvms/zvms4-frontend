@@ -8,9 +8,13 @@ import type { ActivityType } from '@/../@types/activity'
 import { ArrowLeft, InfoFilled } from '@element-plus/icons-vue'
 import classifications from '@/components/tags/classifications'
 import CreateHome from './CreateHome.vue'
+import { permissions } from '@/components/activity'
+import { useUserStore } from '@/stores/user'
+import type { UserPosition } from '@/../@types/user'
 
 const header = useHeaderStore()
 const { t } = useI18n()
+const user = useUserStore()
 
 header.setHeader(t('nav.create'))
 
@@ -66,6 +70,8 @@ function returnHome() {
   router.push('/activity/create')
   tab.value = ''
 }
+
+const visibility = permissions(user.position as UserPosition[])
 </script>
 
 <template>
@@ -89,7 +95,7 @@ function returnHome() {
         <template #extra>
           <ElSpace>
             <ElButton
-              v-for="button in tabs"
+              v-for="button in tabs.filter(x => visibility[x.value as ActivityType])"
               :key="button.value"
               @click="mov(button.value)"
               text

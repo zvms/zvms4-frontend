@@ -5,24 +5,31 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { ElCard, ElButton, ElDivider } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import classifications from '@/components/tags/classifications'
+import type { ActivityType } from '@/../@types/activity';
+import type { UserPosition } from '@/../@types/user';
+import { useUserStore } from '@/stores/user';
+import { permissions } from '@/components/activity'
 
 const emits = defineEmits<{
   (e: 'move', value: string): void
 }>()
 
 const { t } = useI18n()
+const user = useUserStore()
 
 const types = Object.entries(classifications.type).map(([key, value]) => ({
   label: '',
-  value: key,
+  value: key as ActivityType,
   color: value.color,
   icon: value.icon
 }))
+
+const visibility: Record<ActivityType, boolean | 'need-audit'> = permissions(user.position as UserPosition[])
 </script>
 
 <template>
   <div class="px-8 py-2" style="width: 100%">
-    <div class="py-2" v-for="typeOfActivity in types" :key="typeOfActivity.value">
+    <div class="py-2" v-for="typeOfActivity in types.filter(x => visibility[x.value as ActivityType])" :key="typeOfActivity.value">
       <ElCard shadow="hover">
         <div>
           <ElButton text bg circle :type="typeOfActivity.color" :icon="typeOfActivity.icon" />

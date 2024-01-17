@@ -1,3 +1,6 @@
+import type { UserPosition } from '@/../@types/user'
+import type { ActivityType } from '@/../@types/activity'
+
 export { default as ZActivityCreate } from './ZActivityCreate.vue'
 export { default as ZActivityDetails } from './ZActivityDetails.vue'
 export { default as ZActivityHistory } from './ZActivityHistory.vue'
@@ -9,3 +12,41 @@ export { default as ZActivityMemberTimeJudge } from './ZTimeJudge.vue'
 export { default as ZActivityCard } from './ZActivityCard.vue'
 export { default as ZActivityMemberList } from './ZActivityMemberList.vue'
 export { default as ZActivityPage } from './ZActivityPage.vue'
+export function permissions(positions: UserPosition[]) {
+  function upperStudent(positions: UserPosition[]) {
+    const result =
+      positions.includes('admin') ||
+      positions.includes('department') ||
+      positions.includes('secretary')
+        ? true
+        : positions.includes('auditor') || positions.includes('student')
+        ? 'need-audit'
+        : false
+    return result
+  }
+  function upperSecretary(positions: UserPosition[]) {
+    const result =
+      positions.includes('admin') || positions.includes('department')
+        ? true
+        : positions.includes('secretary') || positions.includes('auditor')
+        ? 'need-audit'
+        : false
+    return result
+  }
+  function specialManagement(positions: UserPosition[]) {
+    const result =
+      positions.includes('admin') || positions.includes('department')
+        ? true
+        : positions.includes('auditor')
+        ? 'need-audit'
+        : false
+    return result
+  }
+  const insert = {
+    specified: upperSecretary(positions),
+    social: upperStudent(positions),
+    scale: upperStudent(positions),
+    special: specialManagement(positions)
+  } as Record<ActivityType, boolean | 'need-audit'>
+  return insert
+}

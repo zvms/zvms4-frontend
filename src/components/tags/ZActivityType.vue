@@ -13,7 +13,7 @@ import classifications from './classifications'
 
 const { t } = useI18n()
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   type: ActivityType
   special?: SpecialActivityClassification
   showSpecial?: boolean
@@ -22,7 +22,14 @@ const props = defineProps<{
   mode?: 'auto' | 'full' | 'icon'
   force?: 'full' | 'short'
   status?: ActivityStatus
-}>()
+}>(), {
+  special: 'other',
+  showSpecial: true,
+  size: 'small',
+  color: true,
+  mode: 'auto',
+  status: 'effective'
+})
 
 const { type, size, mode, special, status } = toRefs(props)
 

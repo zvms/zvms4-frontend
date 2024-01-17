@@ -34,14 +34,19 @@ const open = ref(false)
 
 const max = ref(height.value * 0.6)
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   activity: ActivityInstance
-}>()
+  mode?: 'button' | 'card'
+  color?: 'primary' | 'success' | 'warning' | 'danger'
+}>(), {
+  mode: 'button',
+  color: 'danger'
+})
 const emits = defineEmits<{
   refresh: []
 }>()
 
-const { activity } = toRefs(props)
+const { activity, mode } = toRefs(props)
 const modified = ref(false)
 
 function getMode(): ActivityMode {
@@ -102,13 +107,13 @@ watch(open, () => {
 <template>
   <ZButtonOrCard
     v-model:open="open"
-    mode="button"
+    :mode="mode"
     pop-type="dialog"
     width="80%"
     size="small"
     :icon="User"
     round
-    type="danger"
+    :type="color"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text>

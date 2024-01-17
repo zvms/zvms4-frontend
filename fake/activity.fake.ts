@@ -93,14 +93,10 @@ function createPerson(id?: string) {
     id: generateNumber(),
     name: faker.person.fullName(),
     sex: faker.person.sex(),
-    position: new Array(faker.number.int({ min: 1, max: 3 }))
-      .fill(0)
-      .map(
-        () =>
-          ['system', 'admin', 'auditor', 'department', 'secretary', 'student'][
-            faker.number.int({ min: 0, max: 5 })
-          ]
-      ),
+    position:
+      faker.number.int({ min: 0, max: 3 }) === 0
+        ? ['student', 'secretary', 'department', 'auditor', 'admin']
+        : [['teacher', 'secretary', 'department', 'auditor', 'admin'][Math.floor(Math.random() * 5)]],
     code: generateCode()
   }
 }

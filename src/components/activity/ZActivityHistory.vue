@@ -14,9 +14,19 @@ import { Clock, Timer } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { History, User } from '@icon-park/vue-next'
 
-const props = defineProps<{ history?: ActivityMemberHistory[]; mode?: ActivityMode }>()
+const props = withDefaults(
+  defineProps<{
+    history?: ActivityMemberHistory[]
+    mode?: ActivityMode
+    display?: 'button' | 'card'
+  }>(),
+  {
+    mode: 'on-campus',
+    display: 'button'
+  }
+)
 
-const { history, mode } = toRefs(props)
+const { history, mode, display } = toRefs(props)
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
@@ -59,7 +69,7 @@ const statusMap: Record<
 <template>
   <ZButtonOrCard
     :icon="History"
-    mode="button"
+    :mode="display"
     center
     pop-type="dialog"
     direction="rtl"

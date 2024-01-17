@@ -8,9 +8,11 @@ import type { ActivityInstance } from '@/../@types/activity'
 import api from '@/api'
 import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
 import { ArrowLeft } from '@element-plus/icons-vue'
+import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()
 const { t } = useI18n()
+const user = useUserStore()
 
 header.setHeader(t('nav.activity'))
 
@@ -33,14 +35,6 @@ api.activity.read
     loading.value = false
     activities.value = res as ActivityInstance[]
   })
-
-// watch(
-//   tab,
-//   () => {
-//     router.push(`/activity/${path.value}`)
-//   },
-//   { immediate: true }
-// )
 
 watch(
   () => route.params?.type,
@@ -73,22 +67,26 @@ const panes = [
   {
     value: 'mine',
     color: 'primary',
-    icon: User
+    icon: User,
+    visibility: user.position.includes('student')
   },
   {
     value: 'class',
     color: 'warning',
-    icon: Group
+    icon: Group,
+    visibility: user.position.includes('secretary')
   },
   {
     value: 'campus',
     color: 'danger',
-    icon: School
+    icon: School,
+    visibility: user.position.includes('department') || user.position.includes('auditor') || user.position.includes('admin')
   }
 ] as Array<{
   value: string
   color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
   icon: VueComponent
+  visibility?: boolean
 }>
 
 function moveTo(type: string) {
@@ -133,7 +131,7 @@ function moveTo(type: string) {
             text
             bg
             size="small"
-            v-for="pane in panes"
+            v-for="pane in panes.filter((x) => x.visibility)"
             :key="pane.value"
             :type="pane.color"
             :icon="pane.icon"
