@@ -20,9 +20,6 @@ dependencies:
   chart.js:
     specifier: ^4.4.0
     version: 4.4.0
-  jsencrypt:
-    specifier: ^3.3.2
-    version: 3.3.2
   pinia:
     specifier: ^2.1.6
     version: 2.1.6(typescript@5.2.2)(vue@3.3.4)
@@ -154,6 +151,9 @@ devDependencies:
   jsdom:
     specifier: ^22.1.0
     version: 22.1.0
+  jsencrypt:
+    specifier: ^3.3.2
+    version: 3.3.2
   md5:
     specifier: ^2.3.0
     version: 2.3.0
@@ -2554,6 +2554,7 @@ packages:
   /@commitlint/config-validator@18.4.4:
     resolution: {integrity: sha512-/QI8KIg/h7O0Eus36fPcEcO3QPBcdXuGfZeCF5m15k0EB2bcU8s6pHNTNEa6xz9PrAefHCL+yzRJj7w20T6Mow==}
     engines: {node: '>=v18'}
+    requiresBuild: true
     dependencies:
       '@commitlint/types': 18.4.4
       ajv: 8.12.0
@@ -2563,6 +2564,7 @@ packages:
   /@commitlint/execute-rule@18.4.4:
     resolution: {integrity: sha512-a37Nd3bDQydtg9PCLLWM9ZC+GO7X5i4zJvrggJv5jBhaHsXeQ9ZWdO6ODYR+f0LxBXXNYK3geYXJrCWUCP8JEg==}
     engines: {node: '>=v18'}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -2591,6 +2593,7 @@ packages:
   /@commitlint/resolve-extends@18.4.4:
     resolution: {integrity: sha512-RRpIHSbRnFvmGifVk21Gqazf1QF/yeP+Kkg/e3PlkegcOKd/FGOXp/Kx9cvSO2K7ucSn4GD/oBvgasFoy+NCAw==}
     engines: {node: '>=v18'}
+    requiresBuild: true
     dependencies:
       '@commitlint/config-validator': 18.4.4
       '@commitlint/types': 18.4.4
@@ -2604,6 +2607,7 @@ packages:
   /@commitlint/types@18.4.4:
     resolution: {integrity: sha512-/FykLtodD8gKs3+VNkAUwofu4LBHankclj+I8fB2jTRvG6PV7k/OUt4P+VbM7ip853qS4F0g7Z6hLNa6JeMcAQ==}
     engines: {node: '>=v18'}
+    requiresBuild: true
     dependencies:
       chalk: 4.1.2
     dev: true
@@ -7130,7 +7134,7 @@ packages:
 
   /jsencrypt@3.3.2:
     resolution: {integrity: sha512-arQR1R1ESGdAxY7ZheWr12wCaF2yF47v5qpB76TtV64H1pyGudk9Hvw8Y9tb/FiTIaaTRUyaSnm5T/Y53Ghm/A==}
-    dev: false
+    dev: true
 
   /jsesc@0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
