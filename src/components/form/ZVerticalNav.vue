@@ -5,7 +5,6 @@ import {
   InfoFilled,
   Sunny,
   Moon,
-  Close
 } from '@element-plus/icons-vue'
 import { ElButton, ElButtonGroup, ElDrawer, ElSwitch, ElForm, ElFormItem } from 'element-plus'
 import { ref } from 'vue'
@@ -51,7 +50,7 @@ const navs: Array<{
   {
     icon: MdiEye,
     name: 'activity',
-    path: '/activity/',
+    path: '/activities/',
     show: true
   },
   {

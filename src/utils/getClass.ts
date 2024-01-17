@@ -10,8 +10,7 @@ interface Class {
 
 export function getUserGrade(year: number) {
   const y = dayjs().year()
-  console.log('get-grade', year, y)
-  return y - year + dayjs().month() < 8 ? 0 : 1
+  return y - year + (dayjs().month() < 8 ? 0 : 1)
 }
 
 export function getUserClass(id: number, code?: number) {

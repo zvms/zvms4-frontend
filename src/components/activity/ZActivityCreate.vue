@@ -3,13 +3,9 @@ import type {
   ActivityMember,
   ActivityInstance,
   ActivityType,
-  PrizeClassify,
-  PrizeLevel,
-  PrizeType,
   Registration,
   SpecialActivityClassification,
   ActivityMode,
-  Prize,
   Special,
   Activity
 } from '@/../@types/activity'
@@ -25,7 +21,6 @@ import {
   ElScrollbar,
   ElDatePicker,
   ElButton,
-  ElTooltip,
   ElCard,
   ElUpload,
   ElIcon,
@@ -36,7 +31,6 @@ import {
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
 import {
-  InfoFilled,
   Refresh,
   ArrowRight,
   UploadFilled,
@@ -138,18 +132,6 @@ const special = reactive<Special>({
   mode: '' as unknown as ActivityMode
 })
 
-const prize = reactive<Prize>({
-  level: '' as unknown as PrizeLevel,
-  type: '' as unknown as PrizeType,
-  classify: '' as unknown as PrizeClassify
-})
-
-const prizes = {
-  level: ['district', 'city', 'province', 'national', 'international'],
-  type: ['personal', 'team'],
-  classify: ['sports', 'academy', 'art', 'other']
-}
-
 const classifyOfSpecial = [
   'prize',
   'import',
@@ -184,19 +166,6 @@ function allow(): ActivityMode[] {
 
 <template>
   <div class="px-6 py-3">
-    <p class="pl-4 text-2xl">
-      {{
-        t('activity.form.title', {
-          type: t('activity.type.' + type + '.name')
-        })
-      }}
-      <ElTooltip
-        :content="t('activity.type.' + type + '.description')"
-        effect="light"
-        placement="top"
-        ><ElButton :icon="InfoFilled" text circle size="small" />
-      </ElTooltip>
-    </p>
     <div class="p-4">
       <ElCard shadow="hover" class="full">
         <ElForm label-position="right" label-width="108px">
@@ -235,49 +204,6 @@ function allow(): ActivityMode[] {
                   :value="classify"
                 />
               </ElSelect>
-            </ElFormItem>
-            <ElFormItem
-              v-if="type === 'special' && special.classify === 'prize'"
-              :label="t('activity.special.prize.name')"
-            >
-              <ElCard shadow="hover" class="full">
-                <ElForm label-position="right" label-width="72px" class="full">
-                  <ElFormItem :label="t('activity.special.prize.level.name')" class="py-1" required>
-                    <ElSelect v-model="prize.level" class="full">
-                      <ElOption
-                        v-for="level in prizes.level"
-                        :key="level"
-                        :label="t('activity.special.prize.level.' + level)"
-                        :value="level"
-                      />
-                    </ElSelect>
-                  </ElFormItem>
-                  <ElFormItem :label="t('activity.special.prize.type.name')" class="py-1" required>
-                    <ElSelect v-model="prize.type" class="full">
-                      <ElOption
-                        v-for="prizeType in prizes.type"
-                        :key="prizeType"
-                        :label="t('activity.special.prize.type.' + prizeType)"
-                        :value="prizeType"
-                      />
-                    </ElSelect>
-                  </ElFormItem>
-                  <ElFormItem
-                    :label="t('activity.special.prize.classify.name')"
-                    class="py-1"
-                    required
-                  >
-                    <ElSelect v-model="prize.classify" class="full">
-                      <ElOption
-                        v-for="classify in prizes.classify"
-                        :key="classify"
-                        :label="t('activity.special.prize.classify.' + classify)"
-                        :value="classify"
-                      />
-                    </ElSelect>
-                  </ElFormItem>
-                </ElForm>
-              </ElCard>
             </ElFormItem>
             <ElFormItem
               v-if="

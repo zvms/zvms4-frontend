@@ -92,6 +92,13 @@ function feedback() {
     position: 'bottom-right'
   })
 }
+
+const panelButtons = [
+  { icon: Feedback, click: feedback, text: 'feedback' },
+  { icon: Notification, click: broadcast, text: 'broadcast' },
+  { icon: Password, click: () => router.push('/password'), text: 'reset' },
+  { icon: SwitchButton, click: logout, text: 'logout' }
+]
 </script>
 
 <template>
@@ -122,20 +129,11 @@ function feedback() {
                       type="primary"
                     />
                   </template>
-                  <ElSpace direction="vertical">
-                    <ElButton text :icon="Feedback" class="action-btn p-4" @click="feedback">
-                      {{ t('nav.feedback') }}
+                  <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
+                    <ElButton text :icon="button.icon" class="action-btn p-1 w-full" @click="button.click">
+                      {{ t(`nav.${button.text}`) }}
                     </ElButton>
-                    <ElButton text :icon="Notification" class="action-btn p-4" @click="broadcast">
-                      {{ t('nav.broadcast') }}
-                    </ElButton>
-                    <ElButton text :icon="Password" class="action-btn p-4">
-                      {{ t('nav.reset') }}
-                    </ElButton>
-                    <ElButton text :icon="SwitchButton" class="action-btn p-4" @click="logout">
-                      {{ t('nav.logout') }}
-                    </ElButton>
-                  </ElSpace>
+                  </ElButtonGroup>
                 </ElPopover>
               </ElButtonGroup>
               <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />

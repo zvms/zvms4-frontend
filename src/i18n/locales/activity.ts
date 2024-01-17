@@ -58,6 +58,7 @@ export const enUS = {
     duration: 'Duration',
     classify: 'Classify',
     pending: 'Pending',
+    detail: 'Detail',
     upload: {
       name: 'Upload',
       prompt: 'Click or drag file to this area to upload',
@@ -242,6 +243,30 @@ export const enUS = {
         title: 'Append Member to {activity}'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: 'My Activities',
+        short: 'Mine'
+      },
+      class: {
+        name: 'Activities Related to Class',
+        short: 'Class'
+      },
+      campus: {
+        name: 'Activities on Campus',
+        short: 'Campus'
+      },
+      register: {
+        name: 'Activities to Register',
+        short: 'Register'
+      },
+      trophy: {
+        name: 'Activities to Reward',
+        short: 'Reward'
+      }
+    }
   }
 }
 
@@ -303,6 +328,7 @@ export const zhCN = {
     duration: '时长',
     classify: '分类',
     pending: '等待审核',
+    detail: '详细信息',
     actions: {
       submit: '提交',
       cancel: '取消',
@@ -485,6 +511,30 @@ export const zhCN = {
         title: '添加成员至{activity}'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '我的义工',
+        short: '我的'
+      },
+      class: {
+        name: '班级义工',
+        short: '班级'
+      },
+      campus: {
+        name: '校内义工',
+        short: '校内'
+      },
+      register: {
+        name: '报名义工',
+        short: '报名'
+      },
+      trophy: {
+        name: '获奖义工',
+        short: '获奖'
+      }
+    }
   }
 }
 
@@ -547,6 +597,7 @@ export const zhTW = {
     duration: '時長',
     classify: '分類',
     pending: '等待審核',
+    detail: '詳細信息',
     actions: {
       submit: '提交',
       cancel: '取消',
@@ -729,6 +780,30 @@ export const zhTW = {
         title: '添加成員至{activity}'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '我的義工',
+        short: '我的'
+      },
+      class: {
+        name: '班級義工',
+        short: '班級'
+      },
+      campus: {
+        name: '校內義工',
+        short: '校內'
+      },
+      register: {
+        name: '報名義工',
+        short: '報名'
+      },
+      trophy: {
+        name: '獲獎義工',
+        short: '獲獎'
+      }
+    }
   }
 }
 
@@ -792,6 +867,7 @@ export const jaJP = {
     duration: '時間',
     classify: '分類',
     pending: '審査待ち',
+    detail: '詳細',
     actions: {
       submit: '提出',
       cancel: 'キャンセル',
@@ -974,6 +1050,30 @@ export const jaJP = {
         title: '{activity}にメンバーを追加'
       }
     }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '私のボランティア',
+        short: '私の'
+      },
+      class: {
+        name: 'クラスボランティア',
+        short: 'クラス'
+      },
+      campus: {
+        name: '校内ボランティア',
+        short: '校内'
+      },
+      register: {
+        name: '登録ボランティア',
+        short: '登録'
+      },
+      trophy: {
+        name: '受賞ボランティア',
+        short: '受賞'
+      }
+    }
   }
 }
 
@@ -1037,6 +1137,7 @@ export const frFR = {
     duration: 'Durée',
     classify: 'Classer',
     pending: 'En Attente',
+    detail: 'Détails',
     actions: {
       submit: 'Soumettre',
       cancel: 'Annuler',
@@ -1212,8 +1313,33 @@ export const frFR = {
         name: 'Actions',
         add: 'Ajouter',
         remove: 'Supprimer',
-        confirm: 'Après la suppression, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?',
+        confirm:
+          'Après la suppression, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?',
         title: 'Ajouter un Membre à {activity}'
+      }
+    }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: 'Mes Bénévoles',
+        short: 'Mes'
+      },
+      class: {
+        name: 'Bénévoles de Classe',
+        short: 'Classe'
+      },
+      campus: {
+        name: 'Bénévoles sur le Campus',
+        short: 'Sur le Campus'
+      },
+      register: {
+        name: 'Bénévoles Inscrits',
+        short: 'Inscrits'
+      },
+      trophy: {
+        name: 'Bénévoles Gagnants',
+        short: 'Gagnants'
       }
     }
   }

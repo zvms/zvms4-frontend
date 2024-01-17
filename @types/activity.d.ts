@@ -81,7 +81,7 @@ export interface Special {
 
 export interface PrizeSpecial extends Special {
   classify: 'prize'
-  prize: Prize
+  prize: string // ObjectId
 }
 
 export interface ImportSpecial extends Special {
@@ -109,18 +109,6 @@ export interface SpecialActivity extends Activity {
   type: 'special'
   special: SpecialInstance
   mode: ActivityMode
-}
-
-export type PrizeLevel = 'district' | 'city' | 'province' | 'national' | 'international'
-
-export type PrizeType = 'personal' | 'team'
-
-export type PrizeClassify = 'sports' | 'academy' | 'art' | 'other'
-
-export interface Prize {
-  level: PrizeLevel
-  type: PrizeType
-  classify: PrizeClassify
 }
 
 export type ActivityInstance = SpecifiedActivity | SocialActivity | ScaleActivity | SpecialActivity

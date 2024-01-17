@@ -38,6 +38,11 @@ const router = createRouter({
       component: () => import('../views/activity/CreateActivity.vue'),
       children: [
         {
+          path: '/activity/create/',
+          name: 'activity-create',
+          component: () => import('../views/activity/CreateHome.vue')
+        },
+        {
           path: '/activity/create/:type',
           name: 'activity-create-type',
           component: () => import('../views/activity/CreatePage.vue')
@@ -45,21 +50,36 @@ const router = createRouter({
       ]
     },
     {
-      path: '/activity/',
+      path: '/activities/',
       name: 'activity',
       component: () => import('../views/user/UserActivity.vue'),
       children: [
         {
-          path: '/activity/register/',
+          path: '/activities/',
+          name: 'activity',
+          component: () => import('../views/activity/ViewPage.vue')
+        },
+        {
+          path: '/activities/register/',
           name: 'activity-register',
           component: () => import('../views/activity/UserRegister.vue')
         },
         {
-          path: '/activity/:type',
+          path: '/activities/mine',
           name: 'activity-type',
-          component: () => import('../views/activity/CreatePage.vue')
+          component: () => import('../views/activity/ViewPage.vue')
+        },
+        {
+          path: '/activities/:type',
+          name: 'activity-type',
+          component: () => import('../views/activity/ViewPage.vue')
         }
       ]
+    },
+    {
+      path: '/activity/:id',
+      name: 'activity-view',
+      component: () => import('../views/activity/ActivityPage.vue')
     },
     {
       path: '/umbrella/',

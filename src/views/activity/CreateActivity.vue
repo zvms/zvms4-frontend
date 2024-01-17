@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ElTabs, ElTabPane } from 'element-plus'
+import { ElPageHeader, ElButton, ElSpace, ElTooltip } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
-import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import type { ActivityType } from '@/../@types/activity'
+import { ArrowLeft, InfoFilled } from '@element-plus/icons-vue'
+import classifications from '@/components/tags/classifications'
+import CreateHome from './CreateHome.vue'
 
 const header = useHeaderStore()
-const { width, height } = useWindowSize()
 const { t } = useI18n()
 
 header.setHeader(t('nav.create'))
@@ -21,44 +22,34 @@ const path = ref(route.params?.type ?? '')
 const tab = ref(path.value as string)
 
 watch(
+  () => route.path,
+  () => {
+    if (route.path === '/activity/create') {
+      tab.value = ''
+    }
+  }
+)
+
+watch(
   () => route.params?.type,
   (type) => {
     if (typeof type === 'string') {
-      console.log(type)
       tab.value = type
     }
   },
   { immediate: true }
 )
 
-const tabs = ref<{ label: string; value: ActivityType | '' }[]>([
-  // {
-  //   label: t('nav.home'),
-  //   value: '',
-  //   component: CreateHome
-  // },
-  {
-    label: '',
-    value: 'specified',
-  },
-  {
-    label: '',
-    value: 'social',
-  },
-  {
-    label: '',
-    value: 'scale',
-  },
-  {
-    label: '',
-    value: 'special',
-  }
-])
+const tabs = Object.entries(classifications.type).map(([key, value]) => ({
+  label: '',
+  value: key as ActivityType,
+  color: value.color,
+  icon: value.icon
+}))
 
 const show = ref(true)
 
 function mov(mov: string) {
-  // console.log(mov)
   show.value = false
   tab.value = mov
   router.push(`/activity/create/${mov}`)
@@ -67,33 +58,68 @@ function mov(mov: string) {
   }, 80)
 }
 
-watch(
-  tab,
-  () => {
-    mov(tab.value)
-  },
-  // { immediate: true, deep: true }
-)
+watch(tab, () => {
+  mov(tab.value)
+})
+
+function returnHome() {
+  router.push('/activity/create')
+  tab.value = ''
+}
 </script>
 
 <template>
   <div class="p-4" style="width: 100%">
-    <ElTabs v-model="tab" class="pl-4" :tab-position="width < height * 1.2 ? 'top' : 'left'">
-      <ElTabPane
-        v-for="pane in tabs"
-        :key="pane.value"
-        :name="pane.value"
-        :label="t(pane.value ? `activity.type.${pane.value}.short` : 'nav.create')"
-      >
-        <Transition
-          enter-active-class="animate__animated animate__fadeInUp"
-          leave-active-class="animate__animated animate__fadeOutUp"
-          appear
-        >
-          <!-- <ZActivityCreate v-if="pane.value !== ''" :type="pane.value" /> -->
-          <RouterView v-if="show" />
-        </Transition>
-      </ElTabPane>
-    </ElTabs>
+    <Transition
+      enter-active-class="animate__animated animate__fadeInRight"
+      appear
+    >
+      <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="returnHome" :icon="ArrowLeft">
+        <template #content>
+          {{ $t(tab ? `activity.type.${tab}.name` : 'nav.create') }}
+          <ElTooltip
+            v-if="tab"
+            :content="t('activity.type.' + tab + '.description')"
+            effect="light"
+            placement="bottom"
+          >
+            <ElButton :icon="InfoFilled" text circle size="small" />
+          </ElTooltip>
+        </template>
+        <template #extra>
+          <ElSpace>
+            <ElButton
+              v-for="button in tabs"
+              :key="button.value"
+              @click="mov(button.value)"
+              text
+              bg
+              :icon="button.icon"
+              :type="button.color"
+              size="small"
+              :disabled="button.value === tab"
+            >
+              {{ $t(`activity.type.${button.value}.short`) }}
+            </ElButton>
+          </ElSpace>
+        </template>
+      </ElPageHeader>
+    </Transition>
+    <Transition
+      v-if="show && tab"
+      enter-active-class="animate__animated animate__fadeInUp"
+      leave-active-class="animate__animated animate__fadeOutUp"
+      appear
+    >
+      <RouterView />
+    </Transition>
+    <Transition
+      v-else-if="show && !tab"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      appear
+    >
+      <CreateHome @move="mov" />
+    </Transition>
   </div>
 </template>

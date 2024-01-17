@@ -1,6 +1,4 @@
-// TODO: Refactor to the name Notification
-
-export interface Broadcast {
+export interface Notification {
   _id: string
   global: boolean
   title: string
@@ -14,13 +12,13 @@ export interface Broadcast {
   type: 'pin' | 'important' | 'normal'
 }
 
-export interface BraodcastBroadcast extends Broadcast {
+export interface BraodcastNotification extends Notification {
   global: true
 }
 
-export interface SendBroadcast extends Broadcast {
+export interface SendNotification extends Notification {
   global: false
   receivers: string[] // ObjectId[]
 }
 
-export type BroadcastInstance = BraodcastBroadcast | SendBroadcast
+export type NotificationInstance = BraodcastNotification | SendNotification

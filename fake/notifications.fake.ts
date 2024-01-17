@@ -5,8 +5,8 @@ function generateNotification(_id: string) {
   return {
     _id,
     global: true,
-    title: 'Notification',
-    content: `Hello! ID: ${_id}`,
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraphs(3) + _id,
     time: faker.date.recent().toISOString(),
     expire: faker.date.recent().toISOString(),
     publisher: new String(generateNumber()),

@@ -20,6 +20,7 @@ declare module 'vue' {
     ZActivityMember: typeof import('./src/components/activity/ZActivityMember.vue')['default']
     ZActivityMemberList: typeof import('./src/components/activity/ZActivityMemberList.vue')['default']
     ZActivityMode: typeof import('./src/components/tags/ZActivityMode.vue')['default']
+    ZActivityPage: typeof import('./src/components/activity/ZActivityPage.vue')['default']
     ZActivityRegisterCard: typeof import('./src/components/activity/ZActivityRegisterCard.vue')['default']
     ZActivityStatus: typeof import('./src/components/tags/ZActivityStatus.vue')['default']
     ZActivityTag: typeof import('./src/components/tags/ZActivityTag.vue')['default']
