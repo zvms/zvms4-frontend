@@ -7,7 +7,7 @@ import { ZButtonOrCard } from '@/components'
 import api from '@/api'
 import { ElButtonGroup, ElButton } from 'element-plus'
 import { IcBaselineClass } from '@/icons'
-import { getUserClassName, getUserClassByCode } from '@/utils/getClass'
+import { getUserClassName } from '@/utils/getClass'
 
 const props = defineProps<{ id: string; icon?: VueComponent; withUserClassName?: boolean }>()
 const { id, icon, withUserClassName } = toRefs(props)
@@ -40,11 +40,16 @@ watch(id, () => refresh)
       round
       :loading="loading"
       :icon="icon ?? UserIcon"
+      pop-type="dialog"
+      width="60%"
+      :title="person?.name"
     >
       <template #text>
         {{ person?.name }}
       </template>
-      <template #default></template>
+      <template #default>
+        <p class="text-xl">{{ person?.name }}</p>
+      </template>
     </ZButtonOrCard>
     <ElButton
       v-if="withUserClassName && !loading"
