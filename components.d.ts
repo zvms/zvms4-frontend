@@ -30,6 +30,7 @@ declare module 'vue' {
     ZCollapsedOrExpand: typeof import('./src/components/utils/ZCollapsedOrExpand.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
+    ZNonXuehaiPad: typeof import('./src/components/utils/ZNonXuehaiPad.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
     ZRewardCard: typeof import('./src/components/reward/ZRewardCard.vue')['default']
     ZSelectActivityMode: typeof import('./src/components/form/ZSelectActivityMode.vue')['default']
