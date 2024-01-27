@@ -235,6 +235,8 @@ watch(
               v-else
               :type="row.status"
               :modifiable="role === 'class' || user.position.includes('admin')"
+              :activity="row"
+              :refresh="refresh"
             />
           </template>
         </ElTableColumn>

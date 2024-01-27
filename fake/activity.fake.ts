@@ -154,6 +154,36 @@ export default [
     }
   },
   {
+    url: '/api/activity/:id/title',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
+      }
+    }
+  },
+  {
+    url: '/api/activity/:id/description',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
+      }
+    }
+  },
+  {
+    url: '/api/activity/:id/status',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
+      }
+    }
+  },
+  {
     url: '/api/activity/:id',
     method: 'delete',
     response({ params }) {

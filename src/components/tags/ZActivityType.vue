@@ -10,7 +10,6 @@ import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
 import classifications from './classifications'
-import { Star } from '@icon-park/vue-next'
 
 const { t } = useI18n()
 

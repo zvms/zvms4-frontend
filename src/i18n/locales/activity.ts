@@ -75,7 +75,7 @@ export const enUS = {
           'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
       },
       modification: {
-        status: 'Modify Status',
+        status: 'Modify the status of {activity}',
         effective: 'Approve',
         refuse: 'Deny',
         confirm: 'Please confirm the modification of the status of the activity.'
@@ -345,7 +345,7 @@ export const zhCN = {
         confirm: '删除后包括感想等数据皆不可恢复，确定删除？'
       },
       modification: {
-        status: '修改义工状态',
+        status: '修改义工 {activity} 的状态',
         effective: '批准',
         refuse: '拒绝',
         confirm: '请确认对义工状态的修改'
@@ -620,7 +620,7 @@ export const zhTW = {
         confirm: '刪除後包括感想等數據皆不可恢復，確定刪除？'
       },
       modification: {
-        status: '修改義工狀態',
+        status: '修改義工 {activity} 的狀態',
         effective: '批准',
         refuse: '拒絕',
         confirm: '請確認對義工狀態的修改'
@@ -896,7 +896,7 @@ export const jaJP = {
         confirm: '削除後、感想などのデータも含めて復元できなくなります。削除しますか？'
       },
       modification: {
-        status: 'ボランティアの状態を変更する',
+        status: 'ボランティア {activity} の状態を変更する',
         effective: '承認',
         refuse: '拒否',
         confirm: 'ボランティアの状態の変更を確認してください。'
@@ -1173,7 +1173,7 @@ export const frFR = {
           'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
       },
       modification: {
-        status: 'Modifier le statut du bénévole',
+        status: 'Modifier le statut du bénévole {activity}',
         effective: 'Approuver',
         refuse: 'Refuser',
         confirm: 'Veuillez confirmer la modification du statut du bénévole'

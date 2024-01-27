@@ -33,7 +33,24 @@ async function modifyActivityDescription(aid: string, description: string) {
   return
 }
 
+async function modifyActivityStatus(aid: string, status: string) {
+  const result = (
+    await axios({
+      url: `/activity/${aid}/status`,
+      method: 'put',
+      data: {
+        status
+      }
+    })
+  ).data as Response<null>
+  if (result.status === 'error') {
+    return result
+  }
+  return
+}
+
 export {
   modifyActivityDescription as description,
-  modifyActivityTitle as title
+  modifyActivityTitle as title,
+  modifyActivityStatus as status
 }
