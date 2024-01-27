@@ -231,7 +231,11 @@ watch(
                   ?.status
               "
             />
-            <ZActivityStatus v-else :type="row.status" />
+            <ZActivityStatus
+              v-else
+              :type="row.status"
+              :modifiable="role === 'class' || user.position.includes('admin')"
+            />
           </template>
         </ElTableColumn>
         <ElTableColumn v-else-if="role === 'campus'" :label="t('activity.form.pending')">

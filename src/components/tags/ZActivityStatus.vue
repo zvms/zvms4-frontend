@@ -40,5 +40,15 @@ const effective = type?.value! in classifications.member
   >
     {{ t('activity.status.' + type) }}
   </ZButtonTag>
-  <ElPopover v-else></ElPopover>
+  <ElPopover v-else :title="t('activity.form.actions.modification.status')" trigger="click" width="384px">
+    <template #reference>
+      <ZButtonTag
+        :size="size"
+        :type="classifications.member.pending.color"
+        :icon="classifications.member.pending.icon"
+      >
+        {{ t('activity.status.pending') }}
+      </ZButtonTag>
+    </template>
+  </ElPopover>
 </template>

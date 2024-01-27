@@ -10,32 +10,37 @@ import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
 import classifications from './classifications'
+import { Star } from '@icon-park/vue-next'
 
 const { t } = useI18n()
 
-const props = withDefaults(defineProps<{
-  type: ActivityType
-  special?: SpecialActivityClassification
-  showSpecial?: boolean
-  size?: 'large' | 'default' | 'small'
-  color?: boolean
-  mode?: 'auto' | 'full' | 'icon'
-  force?: 'full' | 'short'
-  status?: ActivityStatus
-}>(), {
-  special: 'other',
-  showSpecial: true,
-  size: 'small',
-  color: true,
-  mode: 'auto',
-  status: 'effective'
-})
+const props = withDefaults(
+  defineProps<{
+    type: ActivityType
+    special?: SpecialActivityClassification
+    showSpecial?: boolean
+    size?: 'large' | 'default' | 'small'
+    color?: boolean
+    mode?: 'auto' | 'full' | 'icon'
+    force?: 'full' | 'short'
+    status?: ActivityStatus
+  }>(),
+  {
+    special: 'other',
+    showSpecial: true,
+    size: 'small',
+    color: true,
+    mode: 'auto'
+  }
+)
 
-const { type, size, mode, special, status } = toRefs(props)
+const { type, size, mode, special, status, showSpecial, force } = toRefs(props)
 
 const types = classifications.type
 
 const effective = type?.value! in types
+
+console.log(type, showSpecial, force, effective)
 </script>
 
 <template>

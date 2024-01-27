@@ -31,6 +31,7 @@ declare module 'vue' {
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
+    ZRewardCard: typeof import('./src/components/reward/ZRewardCard.vue')['default']
     ZSelectActivityMode: typeof import('./src/components/form/ZSelectActivityMode.vue')['default']
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
