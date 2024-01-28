@@ -77,7 +77,7 @@ export const enUS = {
       modification: {
         status: 'Modify the status of {activity}',
         effective: 'Approve',
-        refuse: 'Deny',
+        refused: 'Deny',
         confirm: 'Please confirm the modification of the status of the activity.'
       }
     },
@@ -347,7 +347,7 @@ export const zhCN = {
       modification: {
         status: '修改义工 {activity} 的状态',
         effective: '批准',
-        refuse: '拒绝',
+        refused: '拒绝',
         confirm: '请确认对义工状态的修改'
       }
     },
@@ -622,7 +622,7 @@ export const zhTW = {
       modification: {
         status: '修改義工 {activity} 的狀態',
         effective: '批准',
-        refuse: '拒絕',
+        refused: '拒絕',
         confirm: '請確認對義工狀態的修改'
       }
     },
@@ -898,7 +898,7 @@ export const jaJP = {
       modification: {
         status: 'ボランティア {activity} の状態を変更する',
         effective: '承認',
-        refuse: '拒否',
+        refused: '拒否',
         confirm: 'ボランティアの状態の変更を確認してください。'
       }
     },
@@ -1175,7 +1175,7 @@ export const frFR = {
       modification: {
         status: 'Modifier le statut du bénévole {activity}',
         effective: 'Approuver',
-        refuse: 'Refuser',
+        refused: 'Refuser',
         confirm: 'Veuillez confirmer la modification du statut du bénévole'
       }
     },

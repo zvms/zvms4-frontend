@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, h } from 'vue'
 import type { MemberActivityStatus, ActivityInstance } from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
-import { ElPopover, ElButton, ElSpace, ElPopconfirm } from 'element-plus'
+import { ElPopover, ElButton, ElSpace, ElPopconfirm, ElDivider } from 'element-plus'
 import api from '@/api'
 
 const { t } = useI18n()
@@ -32,10 +32,10 @@ const { type, size, activity } = toRefs(props)
 
 const effective = type?.value! in classifications.member
 
-const results: ('effective' | 'pending' | 'refused')[] = ['effective', 'pending', 'refused']
+const results: ('effective' | 'refused')[] = ['refused', 'effective']
 const visible = ref(false)
 
-function modify(status: 'effective' | 'refused' | 'pending') {
+function modify(status: 'effective' | 'refused') {
   if (!activity?.value) return
   if (!activity?.value?._id) return
   api.activity.update.status(activity?.value?._id, status).then(() => {
@@ -43,6 +43,8 @@ function modify(status: 'effective' | 'refused' | 'pending') {
     visible.value = false
   })
 }
+
+const divider = h(ElDivider, { direction: 'vertical' })
 </script>
 
 <template>
@@ -73,25 +75,28 @@ function modify(status: 'effective' | 'refused' | 'pending') {
         {{ t('activity.status.pending') }}
       </ZButtonTag>
     </template>
-    <ElSpace>
-      <ElPopconfirm
-        v-for="result in results.filter(x => x !== type)"
-        :key="result"
-        :title="t('activity.form.actions.modification.confirm')"
-        @confirm="() => modify(result)"
-        width="256px"
-      >
-        <template #reference>
-          <ElButton
-            :type="classifications.member[result].color"
-            :icon="classifications.member[result].icon"
-            text
-            bg
-          >
-            {{ t('activity.status.' + result) }}
-          </ElButton>
-        </template>
-      </ElPopconfirm>
-    </ElSpace>
+    <div class="flex justify-end py-1">
+      <ElSpace :spacer="divider">
+        <ElPopconfirm
+          v-for="result in results.filter((x) => x !== type)"
+          :key="result"
+          :title="t('activity.form.actions.modification.confirm')"
+          @confirm="() => modify(result)"
+          width="256px"
+        >
+          <template #reference>
+            <ElButton
+              :type="classifications.member[result].color"
+              :icon="classifications.member[result].icon"
+              text
+              bg
+              size="small"
+            >
+              {{ t('activity.form.actions.modification.' + result) }}
+            </ElButton>
+          </template>
+        </ElPopconfirm>
+      </ElSpace>
+    </div>
   </ElPopover>
 </template>

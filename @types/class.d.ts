@@ -1,3 +1,3 @@
-declare interface Class {
+export interface Class {
 
 }
