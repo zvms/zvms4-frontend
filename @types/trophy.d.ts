@@ -1,4 +1,5 @@
 export interface Trophy {
+  _id: string // ObjectId
   name: string
   type: 'academic' | 'art' | 'sports' | 'others'
   level: 'district' | 'city' | 'province' | 'national' | 'international'
@@ -8,6 +9,10 @@ export interface Trophy {
   members: TrophyMember[]
   creator: string // ObjectId
 }
+
+export type TrophyStatus = Trophy['status']
+export type TrophyType = Trophy['type']
+export type TrophyLevel = Trophy['level']
 
 export interface TrophyAward {
   name: string

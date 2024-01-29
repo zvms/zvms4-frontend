@@ -2,14 +2,14 @@
 import { ElCard, ElButton, ElSkeleton, ElSkeletonItem, ElDialog, ElDrawer } from 'element-plus'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   size?: 'large' | 'default' | 'small'
   popType?: 'drawer' | 'dialog'
   mode: 'card' | 'button'
   width?: string
   direction?: 'rtl' | 'ltr' | 'ttb' | 'btt'
   loading?: boolean
-  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
+  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | ''
   icon?: VueComponent
   fullscreen?: boolean
   modal?: boolean
@@ -17,7 +17,19 @@ const props = defineProps<{
   center?: boolean
   round?: boolean
   open?: boolean
-}>()
+}>(), {
+  size: 'small',
+  popType: 'dialog',
+  width: '60%',
+  direction: 'rtl',
+  type: '',
+  fullscreen: false,
+  modal: true,
+  title: '',
+  center: true,
+  round: true,
+  open: false
+})
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
