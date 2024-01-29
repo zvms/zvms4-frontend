@@ -41,6 +41,7 @@
     "@faker-js/faker": "^8.2.0",
     "@iconify/json": "^2.2.131",
     "@iconify/vue": "^4.1.1",
+    "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@rushstack/eslint-patch": "^1.5.1",
     "@tsconfig/node18": "^18.2.2",
     "@types/js-md5": "^0.7.1",
