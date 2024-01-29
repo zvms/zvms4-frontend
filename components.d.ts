@@ -32,7 +32,6 @@ declare module 'vue' {
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNonXuehaiPad: typeof import('./src/components/utils/ZNonXuehaiPad.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
-    ZRewardCard: typeof import('./src/components/trophy/ZRewardCard.vue')['default']
     ZSelectActivityMode: typeof import('./src/components/form/ZSelectActivityMode.vue')['default']
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
