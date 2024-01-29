@@ -26,6 +26,9 @@ dependencies:
   pinia:
     specifier: ^2.1.6
     version: 2.1.6(typescript@5.2.2)(vue@3.3.4)
+  pnpm:
+    specifier: ^8.15.0
+    version: 8.15.0
   ua-parser-js:
     specifier: ^1.0.36
     version: 1.0.36
@@ -6747,6 +6750,12 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
     dev: true
+
+  /pnpm@8.15.0:
+    resolution: {integrity: sha512-6kVRfVKF0SPqwCw3k1Bfof1tqQovxg0ejZ4MHpKSiG7Pr/UT8GK50cyAIbuGFQM7GsW+o7LuP8FlptcDS75rAw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    dev: false
 
   /postcss-import@15.1.0(postcss@8.4.31):
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
