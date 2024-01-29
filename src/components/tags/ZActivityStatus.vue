@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { ref, toRefs, h } from 'vue'
-import type { MemberActivityStatus, ActivityInstance } from '@/../@types/activity'
+import type { MemberActivityStatus, ActivityInstance } from '@zvms/zvms4-types'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
 import { ElPopover, ElButton, ElSpace, ElPopconfirm, ElDivider } from 'element-plus'

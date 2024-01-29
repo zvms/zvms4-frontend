@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Trophy } from '@/../@types/trophy'
+import type { Trophy } from '@zvms/zvms4-types'
 import { toRefs } from 'vue'
 import { ZButtonOrCard } from '..'
 import { Trophy as TrophyIcon } from '@icon-park/vue-next'

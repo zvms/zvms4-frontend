@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
-import type { MemberActivityStatus } from '@/../@types/activity'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
 import type { TypeSet, Set } from './classifications'

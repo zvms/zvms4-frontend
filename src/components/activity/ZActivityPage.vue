@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance } from '@/../@types/activity'
+import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ZActivityCard, ZActivityHistory, ZActivityMemberList, ZActivityMember } from '.'
 import { ZActivityType, ZActivityMode } from '..'
 import { ref, withDefaults } from 'vue'

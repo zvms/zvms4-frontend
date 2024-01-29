@@ -5,8 +5,7 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { ElCard, ElButton, ElDivider } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import classifications from '@/components/tags/classifications'
-import type { ActivityType } from '@/../@types/activity';
-import type { UserPosition } from '@/../@types/user';
+import type { ActivityType, UserPosition } from '@zvms/zvms4-types';
 import { useUserStore } from '@/stores/user';
 import { permissions } from '@/components/activity'
 

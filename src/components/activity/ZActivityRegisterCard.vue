@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SpecifiedActivity } from '@/../@types/activity'
+import type { SpecifiedActivity } from '@zvms/zvms4-types'
 import {
   CircleCheck,
   Close,

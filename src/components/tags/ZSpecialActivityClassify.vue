@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
-import type { SpecialActivityClassification } from '@/../@types/activity'
+import type { SpecialActivityClassification } from '@zvms/zvms4-types'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
 

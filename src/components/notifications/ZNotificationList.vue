@@ -3,7 +3,7 @@ import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'eleme
 import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import type { NotificationInstance } from '@/../@types/notification'
+import type { NotificationInstance } from '@zvms/zvms4-types'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'

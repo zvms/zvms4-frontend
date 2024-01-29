@@ -8,7 +8,7 @@ import {
   ZSelectActivityMode,
   ZSelectPerson
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode } from '@/../@types/activity'
+import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
 import { toRefs, watch } from 'vue'
 import { User, Minus, Plus, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'

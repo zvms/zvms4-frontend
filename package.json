@@ -23,6 +23,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@icon-park/vue-next": "^1.4.2",
     "@types/ua-parser-js": "^0.7.37",
+    "@zvms/zvms4-types": "^0.1.0",
     "async-validator": "^4.2.5",
     "bson-objectid": "^2.0.4",
     "chart.js": "^4.4.0",

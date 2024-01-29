@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { getUser } from '@/api/user/crud'
+import api from '@/api'
 import { ref, toRef, watch } from 'vue'
-import type { User } from '@/../@types/user'
+import type { User } from '@zvms/zvms4-types'
 import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
 
 const load = ref(false)
@@ -16,15 +16,15 @@ const props = defineProps<{
 const size = ref(toRef(props, 'size').value ?? 'default')
 const userObjectId = toRef(props, 'userObjectId')
 const mode = ref(toRef(props, 'mode').value ?? 'button')
-const user = ref<User<string>>({} as User<string>)
+const user = ref<User>({} as User)
 
 watch(userObjectId, (value) => {
   if (value) {
-    getUser(userObjectId.value)
+    api.user.readOne(userObjectId.value)
       .then((resp) => {
         if (resp) {
           load.value = true
-          user.value = resp as User<string>
+          user.value = resp as User
         } else {
           error.value = true
         }

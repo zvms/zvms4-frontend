@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { positions } from '@/icons/positions'
-import type { UserPosition } from '@/../@types/user'
+import type { UserPosition } from '@zvms/zvms4-types'
 import { toRefs, type Component as VueComponent } from 'vue'
 import { ElButton, ElButtonGroup } from 'element-plus'
 import { useI18n } from 'vue-i18n'

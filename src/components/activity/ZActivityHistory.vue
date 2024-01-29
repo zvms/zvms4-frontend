@@ -4,7 +4,7 @@ import type {
   ActivityMemberHistory,
   MemberActivityStatus,
   ActivityMode
-} from '@/../@types/activity'
+} from '@zvms/zvms4-types'
 import { toRefs, type Component as VueComponent, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ZActivityDuration, ZActivityMember, ZButtonOrCard } from '@/components'

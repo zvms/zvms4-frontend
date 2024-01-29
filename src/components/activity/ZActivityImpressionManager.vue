@@ -3,7 +3,7 @@ import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import type { ActivityInstance, MemberActivityStatus } from '@/../@types/activity'
+import type { ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
 import {
   ElCollapse,
   ElCollapseItem,

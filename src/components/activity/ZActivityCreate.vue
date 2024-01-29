@@ -8,7 +8,7 @@ import type {
   ActivityMode,
   Special,
   Activity
-} from '@/../@types/activity'
+} from '@zvms/zvms4-types'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'

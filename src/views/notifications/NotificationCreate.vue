@@ -14,8 +14,9 @@ import {
   ElPageHeader,
   ElCard
 } from 'element-plus'
-import type { Notification } from '@/../@types/notification'
+import type { Notification } from '@zvms/zvms4-types'
 import { ArrowLeft } from '@element-plus/icons-vue'
+import api from '@/api'
 
 const { t } = useI18n()
 
@@ -37,8 +38,8 @@ const notification = reactive<Notification>({
 const types = ['pinned', 'important', 'normal']
 
 const submit = () => {
-  api.notification.create(broadcast)
-  console.log(broadcast)
+  api.notification.create(notification)
+  console.log(notification)
 }
 </script>
 
