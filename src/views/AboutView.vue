@@ -55,7 +55,7 @@ const collaborators = [
     name: '卢锦轩'
   },
   {
-    dispName: 'Zecyle',
+    dispName: 'Zecyel',
     component: ZhuChengyang,
     grade: 202007,
     name: '朱程炀'
