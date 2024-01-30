@@ -1,7 +1,6 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import type { Response, MemberActivityStatus } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import type { MemberActivityStatus } from '@/../@types/activity'
 
 export async function userModifyStatus(user: string, aid: string, status: MemberActivityStatus, notification: boolean = true) {
   const result = (

@@ -1,6 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
-import type { ActivityMember } from '@/../@types/activity'
+import type { Response, ActivityMember } from '@zvms/zvms4-types'
 
 export async function insert(aid: string, member: ActivityMember) {
   const result = (

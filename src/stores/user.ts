@@ -1,5 +1,5 @@
 import api from '@/api'
-import type { User, UserActivityTimeSums, UserPosition } from '@/../@types/user'
+import type { User, UserActivityTimeSums, UserPosition } from '@zvms/zvms4-types'
 import { defineStore } from 'pinia'
 import { getUserClassName } from '@/utils/getClass'
 import { usePreferredLanguages } from '@vueuse/core'

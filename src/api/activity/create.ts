@@ -1,13 +1,13 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
 import type {
+  Response,
   Activity,
   ActivityInstance,
   ActivityMember,
-  Prize,
+  Trophy,
   Registration,
-  Special,
-} from '@/../@types/activity'
+  Special
+} from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 export async function createActivity(activity: ActivityInstance) {
@@ -41,7 +41,7 @@ export async function createActivityWithDividedData(
   members: ActivityMember[],
   registration?: Registration,
   special?: Special,
-  prize?: Prize
+  prize?: string
 ) {
   if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
     special = undefined

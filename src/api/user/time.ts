@@ -1,6 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
-import type { UserActivityTimeSums } from '@/../@types/user'
+import type { Response, UserActivityTimeSums } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 async function getUserTime(user: string) {

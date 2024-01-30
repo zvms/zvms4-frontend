@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
-import type { ActivityInstance } from '@/../@types/activity'
+import type { Response } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 import { read as mine } from '@/api/user/activity'
 

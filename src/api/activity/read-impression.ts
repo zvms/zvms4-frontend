@@ -1,7 +1,6 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import type { Response, ActivityMember } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import type { ActivityMember } from '@/../@types/activity'
 
 export async function getImpressions(aid: string) {
   const result = (await axios(`/activity/${aid}/impression`)).data as Response<ActivityMember[]>

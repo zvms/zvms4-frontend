@@ -1,11 +1,9 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
-import type { LoginResult } from '@/../@types/login'
+import type { Response, LoginResult } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import JSEncrypt from 'jsencrypt'
-import dayjs from 'dayjs'
+import { encryption } from '@zvms/frontend-utils'
 
-export async function getRSAPublicCert(): Promise<JSEncrypt | undefined> {
+export async function getRSAPublicCert(): Promise<string> {
   const result = (
     await axios('/cert', {
       method: 'GET',
@@ -21,22 +19,14 @@ export async function getRSAPublicCert(): Promise<JSEncrypt | undefined> {
       message: result.message,
       type: 'error'
     })
-    return
+    return ''
   }
-  const encrypt = new JSEncrypt()
-  encrypt.setPublicKey(result.data)
-  return encrypt
+  return result.data
 }
 
 async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {
-  const encrypt = await getRSAPublicCert()
-  if (!encrypt) return
-  const credentials = {
-    password: password,
-    timestamp: dayjs().unix()
-  }
-  console.log(encrypt)
-  const credential = encrypt.encrypt(JSON.stringify(credentials))
+  const payload = encryption.rsa.generatePayload(password)
+  const credential = encryption.rsa.encrypt(payload, await getRSAPublicCert())
   console.log(`User ${user} login with ${term} term, with the credential ${credential}`)
   const result = (await axios('/user/auth', {
     method: 'POST',
