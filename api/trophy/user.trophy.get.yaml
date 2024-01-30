@@ -1,0 +1,12 @@
+name: Get User Trophies
+description: Get a list of trophies for a user
+path: /user/:id/trophy
+method: GET
+params:
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (ObjectId)
+response: Trophy[]
+permission: true

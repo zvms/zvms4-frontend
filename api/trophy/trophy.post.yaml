@@ -1,0 +1,17 @@
+name: Create Trophy
+description: Create a trophy
+path: /trophy
+method: POST
+params:
+  - name: trophy
+    in: body
+    type: Trophy
+    required: true
+    description: The trophy form
+response: null
+permissions:
+  - user: false
+  - secretary: need-audit
+  - department: true
+  - auditor: need-audit
+  - admin: true
