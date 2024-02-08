@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ActivityInstance } from '@zvms/zvms4-types'
-import { ZActivityCard, ZActivityHistory, ZActivityMemberList, ZActivityMember } from '.'
-import { ZActivityType, ZActivityMode } from '..'
+import { ZActivityHistory, ZActivityMemberList, ZActivityMember, ZActivityType } from '..'
 import { ref, withDefaults } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import {
@@ -19,7 +18,6 @@ import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 import dayjs from 'dayjs'
 import { useRoute } from 'vue-router'
-import { Clock, Calendar } from '@element-plus/icons-vue'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 

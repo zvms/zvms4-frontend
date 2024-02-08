@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User } from '@/../@types/user'
+import type { User } from '@zvms/zvms4-types'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
