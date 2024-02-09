@@ -32,7 +32,7 @@ const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
 
-const max = ref(height.value * 0.6)
+const max = ref(height.value * 0.4)
 
 const props = withDefaults(defineProps<{
   activity: ActivityInstance
@@ -120,8 +120,8 @@ watch(open, () => {
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <ElScrollbar :height="max" v-if="activity.members.length !== 0">
-        <ElTable :data="activity.members" stripe>
+      <div v-if="activity.members.length !== 0">
+        <ElTable :data="activity.members" stripe :height="max">
           <ElTableColumn prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
               <ZActivityMember :id="scope.row._id" with-user-class-name />
@@ -219,7 +219,7 @@ watch(open, () => {
             </template>
           </ElTableColumn>
         </ElTable>
-      </ElScrollbar>
+      </div>
     </template>
   </ZButtonOrCard>
 </template>

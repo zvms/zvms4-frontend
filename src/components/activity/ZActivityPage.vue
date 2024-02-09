@@ -11,9 +11,11 @@ import {
   ElCollapse,
   ElCollapseItem,
   ElScrollbar,
-  ElCard
+  ElCard,
+ElBreadcrumb,
+ElBreadcrumbItem
 } from 'element-plus'
-import { ArrowLeft, Edit, Plus } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, Edit, Plus } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 import dayjs from 'dayjs'
@@ -50,12 +52,26 @@ console.log(scroll.value)
 
 <template>
   <div>
+        <ElBreadcrumb :separator-icon="ArrowRight">
+          <ElBreadcrumbItem>
+            <ElButton text size="small" @click="$router.push('/activities/')">
+              {{ t('nav.breadcrumbs.view.home') }}
+            </ElButton>
+          </ElBreadcrumbItem>
+          <ElBreadcrumbItem>
+            <ElButton text size="small">
+              {{ t('nav.breadcrumbs.view.specific') }}
+            </ElButton>
+          </ElBreadcrumbItem>
+          <ElBreadcrumbItem>
+            <ElButton text size="small" type="info">
+              {{ route.path.split('/').pop() }}
+            </ElButton>
+          </ElBreadcrumbItem>
+        </ElBreadcrumb>
     <ElPageHeader v-if="activity._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
       <template #content>
         {{ activity.name }}
-        <ElButton text round type="info" size="small" v-if="width > height * 1.2">
-          {{ route.path.split('/').pop() }}
-        </ElButton>
       </template>
       <template #extra>
         <ElSpace>

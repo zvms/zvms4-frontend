@@ -32,8 +32,8 @@ import { ref, type Component as VueComponent, watch } from 'vue'
 import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
 import { useHeaderStore } from '@/stores/header'
 import { getUserClass, getClassName } from '@/utils/getClass'
-// import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
+import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
 // const user = useUserStore()
@@ -181,7 +181,7 @@ function useStackDialog(version: number) {
   openStackDialog.value = true
 }
 
-const V1List = ['neko_moyi', 'Zecyle', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
+const V1List = ['neko_moyi', 'Zecyel', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
 const V4List = ['clc', '7086cmd', 'byh', 'zyq', 'zzh']
 
@@ -238,11 +238,15 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
 const displayGitHubName = ref(true)
 
 function openGitHub() {
-  ElNotification({
-    title: '不行',
-    message: '如果这样就让你润出去的话未免有些……（   ）（3 分）',
-    type: 'warning'
-  })
+  if (pad()) {
+    ElNotification({
+      title: '不行',
+      message: '如果这样就让你润出去的话未免有些...',
+      type: 'warning'
+    })
+  } else {
+    window.open('https://github.com/7086cmd', '_blank')
+  }
 }
 </script>
 <template>

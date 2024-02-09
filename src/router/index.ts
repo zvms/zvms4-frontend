@@ -60,7 +60,7 @@ const router = createRouter({
           component: () => import('../views/activity/ViewPage.vue')
         },
         {
-          path: '/activities/register/',
+          path: '/register',
           name: 'activity-register',
           component: () => import('../views/activity/UserRegister.vue')
         },
@@ -73,7 +73,12 @@ const router = createRouter({
           path: '/activities/:type',
           name: 'activity-type',
           component: () => import('../views/activity/ViewPage.vue')
-        }
+        },
+        // {
+        //   path: '/trophy',
+        //   name: 'trophy',
+        //   component: () => import('../views/activity/TrophyPage.vue')
+        // }
       ]
     },
     {
