@@ -29,9 +29,6 @@ const trophy = reactive({
   members: [],
   creator: user._id
 })
-
-const type = ['academic', 'art', 'sports', 'other']
-const level = ['district', 'city', 'province', 'national', 'international']
 </script>
 
 <template>
@@ -59,10 +56,10 @@ const level = ['district', 'city', 'province', 'national', 'international']
       <ElFormItem :label="t('activity.trophy.field.level')">
         <ElSelect v-model="trophy.level">
           <ElOption
-            v-for="item in level"
-            :key="item"
-            :label="t(`activity.trophy.level.${item}`)"
-            :value="item"
+            v-for="item in trophyLevelMap"
+            :key="item.value"
+            :label="t(`activity.trophy.level.${item.value}`)"
+            :value="item.value"
           />
         </ElSelect>
         <template #prefix>
