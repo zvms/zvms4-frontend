@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import type { Response } from '@zvms/zvms4-types'
 
 async function modifyActivityTitle(aid: string, title: string) {
   const result = (

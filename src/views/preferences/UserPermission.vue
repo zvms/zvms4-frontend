@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const { header } = toRefs(props)
 
-const number = ref<number>(0)
+const number = ref<string>('')
 const permissions = ref<
   Array<{
     label: string

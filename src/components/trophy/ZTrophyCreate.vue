@@ -10,11 +10,13 @@ import {
   ElSelect,
   ElOption,
   ElSwitch,
-  ElIcon
+  ElIcon,
+ElNotification
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { trophyLevelMap, trophyTypeMap } from './trophy'
 import { ArrowRight, Refresh } from '@element-plus/icons-vue'
+import api from '@/api'
 
 const user = useUserStore()
 const { t } = useI18n()
@@ -29,6 +31,23 @@ const trophy = reactive({
   members: [],
   creator: user._id
 })
+
+async function createTrophy() {
+  const result = await api.trophy.insert(trophy as unknown as Trophy)
+  if (result) {
+    ElNotification({
+      title: 'Trophy Created',
+      message: 'Trophy has been created successfully',
+      type: 'success'
+    })
+  } else {
+    ElNotification({
+      title: 'Trophy Creation Failed',
+      message: 'Trophy creation failed',
+      type: 'error'
+    })
+  }
+}
 </script>
 
 <template>
@@ -75,7 +94,7 @@ const trophy = reactive({
         <ElButton class="px-2" text bg type="warning" :icon="Refresh">
           {{ t('activity.form.actions.reset') }}
         </ElButton>
-        <ElButton class="px-2" text bg type="primary" :icon="ArrowRight">
+        <ElButton class="px-2" text bg type="primary" :icon="ArrowRight" @click="createTrophy">
           {{ t('activity.form.actions.submit') }}
         </ElButton>
       </div>

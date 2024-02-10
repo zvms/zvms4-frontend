@@ -25,7 +25,6 @@ declare module 'vue' {
     ZActivityStatus: typeof import('./src/components/tags/ZActivityStatus.vue')['default']
     ZActivityTag: typeof import('./src/components/tags/ZActivityTag.vue')['default']
     ZActivityType: typeof import('./src/components/tags/ZActivityType.vue')['default']
-    ZBreadcrumb: typeof import('./src/components/utils/ZBreadcrumb.vue')['default']
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
     ZCollapsedOrExpand: typeof import('./src/components/utils/ZCollapsedOrExpand.vue')['default']
