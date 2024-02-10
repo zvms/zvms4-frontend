@@ -1,4 +1,4 @@
-import type { Trophy, TrophyLevel, TrophyType } from "@zvms/zvms4-types";
+import type { TrophyLevel, TrophyType } from "@zvms/zvms4-types";
 import { Bookmark, Basketball, Performance, More } from "@icon-park/vue-next";
 import type { Component } from "vue";
 import icons from "@/icons/trophy";

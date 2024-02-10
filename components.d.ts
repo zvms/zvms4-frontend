@@ -40,6 +40,7 @@ declare module 'vue' {
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
     ZTrophyButton: typeof import('./src/components/trophy/ZTrophyButton.vue')['default']
     ZTrophyCard: typeof import('./src/components/trophy/ZTrophyCard.vue')['default']
+    ZTrophyCreate: typeof import('./src/components/trophy/ZTrophyCreate.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }

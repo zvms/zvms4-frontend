@@ -270,9 +270,33 @@ export const enUS = {
       },
       trophy: {
         name: 'Activities to Reward',
-        short: 'Reward'
+        short: 'Reward',
       }
     }
+  },
+  trophy: {
+    name: 'Reward',
+    create: 'Create Reward',
+    field: {
+      name: 'Name',
+      type: 'Type',
+      level: 'Level',
+      awards: 'Award | Award | Awards',
+      team: 'Team',
+    },
+    type: {
+      academic: 'Academic',
+      art: 'Art',
+      sports: 'Sports',
+      others: 'Others',
+    },
+    level: {
+      district: 'District',
+      city: 'City',
+      province: 'Province',
+      national: 'National',
+      international: 'International',
+    },
   }
 }
 
@@ -547,6 +571,30 @@ export const zhCN = {
         short: '获奖'
       }
     }
+  },
+  trophy: {
+    name: '获奖',
+    create: '创建获奖',
+    field: {
+      name: '名称',
+      type: '类型',
+      level: '级别',
+      awards: '奖项',
+      team: '团队',
+    },
+    type: {
+      academic: '学科',
+      art: '艺术',
+      sports: '体育',
+      others: '其他',
+    },
+    level: {
+      district: '区级',
+      city: '市级',
+      province: '省级',
+      national: '国家级',
+      international: '国际级',
+    },
   }
 }
 
@@ -822,6 +870,30 @@ export const zhTW = {
         short: '獲獎'
       }
     }
+  },
+  trophy: {
+    name: '獲獎',
+    create: '創建獲獎',
+    field: {
+      name: '名稱',
+      type: '類型',
+      level: '級別',
+      awards: '獎項',
+      team: '團隊',
+    },
+    type: {
+      academic: '學科',
+      art: '藝術',
+      sports: '體育',
+      others: '其他',
+    },
+    level: {
+      district: '區級',
+      city: '市級',
+      province: '省級',
+      national: '國家級',
+      international: '國際級',
+    },
   }
 }
 
@@ -1098,6 +1170,30 @@ export const jaJP = {
         short: '受賞'
       }
     }
+  },
+  trophy: {
+    name: '受賞',
+    create: '受賞を作成',
+    field: {
+      name: '名前',
+      type: 'タイプ',
+      level: 'レベル',
+      awards: '受賞',
+      team: 'チーム',
+    },
+    type: {
+      academic: '学科',
+      art: 'アート',
+      sports: 'スポーツ',
+      others: 'その他',
+    },
+    level: {
+      district: '地区',
+      city: '市',
+      province: '省',
+      national: '国',
+      international: '国際',
+    },
   }
 }
 
@@ -1372,6 +1468,30 @@ export const frFR = {
         short: 'Gagnants'
       }
     }
+  },
+  trophy: {
+    name: 'Prix',
+    create: 'Créer un Prix',
+    field: {
+      name: 'Nom',
+      type: 'Type',
+      level: 'Niveau',
+      awards: 'Prix',
+      team: 'Équipe',
+    },
+    type: {
+      academic: 'Académie',
+      art: 'Art',
+      sports: 'Sports',
+      others: 'Autre',
+    },
+    level: {
+      district: 'District',
+      city: 'Ville',
+      province: 'Province',
+      national: 'National',
+      international: 'International',
+    },
   }
 }
 
