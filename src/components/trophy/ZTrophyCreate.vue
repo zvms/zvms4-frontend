@@ -11,7 +11,8 @@ import {
   ElOption,
   ElSwitch,
   ElIcon,
-ElNotification
+  ElNotification,
+  ElCard
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { trophyLevelMap, trophyTypeMap } from './trophy'
@@ -51,53 +52,60 @@ async function createTrophy() {
 </script>
 
 <template>
-  <div>
-    <p class="text-2xl">{{ t('activity.trophy.create') }}</p>
-    <ElForm>
-      <ElFormItem :label="t('activity.trophy.field.name')">
-        <ElInput v-model="trophy.name" />
-      </ElFormItem>
-      <ElFormItem :label="t('activity.trophy.field.type')">
-        <ElSelect v-model="trophy.type">
-          <ElOption
-            v-for="item in trophyTypeMap"
-            :key="item.value"
-            :label="t(`activity.trophy.type.${item.value}`)"
-            :value="item.value"
-          />
-        </ElSelect>
-        <template #prefix>
-          <ElIcon>
-            <component :is="trophyTypeMap.find((x) => x.value === trophy.type)?.icon" />
-          </ElIcon>
-        </template>
-      </ElFormItem>
-      <ElFormItem :label="t('activity.trophy.field.level')">
-        <ElSelect v-model="trophy.level">
-          <ElOption
-            v-for="item in trophyLevelMap"
-            :key="item.value"
-            :label="t(`activity.trophy.level.${item.value}`)"
-            :value="item.value"
-          />
-        </ElSelect>
-        <template #prefix>
-          <ElIcon>
-            <component :is="trophyLevelMap.find((x) => x.value === trophy.level)?.icon" />
-          </ElIcon>
-        </template>
-      </ElFormItem>
-      <ElFormItem :label="t('activity.trophy.field.team')">
-        <ElSwitch v-model="trophy.team" />
-      </ElFormItem>
-      <div class="flex justify-end">
-        <ElButton class="px-2" text bg type="warning" :icon="Refresh">
-          {{ t('activity.form.actions.reset') }}
-        </ElButton>
-        <ElButton class="px-2" text bg type="primary" :icon="ArrowRight" @click="createTrophy">
-          {{ t('activity.form.actions.submit') }}
-        </ElButton>
-      </div>
-    </ElForm>
-  </div>
+  <Transition
+    enter-active-class="animate__animated animate__fadeIn"
+    leave-active-class="animate__animated animate__fadeOut"
+    appear
+  >
+    <div class="px-16">
+      <ElCard shadow="never">
+        <ElForm label-position="right" label-width="96px">
+          <ElFormItem :label="t('activity.trophy.field.name')">
+            <ElInput v-model="trophy.name" />
+          </ElFormItem>
+          <ElFormItem :label="t('activity.trophy.field.type')">
+            <ElSelect v-model="trophy.type">
+              <ElOption
+                v-for="item in trophyTypeMap"
+                :key="item.value"
+                :label="t(`activity.trophy.type.${item.value}`)"
+                :value="item.value"
+              />
+            </ElSelect>
+            <template #prefix>
+              <ElIcon>
+                <component :is="trophyTypeMap.find((x) => x.value === trophy.type)?.icon" />
+              </ElIcon>
+            </template>
+          </ElFormItem>
+          <ElFormItem :label="t('activity.trophy.field.level')">
+            <ElSelect v-model="trophy.level">
+              <ElOption
+                v-for="item in trophyLevelMap"
+                :key="item.value"
+                :label="t(`activity.trophy.level.${item.value}`)"
+                :value="item.value"
+              />
+            </ElSelect>
+            <template #prefix>
+              <ElIcon>
+                <component :is="trophyLevelMap.find((x) => x.value === trophy.level)?.icon" />
+              </ElIcon>
+            </template>
+          </ElFormItem>
+          <ElFormItem :label="t('activity.trophy.field.team')">
+            <ElSwitch v-model="trophy.team" />
+          </ElFormItem>
+          <div class="flex justify-end">
+            <ElButton class="px-2" text bg type="warning" :icon="Refresh">
+              {{ t('activity.form.actions.reset') }}
+            </ElButton>
+            <ElButton class="px-2" text bg type="primary" :icon="ArrowRight" @click="createTrophy">
+              {{ t('activity.form.actions.submit') }}
+            </ElButton>
+          </div>
+        </ElForm>
+      </ElCard>
+    </div>
+  </Transition>
 </template>

@@ -1,5 +1,5 @@
 {
-  "name": "zvms-latest",
+  "name": "zvms4-frontend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,10 @@
     "build:docs": "vitepress build docs",
     "serve:docs": "vitepress serve docs",
     "preview:docs": "vitepress preview docs",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
@@ -28,7 +31,7 @@
     "@types/ua-parser-js": "^0.7.37",
     "@zvms/data-transform": "^1.0.1",
     "@zvms/frontend-utils": "^0.1.2",
-    "@zvms/zvms4-types": "^0.1.1",
+    "@zvms/zvms4-types": "^0.1.2",
     "async-validator": "^4.2.5",
     "bson-objectid": "^2.0.4",
     "chart.js": "^4.4.0",
@@ -89,7 +92,7 @@
     "npm-run-all2": "^6.1.1",
     "nprogress": "^0.2.0",
     "pinia-plugin-persistedstate": "^3.2.0",
-    "postcss": "^8.4.31",
+    "postcss": "^8.4.35",
     "prettier": "^3.0.3",
     "sass": "^1.69.4",
     "start-server-and-test": "^2.0.1",
@@ -105,6 +108,7 @@
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-pwa": "^0.17.4",
     "vite-plugin-vue-devtools": "7.0.11",
+    "vitepress": "1.0.0-rc.42",
     "vitest": "^1.2.1",
     "vue-i18n": "^9.5.0",
     "vue-tsc": "^1.8.19"

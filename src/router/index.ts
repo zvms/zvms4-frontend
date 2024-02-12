@@ -70,13 +70,18 @@ const router = createRouter({
           path: '/activities/:type',
           name: 'activity-type',
           component: () => import('../views/activity/ViewPage.vue')
-        },
-        // {
-        //   path: '/trophy',
-        //   name: 'trophy',
-        //   component: () => import('../views/activity/TrophyPage.vue')
-        // }
+        }
       ]
+    },
+    {
+      path: '/trophy',
+      name: 'trophy',
+      component: () => import('../views/trophy/TrophyHome.vue')
+    },
+    {
+      path: '/trophy/create',
+      name: 'trophy-create',
+      component: () => import('../views/trophy/TrophyCreate.vue')
     },
     {
       path: '/activity/:id',
@@ -96,7 +101,7 @@ const router = createRouter({
     {
       path: '/notifications/create',
       name: 'notifications-create',
-      component: ()=>import('../views/notifications/NotificationCreate.vue')
+      component: () => import('../views/notifications/NotificationCreate.vue')
     }
   ]
 })

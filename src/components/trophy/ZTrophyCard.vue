@@ -24,6 +24,6 @@ const { trophy, mode } = toRefs(props)
     <template #text>
       {{ trophy.name }}
     </template>
-    <p class="text-xl">{{ trophy.name }}</p>
+    <p class="text-lg">{{ trophy.name }}</p>
   </ZButtonOrCard>
 </template>

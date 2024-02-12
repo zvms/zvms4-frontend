@@ -65,7 +65,6 @@ export const enUS = {
       trophy: {
         home: 'Trophy Page',
         create: 'Create Trophy',
-
       },
       register: 'Register Page',
       mine: 'My Activity',
@@ -187,7 +186,10 @@ export const zhCN = {
     view: {
       home: '查看',
       specific: '指定义工',
-      trophy: '获奖页面',
+      trophy: {
+        home: '获奖界面',
+        create: '创建奖项',
+      },
       register: '报名页面',
       mine: '我的义工',
       class: '班级义工',
@@ -308,7 +310,6 @@ export const zhTW = {
     view: {
       home: '查看',
       specific: '指定義工',
-      trophy: '獲獎頁面',
       register: '報名頁面',
       mine: '我的義工',
       class: '班級義工',
@@ -429,7 +430,6 @@ export const jaJP = {
     view: {
       home: 'ビュー',
       specific: '特定のボランティア',
-      trophy: 'トロフィーページ',
       register: '登録ページ',
       mine: '私のボランティア',
       class: 'クラスボランティア',
@@ -551,7 +551,6 @@ export const frFR = {
     view: {
       home: 'Vue',
       specific: 'Bénévole spécifié',
-      trophy: 'Page de trophée',
       register: 'Page d inscription',
       mine: 'Mes bénévoles',
       class: 'Bénévoles de classe',

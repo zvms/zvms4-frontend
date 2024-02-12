@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
 import { generateNumber } from './utils'
 import ObjectID from 'bson-objectid'
-import JSEncrypt from 'jsencrypt'
-import * as jose from 'jose'
 
 function generateActivity(_id?: string, serie: boolean = true) {
   return {

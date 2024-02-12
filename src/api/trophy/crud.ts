@@ -11,7 +11,9 @@ export async function readTrophy(id: string) {
 
 export async function readTrophies() {
   const resp = await axios(`/trophy`)
+  console.log(resp)
   const result = resp.data as Response<Trophy[]>
+  console.log(result)
   if (result.status === 'ok') {
     return result.data
   }
