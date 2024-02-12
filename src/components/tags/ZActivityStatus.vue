@@ -18,13 +18,15 @@ const props = withDefaults(
     modifiable?: boolean
     activity?: ActivityInstance
     refresh?: () => void
+    bg?: boolean
   }>(),
   {
     type: 'effective',
     size: 'small',
     color: true,
     modifiable: false,
-    refresh: () => {}
+    refresh: () => {},
+    bg: true
   }
 )
 
@@ -55,6 +57,7 @@ const divider = h(ElDivider, { direction: 'vertical' })
     :icon="classifications.member[type].icon"
     :unknown="!effective"
     :force="force"
+    :bg="bg"
   >
     {{ t('activity.status.' + type) }}
   </ZButtonTag>
@@ -71,6 +74,7 @@ const divider = h(ElDivider, { direction: 'vertical' })
         :size="size"
         :type="classifications.member.pending.color"
         :icon="classifications.member.pending.icon"
+        :bg="bg"
       >
         {{ t('activity.status.pending') }}
       </ZButtonTag>
@@ -89,7 +93,7 @@ const divider = h(ElDivider, { direction: 'vertical' })
               :type="classifications.member[result].color"
               :icon="classifications.member[result].icon"
               text
-              bg
+              :bg="bg"
               size="small"
             >
               {{ t('activity.form.actions.modification.' + result) }}

@@ -16,9 +16,9 @@ export const useUserStore = defineStore('user', {
     code: 0,
     isLogin: true,
     time: {
-      largeScale: 1919,
-      onCampus: 114,
-      offCampus: 514
+      largeScale: 0,
+      onCampus: 0,
+      offCampus: 0
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
   }),
@@ -65,7 +65,7 @@ export const useUserStore = defineStore('user', {
       this.time.onCampus = result.onCampus
       this.time.largeScale = result.largeScale
     },
-    async setLanguage(language: string) {
+    setLanguage(language: string) {
       this.language = language
     }
   },

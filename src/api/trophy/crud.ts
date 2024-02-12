@@ -1,6 +1,22 @@
 import axios from '@/plugins/axios'
 import type { Response, Trophy, TrophyAward, TrophyMember } from '@zvms/zvms4-types'
 
+export async function readTrophy(id: string) {
+  const resp = await axios(`/trophy/${id}`)
+  const result = resp.data as Response<Trophy>
+  if (result.status === 'ok') {
+    return result.data
+  }
+}
+
+export async function readTrophies() {
+  const resp = await axios(`/trophy`)
+  const result = resp.data as Response<Trophy[]>
+  if (result.status === 'ok') {
+    return result.data
+  }
+}
+
 export async function insertTrophy(data: Trophy) {
   const resp = await axios('/trophy', {
     method: 'POST',

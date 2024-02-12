@@ -6,11 +6,16 @@ import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ElResult, ElSkeleton } from 'element-plus'
 import { ZActivityDetails } from '.'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   _id: string
-  mode: 'mine' | 'class' | 'campus' | 'register'
+  mode?: 'mine' | 'class' | 'campus' | 'register'
   perspective?: string // `mine` with other's user ObjectId
-}>()
+  showDetails?: boolean
+}>(), {
+  mode: 'mine',
+  perspective: 'mine',
+  showDetails: true
+})
 const emits = defineEmits<{
   refresh: []
 }>()
@@ -47,6 +52,7 @@ const refresh = () => emits('refresh')
       :mode="mode"
       :perspective="perspective"
       @refresh="refresh"
+      :show-details="showDetails"
     />
     <ElResult v-else-if="error" status="error" title="404" sub-title="活动不存在" />
   </div>

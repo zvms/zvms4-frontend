@@ -7,13 +7,21 @@ import classifications from './classifications'
 
 const { t } = useI18n()
 
-const props = defineProps<{
-  classify: SpecialActivityClassification
-  size?: 'large' | 'default' | 'small'
-  color?: boolean
-  mode?: 'auto' | 'full' | 'icon'
-  force?: 'full' | 'short'
-}>()
+const props = withDefaults(
+  defineProps<{
+    classify: SpecialActivityClassification
+    size?: 'large' | 'default' | 'small'
+    color?: boolean
+    mode?: 'auto' | 'full' | 'icon'
+    force?: 'full' | 'short'
+    bg?: boolean
+  }>(),
+  {
+    classify: 'other',
+    mode: 'auto',
+    bg: true
+  }
+)
 
 const { classify, size } = toRefs(props)
 
@@ -29,6 +37,7 @@ const effective = classify?.value! in classifies
     :icon="classifies[classify as SpecialActivityClassification].icon"
     :unknown="!effective"
     :force="force"
+    :bg="bg"
   >
     {{ t(`activity.special.classify.${classify}`) }}
   </ZButtonTag>

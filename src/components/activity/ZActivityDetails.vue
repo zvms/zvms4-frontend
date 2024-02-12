@@ -17,18 +17,26 @@ import { useI18n } from 'vue-i18n'
 import api from '@/api'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 
-const props = defineProps<{
-  activity: ActivityInstance
-  mode: 'mine' | 'class' | 'campus' | 'register'
-  perspective?: string // `mine` with other's user ObjectId
-}>()
+const props = withDefaults(
+  defineProps<{
+    activity: ActivityInstance
+    mode?: 'mine' | 'class' | 'campus' | 'register'
+    perspective?: string // `mine` with other's user ObjectId
+    showDetails?: boolean
+  }>(),
+  {
+    mode: 'mine',
+    perspective: 'mine',
+    showDetails: false
+  }
+)
 const emits = defineEmits<{
   refresh: []
 }>()
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode, perspective } = toRefs(props)
+const { activity, mode, perspective, showDetails } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -167,6 +175,7 @@ const refresh = () => emits('refresh')
       <ElCol :span="18">
         <div class="pl-4 py-2" style="text-align: right">
           <ElButton
+            v-if="showDetails"
             type="info"
             :icon="Plus"
             text

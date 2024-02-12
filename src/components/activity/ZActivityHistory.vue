@@ -19,10 +19,12 @@ const props = withDefaults(
     history?: ActivityMemberHistory[]
     mode?: ActivityMode
     display?: 'button' | 'card'
+    showItems?: boolean
   }>(),
   {
     mode: 'on-campus',
-    display: 'button'
+    display: 'button',
+    showItems: false
   }
 )
 
@@ -82,7 +84,12 @@ const statusMap: Record<
     :title="t('activity.impression.page.reflect.history.title')"
   >
     <template #text>
-      {{ t('activity.impression.page.reflect.history.title') }}
+      <span v-if="showItems">
+        {{ history?.length }} {{ t('activity.units.item', history?.length as number) }}
+      </span>
+      <span v-else>
+        {{ t('activity.impression.page.reflect.history.title') }}
+      </span>
     </template>
     <template #default>
       <ElScrollbar :height="min" v-if="history?.length !== 0">

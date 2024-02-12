@@ -8,14 +8,19 @@ import { Remove } from '@element-plus/icons-vue'
 const { t } = useI18n()
 const { width, height } = useWindowSize()
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   size?: 'large' | 'default' | 'small'
   type?: 'primary' | 'warning' | 'success' | 'danger' | 'info' | ''
   icon?: VueComponent
   unknown?: boolean
   force?: 'full' | 'short'
   onlyDisplayIcon?: boolean
-}>()
+  bg?: boolean
+}>(), {
+  size: 'small',
+  type: '',
+  bg: true
+})
 
 const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
 </script>
@@ -29,7 +34,7 @@ const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
     :type="type"
     :size="size ?? 'small'"
     text
-    bg
+    :bg="bg"
     round
   >
     <slot></slot>
@@ -45,7 +50,7 @@ const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
       :circle="!onlyDisplayIcon"
       :round="onlyDisplayIcon"
       text
-      bg
+      :bg="bg"
     />
   </ElTooltip>
   <ElButton
@@ -54,9 +59,9 @@ const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
     :icon="Remove"
     :size="size ?? 'small'"
     text
-    bg
+    :bg="bg"
   >
     {{ t('activity.type.unknown') }}
   </ElButton>
-  <ElButton v-else type="danger" :icon="Remove" :size="size ?? 'small'" text bg />
+  <ElButton v-else type="danger" :icon="Remove" :size="size ?? 'small'" text :bg="bg" />
 </template>

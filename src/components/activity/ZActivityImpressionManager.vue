@@ -130,6 +130,7 @@ const serif = ref(false)
           :activity="activity"
           :mode="activity.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
           :perspective="role === 'mine' ? user._id : current._id ?? user._id"
+          :show-details="false"
         />
       </ElCollapseItem>
       <ElCollapseItem :title="t('activity.form.impression')" name="2">
