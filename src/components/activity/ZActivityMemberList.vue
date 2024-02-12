@@ -17,7 +17,6 @@ import {
   ElTable,
   ElTableColumn,
   ElButton,
-  ElScrollbar,
   ElPopover,
   ElPopconfirm,
   ElForm,
@@ -32,7 +31,11 @@ const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
 
-const max = ref(height.value * 0.4)
+const max = ref(height.value * 0.5)
+
+watch(height, () => {
+  max.value = height.value * 0.5
+})
 
 const props = withDefaults(defineProps<{
   activity: ActivityInstance

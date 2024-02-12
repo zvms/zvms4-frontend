@@ -16,10 +16,6 @@ import {
   ElButton,
   ElSpace,
   ElButtonGroup,
-  ElCollapse,
-  ElCollapseItem,
-  ElScrollbar,
-  ElCard,
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElDescriptions,
@@ -36,7 +32,6 @@ import dayjs from 'dayjs'
 const user = useUserStore()
 const route = useRoute()
 const { width, height } = useWindowSize()
-const collapse = ref<'member' | 'history'>('member')
 const { t } = useI18n()
 
 const props = withDefaults(

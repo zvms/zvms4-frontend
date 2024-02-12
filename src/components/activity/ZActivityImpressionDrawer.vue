@@ -5,10 +5,7 @@ import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { ZActivityImpressionManager } from '@/components'
-import { useUserStore } from '@/stores/user'
 import api from '@/api'
-
-const user = useUserStore()
 
 const props = withDefaults(
   defineProps<{

@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import { ZActivityDuration, ZActivityMember, ZButtonOrCard } from '@/components'
 import { memberActivityStatuses } from '@/icons/status'
 import { useI18n } from 'vue-i18n'
-import { Clock, Timer } from '@element-plus/icons-vue'
+import { Clock } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { History, User } from '@icon-park/vue-next'
 
