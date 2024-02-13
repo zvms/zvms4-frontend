@@ -19,7 +19,7 @@ export async function readTrophies() {
   }
 }
 
-export async function insertTrophy(data: Trophy) {
+export async function insertTrophy(data: Omit<Trophy, '_id'>) {
   const resp = await axios('/trophy', {
     method: 'POST',
     data,

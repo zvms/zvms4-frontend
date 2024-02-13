@@ -271,7 +271,7 @@ export const enUS = {
       },
       trophy: {
         name: 'Activities to Reward',
-        short: 'Reward',
+        short: 'Reward'
       }
     }
   },
@@ -283,21 +283,23 @@ export const enUS = {
       type: 'Type',
       level: 'Level',
       awards: 'Award | Award | Awards',
-      team: 'Team',
+      team: 'Team'
     },
     type: {
       academic: 'Academic',
       art: 'Art',
       sports: 'Sports',
-      others: 'Others',
+      others: 'Others'
     },
     level: {
       district: 'District',
       city: 'City',
       province: 'Province',
       national: 'National',
-      international: 'International',
+      international: 'International'
     },
+    auto: 'Auto Create Awards',
+    instructor: 'Instructor'
   }
 }
 
@@ -582,21 +584,23 @@ export const zhCN = {
       type: '类型',
       level: '级别',
       awards: '奖项',
-      team: '团队',
+      team: '团队'
     },
     type: {
       academic: '学科',
       art: '艺术',
       sports: '体育',
-      others: '其他',
+      others: '其他'
     },
     level: {
       district: '区级',
       city: '市级',
       province: '省级',
       national: '国家级',
-      international: '国际级',
+      international: '国际级'
     },
+    auto: '自动创建奖项',
+    instructor: '指导老师'
   }
 }
 
@@ -881,21 +885,23 @@ export const zhTW = {
       type: '類型',
       level: '級別',
       awards: '獎項',
-      team: '團隊',
+      team: '團隊'
     },
     type: {
       academic: '學科',
       art: '藝術',
       sports: '體育',
-      others: '其他',
+      others: '其他'
     },
     level: {
       district: '區級',
       city: '市級',
       province: '省級',
       national: '國家級',
-      international: '國際級',
+      international: '國際級'
     },
+    auto: '自動創建獎項',
+    instructor: '指導老師'
   }
 }
 
@@ -1181,21 +1187,23 @@ export const jaJP = {
       type: 'タイプ',
       level: 'レベル',
       awards: '受賞',
-      team: 'チーム',
+      team: 'チーム'
     },
     type: {
       academic: '学科',
       art: 'アート',
       sports: 'スポーツ',
-      others: 'その他',
+      others: 'その他'
     },
     level: {
       district: '地区',
       city: '市',
       province: '省',
       national: '国',
-      international: '国際',
+      international: '国際'
     },
+    auto: '自動的に受賞を作成',
+    instructor: '指導教員'
   }
 }
 
@@ -1479,21 +1487,23 @@ export const frFR = {
       type: 'Type',
       level: 'Niveau',
       awards: 'Prix',
-      team: 'Équipe',
+      team: 'Équipe'
     },
     type: {
       academic: 'Académie',
       art: 'Art',
       sports: 'Sports',
-      others: 'Autre',
+      others: 'Autre'
     },
     level: {
       district: 'District',
       city: 'Ville',
       province: 'Province',
       national: 'National',
-      international: 'International',
+      international: 'International'
     },
+    auto: 'Créer automatiquement un prix',
+    instructor: 'Instructeur'
   }
 }
 
