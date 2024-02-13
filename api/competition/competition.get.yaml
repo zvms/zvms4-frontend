@@ -1,5 +1,0 @@
-name: Get Competitions
-path: /competition
-method: GET
-response: Competition[]
-permissions: 0

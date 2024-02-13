@@ -14,6 +14,6 @@ response:
   - name: offCampus
     type: number
     description: The time spent off campus activities
-  - name: largeScale
+  - name: socialPractice
     type: number
     description: The time spent on large scale activities
