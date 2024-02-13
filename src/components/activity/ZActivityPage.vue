@@ -74,7 +74,7 @@ watch(height, () => {
         {{ activity.name }}
       </template>
       <template #extra>
-        <ElSpace>
+        <ElSpace class="no-print">
           <ZActivityType
             :type="activity.type"
             mode="full"
@@ -85,7 +85,7 @@ watch(height, () => {
         </ElSpace>
       </template>
       <template #breadcrumb>
-        <ElBreadcrumb :separator-icon="ArrowRight">
+        <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
           <ElBreadcrumbItem>
             <ElButton text size="small" @click="$router.push('/activities/')">
               {{ t('nav.breadcrumbs.view.home') }}
@@ -224,3 +224,24 @@ watch(height, () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+</style>
+
+<style>
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    filter: grayscale(100%);
+  }
+  #__vconsole {
+    display: none;
+  }
+}
+</style>

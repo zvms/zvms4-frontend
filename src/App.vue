@@ -213,6 +213,12 @@ const panelButtons = [
   position: absolute;
   right: 0;
 }
+/*
+@media print {
+  .user {
+    display: none;
+  }
+} */
 </style>
 
 <style>
@@ -222,5 +228,11 @@ body {
     color 0.5s,
     background-color 0.5s !important;
   /* filter: grayscale(1); */
+}
+
+@media print {
+  body {
+    font-size: 12px;
+  }
 }
 </style>

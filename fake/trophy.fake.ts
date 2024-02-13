@@ -11,15 +11,16 @@ import type {
 
 function generateTrophy(id?: string): Trophy {
   const awards = new Array(Math.floor(Math.random() * 5)).fill(0).map(() => generateTrophyAward())
+  const type = ['academic', 'art', 'sports', 'others'][Math.floor(Math.random() * 4)] as TrophyType
   return {
     _id: id ? id : new ObjectID().toHexString(),
     name: faker.lorem.words(),
-    type: ['academic', 'art', 'sports', 'others'][Math.floor(Math.random() * 4)] as TrophyType,
+    type,
     level: ['district', 'city', 'province', 'national', 'international'][
       Math.floor(Math.random() * 5)
     ] as TrophyLevel,
     awards,
-    team: [true, false][Math.floor(Math.random() * 2)],
+    team: type === 'art' ? [true, false][Math.floor(Math.random() * 2)] : false,
     members: new Array(Math.floor(Math.random() * 12))
       .fill(0)
       .map((_, idx) =>
@@ -27,7 +28,10 @@ function generateTrophy(id?: string): Trophy {
       ),
     creator: new ObjectID().toHexString(),
     instructor: faker.person.fullName(),
-    status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)] as TrophyStatus
+    status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)] as TrophyStatus,
+    time: faker.date.past(1).toISOString(),
+    deadline: faker.date.future(1).toISOString(),
+    createdAt: new Date().toISOString()
   }
 }
 

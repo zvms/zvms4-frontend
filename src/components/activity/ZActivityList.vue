@@ -7,7 +7,8 @@ import {
   ElButton,
   ElPagination,
   ElCard,
-  ElInput
+  ElInput,
+ElSkeleton
 } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -109,7 +110,7 @@ watch(
 </script>
 
 <template>
-  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
+  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
     <ElDialog
       :title="t('activity.registration.title')"
       width="80%"
@@ -117,7 +118,8 @@ watch(
       v-model="registerForSpecified"
     >
     </ElDialog>
-    <ElCard shadow="never">
+    <ElSkeleton v-if="loading" :loading="loading" :rows="8" animated class="py-4 px-4" :throttle="500" />
+    <ElCard shadow="never" v-else>
       <ElTable
         :max-height="tableMaxHeight"
         :data="

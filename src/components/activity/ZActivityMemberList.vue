@@ -55,7 +55,7 @@ const modified = ref(false)
 function getMode(): ActivityMode {
   if (activity.value.type === 'specified') return 'on-campus'
   if (activity.value.type === 'social') return 'off-campus'
-  if (activity.value.type === 'scale') return 'large-scale'
+  if (activity.value.type === 'scale') return 'social-practice'
   return activity.value.mode
 }
 
@@ -63,7 +63,7 @@ function getAllow(): ActivityMode[] {
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
     return ['on-campus', 'off-campus']
-  return ['on-campus', 'off-campus', 'large-scale']
+  return ['on-campus', 'off-campus', 'social-practice']
 }
 
 const appending = ref<ActivityMember>({
@@ -84,7 +84,6 @@ const memberFunctions = {
     loading.value = 'add'
     await api.activity.member.insert(activity.value._id, appending.value)
     activity.value.members.push(appending.value)
-    console.log(appending.value)
     loading.value = ''
   },
   async remove(id: string) {
@@ -151,6 +150,7 @@ watch(open, () => {
               user.position.includes('admin') ||
               user.position.includes('department')
             "
+            class="no-print"
           >
             <template #header>
               <ElPopover
@@ -158,6 +158,7 @@ watch(open, () => {
                 trigger="click"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
                 width="328px"
+                class="no-print"
               >
                 <template #reference>
                   <ElButton
@@ -203,6 +204,7 @@ watch(open, () => {
                 @confirm="memberFunctions.remove(scope.row._id)"
                 width="216px"
                 placement="left"
+                class="no-print"
               >
                 <template #reference>
                   <ElButton
@@ -226,3 +228,11 @@ watch(open, () => {
     </template>
   </ZButtonOrCard>
 </template>
+
+<style scoped>
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+</style>

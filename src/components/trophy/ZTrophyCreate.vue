@@ -14,7 +14,8 @@ import {
   ElNotification,
   ElCard,
   ElRow,
-  ElCol
+  ElCol,
+  ElDatePicker,
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { trophyLevelMap, trophyTypeMap } from './trophy'
@@ -27,6 +28,7 @@ import {
 } from './auto'
 import { watch, toRefs, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import dayjs from 'dayjs'
 
 const user = useUserStore()
 const { t, locale } = useI18n()
@@ -57,7 +59,10 @@ const trophy = reactive<Omit<Trophy, '_id'>>({
   status: 'pending',
   members: [],
   creator: user._id,
-  instructor: ''
+  instructor: '',
+  time: '',
+  deadline: '',
+  createdAt: dayjs().toISOString(),
 })
 
 function calculate() {
@@ -138,6 +143,9 @@ function resetForm() {
         <ElForm label-position="right" label-width="96px">
           <ElFormItem :label="t('activity.trophy.field.name')" required>
             <ElInput v-model="trophy.name" />
+          </ElFormItem>
+          <ElFormItem :label="t('activity.form.date')" required>
+            <ElDatePicker type="date" v-model="trophy.time" style="width: 100%" />
           </ElFormItem>
           <ElFormItem :label="t('activity.trophy.field.type')" required>
             <ElSelect v-model="trophy.type">
@@ -227,6 +235,9 @@ function resetForm() {
           </ElFormItem>
           <ElFormItem :label="t('activity.trophy.instructor')" required>
             <ElInput v-model="trophy.instructor" :prefix-icon="User" />
+          </ElFormItem>
+          <ElFormItem :label="t('activity.registration.deadline')" required>
+            <ElDatePicker type="datetime" v-model="trophy.deadline" style="width: 100%" />
           </ElFormItem>
           <div class="flex justify-end">
             <ElButton class="px-2" text bg type="warning" :icon="Refresh" @click="resetForm">
