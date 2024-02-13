@@ -42,8 +42,8 @@ const effective = type?.value! in types
   <ElButtonGroup>
     <ZButtonTag
       :size="size ?? 'small'"
-      :type="types[type as ActivityType].color"
-      :icon="types[type as ActivityType].icon"
+      :type="types[type].color"
+      :icon="types[type].icon"
       :unknown="!effective"
       :force="force"
       :bg="bg"

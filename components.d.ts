@@ -36,10 +36,13 @@ declare module 'vue' {
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZSpecialActivityClassify: typeof import('./src/components/tags/ZSpecialActivityClassify.vue')['default']
+    ZTime: typeof import('./src/components/tags/ZTime.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
     ZTrophyButton: typeof import('./src/components/trophy/ZTrophyButton.vue')['default']
     ZTrophyCard: typeof import('./src/components/trophy/ZTrophyCard.vue')['default']
     ZTrophyCreate: typeof import('./src/components/trophy/ZTrophyCreate.vue')['default']
+    ZTrophyLevel: typeof import('./src/components/trophy/ZTrophyLevel.vue')['default']
+    ZTrophyType: typeof import('./src/components/trophy/ZTrophyType.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }

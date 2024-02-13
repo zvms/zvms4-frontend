@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Trophy } from '@zvms/zvms4-types'
 import { toRefs } from 'vue'
-import { ZButtonOrCard } from '..'
+import { ZButtonOrCard, ZTrophyType, ZTrophyLevel } from '..'
 import { Trophy as TrophyIcon } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 
@@ -24,6 +24,10 @@ const { trophy, mode } = toRefs(props)
     <template #text>
       {{ trophy.name }}
     </template>
-    <p class="text-lg">{{ trophy.name }}</p>
+    <p class="text-lg">
+      {{ trophy.name }}
+      <ZTrophyType class="px-1" :type="trophy.type" :name="trophy.name" />
+      <ZTrophyLevel class="px-1" :level="trophy.level" />
+    </p>
   </ZButtonOrCard>
 </template>
