@@ -14,7 +14,7 @@ const user = useUserStore()
 const targetsOfDuration = {
   'on-campus': 30,
   'off-campus': 15,
-  'large-scale': 18
+  'social-practice': 18
 }
 
 const props = withDefaults(
@@ -37,7 +37,7 @@ const props = withDefaults(
 const timeOfMine = {
   'on-campus': user.time.onCampus,
   'off-campus': user.time.offCampus,
-  'large-scale': user.time.largeScale
+  'social-practice': user.time.largeScale
 }
 
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)
@@ -65,7 +65,7 @@ const modes: Record<
     icon: CityGate,
     color: 'success'
   },
-  'large-scale': {
+  'social-practice': {
     icon: Vacation,
     color: 'warning'
   }

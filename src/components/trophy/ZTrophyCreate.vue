@@ -155,12 +155,12 @@ function resetForm() {
                 :label="t(`activity.trophy.type.${item.value}`)"
                 :value="item.value"
               />
+              <template #prefix>
+                <ElIcon>
+                  <component :is="trophyTypeMap.find((x) => x.value === trophy.type)?.icon(trophy.name)" />
+                </ElIcon>
+              </template>
             </ElSelect>
-            <template #prefix>
-              <ElIcon>
-                <component :is="trophyTypeMap.find((x) => x.value === trophy.type)?.icon" />
-              </ElIcon>
-            </template>
           </ElFormItem>
           <ElFormItem :label="t('activity.trophy.field.level')" required>
             <ElSelect v-model="trophy.level">
@@ -170,6 +170,11 @@ function resetForm() {
                 :label="t(`activity.trophy.level.${item.value}`)"
                 :value="item.value"
               />
+              <template #prefix>
+                <ElIcon>
+                  <component :is="trophyLevelMap.find((x) => x.value === trophy.level)?.icon" />
+                </ElIcon>
+              </template>
             </ElSelect>
             <template #prefix>
               <ElIcon>

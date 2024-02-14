@@ -122,17 +122,17 @@ export const subjectsOfAcademic: Array<{
   {
     name: 'politics',
     icon: icons.StreamlinePoliticsVote2,
-    keyword: ['政治', '政协']
+    keyword: ['政治', '政协', '领导力']
   },
   {
     name: 'history',
     icon: icons.IcBaselineHistory,
-    keyword: ['历史']
+    keyword: ['历史', '联合国', '模联']
   },
   {
     name: 'geography',
     icon: icons.MaterialSymbolsGlobe,
-    keyword: ['地理']
+    keyword: ['地理', '海亮杯']
   }
 ]
 

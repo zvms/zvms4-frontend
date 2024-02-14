@@ -41,10 +41,10 @@ export const enUS = {
       short: 'Off Campus',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: 'Large-scale Practice',
-      short: 'Scale Practice',
-      key: 'large-scale'
+    'social-practice': {
+      name: 'Large-scale Social Practice',
+      short: 'Social Practice',
+      key: 'social-practice'
     }
   },
   form: {
@@ -344,10 +344,10 @@ export const zhCN = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型实践',
+    'social-practice': {
+      name: '大型社会实践',
       short: '实践',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -646,10 +646,10 @@ export const zhTW = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型實踐',
+    'social-practice': {
+      name: '大型社會實踐',
       short: '實踐',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -948,10 +948,10 @@ export const jaJP = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型実践',
+    'social-practice': {
+      name: '大規模社会実践',
       short: '実践',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -1250,10 +1250,10 @@ export const frFR = {
       short: 'Hors Campus',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: 'Pratique à Grande Échelle pendant',
+    'social-practice': {
+      name: 'Pratique Sociale à Grande Échelle',
       short: 'Grande Échelle',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {

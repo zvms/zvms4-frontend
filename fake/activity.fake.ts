@@ -30,7 +30,7 @@ function generateActivity(_id?: string, serie: boolean = true) {
 function generateSpecial() {
   return {
     classify: ['prize', 'import', 'club', 'deduction', 'other'][Math.floor(Math.random() * 5)],
-    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)],
+    mode: ['on-campus', 'off-campus', 'social-practice'][Math.floor(Math.random() * 3)],
     prize: {
       level: ['district', 'city', 'province', 'national', 'international'][
         Math.floor(Math.random() * 5)
@@ -65,7 +65,7 @@ function generateActivityMember(_id: string, serie: boolean = true) {
           .fill(0)
           .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
     images: [],
-    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)]
+    mode: ['on-campus', 'off-campus', 'social-practice'][Math.floor(Math.random() * 3)]
   }
 }
 
