@@ -63,7 +63,11 @@ export const enUS = {
       province: 'This trophy is province level',
       national: 'This trophy is national level',
       international: 'This trophy is international level'
-    }
+    },
+    statement:
+      'According to the regulations, the total number of hours of volunteer work for an individual student in the award category is limited to 10 hours. Your remaining creditable time is {time} hours.',
+    prompt:
+      'Individuals who receive awards can be credited as on-campus or off-campus volunteers at the time of each award if they so desire, and the award information cannot be changed after the time of crediting is reported.'
   }
 }
 
@@ -119,7 +123,10 @@ export const zhCN = {
       province: '该比赛为省级比赛',
       national: '该比赛为国家级比赛',
       international: '该比赛为国际级比赛'
-    }
+    },
+    statement:
+      '根据规定，单个学生个人获奖类义工总时长不超过 10 小时。您剩余可计入时数为 {time} 小时。',
+    prompt: '获奖者可在每次获奖时选择记入校内或校外义工时间，记入后不可更改获奖信息。'
   }
 }
 
@@ -174,7 +181,10 @@ export const zhTW = {
       province: '該比賽為省級比賽',
       national: '該比賽為國家級比賽',
       international: '該比賽為國際級比賽'
-    }
+    },
+    statement:
+      '根據規定，單個學生個人獲獎類義工總時長不超過 10 小時。您剩餘可計入時數為 {time} 小時。',
+    prompt: '獲獎者可在每次獲獎時選擇記入校內或校外義工時間，記入後不可更改獲獎信息。'
   }
 }
 
@@ -240,7 +250,11 @@ export const jaJP = {
       province: 'このトロフィーは省レベルです',
       national: 'このトロフィーは国家レベルです',
       international: 'このトロフィーは国際レベルです'
-    }
+    },
+    statement:
+      '規定により、個々の学生のボランティア活動の総時間は 10 時間を超えることはできません。あなたの残りの時間は {time} 時間です。',
+    prompt:
+      '受賞者は、各受賞時に校内または校外ボランティアとしてクレジットされることを希望する場合、報告されたクレジットの時点で受賞情報を変更することはできません。'
   }
 }
 
@@ -311,6 +325,10 @@ export const frFR = {
       province: 'Ce trophée est de niveau province',
       national: 'Ce trophée est de niveau national',
       international: 'Ce trophée est de niveau international'
-    }
+    },
+    statement:
+      "Conformément à la réglementation, le nombre total d'heures de travail bénévole pour un étudiant individuel dans la catégorie de récompense est limité à 10 heures. Votre temps créditable restant est de {time} heures.",
+    prompt:
+      'Les personnes qui reçoivent des récompenses peuvent être créditées comme bénévoles sur le campus ou hors campus au moment de chaque récompense si elles le souhaitent, et les informations sur les récompenses ne peuvent pas être modifiées après le moment où le crédit est signalé.'
   }
 }

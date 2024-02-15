@@ -21,6 +21,7 @@ import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { reactive, watch } from 'vue'
 import { ZUserPosition, ZActivityMemberTimeJudge } from '@/components'
+import type { UserActivityTimeSums } from '@zvms/zvms4-types'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -42,8 +43,8 @@ function transform() {
   return result > 6 ? 6 : result
 }
 
-const time = reactive({
-  largeScale: 0,
+const time = reactive<Omit<UserActivityTimeSums, 'trophy'>>({
+  socialPractice: 0,
   onCampus: 0,
   offCampus: 0
 })
@@ -52,7 +53,7 @@ refreshSumTime()
 
 function refreshSumTime() {
   user.getUserActivityTime().then(() => {
-    time.largeScale = user.time.largeScale
+    time.socialPractice = user.time.socialPractice
     time.onCampus = user.time.onCampus
     time.offCampus = user.time.offCampus
     if (useTransform.value) {
@@ -113,7 +114,7 @@ watch(useTransform, () => {
         <ElRow class="fill py-4 statistic">
           <ElCol v-if="width > height" :span="2" />
           <ElCol :span="width < height ? 10 : 4">
-            <ZActivityMemberTimeJudge type="large-scale" :realTime="user.time.largeScale" />
+            <ZActivityMemberTimeJudge type="social-practice" :realTime="user.time.socialPractice" />
             <ElDivider v-if="width < height" />
           </ElCol>
           <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>

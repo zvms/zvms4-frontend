@@ -264,7 +264,8 @@ export default [
         data: {
           onCampus: faker.number.int({ min: 0, max: 50 }),
           offCampus: faker.number.int({ min: 0, max: 50 }),
-          largeScale: faker.number.int({ min: 0, max: 50 })
+          socialPractice: faker.number.int({ min: 0, max: 50 }),
+          trophy: faker.number.int({ min: 0, max: 15 })
         }
       }
     }

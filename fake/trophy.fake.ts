@@ -37,7 +37,7 @@ function generateTrophy(id?: string): Trophy {
 
 function generateTrophyMember(awards: TrophyAward[], id?: string): TrophyMember {
   return {
-    _id: id ? id : new ObjectID().toHexString(),
+    _id: id ? (Math.random() > 0.5 ? id : new ObjectID().toHexString()) : new ObjectID().toHexString(),
     award: awards.map((x) => x.name)[Math.floor(Math.random() * awards.length)],
     mode: ['on-campus', 'off-campus'][Math.floor(Math.random() * 2)] as TrophyMember['mode'],
     status: ['pending', 'effective', 'refused'][Math.floor(Math.random() * 3)] as TrophyStatus

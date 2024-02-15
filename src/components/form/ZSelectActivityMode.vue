@@ -19,12 +19,12 @@ const mode = ref(modelValue.value)
 watch(mode, () => emits('update:modelValue', mode.value))
 watch(modelValue, () => (mode.value = modelValue.value))
 
-const modes = ['on-campus', 'off-campus', 'large-scale'] as ActivityMode[]
+const modes = ['on-campus', 'off-campus', 'social-practice'] as ActivityMode[]
 
 const icons: Record<ActivityMode, VueComponent> = {
   'on-campus': School,
   'off-campus': CityGate,
-  'large-scale': Vacation
+  'social-practice': Vacation
 }
 </script>
 

@@ -9,6 +9,8 @@
       "@/*": ["./src/*"]
     },
     "moduleResolution": "Bundler",
-    "types": ["vite-plugin-pwa/vue"]
+    "types": ["vite-plugin-pwa/vue"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }

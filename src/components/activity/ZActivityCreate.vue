@@ -61,7 +61,6 @@ const activity = reactive<ActivityInstance | Activity>({
   name: '',
   description: '',
   members: [],
-  duration: undefined as unknown as number,
   date: '',
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -83,7 +82,7 @@ const registration = reactive<Registration>({
 const modeMap = {
   specified: 'on-campus',
   social: 'off-campus',
-  scale: 'large-scale'
+  scale: 'social-practice'
 } as Record<ActivityType, ActivityMode>
 
 const members = reactive<ActivityMember[]>([
@@ -92,7 +91,7 @@ const members = reactive<ActivityMember[]>([
     status: type.value === 'special' ? 'effective' : 'draft',
     impression: '',
     mode: modeMap[type.value],
-    duration: activity.duration ?? (undefined as unknown as number),
+    duration: undefined as unknown as number,
     history: [],
     images: []
   }
@@ -129,7 +128,6 @@ const registrationFunctions = {
 
 const special = reactive<Special>({
   classify: '' as unknown as SpecialActivityClassification,
-  mode: '' as unknown as ActivityMode
 })
 
 const classifyOfSpecial = [
@@ -155,10 +153,10 @@ async function submit() {
 function allow(): ActivityMode[] {
   if (activity.type === 'specified') return ['on-campus']
   if (activity.type === 'social') return ['off-campus']
-  if (activity.type === 'scale') return ['large-scale']
+  if (activity.type === 'scale') return ['social-practice']
   if (activity.type === 'special') {
     if (special.classify === 'prize') ['on-campus', 'off-campus']
-    return ['on-campus', 'off-campus', 'large-scale']
+    return ['on-campus', 'off-campus', 'social-practice']
   }
   return []
 }
