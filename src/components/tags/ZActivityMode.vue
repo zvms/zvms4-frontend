@@ -37,7 +37,7 @@ const props = withDefaults(
 const timeOfMine = {
   'on-campus': user.time.onCampus,
   'off-campus': user.time.offCampus,
-  'social-practice': user.time.largeScale
+  'social-practice': user.time.socialPractice
 }
 
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)

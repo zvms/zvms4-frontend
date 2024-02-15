@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElButton, ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus'
 import { CircleCheck, Warning, CircleClose, Remove, CirclePlus } from '@element-plus/icons-vue'
 import type { Trophy } from '@zvms/zvms4-types'
 import { toRefs, ref } from 'vue'
@@ -47,7 +47,7 @@ const registeredToAward = ref(
     : false
 )
 
-const status = ref(lated.value ? 'danger' : registeredToAward.value ? 'success' : 'warning')
+const status = ref<'danger' | 'success' | 'warning'>(lated.value ? 'danger' : registeredToAward.value ? 'success' : 'warning')
 
 const action = ref(registered.value ? (registeredToAward.value ? 'warning' : 'danger') : 'primary')
 
@@ -63,8 +63,6 @@ const icons = {
     warning: CircleClose
   }
 }
-
-const loading = ref(false)
 
 async function unregister() {
   const result = await api.trophy.member.remove(trophy.value._id, targetUser.value)
@@ -110,4 +108,17 @@ const refresh = () => emits('refresh')
     bg
     disabled
   ></ZButton>
+  <ZButton v-else-if="type === 'status'" text bg :size="size" :type="status" v-bind="$attrs" :icon="icons.status[status]">
+    {{
+      t(
+        `activity.registration.status.${
+          status === 'success'
+            ? 'registered'
+            : status === 'warning'
+            ? 'unregistered'
+            : 'unregisterable'
+        }`
+      )
+    }}
+  </ZButton>
 </template>

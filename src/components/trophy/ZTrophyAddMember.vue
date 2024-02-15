@@ -27,6 +27,7 @@ const props = withDefaults(
     round?: boolean
     circle?: boolean
     color?: 'primary' | 'success'
+    placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
   }>(),
   {
     _id: '',
@@ -38,7 +39,8 @@ const props = withDefaults(
     round: true,
     circle: false,
     size: 'default',
-    color: 'primary'
+    color: 'primary',
+    placement: 'bottom'
   }
 )
 
@@ -78,7 +80,7 @@ watch(() => member.value.mode, () => (member.value.mode = mode.value))
 </script>
 
 <template>
-  <ElPopover :title="t('activity.member.dialog.actions.title', { activity: trophy.name })" width="384px">
+  <ElPopover :title="t('activity.member.dialog.actions.title', { activity: trophy.name })" width="384px" :placement="placement">
     <ElForm label-position="right" label-width="72px">
       <ElFormItem :label="t('activity.form.name')">
         <ZSelectPerson :filter-start="4" v-model="member._id" full-width />

@@ -19,6 +19,7 @@ const props = withDefaults(
     activity?: ActivityInstance
     refresh?: () => void
     bg?: boolean
+    callWhenModify?: boolean
   }>(),
   {
     type: 'effective',
@@ -26,24 +27,33 @@ const props = withDefaults(
     color: true,
     modifiable: false,
     refresh: () => {},
-    bg: true
+    bg: true,
+    callWhenModify: false
   }
 )
 
-const { type, size, activity } = toRefs(props)
+const emits = defineEmits<{
+  modify: [MemberActivityStatus]
+}>()
+
+const { type, size, activity, callWhenModify } = toRefs(props)
 
 const effective = type?.value! in classifications.member
 
 const results: ('effective' | 'refused')[] = ['refused', 'effective']
 const visible = ref(false)
 
-function modify(status: 'effective' | 'refused') {
+async function modify(status: 'effective' | 'refused') {
   if (!activity?.value) return
   if (!activity?.value?._id) return
-  api.activity.update.status(activity?.value?._id, status).then(() => {
-    props.refresh?.()
-    visible.value = false
-  })
+  if (callWhenModify.value) {
+    await api.activity.update.status(activity?.value?._id, status).then(() => {
+      props.refresh?.()
+      visible.value = false
+    })
+  } else {
+    emits('modify', status)
+  }
 }
 
 const divider = h(ElDivider, { direction: 'vertical' })

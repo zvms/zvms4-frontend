@@ -32,35 +32,34 @@ watch(id, () => refresh)
 </script>
 
 <template>
-  <ElButtonGroup>
-    <ZButtonOrCard
-      mode="button"
-      type="primary"
-      size="small"
-      round
-      :loading="loading"
-      :icon="icon ?? UserIcon"
-      pop-type="dialog"
-      width="60%"
-      :title="person?.name"
-    >
-      <template #text>
-        {{ person?.name }}
-      </template>
-      <template #default>
-        <p class="text-xl">{{ person?.name }}</p>
-      </template>
-    </ZButtonOrCard>
-    <ElButton
-      v-if="withUserClassName && !loading"
-      text
-      bg
-      round
-      size="small"
-      :icon="IcBaselineClass"
-      type="info"
-    >
-      {{ className }}
-    </ElButton>
-  </ElButtonGroup>
+  <ZButtonOrCard
+    mode="button"
+    type="primary"
+    size="small"
+    round
+    :loading="loading"
+    :icon="icon ?? UserIcon"
+    pop-type="dialog"
+    width="60%"
+    :title="person?.name"
+  >
+    <template #text>
+      {{ person?.name }}
+    </template>
+    <template #default>
+      <p class="text-xl">{{ person?.name }}</p>
+    </template>
+  </ZButtonOrCard>
+  <ElButton
+    class="px-2"
+    v-if="withUserClassName && !loading"
+    text
+    bg
+    round
+    size="small"
+    :icon="IcBaselineClass"
+    type="info"
+  >
+    {{ className }}
+  </ElButton>
 </template>
