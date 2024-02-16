@@ -36,7 +36,7 @@
     "@types/ua-parser-js": "^0.7.37",
     "@zvms/data-transform": "^1.0.1",
     "@zvms/frontend-utils": "^0.1.2",
-    "@zvms/zvms4-types": "^0.1.7",
+    "@zvms/zvms4-types": "^0.1.10",
     "async-validator": "^4.2.5",
     "bson-objectid": "^2.0.4",
     "chart.js": "^4.4.0",
