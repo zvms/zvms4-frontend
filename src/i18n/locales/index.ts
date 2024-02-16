@@ -5,6 +5,7 @@ import * as nav from './nav'
 import * as preferences from './preferences'
 import * as notification from './notification'
 import * as claim from './claim'
+import * as validation from './validation'
 
 export const enUS = {
   about: about.enUS,
@@ -13,7 +14,8 @@ export const enUS = {
   nav: nav.enUS,
   preferences: preferences.enUS,
   notification: notification.enUS,
-  claim: claim.enUS
+  claim: claim.enUS,
+  validation: validation.enUS
 }
 
 export const zhCN = {
@@ -23,7 +25,8 @@ export const zhCN = {
   nav: nav.zhCN,
   preferences: preferences.zhCN,
   notification: notification.zhCN,
-  claim: claim.zhCN
+  claim: claim.zhCN,
+  validation: validation.zhCN
 }
 
 export const zhTW = {
@@ -33,7 +36,8 @@ export const zhTW = {
   nav: nav.zhTW,
   preferences: preferences.zhTW,
   notification: notification.zhTW,
-  claim: claim.zhTW
+  claim: claim.zhTW,
+  validation: validation.zhTW
 }
 
 export const jaJP = {
@@ -43,7 +47,8 @@ export const jaJP = {
   nav: nav.jaJP,
   preferences: preferences.jaJP,
   notification: notification.jaJP,
-  claim: claim.jaJP
+  claim: claim.jaJP,
+  validation: validation.jaJP
 }
 
 export const frFR = {
@@ -53,5 +58,6 @@ export const frFR = {
   nav: nav.frFR,
   preferences: preferences.frFR,
   notification: notification.frFR,
-  claim: claim.frFR
+  claim: claim.frFR,
+  validation: validation.frFR
 }

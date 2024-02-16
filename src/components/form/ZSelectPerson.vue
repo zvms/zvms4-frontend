@@ -75,6 +75,7 @@ async function filter(number: string) {
     remote
     size="default"
     remote-show-suffix
+    v-bind="$attrs"
   >
     <ElOption
       v-for="item in options"

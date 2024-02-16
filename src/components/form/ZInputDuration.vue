@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Timer } from '@element-plus/icons-vue'
 import { toRefs, ref, watch } from 'vue'
-import { ElInput } from 'element-plus'
+import { ElInput, ElForm, ElFormItem } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{ modelValue: number; showUnit?: boolean }>()
@@ -12,18 +12,20 @@ const { t } = useI18n()
 
 const { modelValue, showUnit } = toRefs(props)
 
-const duration = ref(modelValue.value)
+const duration = ref({
+  duration: modelValue.value
+})
 
 watch(
   modelValue,
   (val) => {
-    duration.value = val
+    duration.value.duration = val
   },
   { immediate: true }
 )
 
 watch(
-  duration,
+  () => duration.value.duration,
   (val) => {
     emits('update:modelValue', val)
   },
@@ -32,9 +34,34 @@ watch(
 </script>
 
 <template>
-  <ElInput :prefix-icon="Timer" type="number" v-model="duration">
-    <template #append v-if="showUnit">
-      <span v-if="showUnit">{{ t('activity.units.hour', duration) }}</span>
-    </template>
-  </ElInput>
+  <ElForm :model="duration">
+    <ElFormItem
+      prop="duration"
+      :rules="[
+        { required: true, message: t('validation.create.member.duration.required') },
+        {
+          validator: (rule, value, cb) => {
+            if (value < 0) {
+              return cb(t('validation.create.member.duration.invalid'))
+            }
+            return cb()
+          }
+        },
+        {
+          validator: (rule, value, cb) => {
+            if (value > 12) {
+              return cb(t('validation.create.member.duration.invalid'))
+            }
+            return cb()
+          }
+        }
+      ]"
+    >
+      <ElInput :prefix-icon="Timer" type="number" v-model="duration.duration">
+        <template #append v-if="showUnit">
+          <span v-if="showUnit">{{ t('activity.units.hour', duration) }}</span>
+        </template>
+      </ElInput>
+    </ElFormItem>
+  </ElForm>
 </template>
