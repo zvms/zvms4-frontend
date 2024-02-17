@@ -37,14 +37,17 @@ watch(height, () => {
   max.value = height.value * 0.5
 })
 
-const props = withDefaults(defineProps<{
-  activity: ActivityInstance
-  mode?: 'button' | 'card'
-  color?: 'primary' | 'success' | 'warning' | 'danger'
-}>(), {
-  mode: 'button',
-  color: 'danger'
-})
+const props = withDefaults(
+  defineProps<{
+    activity: ActivityInstance
+    mode?: 'button' | 'card'
+    color?: 'primary' | 'success' | 'warning' | 'danger'
+  }>(),
+  {
+    mode: 'button',
+    color: 'danger'
+  }
+)
 const emits = defineEmits<{
   refresh: []
 }>()
@@ -56,7 +59,7 @@ function getMode(): ActivityMode {
   if (activity.value.type === 'specified') return 'on-campus'
   if (activity.value.type === 'social') return 'off-campus'
   if (activity.value.type === 'scale') return 'social-practice'
-  return activity.value.mode
+  return 'on-campus'
 }
 
 function getAllow(): ActivityMode[] {
@@ -68,7 +71,12 @@ function getAllow(): ActivityMode[] {
 
 const appending = ref<ActivityMember>({
   _id: '',
-  duration: activity.value.duration,
+  duration:
+    activity.value.type === 'specified'
+      ? activity.value.registration.duration
+      : activity.value.members.map((x) => x.duration).some((x) => x)
+      ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
+      : 0,
   mode: getMode(),
   impression: '',
   status: activity.value.type === 'special' ? 'effective' : 'draft',

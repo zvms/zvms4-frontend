@@ -79,6 +79,7 @@ const activity = reactive<ActivityInstance | Activity>({
 const registration = reactive<Registration>({
   deadline: '',
   place: '',
+  duration: undefined as unknown as number,
   classes: [
     {
       class: undefined as unknown as number,

@@ -5,7 +5,7 @@ import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard } from '@/components'
 import api from '@/api'
-import { ElButtonGroup, ElButton } from 'element-plus'
+import { ElButton } from 'element-plus'
 import { IcBaselineClass } from '@/icons'
 import { getUserClassName } from '@/utils/getClass'
 
@@ -17,6 +17,7 @@ const error = ref(false)
 const className = ref('')
 
 function refresh() {
+  loading.value = true
   if (id.value)
     api.user.readOne(id.value).then((res) => {
       if (!res) error.value = true
@@ -28,7 +29,7 @@ function refresh() {
 
 refresh()
 
-watch(id, () => refresh)
+watch(() => id.value, () => refresh)
 </script>
 
 <template>

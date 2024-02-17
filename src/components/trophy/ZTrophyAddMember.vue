@@ -48,7 +48,7 @@ const emits = defineEmits<{
   'update:_id': [string]
   'update:award': [string]
   'update:mode': [TrophyMember['mode']]
-  submit: []
+  submit: [TrophyMember | undefined]
 }>()
 
 const { _id, award, mode, trophy } = toRefs(props)
@@ -71,7 +71,7 @@ async function submit() {
       type: 'success'
     })
   }
-  emits('submit')
+  emits('submit', member.value)
 }
 
 watch(() => member.value._id, () => (member.value._id = _id.value))
