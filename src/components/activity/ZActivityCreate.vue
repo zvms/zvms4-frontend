@@ -34,6 +34,8 @@ import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location } from '@elem
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
 import type { FormInstance } from 'element-plus'
+import { validateActivity } from './validation'
+import { generateActivity } from '@/utils/generate'
 
 const formRef = ref<FormInstance>()
 
@@ -171,7 +173,15 @@ function allow(): ActivityMode[] {
   return []
 }
 
-/// @ts-ignore
+const validated = ref(false)
+
+watch(
+  () => generateActivity(activity, members, registration, special),
+  () => {
+    validated.value = validateActivity(generateActivity(activity, members, registration, special))
+  },
+  { deep: true, immediate: true }
+)
 </script>
 
 <template>
@@ -274,6 +284,29 @@ function allow(): ActivityMode[] {
                     <ElInput :prefix-icon="Location" v-model="registration.place" required />
                   </ElFormItem>
                   <ElFormItem
+                    :label="t('activity.form.duration')"
+                    class="py-2 w-full"
+                    required
+                    prop="duration"
+                    :rules="[
+                      {
+                        required: true,
+                        message: t('validation.create.specified.duration.required')
+                      },
+                      {
+                        validator: (rule, value, callback) => {
+                          if (value <= 0) {
+                            callback(t('validation.create.specified.duration.invalid'))
+                          } else {
+                            callback()
+                          }
+                        }
+                      }
+                    ]"
+                  >
+                    <ZInputDuration v-model="registration.duration" class="w-full" />
+                  </ElFormItem>
+                  <ElFormItem
                     :label="t('activity.registration.deadline')"
                     class="py-2"
                     required
@@ -302,13 +335,17 @@ function allow(): ActivityMode[] {
                     />
                   </ElFormItem>
                   <div v-for="(classification, idx) in registration.classes" :key="idx">
-                    <ElFormItem :label="t('activity.registration.class')" class="py-2" required>
+                    <ElFormItem
+                      :label="t('activity.registration.class')"
+                      class="py-2 w-full"
+                      required
+                    >
                       <Transition
                         enter-active-class="animate__animated animate__fadeIn"
                         leave-active-class="animate__animated animate__fadeOut"
                         appear
                       >
-                        <ElForm :model="classification">
+                        <ElForm :model="classification" class="w-full">
                           <ElRow class="full">
                             <ElCol :span="16" :xs="12" :sm="14">
                               <ElFormItem
@@ -469,9 +506,16 @@ function allow(): ActivityMode[] {
             <ElButton type="warning" :icon="Refresh" text bg>{{
               t('activity.form.actions.reset')
             }}</ElButton>
-            <ElButton type="primary" :icon="ArrowRight" text bg @click="submit" :loading="load">{{
-              t('activity.form.actions.submit')
-            }}</ElButton>
+            <ElButton
+              type="primary"
+              :icon="ArrowRight"
+              text
+              bg
+              @click="submit"
+              :loading="load"
+              :disabled="!validated"
+              >{{ t('activity.form.actions.submit') }}</ElButton
+            >
           </div>
         </ElForm>
       </ElCard>

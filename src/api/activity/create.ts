@@ -1,4 +1,5 @@
 import axios from '@/plugins/axios'
+import { generateActivity } from '@/utils/generate'
 import type {
   Response,
   Activity,
@@ -43,21 +44,6 @@ export async function createActivityWithDividedData(
   special?: Special,
   prize?: string
 ) {
-  if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
-    special = undefined
-    prize = undefined
-  }
-  if (base.type === 'special' || base.type === 'scale' || base.type === 'social') {
-    registration = undefined
-  }
-  const activity = {
-    ...base,
-    members,
-    registration,
-    special: {
-      ...special,
-      prize
-    }
-  } as ActivityInstance
+  const activity = generateActivity(base, members, registration, special, prize)
   await createActivity(activity)
 }
