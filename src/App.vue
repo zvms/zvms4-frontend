@@ -13,7 +13,8 @@ import {
   ElConfigProvider,
   ElDivider,
   ElNotification,
-  ElSpace
+  ElSpace,
+ElTag
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -110,6 +111,7 @@ const panelButtons = [
             <div class="text-2xl tit" @dblclick="router.push('/')">
               <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
               {{ headerStore.header }}
+              <ElTag type="danger" size="small" round effect="plain">alpha</ElTag>
               <span class="text-sm">{{ toast }}</span>
             </div>
           </ElCol>
