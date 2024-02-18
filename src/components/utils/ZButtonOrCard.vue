@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<{
   center?: boolean
   round?: boolean
   open?: boolean
+  disabled?: boolean
 }>(), {
   size: 'small',
   popType: 'dialog',
@@ -28,7 +29,8 @@ const props = withDefaults(defineProps<{
   title: '',
   center: true,
   round: true,
-  open: false
+  open: false,
+  disabled: false
 })
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
@@ -80,6 +82,7 @@ watch(
     :type="type ?? 'primary'"
     :icon="icon"
     @click="show = true"
+    :disabled="disabled"
   >
     <slot name="text" />
   </ElButton>

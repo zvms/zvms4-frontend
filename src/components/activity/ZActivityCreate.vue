@@ -128,7 +128,7 @@ const membersFunctions = {
 const registrationFunctions = {
   add() {
     registration.classes.push({
-      class: undefined as unknown as number,
+      classid: undefined as unknown as number,
       max: undefined as unknown as number
     })
   },
@@ -304,7 +304,7 @@ watch(
                       }
                     ]"
                   >
-                    <ZInputDuration v-model="registration.duration" class="w-full" />
+                    <ZInputDuration v-model.number="registration.duration" class="w-full" />
                   </ElFormItem>
                   <ElFormItem
                     :label="t('activity.registration.deadline')"
@@ -349,7 +349,7 @@ watch(
                           <ElRow class="full">
                             <ElCol :span="16" :xs="12" :sm="14">
                               <ElFormItem
-                                prop="class"
+                                prop="classid"
                                 :rules="[
                                   {
                                     required: true,
@@ -374,7 +374,7 @@ watch(
                               >
                                 <ElInput
                                   :placeholder="t('activity.registration.single.class')"
-                                  v-model.number="classification.class"
+                                  v-model.number="classification.classid"
                                   class="full"
                                   type="number"
                                 >
@@ -462,7 +462,7 @@ watch(
                             <ZSelectPerson
                               v-model="member._id"
                               :placeholder="t('activity.form.person')"
-                              :filter-start="2"
+                              :filter-start="6"
                               full-width
                             >
                               <template #prepend> {{ idx + 1 }} </template>
@@ -479,7 +479,7 @@ watch(
                           <ElDivider direction="vertical" />
                         </ElCol>
                         <ElCol :span="5" :xs="7" :sm="7">
-                          <ZInputDuration v-model="member.duration" />
+                          <ZInputDuration v-model.number="member.duration" />
                         </ElCol>
                         <ElCol :span="1">
                           <div style="text-align: right">

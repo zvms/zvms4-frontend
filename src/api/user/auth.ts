@@ -3,7 +3,6 @@ import type { Response, LoginResult } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 import { byteArrayToHex } from './utils'
 import { encryptData, importPublicKey } from './crypto'
-import { useLocalStorage } from '@vueuse/core'
 
 export async function getRSAPublicCert(): Promise<string> {
   const result = (

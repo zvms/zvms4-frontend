@@ -8,14 +8,19 @@ import type {
   Registration,
   Special
 } from '@zvms/zvms4-types'
-import { ElNotification } from 'element-plus'
+import { ElNotification, dayjs } from 'element-plus'
 
 export async function createActivity(activity: ActivityInstance) {
+  /// @ts-ignore
+  delete activity._id
+  activity.date = dayjs(activity.date).toISOString()
+  if (activity.type === 'specified') {
+    activity.registration.deadline = dayjs(activity.registration.deadline).toISOString()
+  }
   const result = (
     await axios('/activity', {
       method: 'post',
       data: activity,
-      withCredentials: true
     })
   ).data as Response<string>
   if (result.status === 'error') {
@@ -44,5 +49,6 @@ export async function createActivityWithDividedData(
   prize?: string
 ) {
   const activity = generateActivity(base, members, registration, special, prize)
+  console.log(activity)
   await createActivity(activity)
 }

@@ -23,10 +23,10 @@ export function validateActivity(activity: ActivityInstance): boolean {
     }
     if (activity.registration.classes.length === 0) return false;
     for (const cls of activity.registration.classes) {
-      if (!cls.class) return false;
-      if (cls.class % 100 > 20) return false;
+      if (!cls.classid) return false;
+      if (cls.classid % 100 > 20) return false;
       const range = [dayjs().year() - 4, dayjs().year() + 1];
-      const year = Math.floor(cls.class / 100);
+      const year = Math.floor(cls.classid / 100);
       if (year < range[0] || year > range[1]) return false;
       if (!cls.max) return false;
       if (cls.max < 0) return false;

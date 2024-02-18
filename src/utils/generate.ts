@@ -5,7 +5,8 @@ import type {
   Special,
   ActivityInstance,
   Trophy,
-  SpecialActivity
+  SpecialActivity,
+  SpecifiedActivity
 } from '@zvms/zvms4-types'
 import dayjs from 'dayjs'
 export function generateActivity(
@@ -25,12 +26,13 @@ export function generateActivity(
   const activity = {
     ...base,
     members,
-    registration,
-    special: {
-      ...special,
-      prize
-    }
   } as ActivityInstance
+  if (registration && base.type === 'specified') {
+    (activity as SpecifiedActivity).registration = registration
+  }
+  if (special && base.type !== 'special') {
+    (activity as SpecialActivity).special = special
+  }
   return activity
 }
 
