@@ -5,7 +5,6 @@ import type {
   Activity,
   ActivityInstance,
   ActivityMember,
-  Trophy,
   Registration,
   Special
 } from '@zvms/zvms4-types'

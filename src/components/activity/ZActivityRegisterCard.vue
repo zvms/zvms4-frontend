@@ -98,10 +98,10 @@ const registered = ref(activity.value.members.map((x) => x._id).includes(user._i
           }}</ElButton>
         </ElFormItem>
         <ElFormItem :label="t('activity.impression.reward')">
-          <span class="text-xl">{{ activity.duration }}</span
+          <span class="text-xl">{{ activity.registration.duration }}</span
           >&nbsp;
           <span style="font-size: 12px; color: --el-text-color-secondary">{{
-            t('activity.units.hour', activity.duration)
+            t('activity.units.hour', activity.registration.duration)
           }}</span>
         </ElFormItem>
       </ElForm>

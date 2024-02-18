@@ -4,7 +4,7 @@ import type { Response } from '@zvms/zvms4-types'
 async function modifyActivityTitle(aid: string, title: string) {
   const result = (
     await axios({
-      url: `/activity/${aid}/title`,
+      url: `/activity/${aid}/name`,
       method: 'put',
       data: {
         title

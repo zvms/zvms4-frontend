@@ -2,6 +2,8 @@ import axios from '@/plugins/axios'
 import type { Response, LoginResult } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 import { encryption } from '@zvms/frontend-utils'
+import { base64ToByteArray, byteArrayToHex } from './utils'
+import { encryptData, importPublicKey } from './crypto'
 
 export async function getRSAPublicCert(): Promise<string> {
   const result = (
@@ -25,14 +27,20 @@ export async function getRSAPublicCert(): Promise<string> {
 }
 
 async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {
-  const payload = encryption.rsa.generatePayload(password)
-  const credential = encryption.rsa.encrypt(payload, await getRSAPublicCert())
-  console.log(`User ${user} login with ${term} term, with the credential ${credential}`)
+  const payload = JSON.stringify({
+    password: password,
+    time: Date.now()
+  })
+  const publicKey = await importPublicKey(await getRSAPublicCert())
+  const credential = await encryptData(publicKey, payload)
+  // console.log(credential)
+  const hex = byteArrayToHex(new Uint8Array(credential))
+  console.log(`User ${user} login with ${term} term, with the credential ${hex}`)
   const result = (await axios('/user/auth', {
     method: 'POST',
     data: {
-      userident: user.toString(),
-      password: credential,
+      id: user.toString(),
+      credential: hex,
       mode: term
     }
   })) as Response<LoginResult>
