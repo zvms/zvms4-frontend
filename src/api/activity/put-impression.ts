@@ -5,7 +5,7 @@ import { ElNotification } from 'element-plus'
 export async function userModifyStatus(user: string, aid: string, status: MemberActivityStatus, notification: boolean = true) {
   const result = (
     await axios({
-      url: `/user/${user.toString()}/activity/${aid}/status`,
+      url: `/activity/${aid}/member/${user.toString()}/status`,
       method: 'put',
       data: {
         status
@@ -32,7 +32,7 @@ export async function userModifyStatus(user: string, aid: string, status: Member
 export async function userModifyImpression(user: string, aid: string, impression: string, submit: boolean) {
   const result = (
     await axios({
-      url: `/user/${user.toString()}/activity/${aid}/impression`,
+      url: `/activity/${aid}/member/${user.toString()}/impression`,
       method: 'put',
       data: {
         impression

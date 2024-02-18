@@ -46,7 +46,11 @@ function refresh() {
   loading.value = true
   getActivity(user._id, role.value).then((res) => {
     loading.value = false
-    activities.value = res ?? []
+    if (res && res?.length !== 0) {
+      activities.value = res
+    } else {
+      activities.value = []
+    }
   })
 }
 

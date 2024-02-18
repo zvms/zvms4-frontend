@@ -13,8 +13,9 @@ async function getAllActivities(
   const result = (
     await axios('/activity', {
       params: {
+        mode: range,
         type: filter.type,
-        range
+        // range: ['', '']
       }
     })
   ).data as Response<ActivityInstance[]>

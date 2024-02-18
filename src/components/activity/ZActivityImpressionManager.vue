@@ -66,7 +66,7 @@ async function submit(submit: boolean) {
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
   load.value = status
-  await api.activity.status.modify(user._id, activity.value._id, status)
+  await api.activity.status.modify(current.value._id, activity.value._id, status)
   load.value = false
   if (current.value && current.value.index < activity.value.members.length) {
     curserTo(current.value.index + 1)
@@ -108,7 +108,7 @@ async function curserTo(index: number) {
     name: result?.name ?? '未知',
     impression: activity.value.members[index - 1].impression,
     _id: activity.value.members[index - 1]._id,
-    duration: activity.value.members[index - 1].duration,
+    duration: activity.value.members[index - 1].duration ?? 0,
     status: activity.value.members[index - 1].status,
     images
   }
@@ -214,7 +214,7 @@ const serif = ref(false)
                 <ElFormItem :label="t('activity.form.duration')">
                   <ElInput v-model="current.duration">
                     <template #append>
-                      {{ t('activity.units.hour', current.duration) }}
+                      {{ t('activity.units.hour', Math.ceil(current.duration ?? 0)) }}
                     </template>
                   </ElInput>
                 </ElFormItem>
