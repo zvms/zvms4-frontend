@@ -8,7 +8,7 @@ import {
   ElPagination,
   ElCard,
   ElInput,
-ElSkeleton
+  ElSkeleton
 } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -122,7 +122,14 @@ watch(
       v-model="registerForSpecified"
     >
     </ElDialog>
-    <ElSkeleton v-if="loading" :loading="loading" :rows="8" animated class="py-4 px-4" :throttle="500" />
+    <ElSkeleton
+      v-if="loading"
+      :loading="loading"
+      :rows="8"
+      animated
+      class="py-4 px-4"
+      :throttle="500"
+    />
     <ElCard shadow="never" v-else>
       <ElTable
         :max-height="tableMaxHeight"
@@ -273,14 +280,16 @@ watch(
               :role="role"
               :readonly="
                 (role === 'mine' &&
-                  !['effective', 'refused'].includes(
+                  ['effective', 'refused'].includes(
                     (props.row as ActivityInstance).members.find((x) => x._id === user._id)
-                      ?.status ?? ''
+                      ?.status ?? 'draft'
                   )) ||
-                (role === 'campus' && !user.position.includes('auditor')) ||
-                (props.row as ActivityInstance).members.filter(
-                  (x: ActivityMember) => x.status === 'pending'
-                ).length === 0 ||
+                (role === 'campus' &&
+                  (user.position.includes('auditor') || user.position.includes('admin'))) ||
+                (role === 'campus' &&
+                  (props.row as ActivityInstance).members.filter(
+                    (x: ActivityMember) => x.status === 'pending'
+                  ).length === 0) ||
                 role === 'class'
               "
             />

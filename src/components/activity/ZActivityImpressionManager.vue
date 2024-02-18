@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus } from '@element-plus/icons-vue'
+import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus, User } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
 import type { ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
 import {
@@ -180,7 +180,7 @@ const serif = ref(false)
                 <ZActivityStatus force="full" class="px-1" :type="current?.status" />
               </ElCol>
               <ElCol :span="6" style="text-align: right">
-                <ZActivityMember :id="current?._id" />
+                <ZActivityMember v-if="!loading" :id="current?._id" :icon="User" />
               </ElCol>
             </ElRow>
           </p>

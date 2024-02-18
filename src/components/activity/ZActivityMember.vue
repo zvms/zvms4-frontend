@@ -24,7 +24,14 @@ function refresh() {
       else person.value = res as User
       loading.value = false
       className.value = getUserClassName(res?.id ?? 0, res?.code ?? 0)
+    }).catch(() => {
+      error.value = true
+      loading.value = false
     })
+  else {
+    person.value = undefined
+    loading.value = false
+  }
 }
 
 refresh()
