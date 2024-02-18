@@ -37,6 +37,7 @@ export const useUserStore = defineStore('user', {
         this.code = information.code
         this.isLogin = true
       }
+      location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User

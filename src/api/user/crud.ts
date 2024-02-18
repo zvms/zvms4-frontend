@@ -19,7 +19,7 @@ async function getUsers(id: string) {
   const result = (
     await axios(`/user`, {
       params: {
-        id
+        query: id
       }
     })
   ).data as Response<User[]>

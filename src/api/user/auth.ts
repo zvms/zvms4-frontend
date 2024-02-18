@@ -1,9 +1,9 @@
 import axios from '@/plugins/axios'
 import type { Response, LoginResult } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import { encryption } from '@zvms/frontend-utils'
-import { base64ToByteArray, byteArrayToHex } from './utils'
+import { byteArrayToHex } from './utils'
 import { encryptData, importPublicKey } from './crypto'
+import { useLocalStorage } from '@vueuse/core'
 
 export async function getRSAPublicCert(): Promise<string> {
   const result = (
@@ -52,6 +52,7 @@ async function UserLogin(user: string, password: string, term: 'long' | 'short' 
     })
     return
   }
+  localStorage.setItem('token', result.data.token)
   return result.data
 }
 
