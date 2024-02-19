@@ -5,6 +5,40 @@ import 'nprogress/nprogress.css'
 
 // Create a Axios Instance
 
+let url = 'http://localhost:8000/api/'
+
+if (localStorage.getItem('api_url')) {
+  url = localStorage.getItem('api_url') as string
+} else {
+  const uri = new URL(window.location.href)
+  // if ip
+  if (uri.port !== '80' && uri.port !== '443' && uri.hostname !== 'localhost') {
+    url = `${uri.protocol}//api.${uri.hostname}/api/`
+  } else {
+    url = `${uri.protocol}//${uri.hostname}:${8000}/api/`
+  }
+}
+
+axios({
+  url: `${url}version`,
+}).then(() => {}).catch(() => {
+  localStorage.removeItem('api_url')
+  ElMessageBox.prompt('API server not found. Please enter the correct API URL.', 'Error', {
+    confirmButtonText: 'OK',
+    type: 'error'
+  }).then((target) => {
+    new URL(url)
+    localStorage.setItem('api_url', target.value)
+    window.location.href = '/user/login'
+  }).catch(() => {
+    ElNotification({
+      title: 'Error',
+      message: 'API server not found. Please reload and enter the correct API URL.',
+      type: 'error'
+    })
+  })
+})
+
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/api/',
   withCredentials: false,
