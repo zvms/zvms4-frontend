@@ -9,8 +9,20 @@ import { ElButton } from 'element-plus'
 import { IcBaselineClass } from '@/icons'
 import { getUserClassName } from '@/utils/getClass'
 
-const props = defineProps<{ id: string; icon?: VueComponent; withUserClassName?: boolean }>()
-const { id, icon, withUserClassName } = toRefs(props)
+const props = withDefaults(
+  defineProps<{
+    id: string
+    icon?: VueComponent
+    withUserClassName?: boolean
+    color?: 'primary' | 'success' | 'danger' | 'warning' | 'info'
+  }>(),
+  {
+    icon: UserIcon,
+    withUserClassName: false,
+    color: 'primary'
+  }
+)
+const { id, icon, withUserClassName, color } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
@@ -19,15 +31,18 @@ const className = ref('')
 function refresh() {
   loading.value = true
   if (id.value)
-    api.user.readOne(id.value).then((res) => {
-      if (!res) error.value = true
-      else person.value = res as User
-      loading.value = false
-      className.value = getUserClassName(res?.id ?? 0, res?.code ?? 0)
-    }).catch(() => {
-      error.value = true
-      loading.value = false
-    })
+    api.user
+      .readOne(id.value)
+      .then((res) => {
+        if (!res) error.value = true
+        else person.value = res as User
+        loading.value = false
+        className.value = getUserClassName(res?.id ?? 0, res?.code ?? 0)
+      })
+      .catch(() => {
+        error.value = true
+        loading.value = false
+      })
   else {
     person.value = undefined
     loading.value = false
@@ -36,20 +51,24 @@ function refresh() {
 
 refresh()
 
-watch(() => id.value, () => refresh)
+watch(
+  () => id.value,
+  () => refresh
+)
 </script>
 
 <template>
   <ZButtonOrCard
     mode="button"
-    type="primary"
+    :type="color"
     size="small"
     round
     :loading="loading"
-    :icon="icon ?? UserIcon"
+    :icon="icon"
     pop-type="dialog"
     width="60%"
     :title="person?.name"
+    v-bind="$attrs"
   >
     <template #text>
       {{ person?.name }}
