@@ -3,11 +3,11 @@ import type { Response, NotificationInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 async function createNotification(notification: NotificationInstance) {
+  console.log(notification)
   const result = (
     await axios('/notification', {
       method: 'post',
       data: notification,
-      withCredentials: true
     })
   ).data as Response<string>
   if (result.status == 'error') {

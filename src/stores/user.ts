@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
     class: '',
     token: '',
     code: 0,
-    isLogin: true,
+    isLogin: false,
     time: {
       socialPractice: 0,
       onCampus: 0,

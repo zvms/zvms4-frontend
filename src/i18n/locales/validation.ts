@@ -50,6 +50,25 @@ export const enUS = {
         invalid: 'Duration is invalid. It should be a number and greater than 0 and less than 12.'
       }
     }
+  },
+  notification: {
+    title: {
+      required: 'Title is required.'
+    },
+    type: {
+      required: 'Type is required.'
+    },
+    expire: {
+      required: 'Expire is required.',
+      format: 'Expire format is invalid.',
+      future: 'Expire should be in the future.'
+    },
+    receivers: {
+      required: 'Receivers is required when global is false.'
+    },
+    anoymous: {
+      required: 'Anoymous is required.'
+    }
   }
 }
 
@@ -103,6 +122,25 @@ export const zhCN = {
         invalid: '时长不正确。它应该是一个大于 0 并且小于 12 的数字。'
       }
     }
+  },
+  notification: {
+    title: {
+      required: '标题不能为空。'
+    },
+    type: {
+      required: '类型不能为空。'
+    },
+    expire: {
+      required: '过期时间不能为空。',
+      format: '过期时间格式不正确。',
+      future: '过期时间应该在未来。'
+    },
+    receivers: {
+      required: '非全局时，接收者不能为空。'
+    },
+    anoymous: {
+      required: '匿名不能为空。'
+    }
   }
 }
 
@@ -155,6 +193,25 @@ export const zhTW = {
         required: '時長不能為空。',
         invalid: '時長不正確。它應該是一個數字，大於 0。'
       }
+    }
+  },
+  notification: {
+    title: {
+      required: '標題不能為空。'
+    },
+    type: {
+      required: '類型不能為空。'
+    },
+    expire: {
+      required: '過期時間不能為空。',
+      format: '過期時間格式不正確。',
+      future: '過期時間應該在未來。'
+    },
+    receivers: {
+      required: '非全局時，接收者不能為空。'
+    },
+    anoymous: {
+      required: '匿名不能為空。'
     }
   }
 }
@@ -210,6 +267,25 @@ export const jaJP = {
         invalid: '期間が無効です。それは数字であり、0 より大きい必要があります。'
       }
     }
+  },
+  notification: {
+    title: {
+      required: 'タイトルは必須です。'
+    },
+    type: {
+      required: 'タイプは必須です。'
+    },
+    expire: {
+      required: '有効期限は必須です。',
+      format: '有効期限の形式が無効です。',
+      future: '有効期限は未来である必要があります。'
+    },
+    receivers: {
+      required: 'グローバルが false の場合、受信者は必須です。'
+    },
+    anoymous: {
+      required: '匿名は必須です。'
+    }
   }
 }
 
@@ -262,6 +338,25 @@ export const frFR = {
         required: 'La durée est requise.',
         invalid: 'La durée est invalide. Il doit être un nombre et supérieur à 0.'
       }
+    }
+  },
+  notification: {
+    title: {
+      required: 'Le titre est requis.'
+    },
+    type: {
+      required: 'Le type est requis.'
+    },
+    expire: {
+      required: "L'expire est requis.",
+      format: "Le format de l'expire est invalide.",
+      future: "L'expire doit être dans le futur."
+    },
+    receivers: {
+      required: 'Les récepteurs sont requis lorsque global est faux.'
+    },
+    anoymous: {
+      required: 'Anoymous est requis.'
     }
   }
 }

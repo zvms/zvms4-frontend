@@ -102,7 +102,7 @@ const memberFunctions = {
       emits('refresh')
       return
     }
-    await api.activity.member.remove(activity.value._id, id)
+    await api.activity.member.remove(id, activity.value._id)
     activity.value.members = activity.value.members.filter((member) => member._id !== id)
     loading.value = ''
   }
@@ -138,7 +138,7 @@ watch(open, () => {
               <ZActivityMember :id="scope.row._id" with-user-class-name />
             </template>
           </ElTableColumn>
-          <ElTableColumn prop="status" :label="t('activity.member.status')">
+          <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
             <template #default="scope">
               <ZActivityStatus :type="scope.row.status" force="full" />
             </template>
@@ -187,10 +187,10 @@ watch(open, () => {
                     <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.classify')">
-                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" />
+                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" class="w-full" />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.duration')">
-                    <ZInputDuration v-model="appending.duration" />
+                    <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">
                     <ElButton

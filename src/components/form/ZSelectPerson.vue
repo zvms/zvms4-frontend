@@ -72,6 +72,7 @@ async function filter(number: string) {
     :filter-method="filter"
     :loading="load"
     filterable
+    :multiple="multiple"
     remote
     size="default"
     remote-show-suffix
