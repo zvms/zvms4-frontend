@@ -45,7 +45,7 @@ getNotifications()
 <template>
   <div class="p-5">
     <ElRow>
-      <ElCol :span="12" class="text-2xl"> Notification Center </ElCol>
+      <ElCol :span="12" class="text-3xl mb-5"> Notification Center </ElCol>
       <ElCol :span="12" style="text-align: right">
         <ElButton
           type="success"

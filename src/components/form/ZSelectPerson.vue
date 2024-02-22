@@ -75,6 +75,7 @@ async function filter(number: string) {
     remote
     size="default"
     remote-show-suffix
+    :multiple="multiple"
   >
     <ElOption
       v-for="item in options"
@@ -82,7 +83,6 @@ async function filter(number: string) {
       :label="item.label"
       :value="item.value"
       filterable
-      :multiple="multiple"
       remote
     >
       <span style="float: left">{{ item.label }}</span>
