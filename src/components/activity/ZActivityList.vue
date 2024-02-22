@@ -250,6 +250,7 @@ watch(
               :modifiable="role === 'class' || user.position.includes('admin')"
               :activity="row"
               :refresh="refresh"
+              call-when-modify
             />
           </template>
         </ElTableColumn>

@@ -23,18 +23,7 @@ const path = ref(route.params?.type ?? '')
 
 const tab = ref((path.value as string).replace('/', ''))
 
-const activities = ref<ActivityInstance[]>([])
 const availibility = ref(true)
-const loading = ref(true)
-
-api.activity.read
-  .campus({
-    type: 'all'
-  })
-  .then((res) => {
-    loading.value = false
-    activities.value = res as ActivityInstance[]
-  })
 
 watch(
   () => route.params?.type,

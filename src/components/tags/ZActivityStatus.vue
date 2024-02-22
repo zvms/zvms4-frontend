@@ -46,6 +46,7 @@ const visible = ref(false)
 async function modify(status: 'effective' | 'refused') {
   if (!activity?.value) return
   if (!activity?.value?._id) return
+  console.log(activity?.value?._id, status)
   if (callWhenModify.value) {
     await api.activity.update.status(activity?.value?._id, status).then(() => {
       props.refresh?.()

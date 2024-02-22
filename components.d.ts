@@ -28,7 +28,6 @@ declare module 'vue' {
     ZButton: typeof import('./src/components/utils/ZButton.vue')['default']
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
-    ZCollapsedOrExpand: typeof import('./src/components/utils/ZCollapsedOrExpand.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNonXuehaiPad: typeof import('./src/components/utils/ZNonXuehaiPad.vue')['default']
