@@ -4,13 +4,13 @@ import type {
   ActivityMemberHistory,
   MemberActivityStatus,
   ActivityMode
-} from '@/../@types/activity'
+} from '@zvms/zvms4-types'
 import { toRefs, type Component as VueComponent, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ZActivityDuration, ZActivityMember, ZButtonOrCard } from '@/components'
 import { memberActivityStatuses } from '@/icons/status'
 import { useI18n } from 'vue-i18n'
-import { Clock, Timer } from '@element-plus/icons-vue'
+import { Clock } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { History, User } from '@icon-park/vue-next'
 
@@ -19,10 +19,12 @@ const props = withDefaults(
     history?: ActivityMemberHistory[]
     mode?: ActivityMode
     display?: 'button' | 'card'
+    showItems?: boolean
   }>(),
   {
     mode: 'on-campus',
-    display: 'button'
+    display: 'button',
+    showItems: false
   }
 )
 
@@ -82,7 +84,12 @@ const statusMap: Record<
     :title="t('activity.impression.page.reflect.history.title')"
   >
     <template #text>
-      {{ t('activity.impression.page.reflect.history.title') }}
+      <span v-if="showItems">
+        {{ history?.length }} {{ t('activity.units.item', history?.length as number) }}
+      </span>
+      <span v-else>
+        {{ t('activity.impression.page.reflect.history.title') }}
+      </span>
     </template>
     <template #default>
       <ElScrollbar :height="min" v-if="history?.length !== 0">

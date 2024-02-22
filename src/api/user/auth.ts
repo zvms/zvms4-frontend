@@ -1,28 +1,46 @@
 import axios from '@/plugins/axios'
-import md5 from 'md5'
-import type { Response } from '@/../@types/response'
-import type { LoginResult } from '@/../@types/login'
+import type { Response, LoginResult } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
+import { byteArrayToHex } from './utils'
+import { encryptData, importPublicKey } from './crypto'
 
-export async function getRSAPublicCert() {
-  const result = (await axios('/cert')) as Response<string>
+export async function getRSAPublicCert(): Promise<string> {
+  const result = (
+    await axios('/cert', {
+      method: 'GET',
+      params: {
+        type: 'public',
+        method: 'RSA'
+      }
+    })
+  ).data as Response<string>
   if (result.status === 'error') {
     ElNotification({
       title: '获取公钥错误（' + result.code + '）',
       message: result.message,
       type: 'error'
     })
-    return
+    return ''
   }
   return result.data
 }
 
-async function UserLogin(user: string, password: string) {
+async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {
+  const payload = JSON.stringify({
+    password: password,
+    time: Date.now()
+  })
+  const publicKey = await importPublicKey(await getRSAPublicCert())
+  const credential = await encryptData(publicKey, payload)
+  // console.log(credential)
+  const hex = byteArrayToHex(new Uint8Array(credential))
+  console.log(`User ${user} login with ${term} term, with the credential ${hex}`)
   const result = (await axios('/user/auth', {
     method: 'POST',
     data: {
-      userident: user.toString(),
-      password: md5(password)
+      id: user.toString(),
+      credential: hex,
+      mode: term
     }
   })) as Response<LoginResult>
   if (result.status === 'error') {
@@ -33,8 +51,8 @@ async function UserLogin(user: string, password: string) {
     })
     return
   }
+  localStorage.setItem('token', result.data.token)
   return result.data
 }
 
 export { UserLogin as useLongTermAuth }
-export { useShortTermToken as useShortTermAuth } from './short-term'

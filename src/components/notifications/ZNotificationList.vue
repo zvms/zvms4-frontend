@@ -3,12 +3,14 @@ import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'eleme
 import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import type { NotificationInstance } from '@/../@types/notification'
+import type { NotificationInstance } from '@zvms/zvms4-types'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
 import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
+import { OouiUserAnonymous } from '@/icons'
+import ZButton from '../utils/ZButton'
 
 const user = useUserStore()
 const { height } = useWindowSize()
@@ -64,8 +66,14 @@ getNotifications()
         <ElCard shadow="hover" class="p-1">
           <div class="flex justify-between p-2 pl-0">
             <span class="font-bold text-xl">{{ item.title }}</span>
-            <ZActivityMember v-if="item.publisher" id="item.publisher" />
-            <span v-if="!item.publisher">匿名</span>
+            <ZActivityMember v-if="!item.anonymous" :id="item.publisher" />
+            <ZActivityMember
+              v-else-if="user.position.includes('admin')"
+              :icon="OouiUserAnonymous"
+              type="info"
+              :id="item.publisher"
+            />
+            <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
           </div>
           <div>{{ item.content }}</div>
           <div class="p-3 float-right">at {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}</div>

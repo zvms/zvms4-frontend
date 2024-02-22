@@ -1,21 +1,26 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import { generateActivity } from '@/utils/generate'
 import type {
+  Response,
   Activity,
   ActivityInstance,
   ActivityMember,
-  Prize,
   Registration,
-  Special,
-} from '@/../@types/activity'
-import { ElNotification } from 'element-plus'
+  Special
+} from '@zvms/zvms4-types'
+import { ElNotification, dayjs } from 'element-plus'
 
 export async function createActivity(activity: ActivityInstance) {
+  /// @ts-ignore
+  delete activity._id
+  activity.date = dayjs(activity.date).toISOString()
+  if (activity.type === 'specified') {
+    activity.registration.deadline = dayjs(activity.registration.deadline).toISOString()
+  }
   const result = (
     await axios('/activity', {
       method: 'post',
       data: activity,
-      withCredentials: true
     })
   ).data as Response<string>
   if (result.status === 'error') {
@@ -41,23 +46,9 @@ export async function createActivityWithDividedData(
   members: ActivityMember[],
   registration?: Registration,
   special?: Special,
-  prize?: Prize
+  prize?: string
 ) {
-  if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
-    special = undefined
-    prize = undefined
-  }
-  if (base.type === 'special' || base.type === 'scale' || base.type === 'social') {
-    registration = undefined
-  }
-  const activity = {
-    ...base,
-    members,
-    registration,
-    special: {
-      ...special,
-      prize
-    }
-  } as ActivityInstance
+  const activity = generateActivity(base, members, registration, special, prize)
+  console.log(activity)
   await createActivity(activity)
 }

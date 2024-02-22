@@ -1,6 +1,5 @@
 import axios from '@/plugins/axios'
-import type { User } from '@/../@types/user'
-import type { Response } from '@/../@types/response'
+import type { User, Response } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 async function getUser(id: string) {
@@ -20,7 +19,7 @@ async function getUsers(id: string) {
   const result = (
     await axios(`/user`, {
       params: {
-        id
+        query: id
       }
     })
   ).data as Response<User[]>

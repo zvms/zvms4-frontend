@@ -4,7 +4,7 @@ import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import type { ActivityInstance } from '@/../@types/activity'
+import type { ActivityInstance } from '@zvms/zvms4-types'
 import api from '@/api'
 import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
 import { ArrowLeft } from '@element-plus/icons-vue'
@@ -21,20 +21,9 @@ const router = useRouter()
 
 const path = ref(route.params?.type ?? '')
 
-const tab = ref(path.value as string)
+const tab = ref((path.value as string).replace('/', ''))
 
-const activities = ref<ActivityInstance[]>([])
 const availibility = ref(true)
-const loading = ref(true)
-
-api.activity.read
-  .campus({
-    type: 'all'
-  })
-  .then((res) => {
-    loading.value = false
-    activities.value = res as ActivityInstance[]
-  })
 
 watch(
   () => route.params?.type,
@@ -91,7 +80,9 @@ const panes = [
 
 function moveTo(type: string) {
   availibility.value = false
-  router.push(`/activities/${type}`)
+  tab.value = type
+  if (type === 'trophy') router.push('/trophy')
+  else router.push(`/activities/${type}`)
   setTimeout(() => {
     availibility.value = true
   }, 100)
@@ -100,7 +91,7 @@ function moveTo(type: string) {
 
 <template>
   <div class="p-4" style="width: 100%">
-    <div class="flex px-12 py-4" v-if="[...panes.map((x) => x.value), ''].includes(tab)">
+    <div class="flex px-12 py-4" v-if="route.path.startsWith('/activities/') && !route.path.endsWith('register')">
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
           {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
@@ -144,7 +135,7 @@ function moveTo(type: string) {
       </Transition>
     </div>
     <Transition appear v-else enter-active-class="animate__animated animate__fadeIn">
-      <ElPageHeader :icon="ArrowLeft" class="text-xl px-12 py-4" @back="router.back()">
+      <ElPageHeader :icon="ArrowLeft" class="text-xl px-12 py-4" @back="router.push('/activities/mine')">
         <template #content>
           {{ t(`activity.view.panels.${tab}.name`) }}
         </template>

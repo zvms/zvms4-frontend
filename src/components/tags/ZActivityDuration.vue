@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityMode, MemberActivityStatus } from '@/../@types/activity'
+import type { ActivityMode, MemberActivityStatus } from '@zvms/zvms4-types'
 import { toRefs } from 'vue'
 import { ZActivityMode, ZActivityStatus } from '@/components'
 import { ElButton, ElButtonGroup } from 'element-plus'

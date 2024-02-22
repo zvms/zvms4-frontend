@@ -1,6 +1,6 @@
 import { Check, Close, Edit, CaretLeft } from '@element-plus/icons-vue'
 import { Loading } from '@icon-park/vue-next'
-import type { ActivityStatus, MemberActivityStatus } from '@/../@types/activity'
+import type { ActivityStatus, MemberActivityStatus } from '@zvms/zvms4-types'
 import type { Component } from 'vue'
 
 export const activityStatuses = {

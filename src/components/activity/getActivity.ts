@@ -5,7 +5,7 @@ export async function getActivity(user: string, mode: 'mine' | 'class' | 'campus
     const activities = await api.activity.read.mine(user)
     return activities
   } else {
-    const activities = await api.activity.read.campus({
+    const activities = await api.activity.read[mode]({
       type: 'all'
     })
     return activities

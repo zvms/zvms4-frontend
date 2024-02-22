@@ -1,0 +1,22 @@
+name: User Register Trophy
+description: Register a trophy for a user
+path: /trophy/:tid/member/:uid
+method: DELETE
+params:
+  - name: tid
+    in: path
+    type: string
+    required: true
+    description: The trophy id (ObjectId)
+  - name: uid
+    in: path
+    type: string
+    required: true
+    description: The user id (ObjectId)
+response: null
+permissions:
+  - user: only-self
+  - secretary: only-class
+  - department: only-creator
+  - auditor: only-self
+  - admin: true

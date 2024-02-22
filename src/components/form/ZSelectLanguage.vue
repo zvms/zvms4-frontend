@@ -5,6 +5,7 @@ import { Chinese, English } from '@icon-park/vue-next'
 import { type Component as VueComponent, ref, toRefs } from 'vue'
 import { ElButton, ElButtonGroup, ElOption, ElPopover, ElSelect } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { onMounted } from 'vue'
 
 const { locale } = useI18n({
   useScope: 'global'
@@ -18,8 +19,6 @@ const props = defineProps<{
 }>()
 
 const { placement, type, withText } = toRefs(props)
-
-console.log(type)
 
 function setLanguage(language: string) {
   user.setLanguage(language)
@@ -51,19 +50,23 @@ const languages = ref<
     display: '日本語',
     value: 'ja-JP'
   },
-  {
-    display: '한국어',
-    value: 'ko-KR'
-  },
+  // {
+  //   display: '한국어',
+  //   value: 'ko-KR'
+  // },
   {
     display: 'Français',
     value: 'fr-FR'
   },
-  {
-    display: 'Русский',
-    value: 'ru-RU'
-  }
+  // {
+  //   display: 'Русский',
+  //   value: 'ru-RU'
+  // }
 ])
+
+onMounted(() => {
+  locale.value = user.language
+})
 </script>
 
 <template>

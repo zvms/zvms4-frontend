@@ -2,15 +2,23 @@
 import { toRefs } from 'vue'
 import api from '@/api'
 import { ref } from 'vue'
-import type { ActivityInstance } from '@/../@types/activity'
+import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ElResult, ElSkeleton } from 'element-plus'
 import { ZActivityDetails } from '.'
 
-const props = defineProps<{
-  _id: string
-  mode: 'mine' | 'class' | 'campus' | 'register'
-  perspective?: string // `mine` with other's user ObjectId
-}>()
+const props = withDefaults(
+  defineProps<{
+    _id: string
+    mode?: 'mine' | 'class' | 'campus' | 'register'
+    perspective?: string // `mine` with other's user ObjectId
+    showDetails?: boolean
+  }>(),
+  {
+    mode: 'mine',
+    perspective: 'mine',
+    showDetails: true
+  }
+)
 const emits = defineEmits<{
   refresh: []
 }>()
@@ -41,14 +49,20 @@ const refresh = () => emits('refresh')
 
 <template>
   <div v-if="!loading" v-loading="loading">
-    <ZActivityDetails
+    <Transition
       v-if="!loading && !error && activity?._id"
-      :activity="activity"
-      :mode="mode"
-      :perspective="perspective"
-      @refresh="refresh"
-    />
-    <ElResult v-else-if="error" status="error" title="404" sub-title="活动不存在" />
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+    >
+      <ZActivityDetails
+        :activity="activity"
+        :mode="mode"
+        :perspective="perspective"
+        @refresh="refresh"
+        :show-details="showDetails"
+      />
+    </Transition>
+    <ElResult v-else-if="error" status="error" title="404" />
   </div>
-  <ElSkeleton v-else v-model="loading" :rows="4" animated />
+  <ElSkeleton v-else v-model="loading" :rows="4" animated :throttle="500" />
 </template>

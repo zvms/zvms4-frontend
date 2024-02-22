@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { toRefs } from 'vue'
-import type { MemberActivityStatus } from '@/../@types/activity'
+import { ref, toRefs, h } from 'vue'
+import type { MemberActivityStatus, ActivityInstance } from '@zvms/zvms4-types'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
-import { ElPopover, ElButton } from 'element-plus'
+import { ElPopover, ElButton, ElSpace, ElPopconfirm, ElDivider } from 'element-plus'
+import api from '@/api'
 
 const { t } = useI18n()
 
@@ -15,18 +16,48 @@ const props = withDefaults(
     color?: boolean
     force?: 'full' | 'short'
     modifiable?: boolean
+    activity?: ActivityInstance
+    refresh?: () => void
+    bg?: boolean
+    callWhenModify?: boolean
   }>(),
   {
     type: 'effective',
     size: 'small',
     color: true,
-    modifiable: false
+    modifiable: false,
+    refresh: () => {},
+    bg: true,
+    callWhenModify: false
   }
 )
 
-const { type, size } = toRefs(props)
+const emits = defineEmits<{
+  modify: [MemberActivityStatus]
+}>()
+
+const { type, size, activity, callWhenModify } = toRefs(props)
 
 const effective = type?.value! in classifications.member
+
+const results: ('effective' | 'refused')[] = ['refused', 'effective']
+const visible = ref(false)
+
+async function modify(status: 'effective' | 'refused') {
+  if (!activity?.value) return
+  if (!activity?.value?._id) return
+  console.log(activity?.value?._id, status)
+  if (callWhenModify.value) {
+    await api.activity.update.status(activity?.value?._id, status).then(() => {
+      props.refresh?.()
+      visible.value = false
+    })
+  } else {
+    emits('modify', status)
+  }
+}
+
+const divider = h(ElDivider, { direction: 'vertical' })
 </script>
 
 <template>
@@ -37,8 +68,50 @@ const effective = type?.value! in classifications.member
     :icon="classifications.member[type].icon"
     :unknown="!effective"
     :force="force"
+    :bg="bg"
   >
     {{ t('activity.status.' + type) }}
   </ZButtonTag>
-  <ElPopover v-else></ElPopover>
+  <ElPopover
+    v-else
+    :title="t('activity.form.actions.modification.status', { activity: activity?.name })"
+    trigger="click"
+    width="384px"
+    v-model:visible="visible"
+    placement="right"
+  >
+    <template #reference>
+      <ZButtonTag
+        :size="size"
+        :type="classifications.member.pending.color"
+        :icon="classifications.member.pending.icon"
+        :bg="bg"
+      >
+        {{ t('activity.status.pending') }}
+      </ZButtonTag>
+    </template>
+    <div class="flex justify-end py-1">
+      <ElSpace :spacer="divider">
+        <ElPopconfirm
+          v-for="result in results.filter((x) => x !== type)"
+          :key="result"
+          :title="t('activity.form.actions.modification.confirm')"
+          @confirm="() => modify(result)"
+          width="256px"
+        >
+          <template #reference>
+            <ElButton
+              :type="classifications.member[result].color"
+              :icon="classifications.member[result].icon"
+              text
+              :bg="bg"
+              size="small"
+            >
+              {{ t('activity.form.actions.modification.' + result) }}
+            </ElButton>
+          </template>
+        </ElPopconfirm>
+      </ElSpace>
+    </div>
+  </ElPopover>
 </template>

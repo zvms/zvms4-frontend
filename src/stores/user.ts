@@ -1,5 +1,5 @@
 import api from '@/api'
-import type { User, UserActivityTimeSums, UserPosition } from '@/../@types/user'
+import type { User, UserActivityTimeSums, UserPosition } from '@zvms/zvms4-types'
 import { defineStore } from 'pinia'
 import { getUserClassName } from '@/utils/getClass'
 import { usePreferredLanguages } from '@vueuse/core'
@@ -14,11 +14,12 @@ export const useUserStore = defineStore('user', {
     class: '',
     token: '',
     code: 0,
-    isLogin: true,
+    isLogin: false,
     time: {
-      largeScale: 1919,
-      onCampus: 114,
-      offCampus: 514
+      socialPractice: 0,
+      onCampus: 0,
+      offCampus: 0,
+      trophy: 0,
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
   }),
@@ -36,6 +37,7 @@ export const useUserStore = defineStore('user', {
         this.code = information.code
         this.isLogin = true
       }
+      location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
@@ -63,9 +65,10 @@ export const useUserStore = defineStore('user', {
       const result = (await api.user.time.read(this._id)) as UserActivityTimeSums
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
-      this.time.largeScale = result.largeScale
+      this.time.socialPractice = result.socialPractice
+      this.time.trophy = result.trophy
     },
-    async setLanguage(language: string) {
+    setLanguage(language: string) {
       this.language = language
     }
   },

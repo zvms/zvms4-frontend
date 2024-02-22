@@ -13,7 +13,7 @@ const { type, header } = toRefs(props)
 const oldPassword = ref<string>('')
 const newPassword = ref<string>('')
 const confirmPassword = ref<string>('')
-const number = ref<number>(0)
+const number = ref<string>('')
 </script>
 
 <template>

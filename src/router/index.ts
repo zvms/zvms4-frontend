@@ -12,9 +12,6 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
     {
@@ -60,7 +57,7 @@ const router = createRouter({
           component: () => import('../views/activity/ViewPage.vue')
         },
         {
-          path: '/activities/register/',
+          path: '/register',
           name: 'activity-register',
           component: () => import('../views/activity/UserRegister.vue')
         },
@@ -75,6 +72,16 @@ const router = createRouter({
           component: () => import('../views/activity/ViewPage.vue')
         }
       ]
+    },
+    {
+      path: '/trophy',
+      name: 'trophy',
+      component: () => import('../views/trophy/TrophyHome.vue')
+    },
+    {
+      path: '/trophy/create',
+      name: 'trophy-create',
+      component: () => import('../views/trophy/TrophyCreate.vue')
     },
     {
       path: '/activity/:id',
@@ -94,7 +101,7 @@ const router = createRouter({
     {
       path: '/notifications/create',
       name: 'notifications-create',
-      component: ()=>import('../views/notifications/NotificationCreate.vue')
+      component: () => import('../views/notifications/NotificationCreate.vue')
     }
   ]
 })

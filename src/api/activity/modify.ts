@@ -1,10 +1,10 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import type { Response } from '@zvms/zvms4-types'
 
 async function modifyActivityTitle(aid: string, title: string) {
   const result = (
     await axios({
-      url: `/activity/${aid}/title`,
+      url: `/activity/${aid}/name`,
       method: 'put',
       data: {
         title
@@ -33,7 +33,25 @@ async function modifyActivityDescription(aid: string, description: string) {
   return
 }
 
+async function modifyActivityStatus(aid: string, status: string) {
+  console.log(aid, status)
+  const result = (
+    await axios({
+      url: `/activity/${aid}/status`,
+      method: 'put',
+      data: {
+        status
+      }
+    })
+  ).data as Response<null>
+  if (result.status === 'error') {
+    return result
+  }
+  return
+}
+
 export {
   modifyActivityDescription as description,
-  modifyActivityTitle as title
+  modifyActivityTitle as title,
+  modifyActivityStatus as status
 }

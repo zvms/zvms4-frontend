@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 
 export const useHeaderStore = defineStore("header", {
   state: () => ({
-    header: 'ZVMS 4.2',
-    base: 'ZVMS 4.2'
+    header: 'ZVMS 4',
+    base: 'ZVMS 4'
   }),
   actions: {
     setHeader(header: string) {

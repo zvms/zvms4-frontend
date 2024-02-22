@@ -1,21 +1,26 @@
 <script lang="ts" setup>
 import { ElDialog, ElButton } from 'element-plus'
-import type { ActivityInstance } from '@/../@types/activity'
+import type { ActivityInstance } from '@zvms/zvms4-types'
 import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { ZActivityImpressionManager } from '@/components'
-import { useUserStore } from '@/stores/user'
 import api from '@/api'
 
-const user = useUserStore()
-
-const props = defineProps<{
-  id: string
-  role: 'mine' | 'campus' | 'class'
-  modelValue?: boolean
-  readonly: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    id: string
+    role: 'mine' | 'campus' | 'class'
+    modelValue?: boolean
+    readonly: boolean
+    embed?: boolean
+    onlyText?: boolean
+  }>(),
+  {
+    embed: false,
+    onlyText: false
+  }
+)
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -49,21 +54,26 @@ watch(modelValue, () => {
 </script>
 
 <template>
+  <ElButton
+    :icon="readonly ? View : role === 'mine' ? Edit : EditPen"
+    :type="readonly ? 'info' : role === 'mine' ? 'primary' : 'danger'"
+    text
+    :loading="loading"
+    @click="openDialog"
+    :size="embed ? 'small' : 'default'"
+    :round="embed"
+    :bg="embed"
+  >
+    {{
+      onlyText
+        ? t('activity.member.impression')
+        : t(
+            'activity.impression.actions.' +
+              (readonly ? 'view' : role === 'mine' ? 'write' : 'reflect')
+          )
+    }}
+  </ElButton>
   <div class="end">
-    <ElButton
-      :icon="readonly ? View : role === 'mine' ? Edit : EditPen"
-      :type="readonly ? 'info' : role === 'mine' ? 'primary' : 'danger'"
-      text
-      :loading="loading"
-      @click="openDialog"
-    >
-      {{
-        t(
-          'activity.impression.actions.' +
-            (readonly ? 'view' : role === 'mine' ? 'write' : 'reflect')
-        )
-      }}
-    </ElButton>
     <Teleport to="body">
       <ElDialog
         v-if="role === 'mine' && activity"

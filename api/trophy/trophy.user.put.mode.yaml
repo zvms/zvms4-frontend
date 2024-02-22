@@ -1,0 +1,22 @@
+name: Modify User Activity Record Mode
+description: Modify a user trophy record mode. According to the document, it is up to the student to determine the mode of crediting for a single award, i.e. `on-campus' or `off-campus'. This means that they can change the mode before officially entering the volunteer data.
+path: /user/:id/trophy/:tid/mode
+method: PUT
+params:
+  - name: id
+    in: path
+    type: string
+    required: true
+    description: The user id (ObjectId)
+  - name: tid
+    in: path
+    type: string
+    required: true
+    description: The trophy id (ObjectId)
+  - name: mode
+    in: body
+    type: "'on-campus' | 'off-campus'"
+    required: true
+    description: The trophy mode (on-campus or off-campus)
+response: null
+permissions: only-self

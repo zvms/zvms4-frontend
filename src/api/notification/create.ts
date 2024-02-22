@@ -1,14 +1,13 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
-import type { BroadcastInstance } from '@/../@types/broadcast'
+import type { Response, NotificationInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
-async function createNotification(notification: BroadcastInstance) {
+async function createNotification(notification: NotificationInstance) {
+  console.log(notification)
   const result = (
     await axios('/notification', {
       method: 'post',
       data: notification,
-      withCredentials: true
     })
   ).data as Response<string>
   if (result.status == 'error') {

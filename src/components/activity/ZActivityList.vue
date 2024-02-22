@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance, ActivityMember } from '@/../@types/activity'
+import type { ActivityInstance, ActivityMember } from '@zvms/zvms4-types'
 import {
   ElDialog,
   ElTable,
@@ -7,7 +7,8 @@ import {
   ElButton,
   ElPagination,
   ElCard,
-  ElInput
+  ElInput,
+  ElSkeleton
 } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -45,7 +46,11 @@ function refresh() {
   loading.value = true
   getActivity(user._id, role.value).then((res) => {
     loading.value = false
-    activities.value = res ?? []
+    if (res && res?.length !== 0) {
+      activities.value = res
+    } else {
+      activities.value = []
+    }
   })
 }
 
@@ -109,7 +114,7 @@ watch(
 </script>
 
 <template>
-  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']" v-loading="loading">
+  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
     <ElDialog
       :title="t('activity.registration.title')"
       width="80%"
@@ -117,7 +122,15 @@ watch(
       v-model="registerForSpecified"
     >
     </ElDialog>
-    <ElCard shadow="never">
+    <ElSkeleton
+      v-if="loading"
+      :loading="loading"
+      :rows="8"
+      animated
+      class="py-4 px-4"
+      :throttle="500"
+    />
+    <ElCard shadow="never" v-else>
       <ElTable
         :max-height="tableMaxHeight"
         :data="
@@ -231,7 +244,14 @@ watch(
                   ?.status
               "
             />
-            <ZActivityStatus v-else :type="row.status" />
+            <ZActivityStatus
+              v-else
+              :type="row.status"
+              :modifiable="role === 'class' || user.position.includes('admin')"
+              :activity="row"
+              :refresh="refresh"
+              call-when-modify
+            />
           </template>
         </ElTableColumn>
         <ElTableColumn v-else-if="role === 'campus'" :label="t('activity.form.pending')">
@@ -261,14 +281,16 @@ watch(
               :role="role"
               :readonly="
                 (role === 'mine' &&
-                  !['effective', 'refused'].includes(
+                  ['effective', 'refused'].includes(
                     (props.row as ActivityInstance).members.find((x) => x._id === user._id)
-                      ?.status ?? ''
+                      ?.status ?? 'draft'
                   )) ||
-                (role === 'campus' && !user.position.includes('auditor')) ||
-                (props.row as ActivityInstance).members.filter(
-                  (x: ActivityMember) => x.status === 'pending'
-                ).length === 0 ||
+                (role === 'campus' &&
+                  (user.position.includes('auditor') || user.position.includes('admin'))) ||
+                (role === 'campus' &&
+                  (props.row as ActivityInstance).members.filter(
+                    (x: ActivityMember) => x.status === 'pending'
+                  ).length === 0) ||
                 role === 'class'
               "
             />

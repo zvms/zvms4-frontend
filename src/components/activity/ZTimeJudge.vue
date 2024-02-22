@@ -4,9 +4,10 @@ import { toRefs } from 'vue'
 import { ref } from 'vue'
 import { CaretTop, CaretBottom, Warning } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
+import type { ActivityMode } from '@zvms/zvms4-types'
 
 const props = defineProps<{
-  type: 'large-scale' | 'on-campus' | 'off-campus'
+  type: ActivityMode
   standardTime?: number
   realTime: number
 }>()
@@ -18,7 +19,7 @@ const { t } = useI18n()
 const standard = ref(0)
 
 if (!standard?.value || isNaN(standard?.value)) {
-  if (type.value === 'large-scale') {
+  if (type.value === 'social-practice') {
     standard.value = 18
   } else if (type.value === 'on-campus') {
     standard.value = 30

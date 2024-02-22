@@ -1,8 +1,0 @@
-name: Delete Competition
-path: /competition
-method: DELETE
-body: ObjectId
-response: null
-permission:
-  mine: 2
-  others: 16

@@ -4,6 +4,8 @@ import * as home from './home'
 import * as nav from './nav'
 import * as preferences from './preferences'
 import * as notification from './notification'
+import * as claim from './claim'
+import * as validation from './validation'
 
 export const enUS = {
   about: about.enUS,
@@ -11,7 +13,9 @@ export const enUS = {
   home: home.enUS,
   nav: nav.enUS,
   preferences: preferences.enUS,
-  notification: notification.enUS
+  notification: notification.enUS,
+  claim: claim.enUS,
+  validation: validation.enUS
 }
 
 export const zhCN = {
@@ -20,7 +24,9 @@ export const zhCN = {
   home: home.zhCN,
   nav: nav.zhCN,
   preferences: preferences.zhCN,
-  notification: notification.zhCN
+  notification: notification.zhCN,
+  claim: claim.zhCN,
+  validation: validation.zhCN
 }
 
 export const zhTW = {
@@ -29,7 +35,9 @@ export const zhTW = {
   home: home.zhTW,
   nav: nav.zhTW,
   preferences: preferences.zhTW,
-  notification: notification.zhTW
+  notification: notification.zhTW,
+  claim: claim.zhTW,
+  validation: validation.zhTW
 }
 
 export const jaJP = {
@@ -38,23 +46,9 @@ export const jaJP = {
   home: home.jaJP,
   nav: nav.jaJP,
   preferences: preferences.jaJP,
-  notification: notification.jaJP
-}
-
-export const koKR = {
-  about: about.koKR,
-  activity: activity.koKR,
-  home: home.koKR,
-  nav: nav.koKR,
-  preferences: preferences.koKR
-}
-
-export const ruRU = {
-  about: about.ruRU,
-  activity: activity.ruRU,
-  home: home.ruRU,
-  nav: nav.ruRU,
-  preferences: preferences.ruRU
+  notification: notification.jaJP,
+  claim: claim.jaJP,
+  validation: validation.jaJP
 }
 
 export const frFR = {
@@ -63,5 +57,7 @@ export const frFR = {
   home: home.frFR,
   nav: nav.frFR,
   preferences: preferences.frFR,
-  notification: notification.frFR
+  notification: notification.frFR,
+  claim: claim.frFR,
+  validation: validation.frFR
 }

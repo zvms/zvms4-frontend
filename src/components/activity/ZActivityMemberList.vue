@@ -8,7 +8,7 @@ import {
   ZSelectActivityMode,
   ZSelectPerson
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode } from '@/../@types/activity'
+import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
 import { toRefs, watch } from 'vue'
 import { User, Minus, Plus, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -17,7 +17,6 @@ import {
   ElTable,
   ElTableColumn,
   ElButton,
-  ElScrollbar,
   ElPopover,
   ElPopconfirm,
   ElForm,
@@ -32,16 +31,23 @@ const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
 
-const max = ref(height.value * 0.6)
+const max = ref(height.value * 0.5)
 
-const props = withDefaults(defineProps<{
-  activity: ActivityInstance
-  mode?: 'button' | 'card'
-  color?: 'primary' | 'success' | 'warning' | 'danger'
-}>(), {
-  mode: 'button',
-  color: 'danger'
+watch(height, () => {
+  max.value = height.value * 0.5
 })
+
+const props = withDefaults(
+  defineProps<{
+    activity: ActivityInstance
+    mode?: 'button' | 'card'
+    color?: 'primary' | 'success' | 'warning' | 'danger'
+  }>(),
+  {
+    mode: 'button',
+    color: 'danger'
+  }
+)
 const emits = defineEmits<{
   refresh: []
 }>()
@@ -52,20 +58,25 @@ const modified = ref(false)
 function getMode(): ActivityMode {
   if (activity.value.type === 'specified') return 'on-campus'
   if (activity.value.type === 'social') return 'off-campus'
-  if (activity.value.type === 'scale') return 'large-scale'
-  return activity.value.mode
+  if (activity.value.type === 'scale') return 'social-practice'
+  return 'on-campus'
 }
 
 function getAllow(): ActivityMode[] {
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
     return ['on-campus', 'off-campus']
-  return ['on-campus', 'off-campus', 'large-scale']
+  return ['on-campus', 'off-campus', 'social-practice']
 }
 
 const appending = ref<ActivityMember>({
   _id: '',
-  duration: activity.value.duration,
+  duration:
+    activity.value.type === 'specified'
+      ? activity.value.registration.duration
+      : activity.value.members.map((x) => x.duration).some((x) => x)
+      ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
+      : 0,
   mode: getMode(),
   impression: '',
   status: activity.value.type === 'special' ? 'effective' : 'draft',
@@ -81,7 +92,6 @@ const memberFunctions = {
     loading.value = 'add'
     await api.activity.member.insert(activity.value._id, appending.value)
     activity.value.members.push(appending.value)
-    console.log(appending.value)
     loading.value = ''
   },
   async remove(id: string) {
@@ -92,7 +102,7 @@ const memberFunctions = {
       emits('refresh')
       return
     }
-    await api.activity.member.remove(activity.value._id, id)
+    await api.activity.member.remove(id, activity.value._id)
     activity.value.members = activity.value.members.filter((member) => member._id !== id)
     loading.value = ''
   }
@@ -114,20 +124,21 @@ watch(open, () => {
     :icon="User"
     round
     :type="color"
+    :disabled="activity.type === 'special' && activity.special.classify === 'import'"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text>
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <ElScrollbar :height="max" v-if="activity.members.length !== 0">
-        <ElTable :data="activity.members" stripe>
+      <div v-if="activity.members.length !== 0">
+        <ElTable :data="activity.members" stripe :height="max">
           <ElTableColumn prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
               <ZActivityMember :id="scope.row._id" with-user-class-name />
             </template>
           </ElTableColumn>
-          <ElTableColumn prop="status" :label="t('activity.member.status')">
+          <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
             <template #default="scope">
               <ZActivityStatus :type="scope.row.status" force="full" />
             </template>
@@ -148,6 +159,7 @@ watch(open, () => {
               user.position.includes('admin') ||
               user.position.includes('department')
             "
+            class="no-print"
           >
             <template #header>
               <ElPopover
@@ -155,6 +167,7 @@ watch(open, () => {
                 trigger="click"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
                 width="328px"
+                class="no-print"
               >
                 <template #reference>
                   <ElButton
@@ -174,10 +187,10 @@ watch(open, () => {
                     <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.classify')">
-                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" />
+                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" class="w-full" />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.duration')">
-                    <ZInputDuration v-model="appending.duration" />
+                    <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">
                     <ElButton
@@ -200,6 +213,7 @@ watch(open, () => {
                 @confirm="memberFunctions.remove(scope.row._id)"
                 width="216px"
                 placement="left"
+                class="no-print"
               >
                 <template #reference>
                   <ElButton
@@ -219,7 +233,15 @@ watch(open, () => {
             </template>
           </ElTableColumn>
         </ElTable>
-      </ElScrollbar>
+      </div>
     </template>
   </ZButtonOrCard>
 </template>
+
+<style scoped>
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+</style>

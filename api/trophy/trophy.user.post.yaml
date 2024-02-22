@@ -1,0 +1,27 @@
+name: User Register Trophy
+description: Register a trophy for a user
+path: /trophy/:tid/member/:uid
+method: POST
+params:
+  - name: tid
+    in: path
+    type: string
+    required: true
+    description: The trophy id (ObjectId)
+  - name: uid
+    in: path
+    type: string
+    required: true
+    description: The user id (ObjectId)
+  - name: trophy
+    in: body
+    type: TrophyMember
+    required: true
+    description: The trophy register form
+response: null
+permissions:
+  - user: need-audit
+  - secretary: true
+  - department: true
+  - auditor: need-audit
+  - admin: true

@@ -1,16 +1,18 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../@types/response'
+import type { Response, MemberActivityStatus } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import type { MemberActivityStatus } from '@/../@types/activity'
 
-export async function userModifyStatus(user: string, aid: string, status: MemberActivityStatus, notification: boolean = true) {
+export async function userModifyStatus(
+  user: string,
+  aid: string,
+  status: MemberActivityStatus,
+  notification: boolean = true
+) {
   const result = (
     await axios({
-      url: `/user/${user.toString()}/activity/${aid}/status`,
+      url: `/activity/${aid}/member/${user.toString()}/status`,
       method: 'put',
-      data: {
-        status
-      }
+      data: { status }
     })
   ).data as Response<null>
   if (result.status === 'error') {
@@ -30,30 +32,41 @@ export async function userModifyStatus(user: string, aid: string, status: Member
   return
 }
 
-export async function userModifyImpression(user: string, aid: string, impression: string, submit: boolean) {
-  const result = (
-    await axios({
-      url: `/user/${user.toString()}/activity/${aid}/impression`,
-      method: 'put',
-      data: {
-        impression
-      }
-    })
-  ).data as Response<null>
-  if (submit) {
-    await userModifyStatus(user, aid, 'pending', false)
-  }
-  if (result.status === 'error') {
+export async function userModifyImpression(
+  user: string,
+  aid: string,
+  impression: string,
+  submit: boolean
+) {
+  try {
+    const result = (
+      await axios({
+        url: `/activity/${aid}/member/${user.toString()}/impression`,
+        method: 'put',
+        data: { impression }
+      })
+    ).data as Response<null>
+    if (submit) {
+      await userModifyStatus(user, aid, 'pending', false)
+    }
+    if (result.status === 'error') {
+      ElNotification({
+        title: `同步感想内容失败（${result.code.toString()}）`,
+        message: result.message,
+        type: 'error'
+      })
+      return
+    }
     ElNotification({
-      title: `同步感想内容失败（${result.code.toString()}）`,
-      message: result.message,
-      type: 'error'
+      title: '提交成功',
+      type: 'success'
     })
     return
+  } catch (e) {
+    ElNotification({
+      title: '提交失败',
+      message: (e as Error).toString(),
+      type: 'error'
+    })
   }
-  ElNotification({
-    title: '提交成功',
-    type: 'success'
-  })
-  return
 }

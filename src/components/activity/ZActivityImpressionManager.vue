@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus } from '@element-plus/icons-vue'
+import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus, User } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import type { ActivityInstance, MemberActivityStatus } from '@/../@types/activity'
+import type { ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
 import {
   ElCollapse,
   ElCollapseItem,
@@ -66,7 +66,7 @@ async function submit(submit: boolean) {
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
   load.value = status
-  await api.activity.status.modify(user._id, activity.value._id, status)
+  await api.activity.status.modify(current.value._id, activity.value._id, status)
   load.value = false
   if (current.value && current.value.index < activity.value.members.length) {
     curserTo(current.value.index + 1)
@@ -108,7 +108,7 @@ async function curserTo(index: number) {
     name: result?.name ?? '未知',
     impression: activity.value.members[index - 1].impression,
     _id: activity.value.members[index - 1]._id,
-    duration: activity.value.members[index - 1].duration,
+    duration: activity.value.members[index - 1].duration ?? 0,
     status: activity.value.members[index - 1].status,
     images
   }
@@ -130,6 +130,7 @@ const serif = ref(false)
           :activity="activity"
           :mode="activity.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
           :perspective="role === 'mine' ? user._id : current._id ?? user._id"
+          :show-details="false"
         />
       </ElCollapseItem>
       <ElCollapseItem :title="t('activity.form.impression')" name="2">
@@ -179,7 +180,7 @@ const serif = ref(false)
                 <ZActivityStatus force="full" class="px-1" :type="current?.status" />
               </ElCol>
               <ElCol :span="6" style="text-align: right">
-                <ZActivityMember :id="current?._id" />
+                <ZActivityMember v-if="!loading" :id="current?._id" :icon="User" />
               </ElCol>
             </ElRow>
           </p>
@@ -213,7 +214,7 @@ const serif = ref(false)
                 <ElFormItem :label="t('activity.form.duration')">
                   <ElInput v-model="current.duration">
                     <template #append>
-                      {{ t('activity.units.hour', current.duration) }}
+                      {{ t('activity.units.hour', Math.ceil(current.duration ?? 0)) }}
                     </template>
                   </ElInput>
                 </ElFormItem>

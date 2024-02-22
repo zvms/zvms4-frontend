@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ElPageHeader, ElButton, ElSpace, ElTooltip } from 'element-plus'
+import { ElPageHeader, ElButton, ElSpace, ElTooltip, ElDivider } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import type { ActivityType } from '@/../@types/activity'
+import type { ActivityType, UserPosition } from '@zvms/zvms4-types'
 import { ArrowLeft, InfoFilled } from '@element-plus/icons-vue'
 import classifications from '@/components/tags/classifications'
 import CreateHome from './CreateHome.vue'
 import { permissions } from '@/components/activity'
 import { useUserStore } from '@/stores/user'
-import type { UserPosition } from '@/../@types/user'
+import { Trophy } from '@icon-park/vue-next'
 
 const header = useHeaderStore()
 const { t } = useI18n()
@@ -105,9 +105,13 @@ const visibility = permissions(user.position as UserPosition[])
               size="small"
               :disabled="button.value === tab"
             >
-              {{ $t(`activity.type.${button.value}.short`) }}
+              {{ t(`activity.type.${button.value}.short`) }}
             </ElButton>
           </ElSpace>
+          <ElDivider direction="vertical" />
+          <ElButton @click="$router.push('/activity/trophy')" text bg size="small" :icon="Trophy">
+            {{ t('activity.view.panels.trophy.short' )}}
+          </ElButton>
         </template>
       </ElPageHeader>
     </Transition>

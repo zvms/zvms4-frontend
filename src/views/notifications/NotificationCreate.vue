@@ -17,8 +17,8 @@ import {
   ElRow,
   ElCol
 } from 'element-plus'
-import type { Notification } from '@/../@types/notification'
-import { ArrowLeft, Plus } from '@element-plus/icons-vue'
+import type { Notification } from '@zvms/zvms4-types'
+import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
 import api from '@/api'
 import { ZSelectPerson } from '@/components'
 
@@ -82,14 +82,24 @@ const addPerson = () => {
         appear
       >
         <ElCard shadow="hover">
-          <ElForm label-position="right" label-width="108px">
-            <ElFormItem :label="t('notification.create.elements.title')">
+          <ElForm label-position="right" label-width="108px" :model="notification">
+            <ElFormItem
+              :label="t('notification.create.elements.title')"
+              required
+              prop="title"
+              :rules="[{ required: true, message: t('validation.notification.title.required') }]"
+            >
               <ElInput v-model="notification.title" />
             </ElFormItem>
             <ElFormItem :label="t('notification.create.elements.content')">
               <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="notification.content" />
             </ElFormItem>
-            <ElFormItem :label="t('notification.create.elements.type')">
+            <ElFormItem
+              :label="t('notification.create.elements.type')"
+              required
+              prop="type"
+              :rules="[{ required: true, message: t('validation.notification.type.required') }]"
+            >
               <ElSelect v-model="notification.type" class="full">
                 <ElOption
                   v-for="mode in types"
@@ -99,7 +109,28 @@ const addPerson = () => {
                 />
               </ElSelect>
             </ElFormItem>
-            <ElFormItem :label="t('notification.create.elements.expire')" class="full">
+            <ElFormItem
+              :label="t('notification.create.elements.expire')"
+              class="full"
+              required
+              prop="expire"
+              :rules="[
+                { required: true, message: t('validation.notification.expire.required') },
+                {
+                  validator: (rule, value, callback) => {
+                    try {
+                      if (dayjs(value).isBefore(dayjs(notification.time))) {
+                        callback(t('validation.notification.expire.future'))
+                      } else {
+                        callback()
+                      }
+                    } catch (_) {
+                      callback(t('validation.notification.expire.format'))
+                    }
+                  }
+                }
+              ]"
+            >
               <ElDatePicker
                 v-model="notification.expire"
                 type="datetime"
@@ -107,12 +138,27 @@ const addPerson = () => {
                 style="width: 100%"
               />
             </ElFormItem>
-            <ElFormItem :label="t('notification.create.elements.global')">
-              <ElSwitch v-model="notification.global" />
+            <ElFormItem
+              :label="t('notification.create.elements.global')"
+              required
+              prop="global"
+              :rules="[{ required: true, message: t('notification.create.elements.global') }]"
+            >
+              <ElSwitch
+                v-model="notification.global"
+                :disabled="notification.receivers.length > 0"
+              />
             </ElFormItem>
             <ElFormItem
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
+              required
+              :rules="[
+                {
+                  required: notification.global === false,
+                  message: t('validation.notification.receivers.required')
+                }
+              ]"
             >
               <ElRow v-for="(receiver, idx) in notification.receivers" :key="idx">
                 <ZSelectPerson v-model="notification.receivers[idx]" full-width :filter-start="2">
@@ -130,18 +176,28 @@ const addPerson = () => {
                 </ElCol>
               </ElRow>
             </ElFormItem>
-            <ElFormItem :label="t('notification.create.elements.anonymous')">
+            <ElFormItem
+              :label="t('notification.create.elements.anonymous')"
+              required
+              prop="anonymous"
+              :rules="[{ required: true, message: t('notification.create.elements.anonymous') }]"
+            >
               <ElSwitch v-model="notification.anonymous" />
             </ElFormItem>
-            <ElFormItem>
-              <ElButton type="primary" @click="submit">{{
-                t('notification.create.actions.send')
-              }}</ElButton>
-              <ElButton @click="$router.push('/notifications/')">{{
-                t('notification.create.actions.cancel')
-              }}</ElButton>
-              <ElButton @click="clear">{{ t('notification.create.actions.clear') }}</ElButton>
-            </ElFormItem>
+            <div class="flex justify-end py-1">
+              <ElButton
+                type="warning"
+                text
+                bg
+                :icon="Refresh"
+                @click="$router.push('/notifications/')"
+              >
+                {{ t('activity.form.actions.reset') }}
+              </ElButton>
+              <ElButton type="primary" text bg :icon="ArrowRight" @click="submit">
+                {{ t('activity.form.actions.submit') }}
+              </ElButton>
+            </div>
           </ElForm>
         </ElCard>
       </Transition>

@@ -30,7 +30,7 @@ function generateActivity(_id?: string, serie: boolean = true) {
 function generateSpecial() {
   return {
     classify: ['prize', 'import', 'club', 'deduction', 'other'][Math.floor(Math.random() * 5)],
-    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)],
+    mode: ['on-campus', 'off-campus', 'social-practice'][Math.floor(Math.random() * 3)],
     prize: {
       level: ['district', 'city', 'province', 'national', 'international'][
         Math.floor(Math.random() * 5)
@@ -65,7 +65,7 @@ function generateActivityMember(_id: string, serie: boolean = true) {
           .fill(0)
           .map(() => generateActivityMemberHistory(new ObjectID().toHexString())),
     images: [],
-    mode: ['on-campus', 'off-campus', 'large-scale'][Math.floor(Math.random() * 3)]
+    mode: ['on-campus', 'off-campus', 'social-practice'][Math.floor(Math.random() * 3)]
   }
 }
 
@@ -96,7 +96,11 @@ function createPerson(id?: string) {
     position:
       faker.number.int({ min: 0, max: 3 }) === 0
         ? ['student', 'secretary', 'department', 'auditor', 'admin']
-        : [['teacher', 'secretary', 'department', 'auditor', 'admin'][Math.floor(Math.random() * 5)]],
+        : [
+            ['teacher', 'secretary', 'department', 'auditor', 'admin'][
+              Math.floor(Math.random() * 5)
+            ]
+          ],
     code: generateCode()
   }
 }
@@ -144,6 +148,36 @@ export default [
         status: 'success',
         code: 200,
         data: generateActivity(params.id)
+      }
+    }
+  },
+  {
+    url: '/api/activity/:id/title',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
+      }
+    }
+  },
+  {
+    url: '/api/activity/:id/description',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
+      }
+    }
+  },
+  {
+    url: '/api/activity/:id/status',
+    method: 'put',
+    response() {
+      return {
+        status: 'success',
+        code: 200,
       }
     }
   },
@@ -230,7 +264,8 @@ export default [
         data: {
           onCampus: faker.number.int({ min: 0, max: 50 }),
           offCampus: faker.number.int({ min: 0, max: 50 }),
-          largeScale: faker.number.int({ min: 0, max: 50 })
+          socialPractice: faker.number.int({ min: 0, max: 50 }),
+          trophy: faker.number.int({ min: 0, max: 15 })
         }
       }
     }
@@ -294,7 +329,9 @@ export default [
         code: 200,
         status: 'success',
         data: {
-          token: 'test-token'
+          token:
+            'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTc3Zjk0MDIzODY5MGExNjdiZWI1ZSIsIm5hbWUiOiJhZG1pbiIsInNleCI6IjIwMjEtMDQtMjZUMjA6MjA6MjYuMjY2WiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNjE4NjY0NjI2LCJleHAiOjE2M',
+          _id: '65577f940238690a167beb5e'
         }
       }
     }

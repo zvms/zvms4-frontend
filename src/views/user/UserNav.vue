@@ -215,4 +215,10 @@ function routeTo(page: string) {
   left: 0.72rem;
   bottom: 4rem;
 }
+
+@media print {
+  .menu {
+    display: none;
+  }
+}
 </style>

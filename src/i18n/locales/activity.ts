@@ -41,10 +41,10 @@ export const enUS = {
       short: 'Off Campus',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: 'Large-scale Practice',
-      short: 'Scale Practice',
-      key: 'large-scale'
+    'social-practice': {
+      name: 'Large-scale Social Practice',
+      short: 'Social Practice',
+      key: 'social-practice'
     }
   },
   form: {
@@ -53,6 +53,7 @@ export const enUS = {
     name: 'Name',
     description: 'Description',
     date: 'Date',
+    mode: 'Mode',
     person: 'Member(s) | Member | Members',
     class: 'Class(es) | Class | Classes',
     duration: 'Duration',
@@ -75,9 +76,9 @@ export const enUS = {
           'After deletion, including impressions and other data, it will not be able to be restored, are you sure to delete?'
       },
       modification: {
-        status: 'Modify Status',
+        status: 'Modify the status of {activity}',
         effective: 'Approve',
-        refuse: 'Deny',
+        refused: 'Deny',
         confirm: 'Please confirm the modification of the status of the activity.'
       }
     },
@@ -273,6 +274,32 @@ export const enUS = {
         short: 'Reward'
       }
     }
+  },
+  trophy: {
+    name: 'Reward',
+    create: 'Create Reward',
+    field: {
+      name: 'Name',
+      type: 'Type',
+      level: 'Level',
+      awards: 'Award | Award | Awards',
+      team: 'Team'
+    },
+    type: {
+      academic: 'Academic',
+      art: 'Art',
+      sports: 'Sports',
+      others: 'Others'
+    },
+    level: {
+      district: 'District',
+      city: 'City',
+      province: 'Province',
+      national: 'National',
+      international: 'International'
+    },
+    auto: 'Auto Create Awards',
+    instructor: 'Instructor'
   }
 }
 
@@ -317,10 +344,10 @@ export const zhCN = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型实践',
+    'social-practice': {
+      name: '大型社会实践',
       short: '实践',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -329,6 +356,7 @@ export const zhCN = {
     name: '名称',
     description: '描述',
     date: '日期',
+    mode: '模式',
     person: '成员',
     class: '班级',
     duration: '时长',
@@ -345,9 +373,9 @@ export const zhCN = {
         confirm: '删除后包括感想等数据皆不可恢复，确定删除？'
       },
       modification: {
-        status: '修改义工状态',
+        status: '修改义工 {activity} 的状态',
         effective: '批准',
-        refuse: '拒绝',
+        refused: '拒绝',
         confirm: '请确认对义工状态的修改'
       }
     },
@@ -547,6 +575,32 @@ export const zhCN = {
         short: '获奖'
       }
     }
+  },
+  trophy: {
+    name: '获奖',
+    create: '创建获奖',
+    field: {
+      name: '名称',
+      type: '类型',
+      level: '级别',
+      awards: '奖项',
+      team: '团队'
+    },
+    type: {
+      academic: '学科',
+      art: '艺术',
+      sports: '体育',
+      others: '其他'
+    },
+    level: {
+      district: '区级',
+      city: '市级',
+      province: '省级',
+      national: '国家级',
+      international: '国际级'
+    },
+    auto: '自动创建奖项',
+    instructor: '指导老师'
   }
 }
 
@@ -592,10 +646,10 @@ export const zhTW = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型實踐',
+    'social-practice': {
+      name: '大型社會實踐',
       short: '實踐',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -620,9 +674,9 @@ export const zhTW = {
         confirm: '刪除後包括感想等數據皆不可恢復，確定刪除？'
       },
       modification: {
-        status: '修改義工狀態',
+        status: '修改義工 {activity} 的狀態',
         effective: '批准',
-        refuse: '拒絕',
+        refused: '拒絕',
         confirm: '請確認對義工狀態的修改'
       }
     },
@@ -822,6 +876,32 @@ export const zhTW = {
         short: '獲獎'
       }
     }
+  },
+  trophy: {
+    name: '獲獎',
+    create: '創建獲獎',
+    field: {
+      name: '名稱',
+      type: '類型',
+      level: '級別',
+      awards: '獎項',
+      team: '團隊'
+    },
+    type: {
+      academic: '學科',
+      art: '藝術',
+      sports: '體育',
+      others: '其他'
+    },
+    level: {
+      district: '區級',
+      city: '市級',
+      province: '省級',
+      national: '國家級',
+      international: '國際級'
+    },
+    auto: '自動創建獎項',
+    instructor: '指導老師'
   }
 }
 
@@ -868,10 +948,10 @@ export const jaJP = {
       short: '校外',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: '大型実践',
+    'social-practice': {
+      name: '大規模社会実践',
       short: '実践',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -896,9 +976,9 @@ export const jaJP = {
         confirm: '削除後、感想などのデータも含めて復元できなくなります。削除しますか？'
       },
       modification: {
-        status: 'ボランティアの状態を変更する',
+        status: 'ボランティア {activity} の状態を変更する',
         effective: '承認',
-        refuse: '拒否',
+        refused: '拒否',
         confirm: 'ボランティアの状態の変更を確認してください。'
       }
     },
@@ -1098,6 +1178,32 @@ export const jaJP = {
         short: '受賞'
       }
     }
+  },
+  trophy: {
+    name: '受賞',
+    create: '受賞を作成',
+    field: {
+      name: '名前',
+      type: 'タイプ',
+      level: 'レベル',
+      awards: '受賞',
+      team: 'チーム'
+    },
+    type: {
+      academic: '学科',
+      art: 'アート',
+      sports: 'スポーツ',
+      others: 'その他'
+    },
+    level: {
+      district: '地区',
+      city: '市',
+      province: '省',
+      national: '国',
+      international: '国際'
+    },
+    auto: '自動的に受賞を作成',
+    instructor: '指導教員'
   }
 }
 
@@ -1144,10 +1250,10 @@ export const frFR = {
       short: 'Hors Campus',
       key: 'off-campus'
     },
-    'large-scale': {
-      name: 'Pratique à Grande Échelle pendant',
+    'social-practice': {
+      name: 'Pratique Sociale à Grande Échelle',
       short: 'Grande Échelle',
-      key: 'large-scale'
+      key: 'social-practice'
     }
   },
   form: {
@@ -1173,9 +1279,9 @@ export const frFR = {
           'Après la suppression, y compris les impressions et autres données, il ne pourra pas être restauré, êtes-vous sûr de vouloir supprimer?'
       },
       modification: {
-        status: 'Modifier le statut du bénévole',
+        status: 'Modifier le statut du bénévole {activity}',
         effective: 'Approuver',
-        refuse: 'Refuser',
+        refused: 'Refuser',
         confirm: 'Veuillez confirmer la modification du statut du bénévole'
       }
     },
@@ -1372,6 +1478,32 @@ export const frFR = {
         short: 'Gagnants'
       }
     }
+  },
+  trophy: {
+    name: 'Prix',
+    create: 'Créer un Prix',
+    field: {
+      name: 'Nom',
+      type: 'Type',
+      level: 'Niveau',
+      awards: 'Prix',
+      team: 'Équipe'
+    },
+    type: {
+      academic: 'Académie',
+      art: 'Art',
+      sports: 'Sports',
+      others: 'Autre'
+    },
+    level: {
+      district: 'District',
+      city: 'Ville',
+      province: 'Province',
+      national: 'National',
+      international: 'International'
+    },
+    auto: 'Créer automatiquement un prix',
+    instructor: 'Instructeur'
   }
 }
 
