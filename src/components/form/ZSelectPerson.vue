@@ -42,7 +42,7 @@ async function filter(number: string) {
     const result = await api.user.read(number)
     if (result) {
       console.log(result)
-      options.value = result.map((x) => {
+      options.value = result.map((x: any) => {
         return {
           label: x.name,
           value: x._id.toString(),
@@ -77,7 +77,6 @@ async function filter(number: string) {
     size="default"
     remote-show-suffix
     v-bind="$attrs"
-    :multiple="multiple"
   >
     <ElOption
       v-for="item in options"
