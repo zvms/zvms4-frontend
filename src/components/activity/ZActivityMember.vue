@@ -28,6 +28,10 @@ const loading = ref(true)
 const error = ref(false)
 const className = ref('')
 
+watch(id, () => {
+  refresh()
+})
+
 function refresh() {
   loading.value = true
   if (id.value)
@@ -50,11 +54,6 @@ function refresh() {
 }
 
 refresh()
-
-watch(
-  () => id.value,
-  () => refresh
-)
 </script>
 
 <template>

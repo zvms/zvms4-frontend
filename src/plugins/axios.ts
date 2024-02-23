@@ -76,8 +76,20 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem('user')
         window.location.href = '/user/login'
         console.log(error)
-      } else return Promise.reject(error)
-    } else return Promise.reject(error)
+      } else {
+        ElMessageBox({
+          title: 'Error',
+          message: error.response?.data,
+          type: 'error'
+        }).then(() => Promise.reject(error))
+      }
+    } else {
+      ElMessageBox({
+        title: 'Error',
+        message: error.message,
+        type: 'error'
+      }).then(() => Promise.reject(error))
+    }
   }
 )
 

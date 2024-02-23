@@ -46,7 +46,6 @@ const visible = ref(false)
 async function modify(status: 'effective' | 'refused') {
   if (!activity?.value) return
   if (!activity?.value?._id) return
-  console.log(activity?.value?._id, status)
   if (callWhenModify.value) {
     await api.activity.update.status(activity?.value?._id, status).then(() => {
       props.refresh?.()
@@ -85,6 +84,7 @@ const divider = h(ElDivider, { direction: 'vertical' })
         :size="size"
         :type="classifications.member.pending.color"
         :icon="classifications.member.pending.icon"
+        force="full"
         :bg="bg"
       >
         {{ t('activity.status.pending') }}

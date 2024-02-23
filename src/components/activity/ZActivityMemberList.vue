@@ -20,7 +20,8 @@ import {
   ElPopover,
   ElPopconfirm,
   ElForm,
-  ElFormItem
+  ElFormItem,
+  ElPagination
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
@@ -54,6 +55,20 @@ const emits = defineEmits<{
 
 const { activity, mode } = toRefs(props)
 const modified = ref(false)
+const members = ref<ActivityMember[]>([])
+
+// Add member of activity in first 5
+
+members.value.push(...activity.value.members.slice(0, 5))
+
+function scroll() {
+  // Then add 2 members if available when touch bottom
+  if (members.value.length < activity.value.members.length) {
+    members.value.push(
+      ...activity.value.members.slice(members.value.length, members.value.length + 2)
+    )
+  }
+}
 
 function getMode(): ActivityMode {
   if (activity.value.type === 'specified') return 'on-campus'
@@ -112,6 +127,18 @@ watch(open, () => {
   if (open.value) modified.value = false
   if (!open.value && modified.value) emits('refresh')
 })
+
+const active = ref(1)
+const size = ref(5)
+const show = ref(false)
+
+show.value = true
+
+watch(active, () => {
+  const members = activity.value.members
+  activity.value.members = []
+  activity.value.members = members
+})
 </script>
 
 <template>
@@ -131,11 +158,17 @@ watch(open, () => {
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <div v-if="activity.members.length !== 0">
-        <ElTable :data="activity.members" stripe :height="max">
-          <ElTableColumn prop="_id" :label="t('activity.member.name')">
+      <div v-if="activity.members.length !== 0 && show">
+        <ElTable
+          :data="
+            activity.members.filter((x, idx) => idx < active * size && idx >= (active - 1) * size)
+          "
+          stripe
+          :height="max"
+        >
+          <ElTableColumn v-infinite-scroll="scroll" prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
-              <ZActivityMember :id="scope.row._id" with-user-class-name />
+              <ZActivityMember :id="scope.row._id" />
             </template>
           </ElTableColumn>
           <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
@@ -187,7 +220,11 @@ watch(open, () => {
                     <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.classify')">
-                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" class="w-full" />
+                    <ZSelectActivityMode
+                      v-model="appending.mode"
+                      :allow="getAllow()"
+                      class="w-full"
+                    />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.duration')">
                     <ZInputDuration v-model="appending.duration" class="w-full" />
@@ -233,6 +270,17 @@ watch(open, () => {
             </template>
           </ElTableColumn>
         </ElTable>
+      </div>
+      <div class="py-2 text-center" v-if="activity.members.length !== 0">
+        <ElPagination
+          v-model:current-page="active"
+          v-model:page-size="size"
+          :pager-count="3"
+          :total="activity.members.length"
+          layout="total, prev, pager, next, sizes"
+          background
+          :page-sizes="[3, 5, 8, 10]"
+        />
       </div>
     </template>
   </ZButtonOrCard>
