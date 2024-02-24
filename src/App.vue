@@ -14,7 +14,8 @@ import {
   ElDivider,
   ElNotification,
   ElSpace,
-ElTag
+  ElTag,
+  ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
@@ -29,6 +30,7 @@ import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
 import { zhCn, en, ja, ko, zhTw, fr, ru } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from './components/form/ZVerticalNav.vue'
+import { temporaryToken } from './plugins/short-token'
 
 const { t, locale } = useI18n()
 
@@ -85,10 +87,135 @@ function logout() {
   router.push('/user/login')
 }
 
+const locales: Record<typeof locale['value'], {
+  feedback: {
+    close: {
+      title: string
+      message: string
+    }
+  }
+  password: {
+    title: string
+    message: string
+    confirmButtonText: string
+    cancelButtonText: string
+    inputErrorMessage: string
+  }
+  password_confirm: {
+    title: string
+    message: string
+    inputErrorMessage: string
+  }
+}> = {
+  'zh-CN': {
+    feedback: {
+      close: {
+        title: '反馈渠道关闭',
+        message: `出于某些不可抗力因素，反馈渠道关闭，详情请咨询蛟二（3）班 楼瀚文同学。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
+      }
+    },
+    password: {
+      title: '重置密码',
+      message: '请输入新密码',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      inputErrorMessage: '密码至少8位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
+    },
+    password_confirm: {
+      title: '重置密码',
+      message: '请再次输入新密码',
+      inputErrorMessage: '密码不匹配'
+    }
+  },
+  'en-US': {
+    feedback: {
+      close: {
+        title: 'Feedback Channel Closed',
+        message: `Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
+      }
+    },
+    password: {
+      title: 'Reset Password',
+      message: 'Please input the new password',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      inputErrorMessage:
+        'Password must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character'
+    },
+    password_confirm: {
+      title: 'Reset Password',
+      message: 'Please input the new password again',
+      inputErrorMessage: 'Password not match'
+    }
+  },
+  'zh-TW': {
+    feedback: {
+      close: {
+        title: '反饋渠道關閉',
+        message: `出於某些不可抗力因素，反饋渠道關閉，詳情請諮詢蛟二（3）班 樓瀚文同學。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
+      }
+    },
+    password: {
+      title: '重置密碼',
+      message: '請輸入新密碼',
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      inputErrorMessage: '密碼至少8位，且至少包含一個大寫字母，一個小寫字母，一個數字和一個特殊字符'
+    },
+    password_confirm: {
+      title: '重置密碼',
+      message: '請再次輸入新密碼',
+      inputErrorMessage: '密碼不匹配'
+    }
+  },
+  'ja-JP': {
+    feedback: {
+      close: {
+        title: 'フィードバックチャネルが閉じられました',
+        message: `あるいは、フィードバックチャネルは閉じられています。詳細については、蛟二（3）クラスの楼瀚文にお問い合わせください。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
+      }
+    },
+    password: {
+      title: 'パスワードをリセット',
+      message: '新しいパスワードを入力してください',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'キャンセル',
+      inputErrorMessage:
+        'パスワードは少なくとも8文字で、大文字、小文字、数字、特殊文字がそれぞれ1つ以上含まれている必要があります'
+    },
+    password_confirm: {
+      title: 'パスワードをリセット',
+      message: '新しいパスワードをもう一度入力してください',
+      inputErrorMessage: 'パスワードが一致しません'
+    }
+  },
+  'fr-FR': {
+    feedback: {
+      close: {
+        title: 'Le canal de rétroaction est fermé',
+        message: `En raison de certains facteurs irrésistibles, le canal de rétroaction est fermé. Pour plus de détails, veuillez consulter Lou Hanwen en classe 3, 2e année à l'Académie Jiaochuan。`
+      }
+    },
+    password: {
+      title: 'Réinitialiser le mot de passe',
+      message: 'Veuillez entrer le nouveau mot de passe',
+      confirmButtonText: "D'accord",
+      cancelButtonText: 'Annuler',
+      inputErrorMessage:
+        'Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
+    },
+    password_confirm: {
+      title: 'Réinitialiser le mot de passe',
+      message: 'Veuillez entrer le nouveau mot de passe à nouveau',
+      inputErrorMessage: 'Le mot de passe ne correspond pas'
+    }
+  }
+}
+
 function feedback() {
   ElNotification({
-    title: '反馈渠道关闭',
-    message: `出于某些不可抗力因素，反馈渠道关闭，详情请咨询蛟二（3）班 楼瀚文同学。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy.`,
+    title: locales[locale.value].feedback.close.title,
+    message: locales[locale.value].feedback.close.message,
     type: 'warning',
     position: 'bottom-right'
   })
@@ -97,7 +224,33 @@ function feedback() {
 const panelButtons = [
   { icon: Feedback, click: feedback, text: 'feedback' },
   { icon: Notification, click: broadcast, text: 'broadcast' },
-  { icon: Password, click: () => router.push('/password'), text: 'reset' },
+  {
+    icon: Password,
+    async click() {
+      const token = await temporaryToken(userStore._id)
+      const input = await ElMessageBox.prompt('Please input the new password', 'Password', {
+        confirmButtonText: locales[locale.value].password.confirmButtonText,
+        cancelButtonText: locales[locale.value].password.cancelButtonText,
+        inputType: 'password',
+        // Must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character
+        inputPattern:
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;'"<>,.?/\\-]).{8,}$/,
+        inputErrorMessage:
+          locales[locale.value].password.inputErrorMessage
+      })
+      const confirm = await ElMessageBox.prompt('Please input the new password again', 'Password', {
+        confirmButtonText: locales[locale.value].password_confirm.title,
+        cancelButtonText: locales[locale.value].password_confirm.message,
+        inputValidator: (ipt: string) => input.value === ipt,
+        inputType: 'password',
+        inputErrorMessage: locales[locale.value].password_confirm.inputErrorMessage
+      })
+      if (input.value === confirm.value) {
+        userStore.resetPassword(token, input.value)
+      }
+    },
+    text: 'reset'
+  },
   { icon: SwitchButton, click: logout, text: 'logout' }
 ]
 </script>
@@ -132,7 +285,12 @@ const panelButtons = [
                     />
                   </template>
                   <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
-                    <ElButton text :icon="button.icon" class="action-btn p-1 w-full" @click="button.click">
+                    <ElButton
+                      text
+                      :icon="button.icon"
+                      class="action-btn p-1 w-full"
+                      @click="button.click"
+                    >
                       {{ t(`nav.${button.text}`) }}
                     </ElButton>
                   </ElButtonGroup>

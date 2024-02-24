@@ -70,6 +70,9 @@ export const useUserStore = defineStore('user', {
     },
     setLanguage(language: string) {
       this.language = language
+    },
+    async resetPassword() {
+
     }
   },
   persist: {
