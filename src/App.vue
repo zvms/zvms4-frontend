@@ -15,22 +15,27 @@ import {
   ElNotification,
   ElSpace,
   ElTag,
-  ElMessageBox
+  ElMessageBox,
+  ElAlert
 } from 'element-plus'
 import { RouterView } from 'vue-router'
-import { useUserStore } from './stores/user'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import UserNav from './views/user/UserNav.vue'
+import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
 // import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
 import { zhCn, en, ja, ko, zhTw, fr, ru } from 'element-plus/es/locale/index.mjs'
-import ZVerticalNav from './components/form/ZVerticalNav.vue'
-import { temporaryToken } from './plugins/short-token'
+import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
+import { temporaryToken } from '@/plugins/short-token'
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { CarbonCloudOffline } from '@/icons'
+
+const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
 const { t, locale } = useI18n()
 
@@ -78,35 +83,39 @@ watch(
   }
 )
 
-function broadcast() {
-  router.push('/notifications/')
-}
-
-function logout() {
-  userStore.removeUser()
-  router.push('/user/login')
-}
-
-const locales: Record<typeof locale['value'], {
-  feedback: {
-    close: {
+const locales: Record<
+  (typeof locale)['value'],
+  {
+    feedback: {
+      close: {
+        title: string
+        message: string
+      }
+    }
+    password: {
+      title: string
+      message: string
+      confirmButtonText: string
+      cancelButtonText: string
+      inputErrorMessage: string
+    }
+    password_confirm: {
+      title: string
+      message: string
+      inputErrorMessage: string
+    }
+    disconnected: {
       title: string
       message: string
     }
+    refresh: {
+      title: string
+      message: string
+      ok: string
+      cancel: string
+    }
   }
-  password: {
-    title: string
-    message: string
-    confirmButtonText: string
-    cancelButtonText: string
-    inputErrorMessage: string
-  }
-  password_confirm: {
-    title: string
-    message: string
-    inputErrorMessage: string
-  }
-}> = {
+> = {
   'zh-CN': {
     feedback: {
       close: {
@@ -125,6 +134,16 @@ const locales: Record<typeof locale['value'], {
       title: '重置密码',
       message: '请再次输入新密码',
       inputErrorMessage: '密码不匹配'
+    },
+    disconnected: {
+      title: '连接已断开',
+      message: '已加载备用缓存数据但无法进行操作。'
+    },
+    refresh: {
+      title: '发现新版本',
+      message: '发现新版本，是否立即刷新？',
+      ok: '刷新',
+      cancel: '取消'
     }
   },
   'en-US': {
@@ -146,6 +165,16 @@ const locales: Record<typeof locale['value'], {
       title: 'Reset Password',
       message: 'Please input the new password again',
       inputErrorMessage: 'Password not match'
+    },
+    disconnected: {
+      title: 'Disconnected',
+      message: 'Loaded backup cache data but cannot operate.'
+    },
+    refresh: {
+      title: 'New version found',
+      message: 'New version found, refresh now?',
+      ok: 'Refresh',
+      cancel: 'Cancel'
     }
   },
   'zh-TW': {
@@ -166,6 +195,16 @@ const locales: Record<typeof locale['value'], {
       title: '重置密碼',
       message: '請再次輸入新密碼',
       inputErrorMessage: '密碼不匹配'
+    },
+    disconnected: {
+      title: '連接已斷開',
+      message: '已加載備用緩存數據但無法進行操作。'
+    },
+    refresh: {
+      title: '發現新版本',
+      message: '發現新版本，是否立即刷新？',
+      ok: '刷新',
+      cancel: '取消'
     }
   },
   'ja-JP': {
@@ -187,6 +226,16 @@ const locales: Record<typeof locale['value'], {
       title: 'パスワードをリセット',
       message: '新しいパスワードをもう一度入力してください',
       inputErrorMessage: 'パスワードが一致しません'
+    },
+    disconnected: {
+      title: '切断されました',
+      message: 'バックアップキャッシュデータを読み込みましたが、操作できません。'
+    },
+    refresh: {
+      title: '新しいバージョンが見つかりました',
+      message: '新しいバージョンが見つかりました。今すぐ更新しますか？',
+      ok: '更新',
+      cancel: 'キャンセル'
     }
   },
   'fr-FR': {
@@ -208,35 +257,55 @@ const locales: Record<typeof locale['value'], {
       title: 'Réinitialiser le mot de passe',
       message: 'Veuillez entrer le nouveau mot de passe à nouveau',
       inputErrorMessage: 'Le mot de passe ne correspond pas'
+    },
+    disconnected: {
+      title: 'Déconnecté',
+      message:
+        'Les données de cache de secours ont été chargées mais ne peuvent pas être exploitées.'
+    },
+    refresh: {
+      title: 'Nouvelle version trouvée',
+      message: 'Nouvelle version trouvée, rafraîchir maintenant?',
+      ok: 'Rafraîchir',
+      cancel: 'Annuler'
     }
   }
 }
 
-function feedback() {
-  ElNotification({
-    title: locales[locale.value].feedback.close.title,
-    message: locales[locale.value].feedback.close.message,
-    type: 'warning',
-    position: 'bottom-right'
-  })
-}
-
 const panelButtons = [
-  { icon: Feedback, click: feedback, text: 'feedback' },
-  { icon: Notification, click: broadcast, text: 'broadcast' },
+  {
+    icon: Feedback,
+    click() {
+      ElNotification({
+        title: locales[locale.value].feedback.close.title,
+        message: locales[locale.value].feedback.close.message,
+        type: 'warning',
+        position: 'bottom-right'
+      })
+    },
+    text: 'feedback'
+  },
+  {
+    icon: Notification,
+    click() {
+      router.push('/notifications/')
+    },
+    text: 'broadcast'
+  },
   {
     icon: Password,
     async click() {
       const token = await temporaryToken(userStore._id)
+      if (!token) {
+        return
+      }
       const input = await ElMessageBox.prompt('Please input the new password', 'Password', {
         confirmButtonText: locales[locale.value].password.confirmButtonText,
         cancelButtonText: locales[locale.value].password.cancelButtonText,
         inputType: 'password',
         // Must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character
-        inputPattern:
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;'"<>,.?/\\-]).{8,}$/,
-        inputErrorMessage:
-          locales[locale.value].password.inputErrorMessage
+        inputPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/,
+        inputErrorMessage: locales[locale.value].password.inputErrorMessage
       })
       const confirm = await ElMessageBox.prompt('Please input the new password again', 'Password', {
         confirmButtonText: locales[locale.value].password_confirm.title,
@@ -251,12 +320,41 @@ const panelButtons = [
     },
     text: 'reset'
   },
-  { icon: SwitchButton, click: logout, text: 'logout' }
+  {
+    icon: SwitchButton,
+    click() {
+      userStore.removeUser()
+      router.push('/user/login')
+    },
+    text: 'logout'
+  }
 ]
+
+watch(needRefresh, () => {
+  if (!needRefresh.value) {
+    return
+  }
+  ElMessageBox.confirm(locales[locale.value].refresh.message, locales[locale.value].refresh.title, {
+    confirmButtonText: locales[locale.value].refresh.ok,
+    cancelButtonText: locales[locale.value].refresh.cancel,
+    type: 'warning'
+  }).then(() => {
+    updateServiceWorker()
+  })
+})
 </script>
 
 <template>
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 h-full">
+    <ElAlert type="error" center :closable="false" v-if="offlineReady">
+      <template #title>
+        <ElIcon class="disconnected">
+          <CarbonCloudOffline />
+        </ElIcon>
+        <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
+        <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
+      </template>
+    </ElAlert>
     <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 h-full">
       <ElHeader>
         <ElRow class="pt-4 px-4">
@@ -326,6 +424,13 @@ const panelButtons = [
   height: v-bind(height * 0.05 + 'px');
   overflow-y: scroll;
   z-index: 999;
+}
+
+.disconnected {
+  position: relative;
+  top: 40%;
+  transform: translateY(16%);
+  font-size: 1.2rem;
 }
 
 .footer {

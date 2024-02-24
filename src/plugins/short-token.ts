@@ -1,7 +1,7 @@
 import { ElMessageBox } from 'element-plus'
 import api from '@/api'
 
-export function temporaryToken(userid: string) {
+export function temporaryToken(userid: string): Promise<string> {
   return new Promise((resolve, reject) => {
     ElMessageBox.prompt('Please enter your password to continue', 'Password', {
       confirmButtonText: 'Submit',
