@@ -113,11 +113,11 @@ const memberFunctions = {
     modified.value = true
     loading.value = id
     if (activity.value.members.length === 1) {
-      await api.activity.deleteOne(activity.value._id)
+      await api.activity.deleteOne(activity.value._id, user._id)
       emits('refresh')
       return
     }
-    await api.activity.member.remove(id, activity.value._id)
+    await api.activity.member.remove(id, activity.value._id, user._id)
     activity.value.members = activity.value.members.filter((member) => member._id !== id)
     loading.value = ''
   }

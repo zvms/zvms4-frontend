@@ -13,7 +13,6 @@ import {
   ElConfigProvider,
   ElDivider,
   ElNotification,
-  ElSpace,
   ElTag,
   ElMessageBox,
   ElAlert
@@ -295,11 +294,11 @@ const panelButtons = [
   {
     icon: Password,
     async click() {
-      const token = await temporaryToken(userStore._id)
+      const token = await temporaryToken(userStore._id, false, locale.value as 'en-US')
       if (!token) {
         return
       }
-      const input = await ElMessageBox.prompt('Please input the new password', 'Password', {
+      const input = await ElMessageBox.prompt(locales[locale.value].password.message, locales[locale.value].password.title, {
         confirmButtonText: locales[locale.value].password.confirmButtonText,
         cancelButtonText: locales[locale.value].password.cancelButtonText,
         inputType: 'password',
@@ -307,9 +306,9 @@ const panelButtons = [
         inputPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/,
         inputErrorMessage: locales[locale.value].password.inputErrorMessage
       })
-      const confirm = await ElMessageBox.prompt('Please input the new password again', 'Password', {
-        confirmButtonText: locales[locale.value].password_confirm.title,
-        cancelButtonText: locales[locale.value].password_confirm.message,
+      const confirm = await ElMessageBox.prompt(locales[locale.value].password_confirm.message, locales[locale.value].password_confirm.title, {
+        confirmButtonText: locales[locale.value].password.confirmButtonText,
+        cancelButtonText: locales[locale.value].password.cancelButtonText,
         inputValidator: (ipt: string) => input.value === ipt,
         inputType: 'password',
         inputErrorMessage: locales[locale.value].password_confirm.inputErrorMessage

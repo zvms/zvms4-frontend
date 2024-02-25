@@ -34,22 +34,4 @@ async function getUsers(id: string) {
   return result.data
 }
 
-export async function modifyPassword(id: number, validate: string, password: string) {
-  const result = (await axios(`/user/${id}/password`, {
-    data: {
-      oldPassword: validate,
-      newPassword: password,
-      action: 'modify'
-    },
-    method: 'PATCH'
-  })) as Response<null>
-  if (result.status === 'error') {
-    ElNotification({
-      title: '修改密码错误（' + result.code + '）',
-      message: result.message,
-      type: 'error'
-    })
-  }
-}
-
-export { getUser as readOne, getUsers as read, modifyPassword as modify }
+export { getUser as readOne, getUsers as read }

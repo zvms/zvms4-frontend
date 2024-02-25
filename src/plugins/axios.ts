@@ -4,7 +4,10 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 const axiosInstance = axios.create({
-  baseURL: new URL(location.href).protocol === 'https:' ? 'https://api.zvms.site/api/' : 'http://localhost:8000/api/',
+  baseURL:
+    new URL(location.href).protocol === 'https:'
+      ? 'https://api.zvms.site/api/'
+      : 'http://localhost:8000/api/',
   // If using `http`, it must be testing or the `window.crypto.subtle` will not work.
   withCredentials: false,
   timeout: 12000,
@@ -37,36 +40,7 @@ axiosInstance.interceptors.response.use(
   (error: Error | AxiosError) => {
     nprogress.done()
     if (axios.isAxiosError(error)) {
-      if (error.response?.status === 401 && error.response?.data === 'Token expired') {
-        localStorage.removeItem('token')
-        return axiosInstance({
-          method: 'post',
-          url: 'auth/refresh',
-          data: {
-            token: localStorage.getItem('token')
-          }
-        })
-      } else if (
-        error.response?.status === 401 &&
-        error.response?.data === 'Need short-term token'
-      ) {
-        ElMessageBox.prompt('Please enter your password to continue', 'Password', {
-          confirmButtonText: 'Submit',
-          cancelButtonText: 'Cancel',
-          inputType: 'password',
-          inputPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-          inputErrorMessage:
-            'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, and one number'
-        }).then(({ value }) => {
-          axiosInstance({
-            method: 'post',
-            url: '/user/auth',
-            data: {
-              mode: 'short',
-            }
-          })
-        })
-      } else if (error.response?.status === 401) {
+      if (error.response?.status === 401) {
         ElNotification({
           title: 'Error',
           message: 'Your session has expired, or you are not authorized. Please login again.',

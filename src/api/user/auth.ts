@@ -25,7 +25,7 @@ export async function getRSAPublicCert(): Promise<string> {
   return result.data
 }
 
-async function ResetPassword(user: string, password: string, token: string) {
+export async function resetPassword(user: string, password: string, token: string) {
   const payload = JSON.stringify({
     password: password,
     time: Date.now()
@@ -33,13 +33,10 @@ async function ResetPassword(user: string, password: string, token: string) {
   const publicKey = await importPublicKey(await getRSAPublicCert())
   const credential = await encryptData(publicKey, payload)
   const hex = byteArrayToHex(new Uint8Array(credential))
-  console.log(`User ${user} reset password with the credential ${hex}`)
-  const result = (await axios('/user/password', {
+  const result = (await axios(`/user/${user}/password`, {
     method: 'PUT',
     data: {
-      id: user.toString(),
       credential: hex,
-      token: token
     },
     headers: {
       Authorization: `Bearer ${token}`

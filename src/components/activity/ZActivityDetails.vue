@@ -67,7 +67,7 @@ async function submitDescription() {
 }
 
 async function deleteActivity(id: string) {
-  await api.activity.deleteOne(id)
+  await api.activity.deleteOne(id, user._id)
   emits('refresh')
 }
 

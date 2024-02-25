@@ -1,4 +1,5 @@
 import axios from '@/plugins/axios'
+import { temporaryToken } from '@/plugins/short-token'
 import type { Response, Trophy, TrophyAward, TrophyMember } from '@zvms/zvms4-types'
 
 export async function readTrophy(id: string) {
@@ -101,9 +102,13 @@ export async function insertTrophyMember(id: string, data: TrophyMember) {
   return false
 }
 
-export async function removeTrophyMember(id: string, member: string) {
+export async function removeTrophyMember(id: string, member: string, uid: string) {
+  const token = await temporaryToken(uid)
   const resp = await axios(`/trophy/${id}/member/${member}`, {
     method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
