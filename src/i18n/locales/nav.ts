@@ -27,6 +27,7 @@ export const enUS = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English',
+    'zh-WY': '文言文',
     'zh-TW': '繁體中文',
     'ja-JP': '日本語',
     'fr-FR': 'Français',
@@ -115,6 +116,7 @@ export const enUS = {
       question: 'Question',
       bug: 'Bug',
     },
+    manage: "Manage",
     notification: {
       home: 'Notification',
       create: 'Create Notification',
@@ -152,6 +154,7 @@ export const zhCN = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English',
+    'zh-WY': '文言文',
     'zh-TW': '繁體中文',
     'ja-JP': '日本語',
     'fr-FR': 'Français',
@@ -239,10 +242,137 @@ export const zhCN = {
       question: '问题',
       bug: '错误',
     },
+    manage: "管理",
     notification: {
       home: '通知',
       create: '创建通知',
       specific: '指定通知',
+    }
+  }
+}
+
+export const zhWY = {
+  home: '首页',
+  activity: '义工表',
+  activities: {
+    mine: '吾义工',
+    class: '班级义工',
+    campus: '全校义工',
+    register: '义工名'
+  },
+  create: '创义工',
+  creates: {
+    home: '首页',
+    specified: '指义工',
+    social: '世义工',
+    scale: '行义工',
+    special: '殊义工'
+  },
+  broadcast: '告面板',
+  preferences: '好置',
+  system: '统置',
+  about: '夫',
+  logout: '退录',
+  feedback: '问反馈',
+  reset: '密码改',
+  language: '言语',
+  dark: '夜式',
+  languages: {
+    'zh-CN': '简体中文',
+    'en-US': 'English',
+    'zh-WY': '文言文',
+    'zh-TW': '繁體中文',
+    'ja-JP': '日本語',
+    'fr-FR': 'Français',
+    'ko-KR': '한국어',
+    'ru-RU': 'Русский'
+  },
+  pages: {
+    NotFound: {
+      title: '404 页面得',
+      description: '公问之页面不存。',
+      action: {
+        back: '还首页',
+        report: '奏议'
+      }
+    }
+  },
+  login: {
+    actions: {
+      login: '录',
+      reset: '复置',
+      register: '注',
+      logout: '登出'
+    },
+    motto: '励勤美图',
+    form: {
+      account: '账号',
+      password: '密码'
+    },
+    registration: '请来台管理员团支书等为之注。'
+  },
+  breadcrumbs: {
+    view: {
+      home: '视',
+      specific: '指义工',
+      trophy: {
+        home: '奖',
+        create: '立',
+      },
+      register: '义工名',
+      mine: '吾义工',
+      class: '班级义工',
+      campus: '全校义工',
+      impression: {
+        write: '写',
+        read: '读',
+        reflect: '思'
+      }
+    },
+    create: {
+      home: '首页',
+      specified: '指义工',
+      social: '世义工',
+      scale: '行义工',
+      special: '殊义工'
+    },
+    actions: {
+      create: '建',
+      edit: '辑',
+      delete: '删',
+      search: '索',
+      filter: '漉',
+      sort: '排序',
+      refresh: '新',
+    },
+    about: {
+      home: '夫',
+      developer: '开发者',
+      project: '项目',
+      version: '本',
+    },
+    settings: {
+      home: '置',
+      profile: '个人资料',
+      security: '安',
+      notification: '告',
+      privacy: '阴',
+      language: '言语',
+      theme: '主题',
+      logout: '登出',
+    },
+    feedback: {
+      home: '反馈',
+      report: '闻',
+      suggestion: '议',
+      question: '问',
+      bug: '误',
+    },
+    manage: "管理",
+    notification: {
+      home: '告',
+      create: '立通',
+      specific: '指谕',
     }
   }
 }
@@ -276,6 +406,7 @@ export const zhTW = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English',
+    'zh-WY': '文言文',
     'zh-TW': '繁體中文',
     'ja-JP': '日本語',
     'fr-FR': 'Français',
@@ -359,6 +490,7 @@ export const zhTW = {
       question: '問題',
       bug: '錯誤',
     },
+    manage: "管理",
     notification: {
       home: '通知',
       create: '創建通知',
@@ -387,7 +519,7 @@ export const jaJP = {
   broadcast: '通知パネル',
   preferences: '設定',
   system: 'システム設定',
-  about: '約',
+  about: 'について',
   logout: 'ログアウト',
   feedback: 'フィードバック',
   reset: 'パスワードの変更',
@@ -396,6 +528,7 @@ export const jaJP = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English',
+    'zh-WY': '文言文',
     'zh-TW': '繁體中文',
     'ja-JP': '日本語',
     'fr-FR': 'Français',
@@ -479,6 +612,7 @@ export const jaJP = {
       question: '質問',
       bug: 'バグ',
     },
+    manage: "管理",
     notification: {
       home: '通知',
       create: '通知を作成する',
@@ -516,6 +650,7 @@ export const frFR = {
   languages: {
     'zh-CN': '简体中文',
     'en-US': 'English',
+    'zh-WY': '文言文',
     'zh-TW': '繁體中文',
     'ja-JP': '日本語',
     'fr-FR': 'Français',
@@ -600,6 +735,7 @@ export const frFR = {
       question: 'Question',
       bug: 'Bogue',
     },
+    manage: "Gérer",
     notification: {
       home: 'Notification',
       create: 'Créer une notification',

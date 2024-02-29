@@ -144,6 +144,78 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  create: {
+    name: {
+      required: '不名为空。'
+    },
+    date: {
+      required: '不期为空。',
+      format: '日体不正。'
+    },
+    classify: {
+      required: '殊不类不可尽。'
+    },
+    upload: {
+      required: '不虚传。'
+    },
+    specified: {
+      location: {
+        required: '所不能尽。'
+      },
+      deadline: {
+        required: '不期截止空。',
+        format: '截止日体不正。'
+      },
+      classes: {
+        required: '班级 ID 能空。',
+        invalid:
+          '班级 ID 不然。式：岁（ 4 位数） + 班级（ 2 位数），蛟川班以 `1` 始，以镇海班班级 `0` 始。岁入高之岁。',
+        undefined: '班级 ID 未定义。'
+      },
+      min: {
+        required: '小者不能尽。',
+        invalid: '少者不然。其应有数，大 0 。'
+      },
+      max: {
+        required: '大众不可尽。',
+        invalid: '大者非也。其可一二数少与 0 之数。'
+      }
+    },
+    member: {
+      person: {
+        required: '人不能尽。'
+      },
+      mode: {
+        required: '式不得空。'
+      },
+      duration: {
+        required: '长而不为空。',
+        invalid: '长，非也。其所谓大而小子 12 0 之数。'
+      }
+    }
+  },
+  notification: {
+    title: {
+      required: '标题能空。'
+    },
+    type: {
+      required: '类不可尽。'
+    },
+    expire: {
+      required: '过时不为空。',
+      format: '期日体不正。',
+      future: '期日当来。'
+    },
+    receivers: {
+      required: '非全，接收者能空。'
+    },
+    anoymous: {
+      required: '变不虚。'
+    }
+  }
+}
+
 export const zhTW = {
   create: {
     name: {

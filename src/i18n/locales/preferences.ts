@@ -6,6 +6,14 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  fonts: {
+    serif: '宋',
+    sans: '黑',
+    mono: '等宽'
+  }
+}
+
 export const enUS = {
   fonts: {
     serif: 'Serif',

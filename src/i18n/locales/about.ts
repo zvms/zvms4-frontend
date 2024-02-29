@@ -54,6 +54,33 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  about: {
+    project: '夫 ZVMS 之事',
+    developers: '夫开发者之事'
+  },
+  footer: '镇海中学义工委员会技术部主治',
+  repository: {
+    license: '可议',
+    version: {
+      '0': '本项目之版自',
+      '1': ' 开之，特谢！',
+      stack: '技术堆栈：',
+      repo: '库址：'
+    },
+    thank: {
+      mean: '又谢',
+      icon: ' 设新版（v2.0 - 最新版）图标，',
+      test: ' 试之狂，',
+      end: ' 供伺服器于庠序之外。'
+    }
+  },
+  switch: {
+    real: '实之名',
+    nick: '昵之称'
+  }
+}
+
 export const zhTW = {
   about: {
     project: '關於 ZVMS',

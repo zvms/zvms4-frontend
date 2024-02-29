@@ -58,6 +58,36 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  home: {
+    title: '语中',
+    subtitle: '有告之以此',
+    empty: '暂无告'
+  },
+  create: {
+    header: '造语新',
+    elements: {
+      title: '标题',
+      content: '书',
+      type: '类',
+      types: {
+        pinned: '置顶',
+        important: '重',
+        normal: '夫'
+      },
+      global: '群',
+      receivers: '接收者',
+      anonymous: '飞',
+      expire: '期日'
+    },
+    actions: {
+      send: '发',
+      cancel: '罢',
+      clear: '清'
+    }
+  }
+}
+
 export const zhTW = {
   home: {
     title: '通知中心',

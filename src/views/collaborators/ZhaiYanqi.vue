@@ -3,13 +3,13 @@
   <br />
   <a href="#" target="_blank"
     ><img
-      src="https://img.shields.io/badge/-@diyanqi-181717?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/diyanqi"
+      src="https://www.amzcd.top/assets/img/github.svg"
   /></a>
   <br />
   <a href="#" target="_blank"
     ><img
-      src="https://img.shields.io/badge/-www.amzcd.top-orange?style=for-the-badge&logo=rss&logoColor=white&link=https://www.amzcd.top"
+      src="https://www.amzcd.top/assets/img/amzcd.svg"
   /></a>
   <br />
-  <img src="https://img.shields.io/badge/ikun%20test-passed-blue?style=for-the-badge" />
+  <img src="https://www.amzcd.top/assets/img/ikuntest.svg" />
 </template>

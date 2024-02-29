@@ -130,6 +130,65 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  activity: {
+    status: {
+      pending: {
+        secretary: '方当义工覆，若有所请，班级团支书',
+        department: '方当义工覆，若有所请通行部成员'
+      },
+      effective: '该义工已效，可以正名，发义工等日',
+      refused: '该义工已不修不可以复立而提交申请，或系有职掌'
+    },
+    type: {
+      specified:
+        '当为指义工义工，团支书（须勘）、行部成员行立，为校内义工书之时',
+      social:
+        '当为世义工义工，自生自成结（须勘）、团支书创，为校外义工书之时',
+      practice:
+        '其为人实义工，行部成员立可以自私选择项组队填报，书之以为时世行',
+      special: '其为异义工义工，行部成员创，自书之为校内，或世校外义工日行'
+    }
+  },
+  activityMember: {
+    status: {
+      draft: '君名该义工，请早空感，期未填写将去有时也然义工',
+      pending: '该义工感会勘，有请之义且审计部成员管',
+      rejected: '君义工感已破，不可填',
+      effective: '公感之因义工勘，感之与',
+      refused: '君义工感不已，连有长须，不可复提交'
+    },
+    mode: {
+      'on-campus': '该义工为校内义工日书之，可以学平板空感',
+      'off-campus&#39': '该义工为校外义工日书之，以填校外感时或须传照片为证',
+      'social-practice': '义工为世所行，不可以有事于行部为证，'
+    }
+  },
+  trophy: {
+    status: {
+      pending: '其角耳方覆，若有所请通行部成员',
+      effective: '其角信已通勘，可常名，终带队师勘得应时',
+      refused: '其角耳既不可复作而提交申请，或系有职掌'
+    },
+    type: {
+      academic: '其竞为学科之角，为学，物理，化学，物之情，天文等学科竞',
+      sports: '其竞为体育类竞，为篮球，足球，田径，游乒乓球，体育竞赛羽毛球等',
+      art: '其竞为艺术类竞，为舞，歌，书画，摄影，设诸艺竞',
+      others: '为其角之外角，须空明'
+    },
+    level: {
+      district: '其竞为区级竞',
+      city: '其竞为市级竞',
+      province: '其竞为省级竞',
+      national: '其竞为国家级竞',
+      international: '其竞为国际级竞'
+    },
+    statement:
+      '度，徒有获奖单个类义工总之不过十少。公余时为可计入 {time} 少。',
+    prompt: '每于获奖者获奖择而书之若校外义工校内，书之而不可易获奖信。'
+  }
+}
+
 export const zhTW = {
   activity: {
     status: {
