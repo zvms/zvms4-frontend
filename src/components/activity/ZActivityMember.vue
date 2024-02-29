@@ -8,25 +8,26 @@ import api from '@/api'
 import { ElButton } from 'element-plus'
 import { IcBaselineClass } from '@/icons'
 import { getUserClassName } from '@/utils/getClass'
+import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
     id: string
     icon?: VueComponent
-    withUserClassName?: boolean
     color?: 'primary' | 'success' | 'danger' | 'warning' | 'info'
   }>(),
   {
     icon: UserIcon,
-    withUserClassName: false,
     color: 'primary'
   }
 )
-const { id, icon, withUserClassName, color } = toRefs(props)
+const { id, icon, color } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
-const className = ref('')
 
 watch(id, () => {
   refresh()
@@ -41,7 +42,6 @@ function refresh() {
         if (!res) error.value = true
         else person.value = res as User
         loading.value = false
-        className.value = getUserClassName(res?.id ?? 0, res?.code ?? 0)
       })
       .catch(() => {
         error.value = true
@@ -70,22 +70,14 @@ refresh()
     v-bind="$attrs"
   >
     <template #text>
-      {{ person?.name }}
+      <ElDescriptions>
+        <ElDescriptionsItem :label="t('')">
+
+        </ElDescriptionsItem>
+      </ElDescriptions>
     </template>
     <template #default>
       <p class="text-xl">{{ person?.name }}</p>
     </template>
   </ZButtonOrCard>
-  <ElButton
-    class="px-2"
-    v-if="withUserClassName && !loading"
-    text
-    bg
-    round
-    size="small"
-    :icon="IcBaselineClass"
-    type="info"
-  >
-    {{ className }}
-  </ElButton>
 </template>

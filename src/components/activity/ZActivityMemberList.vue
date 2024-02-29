@@ -106,7 +106,15 @@ const memberFunctions = {
     modified.value = true
     loading.value = 'add'
     await api.activity.member.insert(activity.value._id, appending.value)
-    activity.value.members.push(appending.value)
+    activity.value.members.push({
+      _id: appending.value._id.toString(),
+      status: activity.value.type === 'special' ? 'effective' : 'draft',
+      duration: appending.value.duration,
+      mode: appending.value.mode,
+      impression: '',
+      images: [],
+      history: []
+    })
     loading.value = ''
   },
   async remove(id: string) {
