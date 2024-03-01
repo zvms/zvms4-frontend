@@ -186,11 +186,7 @@ watch(active, () => {
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
-              <ZActivityDuration
-                :duration="scope.row.duration"
-                :mode="scope.row.mode"
-                force="full"
-              />
+              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" />
             </template>
           </ElTableColumn>
           <ElTableColumn
@@ -198,7 +194,8 @@ watch(active, () => {
             v-if="
               user._id === activity.creator ||
               user.position.includes('admin') ||
-              user.position.includes('department')
+              user.position.includes('department') ||
+              user.position.includes('secretary')
             "
             class="no-print"
           >

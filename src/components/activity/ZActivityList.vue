@@ -220,7 +220,12 @@ watch(
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="role === 'mine' || role === 'class'"
+          v-if="
+            role === 'mine' ||
+            role === 'class' ||
+            (role === 'campus' &&
+              (user.position.includes('admin') || user.position.includes('department')))
+          "
           :label="t('activity.status.title')"
           :filters="
             statusFilter
@@ -247,7 +252,11 @@ watch(
             <ZActivityStatus
               v-else
               :type="row.status"
-              :modifiable="role === 'class' || user.position.includes('admin')"
+              :modifiable="
+                (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
+                user.position.includes('admin') ||
+                user.position.includes('department')
+              "
               :activity="row"
               :refresh="refresh"
               call-when-modify
