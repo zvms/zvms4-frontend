@@ -6,7 +6,7 @@ params:
     in: path
     type: string
     required: true
-    description: The broadcast id (Object Id)
+    description: The notification id (Object Id)
 body: NotificationInstance
 response: null
 permission: 2

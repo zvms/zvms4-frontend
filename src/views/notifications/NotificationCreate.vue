@@ -27,7 +27,7 @@ const { t } = useI18n()
 const user = useUserStore()
 
 const defaultNotification: Notification = {
-  global: false,
+  global: true, // TODO: change to false after having support specifying receivers
   title: '',
   content: '',
   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -39,17 +39,12 @@ const defaultNotification: Notification = {
   _id: ''
 }
 
-const receiver = ref('')
-
 const notification = ref<Notification>(defaultNotification)
 
 const types = ['pinned', 'important', 'normal']
 
 const submit = () => {
-  api.notification.create(notification)
-}
-const clear = () => {
-  notification.value = defaultNotification
+  api.notification.create(notification.value)
 }
 const addPerson = () => {
   notification.value.receivers.push(receiver.value)
@@ -149,6 +144,8 @@ const addPerson = () => {
                 :disabled="notification.receivers.length > 0"
               />
             </ElFormItem>
+            <!-- TODO: support specifying receivers -->
+            <!--
             <ElFormItem
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
@@ -161,7 +158,12 @@ const addPerson = () => {
               ]"
             >
               <ElRow v-for="(receiver, idx) in notification.receivers" :key="idx">
-                <ZSelectPerson v-model="notification.receivers[idx]" full-width :filter-start="2">
+                <ZSelectPerson
+                  v-model="notification.receivers[idx]"
+                  class="full"
+                  full-width
+                  :filter-start="2"
+                >
                   <template #prepend>{{ idx + 1 }}</template>
                 </ZSelectPerson>
               </ElRow>
@@ -176,6 +178,7 @@ const addPerson = () => {
                 </ElCol>
               </ElRow>
             </ElFormItem>
+          -->
             <ElFormItem
               :label="t('notification.create.elements.anonymous')"
               required
