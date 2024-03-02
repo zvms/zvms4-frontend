@@ -1,1 +1,1 @@
-export * as password from './crud'
+export { resetPassword as put } from './auth'

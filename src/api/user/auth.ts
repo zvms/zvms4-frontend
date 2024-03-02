@@ -16,13 +16,43 @@ export async function getRSAPublicCert(): Promise<string> {
   ).data as Response<string>
   if (result.status === 'error') {
     ElNotification({
-      title: '获取公钥错误（' + result.code + '）',
+      title: 'Error when fetching RSA public key',
       message: result.message,
       type: 'error'
     })
     return ''
   }
   return result.data
+}
+
+export async function resetPassword(user: string, password: string, token: string) {
+  const payload = JSON.stringify({
+    password: password,
+    time: Date.now()
+  })
+  const publicKey = await importPublicKey(await getRSAPublicCert())
+  const credential = await encryptData(publicKey, payload)
+  const hex = byteArrayToHex(new Uint8Array(credential))
+  const result = (await axios(`/user/${user}/password`, {
+    method: 'PUT',
+    data: {
+      credential: hex,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })) as Response<LoginResult>
+  if (result.status === 'error') {
+    ElNotification({
+      title: 'Error when resetting password',
+      message: result.message,
+      type: 'error'
+    })
+    return
+  }
+  localStorage.setItem('token', result.data.token)
+  return result.data
+
 }
 
 async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {

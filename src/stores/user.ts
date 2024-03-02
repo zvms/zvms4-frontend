@@ -3,6 +3,8 @@ import type { User, UserActivityTimeSums, UserPosition } from '@zvms/zvms4-types
 import { defineStore } from 'pinia'
 import { getUserClassName } from '@/utils/getClass'
 import { usePreferredLanguages } from '@vueuse/core'
+import { ElNotification } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -28,6 +30,7 @@ export const useUserStore = defineStore('user', {
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(user)) as User
+        console.log(information)
         this._id = information?._id
         this.id = information?.id
         this.name = information?.name
@@ -70,6 +73,25 @@ export const useUserStore = defineStore('user', {
     },
     setLanguage(language: string) {
       this.language = language
+    },
+    async resetPassword(token: string, newPassword: string) {
+      const result = await api.user.password.put(this._id, newPassword, token)
+      if (!result) {
+        ElNotification({
+          title: 'Error when resetting password',
+          message: 'Please try again later',
+          type: 'error'
+        })
+      }
+      ElNotification({
+        title: 'Password reset successfully',
+        message: 'Please login again',
+        type: 'success'
+      })
+      this.removeUser()
+      const router = useRouter()
+      router.push('/user/login')
+      location.reload()
     }
   },
   persist: {

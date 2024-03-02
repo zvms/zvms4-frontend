@@ -10,7 +10,6 @@ import i18n from './i18n'
 
 import ElementPlus from 'element-plus'
 import Vant from 'vant'
-import VConsole from 'vconsole'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 
 import 'element-plus/theme-chalk/index.css'
@@ -21,8 +20,6 @@ import 'animate.css/animate.min.css'
 import { zhCn } from 'element-plus/es/locale/index.mjs'
 
 import persistedstate from 'pinia-plugin-persistedstate'
-
-new VConsole()
 
 const app = createApp(App)
 
@@ -35,6 +32,7 @@ app.use(ElementPlus, {
   size: 'default',
   locale: zhCn
 })
+
 app.use(Vant)
 
 app.mount('#app')

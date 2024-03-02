@@ -12,3 +12,4 @@ export { default as StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPen
 export { default as TablerSum } from './TablerSum.vue'
 export { default as IcBaselineClass } from './positions/IcBaselineClass.vue'
 export { default as OouiUserAnonymous } from './OouiUserAnonymous.vue'
+export { default as CarbonCloudOffline } from './CarbonCloudOffline.vue'

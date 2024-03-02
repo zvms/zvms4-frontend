@@ -7,7 +7,7 @@ async function modifyActivityTitle(aid: string, title: string) {
       url: `/activity/${aid}/name`,
       method: 'put',
       data: {
-        title
+        name: title
       }
     })
   ).data as Response<null>

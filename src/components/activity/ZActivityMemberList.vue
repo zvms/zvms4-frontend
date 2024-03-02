@@ -10,7 +10,7 @@ import {
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
 import { toRefs, watch } from 'vue'
-import { User, Minus, Plus, ArrowRight } from '@element-plus/icons-vue'
+import { User, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
@@ -20,7 +20,8 @@ import {
   ElPopover,
   ElPopconfirm,
   ElForm,
-  ElFormItem
+  ElFormItem,
+  ElPagination
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
@@ -30,8 +31,8 @@ const user = useUserStore()
 const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
-
 const max = ref(height.value * 0.5)
+const showAddPopover = ref(false)
 
 watch(height, () => {
   max.value = height.value * 0.5
@@ -54,6 +55,20 @@ const emits = defineEmits<{
 
 const { activity, mode } = toRefs(props)
 const modified = ref(false)
+const members = ref<ActivityMember[]>([])
+
+// Add member of activity in first 5
+
+members.value.push(...activity.value.members.slice(0, 5))
+
+function scroll() {
+  // Then add 2 members if available when touch bottom
+  if (members.value.length < activity.value.members.length) {
+    members.value.push(
+      ...activity.value.members.slice(members.value.length, members.value.length + 2)
+    )
+  }
+}
 
 function getMode(): ActivityMode {
   if (activity.value.type === 'specified') return 'on-campus'
@@ -91,18 +106,27 @@ const memberFunctions = {
     modified.value = true
     loading.value = 'add'
     await api.activity.member.insert(activity.value._id, appending.value)
-    activity.value.members.push(appending.value)
+    activity.value.members.push({
+      _id: appending.value._id.toString(),
+      status: activity.value.type === 'special' ? 'effective' : 'draft',
+      duration: appending.value.duration,
+      mode: appending.value.mode,
+      impression: '',
+      images: [],
+      history: []
+    })
     loading.value = ''
+    showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
     loading.value = id
     if (activity.value.members.length === 1) {
-      await api.activity.deleteOne(activity.value._id)
+      await api.activity.deleteOne(activity.value._id, user._id)
       emits('refresh')
       return
     }
-    await api.activity.member.remove(id, activity.value._id)
+    await api.activity.member.remove(id, activity.value._id, user._id)
     activity.value.members = activity.value.members.filter((member) => member._id !== id)
     loading.value = ''
   }
@@ -111,6 +135,18 @@ const memberFunctions = {
 watch(open, () => {
   if (open.value) modified.value = false
   if (!open.value && modified.value) emits('refresh')
+})
+
+const active = ref(1)
+const size = ref(5)
+const show = ref(false)
+
+show.value = true
+
+watch(active, () => {
+  const members = activity.value.members
+  activity.value.members = []
+  activity.value.members = members
 })
 </script>
 
@@ -131,11 +167,17 @@ watch(open, () => {
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <div v-if="activity.members.length !== 0">
-        <ElTable :data="activity.members" stripe :height="max">
-          <ElTableColumn prop="_id" :label="t('activity.member.name')">
+      <div v-if="activity.members.length !== 0 && show">
+        <ElTable
+          :data="
+            activity.members.filter((x, idx) => idx < active * size && idx >= (active - 1) * size)
+          "
+          stripe
+          :height="max"
+        >
+          <ElTableColumn v-infinite-scroll="scroll" prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
-              <ZActivityMember :id="scope.row._id" with-user-class-name />
+              <ZActivityMember :id="scope.row._id" />
             </template>
           </ElTableColumn>
           <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
@@ -145,11 +187,7 @@ watch(open, () => {
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
-              <ZActivityDuration
-                :duration="scope.row.duration"
-                :mode="scope.row.mode"
-                force="full"
-              />
+              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" />
             </template>
           </ElTableColumn>
           <ElTableColumn
@@ -157,14 +195,15 @@ watch(open, () => {
             v-if="
               user._id === activity.creator ||
               user.position.includes('admin') ||
-              user.position.includes('department')
+              user.position.includes('department') ||
+              user.position.includes('secretary')
             "
             class="no-print"
           >
             <template #header>
               <ElPopover
                 placement="left"
-                trigger="click"
+                :visible="showAddPopover"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
                 width="328px"
                 class="no-print"
@@ -176,6 +215,7 @@ watch(open, () => {
                     round
                     size="small"
                     type="success"
+                    @click="showAddPopover = true"
                     :loading="loading === 'add'"
                     :icon="Plus"
                   >
@@ -187,12 +227,19 @@ watch(open, () => {
                     <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.classify')">
-                    <ZSelectActivityMode v-model="appending.mode" :allow="getAllow()" class="w-full" />
+                    <ZSelectActivityMode
+                      v-model="appending.mode"
+                      :allow="getAllow()"
+                      class="w-full"
+                    />
                   </ElFormItem>
                   <ElFormItem :label="t('activity.form.duration')">
                     <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">
+                    <ElButton text bg type="danger" :icon="Close" @click="showAddPopover = false">
+                      {{ t('activity.form.actions.cancel') }}
+                    </ElButton>
                     <ElButton
                       text
                       bg
@@ -233,6 +280,17 @@ watch(open, () => {
             </template>
           </ElTableColumn>
         </ElTable>
+      </div>
+      <div class="py-2 text-center" v-if="activity.members.length !== 0">
+        <ElPagination
+          v-model:current-page="active"
+          v-model:page-size="size"
+          :pager-count="3"
+          :total="activity.members.length"
+          layout="total, prev, pager, next, sizes"
+          background
+          :page-sizes="[3, 5, 8, 10]"
+        />
       </div>
     </template>
   </ZButtonOrCard>

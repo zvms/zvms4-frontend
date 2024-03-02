@@ -3,7 +3,7 @@ import { useLocalStorage } from '@vueuse/core'
 import { zhCN, enUS, zhTW, jaJP, frFR } from './locales'
 
 export default createI18n({
-  locale: useLocalStorage('locale', 'en-US').value ?? navigator.language ?? 'en-US',
+  locale: useLocalStorage('locale', navigator.language).value ?? navigator.language ?? 'en-US',
   fallbackLocale: 'en-US',
   messages: {
     'zh-CN': zhCN,

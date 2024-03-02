@@ -71,7 +71,7 @@ const submit = (member?: TrophyMember) => {
 async function removeMember(id: string) {
   const origin = members.value.filter((member) => member._id !== id && member.award === awardName.value)
   members.value = []
-  const result = await api.trophy.member.remove(trophy.value._id, id)
+  const result = await api.trophy.member.remove(trophy.value._id, id, user._id)
   if (result) {
     trophy.value.members = origin
     members.value = origin
