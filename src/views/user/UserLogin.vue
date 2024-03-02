@@ -55,7 +55,7 @@ const openDialog = ref(false)
 
 <template>
   <div class="w-full">
-    <ElDialog v-model="openDialog" width="88%" hieght="60%" :title="t('nav.about')">
+    <ElDialog v-model="openDialog" width="88%" height="60%" :title="t('nav.about')">
       <AboutView />
     </ElDialog>
     <div :style="`height: ${height * 0.25}px`"></div>
@@ -107,14 +107,14 @@ const openDialog = ref(false)
         </ElCol>
       </ElRow>
     </ElCard>
-    <div :style="`height: ${height * 0.38}px`"></div>
+    <div :style="`height: ${height * 0.31}px`"></div>
   </div>
 </template>
 
 <style scoped>
 .login-field {
   width: 80%;
-  height: 256px !important;
+  height: 296px !important;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
