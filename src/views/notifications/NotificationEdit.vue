@@ -2,6 +2,4 @@
 import NotificationForm from './NotificationForm.vue'
 </script>
 
-<template>
-  <NotificationForm mode="create"></NotificationForm>
-</template>
+<tempalte></tempalte>

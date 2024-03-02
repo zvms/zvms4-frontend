@@ -19,7 +19,7 @@ export const enUS = {
       short: 'Scale',
       key: 'scale',
       description:
-        'Scale Activities are volunteers that can be created by anyone in Jan - Mar, Jul - Oct, and all participants must be designated at the time of creation. It is limited to social volunteers during winter and summer vacation according to the scale broadcast file of the school.'
+        'Scale Activities are volunteers that can be created by anyone in Jan - Mar, Jul - Oct, and all participants must be designated at the time of creation. It is limited to social volunteers during winter and summer vacation according to the scale notification file of the school.'
     },
     special: {
       name: 'Special Activity',
@@ -616,22 +616,19 @@ export const zhWY = {
       name: '世义工',
       short: '世',
       key: 'social',
-      description:
-        '世义工由团支书上人所建，立也，指所与，在内学期仅限于衰周校外义工上元节假之。'
+      description: '世义工由团支书上人所建，立也，指所与，在内学期仅限于衰周校外义工上元节假之。'
     },
     scale: {
       name: '行义工',
       short: '行',
       key: 'scale',
-      description:
-        '行义工由人可立，立时须指所与，在仅限于寒暑假间以学文之体。'
+      description: '行义工由人可立，立时须指所与，在仅限于寒暑假间以学文之体。'
     },
     special: {
       name: '殊义工',
       short: '殊',
       key: 'special',
-      description:
-        '殊义工由管理员之竞获奖、社团活动义工等数人，与人无提交感。'
+      description: '殊义工由管理员之竞获奖、社团活动义工等数人，与人无提交感。'
     }
   },
   mode: {
@@ -904,7 +901,6 @@ export const zhWY = {
     instructor: '指导老师'
   }
 }
-
 
 export const zhTW = {
   type: {

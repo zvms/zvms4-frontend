@@ -55,11 +55,11 @@ const actions: Array<{
     action: () => {
       router.push('/feedback/')
       routeTo('/feedback/')
-    },
+    }
   },
   {
     icon: Notification,
-    name: t('nav.broadcast'),
+    name: t('nav.notification'),
     path: '/notifications/',
     show: true,
     action: () => {
@@ -108,7 +108,9 @@ const navs: Array<{
     name: 'activity',
     path: '/activities/',
     show: true,
-    judge: (path) => path.startsWith('/activity') && !path.startsWith('/activity/create') || path.startsWith('/activities')
+    judge: (path) =>
+      (path.startsWith('/activity') && !path.startsWith('/activity/create')) ||
+      path.startsWith('/activities')
   },
   {
     icon: CirclePlusFilled,

@@ -23,7 +23,6 @@ async function getMyNotifications(id: string) {
 }
 
 async function getNotifications() {
-  // return [] // TODO: Write actual logics
   const result = (await axios('/notification')).data as Response<NotificationInstance[]>
   if (result.status === 'error') {
     ElNotification({
@@ -33,6 +32,7 @@ async function getNotifications() {
     })
     return
   }
+  return sortNotifications(result.data)
 }
 
 const exports = {

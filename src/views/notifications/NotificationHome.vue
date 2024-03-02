@@ -1,16 +1,26 @@
 <script lang="ts" setup>
 import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { ElRow, ElCol, ElButton } from 'element-plus'
-import { Refresh, Plus } from '@element-plus/icons-vue'
+import { Refresh, Plus, ArrowRight } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 
 const { t } = useI18n()
 
+const user = useUserStore()
+
+const mode = ref<'global' | 'personal'>('personal')
+
 const refresh = ref(0)
+
+const toggleMode = () => {
+  if (mode.value === 'global') mode.value = 'personal'
+  else mode.value = 'global'
+}
 </script>
 
 <template>
@@ -18,6 +28,17 @@ const refresh = ref(0)
     <ElRow>
       <ElCol :span="12" class="text-3xl mb-5"> {{ t('notification.home.title') }} </ElCol>
       <ElCol :span="12" style="text-align: right">
+        <ElButton
+          v-if="user.position.includes('admin')"
+          type="success"
+          text
+          bg
+          round
+          class="p-1 pr-3"
+          :icon="ArrowRight"
+          @click="toggleMode"
+          >{{ t('notification.home.' + mode) }}</ElButton
+        >
         <ElButton
           type="success"
           text

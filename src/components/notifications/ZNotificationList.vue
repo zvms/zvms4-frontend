@@ -31,21 +31,27 @@ const sliceNotification = (unsliced: NotificationInstance[]) => {
 const notifications = ref<Array<NotificationInstance[]>>([])
 const pageIndex = ref(1) // Start from 1
 
-const getNotifications = () => {
-  api.notification.read.mine(user._id).then((res) => {
-    notifications.value = sliceNotification(res ?? [])
-  })
+const getNotifications = (mode: 'global' | 'personal') => {
+  if (mode === 'personal')
+    api.notification.read.mine(user._id).then((res) => {
+      notifications.value = sliceNotification(res ?? [])
+    })
+  else
+    api.notification.read.global().then((res) => {
+      notifications.value = sliceNotification(res ?? [])
+    })
 }
 
 const props = defineProps<{
   refresh: number
+  mode: 'global' | 'personal'
 }>()
 watch(props, () => {
-  getNotifications()
+  getNotifications(props.mode)
   console.log(notifications.value)
 })
 
-onMounted(() => getNotifications())
+onMounted(() => getNotifications(props.mode))
 </script>
 
 <template>
@@ -70,8 +76,10 @@ onMounted(() => getNotifications())
           </div>
         </ElCard>
       </div>
+      <div v-if="notifications.length == 0" class="text-center my-10 text-lg op-70">
+        {{ t('notification.home.empty') }}
+      </div>
     </ElScrollbar>
-    <div v-if="notifications.length == 0">{{ t('notification.home.empty') }}</div>
     <div class="flex justify-center mt-3">
       <ElPagination
         background

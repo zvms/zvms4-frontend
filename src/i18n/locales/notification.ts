@@ -2,7 +2,9 @@ export const enUS = {
   home: {
     title: 'Notification Center',
     subtitle: 'Related notifications will be displayed here',
-    empty: 'No notifications yet'
+    empty: 'No notifications yet',
+    global: 'Global',
+    personal: 'Personal'
   },
   create: {
     header: 'Create a new notification',
@@ -25,14 +27,17 @@ export const enUS = {
       cancel: 'Cancel',
       clear: 'Clear'
     }
-  }
+  },
+  edit: 'Edit the notification'
 }
 
 export const zhCN = {
   home: {
     title: '通知中心',
     subtitle: '相关通知将会在这里显示',
-    empty: '暂无通知'
+    empty: '暂无通知',
+    global: '全校',
+    personal: '个人'
   },
   create: {
     header: '创建新通知',
@@ -55,7 +60,8 @@ export const zhCN = {
       cancel: '取消',
       clear: '清空'
     }
-  }
+  },
+  edit: '编辑通知'
 }
 
 export const zhWY = {
@@ -85,7 +91,8 @@ export const zhWY = {
       cancel: '罢',
       clear: '清'
     }
-  }
+  },
+  edit: '辑'
 }
 
 export const zhTW = {

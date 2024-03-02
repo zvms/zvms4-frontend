@@ -272,7 +272,7 @@ export const zhWY = {
     scale: '行义工',
     special: '殊义工'
   },
-  broadcast: '告面板',
+  notification: '告面板',
   preferences: '好置',
   system: '统置',
   about: '夫',
@@ -398,7 +398,7 @@ export const zhTW = {
     scale: '實踐義工',
     special: '特殊義工'
   },
-  broadcast: '通知面板',
+  notification: '通知面板',
   preferences: '偏好設置',
   system: '系統設置',
   manage: '管理',
@@ -521,7 +521,7 @@ export const jaJP = {
     scale: '実践ボランティア',
     special: '特殊ボランティア'
   },
-  broadcast: '通知パネル',
+  notification: '通知パネル',
   preferences: '設定',
   system: 'システム設定',
   about: 'について',
@@ -643,7 +643,7 @@ export const frFR = {
     scale: 'Bénévole pratique',
     special: 'Bénévole spécial'
   },
-  broadcast: 'Panneau de notification',
+  notification: 'Panneau de notification',
   preferences: 'Paramètres',
   system: 'Paramètres système',
   manage: '管理',
