@@ -289,7 +289,7 @@ const panelButtons = [
     click() {
       router.push('/notifications/')
     },
-    text: 'broadcast'
+    text: 'notification'
   },
   {
     icon: Password,
@@ -298,21 +298,29 @@ const panelButtons = [
       if (!token) {
         return
       }
-      const input = await ElMessageBox.prompt(locales[locale.value].password.message, locales[locale.value].password.title, {
-        confirmButtonText: locales[locale.value].password.confirmButtonText,
-        cancelButtonText: locales[locale.value].password.cancelButtonText,
-        inputType: 'password',
-        // Must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character
-        inputPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/,
-        inputErrorMessage: locales[locale.value].password.inputErrorMessage
-      })
-      const confirm = await ElMessageBox.prompt(locales[locale.value].password_confirm.message, locales[locale.value].password_confirm.title, {
-        confirmButtonText: locales[locale.value].password.confirmButtonText,
-        cancelButtonText: locales[locale.value].password.cancelButtonText,
-        inputValidator: (ipt: string) => input.value === ipt,
-        inputType: 'password',
-        inputErrorMessage: locales[locale.value].password_confirm.inputErrorMessage
-      })
+      const input = await ElMessageBox.prompt(
+        locales[locale.value].password.message,
+        locales[locale.value].password.title,
+        {
+          confirmButtonText: locales[locale.value].password.confirmButtonText,
+          cancelButtonText: locales[locale.value].password.cancelButtonText,
+          inputType: 'password',
+          // Must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character
+          inputPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/,
+          inputErrorMessage: locales[locale.value].password.inputErrorMessage
+        }
+      )
+      const confirm = await ElMessageBox.prompt(
+        locales[locale.value].password_confirm.message,
+        locales[locale.value].password_confirm.title,
+        {
+          confirmButtonText: locales[locale.value].password.confirmButtonText,
+          cancelButtonText: locales[locale.value].password.cancelButtonText,
+          inputValidator: (ipt: string) => input.value === ipt,
+          inputType: 'password',
+          inputErrorMessage: locales[locale.value].password_confirm.inputErrorMessage
+        }
+      )
       if (input.value === confirm.value) {
         userStore.resetPassword(token, input.value)
       }
@@ -358,9 +366,12 @@ watch(needRefresh, () => {
       <ElHeader>
         <ElRow class="pt-4 px-4">
           <ElCol :span="16">
-            <div class="text-2xl tit" @dblclick="router.push('/')">
-              <ElIcon class="icon"><img src="/favicon.ico" /></ElIcon>
-              {{ headerStore.header }}
+            <div
+              class="text-2xl w-full pl-10 pt-1.5 flex items-center"
+              @dblclick="router.push('/')"
+            >
+              <ElIcon><img src="/favicon.ico" class="scale-50" /></ElIcon>
+              <span class="lh-100% ml-2">{{ headerStore.header }}</span>
               <ElTag type="danger" size="small" round effect="plain">alpha</ElTag>
               <span class="text-sm">{{ toast }}</span>
             </div>
@@ -452,20 +463,8 @@ watch(needRefresh, () => {
   /* margin: 0 auto; */
 }
 
-.tit {
-  width: 100%;
-  border: 0 0 2px 0;
-  padding-left: 2rem;
-}
-
 .action-btn {
   width: 100%;
-}
-
-.icon {
-  position: relative;
-  top: 40%;
-  transform: translateY(16%);
 }
 
 .view {

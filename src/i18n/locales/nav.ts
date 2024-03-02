@@ -1,3 +1,5 @@
+import type { notification } from '@/api/export'
+
 export const enUS = {
   home: 'Home',
   activity: 'List',
@@ -8,6 +10,7 @@ export const enUS = {
     register: 'Register'
   },
   create: 'Create',
+  manage: 'Manage',
   creates: {
     home: 'Home',
     specified: 'Specified',
@@ -15,7 +18,7 @@ export const enUS = {
     scale: 'Scale',
     special: 'Special'
   },
-  broadcast: 'Notification',
+  notification: 'Notification',
   preferences: 'Preferences',
   system: 'System',
   about: 'About',
@@ -65,7 +68,7 @@ export const enUS = {
       specific: 'Specific Activity',
       trophy: {
         home: 'Trophy Page',
-        create: 'Create Trophy',
+        create: 'Create Trophy'
       },
       register: 'Register Page',
       mine: 'My Activity',
@@ -75,7 +78,7 @@ export const enUS = {
         write: 'Write Impression',
         read: 'Read Impression',
         reflect: 'Reflect Impression'
-      },
+      }
     },
     create: {
       home: 'Create Activity',
@@ -91,13 +94,13 @@ export const enUS = {
       search: 'Search',
       filter: 'Filter',
       sort: 'Sort',
-      refresh: 'Refresh',
+      refresh: 'Refresh'
     },
     about: {
       home: 'About',
       developer: 'Developer',
       project: 'Project',
-      version: 'Version',
+      version: 'Version'
     },
     settings: {
       home: 'Settings',
@@ -107,20 +110,20 @@ export const enUS = {
       privacy: 'Privacy',
       language: 'Language',
       theme: 'Theme',
-      logout: 'Logout',
+      logout: 'Logout'
     },
     feedback: {
       home: 'Feedback',
       report: 'Report',
       suggestion: 'Suggestion',
       question: 'Question',
-      bug: 'Bug',
+      bug: 'Bug'
     },
-    manage: "Manage",
+    manage: 'Manage',
     notification: {
       home: 'Notification',
       create: 'Create Notification',
-      specific: 'Specific Notification',
+      specific: 'Specific Notification'
     }
   }
 }
@@ -134,6 +137,7 @@ export const zhCN = {
     campus: '全校义工',
     register: '义工报名'
   },
+  manage: '管理',
   create: '创建义工',
   creates: {
     home: '首页',
@@ -142,7 +146,7 @@ export const zhCN = {
     scale: '实践义工',
     special: '特殊义工'
   },
-  broadcast: '通知面板',
+  notification: '通知面板',
   preferences: '偏好设置',
   system: '系统设置',
   about: '关于',
@@ -191,7 +195,7 @@ export const zhCN = {
       specific: '指定义工',
       trophy: {
         home: '获奖界面',
-        create: '创建奖项',
+        create: '创建奖项'
       },
       register: '报名页面',
       mine: '我的义工',
@@ -217,13 +221,13 @@ export const zhCN = {
       search: '搜索',
       filter: '过滤',
       sort: '排序',
-      refresh: '刷新',
+      refresh: '刷新'
     },
     about: {
       home: '关于',
       developer: '开发者',
       project: '项目',
-      version: '版本',
+      version: '版本'
     },
     settings: {
       home: '设置',
@@ -233,20 +237,20 @@ export const zhCN = {
       privacy: '隐私',
       language: '语言',
       theme: '主题',
-      logout: '登出',
+      logout: '登出'
     },
     feedback: {
       home: '反馈',
       report: '报告',
       suggestion: '建议',
       question: '问题',
-      bug: '错误',
+      bug: '错误'
     },
-    manage: "管理",
+    manage: '管理',
     notification: {
       home: '通知',
       create: '创建通知',
-      specific: '指定通知',
+      specific: '指定通知'
     }
   }
 }
@@ -317,7 +321,7 @@ export const zhWY = {
       specific: '指义工',
       trophy: {
         home: '奖',
-        create: '立',
+        create: '立'
       },
       register: '义工名',
       mine: '吾义工',
@@ -343,13 +347,13 @@ export const zhWY = {
       search: '索',
       filter: '漉',
       sort: '排序',
-      refresh: '新',
+      refresh: '新'
     },
     about: {
       home: '夫',
       developer: '开发者',
       project: '项目',
-      version: '本',
+      version: '本'
     },
     settings: {
       home: '置',
@@ -359,20 +363,20 @@ export const zhWY = {
       privacy: '阴',
       language: '言语',
       theme: '主题',
-      logout: '登出',
+      logout: '登出'
     },
     feedback: {
       home: '反馈',
       report: '闻',
       suggestion: '议',
       question: '问',
-      bug: '误',
+      bug: '误'
     },
-    manage: "管理",
+    manage: '管理',
     notification: {
       home: '告',
       create: '立通',
-      specific: '指谕',
+      specific: '指谕'
     }
   }
 }
@@ -465,13 +469,13 @@ export const zhTW = {
       search: '搜索',
       filter: '過濾',
       sort: '排序',
-      refresh: '刷新',
+      refresh: '刷新'
     },
     about: {
       home: '關於',
       developer: '開發者',
       project: '項目',
-      version: '版本',
+      version: '版本'
     },
     settings: {
       home: '設置',
@@ -481,20 +485,20 @@ export const zhTW = {
       privacy: '隱私',
       language: '語言',
       theme: '主題',
-      logout: '登出',
+      logout: '登出'
     },
     feedback: {
       home: '反饋',
       report: '報告',
       suggestion: '建議',
       question: '問題',
-      bug: '錯誤',
+      bug: '錯誤'
     },
-    manage: "管理",
+    manage: '管理',
     notification: {
       home: '通知',
       create: '創建通知',
-      specific: '指定通知',
+      specific: '指定通知'
     }
   }
 }
@@ -587,13 +591,13 @@ export const jaJP = {
       search: '検索する',
       filter: 'フィルター',
       sort: '並べ替え',
-      refresh: 'リフレッシュ',
+      refresh: 'リフレッシュ'
     },
     about: {
       home: '約',
       developer: '開発者',
       project: 'プロジェクト',
-      version: 'バージョン',
+      version: 'バージョン'
     },
     settings: {
       home: '設定',
@@ -603,20 +607,20 @@ export const jaJP = {
       privacy: 'プライバシー',
       language: '言語',
       theme: 'テーマ',
-      logout: 'ログアウト',
+      logout: 'ログアウト'
     },
     feedback: {
       home: 'フィードバック',
       report: '報告',
       suggestion: '提案',
       question: '質問',
-      bug: 'バグ',
+      bug: 'バグ'
     },
-    manage: "管理",
+    manage: '管理',
     notification: {
       home: '通知',
       create: '通知を作成する',
-      specific: '特定の通知',
+      specific: '特定の通知'
     }
   }
 }
@@ -710,13 +714,13 @@ export const frFR = {
       search: 'Rechercher',
       filter: 'Filtrer',
       sort: 'Trier',
-      refresh: 'Actualiser',
+      refresh: 'Actualiser'
     },
     about: {
       home: 'À propos de',
       developer: 'Développeur',
       project: 'Projet',
-      version: 'Version',
+      version: 'Version'
     },
     settings: {
       home: 'Paramètres',
@@ -726,20 +730,20 @@ export const frFR = {
       privacy: 'Confidentialité',
       language: 'Langue',
       theme: 'Thème',
-      logout: 'Se déconnecter',
+      logout: 'Se déconnecter'
     },
     feedback: {
       home: "Retour d'information",
       report: 'Rapport',
       suggestion: 'Suggestion',
       question: 'Question',
-      bug: 'Bogue',
+      bug: 'Bogue'
     },
-    manage: "Gérer",
+    manage: 'Gérer',
     notification: {
       home: 'Notification',
       create: 'Créer une notification',
-      specific: 'Notification spécifique',
+      specific: 'Notification spécifique'
     }
   }
 }

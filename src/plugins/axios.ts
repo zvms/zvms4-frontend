@@ -62,14 +62,14 @@ axiosInstance.interceptors.response.use(
       } else {
         ElMessageBox({
           title: 'Error',
-          message: error.response?.data,
+          message: 'data: ' + error.response?.data,
           type: 'error'
         }).then(() => Promise.reject(error))
       }
     } else {
       ElMessageBox({
         title: 'Error',
-        message: error.message,
+        message: 'error message: ' + error.message,
         type: 'error'
       }).then(() => Promise.reject(error))
     }

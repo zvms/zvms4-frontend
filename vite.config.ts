@@ -67,10 +67,5 @@ export default defineConfig({
       '@/../@types': fileURLToPath(new URL('./types', import.meta.url)),
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  css: {
-    postcss: {
-      plugins: [require('autoprefixer'), require('tailwindcss')]
-    }
   }
 })
