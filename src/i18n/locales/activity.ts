@@ -604,6 +604,308 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  type: {
+    specified: {
+      name: '指义工',
+      short: '指',
+      key: 'specified',
+      description: '指义工由管理员为募义工，每班级可指名者上限。'
+    },
+    social: {
+      name: '世义工',
+      short: '世',
+      key: 'social',
+      description:
+        '世义工由团支书上人所建，立也，指所与，在内学期仅限于衰周校外义工上元节假之。'
+    },
+    scale: {
+      name: '行义工',
+      short: '行',
+      key: 'scale',
+      description:
+        '行义工由人可立，立时须指所与，在仅限于寒暑假间以学文之体。'
+    },
+    special: {
+      name: '殊义工',
+      short: '殊',
+      key: 'special',
+      description:
+        '殊义工由管理员之竞获奖、社团活动义工等数人，与人无提交感。'
+    }
+  },
+  mode: {
+    'on-campus': {
+      name: '校内义工',
+      short: '校内',
+      key: 'on-campus'
+    },
+    'off-campus': {
+      name: '校外义工',
+      short: '校外',
+      key: 'off-campus'
+    },
+    'social-practice': {
+      name: '大道行',
+      short: '行',
+      key: 'social-practice'
+    }
+  },
+  form: {
+    type: '类',
+    title: '{create} {type}',
+    name: '名',
+    description: '述',
+    date: '期',
+    mode: '式',
+    person: '成员',
+    class: '班级',
+    duration: '长时',
+    classify: '类',
+    pending: '待勘',
+    detail: '详细信息',
+    actions: {
+      submit: '提交',
+      cancel: '罢',
+      save: '存',
+      reset: '复置',
+      delete: {
+        name: '删',
+        confirm: '删后及感等皆不可复数据，删定。'
+      },
+      modification: {
+        status: '改义工 {activity} 也',
+        effective: '【翻译失败】',
+        refused: '辞',
+        confirm: '请验谓之改义工也'
+      }
+    },
+    upload: {
+      name: '传',
+      prompt: '或曳点击文至此方传',
+      allow: '惟许 {type} 文'
+    },
+    details: '语',
+    impression: '感',
+    image: '图片'
+  },
+  units: {
+    item: '项',
+    hour: '少',
+    word: '字',
+    person: '人'
+  },
+  image: {
+    upload: {
+      name: '传',
+      prompt: '或曳点击图片至此方传',
+      allow: '惟许 {type} 图片'
+    },
+    select: {
+      name: '择'
+    },
+    empty: {
+      name: '无图片'
+    }
+  },
+  impression: {
+    write: '填',
+    name: '感',
+    reward: '赏',
+    actions: {
+      write: '填',
+      reflect: '审批',
+      view: '视'
+    },
+    page: {
+      write: {
+        title: '空感',
+        view: '视感',
+        mine: '朕感',
+        prompt: '于是填感',
+        type: '类',
+        actions: {
+          submit: '提交',
+          cancel: '罢',
+          save: '存'
+        }
+      },
+      reflect: {
+        title: '审批感',
+        reward: '得义工时',
+        actions: {
+          approve: '受',
+          reject: '驳',
+          refuse: '辞',
+          check: '却将公于全校可罢，毋计入。'
+        },
+        prompt: '{name} 义工感之',
+        history: {
+          title: '史记',
+          empty: '无事'
+        }
+      }
+    }
+  },
+  registration: {
+    name: '名',
+    title: '名指义工',
+    deadline: '截止期',
+    location: '地',
+    class: '班级',
+    count: '人名',
+    single: {
+      class: '班级',
+      min: '少',
+      max: '大'
+    },
+    remain: {
+      time: '剩余时间',
+      position: '余处'
+    },
+    status: {
+      title: '也',
+      registered: '既名',
+      unregistered: '不名',
+      unregisterable: '不可名'
+    },
+    actions: {
+      register: '名',
+      unregister: '除名',
+      back: '还'
+    }
+  },
+  special: {
+    classify: {
+      name: '类',
+      prize: '获奖',
+      import: '注',
+      club: '社团',
+      deduction: '扣分',
+      other: '别类'
+    },
+    prize: {
+      name: '获奖',
+      level: {
+        name: '额',
+        district: '区级',
+        city: '市级',
+        province: '省级',
+        national: '国家级',
+        international: '国际级'
+      },
+      type: {
+        name: '类',
+        personal: '人',
+        team: '团队'
+      },
+      classify: {
+        name: '类',
+        sports: '体育',
+        academy: '学科',
+        art: '艺术',
+        other: '别类'
+      },
+      ranking: {
+        levels: {
+          above: '右一等奖',
+          first: '一等奖',
+          second: '二等奖',
+          third: '三等奖'
+        },
+        ranking: {
+          name: '名',
+          rank: '第 {start} - {end} 名'
+        }
+      }
+    }
+  },
+  status: {
+    title: '也',
+    draft: '草',
+    pending: '核中',
+    effective: '效',
+    rejected: '驳',
+    refused: '辞',
+    steps: {
+      first: '初审',
+      last: '终审'
+    }
+  },
+  history: {
+    name: '史记',
+    title: '其 {name} 义工感事',
+    empty: '无事'
+  },
+  member: {
+    name: '姓名',
+    status: '也',
+    class: '班级',
+    impression: '感',
+    dialog: {
+      title: '{name} 成员表之',
+      actions: {
+        name: '操',
+        add: '增',
+        remove: '移除',
+        confirm: '后将无移除复定移除？',
+        title: '增成员至 {activity}'
+      }
+    }
+  },
+  view: {
+    panels: {
+      mine: {
+        name: '吾义工',
+        short: '我'
+      },
+      class: {
+        name: '班级义工',
+        short: '班级'
+      },
+      campus: {
+        name: '校内义工',
+        short: '校内'
+      },
+      register: {
+        name: '名义工',
+        short: '名'
+      },
+      trophy: {
+        name: '获奖义工',
+        short: '获奖'
+      }
+    }
+  },
+  trophy: {
+    name: '获奖',
+    create: '创获奖',
+    field: {
+      name: '名',
+      type: '类',
+      level: '额',
+      awards: '奖项',
+      team: '团队'
+    },
+    type: {
+      academic: '学科',
+      art: '艺术',
+      sports: '体育',
+      others: '别类'
+    },
+    level: {
+      district: '区级',
+      city: '市级',
+      province: '省级',
+      national: '国家级',
+      international: '国际级'
+    },
+    auto: '自创奖项',
+    instructor: '指导老师'
+  }
+}
+
+
 export const zhTW = {
   type: {
     specified: {

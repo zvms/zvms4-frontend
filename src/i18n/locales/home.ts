@@ -80,6 +80,48 @@ export const zhCN = {
   }
 }
 
+export const zhWY = {
+  greeting: '{greet}，{name}！',
+  greetings: {
+    morning: '早上好',
+    afternoon: '申之',
+    evening: '善宿'
+  },
+  positions: {
+    student: '弟子',
+    secretary: '团支书',
+    auditor: '审计员',
+    inspector: '督导员',
+    department: '行部',
+    system: '统',
+    admin: '管者'
+  },
+  labels: {
+    name: '姓名',
+    number: '师号',
+    class: '班级',
+    sex: '性别',
+    sexes: {
+      male: '男',
+      female: '女',
+      unknown: '未知'
+    },
+    identify: '身'
+  },
+  panels: {
+    information: {
+      title: '私之信息'
+    },
+    time: {
+      title: '义工时',
+      discount: '以折',
+      unit: '少',
+      least: '{type} ：至 {least} 少'
+    }
+  }
+}
+
+
 export const zhTW = {
   greeting: '{greet}，{name}！',
   greetings: {
