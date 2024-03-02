@@ -43,6 +43,10 @@ const languages = ref<
     value: 'en-US'
   },
   {
+    display: '文言',
+    value: 'zh-WY'
+  },
+  {
     display: '繁體中文',
     value: 'zh-TW'
   },
