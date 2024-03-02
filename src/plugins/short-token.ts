@@ -50,7 +50,7 @@ export function temporaryToken(userid: string, validate: boolean = true, locale:
       cancelButtonText: locales[locale].cancel,
       inputType: 'password',
       type: 'warning',
-      inputPattern: validate ? (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/) : undefined,
+      inputPattern: validate ? (/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/) : undefined,
       inputErrorMessage: validate ? locales[locale].validation : undefined
     }).then(({ value }) => {
       api.user.auth.useLongTermAuth(userid, value, 'short').then((result) => {

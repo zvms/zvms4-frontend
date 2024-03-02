@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   baseURL:
     new URL(location.href).protocol === 'https:'
       ? 'https://api.zvms.site/api/'
-      : 'http://localhost:8000/api/',
+      : 'http://localhost:8001/api/',
   // If using `http`, it must be testing or the `window.crypto.subtle` will not work.
   withCredentials: false,
   timeout: 12000,

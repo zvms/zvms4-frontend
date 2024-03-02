@@ -10,7 +10,7 @@ import {
   ElCol,
   ElCard,
   ElTooltip,
-ElDialog
+  ElDialog
 } from 'element-plus'
 import { Refresh, ArrowRight, Plus, InfoFilled } from '@element-plus/icons-vue'
 import api from '@/api'
@@ -40,18 +40,9 @@ function refresh() {
 }
 
 async function login() {
-  const result = await api.user.auth.useLongTermAuth(user.value, password.value as string)
-  if (result) {
-    ElNotification({
-      title: '登录成功',
-      message: '欢迎使用，' + userStore.name + '。',
-      type: 'success',
-      position: 'bottom-right'
-    })
-    userStore.setUser(user.value, password.value as string).then(() => {
-      router.push('/user/')
-    })
-  }
+  userStore.setUser(user.value, password.value as string).then(() => {
+    router.push('/user/')
+  })
 }
 
 watch(user, async () => {
@@ -85,11 +76,17 @@ const openDialog = ref(false)
           <ZSelectPerson v-model="user" :filter-start="6" full-width />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">
-          <ElInput type="password" v-model="password" clearable show-password></ElInput>
+          <ElInput
+            type="password"
+            v-model="password"
+            clearable
+            show-password
+            @keydown.enter="login"
+          />
         </ElFormItem>
       </ElForm>
       <ElRow>
-        <ElCol :span="9" style="text-align: left;">
+        <ElCol :span="9" style="text-align: left">
           <ElButton type="info" text bg :icon="InfoFilled" @click="openDialog = true">
             {{ t('nav.about') }}
           </ElButton>

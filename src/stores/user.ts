@@ -30,6 +30,7 @@ export const useUserStore = defineStore('user', {
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(user)) as User
+        console.log(information)
         this._id = information?._id
         this.id = information?.id
         this.name = information?.name
