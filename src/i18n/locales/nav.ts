@@ -149,7 +149,6 @@ export const zhCN = {
   notification: '通知面板',
   preferences: '偏好设置',
   system: '系统设置',
-  manage: '管理',
   about: '关于',
   logout: '退出登录',
   feedback: '问题反馈',
