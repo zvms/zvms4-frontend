@@ -411,7 +411,7 @@ watch(needRefresh, () => {
         </ElRow>
       </ElHeader>
       <ElContainer v-if="userStore.isLogin" style="width: 100%; height: 100%">
-        <UserNav style="height: 100%" v-if="!verticalMode && userStore.isLogin" />
+        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode && userStore.isLogin" />
         <RouterView
           v-if="userStore.isLogin"
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"

@@ -97,7 +97,7 @@ const refresh = () => emits('refresh')
     </p>
     <div
       v-if="!editDescription"
-      class="text-sm text-gray-500 pt-2 pl-4"
+      class="text-sm text-gray-500 pl-4"
       @dblclick="editDescription = true"
     >
       <p v-for="desc in activity.description.split('\n')" :key="desc">{{ desc }}</p>
