@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { toRefs, ref } from 'vue'
-import { ElForm, ElFormItem, ElPopover, ElButton, ElSelect, ElOption, ElNotification } from 'element-plus'
+import { toRefs, ref, reactive } from 'vue'
+import {
+  ElForm,
+  ElFormItem,
+  ElPopover,
+  ElButton,
+  ElSelect,
+  ElOption,
+  ElNotification
+} from 'element-plus'
 import { ZSelectPerson, ZSelectActivityMode } from '..'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
@@ -16,6 +24,7 @@ const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
+    visible?: boolean
     _id?: string // ObjectID
     award?: string
     mode?: TrophyMember['mode']
@@ -27,9 +36,22 @@ const props = withDefaults(
     round?: boolean
     circle?: boolean
     color?: 'primary' | 'success'
-    placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
+    placement?:
+      | 'top'
+      | 'top-start'
+      | 'top-end'
+      | 'bottom'
+      | 'bottom-start'
+      | 'bottom-end'
+      | 'left'
+      | 'left-start'
+      | 'left-end'
+      | 'right'
+      | 'right-start'
+      | 'right-end'
   }>(),
   {
+    visible: false,
     _id: '',
     mode: 'on-campus',
     award: '',
@@ -48,15 +70,24 @@ const emits = defineEmits<{
   'update:_id': [string]
   'update:award': [string]
   'update:mode': [TrophyMember['mode']]
+  'update:visible': [boolean]
   submit: [TrophyMember | undefined]
 }>()
 
-const { _id, award, mode, trophy } = toRefs(props)
+const { _id, award, mode, trophy, visible } = toRefs(props)
+
+const visibility = ref(visible.value)
+const modified = ref(false)
+
+watch(visibility, () => {
+  visible.value = visibility.value
+  emits('update:visible', visibility.value)
+})
 
 const member = ref<TrophyMember>({
   _id: _id.value ?? user._id,
   award: award.value ?? '',
-  mode: mode.value,
+  mode: mode.value ?? 'on-campus',
   status:
     user.position.includes('department') || user.position.includes('admin')
       ? 'effective'
@@ -70,41 +101,89 @@ async function submit() {
       title: 'Successfully registered',
       type: 'success'
     })
+    emits('submit', member.value)
   }
-  emits('submit', member.value)
+  modified.value = true
 }
 
-watch(() => member.value._id, () => (member.value._id = _id.value))
-watch(() => member.value.award, () => (member.value.award = award.value))
-watch(() => member.value.mode, () => (member.value.mode = mode.value))
+watch(
+  () => member.value._id,
+  () => emits('update:_id', member.value._id)
+)
+watch(
+  () => member.value.award,
+  () => emits('update:award', member.value.award)
+)
+watch(
+  () => member.value.mode,
+  () => emits('update:mode', member.value.mode)
+)
 </script>
 
 <template>
-  <ElPopover :title="t('activity.member.dialog.actions.title', { activity: trophy.name })" width="384px" :placement="placement">
+  <ElPopover
+    :title="t('activity.member.dialog.actions.title', { activity: trophy.name })"
+    width="384px"
+    :placement="placement"
+    :visible="visibility"
+  >
     <ElForm label-position="right" label-width="72px">
       <ElFormItem :label="t('activity.form.name')">
         <ZSelectPerson :filter-start="4" v-model="member._id" full-width />
       </ElFormItem>
       <ElFormItem :label="t('activity.form.type')">
         <ElSelect v-model="member.award" class="w-full">
-          <ElOption v-for="award in trophy.awards" :key="award.name" :label="award.name" :value="award.name">
+          <ElOption
+            v-for="award in trophy.awards"
+            :key="award.name"
+            :label="award.name"
+            :value="award.name"
+          >
             {{ award.name }}
-            <span class="text-xs text-gray-400">{{ award.duration }} {{ t('activity.units.hour', Math.ceil(award.duration)) }}</span>
+            <span class="text-xs text-gray-400">
+              {{ award.duration }} {{ t('activity.units.hour', Math.ceil(award.duration)) }}
+            </span>
           </ElOption>
         </ElSelect>
       </ElFormItem>
       <ElFormItem :label="t('activity.form.mode')">
-        <ZSelectActivityMode v-model="member.mode" class="w-full" :allow="['on-campus', 'off-campus']" />
+        <ZSelectActivityMode
+          v-model="member.mode"
+          class="w-full"
+          :allow="['on-campus', 'off-campus']"
+        />
       </ElFormItem>
       <div class="flex justify-end">
-        <ElButton text bg :icon="icon" type="primary" @click="submit">{{ t('activity.form.actions.submit') }}</ElButton>
+        <ElButton text bg :icon="icon" type="primary" @click="submit">
+          {{ t('activity.form.actions.submit') }}
+        </ElButton>
       </div>
     </ElForm>
     <template #reference>
-      <ZButton v-if="!circle" :text="text" :bg="bg" :size="size" :icon="icon" :round="round" :circle="circle" :type="color">
+      <ZButton
+        v-if="!circle"
+        :text="text"
+        :bg="bg"
+        :size="size"
+        :icon="icon"
+        :round="round"
+        @click="visibility = true"
+        :circle="circle"
+        :type="color"
+      >
         <slot />
       </ZButton>
-      <ZButton v-else :text="text" :bg="bg" :size="size" :icon="icon" :round="round" :circle="circle" :type="color" />
+      <ZButton
+        v-else
+        :text="text"
+        :bg="bg"
+        :size="size"
+        :icon="icon"
+        @click="visibility = true"
+        :round="round"
+        :circle="circle"
+        :type="color"
+      />
     </template>
   </ElPopover>
 </template>

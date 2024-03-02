@@ -5,7 +5,10 @@ import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 
 const axiosInstance = axios.create({
-  baseURL: 'https://api.zvms.site/api/',
+  baseURL:
+    new URL(location.href).protocol === 'https:'
+      ? 'https://api.zvms.site/api/'
+      : 'http://localhost:8000/api/',
   // If using `http`, it must be testing or the `window.crypto.subtle` will not work.
   withCredentials: false,
   timeout: 12000,

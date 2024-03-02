@@ -23,7 +23,9 @@ async function getMyNotifications(id: string) {
 }
 
 async function getNotifications() {
-  const result = (await axios('/notification')).data as Response<NotificationInstance[]>
+  const result = (await axios('/notification', {
+    withCredentials: false
+  })).data as Response<NotificationInstance[]>
   if (result.status === 'error') {
     ElNotification({
       title: `获取通知列表失败（${result.code}）`,

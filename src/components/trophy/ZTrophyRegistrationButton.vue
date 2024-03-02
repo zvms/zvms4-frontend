@@ -65,7 +65,7 @@ const icons = {
 }
 
 async function unregister() {
-  const result = await api.trophy.member.remove(trophy.value._id, targetUser.value)
+  const result = await api.trophy.member.remove(trophy.value._id, targetUser.value, user._id)
   if (result) {
     ElNotification({
       title: 'Successfully removed user',

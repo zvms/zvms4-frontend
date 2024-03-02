@@ -75,17 +75,9 @@ const { trophy, mode } = toRefs(props)
       <ZTrophyLevel class="px-1" :level="trophy.level" />
     </p>
     <ElScrollbar :height="active" class="py-2">
-      <ElForm
-        label-position="right"
-        label-width="72px"
-        v-if="trophy.members.length > 0 && trophy.awards.length > 0"
-      >
+      <ElForm label-position="right" label-width="72px" v-if="trophy.awards.length > 0">
         <ElFormItem
-          v-for="award in trophy.awards.filter(
-            (award) =>
-              trophy.members.filter((member) => award.name === member.award).length > 0 &&
-              award.duration !== 0
-          )"
+          v-for="award in trophy.awards.filter((award) => award.duration !== 0)"
           :key="award.name"
           :label="award.name"
         >
@@ -122,8 +114,7 @@ const { trophy, mode } = toRefs(props)
       <ElPopconfirm
         @confirm="
           async () => {
-            api.trophy.remove(trophy._id)
-            refresh()
+            api.trophy.remove(trophy._id, user._id).then(() => refresh)
           }
         "
       >
