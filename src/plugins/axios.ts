@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { parseJwt } from './jwt'
 
 const axiosInstance = axios.create({
   baseURL:
@@ -41,15 +42,23 @@ axiosInstance.interceptors.response.use(
     nprogress.done()
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        ElNotification({
-          title: 'Error',
-          message: 'Your session has expired, or you are not authorized. Please login again.',
-          type: 'error'
-        })
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        window.location.href = '/user/login'
-        console.log(error)
+        const token = parseJwt(localStorage.getItem('token') as string)
+        if (token.payload.scope === 'access_token') {
+          ElNotification({
+            title: 'Error',
+            message: 'Your session has expired, or you are not authorized. Please login again.',
+            type: 'error'
+          })
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          window.location.href = '/user/login'
+        } else {
+          ElNotification({
+            title: 'Error',
+            message: 'Your password is wrong. Please operate again.',
+            type: 'error'
+          })
+        }
       } else {
         ElMessageBox({
           title: 'Error',

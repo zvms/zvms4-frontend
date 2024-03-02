@@ -181,6 +181,7 @@ const refresh = () => emits('refresh')
           <ElButton
             v-if="showDetails"
             type="info"
+            disabled
             :icon="Plus"
             text
             bg

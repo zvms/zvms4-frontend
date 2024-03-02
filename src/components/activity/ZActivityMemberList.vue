@@ -122,12 +122,17 @@ const memberFunctions = {
     modified.value = true
     loading.value = id
     if (activity.value.members.length === 1) {
-      await api.activity.deleteOne(activity.value._id, user._id)
+      await api.activity.deleteOne(activity.value._id, user._id).catch(() => {
+        loading.value = ''
+      })
       emits('refresh')
       return
     }
-    await api.activity.member.remove(id, activity.value._id, user._id)
-    activity.value.members = activity.value.members.filter((member) => member._id !== id)
+    await api.activity.member.remove(id, activity.value._id, user._id).then(() => {
+      activity.value.members = activity.value.members.filter((member) => member._id !== id)
+    }).catch(() => {
+      loading.value = ''
+    })
     loading.value = ''
   }
 }
@@ -135,6 +140,7 @@ const memberFunctions = {
 watch(open, () => {
   if (open.value) modified.value = false
   if (!open.value && modified.value) emits('refresh')
+  if (!open.value) showAddPopover.value = false
 })
 
 const active = ref(1)

@@ -9,7 +9,7 @@
       "@/*": ["./src/*"]
     },
     "moduleResolution": "Bundler",
-    "types": ["vite-plugin-pwa/vue"],
+    "types": ["vite-plugin-pwa/vue", "element-plus/global"],
     "allowImportingTsExtensions": true,
     "noEmit": true
   }
