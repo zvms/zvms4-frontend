@@ -1,6 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import { useLocalStorage } from '@vueuse/core'
-import { zhCN, enUS, zhTW, jaJP, frFR } from './locales'
+import { zhCN, enUS, zhTW, jaJP, frFR, zhWY } from './locales'
 
 export default createI18n({
   locale: useLocalStorage('locale', 'en-US').value ?? navigator.language ?? 'en-US',
@@ -8,6 +8,7 @@ export default createI18n({
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS,
+    'zh-WY': zhWY,
     'zh-TW': zhTW,
     'ja-JP': jaJP,
     'fr-FR': frFR
