@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
@@ -13,7 +13,9 @@ import {
   ElSelect,
   ElPageHeader,
   ElCard,
-  ElButton
+  ElButton,
+  ElRow,
+  ElCol
 } from 'element-plus'
 import type { Notification } from '@zvms/zvms4-types'
 import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
@@ -24,23 +26,30 @@ const { t } = useI18n()
 
 const user = useUserStore()
 
-const notification = reactive<Notification>({
-  global: false,
+const defaultNotification: Notification = {
+  global: true, // TODO: change to false after having support specifying receivers
   title: '',
   content: '',
   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   publisher: user._id,
-  receivers: [] as string[],
+  receivers: [],
   anonymous: false,
   expire: dayjs().add(5, 'day').format('YYYY-MM-DD HH:mm:ss'),
   type: 'normal',
   _id: ''
-})
+}
+
+const notification = ref<Notification>(defaultNotification)
 
 const types = ['pinned', 'important', 'normal']
 
-const submit = async () => {
-  await api.notification.create(notification)
+const submit = () => {
+  api.notification.create(notification.value)
+}
+const addPerson = () => {
+  notification.value.receivers.push(receiver.value)
+  receiver.value = ''
+  console.log(notification.value.receivers, receiver.value)
 }
 </script>
 
@@ -135,6 +144,8 @@ const submit = async () => {
                 :disabled="notification.receivers.length > 0"
               />
             </ElFormItem>
+            <!-- TODO: support specifying receivers -->
+            <!--
             <ElFormItem
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
@@ -146,13 +157,28 @@ const submit = async () => {
                 }
               ]"
             >
-              <ZSelectPerson
-                v-model="notification.receivers"
-                :filter-start="6"
-                full-width
-                multiple
-              />
+              <ElRow v-for="(receiver, idx) in notification.receivers" :key="idx">
+                <ZSelectPerson
+                  v-model="notification.receivers[idx]"
+                  class="full"
+                  full-width
+                  :filter-start="2"
+                >
+                  <template #prepend>{{ idx + 1 }}</template>
+                </ZSelectPerson>
+              </ElRow>
+              <ElRow class="full">
+                <ElCol>
+                  <ZSelectPerson v-model="receiver" :filter-start="2">
+                    <template #prepend>{{ notification.receivers.length + 1 }}</template>
+                  </ZSelectPerson>
+                </ElCol>
+                <ElCol>
+                  <ElButton @click="addPerson" :icon="Plus"></ElButton>
+                </ElCol>
+              </ElRow>
             </ElFormItem>
+          -->
             <ElFormItem
               :label="t('notification.create.elements.anonymous')"
               required

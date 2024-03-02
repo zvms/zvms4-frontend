@@ -69,15 +69,15 @@ refresh()
     :title="person?.name"
     v-bind="$attrs"
   >
-    <template #text>
+    <template #default>
       <ElDescriptions>
         <ElDescriptionsItem :label="t('')">
 
         </ElDescriptionsItem>
       </ElDescriptions>
     </template>
-    <template #default>
-      <p class="text-xl">{{ person?.name }}</p>
+    <template #text>
+      {{ person?.name }}
     </template>
   </ZButtonOrCard>
 </template>

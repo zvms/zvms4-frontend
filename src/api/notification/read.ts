@@ -1,6 +1,13 @@
 import axios from '@/plugins/axios'
 import type { Response, NotificationInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
+import dayjs from 'dayjs'
+
+function sortNotifications(li: NotificationInstance[]): NotificationInstance[] {
+  return li.sort((a, b) =>
+    dayjs(a.time, 'YYYY-MM-DD HH:mm:ss').isBefore(dayjs(b.time, 'YYYY-MM-DD HH:mm:ss')) ? 1 : -1
+  )
+}
 
 async function getMyNotifications(id: string) {
   const result = (await axios(`/user/${id}/notification`)).data as Response<NotificationInstance[]>
@@ -12,7 +19,7 @@ async function getMyNotifications(id: string) {
     })
     return
   }
-  return result.data
+  return sortNotifications(result.data)
 }
 
 async function getNotifications() {

@@ -10,7 +10,7 @@ import {
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
 import { toRefs, watch } from 'vue'
-import { User, Minus, Plus, ArrowRight } from '@element-plus/icons-vue'
+import { User, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
@@ -31,8 +31,8 @@ const user = useUserStore()
 const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
-
 const max = ref(height.value * 0.5)
+const showAddPopover = ref(false)
 
 watch(height, () => {
   max.value = height.value * 0.5
@@ -116,17 +116,23 @@ const memberFunctions = {
       history: []
     })
     loading.value = ''
+    showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
     loading.value = id
     if (activity.value.members.length === 1) {
-      await api.activity.deleteOne(activity.value._id, user._id)
+      await api.activity.deleteOne(activity.value._id, user._id).catch(() => {
+        loading.value = ''
+      })
       emits('refresh')
       return
     }
-    await api.activity.member.remove(id, activity.value._id, user._id)
-    activity.value.members = activity.value.members.filter((member) => member._id !== id)
+    await api.activity.member.remove(id, activity.value._id, user._id).then(() => {
+      activity.value.members = activity.value.members.filter((member) => member._id !== id)
+    }).catch(() => {
+      loading.value = ''
+    })
     loading.value = ''
   }
 }
@@ -134,6 +140,7 @@ const memberFunctions = {
 watch(open, () => {
   if (open.value) modified.value = false
   if (!open.value && modified.value) emits('refresh')
+  if (!open.value) showAddPopover.value = false
 })
 
 const active = ref(1)
@@ -186,11 +193,7 @@ watch(active, () => {
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
-              <ZActivityDuration
-                :duration="scope.row.duration"
-                :mode="scope.row.mode"
-                force="full"
-              />
+              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" />
             </template>
           </ElTableColumn>
           <ElTableColumn
@@ -198,14 +201,15 @@ watch(active, () => {
             v-if="
               user._id === activity.creator ||
               user.position.includes('admin') ||
-              user.position.includes('department')
+              user.position.includes('department') ||
+              user.position.includes('secretary')
             "
             class="no-print"
           >
             <template #header>
               <ElPopover
                 placement="left"
-                trigger="click"
+                :visible="showAddPopover"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
                 width="328px"
                 class="no-print"
@@ -217,6 +221,7 @@ watch(active, () => {
                     round
                     size="small"
                     type="success"
+                    @click="showAddPopover = true"
                     :loading="loading === 'add'"
                     :icon="Plus"
                   >
@@ -238,6 +243,9 @@ watch(active, () => {
                     <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">
+                    <ElButton text bg type="danger" :icon="Close" @click="showAddPopover = false">
+                      {{ t('activity.form.actions.cancel') }}
+                    </ElButton>
                     <ElButton
                       text
                       bg

@@ -42,7 +42,7 @@ async function filter(number: string) {
     const result = await api.user.read(number)
     if (result) {
       console.log(result)
-      options.value = result.map((x) => {
+      options.value = result.map((x: any) => {
         return {
           label: x.name,
           value: x._id.toString(),
@@ -84,7 +84,6 @@ async function filter(number: string) {
       :label="item.label"
       :value="item.value"
       filterable
-      :multiple="multiple"
       remote
     >
       <span style="float: left">{{ item.label }}</span>

@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'element-plus'
-import { Plus, Refresh } from '@element-plus/icons-vue'
-import { ref, watch } from 'vue'
+import { Clock } from '@element-plus/icons-vue'
+import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import type { NotificationInstance } from '@zvms/zvms4-types'
 import api from '@/api'
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
-import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
 import { OouiUserAnonymous } from '@/icons'
-import ZButton from '../utils/ZButton'
+
+const { t } = useI18n()
 
 const user = useUserStore()
 const { height } = useWindowSize()
-const router = useRouter()
 
 const minHeight = ref(height.value * 0.68 + 'px')
 
@@ -37,30 +37,19 @@ const getNotifications = () => {
   })
 }
 
-const refresh = () => {
+const props = defineProps<{
+  refresh: number
+}>()
+watch(props, () => {
   getNotifications()
-}
+  console.log(notifications.value)
+})
 
-getNotifications()
+onMounted(() => getNotifications())
 </script>
 
 <template>
   <div class="p-5">
-    <ElRow>
-      <ElCol :span="12" class="text-2xl"> Notification Center </ElCol>
-      <ElCol :span="12" style="text-align: right">
-        <ElButton
-          type="success"
-          text
-          bg
-          circle
-          class="p-1"
-          :icon="Plus"
-          @click="router.push('/notifications/create')"
-        />
-        <ElButton @click="refresh" type="primary" text bg circle class="p-1" :icon="Refresh" />
-      </ElCol>
-    </ElRow>
     <ElScrollbar :height="minHeight">
       <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-2">
         <ElCard shadow="hover" class="p-1">
@@ -76,10 +65,13 @@ getNotifications()
             <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
           </div>
           <div>{{ item.content }}</div>
-          <div class="p-3 float-right">at {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}</div>
+          <div class="p-3 float-right">
+            <span :icon="Clock"></span> {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
+          </div>
         </ElCard>
       </div>
     </ElScrollbar>
+    <div v-if="notifications.length == 0">{{ t('notification.home.empty') }}</div>
     <div class="flex justify-center mt-3">
       <ElPagination
         background
