@@ -48,7 +48,7 @@ const props = defineProps<{
 }>()
 watch(props, () => {
   getNotifications(props.mode)
-  console.log(notifications.value)
+  console.log(notifications.value, 'notifications')
 })
 
 onMounted(() => getNotifications(props.mode))

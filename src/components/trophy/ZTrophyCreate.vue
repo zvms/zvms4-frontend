@@ -95,6 +95,7 @@ function calculate() {
 
 watch(() => trophy.type, calculate)
 watch(() => trophy.level, calculate)
+watch(() => trophy.team, calculate)
 watch(autoCreate, calculate)
 watch(locale, calculate)
 
