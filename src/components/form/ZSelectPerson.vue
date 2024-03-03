@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { getClassName, getUserClass } from '@/utils/getClass'
 import { ElSelect, ElOption } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
+import { extractHanCharacters } from '@/utils/extraChars'
+import type { User } from '@zvms/zvms4-types'
 
 const props = defineProps<{
   modelValue: string | string[]
@@ -38,25 +39,52 @@ const load = ref(false)
 
 async function filter(number: string) {
   load.value = true
-  if (number.toString().length >= filterStart.value) {
-    const result = await api.user.read(number)
-    if (result) {
-      console.log(result)
-      options.value = result.map((x: any) => {
-        return {
-          label: x.name,
-          value: x._id.toString(),
-          number: x.id,
-          class: getClassName(getUserClass(x.id, x.code))
-        }
-      })
-      console.log(options, 'options')
-      load.value = false
-      return options
-    } else {
-      load.value = false
-      options.value = []
-    }
+  const digits = number.replace(/[^0-9]/g, '').length
+  const han = extractHanCharacters(number).length
+  console.log(digits, han)
+  if (filterStart.value && digits <= (filterStart.value ? filterStart.value : 5) && han < 2) {
+    load.value = false
+    return []
+  }
+  const result = await api.user.read(number)
+  if (result) {
+    options.value = await Promise.all(
+      result.map(
+        (x) =>
+          new Promise((resolve) => {
+            async function getUserGroups(user: User) {
+              return await Promise.all(user.group.map(async (group) => api.group.readOne(group)))
+            }
+            getUserGroups(x)
+              .then((groups) => {
+                const className =
+                  groups.filter((group) => group?._id).find((group) => group?.type === 'class')
+                    ?.name || ''
+                resolve({
+                  label: `${x.name}`,
+                  value: x._id,
+                  number: x.id,
+                  class: className
+                })
+              })
+              .catch(() =>
+                resolve({
+                  label: `${x.name}`,
+                  value: x._id,
+                  number: x.id,
+                  class: ''
+                })
+              )
+          })
+      ) as Promise<{
+        label: string
+        value: string
+        number: number
+        class: string
+      }>[]
+    )
+    load.value = false
+    return options
   } else {
     load.value = false
     options.value = []
