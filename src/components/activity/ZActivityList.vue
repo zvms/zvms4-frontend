@@ -114,7 +114,7 @@ watch(
 </script>
 
 <template>
-  <div :class="['card', 'pr-8', width < height ? 'pl-6' : '']">
+  <div :class="'card, pr-8, ' + (width < height ? 'pl-6' : '') + ''">
     <ElDialog
       :title="t('activity.registration.title')"
       width="80%"
