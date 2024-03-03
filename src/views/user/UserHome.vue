@@ -22,6 +22,7 @@ import { useI18n } from 'vue-i18n'
 import { reactive, watch } from 'vue'
 import { ZUserPosition, ZActivityMemberTimeJudge } from '@/components'
 import type { UserActivityTimeSums } from '@zvms/zvms4-types'
+import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 
 const { width, height } = useWindowSize()
 const header = useHeaderStore()
@@ -85,9 +86,14 @@ watch(useTransform, () => {
           </template>
           <ElDescriptionsItem :label="t('home.labels.name')">{{ user.name }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
-          <ElDescriptionsItem :label="t('home.labels.class')">{{ user.class }}</ElDescriptionsItem>
           <ElDescriptionsItem :label="t('home.labels.identify')">
-            <ZUserPosition :position="user.position" group />
+            <ZUserGroup
+              v-for="group in user.groups"
+              :key="group"
+              class="px-1"
+              :group="group"
+              :grouping="false"
+            />
           </ElDescriptionsItem>
         </ElDescriptions>
       </ElCard>

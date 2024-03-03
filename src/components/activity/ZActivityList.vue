@@ -190,7 +190,12 @@ watch(
           :filter-method="(value, row) => row.type === value"
         >
           <template #default="{ row }">
-            <ZActivityType :type="row.type" size="small" />
+            <ZActivityType
+              :type="row.type"
+              size="small"
+              show-special
+              :special="row?.special?.classify ?? 'other'"
+            />
           </template>
         </ElTableColumn>
         <ElTableColumn

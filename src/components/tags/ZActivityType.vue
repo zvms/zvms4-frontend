@@ -52,7 +52,7 @@ const effective = type?.value! in types
     </ZButtonTag>
     <ZSpecialActivityClassify
       v-if="special && showSpecial && type === 'special'"
-      :classify="special ?? 'other'"
+      :classify="special"
       :size="size"
       :force="force"
       :mode="mode"

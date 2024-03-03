@@ -2,36 +2,39 @@
 import { ElCard, ElButton, ElSkeleton, ElSkeletonItem, ElDialog, ElDrawer } from 'element-plus'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
-const props = withDefaults(defineProps<{
-  size?: 'large' | 'default' | 'small'
-  popType?: 'drawer' | 'dialog'
-  mode: 'card' | 'button'
-  width?: string
-  direction?: 'rtl' | 'ltr' | 'ttb' | 'btt'
-  loading?: boolean
-  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | ''
-  icon?: VueComponent
-  fullscreen?: boolean
-  modal?: boolean
-  title?: string
-  center?: boolean
-  round?: boolean
-  open?: boolean
-  disabled?: boolean
-}>(), {
-  size: 'small',
-  popType: 'dialog',
-  width: '60%',
-  direction: 'rtl',
-  type: '',
-  fullscreen: false,
-  modal: true,
-  title: '',
-  center: true,
-  round: true,
-  open: false,
-  disabled: false
-})
+const props = withDefaults(
+  defineProps<{
+    size?: 'large' | 'default' | 'small'
+    popType?: 'drawer' | 'dialog'
+    mode: 'card' | 'button'
+    width?: string
+    direction?: 'rtl' | 'ltr' | 'ttb' | 'btt'
+    loading?: boolean
+    type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | ''
+    icon?: VueComponent
+    fullscreen?: boolean
+    modal?: boolean
+    title?: string
+    center?: boolean
+    round?: boolean
+    open?: boolean
+    disabled?: boolean
+  }>(),
+  {
+    size: 'small',
+    popType: 'dialog',
+    width: '60%',
+    direction: 'rtl',
+    type: '',
+    fullscreen: false,
+    modal: true,
+    title: undefined,
+    center: true,
+    round: true,
+    open: false,
+    disabled: false
+  }
+)
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
@@ -102,6 +105,10 @@ watch(
       :center="center ? center : true"
     >
       <slot name="default" />
+
+      <template #header>
+        <slot name="header" />
+      </template>
     </ElDialog>
     <ElDrawer
       v-if="popType === 'drawer'"
@@ -113,6 +120,9 @@ watch(
       :direction="direction ?? 'rtl'"
     >
       <slot name="default" />
+      <template #header>
+        <slot name="header" />
+      </template>
     </ElDrawer>
   </Teleport>
   <div v-if="mode === 'card'">

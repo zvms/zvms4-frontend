@@ -5,26 +5,26 @@ import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard } from '@/components'
 import api from '@/api'
-import { ElButton } from 'element-plus'
-import { IcBaselineClass } from '@/icons'
-import { getUserClassName } from '@/utils/getClass'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import ZUserGroup from '../tags/ZUserGroup.vue'
 
 const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
     id: string
+    mode?: 'card' | 'button'
     icon?: VueComponent
     color?: 'primary' | 'success' | 'danger' | 'warning' | 'info'
   }>(),
   {
     icon: UserIcon,
-    color: 'primary'
+    color: 'primary',
+    mode: 'button'
   }
 )
-const { id, icon, color } = toRefs(props)
+const { id, icon, color, mode } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
@@ -58,21 +58,35 @@ refresh()
 
 <template>
   <ZButtonOrCard
-    mode="button"
+    :mode="mode"
     :type="color"
     size="small"
     round
     :loading="loading"
     :icon="icon"
-    pop-type="dialog"
-    width="60%"
     :title="person?.name"
+    pop-type="dialog"
+    width="50%"
     v-bind="$attrs"
   >
     <template #default>
-      <ElDescriptions>
-        <ElDescriptionsItem :label="t('')">
-
+      <ElDescriptions class="fill" border>
+        <template #title>
+          <slot name="title" />
+        </template>
+        <template #extra>
+          <slot name="extra" />
+        </template>
+        <ElDescriptionsItem :label="t('home.labels.name')">{{ person?.name }}</ElDescriptionsItem>
+        <ElDescriptionsItem :label="t('home.labels.number')">{{ person?.id }}</ElDescriptionsItem>
+        <ElDescriptionsItem :label="t('home.labels.identify')">
+          <ZUserGroup
+            v-for="group in person?.group"
+            :key="group"
+            class="px-1"
+            :group="group"
+            :grouping="false"
+          />
         </ElDescriptionsItem>
       </ElDescriptions>
     </template>

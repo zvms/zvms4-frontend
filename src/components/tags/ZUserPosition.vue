@@ -5,9 +5,9 @@ import { toRefs, type Component as VueComponent } from 'vue'
 import { ElButton, ElButtonGroup } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{ position: UserPosition[]; group?: boolean }>()
+const props = defineProps<{ position: UserPosition[]; group?: boolean; text?: string }>()
 
-const { position, group } = toRefs(props)
+const { position, group, text } = toRefs(props)
 const { t } = useI18n()
 
 const positionList = Object.entries(positions).map(([key, value]) => ({ name: key, ...value })) as {
@@ -29,22 +29,21 @@ const positionList = Object.entries(positions).map(([key, value]) => ({ name: ke
       bg
       size="small"
     >
-      {{ t('home.positions.' + item.name) }}
+      {{ text ? text : t('home.positions.' + item.name) }}
     </ElButton>
   </ElButtonGroup>
-  <div v-else>
-    <ElButton
-      v-for="item in positionList.filter((item) => position.includes(item.name))"
-      :key="item.name"
-      :type="item.color"
-      class="px-2"
-      :icon="item.icon"
-      text
-      round
-      bg
-      size="small"
-    >
-      {{ t('home.positions.' + item.name) }}
-    </ElButton>
-  </div>
+  <ElButton
+    v-else
+    v-for="item in positionList.filter((item) => position.includes(item.name))"
+    :key="item.name"
+    :type="item.color"
+    class="px-2"
+    :icon="item.icon"
+    text
+    round
+    bg
+    size="small"
+  >
+    {{ text ? text : t('home.positions.' + item.name) }}
+  </ElButton>
 </template>

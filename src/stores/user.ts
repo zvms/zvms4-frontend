@@ -1,7 +1,6 @@
 import api from '@/api'
 import type { User, UserActivityTimeSums, UserPosition } from '@zvms/zvms4-types'
 import { defineStore } from 'pinia'
-import { getUserClassName } from '@/utils/getClass'
 import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -14,7 +13,7 @@ export const useUserStore = defineStore('user', {
     name: '',
     sex: 'unknown',
     position: [] as UserPosition[],
-    class: '',
+    groups: [] as string[],
     token: '',
     code: 0,
     isLogin: false,
@@ -31,7 +30,7 @@ export const useUserStore = defineStore('user', {
       this._id = user._id
       this.id = user.id
       this.name = user.name
-      console.log(user)
+      this.groups = user.group
       this.position = await getUserPositions(user)
       this.token = ''
       this.isLogin = true

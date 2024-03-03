@@ -101,7 +101,7 @@ const openDialog = ref(false)
           <ElButton type="warning" @click="refresh" text bg :icon="Refresh">
             {{ t('nav.login.actions.reset') }}
           </ElButton>
-          <ElButton type="primary" @click="login" text bg :icon="ArrowRight">
+          <ElButton type="primary" @click="login" text bg :icon="ArrowRight" :disabled="password === '' || user === ''">
             {{ t('nav.login.actions.login') }}
           </ElButton>
         </ElCol>

@@ -46,6 +46,7 @@ declare module 'vue' {
     ZTrophyMemberList: typeof import('./src/components/trophy/ZTrophyMemberList.vue')['default']
     ZTrophyRegistrationButton: typeof import('./src/components/trophy/ZTrophyRegistrationButton.vue')['default']
     ZTrophyType: typeof import('./src/components/trophy/ZTrophyType.vue')['default']
+    ZUserGroup: typeof import('./src/components/tags/ZUserGroup.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }
