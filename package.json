@@ -65,6 +65,7 @@
     "@types/node": "^20.8.7",
     "@types/nprogress": "^0.2.2",
     "@types/web-app-manifest": "^1.0.8",
+    "@unocss/preset-typography": "^0.58.5",
     "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-basic-ssl": "^1.1.0",
     "@vitejs/plugin-legacy": "^5.2.0",

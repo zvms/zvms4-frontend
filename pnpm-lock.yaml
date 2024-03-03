@@ -109,6 +109,9 @@ devDependencies:
   '@types/web-app-manifest':
     specifier: ^1.0.8
     version: 1.0.8
+  '@unocss/preset-typography':
+    specifier: ^0.58.5
+    version: 0.58.5
   '@vite-pwa/assets-generator':
     specifier: ^0.2.4
     version: 0.2.4

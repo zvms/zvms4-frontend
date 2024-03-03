@@ -5,14 +5,15 @@ import { getUserClassName } from '@/utils/getClass'
 import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { getUserPositions } from '@/utils/groupPosition'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     id: 0,
-    _id: '65577f940238690a167beb5e',
+    _id: '',
     name: '',
-    sex: 'male',
-    position: ['admin'] as UserPosition[],
+    sex: 'unknown',
+    position: [] as UserPosition[],
     class: '',
     token: '',
     code: 0,
@@ -26,31 +27,26 @@ export const useUserStore = defineStore('user', {
     language: usePreferredLanguages().value[0]
   }),
   actions: {
+    async setUserInformation(user: User) {
+      this._id = user._id
+      this.id = user.id
+      this.name = user.name
+      console.log(user)
+      this.position = await getUserPositions(user)
+      this.token = ''
+      this.isLogin = true
+    },
     async setUser(user: string, password: string) {
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(user)) as User
-        console.log(information)
-        this._id = information?._id
-        this.id = information?.id
-        this.name = information?.name
-        this.position = information?.position
-        this.class = getUserClassName(information.id, information.code)
-        this.token = ''
-        this.code = information.code
-        this.isLogin = true
+        await this.setUserInformation(information)
       }
       location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
-      this._id = result._id
-      this.id = result.id
-      this.name = result.name
-      this.position = result.position
-      this.class = getUserClassName(result.id, result.code)
-      this.token = ''
-      this.isLogin = true
+      await this.setUserInformation(result)
     },
     getUser() {
       return {
