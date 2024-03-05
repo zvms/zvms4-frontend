@@ -36,16 +36,17 @@ export const zhCN = {
   repository: {
     license: '许可协议',
     version: {
-      '0': '本项目的版本由 ',
-      '1': ' 开发。感谢！',
+      '0': '本项目',
+      '1': ' 版本由 ',
+      '2': ' 开发。感谢！',
       stack: '技术栈：',
       repo: '仓库地址：'
     },
     thank: {
       mean: '同时，感谢 ',
-      icon: ' 设计的新版（v2.0 - 最新版）图标，',
-      test: ' 的疯狂测试，',
-      end: ' 提供的校外服务器。'
+      icon: ' 提供的校外服务器，',
+      test: ' 设计的新版（v2.0 - 最新版）图标，以及',
+      end: ' 的疯狂测试。'
     }
   },
   switch: {
@@ -63,16 +64,17 @@ export const zhWY = {
   repository: {
     license: '可议',
     version: {
-      '0': '本项目之版自',
-      '1': ' 开之，特谢！',
+      '0': '夫事之版',
+      '1': '由 ',
+      '2': '所作。谢！',
       stack: '技术堆栈：',
       repo: '库址：'
     },
     thank: {
       mean: '又谢',
-      icon: ' 设新版（v2.0 - 最新版）图标，',
-      test: ' 试之狂，',
-      end: ' 供伺服器于庠序之外。'
+      icon: ' 供伺服器于庠序之外，',
+      test: ' 设新版（v2.0 - 最新版）图标，',
+      end: ' 试之狂。'
     }
   },
   switch: {
@@ -90,16 +92,17 @@ export const zhTW = {
   repository: {
     license: '許可協議',
     version: {
-      '0': '本項目的版本由 ',
-      '1': ' 開發。感謝！',
+      '0': '本專案',
+      '1': '版本由 ',
+      '2': ' 開發。感謝！',
       stack: '技術棧：',
       repo: '倉庫地址：'
     },
     thank: {
       mean: '同時，感謝 ',
-      icon: ' 設計的新版（v2.0 - 最新版）圖標，',
-      test: ' 的瘋狂測試，',
-      end: ' 提供的校外服務器。'
+      icon: ' 提供的校外伺服器，',
+      test: ' 設計的新版（v2.0 - 最新版）圖標，以及',
+      end: ' 的瘋狂測試。'
     }
   },
   switch: {
@@ -117,16 +120,17 @@ export const jaJP = {
   repository: {
     license: 'ライセンス',
     version: {
-      '0': 'プロジェクトのバージョンは ',
-      '1': ' によって開発されました。ありがとうございます！',
+      '0': 'プロジェクトの',
+      '1': 'バージョンは ',
+      '2': ' によって開発されました。ありがとう！',
       stack: '技術スタック：',
       repo: 'リポジトリ：'
     },
     thank: {
-      mean: '同時に、感謝 ',
-      icon: ' が設計した新しいバージョン（v2.0 - 最新版）のアイコン、',
-      test: ' の狂気のテスト、',
-      end: ' 提供したキャンパス外サーバー。'
+      mean: '同時に、',
+      icon: ' が提供するオフキャンパスサーバーに感謝し、',
+      test: ' がデザインした新しいバージョン（2.0 - 最新）のアイコン、および',
+      end: ' のクレイジーテストに感謝します。'
     }
   },
   switch: {
@@ -144,13 +148,14 @@ export const frFR = {
   repository: {
     license: 'Licence',
     version: {
-      '0': 'La version du projet est développée par ',
-      '1': '. Merci!',
+      '0': 'La version',
+      '1': 'du projet est développée par ',
+      '2': '. Merci!',
       stack: 'Pile technologique: ',
       repo: 'Dépôt: '
     },
     thank: {
-      mean: 'Merci également au serveur hors campus fourni par ',
+      mean: 'En même temps, merci au serveur hors campus fourni par ',
       icon: ', icône de la nouvelle version (2.0 - dernière) conçue par ',
       test: ', et le test fou par ',
       end: '.'
