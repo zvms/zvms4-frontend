@@ -39,7 +39,8 @@ const extend = [
   {
     value: 'register',
     color: 'success',
-    icon: Write
+    icon: Write,
+    disabled: true
   },
   {
     value: 'trophy',
@@ -50,6 +51,7 @@ const extend = [
   value: string
   color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
   icon: VueComponent
+  disabled?: boolean
 }>
 
 const panes = [
@@ -113,7 +115,7 @@ function moveTo(type: string) {
             :type="ext.color"
             :icon="ext.icon"
             @click="moveTo(ext.value)"
-            :disabled="tab === ext.value"
+            :disabled="tab === ext.value || ext.disabled"
           >
             {{ t(`activity.view.panels.${ext.value}.short`) }}
           </ElButton>

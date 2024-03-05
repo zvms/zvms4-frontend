@@ -48,6 +48,7 @@ declare module 'vue' {
     ZTrophyType: typeof import('./src/components/trophy/ZTrophyType.vue')['default']
     ZUserGroup: typeof import('./src/components/tags/ZUserGroup.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
+    ZUserTimeJudge: typeof import('./src/components/activity/ZUserTimeJudge.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']
   }
   export interface ComponentCustomProperties {

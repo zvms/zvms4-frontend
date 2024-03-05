@@ -91,7 +91,7 @@ watch(
   </ElButton>
   <ElSkeleton :loading="true" animated v-else-if="mode === 'button'">
     <template #template>
-      <ElSkeletonItem variant="text" width="192px" />
+      <ElSkeletonItem variant="text" style="width: 72px" />
     </template>
   </ElSkeleton>
   <Teleport to="body" v-if="show">

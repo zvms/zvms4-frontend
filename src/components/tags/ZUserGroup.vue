@@ -28,5 +28,5 @@ api.group.readOne(group.value).then((result) => {
 
 <template>
   <ZUserPosition v-if="!loading && !error" :position="groupData?.permissions ?? []" :group="grouping" :text="groupData?.name" />
-  <ElSkeletonItem v-else />
+  <ElSkeletonItem variant="text" style="width: 72px" v-else />
 </template>

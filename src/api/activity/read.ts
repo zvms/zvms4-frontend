@@ -3,6 +3,7 @@ import type { Response } from '@zvms/zvms4-types'
 import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 import { read as mine } from '@/api/user/activity'
+import dayjs from 'dayjs'
 
 async function getAllActivities(
   range: 'class' | 'campus',
@@ -27,6 +28,9 @@ async function getAllActivities(
     })
     return
   }
+  result.data.sort((prev, next) => {
+    return dayjs(prev.date).isBefore(dayjs(next.date)) ? 1 : -1
+  })
   return result.data
 }
 

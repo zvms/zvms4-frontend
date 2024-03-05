@@ -3,11 +3,12 @@ import type { User } from '@zvms/zvms4-types'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
 import { User as UserIcon } from '@element-plus/icons-vue'
-import { ZButtonOrCard } from '@/components'
+import { ZButtonOrCard, ZUserTimeJudge } from '@/components'
 import api from '@/api'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import ZUserGroup from '../tags/ZUserGroup.vue'
+import { useUserStore } from '@/stores/user'
 
 const { t } = useI18n()
 
@@ -28,6 +29,7 @@ const { id, icon, color, mode } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
+const user = useUserStore()
 
 watch(id, () => {
   refresh()
@@ -89,6 +91,7 @@ refresh()
           />
         </ElDescriptionsItem>
       </ElDescriptions>
+      <ZUserTimeJudge class="py-2" v-if="user.position.includes('department') || user.position.includes('admin')" :user="person?._id" />
     </template>
     <template #text>
       {{ person?.name }}
