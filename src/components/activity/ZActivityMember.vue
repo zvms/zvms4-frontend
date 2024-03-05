@@ -2,13 +2,14 @@
 import type { User } from '@zvms/zvms4-types'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
-import { User as UserIcon } from '@element-plus/icons-vue'
+import { Refresh, User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard, ZUserTimeJudge } from '@/components'
 import api from '@/api'
-import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+import { ElButton, ElDescriptions, ElDescriptionsItem, ElPopconfirm } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import ZUserGroup from '../tags/ZUserGroup.vue'
 import { useUserStore } from '@/stores/user'
+import { temporaryToken } from '@/plugins/short-token'
 
 const { t } = useI18n()
 
@@ -29,7 +30,7 @@ const { id, icon, color, mode } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
-const user = useUserStore()
+const userStore = useUserStore()
 
 watch(id, () => {
   refresh()
@@ -56,6 +57,15 @@ function refresh() {
 }
 
 refresh()
+
+async function resetMemberPassword() {
+  const user = await api.user.readOne(id.value)
+  const password = user?.id.toString()
+  if (password) {
+    const token = await temporaryToken(userStore._id)
+    await api.user.password.put(id.value, password, token)
+  }
+}
 </script>
 
 <template>
@@ -91,7 +101,30 @@ refresh()
           />
         </ElDescriptionsItem>
       </ElDescriptions>
-      <ZUserTimeJudge class="py-2" v-if="user.position.includes('department') || user.position.includes('admin')" :user="person?._id" />
+      <ZUserTimeJudge
+        class="py-2"
+        v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
+        :user="person?._id"
+      />
+      <ElPopconfirm title="Are you sure?" @confirm="resetMemberPassword">
+        <template #reference>
+          <ElButton
+            v-if="
+              userStore.position.includes('admin') ||
+              userStore.position.includes('department') ||
+              userStore._id === person?._id
+            "
+            type="danger"
+            text
+            bg
+            class="w-full"
+            :icon="Refresh"
+            @click="refresh"
+          >
+            Reset Password to his / her ID
+          </ElButton>
+        </template>
+      </ElPopconfirm>
     </template>
     <template #text>
       {{ person?.name }}
