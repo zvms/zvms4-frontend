@@ -28,3 +28,10 @@ export async function remove(id: string, aid: string, uid: string) {
     return result.data
   }
 }
+
+export async function read(aid: string, uid: string) {
+  const result = (await axios(`/activity/${aid}/member/${uid}`)).data as Response<ActivityMember>
+  if (result.status === 'ok') {
+    return result.data
+  }
+}

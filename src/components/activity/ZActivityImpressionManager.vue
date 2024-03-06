@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { ArrowRight, Close, Check, Delete, ZoomIn, Download, Plus, User } from '@element-plus/icons-vue'
+import {
+  ArrowRight,
+  Close,
+  Check,
+  Delete,
+  ZoomIn,
+  Download,
+  Plus,
+  User
+} from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
 import type { ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
 import {
@@ -45,9 +54,11 @@ const emits = defineEmits<{
 
 const { activity, role, submitable } = toRefs(props)
 
+const latest = ref(activity.value)
+
 const impression = ref(
-  role.value === 'mine' && activity.value.members.map((x) => x._id).includes(user._id)
-    ? (activity.value.members.find((x) => x._id === user._id)?.impression as string)
+  role.value === 'mine' && latest.value.members.map((x) => x._id).includes(user._id)
+    ? (latest.value.members.find((x) => x._id === user._id)?.impression as string)
     : ''
 )
 
@@ -59,16 +70,19 @@ async function submit(submit: boolean) {
   emits('update:modelValue', impression.value)
   load.value = submit ? 'pending' : 'draft'
   if (!submitable?.value) return
-  await api.activity.impression.modify(user._id, activity.value._id, impression.value, submit)
+  await api.activity.impression.modify(user._id, latest.value._id, impression.value, submit)
   emits('finish')
   load.value = false
 }
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
   load.value = status
-  await api.activity.status.modify(current.value._id, activity.value._id, status)
+  await api.activity.status.modify(current.value._id, latest.value._id, status)
   load.value = false
-  if (current.value && current.value.index < activity.value.members.length) {
+  if (current.value && current.value.index < latest.value.members.length) {
+    console.log(current.value.index, latest.value.members.length, latest.value.members[current.value.index])
+    latest.value.members[current.value.index].status = status
+    latest.value.members[current.value.index].duration = current.value.duration
     curserTo(current.value.index + 1)
   } else {
     emits('finish')
@@ -99,17 +113,18 @@ const current = ref<ImpressionCursor>({
 const loading = ref(false)
 
 async function curserTo(index: number) {
+  const member = await api.activity.member.read(latest.value._id, latest.value.members[index - 1]._id) ?? latest.value.members[index - 1]
   loading.value = true
-  const result = await api.user.readOne(activity.value.members[index - 1]._id)
-  const images = await Promise.all(activity.value.members[index - 1].images.map((x) => getImage(x)))
+  const result = await api.user.readOne(member._id)
+  const images = await Promise.all(member.images.map((x) => getImage(x)))
   current.value = {
     index,
     id: result?.id ?? 0,
-    name: result?.name ?? '未知',
-    impression: activity.value.members[index - 1].impression,
-    _id: activity.value.members[index - 1]._id,
-    duration: activity.value.members[index - 1].duration ?? 0,
-    status: activity.value.members[index - 1].status,
+    name: result?.name ? result?.name : 'Unknown',
+    impression: member.impression,
+    _id: member._id,
+    duration: member.duration ?? 0,
+    status: member.status,
     images
   }
   loading.value = false
@@ -127,8 +142,8 @@ const serif = ref(false)
     <ElCollapse v-model="activeNames" class="py-4">
       <ElCollapseItem :title="t('activity.form.details')" name="1">
         <ZActivityDetails
-          :activity="activity"
-          :mode="activity.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
+          :activity="latest"
+          :mode="latest.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
           :perspective="role === 'mine' ? user._id : current._id ?? user._id"
           :show-details="false"
         />
@@ -192,7 +207,7 @@ const serif = ref(false)
             v-model:current-page="current.index"
             layout="total, prev, pager, next, jumper"
             :pager-count="3"
-            :total="activity.members.length"
+            :total="latest.members.length"
             background
             hide-on-single-page
             :default-page-size="1"
@@ -260,7 +275,7 @@ const serif = ref(false)
       </ElCollapseItem>
       <ElCollapseItem
         :title="t('activity.form.image')"
-        :disabled="activity.type !== 'social'"
+        :disabled="latest.type !== 'social'"
         name="3"
       >
         <ElCard shadow="hover" class="w-full" v-if="role === 'mine'">
