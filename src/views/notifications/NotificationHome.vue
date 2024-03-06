@@ -36,7 +36,11 @@ const toggleMode = () => {
           round
           class="p-1 pr-3"
           :icon="ArrowRight"
-          @click="toggleMode"
+          @click="
+            user.position.includes('admin') || user.position.includes('department')
+              ? toggleMode
+              : undefined
+          "
           >{{ t('notification.home.' + mode) }}</ElButton
         >
         <ElButton
@@ -47,11 +51,12 @@ const toggleMode = () => {
           class="p-1"
           :icon="Plus"
           @click="router.push('/notifications/create')"
+          v-if="user.position.includes('admin') || user.position.includes('department')"
         />
         <ElButton @click="refresh += 1" type="primary" text bg circle class="p-1" :icon="Refresh" />
       </ElCol>
     </ElRow>
     <div class="ml-4 opacity-50">{{ t('notification.home.subtitle') }}</div>
-    <ZNotificationList :refresh="refresh" />
+    <ZNotificationList :refresh="refresh" :mode="mode" />
   </div>
 </template>
