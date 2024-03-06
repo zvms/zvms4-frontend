@@ -66,7 +66,9 @@ async function getTime() {
   loading.value = false
 }
 
-getTime()
+if (base.onCampus === 0 && base.offCampus === 0 && base.socialPractice === 0) {
+  getTime()
+}
 
 const off = ref(base.offCampus)
 

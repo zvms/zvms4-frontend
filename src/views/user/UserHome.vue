@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import {
-  ElDescriptions,
-  ElDescriptionsItem,
-  ElButton,
-  ElDivider,
-  ElCard,
-} from 'element-plus'
+import { ElDescriptions, ElDescriptionsItem, ElButton, ElDivider, ElCard } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
@@ -92,7 +86,12 @@ watch(useTransform, () => {
       </ElCard>
     </div>
     <div class="py-4">
-      <ZUserTimeJudge :user="user._id" />
+      <ZUserTimeJudge
+        :user="user._id"
+        :on-campus="user.time.onCampus"
+        :off-campus="time.offCampus"
+        :social-practice="time.socialPractice"
+      />
     </div>
   </div>
 </template>
@@ -107,5 +106,4 @@ watch(useTransform, () => {
   top: 0;
   transform: translateY(-10%);
 }
-
 </style>
