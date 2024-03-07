@@ -184,7 +184,7 @@ function useStackDialog(version: number) {
 
 const V1List = ['neko_moyi', 'Zecyel', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
-const V4List = ['clc', '7086cmd', 'byh', 'zyq', 'zzh']
+const V4List = ['7086cmd', 'byh', 'zyq', 'zzh']
 
 const versions = [
   { collaborators: ['张子苏'] },
