@@ -331,6 +331,12 @@ function openGitHub() {
         </div>
       </ElCard>
     </div>
+    <div class="py-4">
+      <ElCard shadow="never" class="full">
+        <p class="text-xl">隐私政策</p>
+        <p>本站与 Microsoft Clarity 和 Microsoft Advertising 合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方 cookie 及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于<b>政教处管理与审查</b>、网站优化、欺诈/安全目的和广告。有关 Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明 (https://privacy.microsoft.com/privacystatement)。</p>
+      </ElCard>
+    </div>
     <ElDrawer
       direction="btt"
       size="75%"
