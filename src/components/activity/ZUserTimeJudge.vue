@@ -93,15 +93,15 @@ watch(
     >
       <ElRow>
         <ElCol :span="12">
-          <p class="text-xl">{{ t('home.panels.time.title') }}</p>
+          <p class="text-lg">{{ t('home.panels.time.title') }}</p>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
-          <ElButton type="success" :icon="Refresh" text bg circle @click="getTime" />
+          <ElButton type="success" :disabled="loading" :icon="Refresh" text bg circle @click="getTime" />
           <ElDivider direction="vertical" />
           <ElButton type="info" :icon="TablerSum" text bg circle />
         </ElCol>
       </ElRow>
-      <ElRow class="fill py-4 statistic" v-if="!loading">
+      <ElRow class="fill py-2 statistic" v-if="!loading">
         <ElCol v-if="width > height" :span="2" />
         <ElCol :span="width < height ? 10 : 4">
           <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />

@@ -6,6 +6,7 @@ import { type Component as VueComponent, ref, toRefs } from 'vue'
 import { ElButton, ElButtonGroup, ElOption, ElPopover, ElSelect } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { onMounted } from 'vue'
+import { pad } from '@/plugins/ua'
 
 const { locale } = useI18n({
   useScope: 'global'
@@ -30,6 +31,7 @@ const languages = ref<
     icon?: VueComponent
     display: string
     value: string
+    disabled?: boolean
   }>
 >([
   {
@@ -44,15 +46,18 @@ const languages = ref<
   },
   {
     display: '文言',
-    value: 'zh-WY'
+    value: 'zh-WY',
+    disabled: true
   },
   {
     display: '繁體中文',
-    value: 'zh-TW'
+    value: 'zh-TW',
+    disabled: pad() && !user.position.includes('admin')
   },
   {
     display: '日本語',
-    value: 'ja-JP'
+    value: 'ja-JP',
+    disabled: pad() && !user.position.includes('admin')
   },
   // {
   //   display: '한국어',
@@ -60,7 +65,8 @@ const languages = ref<
   // },
   {
     display: 'Français',
-    value: 'fr-FR'
+    value: 'fr-FR',
+    disabled: pad() && !user.position.includes('admin')
   },
   // {
   //   display: 'Русский',
@@ -99,6 +105,7 @@ onMounted(() => {
           :icon="language.icon"
           class="full"
           text
+          :disabled="language.disabled"
           :bg="user.language === language.value"
           @click="setLanguage(language.value)"
           :type="user.language === language.value ? 'primary' : ''"
@@ -110,12 +117,12 @@ onMounted(() => {
   </ElPopover>
   <ElSelect
     v-else-if="type === 'select'"
-    class="full"
     v-model="user.language"
     @change="setLanguage"
   >
     <ElOption
       v-for="language in languages"
+      :disabled="language.disabled"
       :key="language.value"
       :label="language.display"
       :value="language.value"

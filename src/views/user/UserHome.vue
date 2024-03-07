@@ -1,58 +1,40 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import { ElDescriptions, ElDescriptionsItem, ElButton, ElDivider, ElCard } from 'element-plus'
+import { ElDescriptions, ElDescriptionsItem, ElButton, ElDivider, ElCard, ElSkeleton } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import type { UserActivityTimeSums } from '@zvms/zvms4-types'
 import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const header = useHeaderStore()
 const user = useUserStore()
 const { t } = useI18n()
+const { width, height } = useWindowSize()
 
 header.setHeader(t('nav.home'))
 
 const nowTime = dayjs().hour()
 const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
-
-const useTransform = ref(true)
-
-console.log(user)
-
-function transform() {
-  if (user.time.onCampus <= 30) return 0
-  const result = Math.floor((user.time.onCampus - 30) / 3)
-  return result > 6 ? 6 : result
-}
+const loading = ref(false)
 
 const time = reactive<Omit<UserActivityTimeSums, 'trophy'>>({
-  socialPractice: 0,
-  onCampus: 0,
-  offCampus: 0
+  socialPractice: user.time.socialPractice,
+  onCampus: user.time.onCampus,
+  offCampus: user.time.offCampus
 })
 
-refreshSumTime()
-
-function refreshSumTime() {
-  user.getUserActivityTime().then(() => {
-    time.socialPractice = user.time.socialPractice
-    time.onCampus = user.time.onCampus
-    time.offCampus = user.time.offCampus
-    if (useTransform.value) {
-      time.offCampus += transform()
-    }
-  })
+async function refreshUser() {
+  loading.value = true
+  await user.refreshUser()
+  loading.value = false
 }
-
-watch(useTransform, () => {
-  refreshSumTime()
-})
 </script>
 
 <template>
@@ -62,18 +44,19 @@ watch(useTransform, () => {
     </p>
     <div class="py-4">
       <ElCard shadow="hover">
-        <ElDescriptions class="fill" border>
+        <ElDescriptions class="fill" border :column="width < height * 1.2 ? 2 : 3">
           <template #title>
             <p class="text-xl">{{ t('home.panels.information.title') }}</p>
           </template>
           <template #extra>
-            <ElButton type="success" :icon="Refresh" text bg circle @click="user.refreshUser" />
+            <ElButton type="success" :icon="Refresh" text bg circle @click="refreshUser" :disabled="loading" />
             <ElDivider direction="vertical" />
             <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />
           </template>
-          <ElDescriptionsItem :label="t('home.labels.name')">{{ user.name }}</ElDescriptionsItem>
-          <ElDescriptionsItem :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
-          <ElDescriptionsItem :label="t('home.labels.identify')">
+          <ElSkeleton v-if="loading" :loading="true" :rows="3" />
+          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.name')">{{ user.name }}</ElDescriptionsItem>
+          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
+          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.identify')">
             <ZUserGroup
               v-for="group in user.groups"
               :key="group"

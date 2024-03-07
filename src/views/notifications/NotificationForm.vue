@@ -14,17 +14,17 @@ import {
   ElPageHeader,
   ElCard,
   ElButton,
-  ElRow,
-  ElCol
 } from 'element-plus'
 import type { NotificationInstance } from '@zvms/zvms4-types'
 import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
 import api from '@/api'
 import { ZSelectPerson } from '@/components'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
 
 const user = useUserStore()
+const router = useRouter()
 
 const props = defineProps<{
   mode: 'create' | 'edit'
@@ -150,11 +150,11 @@ const addPerson = () => {
             >
               <ElSwitch
                 v-model="notification.global"
-                :disabled="notification.receivers.length > 0"
+                :disabled="notification.receivers && notification?.receivers?.length > 0"
               />
             </ElFormItem>
             <!-- TODO: support specifying receivers -->
-            <!--
+
             <ElFormItem
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
@@ -166,28 +166,16 @@ const addPerson = () => {
                 }
               ]"
             >
-              <ElRow v-for="(receiver, idx) in notification.receivers" :key="idx">
-                <ZSelectPerson
-                  v-model="notification.receivers[idx]"
-                  class="full"
-                  full-width
-                  :filter-start="2"
-                >
-                  <template #prepend>{{ idx + 1 }}</template>
-                </ZSelectPerson>
-              </ElRow>
-              <ElRow class="full">
-                <ElCol>
-                  <ZSelectPerson v-model="receiver" :filter-start="2">
-                    <template #prepend>{{ notification.receivers.length + 1 }}</template>
-                  </ZSelectPerson>
-                </ElCol>
-                <ElCol>
-                  <ElButton @click="addPerson" :icon="Plus"></ElButton>
-                </ElCol>
-              </ElRow>
+              <ZSelectPerson
+                v-model="notification.receivers"
+                class="full"
+                multiple
+                full-width
+                :filter-start="4"
+              >
+              </ZSelectPerson>
             </ElFormItem>
-          -->
+
             <ElFormItem
               :label="t('notification.create.elements.anonymous')"
               required
@@ -202,7 +190,7 @@ const addPerson = () => {
                 text
                 bg
                 :icon="Refresh"
-                @click="$router.push('/notifications/')"
+                @click="router.push('/notifications/')"
               >
                 {{ t('activity.form.actions.reset') }}
               </ElButton>

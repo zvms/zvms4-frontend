@@ -36,6 +36,8 @@ import api from '@/api'
 import type { FormInstance } from 'element-plus'
 import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const formRef = ref<FormInstance>()
 
@@ -53,7 +55,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 const { t } = useI18n()
 const { height } = useWindowSize()
+const router = useRouter()
 const load = ref(false)
+const userStore = useUserStore()
 
 const props = defineProps<{
   type: ActivityType
@@ -84,7 +88,7 @@ const registration = reactive<Registration>({
   duration: undefined as unknown as number,
   classes: [
     {
-      class: undefined as unknown as number,
+      classid: undefined as unknown as number,
       max: undefined as unknown as number
     }
   ]
@@ -160,6 +164,14 @@ async function submit() {
   submitForm(formRef.value)
   await api.activity.insert(activity, members, registration, special)
   load.value = false
+  router.push(
+    '/activities/' +
+      (userStore.position.includes('admin') || userStore.position.includes('department'))
+      ? 'campus'
+      : userStore.position.includes('secretary')
+      ? 'class'
+      : 'mine'
+  )
 }
 
 function allow(): ActivityMode[] {
@@ -503,9 +515,9 @@ watch(
             </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right">
-            <ElButton type="warning" :icon="Refresh" text bg>{{
-              t('activity.form.actions.reset')
-            }}</ElButton>
+            <ElButton type="warning" :icon="Refresh" text bg>
+              {{ t('activity.form.actions.reset') }}
+            </ElButton>
             <ElButton
               type="primary"
               :icon="ArrowRight"
@@ -514,8 +526,9 @@ watch(
               @click="submit"
               :loading="load"
               :disabled="!validated"
-              >{{ t('activity.form.actions.submit') }}</ElButton
             >
+              {{ t('activity.form.actions.submit') }}
+            </ElButton>
           </div>
         </ElForm>
       </ElCard>

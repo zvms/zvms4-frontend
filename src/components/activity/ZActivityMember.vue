@@ -10,7 +10,9 @@ import { useI18n } from 'vue-i18n'
 import ZUserGroup from '../tags/ZUserGroup.vue'
 import { useUserStore } from '@/stores/user'
 import { temporaryToken } from '@/plugins/short-token'
+import { useWindowSize } from '@vueuse/core'
 
+const { width, height } = useWindowSize()
 const { t } = useI18n()
 
 const props = withDefaults(
@@ -66,6 +68,16 @@ async function resetMemberPassword() {
     await api.user.password.put(id.value, password, token)
   }
 }
+
+const vert = ref(width.value < height.value * 1.2)
+
+watch(width, () => {
+  vert.value = width.value < height.value * 1.2
+})
+
+watch(height, () => {
+  vert.value = width.value < height.value * 1.2
+})
 </script>
 
 <template>
@@ -82,7 +94,12 @@ async function resetMemberPassword() {
     v-bind="$attrs"
   >
     <template #default>
-      <ElDescriptions class="fill" border>
+      <ElDescriptions
+        class="fill"
+        border
+        :direction="vert ? 'vertical' : 'horizontal'"
+        :column="vert ? 2 : undefined"
+      >
         <template #title>
           <slot name="title" />
         </template>

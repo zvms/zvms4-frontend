@@ -172,6 +172,7 @@ watch(currentStack, (newVal) => {
 })
 
 function useCollaboratorDialog(dispName: string) {
+  if (pad()) return
   currentCollaborator.value = dispName
   openDialog.value = true
 }
@@ -235,7 +236,7 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
     | 'info'
 }
 
-const displayGitHubName = ref(true)
+const displayGitHubName = ref(false)
 
 function openGitHub() {
   if (pad()) {
@@ -285,7 +286,7 @@ function openGitHub() {
                 v-for="(collaborator, idx) in version.collaborators"
                 :key="idx"
                 :type="useRandomColor()"
-                @click="useCollaboratorDialog(collaborator)"
+                @click="pad() ? undefined : useCollaboratorDialog(collaborator)"
                 size="small"
               >
                 {{

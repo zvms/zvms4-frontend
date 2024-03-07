@@ -109,18 +109,18 @@ watch(useless, () => {
         </ElButtonGroup>
         <p class="px-2 py-2 font-serif">
           Development and testing mostly use landscape, landscape effect is better, portrait effect
-          is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3. Due
-          to the component library and the browser itself, the prominent theme function of ZVMS 3
-          will not be fully presented for the time being.
+          is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3.
+
+          开发和测试大多使用横向，横向效果更好，纵向效果也可以。为了区分 ZVMS 3，菜单从左边移到了右边。
         </p>
         <p class="px-2 py-2 text-right font-mono">By Wu Chengyu</p>
       </div>
-      <div class="bottom px-6">
+      <div class="bottom">
         <ElForm label-position="right" label-width="120px">
           <ElFormItem :label="t('nav.language')">
-            <ZSelectLanguage type="select" placement="bottom" class="full" />
+            <ZSelectLanguage type="select" placement="bottom"/>
           </ElFormItem>
-          <ElFormItem :label="t('nav.dark')" v-if="!pad()">
+          <ElFormItem :label="t('nav.dark')">
             <ElSwitch
               v-model="useless"
               inline-prompt

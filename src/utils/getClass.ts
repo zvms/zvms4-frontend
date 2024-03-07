@@ -76,7 +76,7 @@ export function getClassName(classType: Class) {
       classType.class > 10 ? `蛟 ${classType.class - 10}` : `${classType.class}`
     } 班`
   const grade = grades[classType.grade - 1]
-  return `${title}${grade}（${classType.class % 10}）班`
+  return `${title}${grade} ${classType.class % 10} 班`
 }
 
 export function getUserClassName(id: number, code?: number) {

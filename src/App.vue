@@ -71,6 +71,8 @@ const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
 
+locale.value = userStore.language ?? navigator.language
+
 const { width, height } = useWindowSize()
 
 const verticalMode = ref<boolean>(width.value < height.value * 1.2)
@@ -267,7 +269,7 @@ const locales: Record<
       message: 'Nouvelle version trouvée, rafraîchir maintenant?',
       ok: 'Rafraîchir',
       cancel: 'Annuler'
-    }
+    },
   }
 }
 
@@ -423,7 +425,7 @@ watch(needRefresh, () => {
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
-        <p class="text-center">&copy; 2018-2023 | {{ t('about.footer') }} | MIT Licensed</p>
+        <p class="text-center">&copy; 2018-2024 | {{ t('about.footer') }} | MIT Licensed</p>
       </ElFooter>
     </ElContainer>
   </ElConfigProvider>
