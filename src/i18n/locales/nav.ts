@@ -275,6 +275,7 @@ export const zhWY = {
   notification: '告面板',
   preferences: '好置',
   system: '统置',
+  manage: '掌事',
   about: '夫',
   logout: '退录',
   feedback: '问反馈',
