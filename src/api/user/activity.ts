@@ -2,8 +2,21 @@ import axios from '@/plugins/axios'
 import type { ActivityInstance, Response } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
-async function getUserActivities(id: string) {
-  const result = (await axios(`/user/${id}/activity`)).data as Response<ActivityInstance[]>
+async function getUserActivities(id: string, page: number = 1, perpage: number = 10, query: string = '') {
+  const result = (
+    await axios(`/user/${id}/activity`, {
+      method: 'get',
+      params: {
+        page,
+        perpage,
+        query
+      }
+    })
+  ).data as Response<ActivityInstance[]> & {
+    metadata: {
+      size: number
+    }
+  }
   if (result.status === 'error') {
     ElNotification({
       title: `获取用户义工列表失败（${result.code}）`,
@@ -12,7 +25,10 @@ async function getUserActivities(id: string) {
     })
     return
   }
-  return result.data
+  return {
+    data: result.data,
+    size: result.metadata.size
+  }
 }
 
 export { getUserActivities as read }

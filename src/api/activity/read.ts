@@ -9,17 +9,26 @@ async function getAllActivities(
   range: 'class' | 'campus',
   filter: {
     type: 'special' | 'specified' | 'off-campus' | 'all'
-  }
+  },
+  page: number = 1,
+  perpage: number = 10,
+  query: string = ''
 ) {
   const result = (
     await axios('/activity', {
       params: {
         mode: range,
         type: filter.type,
-        // range: ['', '']
+        page,
+        perpage,
+        query
       }
     })
-  ).data as Response<ActivityInstance[]>
+  ).data as Response<ActivityInstance[]> & {
+    metadata: {
+      size: number
+    }
+  }
   if (result.status === 'error') {
     ElNotification({
       title: `获取义工列表失败（${result.code}）`,
@@ -31,7 +40,10 @@ async function getAllActivities(
   result.data.sort((prev, next) => {
     return dayjs(prev.date).isBefore(dayjs(next.date)) ? 1 : -1
   })
-  return result.data
+  return {
+    data: result.data,
+    size: result.metadata.size
+  }
 }
 
 async function getActivity(id: string) {
@@ -49,10 +61,10 @@ async function getActivity(id: string) {
 }
 
 const exports = {
-  campus: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
-    getAllActivities('campus', filter),
-  class: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }) =>
-    getAllActivities('class', filter),
+  campus: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }, page: number = 1, perpage: number = 10, query: string = '') =>
+    getAllActivities('campus', filter, page, perpage, query),
+  class: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }, page: number = 1, perpage: number = 10, query: string = '') =>
+    getAllActivities('class', filter, page, perpage, query),
   mine,
   single: (id: string) => getActivity(id)
 }

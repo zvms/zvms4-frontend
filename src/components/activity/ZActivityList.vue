@@ -36,25 +36,41 @@ const props = defineProps<{
 
 const activePage = ref(1)
 const pageSize = ref(8)
+const size = ref(0)
 
 const { role } = toRefs(props)
 const loading = ref(true)
+const inital = ref(true)
+const searchWord = ref('')
+const query = ref('')
 
 const activities = ref<ActivityInstance[]>([])
 
 function refresh() {
   loading.value = true
-  getActivity(user._id, role.value).then((res) => {
-    loading.value = false
-    if (res && res?.length !== 0) {
-      activities.value = res
-    } else {
-      activities.value = []
-    }
-  })
+  inital.value = false
+  getActivity(user._id, role.value, activePage.value, pageSize.value, query.value)
+    .then((res) => {
+      if (res && res?.data.length !== 0) {
+        activities.value = res?.data
+        size.value = res?.size
+        loading.value = false
+      } else {
+        activities.value = []
+        loading.value = false
+        size.value = 0
+      }
+    })
+    .catch(() => {
+      loading.value = false
+    })
 }
 
 refresh()
+
+watch(activePage, refresh)
+watch(pageSize, refresh)
+watch(query, refresh)
 
 const registerForSpecified = ref(false)
 
@@ -66,17 +82,7 @@ watch(width, () => {
   tableMaxHeight.value = height.value * 0.56
 })
 
-const searchWord = ref('')
-
 const items = ref<ActivityInstance[]>([])
-
-function filter() {
-  items.value = activities.value.filter((x) => x.name.includes(searchWord.value))
-}
-
-watch(searchWord, filter)
-
-filter()
 
 onSortChange({
   column: 'date',
@@ -123,24 +129,17 @@ watch(
     >
     </ElDialog>
     <ElSkeleton
-      v-if="loading"
-      :loading="loading"
+      v-if="loading && inital"
+      :loading="loading && inital"
       :rows="8"
       animated
       class="py-4 px-4"
       :throttle="500"
     />
-    <ElCard shadow="never" v-else>
+    <ElCard shadow="never" v-else v-loading="loading && !inital">
       <ElTable
         :max-height="tableMaxHeight"
-        :data="
-          items.filter(
-            (x, idx) =>
-              idx < activePage * pageSize &&
-              idx >= (activePage - 1) * pageSize &&
-              x.name.includes(searchWord)
-          )
-        "
+        :data="items"
         table-layout="auto"
         :on-sort-change="onSortChange"
         stripe
@@ -287,26 +286,13 @@ watch(
         </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
-            <ElInput v-model="searchWord" size="small" :prefix-icon="Search" />
+            <ElInput v-model="searchWord" size="small" :prefix-icon="Search" @blur="query = searchWord" @keydown.enter="query = searchWord" />
           </template>
-          <template #default="props">
+          <template #default="{ row }">
             <ZActivityImpressionDrawer
-              :id="props.row._id"
+              :id="row._id"
               :role="role"
-              :readonly="
-                (role === 'mine' &&
-                  ['effective', 'refused'].includes(
-                    (props.row as ActivityInstance).members.find((x) => x._id === user._id)
-                      ?.status ?? 'draft'
-                  )) ||
-                (role === 'campus' &&
-                  (user.position.includes('auditor') || user.position.includes('admin'))) ||
-                (role === 'campus' &&
-                  (props.row as ActivityInstance).members.filter(
-                    (x: ActivityMember) => x.status === 'pending'
-                  ).length === 0) ||
-                role === 'class'
-              "
+              :readonly="true"
             />
           </template>
         </ElTableColumn>
@@ -316,7 +302,7 @@ watch(
           v-model:current-page="activePage"
           v-model:page-size="pageSize"
           :pager-count="3"
-          :total="items.length"
+          :total="size"
           layout="total, prev, pager, next, sizes, jumper"
           background
           :page-sizes="[3, 5, 8, 10, 15, 20]"
