@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
@@ -26,10 +26,14 @@ const { t } = useI18n()
 const user = useUserStore()
 const router = useRouter()
 
-const props = defineProps<{
-  mode: 'create' | 'edit'
+const props = withDefaults(defineProps<{
+  mode?: 'create' | 'edit'
   data?: NotificationInstance
-}>()
+}>(), {
+  mode: 'create'
+})
+
+const { mode } = toRefs(props)
 
 const defaultNotification: NotificationInstance = {
   global: false,
@@ -52,7 +56,7 @@ const types = ['pinned', 'important', 'normal']
 
 const submit = () => {
   if (mode.value === 'create') api.notification.create(notification.value)
-  else api.notification.modify(notification.value)
+  // else api.notification.modify(notification.value)
 }
 </script>
 
