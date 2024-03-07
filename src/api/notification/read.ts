@@ -35,9 +35,15 @@ async function getNotifications() {
   return sortNotifications(result.data)
 }
 
+async function getSpecificNotification(id: string) {
+  const result = (await getNotifications())?.find((i) => i._id === id)
+  return result
+}
+
 const exports = {
   mine: getMyNotifications,
-  global: getNotifications
+  global: getNotifications,
+  specific: getSpecificNotification
 }
 
 export { exports as read }

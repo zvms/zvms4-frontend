@@ -29,7 +29,7 @@ const toggleMode = () => {
       <ElCol :span="12" class="text-3xl mb-5"> {{ t('notification.home.title') }} </ElCol>
       <ElCol :span="12" style="text-align: right">
         <ElButton
-          v-if="user.position.includes('admin')"
+          v-if="user.position.includes('admin') || user.position.includes('department')"
           type="success"
           text
           bg
@@ -38,7 +38,7 @@ const toggleMode = () => {
           :icon="ArrowRight"
           @click="
             user.position.includes('admin') || user.position.includes('department')
-              ? toggleMode
+              ? toggleMode()
               : undefined
           "
           >{{ t('notification.home.' + mode) }}</ElButton

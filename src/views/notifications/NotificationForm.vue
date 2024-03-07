@@ -13,7 +13,7 @@ import {
   ElSelect,
   ElPageHeader,
   ElCard,
-  ElButton,
+  ElButton
 } from 'element-plus'
 import type { NotificationInstance } from '@zvms/zvms4-types'
 import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
@@ -32,7 +32,7 @@ const props = defineProps<{
 }>()
 
 const defaultNotification: NotificationInstance = {
-  global: true, // TODO: change to false after having support specifying receivers
+  global: false,
   title: '',
   content: '',
   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -51,15 +51,9 @@ const notification = ref<NotificationInstance>(
 const types = ['pinned', 'important', 'normal']
 
 const submit = () => {
-  api.notification.create(notification.value)
+  if (mode.value === 'create') api.notification.create(notification.value)
+  else api.notification.modify(notification.value)
 }
-/*
-const addPerson = () => {
-  notification.value.receivers.push(receiver.value)
-  receiver.value = ''
-  console.log(notification.value.receivers, receiver.value)
-}
-*/
 </script>
 
 <template>
@@ -153,8 +147,6 @@ const addPerson = () => {
                 :disabled="notification.receivers && notification?.receivers?.length > 0"
               />
             </ElFormItem>
-            <!-- TODO: support specifying receivers -->
-
             <ElFormItem
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
@@ -175,7 +167,6 @@ const addPerson = () => {
               >
               </ZSelectPerson>
             </ElFormItem>
-
             <ElFormItem
               :label="t('notification.create.elements.anonymous')"
               required
