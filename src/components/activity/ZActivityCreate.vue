@@ -85,13 +85,8 @@ const activity = reactive<ActivityInstance | Activity>({
 const registration = reactive<Registration>({
   deadline: '',
   place: '',
-  duration: undefined as unknown as number,
-  classes: [
-    {
-      classid: undefined as unknown as number,
-      max: undefined as unknown as number
-    }
-  ]
+  duration: 0,
+  classes: []
 })
 
 const modeMap = {
@@ -126,18 +121,6 @@ const membersFunctions = {
   },
   remove(ord: number) {
     members.splice(ord, 1)
-  }
-}
-
-const registrationFunctions = {
-  add() {
-    registration.classes.push({
-      classid: undefined as unknown as number,
-      max: undefined as unknown as number
-    })
-  },
-  remove(ord: number) {
-    registration.classes.splice(ord, 1)
   }
 }
 
@@ -273,177 +256,13 @@ watch(
                 </template>
               </ElUpload>
             </ElFormItem>
-            <ElFormItem v-if="type === 'specified'" :label="t('activity.registration.name')">
-              <ElCard shadow="hover" class="full">
-                <ElForm
-                  label-position="right"
-                  label-width="96px"
-                  class="full"
-                  :model="registration"
-                >
-                  <ElFormItem
-                    :label="t('activity.registration.location')"
-                    class="py-2"
-                    required
-                    prop="place"
-                    :rules="[
-                      {
-                        required: true,
-                        message: t('validation.create.specified.location.required')
-                      }
-                    ]"
-                  >
-                    <ElInput :prefix-icon="Location" v-model="registration.place" required />
-                  </ElFormItem>
-                  <ElFormItem
-                    :label="t('activity.form.duration')"
-                    class="py-2 w-full"
-                    required
-                    prop="duration"
-                    :rules="[
-                      {
-                        required: true,
-                        message: t('validation.create.specified.duration.required')
-                      },
-                      {
-                        validator: (rule, value, callback) => {
-                          if (value <= 0) {
-                            callback(t('validation.create.specified.duration.invalid'))
-                          } else {
-                            callback()
-                          }
-                        }
-                      }
-                    ]"
-                  >
-                    <ZInputDuration v-model.number="registration.duration" class="w-full" />
-                  </ElFormItem>
-                  <ElFormItem
-                    :label="t('activity.registration.deadline')"
-                    class="py-2"
-                    required
-                    prop="deadline"
-                    :rules="[
-                      {
-                        required: true,
-                        message: t('validation.create.specified.deadline.required')
-                      },
-                      {
-                        validator: (rule, value, callback) => {
-                          if (value && dayjs(value).isBefore(dayjs())) {
-                            callback(t('validation.create.specified.deadline.future'))
-                          } else {
-                            callback()
-                          }
-                        }
-                      }
-                    ]"
-                  >
-                    <ElDatePicker
-                      style="width: 100%"
-                      type="datetime"
-                      v-model="registration.deadline"
-                      class="full"
-                    />
-                  </ElFormItem>
-                  <div v-for="(classification, idx) in registration.classes" :key="idx">
-                    <ElFormItem
-                      :label="t('activity.registration.class')"
-                      class="py-2 w-full"
-                      required
-                    >
-                      <Transition
-                        enter-active-class="animate__animated animate__fadeIn"
-                        leave-active-class="animate__animated animate__fadeOut"
-                        appear
-                      >
-                        <ElForm :model="classification" class="w-full">
-                          <ElRow class="full">
-                            <ElCol :span="16" :xs="12" :sm="14">
-                              <ElFormItem
-                                prop="classid"
-                                :rules="[
-                                  {
-                                    required: true,
-                                    message: t('validation.create.specified.classes.required')
-                                  },
-                                  {
-                                    validator: (rule, value, callback) => {
-                                      if (
-                                        !(
-                                          Math.floor(value / 100) < dayjs().year() + 1 &&
-                                          value % 100 < 20 &&
-                                          Math.floor(value / 100) > dayjs().year() - 4
-                                        )
-                                      ) {
-                                        callback(t('validation.create.specified.classes.invalid'))
-                                      } else {
-                                        callback()
-                                      }
-                                    }
-                                  }
-                                ]"
-                              >
-                                <ElInput
-                                  :placeholder="t('activity.registration.single.class')"
-                                  v-model.number="classification.classid"
-                                  class="full"
-                                  type="number"
-                                >
-                                  <template #prepend>
-                                    {{ idx + 1 }}
-                                  </template>
-                                </ElInput>
-                              </ElFormItem>
-                            </ElCol>
-                            <ElCol :span="1" style="text-align: center">
-                              <ElDivider direction="vertical" />
-                            </ElCol>
-                            <ElCol :span="7" :xs="11" :sm="9">
-                              <ElFormItem
-                                prop="max"
-                                :rules="[
-                                  {
-                                    required: true,
-                                    message: t('validation.create.specified.max.required')
-                                  },
-                                  {
-                                    validator: (rule, value, callback) => {
-                                      if (value < 1) {
-                                        callback(t('validation.create.specified.max.invalid'))
-                                      } else {
-                                        callback()
-                                      }
-                                    }
-                                  }
-                                ]"
-                              >
-                                <ElInput
-                                  :placeholder="t('activity.registration.single.max')"
-                                  v-model.number="classification.max"
-                                  class="full"
-                                  type="number"
-                                >
-                                  <template #append>
-                                    <ElButton
-                                      :icon="idx === 0 ? Plus : Delete"
-                                      @click="
-                                        idx === 0
-                                          ? registrationFunctions.add()
-                                          : registrationFunctions.remove(idx)
-                                      "
-                                    />
-                                  </template>
-                                </ElInput>
-                              </ElFormItem>
-                            </ElCol>
-                          </ElRow>
-                        </ElForm>
-                      </Transition>
-                    </ElFormItem>
-                  </div>
-                </ElForm>
-              </ElCard>
+            <ElFormItem
+              v-if="type === 'specified'"
+              :label="t('activity.registration.location')"
+              class="py-2"
+              prop="registration.place"
+            >
+              <ElInput :prefix-icon="Location" v-model="registration.place" required />
             </ElFormItem>
             <ElFormItem
               v-if="

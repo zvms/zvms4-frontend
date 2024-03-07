@@ -267,23 +267,6 @@ watch(
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else-if="role === 'campus'" :label="t('activity.form.pending')">
-          <template #default="{ row }">
-            {{
-              (row as ActivityInstance).members.filter(
-                (x: ActivityMember) => x.status === 'pending'
-              ).length
-            }}
-            <span style="font-size: 12px; color: --el-text-color-secondary">{{
-              t(
-                'activity.units.item',
-                (row as ActivityInstance).members.filter(
-                  (x: ActivityMember) => x.status === 'pending'
-                ).length
-              )
-            }}</span>
-          </template>
-        </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
             <ElInput v-model="searchWord" size="small" :prefix-icon="Search" @blur="query = searchWord" @keydown.enter="query = searchWord" />
