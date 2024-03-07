@@ -16,6 +16,6 @@ onMounted(() => {
 })
 </script>
 
-<tempalte>
-  <NotificationForm mode="edit" data="notification"></NotificationForm>
-</tempalte>
+<template>
+  <NotificationForm mode="edit" :data="notification"></NotificationForm>
+</template>
