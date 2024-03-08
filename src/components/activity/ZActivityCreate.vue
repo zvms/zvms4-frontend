@@ -28,7 +28,7 @@ import {
   ElCol,
   ElDivider
 } from 'element-plus'
-import { useWindowSize } from '@vueuse/core'
+import { useLocalStorage, useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
 import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location, PictureRounded } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
@@ -38,6 +38,7 @@ import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { baseURL } from '@/plugins/axios'
 
 const formRef = ref<FormInstance>()
 
@@ -181,6 +182,10 @@ function handleSuccess(response: any, file: any, fileList: any) {
   console.log(file);
   console.log(fileList);
   activity.url = response.data;
+}
+
+function getUserToken() {
+  return localStorage.getItem('token')
 }
 </script>
 
@@ -336,7 +341,6 @@ function handleSuccess(response: any, file: any, fileList: any) {
                 </div>
               </ElCard>
             </ElFormItem>
-            <!-- 图片上传拖动 -->
             <ElFormItem
               v-if="type !== 'special'"
               :label="t('activity.form.upload.name') + t('activity.form.image')"
@@ -344,13 +348,13 @@ function handleSuccess(response: any, file: any, fileList: any) {
               <ElUpload
                 class="full"
                 drag
-                :action="`https://api.zvms.site/api/user/image`"
+                :action="baseURL + 'image'"
                 method="put"
-                :with-credentials="true"
                 :headers="{
-                  Authorization: `Bearer ${userStore.token}`
+                  Authorization: `Bearer ${getUserToken()}`
                 }"
-                :limit="1"
+                accept="image/jpeg, image/png, image/jpg"
+                :limit="3"
                 :on-success="handleSuccess"
               >
                 <ElIcon class="el-icon--upload"><PictureRounded /></ElIcon>
@@ -359,7 +363,7 @@ function handleSuccess(response: any, file: any, fileList: any) {
                   <div class="el-upload__tip">
                     {{
                       t('activity.form.upload.allow', {
-                        type: 'image'
+                        type: 'png, jpg, etc.'
                       })
                     }}
                   </div>
