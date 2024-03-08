@@ -24,6 +24,7 @@ const props = withDefaults(
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
+  (e: 'finish'): void
 }>()
 
 const { t } = useI18n()
@@ -51,6 +52,11 @@ function openDialog() {
 watch(modelValue, () => {
   show.value = modelValue.value ?? false
 })
+
+function closeDialog() {
+  show.value = false
+  emits('finish')
+}
 </script>
 
 <template>
@@ -87,7 +93,7 @@ watch(modelValue, () => {
           :role="role"
           :submitable="!readonly"
           :readonly="readonly"
-          @finish="show = false"
+          @finish="closeDialog"
         />
       </ElDialog>
       <ElDialog
@@ -101,7 +107,7 @@ watch(modelValue, () => {
           :activity="activity"
           :role="role"
           submitable
-          @finish="show = false"
+          @finish="closeDialog"
         />
       </ElDialog>
     </Teleport>

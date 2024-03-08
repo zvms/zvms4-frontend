@@ -276,6 +276,7 @@ watch(
               :id="row._id"
               :role="role"
               :readonly="true"
+              @refresh="refresh"
             />
           </template>
         </ElTableColumn>

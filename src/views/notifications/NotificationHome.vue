@@ -29,7 +29,11 @@ const toggleMode = () => {
       <ElCol :span="12" class="text-3xl mb-5"> {{ t('notification.home.title') }} </ElCol>
       <ElCol :span="12" style="text-align: right">
         <ElButton
-          v-if="user.position.includes('admin') || user.position.includes('department') || user.position.includes('auditor')"
+          v-if="
+            user.position.includes('admin') ||
+            user.position.includes('department') ||
+            user.position.includes('auditor')
+          "
           type="success"
           text
           bg
@@ -37,12 +41,15 @@ const toggleMode = () => {
           class="p-1 pr-3"
           :icon="ArrowRight"
           @click="
-            user.position.includes('admin') || user.position.includes('department') || user.position.includes('auditor')
+            user.position.includes('admin') ||
+            user.position.includes('department') ||
+            user.position.includes('auditor')
               ? toggleMode()
               : undefined
           "
-          >{{ t('notification.home.' + mode) }}</ElButton
         >
+          {{ t('notification.home.' + mode) }}
+        </ElButton>
         <ElButton
           type="success"
           text
@@ -51,7 +58,11 @@ const toggleMode = () => {
           class="p-1"
           :icon="Plus"
           @click="router.push('/notifications/create')"
-          v-if="user.position.includes('admin') || user.position.includes('department') || user.position.includes('auditor')"
+          v-if="
+            user.position.includes('admin') ||
+            user.position.includes('department') ||
+            user.position.includes('auditor')
+          "
         />
         <ElButton @click="refresh += 1" type="primary" text bg circle class="p-1" :icon="Refresh" />
       </ElCol>

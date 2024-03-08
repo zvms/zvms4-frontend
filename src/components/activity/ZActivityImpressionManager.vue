@@ -12,7 +12,7 @@ import {
   User
 } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import type { ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
+import type { ActivityMember, ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
 import {
   ElCollapse,
   ElCollapseItem,
@@ -31,7 +31,8 @@ import {
   ElCarouselItem,
   ElImage,
   ElEmpty,
-  ElIcon
+  ElIcon,
+  ElNotification
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
@@ -41,7 +42,6 @@ import api from '@/api'
 const props = defineProps<{
   activity: ActivityInstance
   role: 'mine' | 'campus' | 'class'
-  submitable?: boolean
 }>()
 
 const user = useUserStore()
@@ -52,40 +52,55 @@ const emits = defineEmits<{
   (e: 'finish'): void
 }>()
 
-const { activity, role, submitable } = toRefs(props)
+const { activity, role } = toRefs(props)
 
-const latest = ref(activity.value)
-
-const impression = ref(
-  role.value === 'mine' && latest.value.members.map((x) => x._id).includes(user._id)
-    ? (latest.value.members.find((x) => x._id === user._id)?.impression as string)
-    : ''
-)
+const impression = ref('')
+const present = ref<ActivityMember>()
 
 const activeNames = ref<string[]>(['1', '2'])
+const submitable = ref<boolean>(role.value !== 'class')
 
 const load = ref<'draft' | 'pending' | 'refused' | 'rejected' | 'effective' | false>(false)
 
 async function submit(submit: boolean) {
-  emits('update:modelValue', impression.value)
-  load.value = submit ? 'pending' : 'draft'
-  if (!submitable?.value) return
-  await api.activity.impression.modify(user._id, latest.value._id, impression.value, submit)
-  emits('finish')
-  load.value = false
+  try {
+    emits('update:modelValue', impression.value)
+    load.value = submit ? 'pending' : 'draft'
+    if (
+      !submitable.value ||
+      (present.value?.status !== 'draft' && present.value?.status !== 'rejected')
+    ) {
+      load.value = false
+      return
+    }
+    await api.activity.impression.modify(user._id, activity.value._id, impression.value, submit)
+    emits('finish')
+    load.value = false
+  } catch (e) {
+    ElNotification({
+      title: t('activity.impression.page.write.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
+  }
 }
 
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
-  load.value = status
-  await api.activity.status.modify(current.value._id, latest.value._id, status)
-  load.value = false
-  if (current.value && current.value.index < latest.value.members.length) {
-    console.log(current.value.index, latest.value.members.length, latest.value.members[current.value.index])
-    latest.value.members[current.value.index].status = status
-    latest.value.members[current.value.index].duration = current.value.duration
-    curserTo(current.value.index + 1)
-  } else {
-    emits('finish')
+  try {
+    load.value = status
+    await api.activity.status.modify(current.value._id, activity.value._id, status)
+    load.value = false
+    if (current.value && current.value.index < activity.value.members.length) {
+      curserTo(current.value.index + 1)
+    } else {
+      emits('finish')
+    }
+  } catch (e) {
+    ElNotification({
+      title: t('activity.impression.page.reflect.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
   }
 }
 
@@ -112,27 +127,59 @@ const current = ref<ImpressionCursor>({
 })
 const loading = ref(false)
 
-async function curserTo(index: number) {
-  const member = await api.activity.member.read(latest.value._id, latest.value.members[index - 1]._id) ?? latest.value.members[index - 1]
+async function getMemberActivity(id: string = user._id) {
   loading.value = true
-  const result = await api.user.readOne(member._id)
-  const images = await Promise.all(member.images.map((x) => getImage(x)))
-  current.value = {
-    index,
-    id: result?.id ?? 0,
-    name: result?.name ? result?.name : 'Unknown',
-    impression: member.impression,
-    _id: member._id,
-    duration: member.duration ?? 0,
-    status: member.status,
-    images
+  try {
+    present.value = await api.activity.member.read(activity.value._id, id)
+    if (!present.value) {
+      throw new Error('No such member')
+    }
+    if (role.value === 'mine') {
+      impression.value = present.value?.impression
+    }
+  } catch (e) {
+    ElNotification({
+      title: t('activity.impression.page.reflect.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
   }
   loading.value = false
 }
 
-curserTo(1)
+async function curserTo(index: number) {
+  loading.value = true
+  try {
+    present.value =
+      (await api.activity.member.read(activity.value._id, activity.value.members[index - 1]._id)) ??
+      activity.value.members[index - 1]
+    const result = await api.user.readOne(present.value._id)
+    const images = await Promise.all(present.value.images.map((x) => getImage(x)))
+    current.value = {
+      index,
+      id: result?.id ?? 0,
+      name: result?.name ? result?.name : 'Unknown',
+      impression: present.value.impression,
+      _id: present.value._id,
+      duration: present.value.duration ?? 0,
+      status: present.value.status,
+      images
+    }
+  } catch (e) {
+    ElNotification({
+      title: t('activity.impression.page.reflect.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
+  }
+  loading.value = false
+}
 
-// console.log(activity.value.members)
+if (role.value !== 'mine') {
+  curserTo(1)
+} else {
+  getMemberActivity()
+}
 
 const serif = ref(false)
 </script>
@@ -142,8 +189,8 @@ const serif = ref(false)
     <ElCollapse v-model="activeNames" class="py-4">
       <ElCollapseItem :title="t('activity.form.details')" name="1">
         <ZActivityDetails
-          :activity="latest"
-          :mode="latest.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
+          :activity="activity"
+          :mode="activity.members.map((x) => x._id).includes(current._id) ? 'mine' : 'campus'"
           :perspective="role === 'mine' ? user._id : current._id ?? user._id"
           :show-details="false"
         />
@@ -153,17 +200,21 @@ const serif = ref(false)
           <p class="text-xl py-2">{{ t('activity.impression.page.write.mine') }}</p>
           <ElInput
             type="textarea"
-            v-if="submitable"
+            v-if="present?.status === 'draft' || present?.status === 'rejected'"
             v-model="impression"
             :autosize="{ minRows: 2 }"
             minlength="30"
             maxlength="1024"
             show-word-limit
           />
-          <p v-else :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4']">
+          <p v-else :class="['px-4', `font-${serif ? 'serif' : 'sans'}`, 'py-4', 'text-lg']">
             {{ impression }}
           </p>
-          <div v-if="submitable" style="text-align: right" class="py-4">
+          <div
+            v-if="present?.status === 'draft' || present?.status === 'rejected'"
+            style="text-align: right"
+            class="py-4"
+          >
             <ElButton
               type="info"
               @click="submit(false)"
@@ -207,7 +258,7 @@ const serif = ref(false)
             v-model:current-page="current.index"
             layout="total, prev, pager, next, jumper"
             :pager-count="3"
-            :total="latest.members.length"
+            :total="activity.members.length"
             background
             hide-on-single-page
             :default-page-size="1"
@@ -275,7 +326,7 @@ const serif = ref(false)
       </ElCollapseItem>
       <ElCollapseItem
         :title="t('activity.form.image')"
-        :disabled="latest.type !== 'social'"
+        :disabled="activity.type !== 'social'"
         name="3"
       >
         <ElCard shadow="hover" class="w-full" v-if="role === 'mine'">

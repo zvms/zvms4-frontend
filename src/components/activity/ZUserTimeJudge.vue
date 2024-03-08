@@ -12,7 +12,7 @@ import api from '@/api'
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
 const { t } = useI18n()
-const loading = ref(true)
+const loading = ref(false)
 
 const props = withDefaults(
   defineProps<{
@@ -66,9 +66,7 @@ async function getTime() {
   loading.value = false
 }
 
-if (base.onCampus === 0 && base.offCampus === 0 && base.socialPractice === 0) {
-  getTime()
-}
+getTime()
 
 const off = ref(base.offCampus)
 

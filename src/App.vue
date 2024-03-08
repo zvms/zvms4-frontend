@@ -28,7 +28,7 @@ import { useWindowSize } from '@vueuse/core'
 // import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref } from 'vue'
-import { zhCn, en, ja, ko, zhTw, fr, ru } from 'element-plus/es/locale/index.mjs'
+import { zhCn, en, ja, zhTw, fr } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { temporaryToken } from '@/plugins/short-token'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
@@ -46,14 +46,10 @@ function getLocale(ident: string) {
       return en
     case 'ja-JP':
       return ja
-    case 'ko-KR':
-      return ko
     case 'zh-TW':
       return zhTw
     case 'fr-FR':
       return fr
-    case 'ru-RU':
-      return ru
     default:
       return en
   }
@@ -307,9 +303,6 @@ const panelButtons = [
           confirmButtonText: locales[locale.value].password.confirmButtonText,
           cancelButtonText: locales[locale.value].password.cancelButtonText,
           inputType: 'password',
-          // Must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character
-          inputPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/,
-          inputErrorMessage: locales[locale.value].password.inputErrorMessage
         }
       )
       const confirm = await ElMessageBox.prompt(

@@ -65,10 +65,6 @@ const props = defineProps<{
 
 const { type } = toRefs(props)
 
-watch(type, () => {
-  console.log(type)
-})
-
 const activity = reactive<ActivityInstance | Activity>({
   _id: '',
   type: type.value,
@@ -83,7 +79,7 @@ const activity = reactive<ActivityInstance | Activity>({
 })
 
 const registration = reactive<Registration>({
-  deadline: '',
+  deadline: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   place: '',
   duration: 0,
   classes: []
@@ -259,7 +255,6 @@ watch(
             <ElFormItem
               v-if="type === 'specified'"
               :label="t('activity.registration.location')"
-              class="py-2"
               prop="registration.place"
             >
               <ElInput :prefix-icon="Location" v-model="registration.place" required />

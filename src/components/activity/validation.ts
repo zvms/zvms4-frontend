@@ -13,10 +13,6 @@ export function validateActivity(activity: ActivityInstance): boolean {
   if (!activity.type) return false;
   if (activity.type === 'special' && !activity.special) return false;
   if (activity.type === 'special' && !activity.special.classify) return false;
-  if (activity.type === 'specified') {
-    if (!activity.registration.place) return false;
-    if (!activity.registration.duration) return false;
-  }
   for (const member of activity.members) {
     if (!member._id) return false;
     if (!member.duration) return false;

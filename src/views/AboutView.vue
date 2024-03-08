@@ -7,7 +7,9 @@ import {
   ElSwitch,
   ElTooltip,
   ElSpace,
-  ElNotification
+  ElNotification,
+  ElRow,
+  ElCol
 } from 'element-plus'
 import {
   ZhangZisu,
@@ -38,6 +40,15 @@ import { pad } from '@/plugins/ua'
 const header = useHeaderStore()
 // const user = useUserStore()
 const { t } = useI18n()
+
+const props = withDefaults(
+  defineProps<{
+    showRealName?: boolean
+  }>(),
+  {
+    showRealName: true
+  }
+)
 
 header.setHeader(t('nav.about'))
 
@@ -236,7 +247,7 @@ function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info'
     | 'info'
 }
 
-const displayGitHubName = ref(false)
+const displayGitHubName = ref(props.showRealName)
 
 function openGitHub() {
   if (pad()) {
@@ -264,14 +275,20 @@ function openGitHub() {
     </div>
     <div class="py-4">
       <ElCard shadow="never" class="full">
-        <p class="text-xl">{{ t('about.about.developers') }}</p>
-        <div style="text-align: right">
-          <ElSwitch
-            :active-text="t('about.switch.nick')"
-            :inactive-text="t('about.switch.real')"
-            v-model="displayGitHubName"
-          />
-        </div>
+        <ElRow>
+          <ElCol :span="12"
+            ><p class="text-xl">{{ t('about.about.developers') }}</p></ElCol
+          >
+          <ElCol :span="12" style="text-align: right">
+            <ElSwitch
+              class="pt-4"
+              v-if="props.showRealName"
+              :active-text="t('about.switch.nick')"
+              :inactive-text="t('about.switch.real')"
+              v-model="displayGitHubName"
+            />
+          </ElCol>
+        </ElRow>
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
             {{ t('about.repository.version.0') }}
@@ -334,7 +351,14 @@ function openGitHub() {
     <div class="py-4">
       <ElCard shadow="never" class="full">
         <p class="text-xl">隐私政策</p>
-        <p>本站与 Microsoft Clarity 和 Microsoft Advertising 合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方 cookie 及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于<b>政教处管理与审查</b>、网站优化、欺诈/安全目的和广告。有关 Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明 (https://privacy.microsoft.com/privacystatement)。</p>
+        <p>
+          本站与 Microsoft Clarity 和 Microsoft Advertising
+          合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方
+          cookie
+          及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于<b>政教处管理与审查</b>、网站优化、欺诈/安全目的和广告。有关
+          Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明
+          (https://privacy.microsoft.com/privacystatement)。
+        </p>
       </ElCard>
     </div>
     <ElDrawer
