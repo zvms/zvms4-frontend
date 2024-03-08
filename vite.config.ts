@@ -19,7 +19,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    legacy(),
+    legacy({
+      targets: ['defaults', 'not IE 11', 'chrome 64', 'firefox 78', 'safari 12', 'edge 79'],
+      polyfills: ['es.promise', 'es.symbol']
+    }),
     // basicSsl(),
     UnoCSS(),
     vueDevtools(),
