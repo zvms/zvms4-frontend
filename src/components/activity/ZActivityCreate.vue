@@ -30,7 +30,7 @@ import {
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location } from '@element-plus/icons-vue'
+import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location, PictureRounded } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
 import type { FormInstance } from 'element-plus'
@@ -75,7 +75,8 @@ const activity = reactive<ActivityInstance | Activity>({
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
-  status: 'pending'
+  status: 'pending',
+  url: ''
 })
 
 const registration = reactive<Registration>({
@@ -173,6 +174,14 @@ watch(
   },
   { deep: true, immediate: true }
 )
+
+function handleSuccess(response: any, file: any, fileList: any) {
+  // 这里的 response 是服务器返回的数据
+  console.log(response);
+  console.log(file);
+  console.log(fileList);
+  activity.url = response.data;
+}
 </script>
 
 <template>
@@ -326,6 +335,36 @@ watch(
                   </Transition>
                 </div>
               </ElCard>
+            </ElFormItem>
+            <!-- 图片上传拖动 -->
+            <ElFormItem
+              v-if="type !== 'special'"
+              :label="t('activity.form.upload.name') + t('activity.form.image')"
+            >
+              <ElUpload
+                class="full"
+                drag
+                :action="`https://api.zvms.site/api/user/image`"
+                method="put"
+                :with-credentials="true"
+                :headers="{
+                  Authorization: `Bearer ${userStore.token}`
+                }"
+                :limit="1"
+                :on-success="handleSuccess"
+              >
+                <ElIcon class="el-icon--upload"><PictureRounded /></ElIcon>
+                <div class="el-upload__text">{{ t('activity.form.upload.prompt') }}</div>
+                <template #tip>
+                  <div class="el-upload__tip">
+                    {{
+                      t('activity.form.upload.allow', {
+                        type: 'image'
+                      })
+                    }}
+                  </div>
+                </template>
+              </ElUpload>
             </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right">
