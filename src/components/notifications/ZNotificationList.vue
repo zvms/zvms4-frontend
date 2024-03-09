@@ -20,25 +20,21 @@ const minHeight = ref(height.value * 0.68 + 'px')
 
 watch(height, () => (minHeight.value = height.value * 0.68 + 'px'))
 
-const sliceLength = 8
-const sliceNotification = (unsliced: NotificationInstance[]) => {
-  if (unsliced.length <= sliceLength) return [unsliced]
-  const res = []
-  for (let i = 0; i <= unsliced.length - sliceLength; i += 10) res.push(unsliced.slice(i, i + 10))
-  return res
-}
+const notifications = ref<NotificationInstance[]>([])
+const pageIndex = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
 
-const notifications = ref<Array<NotificationInstance[]>>([])
-const pageIndex = ref(1) // Start from 1
-
-const getNotifications = (mode: 'global' | 'personal') => {
+async function getNotifications(mode: 'global' | 'personal') {
   if (mode === 'personal')
-    api.notification.read.mine(user._id).then((res) => {
-      notifications.value = sliceNotification(res ?? [])
+    await api.notification.read.mine(user._id).then((res) => {
+      notifications.value = res ? res.data : []
+      total.value = res?.total || 10
     })
   else
-    api.notification.read.global().then((res) => {
-      notifications.value = sliceNotification(res ?? [])
+    await api.notification.read.global().then((res) => {
+      notifications.value = res ? res.data : []
+      total.value = res?.total || 10
     })
 }
 
@@ -57,7 +53,7 @@ onMounted(() => getNotifications(props.mode))
 <template>
   <div class="p-5">
     <ElScrollbar :height="minHeight">
-      <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-2">
+      <div v-for="(item, index) in notifications" :key="index" class="p-2">
         <ElCard shadow="hover" class="p-1">
           <div class="flex justify-between p-2 pl-0">
             <span class="font-bold text-xl">{{ item.title }}</span>
@@ -86,7 +82,9 @@ onMounted(() => getNotifications(props.mode))
         hide-on-single-page
         layout="total, prev, pager, next, jumper"
         v-model:current-page="pageIndex"
-        :total="notifications.length * 10"
+        v-model:page-size="pageSize"
+        :page-sizes="[3, 5, 8, 10, 15, 20]"
+        :total="total"
       />
     </div>
   </div>
