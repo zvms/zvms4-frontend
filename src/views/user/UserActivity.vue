@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import type { ActivityInstance } from '@zvms/zvms4-types'
 import api from '@/api'
 import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft, Refresh } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()
@@ -71,7 +71,10 @@ const panes = [
     value: 'campus',
     color: 'danger',
     icon: School,
-    visibility: user.position.includes('department') || user.position.includes('auditor') || user.position.includes('admin')
+    visibility:
+      user.position.includes('department') ||
+      user.position.includes('auditor') ||
+      user.position.includes('admin')
   }
 ] as Array<{
   value: string
@@ -93,7 +96,10 @@ function moveTo(type: string) {
 
 <template>
   <div class="p-4" style="width: 100%">
-    <div class="flex px-12 py-4" v-if="route.path.startsWith('/activities/') && !route.path.endsWith('register')">
+    <div
+      class="flex px-12 py-4"
+      v-if="route.path.startsWith('/activities/') && !route.path.endsWith('register')"
+    >
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
           {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
@@ -137,7 +143,11 @@ function moveTo(type: string) {
       </Transition>
     </div>
     <Transition appear v-else enter-active-class="animate__animated animate__fadeIn">
-      <ElPageHeader :icon="ArrowLeft" class="text-xl px-12 py-4" @back="router.push('/activities/mine')">
+      <ElPageHeader
+        :icon="ArrowLeft"
+        class="text-xl px-12 py-4"
+        @back="router.push('/activities/mine')"
+      >
         <template #content>
           {{ t(`activity.view.panels.${tab}.name`) }}
         </template>

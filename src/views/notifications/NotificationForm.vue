@@ -57,6 +57,7 @@ const types = ['pinned', 'important', 'normal']
 const submit = () => {
   if (mode.value === 'create') api.notification.create(notification.value)
   // else api.notification.modify(notification.value)
+  router.push('/notifications/')
 }
 </script>
 
@@ -73,7 +74,7 @@ const submit = () => {
         :icon="ArrowLeft"
       >
         <template #content>
-          {{ $t(mode === 'create' ? 'notification.create.header' : 'notification.edit') }}
+          {{ t(mode === 'create' ? 'notification.create.header' : 'notification.edit') }}
         </template>
       </ElPageHeader>
     </Transition>
@@ -119,7 +120,7 @@ const submit = () => {
               :rules="[
                 { required: true, message: t('validation.notification.expire.required') },
                 {
-                  validator: (rule, value, callback) => {
+                  validator: (_, value, callback) => {
                     try {
                       if (dayjs(value).isBefore(dayjs(notification.time))) {
                         callback(t('validation.notification.expire.future'))

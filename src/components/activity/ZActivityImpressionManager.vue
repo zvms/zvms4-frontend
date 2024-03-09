@@ -12,7 +12,7 @@ import {
   User
 } from '@element-plus/icons-vue'
 import { Save } from '@icon-park/vue-next'
-import type { ActivityMember, ActivityInstance, MemberActivityStatus } from '@zvms/zvms4-types'
+import type { ActivityMember, ActivityInstance, MemberActivityStatus, Response } from '@zvms/zvms4-types'
 import {
   ElCollapse,
   ElCollapseItem,
@@ -36,8 +36,8 @@ import {
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
-import { getImage } from '@/api/activity/image'
 import api from '@/api'
+import { baseURL } from '@/plugins/axios'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -154,7 +154,7 @@ async function curserTo(index: number) {
       (await api.activity.member.read(activity.value._id, activity.value.members[index - 1]._id)) ??
       activity.value.members[index - 1]
     const result = await api.user.readOne(present.value._id)
-    const images = await Promise.all(present.value.images.map((x) => getImage(x)))
+    const images = await api.activity.image.read(activity.value._id, present.value._id)
     current.value = {
       index,
       id: result?.id ?? 0,
@@ -163,7 +163,7 @@ async function curserTo(index: number) {
       _id: present.value._id,
       duration: present.value.duration ?? 0,
       status: present.value.status,
-      images
+      images: images.map((x) => `${baseURL}image/${x}/data`)
     }
   } catch (e) {
     ElNotification({
@@ -182,6 +182,14 @@ if (role.value !== 'mine') {
 }
 
 const serif = ref(false)
+
+function handleSuccess(resp: Response<string>) {
+  console.log(resp)
+}
+
+function getUserToken() {
+  return localStorage.getItem('token')
+}
 </script>
 
 <template>
@@ -333,7 +341,14 @@ const serif = ref(false)
           <ElUpload
             class="w-full"
             list-type="picture-card"
+            :action="baseURL + 'image'"
+            method="put"
             accept="image/png, image/jpg, image/jpeg, image/webp"
+            :headers="{
+              Authorization: 'Bearer ' + getUserToken()
+            }"
+            :limit="3"
+            :on-success="handleSuccess"
           >
             <ElIcon><Plus /></ElIcon>
             <template #file="{ file }">

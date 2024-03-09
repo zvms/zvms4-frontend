@@ -28,9 +28,17 @@ import {
   ElCol,
   ElDivider
 } from 'element-plus'
-import { useLocalStorage, useWindowSize } from '@vueuse/core'
+import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location, PictureRounded } from '@element-plus/icons-vue'
+import {
+  Refresh,
+  ArrowRight,
+  UploadFilled,
+  Plus,
+  Delete,
+  Location,
+  PictureRounded
+} from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
 import type { FormInstance } from 'element-plus'
@@ -45,10 +53,7 @@ const formRef = ref<FormInstance>()
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
+    if (!valid) {
       return false
     }
   })
@@ -147,11 +152,11 @@ async function submit() {
   load.value = false
   router.push(
     '/activities/' +
-      (userStore.position.includes('admin') || userStore.position.includes('department'))
-      ? 'campus'
-      : userStore.position.includes('secretary')
-      ? 'class'
-      : 'mine'
+      (userStore.position.includes('admin') || userStore.position.includes('department')
+        ? 'campus'
+        : userStore.position.includes('secretary')
+        ? 'class'
+        : 'mine')
   )
 }
 
@@ -175,14 +180,6 @@ watch(
   },
   { deep: true, immediate: true }
 )
-
-function handleSuccess(response: any, file: any, fileList: any) {
-  // 这里的 response 是服务器返回的数据
-  console.log(response);
-  console.log(file);
-  console.log(fileList);
-  activity.url = response.data;
-}
 
 function getUserToken() {
   return localStorage.getItem('token')
@@ -354,8 +351,7 @@ function getUserToken() {
                   Authorization: `Bearer ${getUserToken()}`
                 }"
                 accept="image/jpeg, image/png, image/jpg"
-                :limit="3"
-                :on-success="handleSuccess"
+                :limit="10"
               >
                 <ElIcon class="el-icon--upload"><PictureRounded /></ElIcon>
                 <div class="el-upload__text">{{ t('activity.form.upload.prompt') }}</div>

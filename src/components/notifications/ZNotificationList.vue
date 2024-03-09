@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'element-plus'
+import {
+  ElCard,
+  ElButton,
+  ElPagination,
+  ElScrollbar,
+  ElNotification,
+  ElEmpty,
+  ElRow,
+  ElCol
+} from 'element-plus'
 import { Clock } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -24,19 +33,34 @@ const notifications = ref<NotificationInstance[]>([])
 const pageIndex = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
+const loading = ref(false)
 
 async function getNotifications(mode: 'global' | 'personal') {
-  if (mode === 'personal')
-    await api.notification.read.mine(user._id).then((res) => {
-      notifications.value = res ? res.data : []
-      total.value = res?.total || 10
+  loading.value = true
+  try {
+    if (mode === 'personal')
+      await api.notification.read.mine(user._id, pageIndex.value, pageSize.value).then((res) => {
+        notifications.value = res ? res.data : []
+        total.value = res?.total || 0
+      })
+    else
+      await api.notification.read.global(pageIndex.value, pageSize.value).then((res) => {
+        notifications.value = res ? res.data : []
+        total.value = res?.total || 0
+      })
+    loading.value = false
+  } catch (e) {
+    ElNotification({
+      title: t('notification.home.error'),
+      message: (e as Error).message,
+      type: 'error'
     })
-  else
-    await api.notification.read.global().then((res) => {
-      notifications.value = res ? res.data : []
-      total.value = res?.total || 10
-    })
+    loading.value = false
+  }
 }
+
+watch(pageIndex, () => getNotifications(props.mode))
+watch(pageSize, () => getNotifications(props.mode))
 
 const props = defineProps<{
   refresh: number
@@ -52,35 +76,50 @@ onMounted(() => getNotifications(props.mode))
 
 <template>
   <div class="p-5">
-    <ElScrollbar :height="minHeight">
-      <div v-for="(item, index) in notifications" :key="index" class="p-2">
+    <ElScrollbar :height="minHeight" v-loading="loading">
+      <div v-for="(item, index) in notifications" :key="index" class="p-2 px-4">
         <ElCard shadow="hover" class="p-1">
-          <div class="flex justify-between p-2 pl-0">
-            <span class="font-bold text-xl">{{ item.title }}</span>
-            <ZActivityMember v-if="!item.anonymous" :id="item.publisher" />
-            <ZActivityMember
-              v-else-if="user.position.includes('admin')"
-              :icon="OouiUserAnonymous"
-              type="info"
-              :id="item.publisher"
-            />
-            <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
+          <div class="p-2 pl-0">
+            <ElRow>
+              <ElCol :span="18">
+                <span class="font-bold text-xl">{{ item.title }}</span>
+              </ElCol>
+              <ElCol :span="6" class="text-right">
+                <ZActivityMember v-if="!item.anonymous" :id="item.publisher" />
+                <ZActivityMember
+                  v-else-if="user.position.includes('admin')"
+                  :icon="OouiUserAnonymous"
+                  type="info"
+                  :id="item.publisher"
+                />
+                <ElButton
+                  v-else
+                  type="info"
+                  text
+                  bg
+                  size="small"
+                  :icon="OouiUserAnonymous"
+                  circle
+                />
+              </ElCol>
+            </ElRow>
           </div>
           <div>{{ item.content }}</div>
-          <div class="p-3 float-right">
-            <span :icon="Clock"></span> {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
+          <div class="p-3 float-right pb-4">
+            <ElButton :icon="Clock" text bg type="info" size="small" round>
+              {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
+            </ElButton>
           </div>
         </ElCard>
       </div>
       <div v-if="notifications.length == 0" class="text-center my-10 text-lg op-70">
-        {{ t('notification.home.empty') }}
+        <ElEmpty />
       </div>
     </ElScrollbar>
     <div class="flex justify-center mt-3">
       <ElPagination
         background
-        hide-on-single-page
-        layout="total, prev, pager, next, jumper"
+        layout="total, prev, pager, next, sizes, jumper"
         v-model:current-page="pageIndex"
         v-model:page-size="pageSize"
         :page-sizes="[3, 5, 8, 10, 15, 20]"

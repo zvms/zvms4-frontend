@@ -8,12 +8,13 @@ import {
   ElPagination,
   ElCard,
   ElInput,
-  ElSkeleton
+  ElSkeleton,
+  ElDivider
 } from 'element-plus'
-import { ref, toRefs, watch } from 'vue'
+import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Box, Search, PieChart } from '@element-plus/icons-vue'
+import { Box, Search, PieChart, Refresh, Plus } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
@@ -24,9 +25,11 @@ import {
   ZActivityDuration,
   ZActivityCard
 } from '@/components'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
+const router = useRouter()
 
 const user = useUserStore()
 
@@ -48,7 +51,6 @@ const activities = ref<ActivityInstance[]>([])
 
 function refresh() {
   loading.value = true
-  inital.value = false
   getActivity(user._id, role.value, activePage.value, pageSize.value, query.value)
     .then((res) => {
       if (res && res?.data.length !== 0) {
@@ -60,17 +62,22 @@ function refresh() {
         loading.value = false
         size.value = 0
       }
+      inital.value = false
     })
     .catch(() => {
       loading.value = false
+      inital.value = false
     })
 }
 
-refresh()
+onMounted(refresh)
 
 watch(activePage, refresh)
 watch(pageSize, refresh)
-watch(query, refresh)
+watch(query, () => {
+  activePage.value = 1
+  refresh()
+})
 
 const registerForSpecified = ref(false)
 
@@ -137,6 +144,35 @@ watch(
       :throttle="500"
     />
     <ElCard shadow="never" v-else v-loading="loading && !inital">
+      <div class="text-right">
+        <ElButton
+          type="success"
+          :icon="Plus"
+          text
+          bg
+          round
+          @click="router.push('/activity/create')"
+        >
+          {{ t('nav.create') }}
+        </ElButton>
+        <ElDivider direction="vertical" />
+        <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
+          {{ t('activity.form.actions.refresh') }}
+        </ElButton>
+        <ElDivider direction="vertical" />
+        <ElButton
+          v-if="role === 'campus'"
+          :icon="Box"
+          type="warning"
+          text
+          bg
+          round
+          :disabled="!user.position.includes('admin')"
+        >
+          {{ t('activity.export.name') }}
+        </ElButton>
+        <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
+      </div>
       <ElTable
         :max-height="tableMaxHeight"
         :data="items"
@@ -145,27 +181,6 @@ watch(
         stripe
       >
         <ElTableColumn type="expand">
-          <template #header>
-            <ElButton
-              v-if="role === 'campus'"
-              :icon="Box"
-              type="success"
-              text
-              bg
-              circle
-              size="small"
-            />
-            <ElButton
-              v-else
-              :icon="PieChart"
-              type="success"
-              text
-              bg
-              circle
-              size="small"
-              @click="registerForSpecified = true"
-            />
-          </template>
           <template #default="{ row }">
             <ZActivityCard :_id="row._id" :mode="role" :perspective="user._id" @refresh="refresh" />
           </template>
@@ -269,7 +284,13 @@ watch(
         </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
-            <ElInput v-model="searchWord" size="small" :prefix-icon="Search" @blur="query = searchWord" @keydown.enter="query = searchWord" />
+            <ElInput
+              v-model="searchWord"
+              size="small"
+              :prefix-icon="Search"
+              @blur="query = searchWord"
+              @keydown.enter="query = searchWord"
+            />
           </template>
           <template #default="{ row }">
             <ZActivityImpressionDrawer

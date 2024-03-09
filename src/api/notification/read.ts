@@ -13,7 +13,7 @@ async function getMyNotifications(id: string, page: number = 1, perpage: number 
     })
   ).data as Response<NotificationInstance[]> & {
     metadata: {
-      total: number
+      size: number
     }
   }
   if (result.status === 'error') {
@@ -22,11 +22,11 @@ async function getMyNotifications(id: string, page: number = 1, perpage: number 
       message: result.message,
       type: 'error'
     })
-    return
+    throw new Error(result.message)
   }
   return {
     data: result.data,
-    total: result.metadata.total
+    total: result.metadata.size
   }
 }
 
@@ -41,7 +41,7 @@ async function getNotifications(page: number = 1, perpage: number = 10) {
     })
   ).data as Response<NotificationInstance[]> & {
     metadata: {
-      total: number
+      size: number
     }
   }
   if (result.status === 'error') {
@@ -50,11 +50,11 @@ async function getNotifications(page: number = 1, perpage: number = 10) {
       message: result.message,
       type: 'error'
     })
-    return
+    throw new Error(result.message)
   }
   return {
     data: result.data,
-    total: result.metadata.total
+    total: result.metadata.size
   }
 }
 
