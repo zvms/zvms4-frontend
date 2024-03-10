@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NotificationForm from './NotificationForm.vue'
+import NotificationForm from '@/components/notifications/ZNotificationForm.vue'
 </script>
 
 <template>
-  <NotificationForm mode="create"></NotificationForm>
+  <NotificationForm></NotificationForm>
 </template>

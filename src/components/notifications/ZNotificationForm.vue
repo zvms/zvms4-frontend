@@ -26,15 +26,6 @@ const { t } = useI18n()
 const user = useUserStore()
 const router = useRouter()
 
-const props = withDefaults(defineProps<{
-  mode?: 'create' | 'edit'
-  data?: NotificationInstance
-}>(), {
-  mode: 'create'
-})
-
-const { mode } = toRefs(props)
-
 const defaultNotification: NotificationInstance = {
   global: false,
   title: '',
@@ -48,15 +39,15 @@ const defaultNotification: NotificationInstance = {
   _id: ''
 }
 
-const notification = ref<NotificationInstance>(
-  props.mode === 'create' ? defaultNotification : (props.data as NotificationInstance)
-)
+const notification = ref<NotificationInstance>(defaultNotification)
+const loading = ref(false)
 
 const types = ['pinned', 'important', 'normal']
 
 const submit = () => {
-  if (mode.value === 'create') api.notification.create(notification.value)
-  // else api.notification.modify(notification.value)
+  loading.value = true
+  api.notification.create(notification.value)
+  router.push('/notifications')
 }
 </script>
 
@@ -69,11 +60,11 @@ const submit = () => {
     >
       <ElPageHeader
         class="text-2xl px-12 py-6"
-        @back="$router.push('/notifications/')"
+        @back="router.push('/notifications/')"
         :icon="ArrowLeft"
       >
         <template #content>
-          {{ $t(mode === 'create' ? 'notification.create.header' : 'notification.edit') }}
+          {{ t('notification.create.header') }}
         </template>
       </ElPageHeader>
     </Transition>
@@ -189,7 +180,14 @@ const submit = () => {
               >
                 {{ t('activity.form.actions.reset') }}
               </ElButton>
-              <ElButton type="primary" text bg :icon="ArrowRight" @click="submit">
+              <ElButton
+                type="primary"
+                text
+                bg
+                :icon="ArrowRight"
+                @click="submit"
+                :loading="loading"
+              >
                 {{ t('activity.form.actions.submit') }}
               </ElButton>
             </div>

@@ -102,11 +102,6 @@ const router = createRouter({
       path: '/notifications/create',
       name: 'notifications-create',
       component: () => import('../views/notifications/NotificationCreate.vue')
-    },
-    {
-      path: '/notifications/edit/:id/',
-      name: 'notification-edit',
-      component: () => import('../views/notifications/NotificationEdit.vue')
     }
   ]
 })
