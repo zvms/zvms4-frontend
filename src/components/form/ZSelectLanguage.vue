@@ -57,21 +57,13 @@ const languages = ref<
   {
     display: '日本語',
     value: 'ja-JP',
-    disabled: pad() && !user.position.includes('admin')
+    disabled: true,
   },
-  // {
-  //   display: '한국어',
-  //   value: 'ko-KR'
-  // },
   {
     display: 'Français',
     value: 'fr-FR',
     disabled: pad() && !user.position.includes('admin')
   },
-  // {
-  //   display: 'Русский',
-  //   value: 'ru-RU'
-  // }
 ])
 
 onMounted(() => {

@@ -81,7 +81,9 @@ async function UserLogin(user: string, password: string, term: 'long' | 'short' 
     })
     return
   }
-  localStorage.setItem('token', result.data.token)
+  if (term === 'long') {
+    localStorage.setItem('token', result.data.token)
+  }
   return result.data
 }
 

@@ -80,7 +80,8 @@ export const enUS = {
         effective: 'Approve',
         refused: 'Deny',
         confirm: 'Please confirm the modification of the status of the activity.'
-      }
+      },
+      refresh: 'Refresh'
     },
     details: 'Details',
     impression: 'Impression',
@@ -300,6 +301,33 @@ export const enUS = {
     },
     auto: 'Auto Create Awards',
     instructor: 'Instructor'
+  },
+  export: {
+    name: 'Export',
+    title: 'Export Data',
+    range: 'Range',
+    format: 'Format',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript Object Notation'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: 'Comma-Separated Values'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: 'Export',
+      download: 'Download'
+    },
   }
 }
 
@@ -377,7 +405,8 @@ export const zhCN = {
         effective: '批准',
         refused: '拒绝',
         confirm: '请确认对义工状态的修改'
-      }
+      },
+      refresh: '刷新'
     },
     upload: {
       name: '上传',
@@ -601,6 +630,33 @@ export const zhCN = {
     },
     auto: '自动创建奖项',
     instructor: '指导老师'
+  },
+  export: {
+    name: '导出',
+    title: '导出数据',
+    range: '范围',
+    format: '格式',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript 对象表示法'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: '逗号分隔值'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: '导出',
+      download: '下载'
+    },
   }
 }
 
@@ -672,10 +728,11 @@ export const zhWY = {
       },
       modification: {
         status: '改义工 {activity} 也',
-        effective: '【翻译失败】',
+        effective: '验',
         refused: '辞',
         confirm: '请验谓之改义工也'
-      }
+      },
+      refresh: '新'
     },
     upload: {
       name: '传',
@@ -899,6 +956,33 @@ export const zhWY = {
     },
     auto: '自创奖项',
     instructor: '指导老师'
+  },
+  export: {
+    name: '导出',
+    title: '导出数',
+    range: '范',
+    format: '式',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript 对象表示法'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: '逗号分隔值'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: '导出',
+      download: '下'
+    },
   }
 }
 
@@ -976,7 +1060,8 @@ export const zhTW = {
         effective: '批准',
         refused: '拒絕',
         confirm: '請確認對義工狀態的修改'
-      }
+      },
+      refresh: '刷新'
     },
     upload: {
       name: '上傳',
@@ -1200,6 +1285,33 @@ export const zhTW = {
     },
     auto: '自動創建獎項',
     instructor: '指導老師'
+  },
+  export: {
+    name: '導出',
+    title: '導出數據',
+    range: '範圍',
+    format: '格式',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript 對象表示法'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: '逗號分隔值'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: '導出',
+      download: '下載'
+    },
   }
 }
 
@@ -1278,7 +1390,8 @@ export const jaJP = {
         effective: '承認',
         refused: '拒否',
         confirm: 'ボランティアの状態の変更を確認してください。'
-      }
+      },
+      refresh: '更新'
     },
     upload: {
       name: 'アップロード',
@@ -1502,6 +1615,33 @@ export const jaJP = {
     },
     auto: '自動的に受賞を作成',
     instructor: '指導教員'
+  },
+  export: {
+    name: 'エクスポート',
+    title: 'データをエクスポート',
+    range: '範囲',
+    format: '形式',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript オブジェクト表記法'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: 'カンマ区切り値'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: 'エクスポート',
+      download: 'ダウンロード'
+    },
   }
 }
 
@@ -1581,7 +1721,8 @@ export const frFR = {
         effective: 'Approuver',
         refused: 'Refuser',
         confirm: 'Veuillez confirmer la modification du statut du bénévole'
-      }
+      },
+      refresh: 'Rafraîchir'
     },
     upload: {
       name: 'Télécharger',
@@ -1802,6 +1943,33 @@ export const frFR = {
     },
     auto: 'Créer automatiquement un prix',
     instructor: 'Instructeur'
+  },
+  export: {
+    name: 'Exporter',
+    title: 'Exporter des Données',
+    range: 'Gamme',
+    format: 'Format',
+    formats: {
+      'json': {
+        name: 'JSON',
+        short: 'JSON',
+        explain: 'JavaScript Object Notation'
+      },
+      'csv': {
+        name: 'CSV',
+        short: 'CSV',
+        explain: 'Comma-Separated Values'
+      },
+      'xlsx': {
+        name: 'Excel',
+        short: 'Excel',
+        explain: 'Microsoft Excel'
+      }
+    },
+    actions: {
+      export: 'Exporter',
+      download: 'Télécharger'
+    },
   }
 }
 

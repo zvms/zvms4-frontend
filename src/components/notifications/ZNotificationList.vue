@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ElCard, ElButton, ElPagination, ElRow, ElCol, ElScrollbar } from 'element-plus'
+import {
+  ElCard,
+  ElButton,
+  ElPagination,
+  ElRow,
+  ElCol,
+  ElScrollbar,
+  ElNotification
+} from 'element-plus'
 import { Clock, Delete, EditPen, ArrowRight, Close } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -9,10 +17,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
 import { useWindowSize } from '@vueuse/core'
-import {
-  OouiUserAnonymous,
-  StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
-} from '@/icons'
+import { OouiUserAnonymous } from '@/icons'
 
 const { t } = useI18n()
 
@@ -23,27 +28,38 @@ const minHeight = ref(height.value * 0.68 + 'px')
 
 watch(height, () => (minHeight.value = height.value * 0.68 + 'px'))
 
-const sliceLength = 8
-const sliceNotification = (unsliced: NotificationInstance[]) => {
-  if (unsliced.length <= sliceLength) return [unsliced]
-  const res = []
-  for (let i = 0; i <= unsliced.length - sliceLength; i += 10) res.push(unsliced.slice(i, i + 10))
-  return res
+const notifications = ref<NotificationInstance[]>([])
+const pageIndex = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+const loading = ref(false)
+
+async function getNotifications(mode: 'global' | 'personal') {
+  loading.value = true
+  try {
+    if (mode === 'personal')
+      await api.notification.read.mine(user._id, pageIndex.value, pageSize.value).then((res) => {
+        notifications.value = res ? res.data : []
+        total.value = res?.total || 0
+      })
+    else
+      await api.notification.read.global(pageIndex.value, pageSize.value).then((res) => {
+        notifications.value = res ? res.data : []
+        total.value = res?.total || 0
+      })
+    loading.value = false
+  } catch (e) {
+    ElNotification({
+      title: t('notification.home.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
+    loading.value = false
+  }
 }
 
-const notifications = ref<Array<NotificationInstance[]>>([])
-const pageIndex = ref(1) // Start from 1
-
-const getNotifications = (mode: 'global' | 'personal') => {
-  if (mode === 'personal')
-    api.notification.read.mine(user._id).then((res) => {
-      notifications.value = sliceNotification(res ?? [])
-    })
-  else
-    api.notification.read.global().then((res) => {
-      notifications.value = sliceNotification(res ?? [])
-    })
-}
+watch(pageIndex, () => getNotifications(props.mode))
+watch(pageSize, () => getNotifications(props.mode))
 
 const props = defineProps<{
   refresh: number
@@ -94,7 +110,7 @@ const modify = () => {
 <template>
   <div class="p-5">
     <ElScrollbar :height="minHeight">
-      <div v-for="(item, index) in notifications[pageIndex - 1]" :key="index" class="p-6px">
+      <div v-for="(item, index) in notifications" :key="index" class="p-6px">
         <ElCard shadow="hover" class="py-6px">
           <div class="flex p-2 pl-0 items-center">
             <!-- TODO: refactor this to ZEditable.vue -->
@@ -159,18 +175,19 @@ const modify = () => {
           </div>
         </ElCard>
       </div>
-      <div v-if="notifications.flat.length === 0" class="text-center my-10 text-lg op-70">
-        {{ t('notification.home.empty') }}
+      <div class="text-center my-10 text-lg op-70" v-if="notifications.length == 0">
+        <ElEmpty />
+      </div>
+      <div class="flex justify-center mt-10" v-if="notifications.length !== 0">
+        <ElPagination
+          background
+          layout="total, prev, pager, next, sizes, jumper"
+          v-model:current-page="pageIndex"
+          v-model:page-size="pageSize"
+          :page-sizes="[3, 5, 8, 10, 15, 20]"
+          :total="total"
+        />
       </div>
     </ElScrollbar>
-    <div class="flex justify-center mt-3">
-      <ElPagination
-        background
-        hide-on-single-page
-        layout="total, prev, pager, next, jumper"
-        v-model:current-page="pageIndex"
-        :total="notifications.length * 10"
-      />
-    </div>
   </div>
 </template>

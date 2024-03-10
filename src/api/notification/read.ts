@@ -1,49 +1,71 @@
 import axios from '@/plugins/axios'
 import type { Response, NotificationInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
-import dayjs from 'dayjs'
 
-function sortNotifications(li: NotificationInstance[]): NotificationInstance[] {
-  return li.sort((a, b) =>
-    dayjs(a.time, 'YYYY-MM-DD HH:mm:ss').isBefore(dayjs(b.time, 'YYYY-MM-DD HH:mm:ss')) ? 1 : -1
-  )
-}
-
-async function getMyNotifications(id: string) {
-  const result = (await axios(`/user/${id}/notification`)).data as Response<NotificationInstance[]>
+async function getMyNotifications(id: string, page: number = 1, perpage: number = 10) {
+  const result = (
+    await axios(`/user/${id}/notification`, {
+      method: 'GET',
+      params: {
+        page,
+        perpage
+      }
+    })
+  ).data as Response<NotificationInstance[]> & {
+    metadata: {
+      size: number
+    }
+  }
   if (result.status === 'error') {
     ElNotification({
       title: `获取用户通知列表失败（${result.code}）`,
       message: result.message,
       type: 'error'
     })
-    return
+    throw new Error(result.message)
   }
-  return sortNotifications(result.data)
+  return {
+    data: result.data,
+    total: result.metadata.size
+  }
 }
 
-async function getNotifications() {
-  const result = (await axios('/notification')).data as Response<NotificationInstance[]>
+async function getNotifications(page: number = 1, perpage: number = 10) {
+  const result = (
+    await axios('/notification', {
+      method: 'GET',
+      params: {
+        page,
+        perpage
+      }
+    })
+  ).data as Response<NotificationInstance[]> & {
+    metadata: {
+      size: number
+    }
+  }
   if (result.status === 'error') {
     ElNotification({
       title: `获取通知列表失败（${result.code}）`,
       message: result.message,
       type: 'error'
     })
-    return
+    throw new Error(result.message)
   }
-  return sortNotifications(result.data)
+  return {
+    data: result.data,
+    total: result.metadata.size
+  }
 }
 
 async function getSpecificNotification(id: string) {
-  const result = (await getNotifications())?.find((i) => i._id === id)
+  const result = (await axios(`/notification/${id}`)).data as Response<NotificationInstance>
   return result
 }
 
 const exports = {
   mine: getMyNotifications,
-  global: getNotifications,
-  specific: getSpecificNotification
+  global: getNotifications
 }
 
-export { exports as read }
+export { exports as read, getSpecificNotification as readOne }

@@ -46,8 +46,7 @@ async function login() {
 }
 
 watch(user, async () => {
-  const result = await loginfield.value.validate()
-  console.log(result)
+  await loginfield.value.validate()
 })
 
 const openDialog = ref(false)

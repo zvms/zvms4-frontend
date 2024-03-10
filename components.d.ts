@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
     NotificationForm: typeof import('./src/components/notifications/NotificationForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
