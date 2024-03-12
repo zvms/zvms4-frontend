@@ -14,3 +14,14 @@ declare module 'virtual:pwa-register/vue' {
     updateServiceWorker: (reloadPage?: boolean) => Promise<void>
   }
 }
+
+export type ClarityFunction = {
+  (config: { [key: string]: unknown }): void
+  q?: IArguments[]
+}
+
+declare global {
+  interface window {
+    clarity: ClarityFunction
+  }
+}

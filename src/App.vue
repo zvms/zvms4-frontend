@@ -67,6 +67,36 @@ const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
 
+function embedClarity() {
+  if (userStore.position.includes('admin')) return
+  // Define a type for the clarity function to improve readability and type safety
+  type ClarityFunction = {
+    (config: { [key: string]: unknown }): void
+    q?: IArguments[]
+  }
+
+  const scriptId = 'jwc2tctpr3'
+
+  const setupClarity: ClarityFunction = (window.clarity =
+    window.clarity ||
+    function () {
+      ;(window.clarity.q = window.clarity.q || []).push(arguments)
+    })
+
+  setupClarity()
+
+  // Create the script element with more descriptive variable names and TypeScript type assertions where necessary
+  const scriptElement: HTMLScriptElement = document.createElement('script') as HTMLScriptElement
+  scriptElement.async = true
+  scriptElement.src = `https://www.clarity.ms/tag/${scriptId}`
+
+  // Insert the script before the first script tag in the document
+  const firstScriptTag: HTMLScriptElement = document.getElementsByTagName(
+    'script'
+  )[0] as HTMLScriptElement
+  firstScriptTag.parentNode!.insertBefore(scriptElement, firstScriptTag)
+}
+
 locale.value = userStore.language ?? navigator.language
 
 const { width, height } = useWindowSize()
@@ -265,7 +295,7 @@ const locales: Record<
       message: 'Nouvelle version trouvée, rafraîchir maintenant?',
       ok: 'Rafraîchir',
       cancel: 'Annuler'
-    },
+    }
   }
 }
 
@@ -302,7 +332,7 @@ const panelButtons = [
         {
           confirmButtonText: locales[locale.value].password.confirmButtonText,
           cancelButtonText: locales[locale.value].password.cancelButtonText,
-          inputType: 'password',
+          inputType: 'password'
         }
       )
       const confirm = await ElMessageBox.prompt(

@@ -102,6 +102,11 @@ const router = createRouter({
       path: '/notifications/create',
       name: 'notifications-create',
       component: () => import('../views/notifications/NotificationCreate.vue')
+    },
+    {
+      path: '/notifications/creative/:port',
+      name: 'notification-creative',
+      component: () => import('../views/notifications/IFrame.vue')
     }
   ]
 })

@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', {
       socialPractice: 0,
       onCampus: 0,
       offCampus: 0,
-      trophy: 0,
+      trophy: 0
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
   }),
