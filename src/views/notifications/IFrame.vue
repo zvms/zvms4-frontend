@@ -6,7 +6,7 @@ const route = useRoute()
 
 const portNum = ref(route.params.port)
 
-const src = `https://172.31.2.4:${portNum.value}`
+const src = `http://172.31.2.4:${portNum.value}`
 </script>
 
 <template>
