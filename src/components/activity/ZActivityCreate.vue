@@ -338,8 +338,8 @@ function getUserToken() {
                 </div>
               </ElCard>
             </ElFormItem>
-            <ElFormItem
-              v-if="type !== 'special'"
+            <!-- <ElFormItem
+              v-if="type === 'social'"
               :label="t('activity.form.upload.name') + t('activity.form.image')"
             >
               <ElUpload
@@ -365,7 +365,7 @@ function getUserToken() {
                   </div>
                 </template>
               </ElUpload>
-            </ElFormItem>
+            </ElFormItem> -->
           </ElScrollbar>
           <div class="actions text-right">
             <ElButton type="warning" :icon="Refresh" text bg>

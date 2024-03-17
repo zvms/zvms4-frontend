@@ -3,7 +3,7 @@ import type { Response } from '@zvms/zvms4-types'
 
 export async function insert(activityId: string, userId: string, imageId: string) {
   const result = (
-    await axios.post(`/activity/${activityId}/member/${userId}/image/`, {
+    await axios(`/activity/${activityId}/member/${userId}/image/`, {
       method: 'post',
       data: {
         image: imageId
