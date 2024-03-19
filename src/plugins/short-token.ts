@@ -1,7 +1,11 @@
 import { ElMessageBox } from 'element-plus'
 import api from '@/api'
 
-export function temporaryToken(userid: string, validate: boolean = true, locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US'): Promise<string> {
+export function temporaryToken(
+  userid: string,
+  validate: boolean = true,
+  locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US'
+): Promise<string> {
   const locales = {
     'zh-CN': {
       title: '请输入密码',
@@ -49,19 +53,20 @@ export function temporaryToken(userid: string, validate: boolean = true, locale:
       confirmButtonText: locales[locale].confirm,
       cancelButtonText: locales[locale].cancel,
       inputType: 'password',
-      type: 'warning',
-      inputPattern: validate ? (/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/) : undefined,
-      inputErrorMessage: validate ? locales[locale].validation : undefined
+      type: 'warning'
     }).then(({ value }) => {
-      api.user.auth.useLongTermAuth(userid, value, 'short').then((result) => {
-        if (result) {
-          resolve(result.token)
-        } else {
-          reject('Login failed')
-        }
-      }).catch((err) => {
-        reject(err)
-      })
+      api.user.auth
+        .useLongTermAuth(userid, value, 'short')
+        .then((result) => {
+          if (result) {
+            resolve(result.token)
+          } else {
+            reject('Login failed')
+          }
+        })
+        .catch((err) => {
+          reject(err)
+        })
     })
   })
 }

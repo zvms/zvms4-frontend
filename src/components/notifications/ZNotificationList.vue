@@ -1,14 +1,6 @@
 <script setup lang="ts">
-import {
-  ElCard,
-  ElButton,
-  ElPagination,
-  ElRow,
-  ElCol,
-  ElScrollbar,
-  ElNotification
-} from 'element-plus'
-import { Clock, Delete, EditPen, ArrowRight, Close } from '@element-plus/icons-vue'
+import { ElCard, ElButton, ElPagination, ElScrollbar, ElNotification } from 'element-plus'
+import { Clock, Delete, ArrowRight } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import type { NotificationInstance } from '@zvms/zvms4-types'
@@ -71,8 +63,12 @@ watch(props, () => {
 
 onMounted(() => getNotifications(props.mode))
 
-const deleteNotification = (id: string) => {
-  api.notification.delete(id)
+const deleteNotification = async (id: string) => {
+  console.log('deleting')
+  await api.notification.delete(id, user._id)
+  console.log('deleted')
+  await getNotifications(props.mode)
+  console.log('done')
 }
 
 // edit the title / content of any notification
@@ -109,7 +105,7 @@ const modify = () => {
 
 <template>
   <div class="p-5">
-    <ElScrollbar :height="minHeight">
+    <ElScrollbar :height="minHeight" v-loading="loading">
       <div v-for="(item, index) in notifications" :key="index" class="p-6px">
         <ElCard shadow="hover" class="py-6px">
           <div class="flex p-2 pl-0 items-center">
@@ -141,16 +137,22 @@ const modify = () => {
             />
             <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
             <ElButton
+              v-if="
+                user.position.includes('admin') ||
+                user.position.includes('department') ||
+                user.position.includes('auditor')
+              "
               :icon="Delete"
               @click="deleteNotification(item._id)"
               circle
+              text
+              bg
               type="danger"
-              plain
               size="small"
             ></ElButton>
           </div>
           <span
-            class="font-bold text-xl"
+            class="text-sm"
             @dblclick="toggleEditContent(item._id)"
             v-if="!editContent.editing || editContent.id !== item._id"
           >
@@ -178,16 +180,16 @@ const modify = () => {
       <div class="text-center my-10 text-lg op-70" v-if="notifications.length == 0">
         <ElEmpty />
       </div>
-      <div class="flex justify-center mt-10" v-if="notifications.length !== 0">
-        <ElPagination
-          background
-          layout="total, prev, pager, next, sizes, jumper"
-          v-model:current-page="pageIndex"
-          v-model:page-size="pageSize"
-          :page-sizes="[3, 5, 8, 10, 15, 20]"
-          :total="total"
-        />
-      </div>
     </ElScrollbar>
+    <div class="flex justify-center mt-10" v-if="notifications.length !== 0">
+      <ElPagination
+        background
+        layout="total, prev, pager, next, sizes, jumper"
+        v-model:current-page="pageIndex"
+        v-model:page-size="pageSize"
+        :page-sizes="[3, 5, 8, 10, 15, 20]"
+        :total="total"
+      />
+    </div>
   </div>
 </template>
