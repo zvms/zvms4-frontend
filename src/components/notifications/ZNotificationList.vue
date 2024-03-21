@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  ElCard,
-  ElButton,
-  ElPagination,
-  ElScrollbar,
-  ElNotification,
-  ElCol,
-  ElRow
-} from 'element-plus'
+import { ElCard, ElButton, ElPagination, ElScrollbar, ElNotification } from 'element-plus'
 import { Clock, Delete, ArrowRight } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -16,6 +8,7 @@ import api from '@/api'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
 import ZActivityMember from '@/components/activity/ZActivityMember.vue'
+import ZNotificationContentDisplayer from './ZNotificationContentDisplayer.vue'
 import { useWindowSize } from '@vueuse/core'
 import { OouiUserAnonymous } from '@/icons'
 
@@ -48,6 +41,7 @@ async function getNotifications(mode: 'global' | 'personal') {
         notifications.value = res ? res.data : []
         total.value = res?.total || 0
       })
+    console.log(notifications.value)
     loading.value = false
   } catch (e) {
     ElNotification({
@@ -73,11 +67,8 @@ watch(props, () => {
 onMounted(() => getNotifications(props.mode))
 
 const deleteNotification = async (id: string) => {
-  console.log('deleting')
   await api.notification.delete(id, user._id)
-  console.log('deleted')
   await getNotifications(props.mode)
-  console.log('done')
 }
 
 // edit the title / content of any notification
@@ -173,21 +164,23 @@ const modify = () => {
               class="ml-0.5rem"
             ></ElButton>
           </div>
-          <span
-            class="text-sm"
+          <div
+            class="text-sm py-6px"
             :class="item.content.length === 0 ? 'op-65' : ''"
             @dblclick="toggleEditContent(item._id)"
             v-if="!editContent.editing || editContent.id !== item._id"
           >
-            {{
-              item.content.length === 0 &&
-              (user.position.includes('admin') ||
-                user.position.includes('department') ||
-                user.position.includes('auditor'))
-                ? t('notification.editable')
-                : item.content
-            }}
-          </span>
+            <ZNotificationContentDisplayer
+              :content="
+                item.content.length === 0 &&
+                (user.position.includes('admin') ||
+                  user.position.includes('department') ||
+                  user.position.includes('auditor'))
+                  ? t('notification.editable')
+                  : item.content
+              "
+            />
+          </div>
           <ElInput
             v-model="item.content"
             @keydown.enter="modify"
