@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ElCard, ElButton, ElPagination, ElScrollbar, ElNotification } from 'element-plus'
+import {
+  ElCard,
+  ElButton,
+  ElPagination,
+  ElScrollbar,
+  ElNotification,
+  ElCol,
+  ElRow
+} from 'element-plus'
 import { Clock, Delete, ArrowRight } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -28,6 +36,7 @@ const loading = ref(false)
 
 async function getNotifications(mode: 'global' | 'personal') {
   loading.value = true
+  emptyEditingStatus()
   try {
     if (mode === 'personal')
       await api.notification.read.mine(user._id, pageIndex.value, pageSize.value).then((res) => {
@@ -94,11 +103,14 @@ const toggleEditContent = (id: string) => {
     id
   }
 }
+const emptyEditingStatus = () => {
+  editTitle.value = { editing: false, id: '' }
+  editContent.value = { editing: false, id: '' }
+}
 const modify = () => {
   const id = editTitle.value.editing ? editTitle.value.id : editContent.value.id
   const modified = notifications.value.flat().find((i) => i._id === id) as NotificationInstance
-  editTitle.value = { editing: false, id: '' }
-  editContent.value = { editing: false, id: '' }
+  emptyEditingStatus()
   api.notification.modify(modified, id)
 }
 </script>
@@ -108,14 +120,21 @@ const modify = () => {
     <ElScrollbar :height="minHeight" v-loading="loading">
       <div v-for="(item, index) in notifications" :key="index" class="p-6px">
         <ElCard shadow="hover" class="py-6px">
-          <div class="flex p-2 pl-0 items-center">
-            <!-- TODO: refactor this to ZEditable.vue -->
+          <div class="flex items-center">
             <span
-              class="font-bold text-xl"
+              class="text-xl"
+              :class="item.title.length !== 0 ? 'font-bold' : 'op-65'"
               @dblclick="toggleEditTitle(item._id)"
               v-if="!editTitle.editing || item._id !== editTitle.id"
             >
-              {{ item.title }}
+              {{
+                item.title.length === 0 &&
+                (user.position.includes('admin') ||
+                  user.position.includes('department') ||
+                  user.position.includes('auditor'))
+                  ? t('notification.editable')
+                  : item.title
+              }}
             </span>
             <ElInput
               v-model="item.title"
@@ -128,14 +147,16 @@ const modify = () => {
               </template>
             </ElInput>
             <div class="ma"></div>
-            <ZActivityMember v-if="!item.anonymous" :id="item.publisher" />
-            <ZActivityMember
-              v-else-if="user.position.includes('admin')"
-              :icon="OouiUserAnonymous"
-              type="info"
-              :id="item.publisher"
-            />
-            <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
+            <div class="w-74px">
+              <ZActivityMember v-if="!item.anonymous" :id="item.publisher" />
+              <ZActivityMember
+                v-else-if="user.position.includes('admin')"
+                :icon="OouiUserAnonymous"
+                type="info"
+                :id="item.publisher"
+              />
+              <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
+            </div>
             <ElButton
               v-if="
                 user.position.includes('admin') ||
@@ -149,14 +170,23 @@ const modify = () => {
               bg
               type="danger"
               size="small"
+              class="ml-0.5rem"
             ></ElButton>
           </div>
           <span
             class="text-sm"
+            :class="item.content.length === 0 ? 'op-65' : ''"
             @dblclick="toggleEditContent(item._id)"
             v-if="!editContent.editing || editContent.id !== item._id"
           >
-            {{ item.content }}
+            {{
+              item.content.length === 0 &&
+              (user.position.includes('admin') ||
+                user.position.includes('department') ||
+                user.position.includes('auditor'))
+                ? t('notification.editable')
+                : item.content
+            }}
           </span>
           <ElInput
             v-model="item.content"
