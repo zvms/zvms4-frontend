@@ -30,18 +30,21 @@ const loading = ref(false)
 async function getNotifications(mode: 'global' | 'personal') {
   loading.value = true
   emptyEditingStatus()
+  const lessLength = 3 // max length in UserHome
+  console.log(props.less, mode)
   try {
     if (mode === 'personal')
-      await api.notification.read.mine(user._id, pageIndex.value, pageSize.value).then((res) => {
-        notifications.value = res ? res.data : []
-        total.value = res?.total || 0
-      })
+      await api.notification.read
+        .mine(user._id, props.less ? 1 : pageIndex.value, props.less ? lessLength : pageSize.value)
+        .then((res) => {
+          notifications.value = res ? res.data : []
+          total.value = res?.total || 0
+        })
     else
       await api.notification.read.global(pageIndex.value, pageSize.value).then((res) => {
         notifications.value = res ? res.data : []
         total.value = res?.total || 0
       })
-    console.log(notifications.value)
     loading.value = false
   } catch (e) {
     ElNotification({
@@ -59,6 +62,7 @@ watch(pageSize, () => getNotifications(props.mode))
 const props = defineProps<{
   refresh: number
   mode: 'global' | 'personal'
+  less: boolean
 }>()
 watch(props, () => {
   getNotifications(props.mode)
@@ -204,7 +208,7 @@ const modify = () => {
         <ElEmpty />
       </div>
     </ElScrollbar>
-    <div class="flex justify-center mt-10" v-if="notifications.length !== 0">
+    <div class="flex justify-center mt-10" v-if="notifications.length !== 0 && !props.less">
       <ElPagination
         background
         layout="total, prev, pager, next, sizes, jumper"

@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import { ElDescriptions, ElDescriptionsItem, ElButton, ElDivider, ElCard, ElSkeleton } from 'element-plus'
+import {
+  ElDescriptions,
+  ElDescriptionsItem,
+  ElButton,
+  ElDivider,
+  ElCard,
+  ElSkeleton
+} from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
@@ -11,7 +18,11 @@ import { reactive } from 'vue'
 import type { UserActivityTimeSums } from '@zvms/zvms4-types'
 import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
+import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useWindowSize } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -49,13 +60,25 @@ async function refreshUser() {
             <p class="text-xl">{{ t('home.panels.information.title') }}</p>
           </template>
           <template #extra>
-            <ElButton type="success" :icon="Refresh" text bg circle @click="refreshUser" :disabled="loading" />
+            <ElButton
+              type="success"
+              :icon="Refresh"
+              text
+              bg
+              circle
+              @click="refreshUser"
+              :disabled="loading"
+            />
             <ElDivider direction="vertical" />
             <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />
           </template>
           <ElSkeleton v-if="loading" :loading="true" :rows="3" />
-          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.name')">{{ user.name }}</ElDescriptionsItem>
-          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.number')">{{ user.id }}</ElDescriptionsItem>
+          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.name')">{{
+            user.name
+          }}</ElDescriptionsItem>
+          <ElDescriptionsItem v-if="!loading" :label="t('home.labels.number')">{{
+            user.id
+          }}</ElDescriptionsItem>
           <ElDescriptionsItem v-if="!loading" :label="t('home.labels.identify')">
             <ZUserGroup
               v-for="group in user.groups"
@@ -76,6 +99,16 @@ async function refreshUser() {
         :social-practice="time.socialPractice"
       />
     </div>
+    <ElCard class="py-4" shadow="hover">
+      <div class="flex items-center">
+        <span class="text-lg">{{ t('home.panels.notification.title') }}</span>
+        <span class="ma"></span>
+        <ElButton bg text type="primary" @click="router.push('notifications')">{{
+          t('home.panels.notification.more')
+        }}</ElButton>
+      </div>
+      <ZNotificationList less mode="personal" />
+    </ElCard>
   </div>
 </template>
 

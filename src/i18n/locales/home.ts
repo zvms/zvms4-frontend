@@ -1,3 +1,5 @@
+import { notification } from '@/api/export'
+
 export const enUS = {
   greeting: '{greet}, {name}!',
   greetings: {
@@ -35,6 +37,10 @@ export const enUS = {
       discount: 'Show Discount',
       unit: 'Hour | Hours',
       least: '{type}: {least} Hours at least'
+    },
+    notification: {
+      title: 'Notification',
+      more: 'more'
     }
   }
 }
@@ -76,6 +82,10 @@ export const zhCN = {
       discount: '显示折算',
       unit: '小时',
       least: '{type}: 至少 {least} 小时'
+    },
+    notification: {
+      title: '通知',
+      more: '更多'
     }
   }
 }
@@ -120,7 +130,6 @@ export const zhWY = {
     }
   }
 }
-
 
 export const zhTW = {
   greeting: '{greet}，{name}！',
