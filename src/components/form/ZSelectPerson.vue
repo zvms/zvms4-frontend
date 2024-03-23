@@ -41,7 +41,6 @@ async function filter(number: string) {
   load.value = true
   const digits = number.replace(/[^0-9]/g, '').length
   const han = extractHanCharacters(number).length
-  console.log(digits, han)
   if (filterStart.value && digits <= (filterStart.value ? filterStart.value : 5) && han < 2) {
     load.value = false
     return []
