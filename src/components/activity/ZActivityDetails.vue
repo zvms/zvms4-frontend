@@ -181,13 +181,12 @@ const refresh = () => emits('refresh')
           <ElButton
             v-if="showDetails"
             type="info"
-            disabled
             :icon="Plus"
             text
             bg
             round
             size="small"
-            @click="$router.push('/activity/' + activity._id)"
+            @click="$router.push('/activity/details/' + activity._id)"
           >
             {{ t('activity.form.detail') }}
           </ElButton>

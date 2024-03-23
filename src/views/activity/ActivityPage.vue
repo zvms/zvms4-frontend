@@ -8,7 +8,7 @@ import { ElLoading } from 'element-plus';
 
 const route = useRoute()
 
-const _id = route.params._id as string
+const _id = route.params.id as string
 
 const activity = ref<ActivityInstance>()
 

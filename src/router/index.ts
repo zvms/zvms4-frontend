@@ -84,7 +84,7 @@ const router = createRouter({
       component: () => import('../views/trophy/TrophyCreate.vue')
     },
     {
-      path: '/activity/:id',
+      path: '/activity/details/:id',
       name: 'activity-view',
       component: () => import('../views/activity/ActivityPage.vue')
     },

@@ -6,15 +6,7 @@ import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
 
-header.setHeader('关于｜吴承宇')
-
-function openGitHub() {
-  ElNotification({
-    title: '不行',
-    message: '如果这样就让你润出去的话未免有些……（   ）（3 分）',
-    type: 'warning'
-  })
-}
+header.setHeader('About Ethan Goh')
 
 function randomColor() {
   const list = ['primary', 'success', 'warning', 'danger', 'info']
@@ -23,7 +15,7 @@ function randomColor() {
 </script>
 <template>
   <p class="text-2xl">
-    2023 级 吴承宇
+    Ethan Goh (Wú Chéng yǔ), or alias `7086cmd`.
     <ElButtonGroup>
       <ElTooltip
         :content="interest.name"
@@ -37,7 +29,6 @@ function randomColor() {
   </p>
   <br />
   <img
-    @click="openGitHub"
     src="https://img.shields.io/badge/-@7086cmd-181717?style=for-the-badge&logo=github&logoColor=white"
   />
   <ElRow>
@@ -55,7 +46,7 @@ function randomColor() {
     </ElCol>
   </ElRow>
   <p class="self-introd py-2">
-    开发过的项目有：蛟川书院纪检部管理平台
+    Developed projects: Discipline Department Platform in Jiaochuan Academy with
     <sup>
       <ElButtonGroup>
         <ElTooltip
@@ -68,7 +59,7 @@ function randomColor() {
         </ElTooltip>
       </ElButtonGroup>
     </sup>
-    蛟川书院学生会管理平台
+    , Intelligent administration platform of Students' Union in Jiaochuan Academy using
     <sup>
       <ElButtonGroup>
         <ElTooltip
@@ -81,7 +72,9 @@ function randomColor() {
         </ElTooltip>
       </ElButtonGroup>
     </sup>
+    , a minimal digit recognition with CNN, a minimal localization & block recognition plugin for automatic, etc.
   </p>
+  <p>LaTeX enthusiast. Learning machine learning and embed development.</p>
 </template>
 
 <style scoped>

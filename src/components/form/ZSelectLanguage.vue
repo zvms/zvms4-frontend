@@ -57,7 +57,7 @@ const languages = ref<
   {
     display: '日本語',
     value: 'ja-JP',
-    disabled: true,
+    disabled: false,
   },
   {
     display: 'Français',

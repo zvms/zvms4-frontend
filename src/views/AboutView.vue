@@ -39,7 +39,7 @@ import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
 // const user = useUserStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -117,22 +117,22 @@ const collaborators = [
     dispName: '7086cmd',
     component: WuChengyu,
     grade: 202306,
-    name: '吴承宇'
+    name: locale.value === 'zh-CN' ? '吴承宇' : 'Ethan Goh',
   },
   {
-    dispName: 'byh',
+    dispName: 'Regir',
     component: BaoYihan,
     grade: 202307,
     name: '鲍屹涵'
   },
   {
-    dispName: 'zyq',
+    dispName: 'Dignite',
     component: ZhaiYanqi,
     grade: 202312,
     name: '翟彦棋'
   },
   {
-    dispName: 'zzh',
+    dispName: 'Zhang Zheheng',
     component: ZhangZheheng,
     grade: 202311,
     name: '张哲恒'
@@ -165,7 +165,7 @@ const curComponent = ref<VueComponent>()
 
 watch(openDialog, () => {
   if (openDialog.value === false) {
-    header.setHeader('关于')
+    header.setHeader('About')
   }
 })
 
@@ -252,12 +252,11 @@ const displayGitHubName = ref(props.showRealName)
 function openGitHub() {
   if (pad()) {
     ElNotification({
-      title: '不行',
-      message: '如果这样就让你润出去的话未免有些...',
+      title: 'Please visit GitHub through other devices.',
       type: 'warning'
     })
   } else {
-    window.open('https://github.com/7086cmd', '_blank')
+    window.open('https://github.com/zvms', '_blank')
   }
 }
 </script>
@@ -354,7 +353,7 @@ function openGitHub() {
         <p>
           本站与 Microsoft Clarity 和 Microsoft Advertising
           合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方
-          cookie
+          Cookie
           及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于<b>政教处管理与审查</b>、网站优化、欺诈/安全目的和广告。有关
           Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明
           (https://privacy.microsoft.com/privacystatement)。
@@ -366,14 +365,13 @@ function openGitHub() {
       size="75%"
       v-model="openDialog"
       center
-      :title="`关于 ${currentCollaborator}${
-        '（' +
+      :title="`About ${currentCollaborator}${
+        ' in ' +
         getClassName(
           getUserClass(
             (collaborators.find((x) => x.dispName === currentCollaborator)?.grade as number) * 100
           )
-        ) +
-        '）'
+        )
       }`"
     >
       <Component class="px-8 text-xl" :is="curComponent" />
@@ -383,9 +381,9 @@ function openGitHub() {
       size="40%"
       v-model="openStackDialog"
       center
-      :title="'关于 ZVMS v' + currentStack + '.x'"
+      :title="'About ZVMS v' + currentStack + '.x'"
     >
-      技术栈：
+      Technique Stacks:
       <ElButtonGroup>
         <ElTooltip
           v-for="(stack, idx) in stacks[currentStack as number].stacks"
@@ -397,7 +395,7 @@ function openGitHub() {
         </ElTooltip>
       </ElButtonGroup>
       <br /><br />
-      仓库：
+      Repository in GitHub: 
       <ElSpace>
         <img
           @click="openGitHub"
