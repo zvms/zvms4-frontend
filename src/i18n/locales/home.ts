@@ -40,7 +40,7 @@ export const enUS = {
     },
     notification: {
       title: 'Notification',
-      more: 'more'
+      more: 'More'
     }
   }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElCard, ElButton, ElPagination, ElScrollbar, ElNotification } from 'element-plus'
-import { Clock, Delete, ArrowRight } from '@element-plus/icons-vue'
+import { Delete, ArrowRight } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import type { NotificationInstance } from '@zvms/zvms4-types'
@@ -13,12 +13,16 @@ import { useWindowSize } from '@vueuse/core'
 import { OouiUserAnonymous } from '@/icons'
 
 const { t } = useI18n()
-
 const user = useUserStore()
 const { height } = useWindowSize()
 
-const minHeight = ref(height.value * 0.68 + 'px')
+const props = defineProps<{
+  refresh: number
+  mode: 'global' | 'personal'
+  less: boolean
+}>()
 
+const minHeight = ref(height.value * 0.68 + 'px')
 watch(height, () => (minHeight.value = height.value * 0.68 + 'px'))
 
 const notifications = ref<NotificationInstance[]>([])
@@ -41,10 +45,12 @@ async function getNotifications(mode: 'global' | 'personal') {
           total.value = res?.total || 0
         })
     else
-      await api.notification.read.global(pageIndex.value, pageSize.value).then((res) => {
-        notifications.value = res ? res.data : []
-        total.value = res?.total || 0
-      })
+      await api.notification.read
+        .global(props.less ? 1 : pageIndex.value, props.less ? lessLength : pageSize.value)
+        .then((res) => {
+          notifications.value = res ? res.data : []
+          total.value = res?.total || 0
+        })
     loading.value = false
   } catch (e) {
     ElNotification({
@@ -59,11 +65,6 @@ async function getNotifications(mode: 'global' | 'personal') {
 watch(pageIndex, () => getNotifications(props.mode))
 watch(pageSize, () => getNotifications(props.mode))
 
-const props = defineProps<{
-  refresh: number
-  mode: 'global' | 'personal'
-  less: boolean
-}>()
 watch(props, () => {
   getNotifications(props.mode)
 })
@@ -197,8 +198,7 @@ const modify = () => {
           </ElInput>
           <div class="ma"></div>
           <div class="w-full py-3">
-            <span class="float-right">
-              <span :icon="Clock"></span>
+            <span class="float-right op-65 text-sm">
               {{ dayjs(item.time).format('YYYY-MM-DD HH:mm:ss') }}
             </span>
           </div>

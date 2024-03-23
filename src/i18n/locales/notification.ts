@@ -28,7 +28,7 @@ export const enUS = {
       clear: 'Clear'
     }
   },
-  editable: 'Click to edit'
+  editable: 'Double click to edit'
 }
 
 export const zhCN = {
@@ -61,7 +61,7 @@ export const zhCN = {
       clear: '清空'
     }
   },
-  editable: '点击以编辑'
+  editable: '双击以编辑'
 }
 
 export const zhWY = {

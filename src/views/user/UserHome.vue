@@ -9,7 +9,7 @@ import {
   ElSkeleton
 } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
-import { Refresh } from '@element-plus/icons-vue'
+import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
@@ -22,12 +22,11 @@ import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useWindowSize } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-
 const header = useHeaderStore()
 const user = useUserStore()
 const { t } = useI18n()
 const { width, height } = useWindowSize()
+const router = useRouter()
 
 header.setHeader(t('nav.home'))
 
@@ -45,6 +44,12 @@ async function refreshUser() {
   loading.value = true
   await user.refreshUser()
   loading.value = false
+}
+
+const notMode = ref<'personal' | 'global'>('personal')
+const toggleMode = () => {
+  if (notMode.value === 'personal') notMode.value = 'global'
+  else notMode.value = 'personal'
 }
 </script>
 
@@ -99,16 +104,38 @@ async function refreshUser() {
         :social-practice="time.socialPractice"
       />
     </div>
-    <ElCard class="py-4" shadow="hover">
-      <div class="flex items-center">
-        <span class="text-lg">{{ t('home.panels.notification.title') }}</span>
-        <span class="ma"></span>
-        <ElButton bg text type="primary" @click="router.push('notifications')">{{
-          t('home.panels.notification.more')
-        }}</ElButton>
-      </div>
-      <ZNotificationList less mode="personal" />
-    </ElCard>
+    <div class="pt-4 pb-8">
+      <ElCard shadow="hover">
+        <div class="flex items-center">
+          <p class="text-lg pl-1">{{ t('home.panels.notification.title') }}</p>
+          <div class="ma"></div>
+          <ElButton
+            bg
+            text
+            round
+            :icon="ArrowRight"
+            type="success"
+            v-if="
+              user.position.includes('admin') ||
+              user.position.includes('department') ||
+              user.position.includes('auditor')
+            "
+            @click="
+              user.position.includes('admin') ||
+              user.position.includes('department') ||
+              user.position.includes('auditor')
+                ? toggleMode()
+                : undefined
+            "
+            >{{ t('notification.home.' + notMode) }}</ElButton
+          >
+          <ElButton bg text round @click="router.push('/notifications/')">{{
+            t('home.panels.notification.more')
+          }}</ElButton>
+        </div>
+        <ZNotificationList less :mode="notMode" />
+      </ElCard>
+    </div>
   </div>
 </template>
 
