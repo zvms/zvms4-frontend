@@ -14,7 +14,6 @@ const activity = ref<ActivityInstance>()
 
 const loading = ElLoading.service({
   fullscreen: true,
-  text: '加载中'
 })
 
 api.activity.read.single(_id).then(res => {

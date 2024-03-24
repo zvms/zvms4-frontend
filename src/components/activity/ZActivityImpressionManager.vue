@@ -141,8 +141,6 @@ async function getMemberActivity(id: string = user._id) {
   loading.value = true
   try {
     present.value = await api.activity.member.read(activity.value._id, id)
-    console.log('[DEBUG] present')
-    console.log(present.value)
     if (!present.value) {
       throw new Error('No such member')
     }
@@ -151,8 +149,6 @@ async function getMemberActivity(id: string = user._id) {
       let imglist = present.value?.images.map((x) => `${baseURL}image/${x}/data`) ?? []
       myimages.value.push(...imglist.map((image) => ({ name: image, url: image })))
       current.value.images = myimages.value
-      console.log('[DEBUG] myimages')
-      console.log(myimages.value)
     }
   } catch (e) {
     ElNotification({
