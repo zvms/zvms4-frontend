@@ -6,7 +6,7 @@ async function modifyNotification(notification: NotificationInstance, id: string
   const result = (
     await axios(`/notification/${id}`, {
       method: 'put',
-      data: {notification}
+      data: { notification }
     })
   ).data as Response<string>
   if (result.status == 'error') {
@@ -24,7 +24,7 @@ async function modifyNotificationTitle(title: string, id: string) {
   const result = (
     await axios(`/notification/${id}/title`, {
       method: 'put',
-      data: {title}
+      data: { title }
     })
   ).data as Response<string>
   if (result.status == 'error') {
@@ -42,7 +42,7 @@ async function modifyNotificationContent(content: string, id: string) {
   const result = (
     await axios(`/notification/${id}/content`, {
       method: 'put',
-      data: {content}
+      data: { content }
     })
   ).data as Response<string>
   if (result.status == 'error') {
@@ -58,5 +58,5 @@ async function modifyNotificationContent(content: string, id: string) {
 
 export const modify = {
   title: modifyNotificationTitle,
-  content: modifyNotificationContent,
+  content: modifyNotificationContent
 }

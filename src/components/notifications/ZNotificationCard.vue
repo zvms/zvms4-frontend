@@ -26,12 +26,14 @@ const editing = ref<false | 'title' | 'content'>(false)
 
 async function modifyTitle() {
   await api.notification.modify.title(notification.value._id, title.value)
+  notification.value.title = title.value
   editing.value = false
   emits('refresh')
 }
 
 async function modifyContent() {
   await api.notification.modify.content(notification.value._id, content.value)
+  notification.value.content = content.value
   editing.value = false
   emits('refresh')
 }
@@ -113,17 +115,18 @@ async function deleteNotification(id: string) {
         "
       />
     </div>
-    <ElInput
-      v-model="notification.content"
-      @keydown.enter="modifyContent"
-      v-else
-      type="textarea"
-      autosize
-      style="width: 85%; padding-top: 0.5rem; padding-bottom: 0.5rem"
-    >
-    </ElInput>
-    <div style="text-align: right">
-      <ElButton text bg circle :icon="ArrowRight" @click="modifyContent"></ElButton>
+    <div v-else>
+      <ElInput
+        v-model="content"
+        @keydown.enter="modifyContent"
+        type="textarea"
+        autosize
+        style="width: 85%; padding-top: 0.5rem; padding-bottom: 0.5rem"
+      >
+      </ElInput>
+      <div style="text-align: right">
+        <ElButton text bg circle :icon="ArrowRight" @click="modifyContent"></ElButton>
+      </div>
     </div>
     <div class="ma"></div>
     <div class="w-full py-3">
