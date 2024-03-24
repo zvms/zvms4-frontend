@@ -14,7 +14,7 @@ import {
 import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Box, Search, PieChart, Refresh, Plus } from '@element-plus/icons-vue'
+import { Box, Search, PieChart, Refresh, Plus, EditPen, View } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
@@ -26,6 +26,7 @@ import {
   ZActivityCard
 } from '@/components'
 import { useRouter } from 'vue-router'
+import { Write } from '@icon-park/vue-next'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -293,12 +294,45 @@ watch(
             />
           </template>
           <template #default="{ row }">
-            <ZActivityImpressionDrawer
-              :id="row._id"
-              :role="role"
-              :readonly="true"
-              @refresh="refresh"
-            />
+            <ElButton
+              :icon="Write"
+              v-if="
+                ['draft', 'rejected'].includes(
+                  (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                    ?.status ?? ''
+                ) && role === 'mine'
+              "
+              text
+              bg
+              type="primary"
+              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
+            >
+              {{ t('activity.impression.actions.write') }}
+            </ElButton>
+            <ElButton
+              :icon="EditPen"
+              v-else-if="
+                role === 'campus' &&
+                (user.position.includes('admin') || user.position.includes('auditor')) &&
+                row.members.filter((x: ActivityMember) => x.status === 'pending').length > 0
+              "
+              type="danger"
+              text
+              bg
+              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
+            >
+              {{ t('activity.impression.actions.reflect') }}
+            </ElButton>
+            <ElButton
+              :icon="View"
+              v-else
+              text
+              bg
+              type="info"
+              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
+            >
+              {{ t('activity.impression.actions.view') }}
+            </ElButton>
           </template>
         </ElTableColumn>
       </ElTable>
