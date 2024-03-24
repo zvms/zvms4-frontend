@@ -20,7 +20,7 @@ async function modifyNotification(notification: NotificationInstance, id: string
   }
 }
 
-async function modifyNotificationTitle(title: string, id: string) {
+async function modifyNotificationTitle(id: string, title: string) {
   const result = (
     await axios(`/notification/${id}/title`, {
       method: 'put',
@@ -38,7 +38,7 @@ async function modifyNotificationTitle(title: string, id: string) {
   }
 }
 
-async function modifyNotificationContent(content: string, id: string) {
+async function modifyNotificationContent(id: string, content: string) {
   const result = (
     await axios(`/notification/${id}/content`, {
       method: 'put',

@@ -62,7 +62,7 @@ async function deleteNotification(id: string) {
         }}
       </span>
       <ElInput
-        v-model="notification.title"
+        v-model="title"
         @keydown.enter="modifyTitle"
         v-else
         style="width: 60%; padding-bottom: 0.5rem; padding-top: 0.5rem"
@@ -121,7 +121,8 @@ async function deleteNotification(id: string) {
         @keydown.enter="modifyContent"
         type="textarea"
         autosize
-        style="width: 85%; padding-top: 0.5rem; padding-bottom: 0.5rem"
+        class="w-full"
+        style="padding-top: 0.5rem; padding-bottom: 0.5rem"
       >
       </ElInput>
       <div style="text-align: right">
