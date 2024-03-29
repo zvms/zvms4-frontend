@@ -13,7 +13,8 @@ import {
   ElSelect,
   ElPageHeader,
   ElCard,
-  ElButton
+  ElButton,
+  ElNotification
 } from 'element-plus'
 import type { NotificationInstance } from '@zvms/zvms4-types'
 import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
@@ -51,6 +52,22 @@ const submit = () => {
     const portNum = res[1]
     console.log('/notifications/creative/' + portNum)
     // router.push('/notifications/creative/' + portNum)
+    return
+  }
+  if (notification.value.title === '') {
+    ElNotification({
+      type: 'error',
+      title: t('validation.notification.title.required')
+    })
+    loading.value = false
+    return
+  }
+  if (!notification.value.global && notification.value?.receivers?.length === 0) {
+    ElNotification({
+      type: 'error',
+      title: t('validation.notification.receivers.required')
+    })
+    loading.value = false
     return
   }
   api.notification.create(notification.value)
@@ -92,7 +109,7 @@ const submit = () => {
               <ElInput v-model="notification.title" />
             </ElFormItem>
             <ElFormItem :label="t('notification.create.elements.content')">
-              <ElInput type="textarea" :auto-size="{ minRows: 2 }" v-model="notification.content" />
+              <ElInput type="textarea" autosize :auto-size="{ minRows: 2 }" v-model="notification.content" />
             </ElFormItem>
             <ElFormItem
               :label="t('notification.create.elements.type')"
@@ -117,7 +134,7 @@ const submit = () => {
               :rules="[
                 { required: true, message: t('validation.notification.expire.required') },
                 {
-                  validator: (rule, value, callback) => {
+                  validator: (rule: any, value: any, callback: any) => {
                     try {
                       if (dayjs(value).isBefore(dayjs(notification.time))) {
                         callback(t('validation.notification.expire.future'))
@@ -153,10 +170,21 @@ const submit = () => {
               v-if="!notification.global"
               :label="t('notification.create.elements.receivers')"
               required
+              prop="receivers"
               :rules="[
                 {
                   required: notification.global === false,
                   message: t('validation.notification.receivers.required')
+                },
+                {
+                  validator: (rule: any, value: any, callback: any) => {
+                    console.log(typeof value)
+                    if (value.length == 0) {
+                      callback(t('validation.notification.receivers.required'))
+                    } else {
+                      callback()
+                    }
+                  }
                 }
               ]"
             >

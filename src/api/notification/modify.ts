@@ -3,16 +3,15 @@ import type { Response, NotificationInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 async function modifyNotification(notification: NotificationInstance, id: string) {
-  console.log(notification)
   const result = (
     await axios(`/notification/${id}`, {
       method: 'put',
-      data: notification
+      data: { notification }
     })
   ).data as Response<string>
   if (result.status == 'error') {
     ElNotification({
-      title: '修改通知错误（' + result.code + '）',
+      title: 'Error when modifying notification' + result.code,
       message: result.message,
       type: 'error'
     })
@@ -21,4 +20,43 @@ async function modifyNotification(notification: NotificationInstance, id: string
   }
 }
 
-export { modifyNotification as modify }
+async function modifyNotificationTitle(id: string, title: string) {
+  const result = (
+    await axios(`/notification/${id}/title`, {
+      method: 'put',
+      data: { title }
+    })
+  ).data as Response<string>
+  if (result.status == 'error') {
+    ElNotification({
+      title: 'Error when modifying notification title' + result.code,
+      message: result.message,
+      type: 'error'
+    })
+  } else {
+    return result.data
+  }
+}
+
+async function modifyNotificationContent(id: string, content: string) {
+  const result = (
+    await axios(`/notification/${id}/content`, {
+      method: 'put',
+      data: { content }
+    })
+  ).data as Response<string>
+  if (result.status == 'error') {
+    ElNotification({
+      title: 'Error when modifying notification content' + result.code,
+      message: result.message,
+      type: 'error'
+    })
+  } else {
+    return result.data
+  }
+}
+
+export const modify = {
+  title: modifyNotificationTitle,
+  content: modifyNotificationContent
+}

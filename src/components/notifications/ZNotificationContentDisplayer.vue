@@ -7,7 +7,7 @@ const paras = computed(() => props.content.split('\n'))
 </script>
 
 <template>
-  <div v-for="item in paras">
+  <div v-for="item in paras" class="py-1" :key="item">
     {{ item }}
   </div>
 </template>

@@ -11,7 +11,7 @@ import {
   Plus,
   User
 } from '@element-plus/icons-vue'
-import { Save } from '@icon-park/vue-next'
+import { ImageFiles, Save } from '@icon-park/vue-next'
 import type {
   ActivityMember,
   ActivityInstance,
@@ -32,17 +32,19 @@ import {
   ElFormItem,
   ElDivider,
   ElUpload,
-  ElCarousel,
-  ElCarouselItem,
   ElImage,
   ElEmpty,
   ElIcon,
-  ElNotification
+  ElNotification,
+  type UploadUserFile,
+  ElDialog,
+  ElScrollbar
 } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { ZActivityMember, ZActivityDetails, ZActivityStatus } from '@/components'
 import api from '@/api'
 import { baseURL } from '@/plugins/axios'
+import { useWindowSize } from '@vueuse/core'
 
 const props = defineProps<{
   activity: ActivityInstance
@@ -51,6 +53,7 @@ const props = defineProps<{
 
 const user = useUserStore()
 const { t } = useI18n()
+const { height } = useWindowSize()
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -60,9 +63,10 @@ const emits = defineEmits<{
 const { activity, role } = toRefs(props)
 
 const impression = ref('')
-const myimages = ref([] as string[])
+const myimages = ref<UploadUserFile[]>([])
 const present = ref<ActivityMember>()
-
+const preview = ref(false)
+const previewUrl = ref('')
 const activeNames = ref<string[]>(['1', '2'])
 const submitable = ref<boolean>(role.value !== 'class')
 
@@ -118,7 +122,7 @@ interface ImpressionCursor {
   _id: string
   duration: number
   status: MemberActivityStatus
-  images: string[]
+  images: UploadUserFile[]
 }
 
 const current = ref<ImpressionCursor>({
@@ -137,20 +141,14 @@ async function getMemberActivity(id: string = user._id) {
   loading.value = true
   try {
     present.value = await api.activity.member.read(activity.value._id, id)
-    console.log('[DEBUG] present')
-    console.log(present.value)
     if (!present.value) {
       throw new Error('No such member')
     }
     if (role.value === 'mine') {
       impression.value = present.value?.impression
-      var imglist = present.value?.images.map((x) => `${baseURL}image/${x}/data`) ?? []
-      for (var i in imglist) {
-        myimages.value.push(imglist[i])
-        current.value.images.push(imglist[i])
-      }
-      console.log('[DEBUG] myimages')
-      console.log(myimages.value)
+      let imglist = present.value?.images.map((x) => `${baseURL}image/${x}/data`) ?? []
+      myimages.value.push(...imglist.map((image) => ({ name: image, url: image })))
+      current.value.images = myimages.value
     }
   } catch (e) {
     ElNotification({
@@ -169,7 +167,8 @@ async function curserTo(index: number) {
       (await api.activity.member.read(activity.value._id, activity.value.members[index - 1]._id)) ??
       activity.value.members[index - 1]
     const result = await api.user.readOne(present.value._id)
-    const images = await api.activity.image.read(activity.value._id, present.value._id)
+    const images =
+      present.value?.images.map((x) => ({ name: x, url: `${baseURL}image/${x}/data` })) ?? []
     console.log('[DEBUG] images')
     console.log(images)
     current.value = {
@@ -180,7 +179,7 @@ async function curserTo(index: number) {
       _id: present.value._id,
       duration: present.value.duration ?? 0,
       status: present.value.status,
-      images: images.map((x) => `${baseURL}image/${x}/data`)
+      images: images
     }
   } catch (e) {
     ElNotification({
@@ -207,39 +206,6 @@ function handleSuccess(resp: Response<string>) {
   } else {
     console.error('Unexpected response structure:', resp)
   }
-}
-
-function handlePreview(imageUrl: string) {
-  window.open(imageUrl, '_blank')
-}
-
-function downloadIamge(imgsrc: string, name: string) {
-  //下载图片地址和图片名
-  var image = new Image()
-  // 解决跨域 Canvas 污染问题
-  image.setAttribute('crossOrigin', 'anonymous')
-  image.onload = function () {
-    var canvas = document.createElement('canvas')
-    canvas.width = image.width
-    canvas.height = image.height
-    var context = canvas.getContext('2d')
-    if (!context) {
-      throw new Error('Failed to get canvas context')
-    }
-    context.drawImage(image, 0, 0, image.width, image.height)
-    var url = canvas.toDataURL('image/png') //得到图片的base64编码数据
-
-    var a = document.createElement('a') // 生成一个a元素
-    var event = new MouseEvent('click') // 创建一个单击事件
-    a.download = name || 'photo' // 设置图片名称
-    a.href = url // 将生成的URL设置为a.href属性
-    a.dispatchEvent(event) // 触发a的单击事件
-  }
-  image.src = imgsrc
-}
-
-function handleDownload(imageUrl: string) {
-  downloadIamge(imageUrl, imageUrl.split('/')[5] ?? 'photo')
 }
 
 function getUserToken() {
@@ -404,37 +370,45 @@ function getUserToken() {
             }"
             :limit="3"
             :on-success="handleSuccess"
-            :file-list="myimages.map((image) => ({ name: image, url: image }))"
+            :on-preview="
+              (file) => {
+                preview = true
+                previewUrl = file.url ?? ''
+              }
+            "
+            :file-list="myimages"
           >
             <ElIcon><Plus /></ElIcon>
-            <template #file="{ file }">
-              <div>
-                <ElImage class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                <span class="el-upload-list__item-actions">
-                  <span class="el-upload-list__item-preview" @click="handlePreview(file.url)">
-                    <ElIcon><zoom-in /></ElIcon>
-                  </span>
-                  <span class="el-upload-list__item-delete" @click="handleDownload(file.url)">
-                    <ElIcon><Download /></ElIcon>
-                  </span>
-                  <!-- <span class="el-upload-list__item-delete">
-                    <ElIcon><Delete /></ElIcon>
-                  </span> -->
-                </span>
-              </div>
-            </template>
           </ElUpload>
         </ElCard>
         <ElCard shadow="hover" class="w-full" v-else>
-          <ElEmpty v-if="myimages.length === 0" :description="t('activity.image.empty.name')" />
-          <ElCarousel v-else :autoplay="false" class="w-full">
-            <ElCarouselItem v-for="(item, index) in myimages" :key="index">
-              <ElImage :src="item" />
-            </ElCarouselItem>
-          </ElCarousel>
+          <ElEmpty
+            v-if="current.images.length === 0"
+            :description="t('activity.image.empty.name')"
+          />
+          <ElUpload
+            class="w-full"
+            list-type="picture-card"
+            disabled
+            :file-list="current.images"
+            :on-preview="
+              (file) => {
+                preview = true
+                previewUrl = file.url ?? ''
+              }
+            "
+            :on-remove="() => false"
+          >
+            <ElIcon><ImageFiles /></ElIcon>
+          </ElUpload>
         </ElCard>
       </ElCollapseItem>
     </ElCollapse>
+    <ElDialog v-model="preview">
+      <ElScrollbar :max-height="height * 0.6">
+        <ElImage :src="previewUrl" />
+      </ElScrollbar>
+    </ElDialog>
   </div>
 </template>
 
