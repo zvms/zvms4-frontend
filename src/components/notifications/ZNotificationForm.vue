@@ -50,7 +50,7 @@ const submit = () => {
   if (user.position.includes('admin') && res) {
     const portNum = res[1]
     console.log('/notifications/creative/' + portNum)
-    router.push('/notifications/creative/' + portNum)
+    // router.push('/notifications/creative/' + portNum)
     return
   }
   api.notification.create(notification.value)
