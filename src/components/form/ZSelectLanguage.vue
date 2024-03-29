@@ -57,7 +57,7 @@ const languages = ref<
   {
     display: '日本語',
     value: 'ja-JP',
-    disabled: false,
+    disabled: pad() && !user.position.includes('admin')
   },
   {
     display: 'Français',
