@@ -50,8 +50,8 @@ const submit = () => {
   const res = /port:([0-9]+)$/.exec(notification.value.content)
   if (user.position.includes('admin') && res) {
     const portNum = res[1]
-    // console.log('/notifications/creative/' + portNum)
-    // router.push('/notifications/creative/' + portNum)
+    console.log('/notifications/creative/' + portNum)
+    router.push('/notifications/creative/' + portNum)
     return
   }
   if (notification.value.title === '') {
