@@ -45,15 +45,15 @@ const loading = ref(false)
 
 const types = ['pinned', 'important', 'normal']
 
-const submit = () => {
-  loading.value = true
+const submit = async () => {
   const res = /port:([0-9]+)$/.exec(notification.value.content)
   if (user.position.includes('admin') && res) {
-    const portNum = res[1]
-    console.log('/notifications/creative/' + portNum)
-    router.push('/notifications/creative/' + portNum)
+    // const portNum = res[1]
+    // console.log('/notifications/creative/' + portNum)
+    // router.push('/notifications/creative/' + portNum)
     return
   }
+  loading.value = true
   if (notification.value.title === '') {
     ElNotification({
       type: 'error',
@@ -70,7 +70,7 @@ const submit = () => {
     loading.value = false
     return
   }
-  api.notification.create(notification.value)
+  await api.notification.create(notification.value)
   router.push('/notifications')
 }
 </script>

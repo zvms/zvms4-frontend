@@ -293,7 +293,7 @@ watch(active, () => {
           v-model:page-size="size"
           :pager-count="3"
           :total="activity.members.length"
-          layout="total, prev, pager, next, sizes"
+          layout="total, prev, pager, next, sizes, jumper"
           background
           :page-sizes="[3, 5, 8, 10]"
         />

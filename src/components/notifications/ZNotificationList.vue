@@ -95,6 +95,7 @@ onMounted(() => getNotifications(props.mode))
         layout="total, prev, pager, next, sizes, jumper"
         v-model:current-page="pageIndex"
         v-model:page-size="pageSize"
+        :pager-count="3"
         :page-sizes="[3, 5, 8, 10, 15, 20]"
         :total="total"
       />
