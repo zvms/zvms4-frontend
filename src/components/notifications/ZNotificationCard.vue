@@ -6,7 +6,7 @@ import ZNotificationContentDisplayer from './ZNotificationContentDisplayer.vue'
 import { useI18n } from 'vue-i18n'
 import type { NotificationInstance } from '@zvms/zvms4-types'
 import api from '@/api'
-import { toRefs, ref } from 'vue'
+import { toRefs, ref, watch } from 'vue'
 import { ArrowRight, Delete } from '@element-plus/icons-vue'
 import { OouiUserAnonymous } from '@/icons'
 import dayjs from 'dayjs'
@@ -19,27 +19,41 @@ const emits = defineEmits(['refresh'])
 
 const { notification } = toRefs(props)
 
-const title = ref(notification.value.title)
-const content = ref(notification.value.content)
+const payload = ref<NotificationInstance>(notification.value)
+
+const title = ref(payload.value.title)
+const content = ref(payload.value.content)
 
 const editing = ref<false | 'title' | 'content'>(false)
 
+watch(
+  notification,
+  (newVal) => {
+    editing.value = false
+    payload.value = newVal
+    title.value = newVal.title
+    content.value = newVal.content
+  },
+  { immediate: true, deep: true }
+)
+
 async function modifyTitle() {
   await api.notification.modify.title(notification.value._id, title.value)
-  notification.value.title = title.value
   editing.value = false
+  notification.value.title = title.value
   emits('refresh')
 }
 
 async function modifyContent() {
   await api.notification.modify.content(notification.value._id, content.value)
-  notification.value.content = content.value
   editing.value = false
+  notification.value.content = content.value
   emits('refresh')
 }
 
 async function deleteNotification(id: string) {
   await api.notification.delete(id, user._id)
+  emits('refresh')
 }
 </script>
 
@@ -68,7 +82,7 @@ async function deleteNotification(id: string) {
         style="width: 60%; padding-bottom: 0.5rem; padding-top: 0.5rem"
       >
         <template #append>
-          <ElButton :icon="ArrowRight" type="primary" plain @click="modifyTitle"></ElButton>
+          <ElButton :icon="ArrowRight" type="success" plain @click="modifyTitle"></ElButton>
         </template>
       </ElInput>
       <div class="ma"></div>

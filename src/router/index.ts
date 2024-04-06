@@ -94,6 +94,11 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityImpression.vue')
     },
     {
+      path: '/activity/details/:id/impression/:mode/:perspective',
+      name: 'activity-impression-perspectives',
+      component: () => import('../views/activity/ActivityImpression.vue')
+    },
+    {
       path: '/umbrella/',
       name: 'umbrella',
       component: () => import('../views/umbrella/UmbrellaHome.vue')
@@ -107,6 +112,11 @@ const router = createRouter({
       path: '/notifications/create',
       name: 'notifications-create',
       component: () => import('../views/notifications/NotificationCreate.vue')
+    },
+    {
+      path: '/notifications/:type',
+      name: 'notifications-type',
+      component: () => import('../views/notifications/NotificationHome.vue')
     },
     {
       path: '/notifications/creative/:port',

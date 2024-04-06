@@ -1,6 +1,4 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@zvms/zvms4-types'
-import { ElNotification } from 'element-plus'
 import { temporaryToken } from '@/plugins/short-token'
 
 async function deleteNotification(id: string, uid: string) {

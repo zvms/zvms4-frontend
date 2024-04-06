@@ -10,7 +10,7 @@ import {
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
 import { toRefs, watch } from 'vue'
-import { User, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
+import { User, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
@@ -26,8 +26,10 @@ import {
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
 import api from '@/api'
+import { useRouter } from 'vue-router'
 
 const user = useUserStore()
+const router = useRouter()
 const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
@@ -128,11 +130,14 @@ const memberFunctions = {
       emits('refresh')
       return
     }
-    await api.activity.member.remove(id, activity.value._id, user._id).then(() => {
-      activity.value.members = activity.value.members.filter((member) => member._id !== id)
-    }).catch(() => {
-      loading.value = ''
-    })
+    await api.activity.member
+      .remove(id, activity.value._id, user._id)
+      .then(() => {
+        activity.value.members = activity.value.members.filter((member) => member._id !== id)
+      })
+      .catch(() => {
+        loading.value = ''
+      })
     loading.value = ''
   }
 }
@@ -154,6 +159,11 @@ watch(active, () => {
   activity.value.members = []
   activity.value.members = members
 })
+
+function pushTo(url: string) {
+  open.value = false
+  router.push(url)
+}
 </script>
 
 <template>
@@ -188,7 +198,42 @@ watch(active, () => {
           </ElTableColumn>
           <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
             <template #default="scope">
-              <ZActivityStatus :type="scope.row.status" force="full" />
+              <ZActivityStatus :type="scope.row.status" />
+              <ElButton
+                :icon="EditPen"
+                round
+                size="small"
+                v-if="
+                  (user.position.includes('admin') || user.position.includes('auditor')) &&
+                  scope.row.status === 'pending'
+                "
+                type="danger"
+                text
+                bg
+                @click="
+                  pushTo(`/activity/details/${activity._id}/impression/campus/${scope.row._id}`)
+                "
+              >
+                {{ t('activity.impression.actions.reflect') }}
+              </ElButton>
+              <ElButton
+                :icon="View"
+                round
+                size="small"
+                v-else-if="
+                  user.position.includes('admin') ||
+                  user.position.includes('auditor') ||
+                  user.position.includes('department')
+                "
+                text
+                bg
+                type="info"
+                @click="
+                  pushTo(`/activity/details/${activity._id}/impression/campus/${scope.row._id}`)
+                "
+              >
+                {{ t('activity.impression.actions.view') }}
+              </ElButton>
             </template>
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">

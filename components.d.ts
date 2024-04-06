@@ -33,6 +33,7 @@ declare module 'vue' {
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNonXuehaiPad: typeof import('./src/components/utils/ZNonXuehaiPad.vue')['default']
+    ZNotificationCard: typeof import('./src/components/notifications/ZNotificationCard.vue')['default']
     ZNotificationContentDisplayer: typeof import('./src/components/notifications/ZNotificationContentDisplayer.vue')['default']
     ZNotificationForm: typeof import('./src/components/notifications/ZNotificationForm.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import {
   ArrowRight,
@@ -49,6 +49,7 @@ import { useWindowSize } from '@vueuse/core'
 const props = defineProps<{
   activity: ActivityInstance
   role: 'mine' | 'campus' | 'class'
+  perspective?: string
 }>()
 
 const user = useUserStore()
@@ -60,7 +61,7 @@ const emits = defineEmits<{
   (e: 'finish'): void
 }>()
 
-const { activity, role } = toRefs(props)
+const { activity, role, perspective } = toRefs(props)
 
 const impression = ref('')
 const myimages = ref<UploadUserFile[]>([])
@@ -69,7 +70,6 @@ const preview = ref(false)
 const previewUrl = ref('')
 const activeNames = ref<string[]>(['1', '2'])
 const submitable = ref<boolean>(role.value !== 'class')
-
 const load = ref<'draft' | 'pending' | 'refused' | 'rejected' | 'effective' | false>(false)
 
 async function submit(submit: boolean) {
@@ -191,11 +191,29 @@ async function curserTo(index: number) {
   loading.value = false
 }
 
-if (role.value !== 'mine') {
-  curserTo(1)
-} else {
-  getMemberActivity()
+async function curserToId(id: string) {
+  const index = activity.value.members.findIndex((x) => x._id === id) + 1
+  if (index === 0) {
+    curserTo(1)
+  }
+  curserTo(index)
 }
+
+async function refresh() {
+  if (role.value !== 'mine') {
+    if (perspective.value) {
+      await curserToId(perspective.value)
+    } else {
+      await curserTo(1)
+    }
+  } else {
+    await getMemberActivity()
+  }
+}
+
+onMounted(refresh)
+watch(perspective, refresh)
+watch(role, refresh)
 
 const serif = ref(false)
 

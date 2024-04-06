@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ActivityInstance } from '@zvms/zvms4-types'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ZActivityImpressionManager } from '@/components'
 import {
@@ -27,6 +27,11 @@ const activityId = ref(route.params.id.toString())
 const mode = ref<'mine' | 'class' | 'campus'>(
   route.params.mode.toString() as 'mine' | 'class' | 'campus'
 )
+const perspective = ref(route.params.perspective ? route.params.perspective.toString() : '')
+watch(
+  () => route.params.perspective,
+  (newVal) => (perspective.value = newVal ? newVal.toString() : '')
+)
 const classify = ref(mode.value === 'mine' ? 'write' : 'reflect')
 
 const activity = ref<ActivityInstance>()
@@ -43,14 +48,14 @@ onMounted(async () => {
 
 <template>
   <div class="p-12">
-    <ElPageHeader :icon="ArrowLeft" @back="() => router.back()">
+    <ElPageHeader :icon="ArrowLeft" @back="() => router.push({ path: `/activities/${mode}` })">
       <template #content>
         {{ t(`activity.impression.page.${classify}.title`) }}
       </template>
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight">
           <ElBreadcrumbItem>
-            <ElButton text size="small" @click="router.push({ path: '/activities' })">
+            <ElButton text size="small" @click="router.push({ path: '/activities/mine' })">
               {{ t('nav.breadcrumbs.view.home') }}
             </ElButton>
           </ElBreadcrumbItem>
@@ -79,7 +84,12 @@ onMounted(async () => {
     <div class="py-4">
       <ElCard shadow="never">
         <ElScrollbar :max-height="height * 0.6">
-          <ZActivityImpressionManager v-if="activity" :activity="activity" :role="mode" />
+          <ZActivityImpressionManager
+            v-if="activity"
+            :activity="activity"
+            :role="mode"
+            :perspective="perspective"
+          />
         </ElScrollbar>
       </ElCard>
     </div>
