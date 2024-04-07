@@ -146,8 +146,16 @@ async function getMemberActivity(id: string = user._id) {
     }
     if (role.value === 'mine') {
       impression.value = present.value?.impression
-      let imglist = present.value?.images.map((x) => `${baseURL}image/${x}/data`) ?? []
-      myimages.value.push(...imglist.map((image) => ({ name: image, url: image })))
+      let imglist = present.value?.images.map((x) => ({
+        name: x,
+        url: `${baseURL}image/${x}/data`
+      })) ?? []
+      myimages.value.push(
+        ...imglist.map((x) => ({
+          name: x.name,
+          url: x.url
+        }))
+      )
       current.value.images = myimages.value
     }
   } catch (e) {
@@ -169,8 +177,6 @@ async function curserTo(index: number) {
     const result = await api.user.readOne(present.value._id)
     const images =
       present.value?.images.map((x) => ({ name: x, url: `${baseURL}image/${x}/data` })) ?? []
-    console.log('[DEBUG] images')
-    console.log(images)
     current.value = {
       index,
       id: result?.id ?? 0,
@@ -228,6 +234,19 @@ function handleSuccess(resp: Response<string>) {
 
 function getUserToken() {
   return localStorage.getItem('token')
+}
+
+async function removeImage(imageId: string) {
+  try {
+    await api.activity.image.remove(activity.value._id, present.value?._id ?? user._id, imageId)
+    myimages.value = myimages.value.filter((x) => x.name !== imageId)
+  } catch (e) {
+    ElNotification({
+      title: t('activity.image.page.remove.error'),
+      message: (e as Error).message,
+      type: 'error'
+    })
+  }
 }
 </script>
 
@@ -394,6 +413,7 @@ function getUserToken() {
                 previewUrl = file.url ?? ''
               }
             "
+            :on-remove="(file) => removeImage(file.name)"
             :file-list="myimages"
           >
             <ElIcon><Plus /></ElIcon>
@@ -405,6 +425,7 @@ function getUserToken() {
             :description="t('activity.image.empty.name')"
           />
           <ElUpload
+            v-else
             class="w-full"
             list-type="picture-card"
             disabled
@@ -415,7 +436,7 @@ function getUserToken() {
                 previewUrl = file.url ?? ''
               }
             "
-            :on-remove="() => false"
+            :on-remove="(file) => removeImage(file.name)"
           >
             <ElIcon><ImageFiles /></ElIcon>
           </ElUpload>
