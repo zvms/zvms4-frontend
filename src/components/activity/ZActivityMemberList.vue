@@ -176,7 +176,6 @@ function pushTo(url: string) {
     :icon="User"
     round
     :type="color"
-    :disabled="activity.type === 'special' && activity.special.classify === 'import'"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text>
