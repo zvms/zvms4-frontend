@@ -15,6 +15,7 @@ export const useUserStore = defineStore('user', {
     position: [] as UserPosition[],
     groups: [] as string[],
     token: '',
+    class_id: '',
     code: 0,
     isLogin: false,
     time: {
@@ -26,11 +27,21 @@ export const useUserStore = defineStore('user', {
     language: usePreferredLanguages().value[0]
   }),
   actions: {
+    async getUserClassId(groups: string[]) {
+      console.log('Getting user class id')
+      const result = await Promise.all(groups.map((group) => api.group.readOne(group)))
+      const group = result.find((group) => group?.type === 'class')
+      console.log(group)
+      if (group) {
+        this.class_id = group._id
+      }
+    },
     async setUserInformation(user: User) {
       this._id = user._id
       this.id = user.id
       this.name = user.name
       this.groups = user.group
+      await this.getUserClassId(user.group)
       this.position = await getUserPositions(user)
       this.token = ''
       this.isLogin = true
@@ -45,6 +56,7 @@ export const useUserStore = defineStore('user', {
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
+      console.log('Setting user information')
       await this.setUserInformation(result)
     },
     getUser() {

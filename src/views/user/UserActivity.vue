@@ -65,7 +65,7 @@ const panes = [
     value: 'class',
     color: 'warning',
     icon: Group,
-    visibility: user.position.includes('secretary')
+    visibility: user.position.includes('secretary') || user.position.includes('admin')
   },
   {
     value: 'campus',

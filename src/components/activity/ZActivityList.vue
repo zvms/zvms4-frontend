@@ -46,7 +46,14 @@ const activities = ref<ActivityInstance[]>([])
 
 function refresh() {
   loading.value = true
-  getActivity(user._id, role.value, activePage.value, pageSize.value, query.value)
+  getActivity(
+    user._id,
+    role.value,
+    activePage.value,
+    pageSize.value,
+    query.value,
+    user.class_id ?? ''
+  )
     .then((res) => {
       if (res && res?.data.length !== 0) {
         activities.value = res?.data
@@ -307,10 +314,9 @@ watch(
             <ElButton
               :icon="EditPen"
               v-else-if="
-                (role === 'campus' &&
-                  (user.position.includes('admin') || user.position.includes('auditor')) &&
-                  row.members.filter((x: ActivityMember) => x.status === 'pending').length > 0) ||
-                role === 'class'
+                role === 'campus' &&
+                (user.position.includes('admin') || user.position.includes('auditor')) &&
+                row.members.filter((x: ActivityMember) => x.status === 'pending').length > 0
               "
               type="danger"
               text

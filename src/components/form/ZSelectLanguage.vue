@@ -97,6 +97,7 @@ onMounted(() => {
           :icon="language.icon"
           class="full"
           text
+          v-if="!language.disabled"
           :disabled="language.disabled"
           :bg="user.language === language.value"
           @click="setLanguage(language.value)"

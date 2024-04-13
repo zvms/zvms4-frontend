@@ -27,7 +27,7 @@ import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
 // import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 import { zhCn, en, ja, zhTw, fr } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { temporaryToken } from '@/plugins/short-token'
@@ -373,6 +373,10 @@ watch(needRefresh, () => {
   }).then(() => {
     updateServiceWorker()
   })
+})
+
+onMounted(() => {
+  embedClarity()
 })
 </script>
 

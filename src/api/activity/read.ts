@@ -5,8 +5,41 @@ import { ElNotification } from 'element-plus'
 import { read as mine } from '@/api/user/activity'
 import dayjs from 'dayjs'
 
+async function getClassActivities(
+  page: number = 1,
+  perpage: number = 10,
+  query: string = '',
+  classid: string = ''
+) {
+  const result = (
+    await axios(`/group/${classid}/activity`, {
+      params: {
+        page,
+        perpage,
+        query,
+        classid
+      }
+    })
+  ).data as Response<ActivityInstance[]> & {
+    metadata: {
+      size: number
+    }
+  }
+  if (result.status === 'error') {
+    ElNotification({
+      title: `获取义工列表失败（${result.code}）`,
+      message: result.message,
+      type: 'error'
+    })
+    return
+  }
+  return {
+    data: result.data,
+    size: result.metadata.size
+  }
+}
+
 async function getAllActivities(
-  range: 'class' | 'campus',
   filter: {
     type: 'special' | 'specified' | 'off-campus' | 'all'
   },
@@ -17,7 +50,7 @@ async function getAllActivities(
   const result = (
     await axios('/activity', {
       params: {
-        mode: range,
+        mode: 'campus',
         type: filter.type,
         page,
         perpage,
@@ -37,9 +70,6 @@ async function getAllActivities(
     })
     return
   }
-  result.data.sort((prev, next) => {
-    return dayjs(prev.date).isBefore(dayjs(next.date)) ? 1 : -1
-  })
   return {
     data: result.data,
     size: result.metadata.size
@@ -61,10 +91,14 @@ async function getActivity(id: string) {
 }
 
 const exports = {
-  campus: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }, page: number = 1, perpage: number = 10, query: string = '') =>
-    getAllActivities('campus', filter, page, perpage, query),
-  class: (filter: { type: 'special' | 'specified' | 'off-campus' | 'all' }, page: number = 1, perpage: number = 10, query: string = '') =>
-    getAllActivities('class', filter, page, perpage, query),
+  campus: (
+    filter: { type: 'special' | 'specified' | 'off-campus' | 'all' },
+    page: number = 1,
+    perpage: number = 10,
+    query: string = ''
+  ) => getAllActivities(filter, page, perpage, query),
+  class: (page: number = 1, perpage: number = 10, query: string = '', classid: string = '') =>
+    getClassActivities(page, perpage, query, classid),
   mine,
   single: (id: string) => getActivity(id)
 }
