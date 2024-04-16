@@ -51,18 +51,18 @@ async function refreshUser() {
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
     </p>
     <p>
-      自本周起至期中考试结束，暂停义工审计，相关义工时间将会在期中考试结束后进行审计。
+      自本周起至期中考试结束，暂停义工审计，相关义工时间将会在期中考试结束后进行审计发放。
       <br />
       From this week to the end of the midterm exam, the volunteer audit will be suspended, and the
-      relevant volunteer time will be audited after the midterm exam.
+      relevant volunteer time will be audited and distributed after the midterm exam.
       <br />
-      距离期中考试还有
+      距离期中考试只剩
       <span class="text-2xl">
         {{ dayjs('2024-04-22').isAfter(dayjs()) ? dayjs('2024-04-22').date() - dayjs().date() : 0 }}
       </span>
       天。
       <br />
-      There are
+      There are only
       <span class="text-2xl">{{ dayjs('2024-04-22 00:00:00').date() - dayjs().date() }}</span>
       days left until the midterm exam. (2024-04-22)
     </p>
