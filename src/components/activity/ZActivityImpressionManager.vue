@@ -98,6 +98,11 @@ async function submit(submit: boolean) {
 async function reflect(status: 'effective' | 'rejected' | 'refused') {
   try {
     load.value = status
+    await api.activity.duration.modify(
+      current.value._id,
+      activity.value._id,
+      current.value.duration
+    )
     await api.activity.status.modify(current.value._id, activity.value._id, status)
     load.value = false
     if (current.value && current.value.index < activity.value.members.length) {
@@ -146,10 +151,11 @@ async function getMemberActivity(id: string = user._id) {
     }
     if (role.value === 'mine') {
       impression.value = present.value?.impression
-      let imglist = present.value?.images.map((x) => ({
-        name: x,
-        url: `${baseURL}image/${x}/data`
-      })) ?? []
+      let imglist =
+        present.value?.images.map((x) => ({
+          name: x,
+          url: `${baseURL}image/${x}/data`
+        })) ?? []
       myimages.value.push(
         ...imglist.map((x) => ({
           name: x.name,
@@ -341,7 +347,7 @@ async function removeImage(imageId: string) {
             "
           >
             <ElDivider />
-            <ElCol :span="12">
+            <ElCol :span="8">
               <ElForm label-position="right" label-width="64px">
                 <ElFormItem :label="t('activity.form.duration')">
                   <ElInput v-model="current.duration">
@@ -352,7 +358,7 @@ async function removeImage(imageId: string) {
                 </ElFormItem>
               </ElForm>
             </ElCol>
-            <ElCol :span="12">
+            <ElCol :span="16">
               <div style="text-align: right">
                 <ElPopconfirm
                   :title="t('activity.impression.page.reflect.actions.check')"
@@ -408,12 +414,12 @@ async function removeImage(imageId: string) {
             :limit="3"
             :on-success="handleSuccess"
             :on-preview="
-              (file) => {
+              (file: UploadUserFile) => {
                 preview = true
                 previewUrl = file.url ?? ''
               }
             "
-            :on-remove="(file) => removeImage(file.name)"
+            :on-remove="(file: UploadUserFile) => removeImage(file.name)"
             :file-list="myimages"
           >
             <ElIcon><Plus /></ElIcon>
@@ -431,12 +437,12 @@ async function removeImage(imageId: string) {
             disabled
             :file-list="current.images"
             :on-preview="
-              (file) => {
+              (file: UploadUserFile) => {
                 preview = true
                 previewUrl = file.url ?? ''
               }
             "
-            :on-remove="(file) => removeImage(file.name)"
+            :on-remove="(file: UploadUserFile) => removeImage(file.name)"
           >
             <ElIcon><ImageFiles /></ElIcon>
           </ElUpload>

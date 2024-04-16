@@ -86,6 +86,8 @@ watch(
     :icon="icon"
     @click="show = true"
     :disabled="disabled"
+    v-bind="$attrs"
+    v-on="$attrs"
   >
     <slot name="text" />
   </ElButton>

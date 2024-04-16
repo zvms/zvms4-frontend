@@ -2,6 +2,24 @@ import axios from '@/plugins/axios'
 import type { Response, MemberActivityStatus } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
+export async function userModifyDuration(user: string, aid: string, duration: number) {
+  const result = (
+    await axios({
+      url: `/activity/${aid}/member/${user.toString()}/duration`,
+      method: 'put',
+      data: { duration }
+    })
+  ).data as Response<null>
+  if (result.status === 'error') {
+    ElNotification({
+      title: `Error in modifying duration (${result.code.toString()})`,
+      message: result.message,
+      type: 'error'
+    })
+    return
+  }
+}
+
 export async function userModifyStatus(
   user: string,
   aid: string,
@@ -17,7 +35,7 @@ export async function userModifyStatus(
   ).data as Response<null>
   if (result.status === 'error') {
     ElNotification({
-      title: `同步感想状态失败（${result.code.toString()}）`,
+      title: `Error in modifying status (${result.code.toString()})`,
       message: result.message,
       type: 'error'
     })
@@ -25,7 +43,7 @@ export async function userModifyStatus(
   }
   if (notification !== false) {
     ElNotification({
-      title: '提交成功',
+      title: 'Status modified successfully',
       type: 'success'
     })
   }
@@ -51,20 +69,20 @@ export async function userModifyImpression(
     }
     if (result.status === 'error') {
       ElNotification({
-        title: `同步感想内容失败（${result.code.toString()}）`,
+        title: `Error in modifying impression (${result.code.toString()})`,
         message: result.message,
         type: 'error'
       })
       return
     }
     ElNotification({
-      title: '提交成功',
+      title: 'Impression modified successfully',
       type: 'success'
     })
     return
   } catch (e) {
     ElNotification({
-      title: '提交失败',
+      title: 'Error in modifying impression',
       message: (e as Error).toString(),
       type: 'error'
     })

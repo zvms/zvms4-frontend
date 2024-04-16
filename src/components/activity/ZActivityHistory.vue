@@ -1,11 +1,7 @@
 <script lang="ts" setup>
 import { ElButton, ElStep, ElSteps, ElScrollbar, ElCol, ElRow, ElEmpty } from 'element-plus'
-import type {
-  ActivityMemberHistory,
-  MemberActivityStatus,
-  ActivityMode
-} from '@zvms/zvms4-types'
-import { toRefs, type Component as VueComponent, ref, watch } from 'vue'
+import type { ActivityMemberHistory, MemberActivityStatus, ActivityMode } from '@zvms/zvms4-types'
+import { toRefs, type Component as VueComponent, ref, watch, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ZActivityDuration, ZActivityMember, ZButtonOrCard } from '@/components'
 import { memberActivityStatuses } from '@/icons/status'
@@ -13,11 +9,13 @@ import { useI18n } from 'vue-i18n'
 import { Clock } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { History, User } from '@icon-park/vue-next'
+import api from '@/api'
 
 const props = withDefaults(
   defineProps<{
-    history?: ActivityMemberHistory[]
-    mode?: ActivityMode
+    activityId: string
+    userId: string
+    mode: ActivityMode
     display?: 'button' | 'card'
     showItems?: boolean
   }>(),
@@ -28,15 +26,26 @@ const props = withDefaults(
   }
 )
 
-const { history, mode, display } = toRefs(props)
+const { activityId, userId, mode, display } = toRefs(props)
 const { width, height } = useWindowSize()
 const { t } = useI18n()
+const loading = ref(false)
+const open = ref(false)
+const history = ref<ActivityMemberHistory[]>()
+
+const fetch = async () => {
+  loading.value = true
+  history.value = (await api.activity.history.read(activityId.value, userId.value)) || []
+  loading.value = false
+}
 
 const min = ref(height.value * 0.6)
 
 watch(width, () => {
   min.value = height.value * 0.6
 })
+
+onMounted(fetch)
 
 const statusMap: Record<
   MemberActivityStatus,
@@ -82,6 +91,7 @@ const statusMap: Record<
     round
     size="small"
     :title="t('activity.impression.page.reflect.history.title')"
+    :loading="loading"
   >
     <template #text>
       <span v-if="showItems">
@@ -92,6 +102,7 @@ const statusMap: Record<
       </span>
     </template>
     <template #default>
+      {{ history }}
       <ElScrollbar :height="min" v-if="history?.length !== 0">
         <ElSteps direction="vertical" :space="100" :active="history?.length" style="width: 100%">
           <ElStep
@@ -125,7 +136,7 @@ const statusMap: Record<
           </ElStep>
         </ElSteps>
       </ElScrollbar>
-      <ElEmpty v-else :content="t('activity.history.empty')" />
+      <ElEmpty v-else />
     </template>
   </ZButtonOrCard>
 </template>
