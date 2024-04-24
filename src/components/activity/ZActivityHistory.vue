@@ -45,6 +45,9 @@ watch(width, () => {
   min.value = height.value * 0.6
 })
 
+watch(userId, fetch)
+watch(activityId, fetch)
+
 onMounted(fetch)
 
 const statusMap: Record<
