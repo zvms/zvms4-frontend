@@ -102,15 +102,14 @@ const statusMap: Record<
       </span>
     </template>
     <template #default>
-      {{ history }}
       <ElScrollbar :height="min" v-if="history?.length !== 0">
-        <ElSteps direction="vertical" :space="100" :active="history?.length" style="width: 100%">
+        <ElSteps direction="vertical" :space="20" :active="history?.length" style="width: 100%">
           <ElStep
             v-for="(item, idx) in history"
             :key="idx"
             :status="statusMap[item.action].type"
             :icon="statusMap[item.action].icon"
-            style="width: 100%"
+            class="w-full"
           >
             <template #title>
               <ElRow>
