@@ -83,7 +83,7 @@ function embedClarity() {
       ;(window.clarity.q = window.clarity.q || []).push(arguments)
     })
 
-  setupClarity()
+  setupClarity({})
 
   // Create the script element with more descriptive variable names and TypeScript type assertions where necessary
   const scriptElement: HTMLScriptElement = document.createElement('script') as HTMLScriptElement
