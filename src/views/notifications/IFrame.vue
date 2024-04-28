@@ -37,7 +37,7 @@ const isAvailableTime = availableTime.some(({ start, end }) => {
 const src = ref('')
 
 if (available && isAvailableTime) {
-  src.value = `http://localhost:${port}`
+  src.value = `http://172.31.2.4:${port}`
 } else {
   src.value = ''
 }
