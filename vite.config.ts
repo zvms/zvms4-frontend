@@ -20,8 +20,17 @@ export default defineConfig({
     vue(),
     vueJsx(),
     legacy({
-      targets: ['defaults', 'not IE 11', 'chrome 64', 'firefox 78', 'safari 12', 'edge 79'],
-      polyfills: ['es.promise', 'es.symbol']
+      targets: [
+        'defaults',
+        'not IE 11',
+        'chrome 64',
+        'firefox 78',
+        'safari 12',
+        'edge 79',
+        'Android >= 8'
+      ],
+      polyfills: ['es.promise', 'es.symbol', 'es.string.replace-all'],
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime', 'url-polyfill']
     }),
     // basicSsl(),
     UnoCSS(),
