@@ -4,6 +4,8 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import { ElResult, ElEmpty } from 'element-plus'
+import { temporaryToken } from '@/plugins/short-token'
+import VConsole from 'vconsole'
 
 const route = useRoute()
 const user = useUserStore()
@@ -54,17 +56,28 @@ setInterval(
   },
   limit * 60 * 1000
 )
+
+async function open() {
+  const token = await temporaryToken(user._id)
+  if (token) {
+    const vConsole = new VConsole()
+  }
+}
 </script>
 
 <template>
   <div>
     <ElEmpty v-if="!user.position.includes('admin') || !isAvailableTime" />
     <ElResult v-else-if="!src" status="error" :subTitle="`Port ${port} is not available now.`" />
-    <iframe
-      v-else
-      :src="src"
-      allow="camera;microphone;midi;encrypted-media"
-      class="w-full h-full border-0"
-    ></iframe>
+    <div v-else>
+      <div>
+        <ElButton text bg @click="open"> Open VConsole </ElButton>
+      </div>
+      <iframe
+        :src="src"
+        allow="camera;microphone;midi;encrypted-media"
+        class="w-full h-full border-0"
+      ></iframe>
+    </div>
   </div>
 </template>
