@@ -29,8 +29,7 @@ export default defineConfig({
         'edge 79',
         'Android >= 8'
       ],
-      polyfills: ['es.promise', 'es.symbol', 'es.string.replace-all'],
-      additionalLegacyPolyfills: ['regenerator-runtime/runtime', 'url-polyfill']
+      polyfills: ['es.promise', 'es.symbol', 'es.string.replace-all']
     }),
     // basicSsl(),
     UnoCSS(),
