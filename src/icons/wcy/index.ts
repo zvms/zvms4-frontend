@@ -9,8 +9,10 @@ import Apple from './Apple.vue'
 import Starbucks from './Starbucks.vue'
 import KFC from './KFC.vue'
 import Clash from './Clash.vue'
-import Keynote from './Keynote.vue'
 import macOS from './macOS.vue'
+import Rust from '../stacks/Rust.vue'
+import PyTorch from '../stacks/PyTorch.vue'
+import LaTeX from '../stacks/LaTeX.vue'
 
 export const PersonalPreferences: Array<{ icon: Component; name: string; classify: string }> = [
   { icon: GenshinImpact, name: 'Genshin Impact', classify: 'game' },
@@ -21,7 +23,9 @@ export const PersonalPreferences: Array<{ icon: Component; name: string; classif
   { icon: VSCode, name: 'VSCode', classify: 'dev-tool' },
   { icon: Apple, name: 'Apple', classify: 'brand' },
   { icon: Starbucks, name: 'Starbucks', classify: 'brand' },
+  { icon: Rust, name: 'Rust', classify: 'language' },
+  { icon: PyTorch, name: 'PyTorch', classify: 'framework' },
+  { icon: LaTeX, name: 'LaTeX', classify: 'language' },
   { icon: KFC, name: 'KFC', classify: 'brand' },
   { icon: macOS, name: 'macOS', classify: 'os' },
-  { icon: Keynote, name: 'Keynote', classify: 'tool' },
 ]

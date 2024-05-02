@@ -30,7 +30,6 @@ const { activityId, userId, mode, display } = toRefs(props)
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 const loading = ref(false)
-const open = ref(false)
 const history = ref<ActivityMemberHistory[]>()
 
 const fetch = async () => {

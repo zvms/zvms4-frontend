@@ -99,6 +99,12 @@ export const useUserStore = defineStore('user', {
       const router = useRouter()
       router.push('/user/login')
       location.reload()
+    },
+    setTime(time: UserActivityTimeSums) {
+      this.time.onCampus = time.onCampus
+      this.time.offCampus = time.offCampus
+      this.time.socialPractice = time.socialPractice
+      this.time.trophy = time.trophy
     }
   },
   persist: {

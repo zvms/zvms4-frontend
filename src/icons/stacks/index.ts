@@ -37,6 +37,9 @@ import Vue from './Vue.vue'
 import Vuetify from './Vuetify.vue'
 import Webpack from './Webpack.vue'
 import Yarn from './Yarn.vue'
+import Rust from './Rust.vue'
+import Polars from './Polars.vue'
+import LaTeX from './LaTeX.vue'
 
 export const TeckStackV0: Array<{ icon: Component; name: string; classify: string }> = [
   { icon: Axios, name: 'Axios', classify: 'server' },
@@ -117,11 +120,14 @@ export const TeckStackV4: Array<{ icon: Component; name: string; classify: strin
   { icon: GitHub, name: 'GitHub', classify: 'git' },
   { icon: JavaScript, name: 'JavaScript', classify: 'language' },
   { icon: JWT, name: 'JWT', classify: 'server' },
+  { icon: LaTeX, name: 'LaTeX', classify: 'language' },
   { icon: MongoDB, name: 'MongoDB', classify: 'database' },
   { icon: Pinia, name: 'Pinia', classify: 'state-management' },
   { icon: Python, name: 'Python', classify: 'language' },
   { icon: PNpm, name: 'PNpm', classify: 'package-manager' },
+  { icon: Polars, name: 'Polars', classify: 'data-processing' },
   { icon: Prettier, name: 'Prettier', classify: 'code-tool' },
+  { icon: Rust, name: 'Rust', classify: 'language' },
   { icon: TailwindCSS, name: 'TailwindCSS', classify: 'ui' },
   { icon: TypeScript, name: 'TypeScript', classify: 'language' },
   { icon: Vite, name: 'Vite', classify: 'dev-tool' },

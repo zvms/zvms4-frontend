@@ -62,6 +62,9 @@ async function getTime() {
     base.offCampus = result.offCampus
     base.socialPractice = result.socialPractice
     off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus) : 0)
+    if (user.value === userStore._id) {
+      userStore.setTime(result)
+    }
   }
   loading.value = false
 }

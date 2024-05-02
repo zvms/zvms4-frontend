@@ -6,7 +6,6 @@
   <p>如果你想联系我，可以通过QQ：2648616832。</p>
 </template>
 <style>
-/* 添加彩虹动画 */
 @keyframes rainbow {
   0% {
     color: red;
@@ -31,7 +30,6 @@
   }
 }
 
-/* 添加动画效果 */
 .rainbow-text {
   animation: rainbow 2s infinite;
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElButton, ElButtonGroup, ElCol, ElNotification, ElRow, ElTooltip } from 'element-plus'
+import { ElButton, ElButtonGroup, ElCol, ElRow, ElTooltip } from 'element-plus'
 import { PersonalPreferences, TeckStackMagV0, TeckStackMagV1 } from '@/icons/wcy'
 import { useHeaderStore } from '@/stores/header'
 import { pad } from '@/plugins/ua'

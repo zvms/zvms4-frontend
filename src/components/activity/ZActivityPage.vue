@@ -21,16 +21,28 @@ import {
   ElDescriptions,
   ElDescriptionsItem
 } from 'element-plus'
-import { ArrowLeft, ArrowRight, Clock, Edit, Location, Plus, Timer } from '@element-plus/icons-vue'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Clock,
+  Edit,
+  Location,
+  Plus,
+  Timer,
+  View,
+  EditPen
+} from '@element-plus/icons-vue'
+import { Write } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 
 const user = useUserStore()
 const route = useRoute()
+const router = useRouter()
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
@@ -146,21 +158,33 @@ watch(height, () => {
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">
         <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
-        <ZActivityImpressionDrawer
-          embed
-          :id="activity._id"
-          only-text
-          :readonly="!user.position.includes('auditor') && !user.position.includes('admin')"
-          :role="
-            user.position.includes('admin') ||
-            user.position.includes('auditor') ||
-            user.position.includes('department')
-              ? 'campus'
-              : user.position.includes('secretary')
-              ? 'class'
-              : 'mine'
+        <ElButton
+          :icon="EditPen"
+          v-if="
+            (user.position.includes('admin') || user.position.includes('auditor')) &&
+            activity.members.filter((x) => x.status === 'pending').length > 0
           "
-        />
+          type="danger"
+          text
+          bg
+          round
+          size="small"
+          @click="router.push(`/activity/details/${activity._id}/impression/campus`)"
+        >
+          {{ t('activity.impression.actions.reflect') }}
+        </ElButton>
+        <ElButton
+          :icon="View"
+          v-else
+          text
+          round
+          size="small"
+          bg
+          type="info"
+          @click="router.push(`/activity/details/${activity._id}/impression/campus`)"
+        >
+          {{ t('activity.impression.actions.view') }}
+        </ElButton>
       </ElDescriptionsItem>
       <ElDescriptionsItem
         v-if="activity.type === 'specified'"
@@ -195,15 +219,43 @@ watch(height, () => {
         />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.history.name')">
-        <ZActivityHistory :history="mine.history" :mode="mine.mode" display="button" show-items />
+        <ZActivityHistory
+          :activity-id="activity._id"
+          :user-id="user._id"
+          :mode="mine.mode"
+          display="button"
+          show-items
+        />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.member.impression')">
-        <ZActivityImpressionDrawer
-          :id="activity._id"
-          :readonly="mine.status !== 'rejected' && mine.status !== 'effective'"
-          role="mine"
-          embed
-        />
+        <ElButton
+          :icon="Write"
+          v-if="
+            ['draft', 'rejected'].includes(
+              activity.members?.find((x) => x._id === user._id)?.status ?? ''
+            )
+          "
+          text
+          bg
+          type="primary"
+          round
+          size="small"
+          @click="router.push(`/activity/details/${activity._id}/impression/mine`)"
+        >
+          {{ t('activity.impression.actions.write') }}
+        </ElButton>
+        <ElButton
+          :icon="View"
+          v-else
+          text
+          round
+          size="small"
+          bg
+          type="info"
+          @click="router.push(`/activity/details/${activity._id}/impression/mine`)"
+        >
+          {{ t('activity.impression.actions.view') }}
+        </ElButton>
       </ElDescriptionsItem>
     </ElDescriptions>
     <div class="py-2 flex justify-end">
