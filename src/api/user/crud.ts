@@ -1,4 +1,5 @@
 import axios from '@/plugins/axios'
+import { temporaryToken } from '@/plugins/short-token'
 import type { User, Response } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
@@ -34,4 +35,27 @@ async function getUsers(id: string) {
   return result.data
 }
 
-export { getUser as readOne, getUsers as read }
+async function putUser(user: string, name: string, id: string, groups: string[]) {
+  const token = await temporaryToken(user)
+  const result = (
+    await axios({
+      method: 'put',
+      url: `/user/${user}`,
+      data: { name, groups, id },
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+  ).data as Response<null>
+  if (result.status === 'error') {
+    ElNotification({
+      title: 'Error when updating user: ' + result.message,
+      message: result.message,
+      type: 'error'
+    })
+    return false
+  }
+  return true
+}
+
+export { getUser as readOne, getUsers as read, putUser as update }

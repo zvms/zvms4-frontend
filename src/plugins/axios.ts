@@ -4,7 +4,7 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 
-export const baseURL = 'https://api.zvms.site/api/'
+export const baseURL = import.meta.env.PROD ? 'https://api.zvms.site/api/' : 'http://localhost:8000/api/'
 
 const axiosInstance = axios.create({
   baseURL,

@@ -29,11 +29,16 @@ export async function getGroup(gid: string) {
   }
 }
 
-export async function getGroups() {
-  const response = await axios('/group')
-  const data = response.data as Response<Group[]>
+export async function getGroups(type: 'all' | 'permission' | 'class' = 'all', page = 1, limit = 10, search = '') {
+  const response = await axios('/group', {
+    params: { type, page, perpage: limit, search }
+  })
+  const data = response.data as Response<Group[]> & { metadata: { size: number } }
   if (data.status === 'ok') {
-    return data.data
+    return {
+      groups: data.data,
+      size: data.metadata.size
+    }
   }
 }
 

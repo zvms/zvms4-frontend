@@ -27,6 +27,7 @@ const positionList = Object.entries(positions).map(([key, value]) => ({ name: ke
       text
       round
       bg
+      v-bind="$attrs"
       size="small"
     >
       {{ text ? text : t('home.positions.' + item.name) }}
@@ -41,6 +42,7 @@ const positionList = Object.entries(positions).map(([key, value]) => ({ name: ke
     :icon="item.icon"
     text
     round
+    v-bind="$attrs"
     bg
     size="small"
   >

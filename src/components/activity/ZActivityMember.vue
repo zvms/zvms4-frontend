@@ -11,6 +11,7 @@ import ZUserGroup from '../tags/ZUserGroup.vue'
 import { useUserStore } from '@/stores/user'
 import { temporaryToken } from '@/plugins/short-token'
 import { useWindowSize } from '@vueuse/core'
+import router from '@/router'
 
 const { width, height } = useWindowSize()
 const { t } = useI18n()
@@ -121,9 +122,23 @@ watch(height, () => {
       <ZUserTimeJudge
         class="py-2"
         v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
-        :user="person?._id"
+        :user="id"
       />
-      <ElPopconfirm title="Are you sure?" @confirm="resetMemberPassword">
+      <ElButton
+        v-if="
+          mode === 'button' &&
+          (userStore.position.includes('admin') ||
+            userStore.position.includes('department') ||
+            userStore._id === person?._id)
+        "
+        text
+        bg
+        type="success"
+        @click="router.push(`/user/${person?._id}`)"
+      >
+        Open the Person Page
+      </ElButton>
+      <ElPopconfirm v-if="mode === 'card'" title="Are you sure?" @confirm="resetMemberPassword">
         <template #reference>
           <ElButton
             v-if="

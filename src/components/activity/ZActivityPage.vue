@@ -6,8 +6,7 @@ import {
   ZActivityMember,
   ZActivityType,
   ZActivityStatus,
-  ZActivityMode,
-  ZActivityImpressionDrawer
+  ZActivityMode
 } from '..'
 import { ref, withDefaults } from 'vue'
 import { useWindowSize } from '@vueuse/core'

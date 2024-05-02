@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/management',
+      name: 'management',
+      component: () => import('../views/manage/UserManage.vue')
+    },
+    {
       path: '/user/login',
       name: 'user-login',
       component: () => import('../views/user/UserLogin.vue')
@@ -23,6 +28,16 @@ const router = createRouter({
       path: '/user/',
       name: 'user',
       component: () => import('../views/user/UserHome.vue')
+    },
+    {
+      path: '/user/:id',
+      name: 'user-page',
+      component: () => import('../views/user/UserPage.vue')
+    },
+    {
+      path: '/user/:id/modify',
+      name: 'user-modify',
+      component: () => import('../views/user/UserModify.vue')
     },
     {
       path: '/activity/create/:type',
@@ -72,6 +87,16 @@ const router = createRouter({
           component: () => import('../views/activity/ViewPage.vue')
         }
       ]
+    },
+    {
+      path: '/group/',
+      name: 'group',
+      component: () => import('../views/group/GroupHome.vue')
+    },
+    {
+      path: '/group/:id',
+      name: 'group-user',
+      component: () => import('../views/group/GroupUser.vue')
     },
     {
       path: '/trophy',

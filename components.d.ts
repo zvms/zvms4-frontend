@@ -7,8 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
+    GroupView: typeof import('./src/components/group/GroupView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']
@@ -31,6 +33,9 @@ declare module 'vue' {
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
+    ZGroupList: typeof import('./src/components/group/ZGroupList.vue')['default']
+    ZGroupUserList: typeof import('./src/components/group/ZGroupUserList.vue')['default']
+    ZGroupView: typeof import('./src/components/group/ZGroupView.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
     ZNonXuehaiPad: typeof import('./src/components/utils/ZNonXuehaiPad.vue')['default']
     ZNotificationCard: typeof import('./src/components/notifications/ZNotificationCard.vue')['default']
@@ -52,6 +57,8 @@ declare module 'vue' {
     ZTrophyRegistrationButton: typeof import('./src/components/trophy/ZTrophyRegistrationButton.vue')['default']
     ZTrophyType: typeof import('./src/components/trophy/ZTrophyType.vue')['default']
     ZUserGroup: typeof import('./src/components/tags/ZUserGroup.vue')['default']
+    ZUserModification: typeof import('./src/components/group/ZUserModification.vue')['default']
+    ZUserPage: typeof import('./src/components/group/ZUserPage.vue')['default']
     ZUserPosition: typeof import('./src/components/tags/ZUserPosition.vue')['default']
     ZUserTimeJudge: typeof import('./src/components/activity/ZUserTimeJudge.vue')['default']
     ZVerticalNav: typeof import('./src/components/form/ZVerticalNav.vue')['default']

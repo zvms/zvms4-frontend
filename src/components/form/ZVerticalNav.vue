@@ -5,6 +5,7 @@ import {
   InfoFilled,
   Sunny,
   Moon,
+Management,
 } from '@element-plus/icons-vue'
 import { ElButton, ElButtonGroup, ElDrawer, ElSwitch, ElForm, ElFormItem } from 'element-plus'
 import { ref } from 'vue'
@@ -57,6 +58,12 @@ const navs: Array<{
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
+    show: true
+  },
+  {
+    icon: Management,
+    name: 'manage',
+    path: '/management',
     show: true
   },
   {
