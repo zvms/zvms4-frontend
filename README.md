@@ -1,5 +1,7 @@
 # The Front End of ZVMS 4
 
+[![Vercel](https://vercelbadge.vercel.app/api/zvms/zvms4-frontend)](https://vercel.com/quasi-studio/zvms4-frontend) [![Netlify Status](https://api.netlify.com/api/v1/badges/64e280fa-ea7f-4f6b-a89d-7696b483b178/deploy-status)](https://app.netlify.com/sites/zvms/deploys)
+
 > ZVMS 4|前端
 
 The v4 of ZVMS is developing with many features planned in other earlier versions but not realized, which can give you a new experience using this platform.
