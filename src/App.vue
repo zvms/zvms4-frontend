@@ -68,7 +68,7 @@ const userStore = useUserStore()
 const headerStore = useHeaderStore()
 
 function embedClarity() {
-  if (userStore.position.includes('admin')) return
+  // if (userStore.position.includes('admin')) return
   // Define a type for the clarity function to improve readability and type safety
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void

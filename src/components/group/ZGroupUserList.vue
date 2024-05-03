@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult } from 'element-plus'
+import { ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult, ElButton } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
@@ -106,6 +106,11 @@ function handleSearch() {
               :prefix-icon="Search"
               @blur="handleSearch"
             />
+          </template>
+          <template #default="{ row }">
+            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
+              Details
+            </ElButton>
           </template>
         </ElTableColumn>
       </ElTable>
