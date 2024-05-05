@@ -21,11 +21,11 @@ export const PersonalPreferences: Array<{ icon: Component; name: string; classif
   { icon: Clash, name: 'Clash', classify: 'tool' },
   { icon: GitHub, name: 'GitHub', classify: 'git' },
   { icon: VSCode, name: 'VSCode', classify: 'dev-tool' },
-  { icon: Apple, name: 'Apple', classify: 'brand' },
-  { icon: Starbucks, name: 'Starbucks', classify: 'brand' },
   { icon: Rust, name: 'Rust', classify: 'language' },
   { icon: PyTorch, name: 'PyTorch', classify: 'framework' },
   { icon: LaTeX, name: 'LaTeX', classify: 'language' },
+  { icon: Apple, name: 'Apple', classify: 'brand' },
+  { icon: Starbucks, name: 'Starbucks', classify: 'brand' },
   { icon: KFC, name: 'KFC', classify: 'brand' },
-  { icon: macOS, name: 'macOS', classify: 'os' },
+  { icon: macOS, name: 'macOS', classify: 'os' }
 ]

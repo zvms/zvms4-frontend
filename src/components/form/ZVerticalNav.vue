@@ -5,7 +5,7 @@ import {
   InfoFilled,
   Sunny,
   Moon,
-Management,
+  Management
 } from '@element-plus/icons-vue'
 import { ElButton, ElButtonGroup, ElDrawer, ElSwitch, ElForm, ElFormItem } from 'element-plus'
 import { ref } from 'vue'
@@ -117,15 +117,13 @@ watch(useless, () => {
         <p class="px-2 py-2 font-serif">
           Development and testing mostly use landscape, landscape effect is better, portrait effect
           is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3.
-
-          开发和测试大多使用横向，横向效果更好，纵向效果也可以。为了区分 ZVMS 3，菜单从左边移到了右边。
         </p>
-        <p class="px-2 py-2 text-right font-mono">By Wu Chengyu</p>
+        <p class="px-2 py-2 text-right font-mono">By E. G. in Uranus</p>
       </div>
       <div class="bottom">
         <ElForm label-position="right" label-width="120px">
           <ElFormItem :label="t('nav.language')">
-            <ZSelectLanguage type="select" placement="bottom"/>
+            <ZSelectLanguage type="select" placement="bottom" />
           </ElFormItem>
           <ElFormItem :label="t('nav.dark')">
             <ElSwitch
@@ -147,6 +145,7 @@ watch(useless, () => {
 .menu {
   width: 4rem;
   min-height: v-bind(height * 0.92 + 'px');
+  overflow: none;
 }
 
 .full {

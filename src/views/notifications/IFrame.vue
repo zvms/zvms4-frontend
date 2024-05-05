@@ -10,16 +10,16 @@ import VConsole from 'vconsole'
 const route = useRoute()
 const user = useUserStore()
 
-const availablePorts = [5246, 5000, 5173]
+const availablePorts = [5246, 5000]
 const availableTime = [
   // From 6:30 to 7:00
-  { start: '6:30', end: '7:00' },
+  { start: '6:30', end: '6:55' },
   // From 12:00 to 12:40
-  { start: '12:00', end: '12:40' },
+  { start: '12:10', end: '12:40' },
   // From 17:15 to 17:45
-  { start: '16:15', end: '17:45' },
+  { start: '16:25', end: '17:45' },
   // From 21:30 to 22:00
-  { start: '21:30', end: '22:00' }
+  { start: '21:30', end: '21:45' }
 ]
 
 const port = parseInt(route.params.port.toString())
@@ -66,10 +66,10 @@ async function open() {
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <ElEmpty v-if="!user.position.includes('admin') || !isAvailableTime" />
     <ElResult v-else-if="!src" status="error" :subTitle="`Port ${port} is not available now.`" />
-    <div v-else>
+    <div v-else class="h-full">
       <div>
         <ElButton text bg @click="open"> Open VConsole </ElButton>
       </div>
