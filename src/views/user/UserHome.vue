@@ -20,6 +20,7 @@ import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
 import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useWindowSize } from '@vueuse/core'
+import { getDevice } from '@/plugins/ua'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -49,6 +50,7 @@ async function refreshUser() {
   <div class="px-20 fill" style="width: 100%">
     <p class="text-2xl py-8">
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
+      {{ getDevice() }}
     </p>
     <div class="py-4">
       <ElCard shadow="hover">
