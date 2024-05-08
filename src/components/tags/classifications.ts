@@ -37,7 +37,7 @@ export default {
       icon: CityGate,
       color: 'success'
     },
-    'large-scale': {
+    'social-practice': {
       icon: Vacation,
       color: 'warning'
     }

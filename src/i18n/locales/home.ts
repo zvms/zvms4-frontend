@@ -1,5 +1,3 @@
-import { notification } from '@/api/export'
-
 export const enUS = {
   greeting: '{greet}, {name}!',
   greetings: {

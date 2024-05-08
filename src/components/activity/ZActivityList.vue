@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance, ActivityMember } from '@zvms/zvms4-types'
+import type { ActivityInstance, ActivityMember, ActivityType } from '@zvms/zvms4-types'
 import {
   ElDialog,
   ElTable,
@@ -203,7 +203,7 @@ watch(
             { text: t('activity.type.scale.name'), value: 'scale' },
             { text: t('activity.type.special.name'), value: 'special' }
           ]"
-          :filter-method="(value, row) => row.type === value"
+          :filter-method="(value: ActivityType, row: ActivityInstance) => row.type === value"
         >
           <template #default="{ row }">
             <ZActivityType
@@ -217,14 +217,6 @@ watch(
         <ElTableColumn
           v-if="role === 'mine'"
           :label="t('activity.form.duration')"
-          sortable
-          :sort-method="
-            (a, b) =>
-              ((a as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
-                ?.duration ?? a.duration) -
-              ((b as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
-                ?.duration ?? b.duration)
-          "
         >
           <template #default="{ row }">
             <ZActivityDuration
@@ -257,7 +249,7 @@ watch(
               }))
           "
           :filter-method="
-            (value, row) =>
+            (value: string, row: ActivityInstance) =>
               (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                 ?.status === value
           "

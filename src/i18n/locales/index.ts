@@ -29,17 +29,6 @@ export const zhCN = {
   validation: validation.zhCN
 }
 
-export const zhWY = {
-  about: about.zhWY,
-  activity: activity.zhWY,
-  home: home.zhWY,
-  nav: nav.zhWY,
-  preferences: preferences.zhWY,
-  notification: notification.zhWY,
-  claim: claim.zhWY,
-  validation: validation.zhWY
-}
-
 export const zhTW = {
   about: about.zhTW,
   activity: activity.zhTW,

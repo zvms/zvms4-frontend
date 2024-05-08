@@ -8,6 +8,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "target": "ES2021",
     "moduleResolution": "Bundler",
     "types": ["vite-plugin-pwa/vue", "element-plus/global"],
     "allowImportingTsExtensions": true,

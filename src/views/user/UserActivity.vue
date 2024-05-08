@@ -4,10 +4,8 @@ import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import type { ActivityInstance } from '@zvms/zvms4-types'
-import api from '@/api'
 import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
-import { ArrowLeft, Refresh } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()
