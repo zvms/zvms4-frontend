@@ -117,7 +117,7 @@ const collaborators = [
     dispName: '7086cmd',
     component: WuChengyu,
     grade: 202306,
-    name: locale.value === 'zh-CN' ? '吴承宇' : 'Ethan Goh',
+    name: locale.value === 'zh-CN' ? '吴承宇' : 'Ethan Goh'
   },
   {
     dispName: 'Regir',
@@ -183,7 +183,6 @@ watch(currentStack, (newVal) => {
 })
 
 function useCollaboratorDialog(dispName: string) {
-  if (pad()) return
   currentCollaborator.value = dispName
   openDialog.value = true
 }
@@ -302,7 +301,7 @@ function openGitHub() {
                 v-for="(collaborator, idx) in version.collaborators"
                 :key="idx"
                 :type="useRandomColor()"
-                @click="pad() ? undefined : useCollaboratorDialog(collaborator)"
+                @click="useCollaboratorDialog(collaborator)"
                 size="small"
               >
                 {{
