@@ -21,7 +21,7 @@ import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
 import ZSelectLanguage from './ZSelectLanguage.vue'
-import { pad } from '@/plugins/ua'
+import { pad, getTabletType } from '@/plugins/ua'
 
 const user = useUserStore()
 const router = useRouter()
@@ -29,6 +29,10 @@ const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
 })
+
+if (getTabletType() !== 'p615') {
+  dark.value = false
+}
 
 const show = ref(false)
 
@@ -64,7 +68,7 @@ const navs: Array<{
     icon: Management,
     name: 'manage',
     path: '/management',
-    show: true
+    show: user.position.includes('admin') || user.position.includes('department') || user.position.includes('auditor')
   },
   {
     icon: InfoFilled,
@@ -125,7 +129,7 @@ watch(useless, () => {
           <ElFormItem :label="t('nav.language')">
             <ZSelectLanguage type="select" placement="bottom" />
           </ElFormItem>
-          <ElFormItem :label="t('nav.dark')">
+          <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'" >
             <ElSwitch
               v-model="useless"
               inline-prompt

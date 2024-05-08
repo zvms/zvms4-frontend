@@ -23,6 +23,7 @@ import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { ZSelectLanguage } from '@/components'
 import { watch } from 'vue'
+import { pad, getTabletType } from '@/plugins/ua'
 
 const user = useUserStore()
 const router = useRouter()
@@ -31,6 +32,10 @@ const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
 })
+
+if (getTabletType() !== 'p615') {
+  dark.value = false
+}
 
 const path = ref(route.fullPath)
 
@@ -197,7 +202,7 @@ function routeTo(page: string) {
     </div>
     <ElSpace class="bottom" direction="vertical">
       <ZSelectLanguage type="button" placement="right" />
-      <ElButton :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
+      <ElButton v-if="!pad() || getTabletType() === 'p615'" :icon="dark ? Moon : Sunny" size="large" text circle @click="dark = !dark" />
     </ElSpace>
   </div>
 </template>
