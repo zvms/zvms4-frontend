@@ -1,8 +1,8 @@
-import { UAParser } from "ua-parser-js";
+import { UAParser } from 'ua-parser-js'
 
-const parser = new UAParser(navigator.userAgent);
+const parser = new UAParser(navigator.userAgent)
 
-const result = parser.getResult();
+const result = parser.getResult()
 
 export const getBrowser = () => result.browser
 
@@ -31,7 +31,7 @@ export function getTabletType(): 'p615' | 'p200' | 'p335' | 'unknown' {
    */
   const model = result.device.model
   switch (model) {
-    case 'SM-P615':
+    case 'SM-P615C':
       return 'p615'
     case 'SM-P200':
       return 'p200'

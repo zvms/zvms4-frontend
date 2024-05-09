@@ -50,7 +50,6 @@ async function refreshUser() {
   <div class="px-20 fill" style="width: 100%">
     <p class="text-2xl py-8">
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
-      {{ getDevice() }}
     </p>
     <div class="py-4">
       <ElCard shadow="hover">
