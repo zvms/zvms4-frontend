@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router'
 import {
-  ElTable,
-  ElTableColumn,
   ElCard,
-  ElPagination,
   ElInput,
-  ElResult,
   ElLoading,
   ElForm,
   ElFormItem,
@@ -29,6 +25,7 @@ import { reactive } from 'vue'
 const { t } = useI18n()
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
+const router = useRouter()
 
 const props = withDefaults(
   defineProps<{
@@ -124,12 +121,13 @@ async function submit() {
     return
   }
   try {
-    await api.user.update(id.value, modification.name, modification.id.toString(), [
+    await api.user.update(userStore._id, modification._id, modification.name, modification.id.toString(), [
       classGroupID.value,
       ...permissionsID.value
     ])
   } catch (_) {
     submission.value = false
+    return
   }
   ElNotification({
     title: 'Success',
@@ -137,6 +135,7 @@ async function submit() {
     type: 'success'
   })
   submission.value = false
+  router.push(`/user/${modification._id}`)
 }
 </script>
 

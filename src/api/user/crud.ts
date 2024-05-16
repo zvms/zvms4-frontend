@@ -35,12 +35,12 @@ async function getUsers(id: string) {
   return result.data
 }
 
-async function putUser(user: string, name: string, id: string, groups: string[]) {
+async function putUser(user: string, target: string, name: string, id: string, groups: string[]) {
   const token = await temporaryToken(user)
   const result = (
     await axios({
       method: 'put',
-      url: `/user/${user}`,
+      url: `/user/${target}`,
       data: { name, groups, id },
       headers: {
         Authorization: 'Bearer ' + token
