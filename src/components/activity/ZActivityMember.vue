@@ -66,7 +66,7 @@ async function resetMemberPassword() {
   const password = user?.id.toString()
   if (password) {
     const token = await temporaryToken(userStore._id)
-    await api.user.password.put(id.value, password, token)
+    await api.user.password.put(id.value, password, token, true)
   }
 }
 
@@ -129,6 +129,9 @@ watch(height, () => {
           mode === 'button' &&
           (userStore.position.includes('admin') ||
             userStore.position.includes('department') ||
+            userStore.position.includes('auditor') ||
+            (userStore.position.includes('secretary') &&
+              person?.group.includes(userStore.class_id)) ||
             userStore._id === person?._id)
         "
         text
@@ -142,16 +145,19 @@ watch(height, () => {
         <template #reference>
           <ElButton
             v-if="
-              userStore.position.includes('admin') ||
-              userStore.position.includes('department') ||
-              userStore._id === person?._id
+              (userStore.position.includes('admin') ||
+                userStore.position.includes('department') ||
+                userStore.position.includes('auditor') ||
+                (userStore.position.includes('secretary') &&
+                  person?.group.includes(userStore.class_id))) &&
+              person?._id &&
+              person?._id !== userStore._id
             "
             type="danger"
             text
             bg
             class="w-full"
             :icon="Refresh"
-            @click="refresh"
           >
             Reset Password to his / her ID
           </ElButton>

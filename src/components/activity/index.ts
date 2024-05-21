@@ -43,7 +43,7 @@ export function permissions(positions: UserPosition[]) {
     return result
   }
   const insert = {
-    specified: upperSecretary(positions),
+    specified: upperStudent(positions),
     social: upperStudent(positions),
     scale: upperStudent(positions),
     special: specialManagement(positions)
