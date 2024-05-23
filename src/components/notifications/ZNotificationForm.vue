@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue'
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
@@ -108,7 +108,12 @@ const submit = async () => {
               <ElInput v-model="notification.title" />
             </ElFormItem>
             <ElFormItem :label="t('notification.create.elements.content')">
-              <ElInput type="textarea" autosize :auto-size="{ minRows: 2 }" v-model="notification.content" />
+              <ElInput
+                type="textarea"
+                autosize
+                :auto-size="{ minRows: 2 }"
+                v-model="notification.content"
+              />
             </ElFormItem>
             <ElFormItem
               :label="t('notification.create.elements.type')"
