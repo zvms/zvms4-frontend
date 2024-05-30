@@ -11,16 +11,7 @@ const route = useRoute()
 const user = useUserStore()
 
 const availablePorts = [5246, 5000]
-const availableTime = [
-  // From 6:30 to 7:00
-  { start: '6:30', end: '6:55' },
-  // From 12:00 to 12:40
-  { start: '12:10', end: '12:40' },
-  // From 17:15 to 17:45
-  { start: '16:25', end: '17:45' },
-  // From 21:30 to 22:00
-  { start: '21:30', end: '21:45' }
-]
+const availableTime = [] as { start: string; end: string }[]
 
 const port = parseInt(route.params.port.toString())
 const available = availablePorts.includes(port)
@@ -39,7 +30,7 @@ const isAvailableTime = availableTime.some(({ start, end }) => {
 const src = ref('')
 
 if (available && isAvailableTime) {
-  src.value = `http://172.31.2.4:${port}`
+  src.value = `http://172.28.1.199:${port}`
 } else {
   src.value = ''
 }
@@ -60,7 +51,7 @@ setInterval(
 async function open() {
   const token = await temporaryToken(user._id)
   if (token) {
-    const vConsole = new VConsole()
+    new VConsole()
   }
 }
 </script>
