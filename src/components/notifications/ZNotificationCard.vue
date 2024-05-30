@@ -55,6 +55,12 @@ async function deleteNotification(id: string) {
   await api.notification.delete(id, user._id)
   emits('refresh')
 }
+
+function confirmAccess() {
+  return user.position.includes('admin') ||
+            user.position.includes('department') ||
+            user.position.includes('auditor')
+}
 </script>
 
 <template>
@@ -63,14 +69,12 @@ async function deleteNotification(id: string) {
       <span
         class="text-xl"
         :class="notification.title.length !== 0 ? 'font-bold' : 'op-65'"
-        @dblclick="editing = 'title'"
+        @dblclick="confirmAccess() && (editing = 'title')"
         v-if="editing !== 'title'"
       >
         {{
           notification.title.length === 0 &&
-          (user.position.includes('admin') ||
-            user.position.includes('department') ||
-            user.position.includes('auditor'))
+          confirmAccess()
             ? t('notification.editable')
             : notification.title
         }}
@@ -98,9 +102,7 @@ async function deleteNotification(id: string) {
       </div>
       <ElButton
         v-if="
-          user.position.includes('admin') ||
-          user.position.includes('department') ||
-          user.position.includes('auditor')
+          confirmAccess()
         "
         :icon="Delete"
         @click="deleteNotification(notification._id)"
@@ -115,15 +117,13 @@ async function deleteNotification(id: string) {
     <div
       class="text-sm py-6px"
       :class="notification.content.length === 0 ? 'op-65' : ''"
-      @dblclick="editing = 'content'"
+      @dblclick="confirmAccess() && (editing = 'content')"
       v-if="editing !== 'content'"
     >
       <ZNotificationContentDisplayer
         :content="
           notification.content.length === 0 &&
-          (user.position.includes('admin') ||
-            user.position.includes('department') ||
-            user.position.includes('auditor'))
+          confirmAccess()
             ? t('notification.editable')
             : notification.content
         "

@@ -25,7 +25,12 @@ export async function getRSAPublicCert(): Promise<string> {
   return result.data
 }
 
-export async function resetPassword(user: string, password: string, token: string) {
+export async function resetPassword(
+  user: string,
+  password: string,
+  token: string,
+  reset: boolean = false
+) {
   const payload = JSON.stringify({
     password: password,
     time: Date.now()
@@ -36,7 +41,7 @@ export async function resetPassword(user: string, password: string, token: strin
   const result = (await axios(`/user/${user}/password`, {
     method: 'PUT',
     data: {
-      credential: hex,
+      credential: hex
     },
     headers: {
       Authorization: `Bearer ${token}`
@@ -50,9 +55,10 @@ export async function resetPassword(user: string, password: string, token: strin
     })
     return
   }
-  localStorage.setItem('token', result.data.token)
+  if (!reset) {
+    localStorage.setItem('token', result.data.token)
+  }
   return result.data
-
 }
 
 async function UserLogin(user: string, password: string, term: 'long' | 'short' = 'long') {
