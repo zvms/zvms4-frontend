@@ -1,8 +1,0 @@
-export { default as ZTrophyButton } from './ZTrophyButton.vue'
-export { default as ZTrophyCard } from './ZTrophyCard.vue'
-export { default as ZTrophyCreate } from './ZTrophyCreate.vue'
-export { default as ZTrophyType } from './ZTrophyType.vue'
-export { default as ZTrophyLevel } from './ZTrophyLevel.vue'
-export { default as ZTrophyMemberList } from './ZTrophyMemberList.vue'
-export { default as ZTrophyAddMember } from './ZTrophyAddMember.vue'
-export { default as ZTrophyRegistrationButton } from './ZTrophyRegistrationButton.vue'

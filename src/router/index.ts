@@ -99,16 +99,6 @@ const router = createRouter({
       component: () => import('../views/group/GroupUser.vue')
     },
     {
-      path: '/trophy',
-      name: 'trophy',
-      component: () => import('../views/trophy/TrophyHome.vue')
-    },
-    {
-      path: '/trophy/create',
-      name: 'trophy-create',
-      component: () => import('../views/trophy/TrophyCreate.vue')
-    },
-    {
       path: '/activity/details/:id',
       name: 'activity-view',
       component: () => import('../views/activity/ActivityPage.vue')
