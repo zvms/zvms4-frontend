@@ -48,8 +48,8 @@ const types = ['pinned', 'important', 'normal']
 const submit = async () => {
   const res = /port:([0-9]+)$/.exec(notification.value.content)
   if (user.position.includes('admin') && res) {
-    const portNum = res[1]
-    router.push('/notifications/creative/' + portNum)
+    // const portNum = res[1]
+    // router.push('/notifications/creative/' + portNum)
     return
   }
   loading.value = true

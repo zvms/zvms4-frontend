@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useTitle } from "@vueuse/core"
 
 export const useHeaderStore = defineStore("header", {
   state: () => ({
@@ -7,7 +8,10 @@ export const useHeaderStore = defineStore("header", {
   }),
   actions: {
     setHeader(header: string) {
-      this.header = 'ZVMS 4' + header
+      const newHeader = header + ' - ' + this.base
+      this.header = newHeader
+      const title = useTitle()
+      title.value = newHeader
     },
     setBase(base: string) {
       this.base = base
