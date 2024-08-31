@@ -17,7 +17,7 @@ const props = defineProps<{
 
 const { type, size, set } = toRefs(props)
 
-const effective = type?.value! in classifications[set.value]
+const effective = type?.value && type?.value in classifications[set.value]
 </script>
 
 <template>

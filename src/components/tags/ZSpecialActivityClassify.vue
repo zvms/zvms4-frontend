@@ -27,7 +27,7 @@ const { classify, size } = toRefs(props)
 
 const classifies = classifications.specials
 
-const effective = classify?.value! in classifies
+const effective = classify?.value in classifies
 </script>
 
 <template>
