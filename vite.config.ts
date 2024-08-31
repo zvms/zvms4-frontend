@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // import basicSsl from '@vitejs/plugin-basic-ssl'
 import UnoCSS from 'unocss/vite'
-import oxlint from 'unplugin-oxlint/vite'
 import legacy from '@vitejs/plugin-legacy'
 import vueDevtools from 'vite-plugin-vue-devtools'
 import VueComponents from 'unplugin-vue-components/vite'
@@ -13,7 +12,6 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
-import { vitePluginFakeServer } from 'vite-plugin-fake-server'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -68,10 +66,6 @@ export default defineConfig({
     }),
     VueComponents({
       resolvers: [ElementPlusResolver(), VantResolver(), IconsResolver()]
-    }),
-    vitePluginFakeServer({
-      watch: true,
-      enableDev: true
     }),
   ],
   resolve: {

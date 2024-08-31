@@ -50,7 +50,7 @@ watch(
         },
         {
           validator: (_: InternalRuleItem, value: number, cb: Function) => {
-            if (value > 20) {
+            if (value > 30) {
               return cb(t('validation.create.member.duration.invalid'))
             }
             return cb()
