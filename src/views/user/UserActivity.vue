@@ -33,25 +33,6 @@ watch(
   { immediate: true }
 )
 
-const extend = [
-  {
-    value: 'register',
-    color: 'success',
-    icon: Write,
-    disabled: true
-  },
-  {
-    value: 'trophy',
-    color: 'info',
-    icon: Trophy
-  }
-] as Array<{
-  value: string
-  color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
-  icon: VueComponent
-  disabled?: boolean
-}>
-
 const panes = [
   {
     value: 'mine',
@@ -110,20 +91,6 @@ function moveTo(type: string) {
         style="margin-left: auto"
       >
         <ElSpace>
-          <ElButton
-            text
-            bg
-            size="small"
-            v-for="ext in extend"
-            :key="ext.value"
-            :type="ext.color"
-            :icon="ext.icon"
-            @click="moveTo(ext.value)"
-            :disabled="tab === ext.value || ext.disabled"
-          >
-            {{ t(`activity.view.panels.${ext.value}.short`) }}
-          </ElButton>
-          <ElDivider direction="vertical" />
           <ElButton
             text
             bg

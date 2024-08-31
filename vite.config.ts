@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // import basicSsl from '@vitejs/plugin-basic-ssl'
 import UnoCSS from 'unocss/vite'
+import oxlint from 'unplugin-oxlint/vite'
 import legacy from '@vitejs/plugin-legacy'
 import vueDevtools from 'vite-plugin-vue-devtools'
 import VueComponents from 'unplugin-vue-components/vite'
@@ -71,7 +72,7 @@ export default defineConfig({
     vitePluginFakeServer({
       watch: true,
       enableDev: true
-    })
+    }),
   ],
   resolve: {
     alias: {

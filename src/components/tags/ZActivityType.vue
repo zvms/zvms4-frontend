@@ -35,7 +35,7 @@ const { type, size, mode, special, status, showSpecial, force, bg } = toRefs(pro
 
 const types = classifications.type
 
-const effective = type?.value! in types
+const effective = type?.value in types
 </script>
 
 <template>

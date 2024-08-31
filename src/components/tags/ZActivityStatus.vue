@@ -38,7 +38,7 @@ const emits = defineEmits<{
 
 const { type, size, activity, callWhenModify } = toRefs(props)
 
-const effective = type?.value! in classifications.member
+const effective = type?.value in classifications.member
 
 const results: ('effective' | 'refused')[] = ['refused', 'effective']
 const visible = ref(false)
