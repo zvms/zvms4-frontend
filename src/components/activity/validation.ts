@@ -2,6 +2,7 @@ import type { ActivityInstance } from "@zvms/zvms4-types";
 import dayjs from "dayjs";
 
 export function validateActivity(activity: ActivityInstance): boolean {
+  console.log(activity)
   if (!activity) return false;
   if (!activity.name) return false;
   if (!activity.date) return false;
@@ -17,7 +18,8 @@ export function validateActivity(activity: ActivityInstance): boolean {
     if (!member._id) return false;
     if (!member.duration) return false;
     if (member.duration < 0) return false;
-    if (member.duration > 12) return false;
+    if (member.duration > 30 && activity.type === 'special') return false;
+    if (member.duration > 18 && activity.type !== 'special') return false;
     if (!member.mode) return false;
   }
   return true

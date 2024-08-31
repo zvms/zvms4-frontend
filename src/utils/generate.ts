@@ -30,7 +30,7 @@ export function generateActivity(
   if (registration && base.type === 'specified') {
     (activity as SpecifiedActivity).registration = registration
   }
-  if (special && base.type !== 'special') {
+  if (special && base.type === 'special') {
     (activity as SpecialActivity).special = special
   }
   return activity

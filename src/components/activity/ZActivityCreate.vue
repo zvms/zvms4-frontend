@@ -37,7 +37,6 @@ import {
   Plus,
   Delete,
   Location,
-  PictureRounded
 } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
@@ -46,7 +45,6 @@ import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { baseURL } from '@/plugins/axios'
 
 const formRef = ref<FormInstance>()
 
@@ -180,10 +178,6 @@ watch(
   },
   { deep: true, immediate: true }
 )
-
-function getUserToken() {
-  return localStorage.getItem('token')
-}
 </script>
 
 <template>
@@ -240,30 +234,6 @@ function getUserToken() {
               </ElSelect>
             </ElFormItem>
             <ElFormItem
-              v-if="
-                type === 'special' && (special.classify === 'club' || special.classify === 'import')
-              "
-              :label="t('activity.form.upload.name')"
-            >
-              <ElUpload
-                class="full"
-                drag
-                accept="application/vnd.ms-excel, application/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              >
-                <ElIcon class="el-icon--upload"><UploadFilled /></ElIcon>
-                <div class="el-upload__text">{{ t('activity.form.upload.prompt') }}</div>
-                <template #tip>
-                  <div class="el-upload__tip">
-                    {{
-                      t('activity.form.upload.allow', {
-                        type: 'Excel'
-                      })
-                    }}
-                  </div>
-                </template>
-              </ElUpload>
-            </ElFormItem>
-            <ElFormItem
               v-if="type === 'specified'"
               :label="t('activity.registration.location')"
               prop="registration.place"
@@ -272,7 +242,7 @@ function getUserToken() {
             </ElFormItem>
             <ElFormItem
               v-if="
-                type !== 'special' || (special.classify !== 'club' && special.classify !== 'import')
+                type !== 'special' || special.classify !== 'import'
               "
               :label="t('activity.form.person', members.length)"
               :required="type !== 'specified'"
@@ -338,34 +308,6 @@ function getUserToken() {
                 </div>
               </ElCard>
             </ElFormItem>
-            <!-- <ElFormItem
-              v-if="type === 'social'"
-              :label="t('activity.form.upload.name') + t('activity.form.image')"
-            >
-              <ElUpload
-                class="full"
-                drag
-                :action="baseURL + 'image'"
-                method="put"
-                :headers="{
-                  Authorization: `Bearer ${getUserToken()}`
-                }"
-                accept="image/jpeg, image/png, image/jpg"
-                :limit="10"
-              >
-                <ElIcon class="el-icon--upload"><PictureRounded /></ElIcon>
-                <div class="el-upload__text">{{ t('activity.form.upload.prompt') }}</div>
-                <template #tip>
-                  <div class="el-upload__tip">
-                    {{
-                      t('activity.form.upload.allow', {
-                        type: 'png, jpg, etc.'
-                      })
-                    }}
-                  </div>
-                </template>
-              </ElUpload>
-            </ElFormItem> -->
           </ElScrollbar>
           <div class="actions text-right">
             <ElButton type="warning" :icon="Refresh" text bg>
