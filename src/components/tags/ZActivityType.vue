@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
-import type { ActivityType, SpecialActivityClassification, ActivityStatus } from '@zvms/zvms4-types'
+import type { ActivityType, SpecialActivityClassification, ActivityStatus, ActivityInstance } from '@zvms/zvms4-types'
 import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
@@ -20,6 +20,10 @@ const props = withDefaults(
     force?: 'full' | 'short'
     status?: ActivityStatus
     bg?: boolean
+    statusModifiable?: boolean
+    callWhenModify?: boolean
+    activity?: ActivityInstance
+    refresh?: () => void
   }>(),
   {
     special: 'other',
@@ -27,11 +31,14 @@ const props = withDefaults(
     size: 'small',
     color: true,
     mode: 'auto',
-    bg: true
+    bg: true,
+    statusModifiable: false,
+    refresh: () => {},
+    callWhenModify: false
   }
 )
 
-const { type, size, mode, special, status, showSpecial, force, bg } = toRefs(props)
+const { activity, type, size, mode, special, status, showSpecial, force, bg, statusModifiable, refresh, callWhenModify } = toRefs(props)
 
 const types = classifications.type
 
@@ -58,6 +65,6 @@ const effective = type?.value in types
       :mode="mode"
       :bg="bg"
     />
-    <ZActivityStatus v-if="status" :type="status" :force="force" />
+    <ZActivityStatus v-if="type !== 'special' && status" :activity="activity" :type="status" :force="force" :modifiable="statusModifiable" :refresh="refresh" :call-when-modify="callWhenModify"  />
   </ElButtonGroup>
 </template>

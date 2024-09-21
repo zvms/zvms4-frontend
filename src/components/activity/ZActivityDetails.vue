@@ -157,13 +157,6 @@ const refresh = () => emits('refresh')
         :status="activity.members.find((x) => x._id === perspective ?? user._id)?.status"
         force="full"
       />
-      <ZActivityHistory
-        class="px-2"
-        v-if="mode === 'mine'"
-        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
-        :activity-id="activity._id"
-        :user-id="perspective ?? user._id"
-      />
       <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
     </div>
     <ElRow>

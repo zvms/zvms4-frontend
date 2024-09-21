@@ -79,7 +79,7 @@ const activity = reactive<ActivityInstance | Activity>({
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
-  status: 'pending',
+  status: 'effective',
   url: ''
 })
 
@@ -99,7 +99,7 @@ const modeMap = {
 const members = reactive<ActivityMember[]>([
   {
     _id: '',
-    status: type.value === 'special' ? 'effective' : 'draft',
+    status: 'effective',
     impression: '',
     mode: modeMap[type.value],
     duration: undefined as unknown as number,

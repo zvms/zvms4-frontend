@@ -197,13 +197,6 @@ watch(
           prop="type"
           v-if="role !== 'mine'"
           :label="t('activity.form.type')"
-          :filters="[
-            { text: t('activity.type.specified.name'), value: 'specified' },
-            { text: t('activity.type.social.name'), value: 'social' },
-            { text: t('activity.type.scale.name'), value: 'scale' },
-            { text: t('activity.type.special.name'), value: 'special' }
-          ]"
-          :filter-method="(value: ActivityType, row: ActivityInstance) => row.type === value"
         >
           <template #default="{ row }">
             <ZActivityType
@@ -211,6 +204,14 @@ watch(
               size="small"
               show-special
               :special="row?.special?.classify ?? 'other'"
+              :status="row?.status"
+              :status-modifiable="
+                (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
+                user.position.includes('admin') ||
+                user.position.includes('department')"
+              :activity="row"
+              :refresh="refresh"
+              call-when-modify
             />
           </template>
         </ElTableColumn>
@@ -220,6 +221,8 @@ watch(
         >
           <template #default="{ row }">
             <ZActivityDuration
+              v-if="(row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                  ?.status === 'effective'"
               :mode="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                   ?.mode
@@ -230,49 +233,12 @@ watch(
               "
               force="short"
             />
-          </template>
-        </ElTableColumn>
-        <ElTableColumn
-          v-if="
-            role === 'mine' ||
-            role === 'class' ||
-            (role === 'campus' &&
-              (user.position.includes('admin') || user.position.includes('department')))
-          "
-          :label="t('activity.status.title')"
-          :filters="
-            statusFilter
-              .filter((x) => role === 'mine' || (x !== 'rejected' && x !== 'draft'))
-              .map((x) => ({
-                text: t('activity.status.' + x),
-                value: x
-              }))
-          "
-          :filter-method="
-            (value: string, row: ActivityInstance) =>
-              (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
-                ?.status === value
-          "
-        >
-          <template #default="{ row }">
             <ZActivityStatus
-              v-if="role === 'mine'"
+              v-else
               :type="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
                   ?.status
               "
-            />
-            <ZActivityStatus
-              v-else
-              :type="row.status"
-              :modifiable="
-                (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
-                user.position.includes('admin') ||
-                user.position.includes('department')
-              "
-              :activity="row"
-              :refresh="refresh"
-              call-when-modify
             />
           </template>
         </ElTableColumn>
@@ -288,38 +254,7 @@ watch(
           </template>
           <template #default="{ row }">
             <ElButton
-              :icon="Write"
-              v-if="
-                role === 'mine' &&
-                ['draft', 'rejected'].includes(
-                  (row as ActivityInstance).members?.find((x: ActivityMember) => x._id === user._id)
-                    ?.status ?? ''
-                )
-              "
-              text
-              bg
-              type="primary"
-              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
-            >
-              {{ t('activity.impression.actions.write') }}
-            </ElButton>
-            <ElButton
-              :icon="EditPen"
-              v-else-if="
-                role === 'campus' &&
-                (user.position.includes('admin') || user.position.includes('auditor')) &&
-                row.members.filter((x: ActivityMember) => x.status === 'pending').length > 0
-              "
-              type="danger"
-              text
-              bg
-              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
-            >
-              {{ t('activity.impression.actions.reflect') }}
-            </ElButton>
-            <ElButton
               :icon="View"
-              v-else
               text
               bg
               type="info"

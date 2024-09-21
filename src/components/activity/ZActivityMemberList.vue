@@ -96,7 +96,7 @@ const appending = ref<ActivityMember>({
       : 0,
   mode: getMode(),
   impression: '',
-  status: activity.value.type === 'special' ? 'effective' : 'draft',
+  status: 'effective',
   images: [],
   history: []
 })
@@ -110,7 +110,7 @@ const memberFunctions = {
     await api.activity.member.insert(activity.value._id, appending.value)
     activity.value.members.push({
       _id: appending.value._id.toString(),
-      status: activity.value.type === 'special' ? 'effective' : 'draft',
+      status: 'effective',
       duration: appending.value.duration,
       mode: appending.value.mode,
       impression: '',
@@ -198,41 +198,6 @@ function pushTo(url: string) {
           <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
             <template #default="scope">
               <ZActivityStatus :type="scope.row.status" />
-              <ElButton
-                :icon="EditPen"
-                round
-                size="small"
-                v-if="
-                  (user.position.includes('admin') || user.position.includes('auditor')) &&
-                  scope.row.status === 'pending'
-                "
-                type="danger"
-                text
-                bg
-                @click="
-                  pushTo(`/activity/details/${activity._id}/impression/campus/${scope.row._id}`)
-                "
-              >
-                {{ t('activity.impression.actions.reflect') }}
-              </ElButton>
-              <ElButton
-                :icon="View"
-                round
-                size="small"
-                v-else-if="
-                  user.position.includes('admin') ||
-                  user.position.includes('auditor') ||
-                  user.position.includes('department')
-                "
-                text
-                bg
-                type="info"
-                @click="
-                  pushTo(`/activity/details/${activity._id}/impression/campus/${scope.row._id}`)
-                "
-              >
-                {{ t('activity.impression.actions.view') }}
-              </ElButton>
             </template>
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
