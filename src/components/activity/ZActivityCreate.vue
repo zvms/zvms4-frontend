@@ -112,7 +112,7 @@ const membersFunctions = {
   add() {
     members.push({
       _id: '',
-      status: type.value === 'special' ? 'effective' : 'draft',
+      status: 'effective',
       impression: '',
       mode: modeMap[type.value],
       duration: members[0].duration ?? (undefined as unknown as number),
