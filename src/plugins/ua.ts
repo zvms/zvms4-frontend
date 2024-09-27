@@ -30,6 +30,7 @@ export function getTabletType(): 'p615' | 'p200' | 'p335' | 'unknown' {
    * We can use the model to determine the type of tablet
    */
   const model = result.device.model
+  if (!pad()) return 'p615'
   switch (model) {
     case 'SM-P615C':
       return 'p615'

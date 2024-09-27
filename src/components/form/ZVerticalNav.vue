@@ -118,10 +118,6 @@ watch(useless, () => {
             {{ t(`nav.${nav.name}`) }}
           </ElButton>
         </ElButtonGroup>
-        <p class="px-2 py-2 font-serif">
-          Development and testing mostly use landscape, landscape effect is better, portrait effect
-          is also OK. The menu has been moved from the left to the right to distinguish ZVMS 3.
-        </p>
         <p class="px-2 py-2 text-right font-mono">By E. G. in Uranus</p>
       </div>
       <div class="bottom">
@@ -148,8 +144,7 @@ watch(useless, () => {
 <style scoped>
 .menu {
   width: 4rem;
-  min-height: v-bind(height * 0.92 + 'px');
-  overflow: none;
+  overflow: hidden;
 }
 
 .full {
