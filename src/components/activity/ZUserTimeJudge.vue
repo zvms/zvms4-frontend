@@ -43,7 +43,7 @@ const base = reactive({
 
 const exceed = ref(discount.value)
 
-function getDiscount(on: number, exceed: number = 30, rate: number = 3) {
+function getDiscount(on: number, exceed: number, rate: number) {
   if (on <= exceed) return 0
   console.log(on, exceed, rate)
   const result = Math.round((on - exceed) / rate)
@@ -61,7 +61,8 @@ async function getTime() {
     base.onCampus = result.onCampus
     base.offCampus = result.offCampus
     base.socialPractice = result.socialPractice
-    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus) : 0)
+    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 30, 3) : 0)
+    on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
     if (user.value === userStore._id) {
       userStore.setTime(result)
     }
@@ -72,11 +73,13 @@ async function getTime() {
 getTime()
 
 const off = ref(base.offCampus)
+const on = ref(base.onCampus)
 
 watch(
   exceed,
   () => {
-    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus) : 0)
+    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 30, 3) : 0)
+    on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
   },
   { immediate: true }
 )
@@ -110,7 +113,7 @@ watch(
         </ElCol>
         <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
         <ElCol :span="width < height ? 10 : 4">
-          <ZActivityMemberTimeJudge type="on-campus" :realTime="base.onCampus" />
+          <ZActivityMemberTimeJudge type="on-campus" :realTime="on" />
           <ElDivider v-if="width < height" />
         </ElCol>
         <ElCol v-if="width > height" :span="1"

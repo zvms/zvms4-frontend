@@ -123,6 +123,7 @@ watch(height, () => {
         class="py-2"
         v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
         :user="id"
+        discount
       />
       <ElButton
         v-if="

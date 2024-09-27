@@ -95,6 +95,7 @@ async function refreshUser() {
         :on-campus="user.time.onCampus"
         :off-campus="time.offCampus"
         :social-practice="time.socialPractice"
+        discount
       />
     </div>
     <div class="pt-4 pb-8">
