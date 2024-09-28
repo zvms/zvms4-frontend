@@ -9,15 +9,17 @@ import {
   ElCol,
   ElCard,
   ElTooltip,
-  ElDialog
+  ElDialog,
+  ElMessageBox
 } from 'element-plus'
 import { Refresh, ArrowRight, Plus, InfoFilled } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useWindowSize, useDark } from '@vueuse/core'
-import { ZSelectLanguage, ZSelectPerson } from '@/components'
+import { ZSelectLanguage } from '@/components'
 import { useI18n } from 'vue-i18n'
 import { AboutView } from '..'
+import api from '@/api'
 
 if (useUserStore().isLogin) {
   useRouter().push('/user/')
@@ -41,7 +43,15 @@ function refresh() {
 }
 
 async function login() {
-  userStore.setUser(user.value, password.value as string).then(() => {
+  const users = await api.user.read(user.value)
+  if (users.length !== 1) {
+    await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
+      type: 'error'
+    })
+    return
+  }
+  const id = users[0]._id
+  userStore.setUser(id, password.value as string).then(() => {
     router.push('/user/')
   })
 }
@@ -73,7 +83,8 @@ const openDialog = ref(false)
       </ElRow>
       <ElForm ref="loginfield" label-position="right" label-width="96px">
         <ElFormItem :label="t('nav.login.form.account')" prop="id" class="py-1">
-          <ZSelectPerson v-model="user" :filter-start="6" full-width />
+<!--          <ZSelectPerson v-model="user" :filter-start="6" full-width />-->
+          <ElInput v-model.number="user" clearable type="number" class="w-full" :min="8" :max="8" />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">
           <ElInput
