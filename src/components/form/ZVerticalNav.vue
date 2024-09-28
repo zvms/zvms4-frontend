@@ -10,7 +10,6 @@ import {
 import { ElButton, ElButtonGroup, ElDrawer, ElSwitch, ElForm, ElFormItem } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
-// import { useRoute, useRouter } from 'vue-router'
 import MdiEye from '@/icons/MdiEye.vue'
 import { ApplicationMenu } from '@icon-park/vue-next'
 import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
@@ -118,7 +117,6 @@ watch(useless, () => {
             {{ t(`nav.${nav.name}`) }}
           </ElButton>
         </ElButtonGroup>
-        <p class="px-2 py-2 text-right font-mono">By E. G. in Uranus</p>
       </div>
       <div class="bottom">
         <ElForm label-position="right" label-width="120px">

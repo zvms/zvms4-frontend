@@ -6,7 +6,6 @@ async function getUserTime(user: string) {
   const result = (await axios(`/user/${user}/time`)).data as Response<UserActivityTimeSums & {
     trophy: number
   }>
-  console.log(result)
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户时间错误（' + result.code + '）',

@@ -4,7 +4,7 @@ export const enUS = {
     developers: 'About Developers'
   },
   footer:
-    'Zhenhai High School Student Volunteer Autonomous Management Committee Technology Department',
+    'ZVMS Developer Team (from ZZDev) & Practice Department in Zhenhai High School',
   repository: {
     license: 'License',
     version: {
@@ -15,8 +15,8 @@ export const enUS = {
       repo: 'Repository: '
     },
     thank: {
-      mean: 'Meanwhile, thanks to the off campus server provided by ',
-      icon: ', icon of new version (2.0 - latest) designed by ',
+      mean: 'Meanwhile, thanks to the former off campus server provided by ',
+      icon: ', icon of new version designed by ',
       test: ', and the crazy test by ',
       end: '.'
     }
@@ -36,7 +36,7 @@ export const zhCN = {
     project: '关于 ZVMS',
     developers: '关于开发者'
   },
-  footer: '镇海中学义工自主管理委员会技术部',
+  footer: '镇海中学 ZVMS 开发组（来自 ZZDev 团队）、学生会实践部',
   repository: {
     license: '许可协议',
     version: {
@@ -47,7 +47,7 @@ export const zhCN = {
       repo: '仓库地址：'
     },
     thank: {
-      mean: '同时，感谢 ',
+      mean: '同时，感谢先前 ',
       icon: ' 提供的校外服务器，',
       test: ' 设计的新版（v2.0 - 最新版）图标，以及',
       end: ' 的疯狂测试。'
@@ -68,7 +68,7 @@ export const zhTW = {
     project: '關於 ZVMS',
     developers: '關於開發者'
   },
-  footer: '鎮海中學義工自主管理委員會技術部',
+  footer: '鎮海中學 ZVMS 開發組（來自 ZZDev 團隊）、學生會實踐部',
   repository: {
     license: '許可協議',
     version: {
@@ -79,7 +79,7 @@ export const zhTW = {
       repo: '倉庫地址：'
     },
     thank: {
-      mean: '同時，感謝 ',
+      mean: '同時，感謝先前 ',
       icon: ' 提供的校外服務器，',
       test: ' 設計的新版（v2.0 - 最新版）圖標，以及',
       end: ' 的瘋狂測試。'
@@ -100,21 +100,21 @@ export const jaJP = {
     project: 'ZVMSについて',
     developers: '開発者について'
   },
-  footer: '鎮海中学生ボランティア自治管理委員会技術部',
+  footer: '鎮海高校のZVMS 開発チーム（ZZDev チーム）＆学生会実践部',
   repository: {
     license: 'ライセンス',
     version: {
       '0': 'プロジェクトのバージョン',
       '1': 'は',
       '2': 'によって開発されました。ありがとうございます！',
-      stack: 'テックスタック：',
+      stack: '技術スタック：',
       repo: 'リポジトリ：'
     },
     thank: {
-      mean: 'また、',
-      icon: 'が提供する校外サーバー、',
-      test: 'による新バージョン（2.0 - 最新）のアイコン、および',
-      end: 'のクレイジーテストに感謝します。'
+      mean: 'その間、以前の ',
+      icon: ' が提供したオフキャンパスサーバー、',
+      test: ' によって設計された新しいバージョン（2.0 - 最新）のアイコン、および',
+      end: ' によるクレイジーテスト。'
     }
   },
   switch: {
@@ -132,7 +132,7 @@ export const frFR = {
     project: 'À propos de ZVMS',
     developers: 'À propos des développeurs'
   },
-  footer: 'Comité de gestion autonome des bénévoles étudiants de l\'école secondaire Zhenhai, département de la technologie',
+  footer: 'Équipe de développement de ZVMS (de l\'équipe ZZDev) et département de pratique du lycée de Zhenhai',
   repository: {
     license: 'Licence',
     version: {
@@ -144,7 +144,7 @@ export const frFR = {
     },
     thank: {
       mean: 'En attendant, merci au serveur hors campus fourni par ',
-      icon: ', icône de la nouvelle version (2.0 - dernière) conçue par ',
+      icon: ', icône de la nouvelle version conçue par ',
       test: ', et le test fou par ',
       end: '.'
     }

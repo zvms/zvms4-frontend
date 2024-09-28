@@ -6,7 +6,6 @@ async function importPublicKey(pemKey: string) {
     .split('\n')
     .filter((line) => line.trim() !== '')
     .join('')
-  console.log(withoutNewlines)
   // Base64 decode the string to get the binary data
   const binaryDerString = window.atob(withoutNewlines)
   // Convert from a binary string to an ArrayBuffer

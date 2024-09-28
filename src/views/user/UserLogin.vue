@@ -5,7 +5,6 @@ import {
   ElForm,
   ElFormItem,
   ElButton,
-  ElNotification,
   ElRow,
   ElCol,
   ElCard,
@@ -13,10 +12,9 @@ import {
   ElDialog
 } from 'element-plus'
 import { Refresh, ArrowRight, Plus, InfoFilled } from '@element-plus/icons-vue'
-import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useDark } from '@vueuse/core'
 import { ZSelectLanguage, ZSelectPerson } from '@/components'
 import { useI18n } from 'vue-i18n'
 import { AboutView } from '..'
@@ -25,8 +23,11 @@ if (useUserStore().isLogin) {
   useRouter().push('/user/')
 }
 
+const dark = useDark()
 const { height } = useWindowSize()
 const { t } = useI18n()
+
+dark.value = false // We haven't already adjusted the color in dark mode.
 
 const user = ref('')
 const password = ref<string>('')

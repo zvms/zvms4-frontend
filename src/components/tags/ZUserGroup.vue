@@ -30,7 +30,6 @@ api.group.readOne(group.value).then((result) => {
 })
 
 function openGroup() {
-  console.log('openGroup', `/group/${groupData.value?._id}`)
   router.push(`/group/${groupData.value?._id}`)
 }
 </script>

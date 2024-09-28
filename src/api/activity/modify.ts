@@ -34,7 +34,6 @@ async function modifyActivityDescription(aid: string, description: string) {
 }
 
 async function modifyActivityStatus(aid: string, status: string) {
-  console.log(aid, status)
   const result = (
     await axios({
       url: `/activity/${aid}/status`,

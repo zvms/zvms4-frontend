@@ -45,7 +45,6 @@ const exceed = ref(discount.value)
 
 function getDiscount(on: number, exceed: number, rate: number) {
   if (on <= exceed) return 0
-  console.log(on, exceed, rate)
   const result = Math.round((on - exceed) / rate)
   return result > 6 ? 6 : result
 }

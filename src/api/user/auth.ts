@@ -68,9 +68,7 @@ async function UserLogin(user: string, password: string, term: 'long' | 'short' 
   })
   const publicKey = await importPublicKey(await getRSAPublicCert())
   const credential = await encryptData(publicKey, payload)
-  // console.log(credential)
   const hex = byteArrayToHex(new Uint8Array(credential))
-  console.log(`User ${user} login with ${term} term, with the credential ${hex}`)
   const result = (await axios('/user/auth', {
     method: 'POST',
     data: {

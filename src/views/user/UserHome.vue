@@ -110,10 +110,4 @@ async function refreshUser() {
 .fill {
   width: 100%;
 }
-
-.subtitle {
-  position: relative;
-  top: 0;
-  transform: translateY(-10%);
-}
 </style>

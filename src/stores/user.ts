@@ -28,10 +28,8 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async getUserClassId(groups: string[]) {
-      console.log('Getting user class id')
       const result = await Promise.all(groups.map((group) => api.group.readOne(group)))
       const group = result.find((group) => group?.type === 'class')
-      console.log(group)
       if (group) {
         this.class_id = group._id
       }
@@ -56,7 +54,6 @@ export const useUserStore = defineStore('user', {
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
-      console.log('Setting user information')
       await this.setUserInformation(result)
     },
     getUser() {

@@ -177,7 +177,6 @@ const submit = async () => {
                 },
                 {
                   validator: (rule: any, value: any, callback: any) => {
-                    console.log(typeof value)
                     if (value.length == 0) {
                       callback(t('validation.notification.receivers.required'))
                     } else {

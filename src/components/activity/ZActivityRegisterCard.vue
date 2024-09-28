@@ -30,8 +30,6 @@ const props = defineProps<{
   activity: SpecifiedActivity
 }>()
 
-console.log(props)
-
 const { activity } = toRefs(props)
 
 const emits = defineEmits<{

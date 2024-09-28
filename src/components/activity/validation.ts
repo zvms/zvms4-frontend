@@ -2,7 +2,6 @@ import type { ActivityInstance } from "@zvms/zvms4-types";
 import dayjs from "dayjs";
 
 export function validateActivity(activity: ActivityInstance): boolean {
-  console.log(activity)
   if (!activity) return false;
   if (!activity.name) return false;
   if (!activity.date) return false;

@@ -98,7 +98,9 @@ function confirmAccess() {
           type="info"
           :id="notification.publisher"
         />
-        <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous" circle />
+        <ElButton v-else type="info" text bg size="small" :icon="OouiUserAnonymous">
+          Anonymous
+        </ElButton>
       </div>
       <ElButton
         v-if="

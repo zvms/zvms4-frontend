@@ -49,6 +49,5 @@ export async function createActivityWithDividedData(
   prize?: string
 ) {
   const activity = generateActivity(base, members, registration, special, prize)
-  console.log(activity)
   await createActivity(activity)
 }

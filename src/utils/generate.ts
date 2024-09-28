@@ -77,6 +77,5 @@ export function generateAwardActivity(trophy: Trophy): SpecialActivity {
     } as ActivityMember
     activity.members.push(activityMember)
   })
-  console.log(activity)
   return activity
 }

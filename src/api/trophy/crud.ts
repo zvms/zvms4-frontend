@@ -12,9 +12,7 @@ export async function readTrophy(id: string) {
 
 export async function readTrophies() {
   const resp = await axios(`/trophy`)
-  console.log(resp)
   const result = resp.data as Response<Trophy[]>
-  console.log(result, 'result')
   if (result.status === 'ok') {
     return result.data
   }
@@ -108,7 +106,6 @@ export async function insertTrophyMember(id: string, data: TrophyMember) {
 
 export async function removeTrophyMember(id: string, member: string, uid: string) {
   const token = await temporaryToken(uid)
-  console.log(token, 'token')
   const resp = await axios(`/trophy/${id}/member/${member}`, {
     method: 'DELETE',
     headers: {
