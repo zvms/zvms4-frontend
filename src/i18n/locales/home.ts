@@ -24,7 +24,7 @@ export const enUS = {
       unknown: 'Unknown'
     },
     class: 'Class',
-    identify: 'Identify'
+    identify: 'Identity'
   },
   panels: {
     information: {
@@ -237,7 +237,7 @@ export const frFR = {
       female: 'Femme',
       unknown: 'Inconnu'
     },
-    identify: 'Identifier'
+    identify: 'Identity'
   },
   panels: {
     information: {
