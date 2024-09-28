@@ -1,28 +1,20 @@
 <script lang="ts" setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import {
   ElTable,
   ElTableColumn,
   ElCard,
   ElPagination,
-  ElInput,
-  ElResult,
   ElButton
 } from 'element-plus'
-import { ref, onMounted, toRefs, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
-import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/stores/user'
-import type { User, Group } from '@zvms/zvms4-types'
-import { ZUserGroup } from '@/components'
+import type { Group } from '@zvms/zvms4-types'
 import { useWindowSize } from '@vueuse/core'
-import { Search } from '@element-plus/icons-vue'
 import ZUserPosition from '../tags/ZUserPosition.vue'
 
 const groups = ref<Group[]>([])
-const { t } = useI18n()
-const { width, height } = useWindowSize()
-const userStore = useUserStore()
+const { height } = useWindowSize()
 const page = ref(1)
 const router = useRouter()
 const perpage = ref(10)
@@ -63,7 +55,7 @@ function handleSearch() {
 <template>
   <div class="px-12 py-4">
     <p class="text-2xl mb-4">Group List</p>
-    <ElCard shadow="hover">
+    <ElCard shadow="hover" v-loading="loading">
       <ElTable :data="groups">
         <ElTableColumn prop="name" label="Name"></ElTableColumn>
         <ElTableColumn prop="permission" label="Permission">

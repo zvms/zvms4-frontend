@@ -28,15 +28,23 @@ const router = useRouter()
 
 const user = useUserStore()
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   role: 'campus' | 'class' | 'mine'
-}>()
+  perspective?: string
+  classTarget?: string
+}>(), {
+  role: 'mine',
+  perspective: 'mine',
+  classTarget: ''
+})
 
 const activePage = ref(1)
 const pageSize = ref(8)
 const size = ref(0)
 
-const { role } = toRefs(props)
+const { role, perspective: persp, classTarget } = toRefs(props)
+// eslint-disable-next-line vue/no-dupe-keys
+const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
 const inital = ref(true)
 const searchWord = ref('')
@@ -47,12 +55,12 @@ const activities = ref<ActivityInstance[]>([])
 function refresh() {
   loading.value = true
   getActivity(
-    user._id,
+    perspective.value === 'mine' ? user._id : perspective.value,
     role.value,
     activePage.value,
     pageSize.value,
     query.value,
-    user.class_id ?? ''
+    classTarget.value ?? user.class_id ?? ''
   )
     .then((res) => {
       if (res && res?.data.length !== 0) {
@@ -82,8 +90,6 @@ watch(query, () => {
 })
 
 const registerForSpecified = ref(false)
-
-const statusFilter = ['draft', 'pending', 'rejected', 'effective', 'refused']
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -146,7 +152,7 @@ watch(
       :throttle="500"
     />
     <ElCard shadow="never" v-else v-loading="loading && !inital">
-      <div class="text-right">
+      <div v-if="perspective === user._id" class="text-right">
         <ElButton
           type="success"
           :icon="Plus"
@@ -184,7 +190,7 @@ watch(
       >
         <ElTableColumn type="expand">
           <template #default="{ row }">
-            <ZActivityCard :_id="row._id" :mode="role" :perspective="user._id" @refresh="refresh" />
+            <ZActivityCard :_id="row._id" :mode="role" :perspective="perspective" @refresh="refresh" />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
@@ -221,14 +227,14 @@ watch(
         >
           <template #default="{ row }">
             <ZActivityDuration
-              v-if="(row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+              v-if="(row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
                   ?.status === 'effective'"
               :mode="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
                   ?.mode
               "
               :duration="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
                   ?.duration ?? 0
               "
               force="short"
@@ -236,7 +242,7 @@ watch(
             <ZActivityStatus
               v-else
               :type="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === user._id)
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
                   ?.status
               "
             />

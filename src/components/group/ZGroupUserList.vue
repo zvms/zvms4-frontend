@@ -82,12 +82,6 @@ function handleSearch() {
       userStore.groups.includes(id)
     "
   >
-    <p class="text-2xl py-1">
-      {{ group?.name }}
-    </p>
-    <p class="text-gray-700 dark:text-gray-200">
-      {{ group?.description }}
-    </p>
     <ElCard shadow="never" v-loading="loading">
       <ElTable :data="users" stripe :max-height="tableHeight">
         <ElTableColumn prop="name" label="Name" />
