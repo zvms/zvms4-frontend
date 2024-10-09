@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { ElResult, ElEmpty } from 'element-plus'
 import { temporaryToken } from '@/plugins/short-token'
 import VConsole from 'vconsole'
+import IFrameBrowser from './IFrameBrowser.vue'
 
 const route = useRoute()
 const user = useUserStore()
@@ -58,8 +59,8 @@ async function open() {
 
 <template>
   <div class="h-full">
-    <ElEmpty v-if="!user.position.includes('admin') || !isAvailableTime" />
-    <ElResult v-else-if="!src" status="error" :subTitle="`Port ${port} is not available now.`" />
+    <ElEmpty v-if="!user.position.includes('admin')" />
+    <!-- <ElResult v-else-if="!src" status="error" :subTitle="`Port ${port} is not available now.`" />
     <div v-else class="h-full">
       <div>
         <ElButton text bg @click="open"> Open VConsole </ElButton>
@@ -69,6 +70,7 @@ async function open() {
         allow="camera;microphone;midi;encrypted-media"
         class="w-full h-full border-0"
       ></iframe>
-    </div>
+    </div> -->
+    <IFrameBrowser class="h-full" />
   </div>
 </template>
