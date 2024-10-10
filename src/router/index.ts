@@ -62,6 +62,11 @@ const router = createRouter({
       ]
     },
     {
+      path: '/activity/merge',
+      name: 'activity-merge',
+      component: () => import('../views/activity/ActivityMerge.vue')
+    },
+    {
       path: '/activities/',
       name: 'activity',
       component: () => import('../views/user/UserActivity.vue'),

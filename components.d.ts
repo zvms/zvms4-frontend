@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
@@ -22,6 +23,7 @@ declare module 'vue' {
     ZActivityList: typeof import('./src/components/activity/ZActivityList.vue')['default']
     ZActivityMember: typeof import('./src/components/activity/ZActivityMember.vue')['default']
     ZActivityMemberList: typeof import('./src/components/activity/ZActivityMemberList.vue')['default']
+    ZActivityMerge: typeof import('./src/components/activity/ZActivityMerge.vue')['default']
     ZActivityMode: typeof import('./src/components/tags/ZActivityMode.vue')['default']
     ZActivityPage: typeof import('./src/components/activity/ZActivityPage.vue')['default']
     ZActivityRegisterCard: typeof import('./src/components/activity/ZActivityRegisterCard.vue')['default']
