@@ -32,21 +32,24 @@ const props = withDefaults(defineProps<{
   role: 'campus' | 'class' | 'mine'
   perspective?: string
   classTarget?: string
+  modelValue?: ActivityInstance[]
+  selectTarget?: ActivityType
 }>(), {
   role: 'mine',
   perspective: 'mine',
-  classTarget: ''
+  selectTarget: '',
 })
+const emits = defineEmits(['update:modelValue'])
 
 const activePage = ref(1)
 const pageSize = ref(8)
 const size = ref(0)
 
-const { role, perspective: persp, classTarget } = toRefs(props)
+const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
-const inital = ref(true)
+const initial = ref(true)
 const searchWord = ref('')
 const query = ref('')
 
@@ -72,11 +75,11 @@ function refresh() {
         loading.value = false
         size.value = 0
       }
-      inital.value = false
+      initial.value = false
     })
     .catch(() => {
       loading.value = false
-      inital.value = false
+      initial.value = false
     })
 }
 
@@ -132,6 +135,14 @@ watch(
   },
   { immediate: true }
 )
+
+function selectable(row: ActivityInstance) {
+  return selectTarget.value.toLowerCase() === row.type.toLowerCase() && row.status === 'effective'
+}
+
+function handleSelectionChange(val: string[]) {
+  emits('update:modelValue', val)
+}
 </script>
 
 <template>
@@ -144,14 +155,14 @@ watch(
     >
     </ElDialog>
     <ElSkeleton
-      v-if="loading && inital"
-      :loading="loading && inital"
+      v-if="loading && initial"
+      :loading="loading && initial"
       :rows="8"
       animated
       class="py-4 px-4"
       :throttle="500"
     />
-    <ElCard shadow="never" v-else v-loading="loading && !inital">
+    <ElCard shadow="never" v-else v-loading="loading && !initial">
       <div v-if="perspective === user._id" class="text-right">
         <ElButton
           type="success"
@@ -187,8 +198,10 @@ watch(
         table-layout="auto"
         :on-sort-change="onSortChange"
         stripe
+        @selection-change="handleSelectionChange"
       >
-        <ElTableColumn type="expand">
+        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
+        <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard :_id="row._id" :mode="role" :perspective="perspective" @refresh="refresh" />
           </template>
@@ -261,6 +274,7 @@ watch(
           <template #default="{ row }">
             <ElButton
               :icon="View"
+              :disabled="selectTarget !== ''"
               text
               bg
               type="info"
