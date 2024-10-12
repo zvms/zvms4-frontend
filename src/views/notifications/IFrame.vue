@@ -71,6 +71,5 @@ async function open() {
         class="w-full h-full border-0"
       ></iframe>
     </div> -->
-    <IFrameBrowser class="h-full" />
   </div>
 </template>
