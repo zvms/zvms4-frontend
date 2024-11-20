@@ -99,6 +99,7 @@ function handleSearch() {
               placeholder="Search"
               :prefix-icon="Search"
               @blur="handleSearch"
+              @keyup.enter="handleSearch"
             />
           </template>
           <template #default="{ row }">

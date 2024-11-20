@@ -8,6 +8,7 @@ import type { Group } from '@zvms/zvms4-types'
 import { useWindowSize } from '@vueuse/core'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ZActivityList } from '@/components'
+import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 
 const { height } = useWindowSize()
 
@@ -49,6 +50,10 @@ const tabs = ref([
   {
     label: 'Activities',
     value: 'activities',
+  },
+  {
+    label: 'Time',
+    value: 'time',
   }
 ])
 const tab = ref('users')
@@ -67,5 +72,6 @@ const tab = ref('users')
     </ElPageHeader>
     <ZGroupUserList v-if="tab === 'users'" :id="id" />
     <ZActivityList v-else-if="tab === 'activities'" :class-target="id" role="class" />
+    <ZGroupUserTimeList v-else-if="tab === 'time'" :id="id" />
   </div>
 </template>

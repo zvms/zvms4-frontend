@@ -5,13 +5,14 @@ import {
   ElTableColumn,
   ElCard,
   ElPagination,
-  ElButton
+  ElButton, ElInput
 } from 'element-plus'
 import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@zvms/zvms4-types'
 import { useWindowSize } from '@vueuse/core'
 import ZUserPosition from '../tags/ZUserPosition.vue'
+import { Search } from '@element-plus/icons-vue'
 
 const groups = ref<Group[]>([])
 const { height } = useWindowSize()
@@ -64,6 +65,16 @@ function handleSearch() {
           </template>
         </ElTableColumn>
         <ElTableColumn label="Action">
+          <template #header>
+            <ElInput
+              v-model="search"
+              size="small"
+              placeholder="Search"
+              :prefix-icon="Search"
+              @blur="handleSearch"
+              @keyup.enter="handleSearch"
+            />
+          </template>
           <template #default="{ row }">
             <ElButton type="primary" text bg @click="router.push(`/group/${row._id}`)">
               Detail
