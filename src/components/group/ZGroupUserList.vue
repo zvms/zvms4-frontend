@@ -91,6 +91,7 @@ function handleSearch() {
             <ZUserGroup v-for="group in row.group" :key="group" :group="group" class="px-1" />
           </template>
         </ElTableColumn>
+        <ElTableColumn prop="password" label="PWDM" />
         <ElTableColumn fixed="right">
           <template #header>
             <ElInput
