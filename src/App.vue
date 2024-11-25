@@ -103,6 +103,17 @@ const { width, height } = useWindowSize()
 
 const verticalMode = ref<boolean>(width.value < height.value * 1.2)
 
+// Get `_clck` cookie
+
+const clarityId = document.cookie
+  .split('; ')
+  .find((row) => row.startsWith('_clck'))
+  ?.split('=')[1].substring(0, 6)
+
+if (clarityId === 'glb8xp') {
+  document.write('你的设备已被限制访问。请将你的平板送到政教处接收调查。')
+}
+
 watch(
   () => width.value,
   (w) => {
