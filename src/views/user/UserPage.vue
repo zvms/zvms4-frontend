@@ -6,7 +6,7 @@ import { ref, watch } from 'vue'
 import { ElButton, ElPageHeader, ElSegmented, ElLoading } from 'element-plus'
 import { ZActivityList } from '@/components'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { type User } from '@zvms/zvms4-types'
+import type { User } from '@zvms/zvms4-types'
 import api from '@/api'
 import ZUserModification from '@/components/group/ZUserModification.vue'
 
