@@ -7,11 +7,11 @@ async function getUser(id: string) {
   const result = (await axios(`/user/${id}`)).data as Response<User>
   if (result.status === 'error') {
     ElNotification({
-      title: '获取用户信息错误（' + result.code + '）',
+      title: 'Error in getting user: ' + result.message,
       message: result.message,
       type: 'error'
     })
-    return null
+    return undefined
   }
   return result.data as User
 }

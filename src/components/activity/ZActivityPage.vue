@@ -52,8 +52,6 @@ const props = withDefaults(
   {}
 )
 
-const refresh = () => window.location.reload()
-
 const { activity } = props
 
 const scroll = ref(height.value * 0.54 + 'px')
@@ -148,7 +146,7 @@ watch(height, () => {
         }}</ElButton>
       </ElDescriptionsItem>
       <ElDescriptionsItem
-        v-if="activity.type === 'specified'"
+        v-if="activity.type === 'specified' && activity.registration.place"
         :label="t('activity.registration.location', activity.registration.classes.length)"
       >
         <ElButton round size="small" :icon="Location" text type="info">
@@ -157,39 +155,6 @@ watch(height, () => {
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">
         <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
-        <ElButton
-          :icon="EditPen"
-          v-if="
-            (user.position.includes('admin') || user.position.includes('auditor')) &&
-            activity.members.filter((x) => x.status === 'pending').length > 0
-          "
-          type="danger"
-          text
-          bg
-          round
-          size="small"
-          @click="router.push(`/activity/details/${activity._id}/impression/campus`)"
-        >
-          {{ t('activity.impression.actions.reflect') }}
-        </ElButton>
-        <ElButton
-          :icon="View"
-          v-else
-          text
-          round
-          size="small"
-          bg
-          type="info"
-          @click="router.push(`/activity/details/${activity._id}/impression/campus`)"
-        >
-          {{ t('activity.impression.actions.view') }}
-        </ElButton>
-      </ElDescriptionsItem>
-      <ElDescriptionsItem
-        v-if="activity.type === 'specified'"
-        :label="t('activity.form.class', activity.registration.classes.length)"
-      >
-        {{ activity.registration.classes.length }}
       </ElDescriptionsItem>
     </ElDescriptions>
     <ElDescriptions
@@ -216,45 +181,6 @@ watch(height, () => {
           :show-my-duration="true"
           :show-properties="true"
         />
-      </ElDescriptionsItem>
-      <ElDescriptionsItem :label="t('activity.history.name')">
-        <ZActivityHistory
-          :activity-id="activity._id"
-          :user-id="user._id"
-          :mode="mine.mode"
-          display="button"
-          show-items
-        />
-      </ElDescriptionsItem>
-      <ElDescriptionsItem :label="t('activity.member.impression')">
-        <ElButton
-          :icon="Write"
-          v-if="
-            ['draft', 'rejected'].includes(
-              activity.members?.find((x) => x._id === user._id)?.status ?? ''
-            )
-          "
-          text
-          bg
-          type="primary"
-          round
-          size="small"
-          @click="router.push(`/activity/details/${activity._id}/impression/mine`)"
-        >
-          {{ t('activity.impression.actions.write') }}
-        </ElButton>
-        <ElButton
-          :icon="View"
-          v-else
-          text
-          round
-          size="small"
-          bg
-          type="info"
-          @click="router.push(`/activity/details/${activity._id}/impression/mine`)"
-        >
-          {{ t('activity.impression.actions.view') }}
-        </ElButton>
       </ElDescriptionsItem>
     </ElDescriptions>
     <div class="py-2 flex justify-end">

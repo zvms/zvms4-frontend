@@ -30,14 +30,9 @@ const router = createRouter({
       component: () => import('../views/user/UserHome.vue')
     },
     {
-      path: '/user/:id',
+      path: '/user/:id/:page',
       name: 'user-page',
       component: () => import('../views/user/UserPage.vue')
-    },
-    {
-      path: '/user/:id/modify',
-      name: 'user-modify',
-      component: () => import('../views/user/UserModify.vue')
     },
     {
       path: '/activity/create/:type',
@@ -101,7 +96,7 @@ const router = createRouter({
     {
       path: '/group/:id',
       name: 'group-user',
-      component: () => import('../views/group/GroupUser.vue')
+      component: () => import('../views/group/GroupPage.vue')
     },
     {
       path: '/activity/details/:id',
@@ -142,6 +137,12 @@ const router = createRouter({
       path: '/notifications/creative/:port',
       name: 'notification-creative',
       component: () => import('../views/notifications/IFrame.vue')
+    },
+    {
+      // 404
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFound.vue')
     }
   ]
 })

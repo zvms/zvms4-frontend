@@ -7,7 +7,7 @@ export function validateActivity(activity: ActivityInstance): boolean {
   if (!activity.date) return false;
   try {
     dayjs(activity.date);
-  } catch (e) {
+  } catch {
     return false;
   }
   if (!activity.type) return false;

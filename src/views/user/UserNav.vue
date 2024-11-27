@@ -121,14 +121,14 @@ const navs: Array<{
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
-    show: true,
+    show: user.position.filter((x) => x !== 'student').length > 0,
     judge: (path) => path.startsWith('/activity/create')
   },
   {
     icon: Management,
     name: 'manage',
     path: '/management',
-    show: user.position.filter((x) => x !== 'student' && x !== 'secretary').length > 0,
+    show: user.position.filter((x) => x !== 'student').length > 0,
     judge: (path) => path.startsWith('/management')
   },
   {

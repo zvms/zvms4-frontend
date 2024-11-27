@@ -25,15 +25,6 @@ export function permissions(positions: UserPosition[]) {
         : false
     return result
   }
-  function upperSecretary(positions: UserPosition[]) {
-    const result =
-      positions.includes('admin') || positions.includes('department')
-        ? true
-        : positions.includes('secretary') || positions.includes('auditor')
-        ? 'need-audit'
-        : false
-    return result
-  }
   function specialManagement(positions: UserPosition[]) {
     const result =
       positions.includes('admin') || positions.includes('department')

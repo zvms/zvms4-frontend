@@ -14,11 +14,9 @@ export function generateActivity(
   members: ActivityMember[],
   registration?: Registration,
   special?: Special,
-  prize?: string
 ) {
   if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
     special = undefined
-    prize = undefined
   }
   if (base.type === 'special' || base.type === 'scale' || base.type === 'social') {
     registration = undefined

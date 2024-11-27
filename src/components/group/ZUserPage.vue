@@ -1,25 +1,10 @@
 <script lang="ts" setup>
-import { useRoute, useRouter } from 'vue-router'
 import {
-  ElTable,
-  ElTableColumn,
-  ElCard,
-  ElPagination,
-  ElInput,
-  ElResult,
   ElLoading
 } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
-import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/stores/user'
-import type { Group, User } from '@zvms/zvms4-types'
-import { useWindowSize } from '@vueuse/core'
-import { Search } from '@element-plus/icons-vue'
-
-const { t } = useI18n()
-const { width, height } = useWindowSize()
-const userStore = useUserStore()
+import type { User } from '@zvms/zvms4-types'
 
 const props = withDefaults(
   defineProps<{
@@ -34,8 +19,6 @@ const { id } = toRefs(props)
 const userGroups = ref<string[]>([])
 const classGroupID = ref<string>()
 const permissionsID = ref<string[]>([])
-const classes = ref<Group[]>([])
-const permissions = ref<Group[]>([])
 const person = ref<User>()
 
 function refresh() {

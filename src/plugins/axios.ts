@@ -9,8 +9,7 @@ export const baseURL = import.meta.env.PROD ? 'https://api.zvms.site/api/' : 'ht
 
 const axiosInstance = axios.create({
   baseURL,
-  // If using `http`, it must be testing or the `window.crypto.subtle` will not work.
-  withCredentials: false,
+  withCredentials: true,
   timeout: 24000,
   headers: {
     'Content-type': 'application/json',
@@ -51,7 +50,7 @@ axiosInstance.interceptors.response.use(
           })
           localStorage.removeItem('token')
           localStorage.removeItem('user')
-          window.location.href = '/user/login'
+          // window.location.href = '/user/login'
         } else {
           ElNotification({
             title: 'Error',

@@ -14,8 +14,7 @@ import {
   ElDivider,
   ElNotification,
   ElTag,
-  ElMessageBox,
-  ElAlert
+  ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -27,12 +26,13 @@ import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
 // import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
-import { watch, ref, onMounted } from 'vue'
+import { watch, ref, onMounted, h } from 'vue'
 import { zhCn, en, ja, zhTw, fr } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { temporaryToken } from '@/plugins/short-token'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
+import { modifyPasswordDialogs } from '@/views'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
@@ -67,6 +67,64 @@ const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
 
+async function resetPassword() {
+  if (userStore.shouldResetPassword) {
+    const messages = {
+      'zh-CN': '已有多起账号被盗事件，建议您修改密码以保护您的账号。',
+      'en-US': 'Multiple accounts have been hacked. It is recommended that you change your password to protect your account.',
+      'zh-TW': '已有多起帳號被盜事件，建議您修改密碼以保護您的帳號。',
+      'ja-JP': '複数のアカウントがハッキングされています。アカウントを保護するためにパスワードを変更することをお勧めします。',
+      'fr-FR': 'Plusieurs comptes ont été piratés. Il est recommandé de changer votre mot de passe pour protéger votre compte.'
+    }
+    const advice = {
+      'zh-CN': '建议您重置密码',
+      'en-US': 'It is recommended that you reset your password',
+      'zh-TW': '建議您重置密碼',
+      'ja-JP': 'パスワードをリセットすることをお勧めします',
+      'fr-FR': 'Il est recommandé de réinitialiser votre mot de passe'
+    }
+    const threaten = {
+      'zh-CN': '您必须重置密码后才能继续使用本系统。',
+      'en-US': 'You must reset your password before you can continue to use this system.',
+      'zh-TW': '您必須重置密碼後才能繼續使用本系統。',
+      'ja-JP': 'このシステムを引き続き使用する前にパスワードをリセットする必要があります。',
+      'fr-FR': 'Vous devez réinitialiser votre mot de passe avant de pouvoir continuer à utiliser ce système.'
+    }
+    await ElMessageBox({
+      message: h('p', null, (userStore.position.length !== 1) ? ([
+        h('span', null, messages[userStore.language as 'en-US'] as string),
+        h('strong', null, threaten[userStore.language as 'en-US'] as string)
+      ]) : ([
+        h('span', null, messages[userStore.language as 'en-US'] as string)
+      ])),
+      showCancelButton: true,
+      title: advice[userStore.language as 'en-US'] as string,
+      confirmButtonText: 'Modify Password',
+      cancelButtonText: 'Cancel'
+    }).then(async () => {
+        try {
+          await modifyPasswordDialogs(userStore._id, userStore.language, userStore.resetPassword)
+        } catch {
+          userStore.shouldResetPassword = false
+          if (userStore.position.length !== 1) {
+            await userStore.removeUser()
+            location.href = '/user/login'
+          }
+        }
+      }
+    ).catch(() => {
+      userStore.shouldResetPassword = false
+      if (userStore.position.length !== 1) {
+        userStore.removeUser()
+        location.href = '/user/login'
+      }
+    })
+
+  }
+}
+
+resetPassword()
+
 function embedClarity() {
   // if (userStore.position.includes('admin')) return
   // Define a type for the clarity function to improve readability and type safety
@@ -79,7 +137,7 @@ function embedClarity() {
 
   const setupClarity: ClarityFunction = (window.clarity =
     window.clarity ||
-    function () {
+    function() {
       ;(window.clarity.q = window.clarity.q || []).push(arguments)
     })
 
@@ -102,34 +160,6 @@ locale.value = userStore.language ?? navigator.language
 const { width, height } = useWindowSize()
 
 const verticalMode = ref<boolean>(width.value < height.value * 1.2)
-
-// Get `_clck` cookie
-
-const clarityId = document.cookie
-  .split('; ')
-  .find((row) => row.startsWith('_clck'))
-  ?.split('=')[1].substring(0, 6)
-
-if (clarityId === 'glb8xp') {
-  document.write(`你的设备已被限制访问。请将你的平板送到政教处接受调查。目前消息表明你是蛟一 2 班或蛟一 3 班的学生。
-
-你的行为包括但不限于：
-
-1. 盗用多人账号并进行违规操作（包括但不限于谈甬、黄子隽、张哲恒、系统等）；
-
-2. 盗用他人账号给罗泽宸建立义工；
-
-3. 盗用系统账号乱发通知；
-
-4. 挑衅将管理员名字修改；
-
-5. 盗用管理员账号给罗泽宸与系统账号加权限；
-
-6. 恶意修改多人密码。
-
-警告：你的行为已经违反了校纪校规，相关热重绘证据与请求历史已经保存，并报备学校。
-`)
-}
 
 watch(
   () => width.value,
@@ -303,7 +333,7 @@ const locales: Record<
     password: {
       title: 'Réinitialiser le mot de passe',
       message: 'Veuillez entrer le nouveau mot de passe',
-      confirmButtonText: "D'accord",
+      confirmButtonText: 'D\'accord',
       cancelButtonText: 'Annuler',
       inputErrorMessage:
         'Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
@@ -350,33 +380,7 @@ const panelButtons = [
   {
     icon: Password,
     async click() {
-      const token = await temporaryToken(userStore._id, false, locale.value as 'en-US')
-      if (!token) {
-        return
-      }
-      const input = await ElMessageBox.prompt(
-        locales[locale.value].password.message,
-        locales[locale.value].password.title,
-        {
-          confirmButtonText: locales[locale.value].password.confirmButtonText,
-          cancelButtonText: locales[locale.value].password.cancelButtonText,
-          inputType: 'password'
-        }
-      )
-      const confirm = await ElMessageBox.prompt(
-        locales[locale.value].password_confirm.message,
-        locales[locale.value].password_confirm.title,
-        {
-          confirmButtonText: locales[locale.value].password.confirmButtonText,
-          cancelButtonText: locales[locale.value].password.cancelButtonText,
-          inputValidator: (ipt: string) => input.value === ipt,
-          inputType: 'password',
-          inputErrorMessage: locales[locale.value].password_confirm.inputErrorMessage
-        }
-      )
-      if (input.value === confirm.value) {
-        userStore.resetPassword(token, input.value)
-      }
+      await modifyPasswordDialogs(userStore._id, locale.value, userStore.resetPassword)
     },
     text: 'reset'
   },
@@ -488,7 +492,7 @@ onMounted(() => {
 
 <style scoped>
 .footer-container {
-  height: v-bind(height * 0.05 + 'px');
+  height: v-bind(height *0.05 + 'px');
   overflow-y: scroll;
   z-index: 999;
 }
@@ -514,7 +518,7 @@ onMounted(() => {
 .fragment-container {
   /* height: v-bind(height - '3rem'); */
   /* all is height, and - 3rem is this height */
-  height: v-bind(height * 0.88 + 'px');
+  height: v-bind(height *0.88 + 'px');
   overflow-y: scroll;
   /* max-width: 100vw; */
   /* margin: 0 auto; */
@@ -533,6 +537,7 @@ onMounted(() => {
   position: absolute;
   right: 0;
 }
+
 /*
 @media print {
   .user {
@@ -544,9 +549,8 @@ onMounted(() => {
 <style>
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  transition:
-    color 0.5s,
-    background-color 0.5s !important;
+  transition: color 0.5s,
+  background-color 0.5s !important;
   /* filter: grayscale(1); */
 }
 

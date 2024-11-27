@@ -1,22 +1,26 @@
 <script lang="ts" setup>
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElPageHeader, ElSegmented } from 'element-plus'
 import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@zvms/zvms4-types'
 import { useWindowSize } from '@vueuse/core'
+import { useUserStore } from '@/stores/user.ts'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ZActivityList } from '@/components'
 import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 
 const { height } = useWindowSize()
+const userStore = useUserStore()
+const route = useRoute()
+const router = useRouter()
+
+const id = ref<string>('')
 
 const group = ref<Group>()
 
 const tableHeight = ref(height.value * 0.6)
-
-const id = ref<string>('')
 
 watch(height, () => {
   tableHeight.value = height.value * 0.6
@@ -34,26 +38,31 @@ watch(id, () => {
   })
 })
 
-const route = useRoute()
-
 watch(() => route.params.id, (value) => {
   id.value = value as string
 })
 
 id.value = route.params.id as string
 
+if (
+  !(userStore.position.includes('admin') ||
+    userStore.position.includes('department') ||
+    (userStore.position.includes('secretary') && userStore.class_id === id.value))) {
+  router.push('/not-found')
+}
+
 const tabs = ref([
   {
     label: 'Users',
-    value: 'users',
+    value: 'users'
   },
   {
     label: 'Activities',
-    value: 'activities',
+    value: 'activities'
   },
   {
     label: 'Time',
-    value: 'time',
+    value: 'time'
   }
 ])
 const tab = ref('users')
@@ -61,7 +70,6 @@ const tab = ref('users')
 
 <template>
   <div class="px-16 py-8">
-
     <ElPageHeader v-if="group?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
       <template #content>
         {{ group?.name }}

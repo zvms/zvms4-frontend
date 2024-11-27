@@ -4,7 +4,7 @@ import api from '@/api'
 export function temporaryToken(
   userid: string,
   validate: boolean = true,
-  locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US'
+  locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US',
 ): Promise<string> {
   const locales = {
     'zh-CN': {
@@ -67,6 +67,6 @@ export function temporaryToken(
         .catch((err) => {
           reject(err)
         })
-    })
+    }).catch((err) => { reject(err) })
   })
 }

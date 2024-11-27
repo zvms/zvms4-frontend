@@ -61,13 +61,14 @@ const navs: Array<{
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
-    show: true
+    show: user.position.filter((x) => x !== 'student').length > 0
   },
   {
     icon: Management,
     name: 'manage',
+
     path: '/management',
-    show: user.position.includes('admin') || user.position.includes('department') || user.position.includes('auditor')
+    show: user.position.filter((x) => x !== 'student').length > 0
   },
   {
     icon: InfoFilled,
@@ -104,7 +105,7 @@ watch(useless, () => {
       <div class="menu full">
         <ElButtonGroup class="full">
           <ElButton
-            v-for="nav in navs"
+            v-for="nav in navs.filter(x => x.show)"
             :key="nav.path"
             :icon="nav.icon"
             text

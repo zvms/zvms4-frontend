@@ -104,7 +104,7 @@ function handleSearch() {
             />
           </template>
           <template #default="{ row }">
-            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
+            <ElButton text bg size="small" @click="router.push(`/user/${row._id}/info`)">
               Details
             </ElButton>
           </template>

@@ -5,6 +5,7 @@ import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getUserPositions } from '@/utils/groupPosition'
+import { modifyPasswordDialogs } from '@/views'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -18,6 +19,7 @@ export const useUserStore = defineStore('user', {
     class_id: '',
     code: 0,
     isLogin: false,
+    shouldResetPassword: false,
     time: {
       socialPractice: 0,
       onCampus: 0,
@@ -49,6 +51,9 @@ export const useUserStore = defineStore('user', {
       if (result) {
         const information = (await api.user.readOne(user)) as User
         await this.setUserInformation(information)
+        if (password === information.id.toString()) {
+          this.shouldResetPassword = true
+        }
       }
       location.reload()
     },
@@ -92,9 +97,10 @@ export const useUserStore = defineStore('user', {
         message: 'Please login again',
         type: 'success'
       })
-      this.removeUser()
+      await this.removeUser()
+      this.shouldResetPassword = false
       const router = useRouter()
-      router.push('/user/login')
+      await router.push('/user/login')
       location.reload()
     },
     setTime(time: UserActivityTimeSums) {
@@ -102,6 +108,14 @@ export const useUserStore = defineStore('user', {
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice
       this.time.trophy = time.trophy
+    },
+    relatedGroup(group: string): boolean {
+      console.log(this.position)
+      if (this.position.includes('admin') || this.position.includes('department')) {
+        return true
+      } else if (this.position.includes('secretary')) {
+        return group === this.class_id
+      } else return false
     }
   },
   persist: {

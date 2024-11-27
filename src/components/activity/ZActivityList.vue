@@ -164,17 +164,6 @@ function handleSelectionChange(val: string[]) {
     />
     <ElCard shadow="never" v-else v-loading="loading && !initial">
       <div v-if="perspective === user._id" class="text-right">
-        <ElButton
-          type="success"
-          :icon="Plus"
-          text
-          bg
-          round
-          @click="router.push('/activity/create')"
-        >
-          {{ t('nav.create') }}
-        </ElButton>
-        <ElDivider direction="vertical" />
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
         </ElButton>

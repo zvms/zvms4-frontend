@@ -11,6 +11,7 @@ import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@zvms/zvms4-types'
 import { useWindowSize } from '@vueuse/core'
+import { useUserStore } from '@/stores/user.ts'
 import ZUserPosition from '../tags/ZUserPosition.vue'
 import { Search } from '@element-plus/icons-vue'
 
@@ -22,6 +23,13 @@ const perpage = ref(10)
 const loading = ref(false)
 const search = ref('')
 const total = ref(0)
+const userStore = useUserStore()
+
+if (
+  !(userStore.position.includes('admin') ||
+    userStore.position.includes('department'))) {
+  router.push('/not-found')
+}
 
 const tableHeight = ref(height.value * 0.6)
 

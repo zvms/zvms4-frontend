@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import {
   ElCard,
   ElInput,
@@ -15,15 +15,10 @@ ElNotification
 } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
-import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
 import type { Group, User } from '@zvms/zvms4-types'
-import { useWindowSize } from '@vueuse/core'
-import { Search } from '@element-plus/icons-vue'
 import { reactive } from 'vue'
 
-const { t } = useI18n()
-const { width, height } = useWindowSize()
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -135,18 +130,12 @@ async function submit() {
     type: 'success'
   })
   submission.value = false
-  router.push(`/user/${modification._id}`)
+  await router.push(`/user/${modification._id}`)
 }
 </script>
 
 <template>
   <div class="pt-12 px-4">
-    <p class="text-2xl">
-      Modify User {{ person?.name }}
-      <span class="text-sm text-gray-600 dark:text-gray-400">
-        User ID in Database: {{ person?._id }}
-      </span>
-    </p>
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
         <ElFormItem label="Name" required>

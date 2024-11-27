@@ -3,7 +3,6 @@ import type { Response } from '@zvms/zvms4-types'
 import type { ActivityInstance } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 import { read as mine } from '@/api/user/activity'
-import dayjs from 'dayjs'
 
 async function getClassActivities(
   page: number = 1,

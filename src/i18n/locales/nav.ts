@@ -1,5 +1,3 @@
-import type { notification } from '@/api/export'
-
 export const enUS = {
   home: 'Home',
   activity: 'List',

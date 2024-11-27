@@ -138,7 +138,7 @@ const refresh = () => emits('refresh')
         }}
       </ElButton>
       <ElButton
-        v-if="activity.type === 'specified'"
+        v-if="activity.type === 'specified' && (activity as SpecifiedActivity).registration.place"
         size="small"
         text
         bg

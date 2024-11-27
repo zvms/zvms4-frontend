@@ -5,6 +5,7 @@ import { ZUserPosition } from '.'
 import { ElButton } from 'element-plus'
 import type { Group } from '@zvms/zvms4-types'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const props = withDefaults(
   defineProps<{
@@ -16,6 +17,7 @@ const props = withDefaults(
   }
 )
 const groups = useGroupsStore()
+const user = useUserStore()
 const router = useRouter()
 const { group, grouping } = toRefs(props)
 const groupData = ref<Group>()
@@ -32,7 +34,9 @@ groups.fetchGroup(group.value).then((result) => {
 })
 
 function openGroup() {
-  router.push(`/group/${groupData.value?._id}`)
+  if (user.relatedGroup(groupData.value?._id ?? '')) {
+    router.push(`/group/${groupData.value?._id}`)
+  }
 }
 </script>
 
