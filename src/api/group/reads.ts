@@ -1,12 +1,13 @@
 import axios from '@/plugins/axios'
 import type { Response, User } from '@zvms/zvms4-types'
 
-export async function users(gid: string, page: number = 1, perpage: number = 10, search: string = '') {
+export async function users(gid: string, page: number = 1, perpage: number = 10, search: string = '', pwdm: boolean = false) {
   const response = (await axios(`/group/${gid}/user`, {
     params: {
       page,
       perpage,
-      search
+      search,
+      pwdm
     }
   })).data as Response<User[]> & { metadata: { size: number } }
   if (response.status === 'ok') {

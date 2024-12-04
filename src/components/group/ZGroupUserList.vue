@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult, ElButton } from 'element-plus'
+import { ElFormItem, ElSwitch, ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult, ElButton } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
@@ -53,7 +53,7 @@ watch(id, () => {
 
 const refresh = () => {
   loading.value = true
-  api.group.reads.users(id.value, page.value, perpage.value, search.value).then((res) => {
+  api.group.reads.users(id.value, page.value, perpage.value, search.value, pwdm.value).then((res) => {
     users.value = []
     users.value.push(...res.users)
     total.value = res.size
@@ -72,6 +72,8 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
+const pwdm = ref(false)
+watch(pwdm, refresh)
 </script>
 
 <template>
@@ -83,6 +85,9 @@ function handleSearch() {
     "
   >
     <ElCard shadow="never" v-loading="loading">
+      <ElFormItem label="Check if password modified" class="mb-4">
+        <ElSwitch v-model="pwdm" />
+      </ElFormItem>
       <ElTable :data="users" stripe :max-height="tableHeight">
         <ElTableColumn prop="name" label="Name" />
         <ElTableColumn prop="id" label="ID" />
@@ -91,7 +96,7 @@ function handleSearch() {
             <ZUserGroup v-for="group in row.group" :key="group" :group="group" class="px-1" />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="password" label="PWDM" />
+        <ElTableColumn v-if="pwdm" prop="password" label="PWDM" />
         <ElTableColumn fixed="right">
           <template #header>
             <ElInput
