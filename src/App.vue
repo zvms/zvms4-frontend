@@ -484,7 +484,7 @@ onMounted(() => {
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
-        <p class="text-center">&copy; 2018-2024 | {{ t('about.footer') }} | MIT Licensed</p>
+        <p class="text-center">&copy; 2018-2025 | {{ t('about.footer') }} | <abbr title="Massachusetts Institute of Technology">MIT</abbr> Licensed</p>
       </ElFooter>
     </ElContainer>
   </ElConfigProvider>
