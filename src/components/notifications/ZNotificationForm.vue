@@ -46,6 +46,9 @@ const loading = ref(false)
 const types = ['pinned', 'important', 'normal']
 
 const submit = async () => {
+  if (notification.value.content === 'plugin') {
+    router.push('/plugin/home')
+  }
   const res = /port:([0-9]+)$/.exec(notification.value.content)
   if (user.position.includes('admin') && res) {
     const portNum = res[1]
