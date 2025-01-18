@@ -57,9 +57,11 @@ async function deleteNotification(id: string) {
 }
 
 function confirmAccess() {
-  return user.position.includes('admin') ||
-            user.position.includes('department') ||
-            user.position.includes('auditor')
+  return (
+    user.position.includes('admin') ||
+    user.position.includes('department') ||
+    user.position.includes('auditor')
+  )
 }
 </script>
 
@@ -73,8 +75,7 @@ function confirmAccess() {
         v-if="editing !== 'title'"
       >
         {{
-          notification.title.length === 0 &&
-          confirmAccess()
+          notification.title.length === 0 && confirmAccess()
             ? t('notification.editable')
             : notification.title
         }}
@@ -103,9 +104,7 @@ function confirmAccess() {
         </ElButton>
       </div>
       <ElButton
-        v-if="
-          confirmAccess()
-        "
+        v-if="confirmAccess()"
         :icon="Delete"
         @click="deleteNotification(notification._id)"
         circle
@@ -124,8 +123,7 @@ function confirmAccess() {
     >
       <ZNotificationContentDisplayer
         :content="
-          notification.content.length === 0 &&
-          confirmAccess()
+          notification.content.length === 0 && confirmAccess()
             ? t('notification.editable')
             : notification.content
         "

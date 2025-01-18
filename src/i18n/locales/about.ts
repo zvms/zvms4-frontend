@@ -3,8 +3,7 @@ export const enUS = {
     project: 'About ZVMS',
     developers: 'About Developers'
   },
-  footer:
-    'ZVMS Developer Team (from ZZDev) & Practice Department in Zhenhai High School',
+  footer: 'ZVMS Developer Team (from ZZDev) & Practice Department in Zhenhai High School',
   repository: {
     license: 'License',
     version: {
@@ -27,7 +26,8 @@ export const enUS = {
   },
   privacy: {
     title: 'Privacy Policy',
-    content: 'This site partners with Microsoft Clarity and Microsoft Advertising to capture how you use and interact with this site through behavioral metrics, heatmaps, and session replays to improve your browsing experience on this site. We use first and third-party cookies and other tracking technologies to obtain website usage data to determine the popularity of this site and online activities. Additionally, we use this information for political and educational management and review, website optimization, fraud/security purposes, and advertising. For more information on how Microsoft collects and uses your data, please visit the Microsoft Privacy Statement (https://privacy.microsoft.com/privacystatement).'
+    content:
+      'This site partners with Microsoft Clarity and Microsoft Advertising to capture how you use and interact with this site through behavioral metrics, heatmaps, and session replays to improve your browsing experience on this site. We use first and third-party cookies and other tracking technologies to obtain website usage data to determine the popularity of this site and online activities. Additionally, we use this information for political and educational management and review, website optimization, fraud/security purposes, and advertising. For more information on how Microsoft collects and uses your data, please visit the Microsoft Privacy Statement (https://privacy.microsoft.com/privacystatement).'
   }
 }
 
@@ -59,7 +59,8 @@ export const zhCN = {
   },
   privacy: {
     title: '隐私政策',
-    content: '本站与 Microsoft Clarity 和 Microsoft Advertising 合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方 Cookie 及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于政教处管理与审查、网站优化、欺诈/安全目的和广告。有关 Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明 (https://privacy.microsoft.com/privacystatement)。'
+    content:
+      '本站与 Microsoft Clarity 和 Microsoft Advertising 合作，通过行为指标、热图和会话重播来捕获您使用本站的方式以及与本站的互动，从而改进本站的浏览体验。我们使用第一和第三方 Cookie 及其他跟踪技术获取网站使用数据，以确定本站的受欢迎程度和在线活动。此外，我们还将此信息用于政教处管理与审查、网站优化、欺诈/安全目的和广告。有关 Microsoft 如何收集和使用您的数据的详细信息，请访问 Microsoft 隐私声明 (https://privacy.microsoft.com/privacystatement)。'
   }
 }
 
@@ -91,7 +92,8 @@ export const zhTW = {
   },
   privacy: {
     title: '隱私政策',
-    content: '本站與 Microsoft Clarity 和 Microsoft Advertising 合作，通過行為指標、熱圖和會話重播來捕獲您使用本站的方式以及與本站的互動，從而改進本站的瀏覽體驗。我們使用第一和第三方 Cookie 及其他跟踪技術獲取網站使用數據，以確定本站的受歡迎程度和在線活動。此外，我們還將此信息用於政教處管理與審查、網站優化、欺詐/安全目的和廣告。有關 Microsoft 如何收集和使用您的數據的詳細信息，請訪問 Microsoft 隱私聲明 (https://privacy.microsoft.com/privacystatement)。'
+    content:
+      '本站與 Microsoft Clarity 和 Microsoft Advertising 合作，通過行為指標、熱圖和會話重播來捕獲您使用本站的方式以及與本站的互動，從而改進本站的瀏覽體驗。我們使用第一和第三方 Cookie 及其他跟踪技術獲取網站使用數據，以確定本站的受歡迎程度和在線活動。此外，我們還將此信息用於政教處管理與審查、網站優化、欺詐/安全目的和廣告。有關 Microsoft 如何收集和使用您的數據的詳細信息，請訪問 Microsoft 隱私聲明 (https://privacy.microsoft.com/privacystatement)。'
   }
 }
 
@@ -123,7 +125,8 @@ export const jaJP = {
   },
   privacy: {
     title: 'プライバシーポリシー',
-    content: 'このサイトは、Microsoft Clarity および Microsoft Advertising と提携して、このサイトの使用方法やインタラクションを行動メトリクス、ヒートマップ、およびセッションリプレイを介してキャプチャし、このサイトでのブラウジング体験を向上させるために使用します。私たちは、ウェブサイトの使用データを取得するために第一および第三者クッキーおよびその他のトラッキング技術を使用して、このサイトの人気度とオンライン活動を判断します。さらに、この情報は、政治・教育管理およびレビュー、ウェブサイトの最適化、詐欺/セキュリティ目的、および広告に使用されます。Microsoft がお客様のデータを収集および使用する方法の詳細については、Microsoft プライバシーステートメント (https://privacy.microsoft.com/privacystatement) をご覧ください。'
+    content:
+      'このサイトは、Microsoft Clarity および Microsoft Advertising と提携して、このサイトの使用方法やインタラクションを行動メトリクス、ヒートマップ、およびセッションリプレイを介してキャプチャし、このサイトでのブラウジング体験を向上させるために使用します。私たちは、ウェブサイトの使用データを取得するために第一および第三者クッキーおよびその他のトラッキング技術を使用して、このサイトの人気度とオンライン活動を判断します。さらに、この情報は、政治・教育管理およびレビュー、ウェブサイトの最適化、詐欺/セキュリティ目的、および広告に使用されます。Microsoft がお客様のデータを収集および使用する方法の詳細については、Microsoft プライバシーステートメント (https://privacy.microsoft.com/privacystatement) をご覧ください。'
   }
 }
 
@@ -132,7 +135,8 @@ export const frFR = {
     project: 'À propos de ZVMS',
     developers: 'À propos des développeurs'
   },
-  footer: 'Équipe de développement de ZVMS (de l\'équipe ZZDev) et département de pratique du lycée de Zhenhai',
+  footer:
+    "Équipe de développement de ZVMS (de l'équipe ZZDev) et département de pratique du lycée de Zhenhai",
   repository: {
     license: 'Licence',
     version: {
@@ -155,6 +159,7 @@ export const frFR = {
   },
   privacy: {
     title: 'Politique de confidentialité',
-    content: 'Ce site s\'associe à Microsoft Clarity et Microsoft Advertising pour capturer la manière dont vous utilisez et interagissez avec ce site via des métriques comportementales, des cartes thermiques et des relectures de session pour améliorer votre expérience de navigation sur ce site. Nous utilisons des cookies de première et de troisième partie et d\'autres technologies de suivi pour obtenir des données d\'utilisation du site Web afin de déterminer la popularité de ce site et les activités en ligne. De plus, nous utilisons ces informations pour la gestion et la révision politiques et éducatives, l\'optimisation du site Web, les fraudes/sécurité, et la publicité. Pour plus d\'informations sur la manière dont Microsoft collecte et utilise vos données, veuillez consulter la Déclaration de confidentialité de Microsoft (https://privacy.microsoft.com/privacystatement).'
+    content:
+      "Ce site s'associe à Microsoft Clarity et Microsoft Advertising pour capturer la manière dont vous utilisez et interagissez avec ce site via des métriques comportementales, des cartes thermiques et des relectures de session pour améliorer votre expérience de navigation sur ce site. Nous utilisons des cookies de première et de troisième partie et d'autres technologies de suivi pour obtenir des données d'utilisation du site Web afin de déterminer la popularité de ce site et les activités en ligne. De plus, nous utilisons ces informations pour la gestion et la révision politiques et éducatives, l'optimisation du site Web, les fraudes/sécurité, et la publicité. Pour plus d'informations sur la manière dont Microsoft collecte et utilise vos données, veuillez consulter la Déclaration de confidentialité de Microsoft (https://privacy.microsoft.com/privacystatement)."
   }
 }

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import {
-  ElLoading
-} from 'element-plus'
+import { ElLoading } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import type { User } from '@zvms/zvms4-types'
@@ -40,7 +38,9 @@ function refresh() {
         if (classGroup) classGroupID.value = classGroup?._id
         const permissionsGroup = groups.filter((group) => group?.type === 'permission')
         if (permissionsGroup.length)
-          permissionsID.value = permissionsGroup.map((group) => group?._id).filter(Boolean) as string[]
+          permissionsID.value = permissionsGroup
+            .map((group) => group?._id)
+            .filter(Boolean) as string[]
       })
       .catch(() => {
         loading.close()

@@ -16,9 +16,7 @@ const userStore = useUserStore()
 const id = ref<string>(route.params.id as string)
 const user = ref<User>()
 
-if (
-  !(userStore.position.includes('admin') ||
-    userStore.position.includes('department'))) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
   router.push('/not-found')
 }
 
@@ -38,20 +36,20 @@ async function getUser() {
 
 getUser()
 
-const current = ref((route.params.page.toString()) ?? '')
+const current = ref(route.params.page.toString() ?? '')
 
 const tabs = ref([
   {
     label: 'Info',
-    value: 'info',
+    value: 'info'
   },
   {
     label: 'Activity',
-    value: 'activity',
+    value: 'activity'
   },
   {
     label: 'Modify',
-    value: 'modify',
+    value: 'modify'
   }
 ])
 </script>

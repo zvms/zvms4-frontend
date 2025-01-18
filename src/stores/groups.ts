@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 import type { Group } from '@zvms/zvms4-types'
 import api from '@/api'
 
-export const useGroupsStore =  defineStore("group", {
+export const useGroupsStore = defineStore('group', {
   state: () => ({
     groups: {} as Record<string, Group>
   }),

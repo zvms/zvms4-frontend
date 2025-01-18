@@ -8,28 +8,29 @@ import { Remove } from '@element-plus/icons-vue'
 const { t } = useI18n()
 const { width, height } = useWindowSize()
 
-const props = withDefaults(defineProps<{
-  size?: 'large' | 'default' | 'small'
-  type?: 'primary' | 'warning' | 'success' | 'danger' | 'info' | ''
-  icon?: VueComponent
-  unknown?: boolean
-  force?: 'full' | 'short'
-  onlyDisplayIcon?: boolean
-  bg?: boolean
-}>(), {
-  size: 'small',
-  type: '',
-  bg: true
-})
+const props = withDefaults(
+  defineProps<{
+    size?: 'large' | 'default' | 'small'
+    type?: 'primary' | 'warning' | 'success' | 'danger' | 'info' | ''
+    icon?: VueComponent
+    unknown?: boolean
+    force?: 'full' | 'short'
+    onlyDisplayIcon?: boolean
+    bg?: boolean
+  }>(),
+  {
+    size: 'small',
+    type: '',
+    bg: true
+  }
+)
 
 const { size, type, icon, unknown, force, onlyDisplayIcon } = toRefs(props)
 </script>
 
 <template>
   <ElButton
-    v-if="
-      ((!unknown && width > height * 1.5 && force !== 'short') || force === 'full')
-    "
+    v-if="(!unknown && width > height * 1.5 && force !== 'short') || force === 'full'"
     :icon="icon"
     :type="type"
     :size="size ?? 'small'"

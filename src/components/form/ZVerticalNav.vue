@@ -105,7 +105,7 @@ watch(useless, () => {
       <div class="menu full">
         <ElButtonGroup class="full">
           <ElButton
-            v-for="nav in navs.filter(x => x.show)"
+            v-for="nav in navs.filter((x) => x.show)"
             :key="nav.path"
             :icon="nav.icon"
             text
@@ -124,7 +124,7 @@ watch(useless, () => {
           <ElFormItem :label="t('nav.language')">
             <ZSelectLanguage type="select" placement="bottom" />
           </ElFormItem>
-          <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'" >
+          <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'">
             <ElSwitch
               v-model="useless"
               inline-prompt

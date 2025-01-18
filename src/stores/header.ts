@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { useTitle } from "@vueuse/core"
+import { defineStore } from 'pinia'
+import { useTitle } from '@vueuse/core'
 
-export const useHeaderStore = defineStore("header", {
+export const useHeaderStore = defineStore('header', {
   state: () => ({
     header: 'ZVMS 4',
     base: 'ZVMS 4'

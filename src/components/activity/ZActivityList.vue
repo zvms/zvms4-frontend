@@ -28,17 +28,20 @@ const router = useRouter()
 
 const user = useUserStore()
 
-const props = withDefaults(defineProps<{
-  role: 'campus' | 'class' | 'mine'
-  perspective?: string
-  classTarget?: string
-  modelValue?: ActivityInstance[]
-  selectTarget?: ActivityType
-}>(), {
-  role: 'mine',
-  perspective: 'mine',
-  selectTarget: '',
-})
+const props = withDefaults(
+  defineProps<{
+    role: 'campus' | 'class' | 'mine'
+    perspective?: string
+    classTarget?: string
+    modelValue?: ActivityInstance[]
+    selectTarget?: ActivityType
+  }>(),
+  {
+    role: 'mine',
+    perspective: 'mine',
+    selectTarget: ''
+  }
+)
 const emits = defineEmits(['update:modelValue'])
 
 const activePage = ref(1)
@@ -192,7 +195,12 @@ function handleSelectionChange(val: string[]) {
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
-            <ZActivityCard :_id="row._id" :mode="role" :perspective="perspective" @refresh="refresh" />
+            <ZActivityCard
+              :_id="row._id"
+              :mode="role"
+              :perspective="perspective"
+              @refresh="refresh"
+            />
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
@@ -201,11 +209,7 @@ function handleSelectionChange(val: string[]) {
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn
-          prop="type"
-          v-if="role !== 'mine'"
-          :label="t('activity.form.type')"
-        >
+        <ElTableColumn prop="type" v-if="role !== 'mine'" :label="t('activity.form.type')">
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
@@ -216,21 +220,21 @@ function handleSelectionChange(val: string[]) {
               :status-modifiable="
                 (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
                 user.position.includes('admin') ||
-                user.position.includes('department')"
+                user.position.includes('department')
+              "
               :activity="row"
               :refresh="refresh"
               call-when-modify
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn
-          v-if="role === 'mine'"
-          :label="t('activity.form.duration')"
-        >
+        <ElTableColumn v-if="role === 'mine'" :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
-              v-if="(row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.status === 'effective'"
+              v-if="
+                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
+                  ?.status === 'effective'
+              "
               :mode="
                 (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
                   ?.mode

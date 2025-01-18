@@ -5,7 +5,6 @@ import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getUserPositions } from '@/utils/groupPosition'
-import { modifyPasswordDialogs } from '@/views'
 
 export const useUserStore = defineStore('user', {
   state: () => ({

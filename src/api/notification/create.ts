@@ -6,7 +6,7 @@ async function createNotification(notification: NotificationInstance) {
   const result = (
     await axios('/notification', {
       method: 'post',
-      data: notification,
+      data: notification
     })
   ).data as Response<string>
   if (result.status == 'error') {

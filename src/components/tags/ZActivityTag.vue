@@ -8,8 +8,8 @@ import type { TypeSet, Set } from './classifications'
 const { t } = useI18n()
 
 const props = defineProps<{
-  type?: TypeSet,
-  set: Set,
+  type?: TypeSet
+  set: Set
   size?: 'large' | 'default' | 'small'
   color?: boolean
   i18n: string

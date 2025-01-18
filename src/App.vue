@@ -24,7 +24,6 @@ import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
 import { useWindowSize } from '@vueuse/core'
-// import { pad } from './plugins/ua'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h } from 'vue'
 import { zhCn, en, ja, zhTw, fr } from 'element-plus/es/locale/index.mjs'
@@ -71,10 +70,13 @@ async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
       'zh-CN': '已有多起账号被盗事件，建议您修改密码以保护您的账号。',
-      'en-US': 'Multiple accounts have been hacked. It is recommended that you change your password to protect your account.',
+      'en-US':
+        'Multiple accounts have been hacked. It is recommended that you change your password to protect your account.',
       'zh-TW': '已有多起帳號被盜事件，建議您修改密碼以保護您的帳號。',
-      'ja-JP': '複数のアカウントがハッキングされています。アカウントを保護するためにパスワードを変更することをお勧めします。',
-      'fr-FR': 'Plusieurs comptes ont été piratés. Il est recommandé de changer votre mot de passe pour protéger votre compte.'
+      'ja-JP':
+        '複数のアカウントがハッキングされています。アカウントを保護するためにパスワードを変更することをお勧めします。',
+      'fr-FR':
+        'Plusieurs comptes ont été piratés. Il est recommandé de changer votre mot de passe pour protéger votre compte.'
     }
     const advice = {
       'zh-CN': '建议您重置密码',
@@ -88,20 +90,26 @@ async function resetPassword() {
       'en-US': 'You must reset your password before you can continue to use this system.',
       'zh-TW': '您必須重置密碼後才能繼續使用本系統。',
       'ja-JP': 'このシステムを引き続き使用する前にパスワードをリセットする必要があります。',
-      'fr-FR': 'Vous devez réinitialiser votre mot de passe avant de pouvoir continuer à utiliser ce système.'
+      'fr-FR':
+        'Vous devez réinitialiser votre mot de passe avant de pouvoir continuer à utiliser ce système.'
     }
     await ElMessageBox({
-      message: h('p', null, (userStore.position.length !== 1) ? ([
-        h('span', null, messages[userStore.language as 'en-US'] as string),
-        h('strong', null, threaten[userStore.language as 'en-US'] as string)
-      ]) : ([
-        h('span', null, messages[userStore.language as 'en-US'] as string)
-      ])),
+      message: h(
+        'p',
+        null,
+        userStore.position.length !== 1
+          ? [
+              h('span', null, messages[userStore.language as 'en-US'] as string),
+              h('strong', null, threaten[userStore.language as 'en-US'] as string)
+            ]
+          : [h('span', null, messages[userStore.language as 'en-US'] as string)]
+      ),
       showCancelButton: true,
       title: advice[userStore.language as 'en-US'] as string,
       confirmButtonText: 'Modify Password',
       cancelButtonText: 'Cancel'
-    }).then(async () => {
+    })
+      .then(async () => {
         try {
           await modifyPasswordDialogs(userStore._id, userStore.language, userStore.resetPassword)
         } catch {
@@ -111,15 +119,14 @@ async function resetPassword() {
             location.href = '/user/login'
           }
         }
-      }
-    ).catch(() => {
-      userStore.shouldResetPassword = false
-      if (userStore.position.length !== 1) {
-        userStore.removeUser()
-        location.href = '/user/login'
-      }
-    })
-
+      })
+      .catch(() => {
+        userStore.shouldResetPassword = false
+        if (userStore.position.length !== 1) {
+          userStore.removeUser()
+          location.href = '/user/login'
+        }
+      })
   }
 }
 
@@ -137,7 +144,7 @@ function embedClarity() {
 
   const setupClarity: ClarityFunction = (window.clarity =
     window.clarity ||
-    function() {
+    function () {
       ;(window.clarity.q = window.clarity.q || []).push(arguments)
     })
 
@@ -333,7 +340,7 @@ const locales: Record<
     password: {
       title: 'Réinitialiser le mot de passe',
       message: 'Veuillez entrer le nouveau mot de passe',
-      confirmButtonText: 'D\'accord',
+      confirmButtonText: "D'accord",
       cancelButtonText: 'Annuler',
       inputErrorMessage:
         'Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
@@ -492,7 +499,7 @@ onMounted(() => {
 
 <style scoped>
 .footer-container {
-  height: v-bind(height *0.05 + 'px');
+  height: v-bind(height * 0.05 + 'px');
   overflow-y: scroll;
   z-index: 999;
 }
@@ -518,7 +525,7 @@ onMounted(() => {
 .fragment-container {
   /* height: v-bind(height - '3rem'); */
   /* all is height, and - 3rem is this height */
-  height: v-bind(height *0.88 + 'px');
+  height: v-bind(height * 0.88 + 'px');
   overflow-y: scroll;
   /* max-width: 100vw; */
   /* margin: 0 auto; */
@@ -549,8 +556,9 @@ onMounted(() => {
 <style>
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  transition: color 0.5s,
-  background-color 0.5s !important;
+  transition:
+    color 0.5s,
+    background-color 0.5s !important;
   /* filter: grayscale(1); */
 }
 

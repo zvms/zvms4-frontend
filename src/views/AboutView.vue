@@ -344,7 +344,10 @@ function openGitHub() {
             {{ t('about.repository.thank.end') }}
           </p>
         </div>
-        We’re also looking for students in Senior 1 to join us in building the system. If you’re interested, reach out to Ethan in Class 6 (Z), Grade 2, for more details. It’s a great fit if you’re familiar with Vue.js, Vite.js, or Python, and FastAPI. But if you’re a Rustacean, you’ll love it even more, since we are planing to refactor the backend via Rust.
+        We’re also looking for students in Senior 1 to join us in building the system. If you’re
+        interested, reach out to Ethan in Class 6 (Z), Grade 2, for more details. It’s a great fit
+        if you’re familiar with Vue.js, Vite.js, or Python, and FastAPI. But if you’re a Rustacean,
+        you’ll love it even more, since we are planing to refactor the backend via Rust.
       </ElCard>
     </div>
     <div class="py-4">

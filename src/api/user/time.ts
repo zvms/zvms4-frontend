@@ -3,9 +3,11 @@ import type { Response, UserActivityTimeSums } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
 async function getUserTime(user: string) {
-  const result = (await axios(`/user/${user}/time`)).data as Response<UserActivityTimeSums & {
-    trophy: number
-  }>
+  const result = (await axios(`/user/${user}/time`)).data as Response<
+    UserActivityTimeSums & {
+      trophy: number
+    }
+  >
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户时间错误（' + result.code + '）',

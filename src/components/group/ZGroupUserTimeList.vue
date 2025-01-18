@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult, ElButton, ElSwitch, ElFormItem } from 'element-plus'
+import {
+  ElTable,
+  ElTableColumn,
+  ElCard,
+  ElPagination,
+  ElInput,
+  ElResult,
+  ElButton,
+  ElSwitch,
+  ElFormItem
+} from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
@@ -23,14 +33,16 @@ const props = withDefaults(
   }
 )
 const group = ref<Group>()
-const time = ref<{
-  _id: string
-  name: string
-  id: string
-  'on-campus': number
-  'off-campus': number
-  'social-practice': number
-}[]>([])
+const time = ref<
+  {
+    _id: string
+    name: string
+    id: string
+    'on-campus': number
+    'off-campus': number
+    'social-practice': number
+  }[]
+>([])
 const page = ref(1)
 const perpage = ref(10)
 const loading = ref(false)
@@ -60,12 +72,14 @@ watch(id, () => {
 
 const refresh = () => {
   loading.value = true
-  api.group.reads.time(id.value, page.value, perpage.value, search.value, true, diff.value).then((res) => {
-    time.value = []
-    time.value.push(...res.time)
-    total.value = res.size
-    loading.value = false
-  })
+  api.group.reads
+    .time(id.value, page.value, perpage.value, search.value, true, diff.value)
+    .then((res) => {
+      time.value = []
+      time.value.push(...res.time)
+      total.value = res.size
+      loading.value = false
+    })
 }
 onMounted(refresh)
 watch(id, refresh)
@@ -102,14 +116,14 @@ function handleSearch() {
         <ElTableColumn prop="on-campus" label="On Campus" v-if="diff">
           <template #default="{ row }">
             <span class="color-green" v-if="row['on-campus'] <= 0">Complete</span>
-            <span class="color-red" v-else>
-              {{ row['on-campus'].toFixed(1) }}h
-            </span>
+            <span class="color-red" v-else> {{ row['on-campus'].toFixed(1) }}h </span>
           </template>
         </ElTableColumn>
         <ElTableColumn prop="on-campus" label="On Campus" v-else>
           <template #default="{ row }">
-            <span class="color-green" v-if="row['on-campus'] >= 30">{{ row['on-campus'].toFixed(1) }}</span>
+            <span class="color-green" v-if="row['on-campus'] >= 30">{{
+              row['on-campus'].toFixed(1)
+            }}</span>
             <span class="color-red" v-else>
               {{ row['on-campus'].toFixed(1) }}
             </span>
@@ -118,28 +132,28 @@ function handleSearch() {
         <ElTableColumn prop="off-campus" label="Off Campus" v-if="diff">
           <template #default="{ row }">
             <span class="color-green" v-if="row['off-campus'] <= 0">Complete</span>
-            <span class="color-red" v-else>
-              {{ row['off-campus'].toFixed(1) }}h
-            </span>
+            <span class="color-red" v-else> {{ row['off-campus'].toFixed(1) }}h </span>
           </template>
         </ElTableColumn>
         <ElTableColumn prop="off-campus" label="Off Campus" v-else>
           <template #default="{ row }">
-            <span class="color-green" v-if="row['off-campus'] >= 15">{{ row['off-campus'].toFixed(1) }}</span>
+            <span class="color-green" v-if="row['off-campus'] >= 15">{{
+              row['off-campus'].toFixed(1)
+            }}</span>
             <span class="color-red" v-else>{{ row['off-campus'].toFixed(1) }}</span>
           </template>
         </ElTableColumn>
         <ElTableColumn prop="social-practice" label="Social Practice" v-if="diff">
           <template #default="{ row }">
             <span class="color-green" v-if="row['social-practice'] <= 0">Complete</span>
-            <span class="color-red" v-else>
-              {{ row['social-practice'].toFixed(1) }}h
-            </span>
+            <span class="color-red" v-else> {{ row['social-practice'].toFixed(1) }}h </span>
           </template>
         </ElTableColumn>
         <ElTableColumn prop="social-practice" label="Social Practice" v-else>
           <template #default="{ row }">
-            <span class="color-green" v-if="row['social-practice'] >= 18">{{ row['social-practice'].toFixed(1) }}</span>
+            <span class="color-green" v-if="row['social-practice'] >= 18">{{
+              row['social-practice'].toFixed(1)
+            }}</span>
             <span class="color-red" v-else>{{ row['social-practice'].toFixed(1) }}</span>
           </template>
         </ElTableColumn>

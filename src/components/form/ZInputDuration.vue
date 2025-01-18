@@ -3,7 +3,7 @@ import { Timer } from '@element-plus/icons-vue'
 import { toRefs, ref, watch } from 'vue'
 import { ElInput, ElForm, ElFormItem } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import type { InternalRuleItem } from 'async-validator';
+import type { InternalRuleItem } from 'async-validator'
 
 const props = defineProps<{ modelValue: number; showUnit?: boolean }>()
 const emits = defineEmits<{

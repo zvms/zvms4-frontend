@@ -3,6 +3,6 @@ export {
   getGroups as read,
   updateMethods as update,
   createGroup as insert,
-  deleteGroup as remove,
+  deleteGroup as remove
 } from './crud'
 export * as reads from './reads'

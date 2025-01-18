@@ -20,9 +20,11 @@ export async function insert(activityId: string, userId: string, imageId: string
 
 export async function read(activityId: string, userId: string) {
   const result = (await axios.get(`/activity/${activityId}/member/${userId}/image/`))
-    .data as Response<{
-    _id: string
-  }[]>
+    .data as Response<
+    {
+      _id: string
+    }[]
+  >
   if (result.status === 'error') {
     return [] as string[]
   } else {
@@ -30,16 +32,23 @@ export async function read(activityId: string, userId: string) {
   }
 }
 
-export async function remove(activityId: string, userId: string, imageId: string, token?: string, deleteImage = true) {
+export async function remove(
+  activityId: string,
+  userId: string,
+  imageId: string,
+  token?: string,
+  deleteImage = true
+) {
   if (!token) {
     token = await temporaryToken(userId)
   }
-  const result = (await axios.delete(`/activity/${activityId}/member/${userId}/image/${imageId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }))
-    .data as Response<null>
+  const result = (
+    await axios.delete(`/activity/${activityId}/member/${userId}/image/${imageId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  ).data as Response<null>
   if (result.status === 'error') {
     return false
   } else {

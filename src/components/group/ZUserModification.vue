@@ -11,7 +11,7 @@ import {
   ElButton,
   ElCheckbox,
   ElCheckboxGroup,
-ElNotification
+  ElNotification
 } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
@@ -116,10 +116,13 @@ async function submit() {
     return
   }
   try {
-    await api.user.update(userStore._id, modification._id, modification.name, modification.id.toString(), [
-      classGroupID.value,
-      ...permissionsID.value
-    ])
+    await api.user.update(
+      userStore._id,
+      modification._id,
+      modification.name,
+      modification.id.toString(),
+      [classGroupID.value, ...permissionsID.value]
+    )
   } catch (_) {
     submission.value = false
     return

@@ -75,10 +75,7 @@ const visibility = permissions(user.position as UserPosition[])
 
 <template>
   <div class="p-4" style="width: 100%">
-    <Transition
-      enter-active-class="animate__animated animate__fadeInRight"
-      appear
-    >
+    <Transition enter-active-class="animate__animated animate__fadeInRight" appear>
       <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="returnHome" :icon="ArrowLeft">
         <template #content>
           {{ $t(tab ? `activity.type.${tab}.name` : 'nav.create') }}
@@ -94,7 +91,7 @@ const visibility = permissions(user.position as UserPosition[])
         <template #extra>
           <ElSpace>
             <ElButton
-              v-for="button in tabs.filter(x => visibility[x.value as ActivityType])"
+              v-for="button in tabs.filter((x) => visibility[x.value as ActivityType])"
               :key="button.value"
               @click="mov(button.value)"
               text

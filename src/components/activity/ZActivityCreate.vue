@@ -30,14 +30,7 @@ import {
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import {
-  Refresh,
-  ArrowRight,
-  UploadFilled,
-  Plus,
-  Delete,
-  Location,
-} from '@element-plus/icons-vue'
+import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
 import type { FormInstance } from 'element-plus'
@@ -241,9 +234,7 @@ watch(
               <ElInput :prefix-icon="Location" v-model="registration.place" required />
             </ElFormItem>
             <ElFormItem
-              v-if="
-                type !== 'special' || special.classify !== 'import'
-              "
+              v-if="type !== 'special' || special.classify !== 'import'"
               :label="t('activity.form.person', members.length)"
               :required="type !== 'specified'"
             >

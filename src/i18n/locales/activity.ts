@@ -308,17 +308,17 @@ export const enUS = {
     range: 'Range',
     format: 'Format',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript Object Notation'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: 'Comma-Separated Values'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -327,7 +327,7 @@ export const enUS = {
     actions: {
       export: 'Export',
       download: 'Download'
-    },
+    }
   }
 }
 
@@ -337,7 +337,8 @@ export const zhCN = {
       name: '指定义工',
       short: '指定',
       key: 'specified',
-      description: '指定义工是由管理员或团支书创建，发布为招募的义工，需要指定每个班级可以报名的人数上限。'
+      description:
+        '指定义工是由管理员或团支书创建，发布为招募的义工，需要指定每个班级可以报名的人数上限。'
     },
     social: {
       name: '社会义工',
@@ -637,17 +638,17 @@ export const zhCN = {
     range: '范围',
     format: '格式',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript 对象表示法'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: '逗号分隔值'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -656,7 +657,7 @@ export const zhCN = {
     actions: {
       export: '导出',
       download: '下载'
-    },
+    }
   }
 }
 
@@ -963,17 +964,17 @@ export const zhWY = {
     range: '范',
     format: '式',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript 对象表示法'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: '逗号分隔值'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -982,7 +983,7 @@ export const zhWY = {
     actions: {
       export: '导出',
       download: '下'
-    },
+    }
   }
 }
 
@@ -1292,17 +1293,17 @@ export const zhTW = {
     range: '範圍',
     format: '格式',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript 對象表示法'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: '逗號分隔值'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -1311,7 +1312,7 @@ export const zhTW = {
     actions: {
       export: '導出',
       download: '下載'
-    },
+    }
   }
 }
 
@@ -1622,17 +1623,17 @@ export const jaJP = {
     range: '範囲',
     format: '形式',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript オブジェクト表記法'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: 'カンマ区切り値'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -1641,7 +1642,7 @@ export const jaJP = {
     actions: {
       export: 'エクスポート',
       download: 'ダウンロード'
-    },
+    }
   }
 }
 
@@ -1950,17 +1951,17 @@ export const frFR = {
     range: 'Gamme',
     format: 'Format',
     formats: {
-      'json': {
+      json: {
         name: 'JSON',
         short: 'JSON',
         explain: 'JavaScript Object Notation'
       },
-      'csv': {
+      csv: {
         name: 'CSV',
         short: 'CSV',
         explain: 'Comma-Separated Values'
       },
-      'xlsx': {
+      xlsx: {
         name: 'Excel',
         short: 'Excel',
         explain: 'Microsoft Excel'
@@ -1969,7 +1970,7 @@ export const frFR = {
     actions: {
       export: 'Exporter',
       download: 'Télécharger'
-    },
+    }
   }
 }
 

@@ -63,7 +63,7 @@ const languages = ref<
     display: 'Français',
     value: 'fr-FR',
     disabled: pad() && !user.position.includes('admin')
-  },
+  }
 ])
 
 onMounted(() => {
@@ -108,11 +108,7 @@ onMounted(() => {
       </div>
     </ElButtonGroup>
   </ElPopover>
-  <ElSelect
-    v-else-if="type === 'select'"
-    v-model="user.language"
-    @change="setLanguage"
-  >
+  <ElSelect v-else-if="type === 'select'" v-model="user.language" @change="setLanguage">
     <ElOption
       v-for="language in languages"
       :disabled="language.disabled"

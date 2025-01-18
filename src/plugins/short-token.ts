@@ -4,7 +4,7 @@ import api from '@/api'
 export function temporaryToken(
   userid: string,
   validate: boolean = true,
-  locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US',
+  locale: 'zh-CN' | 'en-US' | 'zh-TW' | 'ja-JP' | 'fr-FR' = 'en-US'
 ): Promise<string> {
   const locales = {
     'zh-CN': {
@@ -54,19 +54,23 @@ export function temporaryToken(
       cancelButtonText: locales[locale].cancel,
       inputType: 'password',
       type: 'warning'
-    }).then(({ value }) => {
-      api.user.auth
-        .useLongTermAuth(userid, value, 'short')
-        .then((result) => {
-          if (result) {
-            resolve(result.token)
-          } else {
-            reject('Login failed')
-          }
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    }).catch((err) => { reject(err) })
+    })
+      .then(({ value }) => {
+        api.user.auth
+          .useLongTermAuth(userid, value, 'short')
+          .then((result) => {
+            if (result) {
+              resolve(result.token)
+            } else {
+              reject('Login failed')
+            }
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }

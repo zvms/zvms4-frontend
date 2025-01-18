@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const usePreferenceStore = defineStore("preference", {
+export const usePreferenceStore = defineStore('preference', {
   state: () => ({
     theme: 'light',
-    highContrast: false,
+    highContrast: false
   })
 })

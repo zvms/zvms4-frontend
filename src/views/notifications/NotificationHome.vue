@@ -2,7 +2,7 @@
 import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -26,7 +26,6 @@ watch(
 const refresh = () => {
   router.push({ name: 'NotificationHome', params: { mode: mode.value } })
 }
-
 </script>
 
 <template>

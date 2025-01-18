@@ -13,7 +13,7 @@ export function generateActivity(
   base: Activity,
   members: ActivityMember[],
   registration?: Registration,
-  special?: Special,
+  special?: Special
 ) {
   if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
     special = undefined
@@ -23,13 +23,13 @@ export function generateActivity(
   }
   const activity = {
     ...base,
-    members,
+    members
   } as ActivityInstance
   if (registration && base.type === 'specified') {
-    (activity as SpecifiedActivity).registration = registration
+    ;(activity as SpecifiedActivity).registration = registration
   }
   if (special && base.type === 'special') {
-    (activity as SpecialActivity).special = special
+    ;(activity as SpecialActivity).special = special
   }
   return activity
 }

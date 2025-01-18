@@ -25,7 +25,6 @@ const { height } = useWindowSize()
 
 const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
 
-
 const tableMaxHeight = ref(height.value * 0.56)
 
 watch(height, () => {
@@ -47,10 +46,14 @@ function updateStatus(percent: number, message: string) {
 }
 
 async function mergeActivity() {
-  await api.activity.merge(mergeForm.list, mergeForm.name, {
+  await api.activity.merge(
+    mergeForm.list,
+    mergeForm.name,
+    {
       duplicateUser: overwriteTime.value ? 'overwrite' : 'add'
     },
-    user._id, updateStatus
+    user._id,
+    updateStatus
   )
 }
 </script>
@@ -60,22 +63,36 @@ async function mergeActivity() {
     <ElCard shadow="never">
       <p class="text-xl">Merge Activity</p>
       <ElForm class="px-2">
-
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
           <ElFormItem label="Name">
             <ElInput v-model="mergeForm.name" class="w-full" />
           </ElFormItem>
           <ElFormItem label="Type">
             <ElRadioGroup v-model="mergeForm.type">
-              <ElRadio v-for="type in typesOfActivity" border :key="type" :value="type"
-                       :label="t('activity.type.' + type + '.short')"></ElRadio>
+              <ElRadio
+                v-for="type in typesOfActivity"
+                border
+                :key="type"
+                :value="type"
+                :label="t('activity.type.' + type + '.short')"
+              ></ElRadio>
             </ElRadioGroup>
           </ElFormItem>
           <ElFormItem label="List">
-            <ElAlert title="NOTE: Only activities that is the same type and is effective can be merged. You also need to ensure them in a same page,
-            otherwise the system will only merge the activities in the same page." show-icon type="info" class="mb-4"
-                     :closable="false" />
-            <ZActivityList :select-target="mergeForm.type" v-model="mergeForm.list" class="w-full" role="campus" />
+            <ElAlert
+              title="NOTE: Only activities that is the same type and is effective can be merged. You also need to ensure them in a same page,
+            otherwise the system will only merge the activities in the same page."
+              show-icon
+              type="info"
+              class="mb-4"
+              :closable="false"
+            />
+            <ZActivityList
+              :select-target="mergeForm.type"
+              v-model="mergeForm.list"
+              class="w-full"
+              role="campus"
+            />
           </ElFormItem>
           <ElFormItem label="Overwrite">
             <ElSwitch v-model="overwriteTime" active-text="Yes" inactive-text="No" />
@@ -91,6 +108,4 @@ async function mergeActivity() {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -2,7 +2,12 @@ import axios from '@/plugins/axios'
 import type { ActivityInstance, Response } from '@zvms/zvms4-types'
 import { ElNotification } from 'element-plus'
 
-async function getUserActivities(id: string, page: number = 1, perpage: number = 10, query: string = '') {
+async function getUserActivities(
+  id: string,
+  page: number = 1,
+  perpage: number = 10,
+  query: string = ''
+) {
   const result = (
     await axios(`/user/${id}/activity`, {
       method: 'get',

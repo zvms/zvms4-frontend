@@ -31,6 +31,8 @@ const status = ref(
       您的漂流伞借用状态：<ElButton :type="status.color" text bg>{{ status.label }}</ElButton>
     </p>
     <p class="pt-2">您借用的伞的 Id：<ElButton type="warning" text bg>1919810</ElButton></p>
-    <p class="pt-2 text-xl">您可以前往校园卡加持下的镇海中学漂流伞借用平台，进行相关操作，注意携带校园卡。</p>
+    <p class="pt-2 text-xl">
+      您可以前往校园卡加持下的镇海中学漂流伞借用平台，进行相关操作，注意携带校园卡。
+    </p>
   </div>
 </template>

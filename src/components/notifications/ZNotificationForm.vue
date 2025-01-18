@@ -108,7 +108,12 @@ const submit = async () => {
               <ElInput v-model="notification.title" />
             </ElFormItem>
             <ElFormItem :label="t('notification.create.elements.content')">
-              <ElInput type="textarea" autosize :auto-size="{ minRows: 2 }" v-model="notification.content" />
+              <ElInput
+                type="textarea"
+                autosize
+                :auto-size="{ minRows: 2 }"
+                v-model="notification.content"
+              />
             </ElFormItem>
             <ElFormItem
               :label="t('notification.create.elements.type')"

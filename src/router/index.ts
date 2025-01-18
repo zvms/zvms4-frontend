@@ -139,6 +139,11 @@ const router = createRouter({
       component: () => import('../views/notifications/IFrame.vue')
     },
     {
+      path: '/plugin/:activate',
+      name: 'plugin',
+      component: () => import('../views/PluginView.vue')
+    },
+    {
       // 404
       path: '/:pathMatch(.*)*',
       name: 'not-found',

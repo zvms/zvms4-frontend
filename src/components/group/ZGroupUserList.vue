@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ElFormItem, ElSwitch, ElTable, ElTableColumn, ElCard, ElPagination, ElInput, ElResult, ElButton } from 'element-plus'
+import {
+  ElFormItem,
+  ElSwitch,
+  ElTable,
+  ElTableColumn,
+  ElCard,
+  ElPagination,
+  ElInput,
+  ElResult,
+  ElButton
+} from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
@@ -53,12 +63,14 @@ watch(id, () => {
 
 const refresh = () => {
   loading.value = true
-  api.group.reads.users(id.value, page.value, perpage.value, search.value, pwdm.value).then((res) => {
-    users.value = []
-    users.value.push(...res.users)
-    total.value = res.size
-    loading.value = false
-  })
+  api.group.reads
+    .users(id.value, page.value, perpage.value, search.value, pwdm.value)
+    .then((res) => {
+      users.value = []
+      users.value.push(...res.users)
+      total.value = res.size
+      loading.value = false
+    })
 }
 onMounted(refresh)
 watch(id, refresh)

@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import type {
-  ActivityInstance,
-} from '@zvms/zvms4-types'
-import {
-  ElCollapse,
-  ElCollapseItem,
-  ElImage,
-  ElDialog,
-  ElScrollbar
-} from 'element-plus'
+import type { ActivityInstance } from '@zvms/zvms4-types'
+import { ElCollapse, ElCollapseItem, ElImage, ElDialog, ElScrollbar } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { ZActivityDetails, ZActivityMemberList } from '@/components'
 import { useWindowSize } from '@vueuse/core'
@@ -30,7 +22,6 @@ const { activity } = toRefs(props)
 const preview = ref(false)
 const previewUrl = ref('')
 const activeNames = ref<string[]>(['1', '2'])
-
 </script>
 
 <template>

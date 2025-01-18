@@ -1,5 +1,5 @@
 <template>
-  <div class="iframe-browser" :class="{'grayscale': isGrayscale}">
+  <div class="iframe-browser" :class="{ grayscale: isGrayscale }">
     <div class="flex items-center justify-between w-full space-x-2">
       <el-input v-model="url" placeholder="Enter URL" class="w-full" />
       <el-button type="primary" @click="loadUrl">Go</el-button>
@@ -13,28 +13,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 // Reactive variable to store the input URL
-const url = ref('');
+const url = ref('')
 
 // Reactive variable to store the iframe source URL
-const iframeSrc = ref('');
+const iframeSrc = ref('')
 
 // Reactive variable to control the grayscale filter state
-const isGrayscale = ref(false);
+const isGrayscale = ref(false)
 
 // Function to load the URL into the iframe
 const loadUrl = () => {
   if (url.value) {
-    iframeSrc.value = url.value; // Set the iframe source to the input URL
+    iframeSrc.value = url.value // Set the iframe source to the input URL
   }
-};
+}
 
 // Function to toggle the grayscale filter
 const toggleGrayscale = () => {
-  isGrayscale.value = !isGrayscale.value; // Toggle the grayscale state
-};
+  isGrayscale.value = !isGrayscale.value // Toggle the grayscale state
+}
 </script>
 
 <style scoped>

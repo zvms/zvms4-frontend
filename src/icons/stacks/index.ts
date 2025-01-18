@@ -59,7 +59,7 @@ export const TeckStackV0: Array<{ icon: Component; name: string; classify: strin
   { icon: Vue, name: 'Vue-Router', classify: 'router' },
   { icon: Vue, name: 'Vuex', classify: 'state-management' },
   { icon: Vuetify, name: 'Vuetify', classify: 'ui' },
-  { icon: Webpack, name: 'Webpack', classify: 'dev-tool'},
+  { icon: Webpack, name: 'Webpack', classify: 'dev-tool' },
   { icon: Yarn, name: 'Yarn', classify: 'package-manager' }
 ]
 
@@ -133,7 +133,7 @@ export const TeckStackV4: Array<{ icon: Component; name: string; classify: strin
   { icon: Vite, name: 'Vite', classify: 'dev-tool' },
   { icon: Vitest, name: 'Vitest', classify: 'test' },
   { icon: Vue, name: 'Vue', classify: 'framework' },
-  { icon: Vue, name: 'Vue-Router', classify: 'router' },
+  { icon: Vue, name: 'Vue-Router', classify: 'router' }
 ]
 
 export const TeckStackMagV0: Array<{ icon: Component; name: string; classify: string }> = [
@@ -141,7 +141,7 @@ export const TeckStackMagV0: Array<{ icon: Component; name: string; classify: st
   { icon: Node, name: 'Node', classify: 'language' },
   { icon: Quasar, name: 'Quasar', classify: 'ui' },
   { icon: SocketIO, name: 'SocketIO', classify: 'server' },
-  { icon: Vue, name: 'Vue', classify: 'framework' },
+  { icon: Vue, name: 'Vue', classify: 'framework' }
 ]
 
 export const TeckStackMagV1: Array<{ icon: Component; name: string; classify: string }> = [
@@ -154,5 +154,5 @@ export const TeckStackMagV1: Array<{ icon: Component; name: string; classify: st
   { icon: Rollup, name: 'Rollup', classify: 'dev-tool' },
   { icon: TypeScript, name: 'TypeScript', classify: 'language' },
   { icon: Vite, name: 'Vite', classify: 'dev-tool' },
-  { icon: Vue, name: 'Vue', classify: 'framework' },
+  { icon: Vue, name: 'Vue', classify: 'framework' }
 ]

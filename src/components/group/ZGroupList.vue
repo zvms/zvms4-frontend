@@ -1,12 +1,6 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import {
-  ElTable,
-  ElTableColumn,
-  ElCard,
-  ElPagination,
-  ElButton, ElInput
-} from 'element-plus'
+import { ElTable, ElTableColumn, ElCard, ElPagination, ElButton, ElInput } from 'element-plus'
 import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@zvms/zvms4-types'
@@ -25,9 +19,7 @@ const search = ref('')
 const total = ref(0)
 const userStore = useUserStore()
 
-if (
-  !(userStore.position.includes('admin') ||
-    userStore.position.includes('department'))) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
   router.push('/not-found')
 }
 

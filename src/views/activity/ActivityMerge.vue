@@ -6,6 +6,4 @@ import { ZActivityMerge } from '@/components'
   <ZActivityMerge />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

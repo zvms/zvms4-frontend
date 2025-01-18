@@ -35,7 +35,7 @@ const locales: Record<
       title: '重置密码',
       message: '请再次输入新密码',
       inputErrorMessage: '密码不匹配'
-    },
+    }
   },
   'en-US': {
     password: {
@@ -50,7 +50,7 @@ const locales: Record<
       title: 'Reset Password',
       message: 'Please input the new password again',
       inputErrorMessage: 'Password not match'
-    },
+    }
   },
   'zh-TW': {
     password: {
@@ -64,7 +64,7 @@ const locales: Record<
       title: '重置密碼',
       message: '請再次輸入新密碼',
       inputErrorMessage: '密碼不匹配'
-    },
+    }
   },
   'ja-JP': {
     password: {
@@ -79,7 +79,7 @@ const locales: Record<
       title: 'パスワードをリセット',
       message: '新しいパスワードをもう一度入力してください',
       inputErrorMessage: 'パスワードが一致しません'
-    },
+    }
   },
   'fr-FR': {
     password: {
@@ -94,11 +94,15 @@ const locales: Record<
       title: 'Réinitialiser le mot de passe',
       message: 'Veuillez entrer le nouveau mot de passe à nouveau',
       inputErrorMessage: 'Le mot de passe ne correspond pas'
-    },
+    }
   }
 }
 
-export async function modifyPasswordDialogs(user: string, locale: string, caller: (a: string, b: string) => Promise<void>) {
+export async function modifyPasswordDialogs(
+  user: string,
+  locale: string,
+  caller: (a: string, b: string) => Promise<void>
+) {
   const token = await temporaryToken(user, false, locale as 'en-US')
   if (!token) {
     throw new Error('Token is not available')

@@ -7,6 +7,7 @@ declare global {
       q?: IArguments[]
     }
   }
+  const Desmos: typeof import('@types/desmos')
 }
 
 // This line is necessary if your file doesn't have any imports or exports

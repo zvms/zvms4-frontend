@@ -20,7 +20,7 @@ export async function createActivity(activity: ActivityInstance) {
   const result = (
     await axios('/activity', {
       method: 'post',
-      data: activity,
+      data: activity
     })
   ).data as Response<string>
   if (result.status === 'error') {

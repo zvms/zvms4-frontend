@@ -20,7 +20,8 @@ const user = ref<User>({} as User)
 
 watch(userObjectId, (value) => {
   if (value) {
-    api.user.readOne(userObjectId.value)
+    api.user
+      .readOne(userObjectId.value)
       .then((resp) => {
         if (resp) {
           load.value = true

@@ -21,7 +21,7 @@ export async function readTrophies() {
 export async function insertTrophy(data: Omit<Trophy, '_id'>) {
   const resp = await axios('/trophy', {
     method: 'POST',
-    data,
+    data
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -35,8 +35,8 @@ export async function removeTrophy(id: string, uid: string) {
   const resp = await axios(`/trophy/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -48,7 +48,7 @@ export async function removeTrophy(id: string, uid: string) {
 export async function modifyTrophyName(id: string, name: string) {
   const resp = await axios(`/trophy/${id}/name`, {
     method: 'PUT',
-    data: name,
+    data: name
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -60,7 +60,7 @@ export async function modifyTrophyName(id: string, name: string) {
 export async function insertTrophyAward(id: string, data: TrophyAward) {
   const resp = await axios(`/trophy/${id}/award`, {
     method: 'POST',
-    data,
+    data
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -71,7 +71,7 @@ export async function insertTrophyAward(id: string, data: TrophyAward) {
 
 export async function removeTrophyAward(id: string, award: string) {
   const resp = await axios(`/trophy/${id}/award/${award}`, {
-    method: 'DELETE',
+    method: 'DELETE'
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -83,7 +83,7 @@ export async function removeTrophyAward(id: string, award: string) {
 export async function modifyTrophyAwardDuration(id: string, award: string, duration: number) {
   const resp = await axios(`/trophy/${id}/award/${award}/duration`, {
     method: 'PUT',
-    data: duration,
+    data: duration
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -95,7 +95,7 @@ export async function modifyTrophyAwardDuration(id: string, award: string, durat
 export async function insertTrophyMember(id: string, data: TrophyMember) {
   const resp = await axios(`/trophy/${id}/member`, {
     method: 'POST',
-    data,
+    data
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -109,8 +109,8 @@ export async function removeTrophyMember(id: string, member: string, uid: string
   const resp = await axios(`/trophy/${id}/member/${member}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -122,7 +122,7 @@ export async function removeTrophyMember(id: string, member: string, uid: string
 export async function modifyTrophyMemberAward(id: string, member: string, award: number) {
   const resp = await axios(`/trophy/${id}/member/${member}/award`, {
     method: 'PUT',
-    data: award,
+    data: award
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -131,10 +131,14 @@ export async function modifyTrophyMemberAward(id: string, member: string, award:
   return false
 }
 
-export async function modifyTrophyMemberMode(id: string, member: string, mode: 'on-campus' | 'off-campus') {
+export async function modifyTrophyMemberMode(
+  id: string,
+  member: string,
+  mode: 'on-campus' | 'off-campus'
+) {
   const resp = await axios(`/trophy/${id}/member/${member}/mode`, {
     method: 'PUT',
-    data: mode,
+    data: mode
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {
@@ -143,10 +147,14 @@ export async function modifyTrophyMemberMode(id: string, member: string, mode: '
   return false
 }
 
-export async function modifyTrophyMemberStatus(id: string, member: string, status: TrophyMember['status']) {
+export async function modifyTrophyMemberStatus(
+  id: string,
+  member: string,
+  status: TrophyMember['status']
+) {
   const resp = await axios(`/trophy/${id}/member/${member}/status`, {
     method: 'PUT',
-    data: status,
+    data: status
   })
   const trophy = resp.data as Response<null>
   if (trophy.status === 'ok') {

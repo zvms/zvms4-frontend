@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { ref, toRefs, reactive, watch } from 'vue'
-import { ElCard, ElRow, ElCol, ElButton, ElDivider, ElSwitch, ElSpace, ElResult, ElSkeleton } from 'element-plus'
+import {
+  ElCard,
+  ElRow,
+  ElCol,
+  ElButton,
+  ElDivider,
+  ElSwitch,
+  ElSpace,
+  ElResult,
+  ElSkeleton
+} from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
@@ -99,7 +109,15 @@ watch(
           <p class="text-lg">{{ t('home.panels.time.title') }}</p>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
-          <ElButton type="success" :disabled="loading" :icon="Refresh" text bg circle @click="getTime" />
+          <ElButton
+            type="success"
+            :disabled="loading"
+            :icon="Refresh"
+            text
+            bg
+            circle
+            @click="getTime"
+          />
           <ElDivider direction="vertical" />
           <ElButton type="info" :icon="TablerSum" text bg circle />
         </ElCol>
@@ -133,8 +151,7 @@ watch(
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
     </ElCard>
-    <ElResult v-else type="error">
-    </ElResult>
+    <ElResult v-else type="error"> </ElResult>
   </div>
 </template>
 

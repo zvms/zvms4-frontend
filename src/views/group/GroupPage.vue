@@ -38,16 +38,22 @@ watch(id, () => {
   })
 })
 
-watch(() => route.params.id, (value) => {
-  id.value = value as string
-})
+watch(
+  () => route.params.id,
+  (value) => {
+    id.value = value as string
+  }
+)
 
 id.value = route.params.id as string
 
 if (
-  !(userStore.position.includes('admin') ||
+  !(
+    userStore.position.includes('admin') ||
     userStore.position.includes('department') ||
-    (userStore.position.includes('secretary') && userStore.class_id === id.value))) {
+    (userStore.position.includes('secretary') && userStore.class_id === id.value)
+  )
+) {
   router.push('/not-found')
 }
 

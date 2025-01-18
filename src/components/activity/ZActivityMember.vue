@@ -146,8 +146,7 @@ watch(height, () => {
         <template #reference>
           <ElButton
             v-if="
-              (userStore.position.includes('admin') ||
-                userStore.position.includes('department')) &&
+              (userStore.position.includes('admin') || userStore.position.includes('department')) &&
               person?._id &&
               person?._id !== userStore._id
             "

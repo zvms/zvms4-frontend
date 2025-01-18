@@ -25,7 +25,12 @@ interface IconAndColor {
 }
 
 type set = 'mode' | 'status' | 'type' | 'specials' | 'member'
-type typing = ActivityMode | ActivityStatus | ActivityType | SpecialActivityClassification | MemberActivityStatus
+type typing =
+  | ActivityMode
+  | ActivityStatus
+  | ActivityType
+  | SpecialActivityClassification
+  | MemberActivityStatus
 
 export default {
   mode: {

@@ -4,7 +4,7 @@ import * as api from '.'
 import dayjs from 'dayjs'
 import createActivity from '@/api/activity/create.ts'
 
-export default async function(
+export default async function (
   targets: ActivityInstance[],
   name: string,
   mergeOptions: {
@@ -17,7 +17,9 @@ export default async function(
   const token = await temporaryToken(uid)
   triggerUpdate(10, 'Token ready')
   // 2. Read the activities
-  const activities: ActivityInstance[] = await Promise.all(targets.map(target => api.read.single(target._id)))
+  const activities: ActivityInstance[] = await Promise.all(
+    targets.map((target) => api.read.single(target._id))
+  )
   console.log(activities)
   // 3. Merge
   const merged = merge(activities, mergeOptions)
@@ -32,7 +34,7 @@ export default async function(
   const _ = await createActivity(merged)
   triggerUpdate(80, 'Activity created')
   // 5. Remove the old activities
-  await Promise.all(targets.map(target => api.deleteOne(target._id, uid, token)))
+  await Promise.all(targets.map((target) => api.deleteOne(target._id, uid, token)))
 }
 
 function merge(
@@ -43,11 +45,11 @@ function merge(
 ): ActivityInstance {
   const userList: ActivityMember[] = []
   let description = ''
-  activities.forEach(activity => {
+  activities.forEach((activity) => {
     description += activity.description + '\n'
-    activity.members.forEach(member => {
+    activity.members.forEach((member) => {
       // Check if the user is already in the list
-      const existing = userList.find(user => user._id === member._id)
+      const existing = userList.find((user) => user._id === member._id)
       if (existing) {
         // If the user is already in the list, check the duplicateUser option
         // And leave the most (value) of activity time.

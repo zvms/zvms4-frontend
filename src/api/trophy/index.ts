@@ -8,5 +8,5 @@ export {
 } from './crud'
 import { modifyTrophyName } from './crud'
 export const modify = {
-  name: modifyTrophyName,
+  name: modifyTrophyName
 }
