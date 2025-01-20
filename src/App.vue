@@ -440,7 +440,6 @@ onMounted(() => {
             >
               <ElIcon><img src="/favicon.ico" class="scale-50" /></ElIcon>
               <span class="lh-100% ml-2">{{ headerStore.header }}</span>
-              <ElTag type="danger" size="small" round effect="plain">alpha</ElTag>
               <span class="text-sm">{{ toast }}</span>
             </div>
           </ElCol>

@@ -44,18 +44,20 @@ const props = withDefaults(
   defineProps<{
     activity: ActivityInstance
     mode?: 'button' | 'card'
-    color?: 'primary' | 'success' | 'warning' | 'danger'
+    color?: 'primary' | 'success' | 'warning' | 'danger',
+    wholesale: boolean
   }>(),
   {
     mode: 'button',
-    color: 'danger'
+    color: 'danger',
+    wholesale: false
   }
 )
 const emits = defineEmits<{
   refresh: []
 }>()
 
-const { activity, mode } = toRefs(props)
+const { activity, mode, wholesale } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
 
@@ -92,8 +94,8 @@ const appending = ref<ActivityMember>({
     activity.value.type === 'specified'
       ? activity.value.registration.duration
       : activity.value.members.map((x) => x.duration).some((x) => x)
-      ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
-      : 0,
+        ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
+        : 0,
   mode: getMode(),
   impression: '',
   status: 'effective',
@@ -202,16 +204,16 @@ function pushTo(url: string) {
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
-              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" />
+              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" :id="activity._id" :uid="scope.row._id" />
             </template>
           </ElTableColumn>
           <ElTableColumn
             fixed="right"
             v-if="
-              user._id === activity.creator ||
+              (user._id === activity.creator ||
               user.position.includes('admin') ||
               user.position.includes('department') ||
-              user.position.includes('secretary')
+              user.position.includes('secretary')) && !wholesale
             "
             class="no-print"
           >

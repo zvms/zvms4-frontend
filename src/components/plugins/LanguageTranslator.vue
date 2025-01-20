@@ -22,10 +22,12 @@ const languages = [
 const targetLanguage = ref('en')
 
 const source = ref('')
-const target = ref([])
+const target = ref<string[]>([])
 
 async function translate() {
-  const result = (await axios(`/plugin/translate/deepl?text=${source.value}&lang=${targetLanguage.value}`)).data.data
+  const result = (await axios(`/plugin/translate/deepl?text=${source.value}&lang=${targetLanguage.value}`)).data.data as {
+    alternatives: string[]
+  }
 
   target.value.splice(0, target.value.length)
 
@@ -56,7 +58,7 @@ async function translate() {
         </div>
       </ElFormItem>
       <ElFormItem label="Target">
-        <li v-for="item in target" :key="item" class="font-serif">{{ item }}</li>
+        <li v-for="item in target" :key="item" class="font-serif text-lg">{{ item }}</li>
       </ElFormItem>
     </ElForm>
   </div>
