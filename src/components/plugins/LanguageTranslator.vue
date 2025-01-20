@@ -29,7 +29,7 @@ async function translate() {
 
   target.value.splice(0, target.value.length)
 
-  target.value.push(...result.alternatives)
+  target.value.push(...(result.alternatives as string[]))
 }
 </script>
 
@@ -56,7 +56,7 @@ async function translate() {
         </div>
       </ElFormItem>
       <ElFormItem label="Target">
-        <p v-for="item in target" :key="item" class="font-serif">{{ item }}</p>
+        <li v-for="item in target" :key="item" class="font-serif">{{ item }}</li>
       </ElFormItem>
     </ElForm>
   </div>
