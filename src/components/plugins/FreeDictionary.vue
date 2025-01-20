@@ -48,8 +48,7 @@ async function searchWord() {
   if (!search.value) return
   if (dictionary.value === 'oxford') {
     incorrect.value = false
-    const response = (await axios(`/plugin/dictionary/oxford/${search.value}`)).data
-    console.log(response)
+    const response = (await axios(`/plugin/dictionary/oxford/${search.value}`)).data.data
     if (Object.keys(response).includes('title') && response.title === 'No Definitions Found') {
       incorrect.value = true
       return
@@ -66,9 +65,9 @@ async function searchWord() {
   <div>
     <div class="m-4">
       <ElRow>
-        <ElCol :span="18" class="mx-4">
+        <ElCol :span="16" class="mx-4">
           <ElInput v-model="search" placeholder="Please input your word..." :prefix-icon="Search"
-                   @keydown.enter="searchWord">
+                   @keydown.enter="searchWord" clearable>
             <template #append>
               <ElButton @click="searchWord">Search</ElButton>
             </template>
@@ -94,10 +93,10 @@ async function searchWord() {
         </span>
         </div>
         <ElCard v-for="meaning in word.meanings" :key="meaning.toString()" class="my-1" shadow="hover">
-          Part Of Speech: {{ meaning.partOfSpeech }}
+          Part Of Speech: <span class="font-mono">{{ meaning.partOfSpeech }}</span>
           <li v-for="item in meaning.definitions" :key="item.definition">
-            <span v-if="item.definition">Definition: {{ item.definition }}<br /></span>
-            <span v-if="item.example">Example: {{ item.example }}<br /></span>
+            <span v-if="item.definition">Definition: <span class="font-serif">{{ item.definition }}</span><br /></span>
+            <span v-if="item.example">Example: <span class="font-serif">{{ item.example }}</span><br /></span>
             <span v-if="item.synonyms.length != 0">Synonyms: {{ item.synonyms.join(', ') }}<br /></span>
             <span v-if="item.antonyms.length != 0">Antonyms: {{ item.antonyms.join(', ') }}<br /></span>
           </li>

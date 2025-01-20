@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ref, watch } from 'vue'
 import { ElSegmented, ElCard } from 'element-plus'
-import { CalculatorPlugin, DictionaryPlugin } from '@/components/plugins'
+import { CalculatorPlugin, DictionaryPlugin, TranslatorPlugin } from '@/components/plugins'
 
 const user = useUserStore()
 const router = useRouter()
@@ -99,6 +99,7 @@ watch(activate, () => {
       <ElSegmented v-model="activate" :options="options" style="margin-bottom: 20px;"></ElSegmented>
       <CalculatorPlugin v-if="activate === 'calculator'" />
       <DictionaryPlugin v-else-if="activate === 'dictionary'" />
+      <TranslatorPlugin v-else-if="activate === 'translator'" />
     </div>
   </div>
 </template>

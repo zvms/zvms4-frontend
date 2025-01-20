@@ -13,6 +13,7 @@ declare module 'vue' {
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
     FreeDictionary: typeof import('./src/components/plugins/FreeDictionary.vue')['default']
+    LanguageTranslator: typeof import('./src/components/plugins/LanguageTranslator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ZActivityCard: typeof import('./src/components/activity/ZActivityCard.vue')['default']

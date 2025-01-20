@@ -132,6 +132,9 @@ importers:
       '@unocss/preset-typography':
         specifier: ^0.58.5
         version: 0.58.5
+      '@unocss/preset-web-fonts':
+        specifier: ^65.4.2
+        version: 65.4.2
       '@vite-pwa/assets-generator':
         specifier: ^0.2.6
         version: 0.2.6
