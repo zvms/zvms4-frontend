@@ -1,6 +1,0 @@
-name: Public Cert
-description: |
-  Returns the uniform public certificate for the user when logging in with password, which is used to encrypt the password for the user.
-path: /cert
-method: get
-response: string

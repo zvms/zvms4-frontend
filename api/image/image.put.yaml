@@ -1,8 +1,0 @@
-name: Upload Image
-description: Upload images to the server
-path: /image
-method: PUT
-body: Image
-response:
-  id: string
-permission: 0

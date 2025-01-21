@@ -1,5 +1,0 @@
-name: Create Feedback
-path: /feedback
-method: POST
-body: Feedback
-response: string # ObjectId
