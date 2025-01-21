@@ -13,7 +13,6 @@ import {
   ElConfigProvider,
   ElDivider,
   ElNotification,
-  ElTag,
   ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
@@ -59,8 +58,6 @@ const langPack = ref(getLocale(locale.value))
 watch(locale, () => {
   langPack.value = getLocale(locale.value)
 })
-
-const toast = /* pad() ? t('platform.xh') : t('platform.normal') */ ''
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -432,15 +429,23 @@ onMounted(() => {
     </ElAlert>
     <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 h-full">
       <ElHeader>
-        <ElRow class="pt-4 px-4">
+        <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
             <div
-              class="text-2xl w-full pl-10 pt-1.5 flex items-center"
+              :class="[
+                'text-2xl',
+                'w-full',
+                verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
+                'pt-1.5',
+                'flex',
+                'items-center'
+              ]"
               @dblclick="router.push('/')"
             >
-              <ElIcon><img src="/favicon.ico" class="scale-50" /></ElIcon>
+              <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
+              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
+              <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
               <span class="lh-100% ml-2">{{ headerStore.header }}</span>
-              <span class="text-sm">{{ toast }}</span>
             </div>
           </ElCol>
           <ElCol :span="8">
@@ -471,8 +476,6 @@ onMounted(() => {
                   </ElButtonGroup>
                 </ElPopover>
               </ElButtonGroup>
-              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
-              <ZVerticalNav v-if="verticalMode && userStore.isLogin" />
             </div>
           </ElCol>
         </ElRow>
@@ -490,7 +493,10 @@ onMounted(() => {
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
-        <p class="text-center">&copy; 2018-2025 | {{ t('about.footer') }} | <abbr title="Massachusetts Institute of Technology">MIT</abbr> Licensed</p>
+        <p class="text-center">
+          &copy; 2018-2025 | {{ t('about.footer') }} |
+          <abbr title="Massachusetts Institute of Technology">MIT</abbr> Licensed
+        </p>
       </ElFooter>
     </ElContainer>
   </ElConfigProvider>

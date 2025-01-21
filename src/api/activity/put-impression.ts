@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response, MemberActivityStatus } from '@zvms/zvms4-types'
+import type { Response, MemberActivityStatus } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 export async function userModifyDuration(user: string, aid: string, duration: number) {

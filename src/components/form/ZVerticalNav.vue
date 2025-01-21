@@ -100,44 +100,46 @@ watch(useless, () => {
 
 <template>
   <ElButton :icon="ApplicationMenu" text circle @click="show = !show" />
-  <div class="full">
-    <ElDrawer v-model="show" direction="rtl" size="45%">
-      <div class="menu full">
-        <ElButtonGroup class="full">
-          <ElButton
-            v-for="nav in navs.filter((x) => x.show)"
-            :key="nav.path"
-            :icon="nav.icon"
-            text
-            class="full py-4"
-            size="large"
-            :bg="nav.path === path"
-            :type="nav.path === path ? 'primary' : ''"
-            @click="routeTo(nav.path)"
-          >
-            {{ t(`nav.${nav.name}`) }}
-          </ElButton>
-        </ElButtonGroup>
-      </div>
-      <div class="bottom">
-        <ElForm label-position="right" label-width="120px">
-          <ElFormItem :label="t('nav.language')">
-            <ZSelectLanguage type="select" placement="bottom" />
-          </ElFormItem>
-          <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'">
-            <ElSwitch
-              v-model="useless"
-              inline-prompt
-              :active-icon="Moon"
-              active-color="#2c2c2c"
-              :inactive-icon="Sunny"
-              inactive-color="#f2f2f2"
-            />
-          </ElFormItem>
-        </ElForm>
-      </div>
-    </ElDrawer>
-  </div>
+  <Teleport to="body">
+    <div class="full">
+      <ElDrawer v-model="show" direction="ltr" size="40%">
+        <div class="menu full">
+          <ElButtonGroup class="full">
+            <ElButton
+              v-for="nav in navs.filter((x) => x.show)"
+              :key="nav.path"
+              :icon="nav.icon"
+              text
+              class="full py-4"
+              size="large"
+              :bg="nav.path === path"
+              :type="nav.path === path ? 'primary' : ''"
+              @click="routeTo(nav.path)"
+            >
+              {{ t(`nav.${nav.name}`) }}
+            </ElButton>
+          </ElButtonGroup>
+        </div>
+        <div class="bottom">
+          <ElForm label-position="right" label-width="120px">
+            <ElFormItem :label="t('nav.language')">
+              <ZSelectLanguage type="select" placement="bottom" />
+            </ElFormItem>
+            <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'">
+              <ElSwitch
+                v-model="useless"
+                inline-prompt
+                :active-icon="Moon"
+                active-color="#2c2c2c"
+                :inactive-icon="Sunny"
+                inactive-color="#f2f2f2"
+              />
+            </ElFormItem>
+          </ElForm>
+        </div>
+      </ElDrawer>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>

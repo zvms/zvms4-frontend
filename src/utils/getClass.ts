@@ -1,4 +1,4 @@
-import type { ClassType } from '@zvms/zvms4-types'
+import type { ClassType } from '@/../types'
 import dayjs from 'dayjs'
 
 interface Class {

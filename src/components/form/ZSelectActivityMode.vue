@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { School, CityGate, Vacation } from '@icon-park/vue-next'
-import type { ActivityMode } from '@zvms/zvms4-types'
+import type { ActivityMode } from '@/../types'
 import { ref, toRefs, type Component as VueComponent, watch } from 'vue'
 import { ElSelect, ElOption, ElForm, ElFormItem } from 'element-plus'
 import { useI18n } from 'vue-i18n'

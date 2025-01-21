@@ -16,7 +16,7 @@ import {
   ElButton,
   ElNotification
 } from 'element-plus'
-import type { NotificationInstance } from '@zvms/zvms4-types'
+import type { NotificationInstance } from '@/../types'
 import { ArrowLeft, Refresh, ArrowRight } from '@element-plus/icons-vue'
 import api from '@/api'
 import { ZSelectPerson } from '@/components'

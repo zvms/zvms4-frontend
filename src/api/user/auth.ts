@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response, LoginResult } from '@zvms/zvms4-types'
+import type { Response, LoginResult } from '@/../types'
 import { ElNotification } from 'element-plus'
 import { byteArrayToHex } from './utils'
 import { encryptData, importPublicKey } from './crypto'

@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { Response } from '@zvms/zvms4-types'
+import type { Response } from '@/../types'
 
 export async function remove(imageId: string, userId: string, token?: string) {
   if (!token) {

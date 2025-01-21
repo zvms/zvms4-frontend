@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { ZActivityPage } from '@/components/activity/'
 import { ref } from 'vue'
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import api from '@/api'
 import { ElLoading } from 'element-plus'
 

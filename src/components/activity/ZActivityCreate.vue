@@ -8,7 +8,7 @@ import type {
   ActivityMode,
   Special,
   Activity
-} from '@zvms/zvms4-types'
+} from '@/../types'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
@@ -38,17 +38,6 @@ import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-
-const formRef = ref<FormInstance>()
-
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (!valid) {
-      return false
-    }
-  })
-}
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -138,7 +127,6 @@ watch(height, () => {
 
 async function submit() {
   load.value = true
-  submitForm(formRef.value)
   await api.activity.insert(activity, members, registration, special)
   load.value = false
   router.push(
@@ -156,7 +144,7 @@ function allow(): ActivityMode[] {
   if (activity.type === 'social') return ['off-campus']
   if (activity.type === 'scale') return ['social-practice']
   if (activity.type === 'special') {
-    if (special.classify === 'prize') ['on-campus', 'off-campus']
+    if (special.classify === 'prize') return ['on-campus', 'off-campus']
     return ['on-campus', 'off-campus', 'social-practice']
   }
   return []
@@ -177,7 +165,6 @@ watch(
   <div class="px-6 py-3">
     <div class="p-4">
       <ElCard shadow="hover" class="full">
-        <!-- @ts-ignore -->
         <ElForm label-position="right" label-width="108px" :model="activity">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
             <ElFormItem

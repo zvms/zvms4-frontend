@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityMode, MemberActivityStatus } from '@zvms/zvms4-types'
+import type { ActivityMode, MemberActivityStatus } from '@/../types'
 import { ref, toRefs } from 'vue'
 import { ZActivityMode, ZActivityStatus, ZInputDuration } from '@/components'
 import { ElButton, ElButtonGroup, ElForm, ElFormItem, ElPopover } from 'element-plus'
@@ -35,7 +35,14 @@ async function modify() {
 
     <ElPopover width="328px" trigger="click">
       <template #reference>
-        <ElButton text :icon="force === 'full' ? Timer : undefined" bg round size="small" type="info">
+        <ElButton
+          text
+          :icon="force === 'full' ? Timer : undefined"
+          bg
+          round
+          size="small"
+          type="info"
+        >
           {{ duration }} h
         </ElButton>
       </template>

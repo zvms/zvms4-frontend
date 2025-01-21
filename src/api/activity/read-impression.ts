@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response, ActivityInstance, ActivityMemberHistory } from '@zvms/zvms4-types'
+import type { Response, ActivityInstance, ActivityMemberHistory } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 export async function getImpressions(aid: string) {

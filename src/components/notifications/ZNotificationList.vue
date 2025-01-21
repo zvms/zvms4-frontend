@@ -9,7 +9,7 @@ import {
   ElButtonGroup
 } from 'element-plus'
 import { onMounted, ref, toRefs, watch } from 'vue'
-import type { NotificationInstance } from '@zvms/zvms4-types'
+import type { NotificationInstance } from '@/../types'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'

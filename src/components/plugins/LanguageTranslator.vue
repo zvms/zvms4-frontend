@@ -25,7 +25,9 @@ const source = ref('')
 const target = ref<string[]>([])
 
 async function translate() {
-  const result = (await axios(`/plugin/translate/deepl?text=${source.value}&lang=${targetLanguage.value}`)).data.data as {
+  const result = (
+    await axios(`/plugin/translate/deepl?text=${source.value}&lang=${targetLanguage.value}`)
+  ).data.data as {
     alternatives: string[]
   }
 
@@ -40,8 +42,13 @@ async function translate() {
     <ElForm label-position="right" label-width="144px" class="m-8 py-2">
       <ElFormItem label="Engine">
         <ElSelect v-model="engine" placeholder="Select a translation engine" class="w-full">
-          <ElOption v-for="item in engines" :key="item.value" :label="item.label" :value="item.value"
-                    :disabled="item.disabled" />
+          <ElOption
+            v-for="item in engines"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :disabled="item.disabled"
+          />
         </ElSelect>
       </ElFormItem>
       <ElFormItem label="Source Text">
@@ -49,7 +56,12 @@ async function translate() {
       </ElFormItem>
       <ElFormItem label="Target Language">
         <ElSelect placeholder="Select a target language" class="w-full" v-model="targetLanguage">
-          <ElOption v-for="item in languages" :key="item.value" :label="item.label" :value="item.value" />
+          <ElOption
+            v-for="item in languages"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </ElSelect>
       </ElFormItem>
       <ElFormItem style="text-align: right">
@@ -64,6 +76,4 @@ async function translate() {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

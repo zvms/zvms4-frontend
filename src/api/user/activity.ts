@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { ActivityInstance, Response } from '@zvms/zvms4-types'
+import type { ActivityInstance, Response } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 async function getUserActivities(

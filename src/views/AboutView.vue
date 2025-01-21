@@ -359,6 +359,7 @@ function openGitHub() {
       </ElCard>
     </div>
     <ElDrawer
+      v-if="!pad()"
       direction="btt"
       size="75%"
       v-model="openDialog"
@@ -375,6 +376,7 @@ function openGitHub() {
       <Component class="px-8 text-xl" :is="curComponent" />
     </ElDrawer>
     <ElDrawer
+      v-if="!pad()"
       direction="btt"
       size="40%"
       v-model="openStackDialog"
@@ -396,6 +398,7 @@ function openGitHub() {
       Repository in GitHub:
       <ElSpace>
         <img
+          alt="open github"
           @click="openGitHub"
           v-for="(name, idx) in stacks[currentStack as number].repos"
           :key="idx"

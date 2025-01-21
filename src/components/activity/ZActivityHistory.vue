@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElButton, ElStep, ElSteps, ElScrollbar, ElCol, ElRow, ElEmpty } from 'element-plus'
-import type { ActivityMemberHistory, MemberActivityStatus, ActivityMode } from '@zvms/zvms4-types'
+import type { ActivityMemberHistory, MemberActivityStatus, ActivityMode } from '@/../types'
 import { toRefs, type Component as VueComponent, ref, watch, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ZActivityDuration, ZActivityMember, ZButtonOrCard } from '@/components'

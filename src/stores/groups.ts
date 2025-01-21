@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Group } from '@zvms/zvms4-types'
+import type { Group } from '@/../types'
 import api from '@/api'
 
 export const useGroupsStore = defineStore('group', {

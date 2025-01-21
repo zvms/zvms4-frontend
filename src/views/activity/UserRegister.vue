@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SpecifiedActivity } from '@zvms/zvms4-types'
+import type { SpecifiedActivity } from '@/../types'
 import { ref } from 'vue'
 import { ElCol, ElRow, ElPagination } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'

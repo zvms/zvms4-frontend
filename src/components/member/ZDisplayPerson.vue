@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import api from '@/api'
 import { ref, toRef, watch } from 'vue'
-import type { User } from '@zvms/zvms4-types'
+import type { User } from '@/../types'
 import ZButtonOrCard from '@/components/utils/ZButtonOrCard.vue'
 
 const load = ref(false)

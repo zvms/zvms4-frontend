@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { User, Response } from '@zvms/zvms4-types'
+import type { User, Response } from '@/../types'
 import axios from '@/plugins/axios'
 import { ElNotification } from 'element-plus'
 import api from '@/api'

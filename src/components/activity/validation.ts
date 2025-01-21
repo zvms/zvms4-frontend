@@ -1,4 +1,4 @@
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import dayjs from 'dayjs'
 
 export function validateActivity(activity: ActivityInstance): boolean {

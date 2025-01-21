@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response, NotificationInstance } from '@zvms/zvms4-types'
+import type { Response, NotificationInstance } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 async function getMyNotifications(id: string, page: number = 1, perpage: number = 10) {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { UploadFile } from 'element-plus'
-import type { Response } from '@zvms/zvms4-types'
+import type { Response } from '@/../types'
 
 export function put(file: UploadFile) {
   return new Promise<string>((resolve, reject) => {

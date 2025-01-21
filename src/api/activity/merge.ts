@@ -1,4 +1,4 @@
-import type { ActivityMember } from '@zvms/zvms4-types'
+import type { ActivityMember } from '@/../types'
 import { temporaryToken } from '@/plugins/short-token.ts'
 import * as api from '.'
 import dayjs from 'dayjs'

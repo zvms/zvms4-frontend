@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { Group, Response, UserPosition } from '@zvms/zvms4-types'
+import type { Group, Response, UserPosition } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 export async function createGroup(group: Group) {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElDialog, ElButton } from 'element-plus'
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import { toRefs, ref, watch } from 'vue'
 import { Edit, EditPen, View } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'

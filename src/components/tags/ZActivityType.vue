@@ -6,7 +6,7 @@ import type {
   SpecialActivityClassification,
   ActivityStatus,
   ActivityInstance
-} from '@zvms/zvms4-types'
+} from '@/../types'
 import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'

@@ -3,7 +3,7 @@ import { ElSelect, ElOption } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
 import { extractHanCharacters } from '@/utils/extraChars'
-import type { User } from '@zvms/zvms4-types'
+import type { User } from '@/../types'
 
 const props = defineProps<{
   modelValue: string | string[]

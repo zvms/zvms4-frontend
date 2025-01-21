@@ -13,7 +13,7 @@ import {
   ElScrollbar
 } from 'element-plus'
 import { ref, reactive, watch } from 'vue'
-import type { ActivityType, ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityType, ActivityInstance } from '@/../types'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
 import { useWindowSize } from '@vueuse/core'
@@ -60,9 +60,9 @@ async function mergeActivity() {
 
 <template>
   <div class="p-12">
+    <p class="text-xl">Merge Activity</p>
     <ElCard shadow="never">
-      <p class="text-xl">Merge Activity</p>
-      <ElForm class="px-2">
+      <ElForm class="px-2" label-position="right" label-width="96px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
           <ElFormItem label="Name">
             <ElInput v-model="mergeForm.name" class="w-full" />
@@ -98,11 +98,9 @@ async function mergeActivity() {
             <ElSwitch v-model="overwriteTime" active-text="Yes" inactive-text="No" />
           </ElFormItem>
         </ElScrollbar>
-        <ElFormItem>
-          <div style="text-align: right">
-            <ElButton text bg type="primary" @click="mergeActivity">Merge</ElButton>
-          </div>
-        </ElFormItem>
+        <div style="text-align: right" class="py-2">
+          <ElButton text bg type="primary" @click="mergeActivity">Merge</ElButton>
+        </div>
       </ElForm>
     </ElCard>
   </div>
