@@ -13,13 +13,13 @@ export const enUS = {
     },
     type: {
       specified:
-        'This activity is specified, it is created by the class secretary or department member, usually recorded as on-campus time',
+        'This activity is specified. It is created by the class secretary or department member, usually recorded as on-campus time',
       social:
-        'This activity is social, it is created by the student or class secretary, usually recorded as off-campus time',
+        'This activity is social. It is created by the student or class secretary, usually recorded as off-campus time',
       practice:
-        'This activity is practice, it is created by the department member, usually recorded as social practice time',
+        'This activity is practice. It is created by the department member, usually recorded as social practice time',
       special:
-        'This activity is special, it is created by the department member, usually recorded as on-campus, off-campus or social practice time'
+        'This activity is special. It is created by the department member, usually recorded as on-campus, off-campus or social practice time'
     }
   },
   activityMember: {

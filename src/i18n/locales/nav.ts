@@ -20,7 +20,7 @@ export const enUS = {
   preferences: 'Preferences',
   system: 'System',
   about: 'About',
-  logout: 'Exit',
+  logout: 'Sign out',
   feedback: 'Feedback',
   reset: 'Password',
   language: 'Languages',
@@ -47,9 +47,9 @@ export const enUS = {
   },
   login: {
     actions: {
-      login: 'Login',
+      login: 'Sign in',
       reset: 'Reset',
-      register: 'Register',
+      register: 'Sign up',
       logout: 'Logout'
     },
     motto: 'Aspiration, Enterprising, Diligence, Fitness',
@@ -58,7 +58,7 @@ export const enUS = {
       password: 'Password'
     },
     registration:
-      'Please contact the platform administrator such as the League Branch Secretary for registration.'
+      'Please contact the administrator (such as the League Branch Secretary) to register.'
   },
   breadcrumbs: {
     view: {

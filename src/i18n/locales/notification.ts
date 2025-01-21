@@ -1,10 +1,10 @@
 export const enUS = {
   home: {
     title: 'Notification Center',
-    subtitle: 'Related notifications will be displayed here',
+    subtitle: 'Notifications for you',
     empty: 'No notifications yet',
-    global: 'Global',
-    personal: 'Personal'
+    global: 'Public',
+    personal: 'For-you'
   },
   create: {
     header: 'Create a new notification',
@@ -17,7 +17,7 @@ export const enUS = {
         important: 'Important',
         normal: 'Normal'
       },
-      global: 'Global',
+      global: 'Public',
       receivers: 'Receivers',
       anonymous: 'Anonymous',
       expire: 'Expire'

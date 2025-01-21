@@ -16,7 +16,7 @@ export const enUS = {
   },
   labels: {
     name: 'Name',
-    number: 'Number',
+    number: 'Student ID',
     sex: 'Sex',
     sexes: {
       male: 'Male',
@@ -24,7 +24,7 @@ export const enUS = {
       unknown: 'Unknown'
     },
     class: 'Class',
-    identify: 'Identity'
+    identify: 'User Group'
   },
   panels: {
     information: {
