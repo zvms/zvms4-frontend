@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import { ElCollapse, ElCollapseItem, ElImage, ElDialog, ElScrollbar } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { ZActivityDetails, ZActivityMemberList } from '@/components'

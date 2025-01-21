@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { ElResult, ElCard } from 'element-plus'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ActivityType } from '@zvms/zvms4-types'
+import type { ActivityType } from '@/../types'
 import { ZActivityCreate } from '@/components'
 
 const route = useRoute()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance, ActivityMember, ActivityType } from '@zvms/zvms4-types'
+import type { ActivityInstance, ActivityMember, ActivityType } from '@/../types'
 import {
   ElDialog,
   ElTable,

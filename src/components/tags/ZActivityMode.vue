@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityMode } from '@zvms/zvms4-types'
+import type { ActivityMode } from '@/../types'
 import { Vacation, School, CityGate } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { ZButtonTag } from '@/components'

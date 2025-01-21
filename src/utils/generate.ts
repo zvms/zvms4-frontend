@@ -7,7 +7,7 @@ import type {
   Trophy,
   SpecialActivity,
   SpecifiedActivity
-} from '@zvms/zvms4-types'
+} from '@/../types'
 import dayjs from 'dayjs'
 export function generateActivity(
   base: Activity,

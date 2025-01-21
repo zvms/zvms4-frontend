@@ -2,7 +2,7 @@
 import { ElLoading } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
-import type { User } from '@zvms/zvms4-types'
+import type { User } from '@/../types'
 
 const props = withDefaults(
   defineProps<{

@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { User, Response } from '@zvms/zvms4-types'
+import type { User, Response } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 async function getUser(id: string) {

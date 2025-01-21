@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { Response, ActivityMember } from '@zvms/zvms4-types'
+import type { Response, ActivityMember } from '@/../types'
 
 export async function insert(aid: string, member: ActivityMember) {
   const result = (

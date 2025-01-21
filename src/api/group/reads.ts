@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response, User } from '@zvms/zvms4-types'
+import type { Response, User } from '@/../types'
 
 export async function users(
   gid: string,

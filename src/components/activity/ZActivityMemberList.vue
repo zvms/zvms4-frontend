@@ -8,7 +8,7 @@ import {
   ZSelectActivityMode,
   ZSelectPerson
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode } from '@zvms/zvms4-types'
+import type { ActivityMember, ActivityInstance, ActivityMode } from '@/../types'
 import { toRefs, watch } from 'vue'
 import { User, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -44,7 +44,7 @@ const props = withDefaults(
   defineProps<{
     activity: ActivityInstance
     mode?: 'button' | 'card'
-    color?: 'primary' | 'success' | 'warning' | 'danger',
+    color?: 'primary' | 'success' | 'warning' | 'danger'
     wholesale: boolean
   }>(),
   {
@@ -94,8 +94,8 @@ const appending = ref<ActivityMember>({
     activity.value.type === 'specified'
       ? activity.value.registration.duration
       : activity.value.members.map((x) => x.duration).some((x) => x)
-        ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
-        : 0,
+      ? activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)
+      : 0,
   mode: getMode(),
   impression: '',
   status: 'effective',
@@ -204,16 +204,22 @@ function pushTo(url: string) {
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
-              <ZActivityDuration :duration="scope.row.duration" :mode="scope.row.mode" :id="activity._id" :uid="scope.row._id" />
+              <ZActivityDuration
+                :duration="scope.row.duration"
+                :mode="scope.row.mode"
+                :id="activity._id"
+                :uid="scope.row._id"
+              />
             </template>
           </ElTableColumn>
           <ElTableColumn
             fixed="right"
             v-if="
               (user._id === activity.creator ||
-              user.position.includes('admin') ||
-              user.position.includes('department') ||
-              user.position.includes('secretary')) && !wholesale
+                user.position.includes('admin') ||
+                user.position.includes('department') ||
+                user.position.includes('secretary')) &&
+              !wholesale
             "
             class="no-print"
           >

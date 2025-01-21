@@ -2,7 +2,7 @@
 import { toRefs } from 'vue'
 import api from '@/api'
 import { ref } from 'vue'
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import { ElResult, ElSkeleton } from 'element-plus'
 import { ZActivityDetails } from '.'
 

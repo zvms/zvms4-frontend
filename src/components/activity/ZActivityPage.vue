@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance } from '@zvms/zvms4-types'
+import type { ActivityInstance } from '@/../types'
 import {
   ZActivityHistory,
   ZActivityMemberList,

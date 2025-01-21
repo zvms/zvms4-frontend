@@ -114,11 +114,6 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityImpression.vue')
     },
     {
-      path: '/umbrella/',
-      name: 'umbrella',
-      component: () => import('../views/umbrella/UmbrellaHome.vue')
-    },
-    {
       path: '/notifications/',
       name: 'notifications',
       component: () => import('../views/notifications/NotificationHome.vue')

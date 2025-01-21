@@ -7,7 +7,7 @@ import type {
   ActivityMember,
   Registration,
   Special
-} from '@zvms/zvms4-types'
+} from '@/../types'
 import { ElNotification, dayjs } from 'element-plus'
 
 export async function createActivity(activity: ActivityInstance) {

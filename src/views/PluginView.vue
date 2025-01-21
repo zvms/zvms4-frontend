@@ -15,9 +15,11 @@ if (!user.position.includes('admin')) {
   router.push('/not-found')
 }
 
-const activate = ref(typeof route.params.activate === 'string' ? route.params.activate : 'calculator')
+const activate = ref(
+  typeof route.params.activate === 'string' ? route.params.activate : 'calculator'
+)
 
-const pages: Array<{ value: string, [key: string]: string }> = [
+const pages: Array<{ value: string; [key: string]: string }> = [
   {
     value: 'home',
     'zh-CN': '首页',
@@ -76,13 +78,15 @@ const pages: Array<{ value: string, [key: string]: string }> = [
   }
 ]
 
-const options = ref(pages.map(page => ({
-  label: page[locale.value],
-  value: page.value
-})))
+const options = ref(
+  pages.map((page) => ({
+    label: page[locale.value],
+    value: page.value
+  }))
+)
 
 watch(locale, () => {
-  options.value = pages.map(page => ({
+  options.value = pages.map((page) => ({
     label: page[locale.value],
     value: page.value
   }))
@@ -96,7 +100,7 @@ watch(activate, () => {
 <template>
   <div>
     <div class="p-8">
-      <ElSegmented v-model="activate" :options="options" style="margin-bottom: 20px;"></ElSegmented>
+      <ElSegmented v-model="activate" :options="options" style="margin-bottom: 20px"></ElSegmented>
       <CalculatorPlugin v-if="activate === 'calculator'" />
       <DictionaryPlugin v-else-if="activate === 'dictionary'" />
       <TranslatorPlugin v-else-if="activate === 'translator'" />
@@ -104,6 +108,4 @@ watch(activate, () => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

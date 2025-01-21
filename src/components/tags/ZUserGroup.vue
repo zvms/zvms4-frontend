@@ -3,7 +3,7 @@ import { ref, toRefs } from 'vue'
 import { useGroupsStore } from '@/stores/groups'
 import { ZUserPosition } from '.'
 import { ElButton } from 'element-plus'
-import type { Group } from '@zvms/zvms4-types'
+import type { Group } from '@/../types'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 

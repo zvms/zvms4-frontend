@@ -4,7 +4,7 @@ import { toRefs } from 'vue'
 import { ref } from 'vue'
 import { CaretTop, CaretBottom, Warning } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import type { ActivityMode } from '@zvms/zvms4-types'
+import type { ActivityMode } from '@/../types'
 
 const props = defineProps<{
   type: ActivityMode

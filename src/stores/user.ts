@@ -1,5 +1,5 @@
 import api from '@/api'
-import type { User, UserActivityTimeSums, UserPosition } from '@zvms/zvms4-types'
+import type { User, UserActivityTimeSums, UserPosition } from '@/../types'
 import { defineStore } from 'pinia'
 import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'

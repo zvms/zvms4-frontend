@@ -5,7 +5,7 @@ import type {
   ActivityMode,
   ActivityStatus,
   MemberActivityStatus
-} from '@zvms/zvms4-types'
+} from '@/../types'
 import {
   Vacation,
   School,

@@ -6,20 +6,20 @@ import { parseJwt } from './jwt'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
-  const cookies = document.cookie.split("; ");
+  const cookies = document.cookie.split('; ')
   for (const cookie of cookies) {
-    const [name, value] = cookie.split("=");
+    const [name, value] = cookie.split('=')
     if (name === cookieName) {
-      return value;
+      return value
     }
   }
-  return null;
+  return null
 }
 
-export const baseURL = 'https://api.zvms.site/api/'
-// export const baseURL = import.meta.env.PROD
-//   ? 'https://api.zvms.site/api/'
-//   : 'http://localhost:8000/api/'
+// export const baseURL = 'https://api.zvms.site/api/'
+export const baseURL = import.meta.env.PROD
+  ? 'https://api.zvms.site/api/'
+  : 'http://localhost:8000/api/'
 
 const axiosInstance = axios.create({
   baseURL,
@@ -28,7 +28,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-type': 'application/json',
     Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
-    'Clarity-ID': getCookieValue('_clck')?.split("%7C")[0] ?? ''
+    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
   }
 })
 

@@ -1,4 +1,4 @@
-import type { UserPosition, ActivityType } from '@zvms/zvms4-types'
+import type { UserPosition, ActivityType } from '@/../types'
 
 export { default as ZActivityCreate } from './ZActivityCreate.vue'
 export { default as ZActivityDetails } from './ZActivityDetails.vue'

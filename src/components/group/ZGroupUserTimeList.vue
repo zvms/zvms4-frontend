@@ -15,7 +15,7 @@ import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
-import type { Group } from '@zvms/zvms4-types'
+import type { Group } from '@/../types'
 import { useWindowSize } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
 

@@ -1,4 +1,4 @@
-import type { User, UserPosition } from '@zvms/zvms4-types'
+import type { User, UserPosition } from '@/../types'
 import api from '@/api'
 
 export async function getUserPositions(user: User) {

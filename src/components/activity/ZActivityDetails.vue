@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityInstance, SpecifiedActivity } from '@zvms/zvms4-types'
+import type { ActivityInstance, SpecifiedActivity } from '@/../types'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
 import { Calendar, Location, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'

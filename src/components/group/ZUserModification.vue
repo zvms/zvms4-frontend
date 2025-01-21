@@ -16,7 +16,7 @@ import {
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useUserStore } from '@/stores/user'
-import type { Group, User } from '@zvms/zvms4-types'
+import type { Group, User } from '@/../types'
 import { reactive } from 'vue'
 
 const userStore = useUserStore()

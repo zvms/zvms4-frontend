@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { Response } from '@zvms/zvms4-types'
+import type { Response } from '@/../types'
 import { remove as removeImage } from '../image'
 
 export async function insert(activityId: string, userId: string, imageId: string) {

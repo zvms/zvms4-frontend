@@ -1,6 +1,6 @@
 import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
-import type { Response, Trophy, TrophyAward, TrophyMember } from '@zvms/zvms4-types'
+import type { Response, Trophy, TrophyAward, TrophyMember } from '@/../types'
 
 export async function readTrophy(id: string) {
   const resp = await axios(`/trophy/${id}`)

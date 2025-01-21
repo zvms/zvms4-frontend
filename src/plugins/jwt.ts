@@ -1,4 +1,4 @@
-import type { UserPosition } from '@zvms/zvms4-types'
+import type { UserPosition } from '@/../types'
 
 export function parseJwt(token: string): {
   header: {

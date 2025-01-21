@@ -5,7 +5,7 @@ import { default as AuditorIcon } from './GuidanceAuditorium.vue'
 import { default as InspectorIcon } from './MaterialSymbolsFrameInspect.vue'
 import { default as AdminIcon } from './MaterialSymbolsAdminPanelSettings.vue'
 import { default as SystemIcon } from './MaterialSymbolsLightSettings.vue'
-import type { UserPosition } from '@zvms/zvms4-types'
+import type { UserPosition } from '@/../types'
 import type { Component } from 'vue'
 
 export const positions = {
