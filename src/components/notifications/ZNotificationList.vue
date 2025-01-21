@@ -129,7 +129,7 @@ const toggleMode = () => {
           >
             {{ t('notification.home.' + range) }}
           </ElButton>
-          <ElButton
+          <!-- <ElButton
             type="success"
             text
             bg
@@ -142,7 +142,7 @@ const toggleMode = () => {
                 user.position.includes('auditor')) &&
               !less
             "
-          />
+          /> -->
         </ElButtonGroup>
         <ElButton
           @click="getNotifications"
