@@ -98,7 +98,7 @@ async function refreshUser() {
         discount
       />
     </div>
-    <div class="pt-4 pb-8">
+    <div class="pt-4 pb-8" v-if="false">
       <ElCard shadow="hover">
         <ZNotificationList less mode="personal" />
       </ElCard>

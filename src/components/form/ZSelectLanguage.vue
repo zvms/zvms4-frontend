@@ -52,17 +52,17 @@ const languages = ref<
   {
     display: '繁體中文',
     value: 'zh-TW',
-    disabled: pad() && !user.position.includes('admin')
+    disabled: pad() || !user.position.includes('admin')
   },
   {
     display: '日本語',
     value: 'ja-JP',
-    disabled: pad() && !user.position.includes('admin')
+    disabled: pad() || !user.position.includes('admin')
   },
   {
     display: 'Français',
     value: 'fr-FR',
-    disabled: pad() && !user.position.includes('admin')
+    disabled: pad() || !user.position.includes('admin')
   }
 ])
 
@@ -98,7 +98,6 @@ onMounted(() => {
           class="full"
           text
           v-if="!language.disabled"
-          :disabled="language.disabled"
           :bg="user.language === language.value"
           @click="setLanguage(language.value)"
           :type="user.language === language.value ? 'primary' : ''"
@@ -110,8 +109,7 @@ onMounted(() => {
   </ElPopover>
   <ElSelect v-else-if="type === 'select'" v-model="user.language" @change="setLanguage">
     <ElOption
-      v-for="language in languages"
-      :disabled="language.disabled"
+      v-for="language in languages.filter(x => !x.disabled)"
       :key="language.value"
       :label="language.display"
       :value="language.value"
