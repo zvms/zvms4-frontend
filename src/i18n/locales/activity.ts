@@ -32,12 +32,12 @@ export const enUS = {
   },
   mode: {
     'on-campus': {
-      name: 'Activities on Campus',
+      name: 'On-compus Activities',
       short: 'On Campus',
       key: 'on-campus'
     },
     'off-campus': {
-      name: 'Activities off Campus',
+      name: 'Off-compus Activities',
       short: 'Off Campus',
       key: 'off-campus'
     },
@@ -97,7 +97,7 @@ export const enUS = {
   image: {
     upload: {
       name: 'Upload',
-      prompt: 'Click or drag image to this area to upload',
+      prompt: 'Click or drag images here to upload',
       allow: 'Allow only {type} image'
     },
     select: {

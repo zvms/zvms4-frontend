@@ -3,21 +3,21 @@ export const enUS = {
     project: 'About ZVMS',
     developers: 'About Developers'
   },
-  footer: 'ZVMS Developer Team (from ZZDev) & Practice Department in Zhenhai High School',
+  footer: 'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
   repository: {
     license: 'License',
     version: {
-      '0': 'The version',
-      '1': 'of the project is developed by ',
+      '0': 'Version',
+      '1': 'is developed by ',
       '2': '. Thanks!',
       stack: 'Tech Stack: ',
       repo: 'Repository: '
     },
     thank: {
-      mean: 'Meanwhile, thanks to the former off campus server provided by ',
-      icon: ', icon of new version designed by ',
-      test: ', and the crazy test by ',
-      end: '.'
+      mean: 'Meanwhile, thanks to',
+      icon: 'for providing the off-campus server, and',
+      test: 'for the brand new icon, also',
+      end: 'for his crazy robustness testing.'
     }
   },
   switch: {
@@ -54,7 +54,7 @@ export const zhCN = {
     }
   },
   switch: {
-    real: '实名',
+    real: '真名',
     nick: '昵称'
   },
   privacy: {

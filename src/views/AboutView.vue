@@ -268,7 +268,7 @@ function openGitHub() {
           <span class="large">Z</span>henhai High School <span class="large">V</span>olunteer
           <span class="large">M</span>anagement <span class="large">S</span>ystem
         </p>
-        <p>Open-Source Project, with a long history.</p>
+        <p>An open source project with a history.</p>
       </ElCard>
     </div>
     <div class="py-4">
@@ -344,10 +344,10 @@ function openGitHub() {
             {{ t('about.repository.thank.end') }}
           </p>
         </div>
-        We’re also looking for students in Senior 1 to join us in building the system. If you’re
-        interested, reach out to Ethan in Class 6 (Z), Grade 2, for more details. It’s a great fit
-        if you’re familiar with Vue.js, Vite.js, or Python, and FastAPI. But if you’re a Rustacean,
-        you’ll love it even more, since we are planing to refactor the backend via Rust.
+        We're looking for students in Senior 1 to join the development team.
+        Interested parties please contact Ethan in Class 2, Class 6 (Z).
+        This is a great fit for someone familiar with Vue.js and Vite.js or Python and FastAPI.
+        🦀Rustaceans are also welcome - we plan to rewrite the backend in Rust.
       </ElCard>
     </div>
     <div class="py-4">
