@@ -51,7 +51,7 @@ function calculateLoss() {
 </script>
 
 <template>
-  <ElStatistic :value="real">
+  <ElStatistic :value="real" :precision="1">
     <template #title>
       <span style="display: inline-flex; align-items: center">
         {{ t(`activity.mode.${type}.name`) }}
