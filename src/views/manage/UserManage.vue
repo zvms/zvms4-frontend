@@ -14,20 +14,21 @@ const goToGroupList = () => {
 const goToClass = () => {
   router.push(`/group/${user.class_id}`)
 }
+
+if (
+  user.position.includes('admin') ||
+  user.position.includes('department') ||
+  user.position.includes('auditor')
+  ) {
+  goToGroupList()
+} else {
+  if ( user.position.includes('secretary') ) {
+    goToClass()
+  } else {
+    router.push('/not-found')
+  }
+}
 </script>
 
 <template>
-  <div
-    class="px-6 py-6"
-    v-if="
-      user.position.includes('admin') ||
-      user.position.includes('department') ||
-      user.position.includes('auditor')
-    "
-  >
-    <ElButton type="primary" text bg @click="goToGroupList">Go to Group List</ElButton>
-  </div>
-  <div class="px-6 py-6" v-else>
-    <ElButton type="primary" text bg @click="goToClass">Go to Class</ElButton>
-  </div>
 </template>
