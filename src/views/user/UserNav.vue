@@ -53,23 +53,12 @@ const actions: Array<{
   action: () => void
 }> = [
   {
-    icon: Feedback,
-    name: t('nav.feedback'),
-    path: '/feedback/',
-    show: true,
-    action: () => {
-      router.push('/feedback/')
-      routeTo('/feedback/')
-    }
-  },
-  {
     icon: Notification,
     name: t('nav.notification'),
     path: '/notifications/',
     show: true,
     action: () => {
-      router.push('/notifications/')
-      routeTo('/notifications/')
+      routeTo('/notifications')
     }
   },
   {
@@ -78,18 +67,7 @@ const actions: Array<{
     path: '/password',
     show: true,
     action: () => {
-      router.push('/password')
       routeTo('/password')
-    }
-  },
-  {
-    icon: SwitchButton,
-    name: t('nav.exit'),
-    path: '/logout',
-    show: true,
-    action: () => {
-      user.removeUser()
-      router.push('/user/login')
     }
   }
 ]
@@ -104,14 +82,14 @@ const navs: Array<{
   {
     icon: HomeFilled,
     name: 'home',
-    path: '/user/',
+    path: '/user',
     show: true,
     judge: (path) => path.startsWith('/user')
   },
   {
     icon: MdiEye,
     name: 'activity',
-    path: '/activities/',
+    path: '/activities',
     show: true,
     judge: (path) =>
       (path.startsWith('/activity') && !path.startsWith('/activity/create')) ||
@@ -129,7 +107,7 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) => path.startsWith('/management')
+    judge: (path) => path.startsWith('/group')
   },
   {
     icon: InfoFilled,
@@ -137,19 +115,24 @@ const navs: Array<{
     path: '/about',
     show: true,
     judge: (path) => path.startsWith('/about')
-  },
-  {
-    icon: MaterialSymbolsSettings,
-    name: 'preferences',
-    path: '/admin',
-    show: user.position.includes('admin'),
-    judge: (path) => path.startsWith('/admini')
   }
 ]
 
 function routeTo(page: string) {
-  path.value = page
-  router.push(page)
+  if (page === '/management') {
+    if (
+      user.position.includes('admin') ||
+      user.position.includes('department') ||
+      user.position.includes('auditor')
+    ) {
+      routeTo('/group')
+    } else {
+      routeTo(`/group/${user.class_id}`)
+    }
+  } else {
+    path.value = page
+    router.push(page)
+  }
 }
 </script>
 
