@@ -55,7 +55,7 @@ const actions: Array<{
   {
     icon: Notification,
     name: t('nav.notification'),
-    path: '/notifications/',
+    path: '/notifications',
     show: true,
     action: () => {
       routeTo('/notifications')
