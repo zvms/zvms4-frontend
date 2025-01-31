@@ -25,7 +25,7 @@ const router = createRouter({
       component: () => import('../views/user/UserLogin.vue')
     },
     {
-      path: '/user/',
+      path: '/user',
       name: 'user',
       component: () => import('../views/user/UserHome.vue')
     },
@@ -40,12 +40,12 @@ const router = createRouter({
       component: () => import('../views/activity/CreateActivity.vue')
     },
     {
-      path: '/activity/create/',
+      path: '/activity/create',
       name: 'activity-create',
       component: () => import('../views/activity/CreateActivity.vue'),
       children: [
         {
-          path: '/activity/create/',
+          path: '/activity/create',
           name: 'activity-create',
           component: () => import('../views/activity/CreateHome.vue')
         },
@@ -62,12 +62,12 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityMerge.vue')
     },
     {
-      path: '/activities/',
+      path: '/activities',
       name: 'activity',
       component: () => import('../views/user/UserActivity.vue'),
       children: [
         {
-          path: '/activities/',
+          path: '/activities',
           name: 'activity',
           component: () => import('../views/activity/ViewPage.vue')
         },
@@ -89,7 +89,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/group/',
+      path: '/group',
       name: 'group',
       component: () => import('../views/group/GroupHome.vue')
     },
@@ -114,7 +114,7 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityImpression.vue')
     },
     {
-      path: '/notifications/',
+      path: '/notifications',
       name: 'notifications',
       component: () => import('../views/notifications/NotificationHome.vue')
     },
@@ -127,11 +127,6 @@ const router = createRouter({
       path: '/notifications/:type',
       name: 'notifications-type',
       component: () => import('../views/notifications/NotificationHome.vue')
-    },
-    {
-      path: '/notifications/creative/:port',
-      name: 'notification-creative',
-      component: () => import('../views/notifications/IFrame.vue')
     },
     {
       path: '/plugin/:activate',
