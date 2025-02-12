@@ -15,7 +15,7 @@ import { ApplicationMenu } from '@icon-park/vue-next'
 import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
 import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
@@ -24,6 +24,7 @@ import { pad, getTabletType } from '@/plugins/ua'
 
 const user = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
@@ -35,7 +36,11 @@ if (getTabletType() !== 'p615') {
 
 const show = ref(false)
 
-const path = ref(new URL(window.location.href).pathname)
+const path = ref(route.fullPath)
+
+watch(route, () => {
+  path.value = route.fullPath
+})
 
 const { height } = useWindowSize()
 
@@ -44,49 +49,62 @@ const navs: Array<{
   name: string
   path: string
   show: boolean
+  judge: (path: string) => boolean
 }> = [
   {
     icon: HomeFilled,
     name: 'home',
-    path: '/user/',
-    show: true
+    path: '/user',
+    show: true,
+    judge: (path) => path.startsWith('/user')
   },
   {
     icon: MdiEye,
     name: 'activity',
-    path: '/activities/',
-    show: true
+    path: '/activities',
+    show: true,
+    judge: (path) =>
+      (path.startsWith('/activity') && !path.startsWith('/activity/create')) ||
+      path.startsWith('/activities')
   },
   {
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
-    show: user.position.filter((x) => x !== 'student').length > 0
+    show: user.position.filter((x) => x !== 'student').length > 0,
+    judge: (path) => path.startsWith('/activity/create')
   },
   {
     icon: Management,
     name: 'manage',
-
     path: '/management',
-    show: user.position.filter((x) => x !== 'student').length > 0
+    show: user.position.filter((x) => x !== 'student').length > 0,
+    judge: (path) => path.startsWith('/group')
   },
   {
     icon: InfoFilled,
     name: 'about',
     path: '/about',
-    show: true
-  },
-  {
-    icon: MaterialSymbolsSettings,
-    name: 'preferences',
-    path: '/preferences',
-    show: user.position.includes('admin')
+    show: true,
+    judge: (path) => path.startsWith('/about')
   }
 ]
 
 function routeTo(page: string) {
-  path.value = page
-  router.push(page)
+  if (page === '/management') {
+    if (
+      user.position.includes('admin') ||
+      user.position.includes('department') ||
+      user.position.includes('auditor')
+    ) {
+      routeTo('/group')
+    } else {
+      routeTo(`/group/${user.class_id}`)
+    }
+  } else {
+    path.value = page
+    router.push(page)
+  }
 }
 
 const useless = ref(dark.value)
@@ -113,7 +131,7 @@ watch(useless, () => {
               class="full py-4"
               size="large"
               :bg="nav.path === path"
-              :type="nav.path === path ? 'primary' : ''"
+              :type="nav.judge(path ?? '') ? 'primary' : ''"
               @click="routeTo(nav.path)"
             >
               {{ t(`nav.${nav.name}`) }}
