@@ -95,8 +95,6 @@ watch(query, () => {
   refresh()
 })
 
-const registerForSpecified = ref(false)
-
 const tableMaxHeight = ref(height.value * 0.56)
 
 watch(width, () => {
@@ -150,13 +148,6 @@ function handleSelectionChange(val: string[]) {
 
 <template>
   <div :class="'card, pr-8, ' + (width < height ? 'pl-6' : '') + ''">
-    <ElDialog
-      :title="t('activity.registration.title')"
-      width="80%"
-      center
-      v-model="registerForSpecified"
-    >
-    </ElDialog>
     <ElSkeleton
       v-if="loading && initial"
       :loading="loading && initial"
@@ -271,7 +262,7 @@ function handleSelectionChange(val: string[]) {
               text
               bg
               type="info"
-              @click="router.push(`/activity/details/${row._id}/impression/${role}`)"
+              @click="router.push(`/activity/details/${row._id}`)"
             >
               {{ t('activity.impression.actions.view') }}
             </ElButton>
