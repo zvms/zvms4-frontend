@@ -120,7 +120,7 @@ localStorage.getItem('warning') === 'true' ||
       <AboutView />
     </ElDialog>
     <div :style="`height: ${height * 0.25}px`"></div>
-    <ElCard class="login-field text-center bg-white px-4 w-full" shadow="hover">
+    <ElCard class="login-field text-center px-4 w-full" shadow="hover">
       <ElRow class="w-full py-1">
         <ElCol :span="8" />
         <ElCol :span="6">
