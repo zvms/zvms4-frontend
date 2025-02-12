@@ -23,7 +23,7 @@ import { AboutView } from '..'
 import api from '@/api'
 
 if (useUserStore().isLogin) {
-  useRouter().push('/user/')
+  useRouter().push('/user')
 } else {
   localStorage.removeItem('token')
 }
@@ -32,7 +32,8 @@ const dark = useDark()
 const { height } = useWindowSize()
 const { t } = useI18n()
 
-dark.value = false // We haven't already adjusted the color in dark mode.
+// dark.value = false
+// We haven't already adjusted the color in dark mode.
 
 const user = ref('')
 const password = ref<string>('')
@@ -89,7 +90,7 @@ async function login() {
   }
   const id = users[0]._id
   userStore.setUser(id, password.value as string).then(() => {
-    router.push('/user/')
+    router.push('/user')
   })
 }
 
@@ -102,7 +103,7 @@ const openDialog = ref(false)
 const language = ref(navigator.language as 'en-US')
 
 // Store to localStorage, if the notification has been confirmed.
-localStorage.getItem('warning') === 'true' ||
+localStorage.getItem('warning') === 'true' || useUserStore().isLogin ||
   ElMessageBox({
     title: warnings[language.value].title,
     message: warnings[language.value].message,
