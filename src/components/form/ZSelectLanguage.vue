@@ -82,7 +82,7 @@ onMounted(() => {
         circle
       />
       <ElButton
-        v-if="!withText"
+        v-if="withText"
         type="primary"
         :icon="MdiTranslate"
         :size="props.placement === 'bottom' ? '' : 'large'"
