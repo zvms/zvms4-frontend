@@ -130,7 +130,7 @@ watch(useless, () => {
               text
               class="full py-4"
               size="large"
-              :bg="nav.path === path"
+              :bg="nav.judge(path ?? '')"
               :type="nav.judge(path ?? '') ? 'primary' : ''"
               @click="routeTo(nav.path)"
             >
