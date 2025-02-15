@@ -65,8 +65,7 @@ const panes = [
 function moveTo(type: string) {
   availibility.value = false
   tab.value = type
-  if (type === 'trophy') router.push('/trophy')
-  else router.push(`/activities/${type}`)
+  router.push(`/activities/${type}`)
   setTimeout(() => {
     availibility.value = true
   }, 100)
@@ -77,7 +76,7 @@ function moveTo(type: string) {
   <div class="p-4" style="width: 100%">
     <div
       class="flex px-12 py-4"
-      v-if="route.path.startsWith('/activities/') && !route.path.endsWith('register')"
+      v-if="route.path.startsWith('/activities')"
     >
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
