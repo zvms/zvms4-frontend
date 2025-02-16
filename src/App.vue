@@ -397,8 +397,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 h-full">
-    <ElAlert type="error" center :closable="false" v-if="offlineReady">
+  <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
+    <ElAlert type="error" center :closable="true" v-if="offlineReady">
       <template #title>
         <ElIcon class="disconnected">
           <CarbonCloudOffline />
@@ -407,7 +407,7 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 h-full">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 full">
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -429,12 +429,12 @@ onMounted(() => {
             </div>
           </ElCol>
           <ElCol :span="8">
-            <div class="user">
+            <div class="user" v-if="userStore.isLogin">
               <ElButtonGroup>
-                <ElButton text bg :icon="User" type="primary" v-if="userStore.isLogin">
+                <ElButton text bg :icon="User" type="primary">
                   {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
                 </ElButton>
-                <ElPopover width="216px" v-if="userStore.isLogin">
+                <ElPopover width="216px">
                   <template #reference>
                     <ElButton
                       text
@@ -460,15 +460,15 @@ onMounted(() => {
           </ElCol>
         </ElRow>
       </ElHeader>
-      <ElContainer v-if="userStore.isLogin" style="width: 100%; height: 100%">
+      <ElContainer v-if="userStore.isLogin" class="full">
         <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode && userStore.isLogin" />
         <RouterView
           v-if="userStore.isLogin"
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
         />
       </ElContainer>
-      <ElContainer style="height: 100%; height: 100%" v-else>
-        <RouterView style="width: 100%, height: 100%, overflow-y: scroll" />
+      <ElContainer class="full" v-else>
+        <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
       </ElContainer>
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
@@ -483,6 +483,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.full {
+  width: 100%;
+  height: 100%;
+}
+
 .footer-container {
   height: 1.5rem;
   /* overflow-y: scroll; */
