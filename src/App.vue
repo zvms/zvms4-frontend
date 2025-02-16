@@ -486,7 +486,7 @@ onMounted(() => {
 .footer-container {
   height: 1.5rem;
   /* overflow-y: scroll; */
-  z-index: 999;
+  /* z-index: 999; */
 }
 
 .disconnected {
