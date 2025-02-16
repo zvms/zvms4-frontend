@@ -15,11 +15,6 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/management',
-      name: 'management',
-      component: () => import('../views/manage/UserManage.vue')
-    },
-    {
       path: '/user/login',
       name: 'user-login',
       component: () => import('../views/user/UserLogin.vue')
@@ -33,11 +28,6 @@ const router = createRouter({
       path: '/user/:id/:page',
       name: 'user-page',
       component: () => import('../views/user/UserPage.vue')
-    },
-    {
-      path: '/activity/create/:type',
-      name: 'activity-create-type',
-      component: () => import('../views/activity/CreateActivity.vue')
     },
     {
       path: '/activity/create',
@@ -72,16 +62,6 @@ const router = createRouter({
           component: () => import('../views/activity/ViewPage.vue')
         },
         {
-          path: '/register',
-          name: 'activity-register',
-          component: () => import('../views/activity/UserRegister.vue')
-        },
-        {
-          path: '/activities/mine',
-          name: 'activity-type',
-          component: () => import('../views/activity/ViewPage.vue')
-        },
-        {
           path: '/activities/:type',
           name: 'activity-type',
           component: () => import('../views/activity/ViewPage.vue')
@@ -109,29 +89,14 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityImpression.vue')
     },
     {
-      path: '/activity/details/:id/impression/:mode/:perspective',
-      name: 'activity-impression-perspectives',
-      component: () => import('../views/activity/ActivityImpression.vue')
-    },
-    {
       path: '/notifications',
       name: 'notifications',
       component: () => import('../views/notifications/NotificationHome.vue')
     },
     {
-      path: '/notifications/create',
-      name: 'notifications-create',
-      component: () => import('../views/notifications/NotificationCreate.vue')
-    },
-    {
       path: '/notifications/:type',
       name: 'notifications-type',
       component: () => import('../views/notifications/NotificationHome.vue')
-    },
-    {
-      path: '/plugin/:activate',
-      name: 'plugin',
-      component: () => import('../views/PluginView.vue')
     },
     {
       // 404
