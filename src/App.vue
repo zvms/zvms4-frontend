@@ -42,12 +42,6 @@ function getLocale(ident: string) {
       return zhCn
     case 'en-US':
       return en
-    case 'ja-JP':
-      return ja
-    case 'zh-TW':
-      return zhTw
-    case 'fr-FR':
-      return fr
     default:
       return en
   }
@@ -113,7 +107,7 @@ async function resetPassword() {
           userStore.shouldResetPassword = false
           if (userStore.position.length !== 1) {
             await userStore.removeUser()
-            location.href = '/user/login'
+            router.push('/user/login')
           }
         }
       })
@@ -121,7 +115,7 @@ async function resetPassword() {
         userStore.shouldResetPassword = false
         if (userStore.position.length !== 1) {
           userStore.removeUser()
-          location.href = '/user/login'
+          router.push('/user/login')
         }
       })
   }
@@ -130,7 +124,6 @@ async function resetPassword() {
 resetPassword()
 
 function embedClarity() {
-  // if (userStore.position.includes('admin')) return
   // Define a type for the clarity function to improve readability and type safety
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void
@@ -363,21 +356,9 @@ const locales: Record<
 
 const panelButtons = [
   {
-    icon: Feedback,
-    click() {
-      ElNotification({
-        title: locales[locale.value].feedback.close.title,
-        message: locales[locale.value].feedback.close.message,
-        type: 'warning',
-        position: 'bottom-right'
-      })
-    },
-    text: 'feedback'
-  },
-  {
     icon: Notification,
     click() {
-      router.push('/notifications/')
+      router.push('/notifications')
     },
     text: 'notification'
   },
@@ -487,8 +468,8 @@ onMounted(() => {
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
         />
       </ElContainer>
-      <ElContainer style="height: 100%" v-else>
-        <RouterView />
+      <ElContainer style="height: 100%; height: 100%" v-else>
+        <RouterView style="width: 100%, height: 100%, overflow-y: scroll" />
       </ElContainer>
       <ElFooter
         class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
@@ -504,8 +485,8 @@ onMounted(() => {
 
 <style scoped>
 .footer-container {
-  height: v-bind(height * 0.05 + 'px');
-  overflow-y: scroll;
+  height: 1.5rem;
+  /* overflow-y: scroll; */
   z-index: 999;
 }
 
@@ -528,9 +509,9 @@ onMounted(() => {
 }
 
 .fragment-container {
-  /* height: v-bind(height - '3rem'); */
   /* all is height, and - 3rem is this height */
-  height: v-bind(height * 0.88 + 'px');
+  /* height: v-bind(height * 0.88 + 'px'); */
+  height: 100%;
   overflow-y: scroll;
   /* max-width: 100vw; */
   /* margin: 0 auto; */
