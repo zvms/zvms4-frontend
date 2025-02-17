@@ -130,7 +130,7 @@ watch(height, () => {
           mode === 'button' &&
           (userStore.position.includes('admin') ||
             userStore.position.includes('department') ||
-            userStore.position.includes('auditor') ||
+            userStore.position.includes('system') ||
             (userStore.position.includes('secretary') &&
               person?.group.includes(userStore.class_id)) ||
             userStore._id === person?._id)
@@ -146,7 +146,7 @@ watch(height, () => {
         <template #reference>
           <ElButton
             v-if="
-              (userStore.position.includes('admin') || userStore.position.includes('department') || user.position.imcludes('system')) &&
+              (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.imcludes('system')) &&
               person?._id &&
               person?._id !== userStore._id
             "
