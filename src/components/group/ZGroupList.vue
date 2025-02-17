@@ -19,7 +19,7 @@ const search = ref('')
 const total = ref(0)
 const userStore = useUserStore()
 
-if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department') || user.position.imcludes('system'))) {
   router.push('/not-found')
 }
 
