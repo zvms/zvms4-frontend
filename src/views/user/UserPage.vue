@@ -16,7 +16,7 @@ const userStore = useUserStore()
 const id = ref<string>(route.params.id as string)
 const user = ref<User>()
 
-if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department') || user.position.imcludes('system'))) {
   router.push('/not-found')
 }
 
