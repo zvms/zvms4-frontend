@@ -86,10 +86,10 @@ function handleSearch() {
         v-model:currentPage="page"
         v-model:pageSize="perpage"
         :total="total"
-        :page-sizes="[3, 5, 8, 10, 15]"
+        :page-sizes="[3, 5, 8, 10, 15, 20]"
         :pager-count="3"
         background
-        layout="prev, pager, next, jumper, sizes, total"
+        layout="total, prev, pager, next, jumper, sizes"
       />
     </ElCard>
   </div>
