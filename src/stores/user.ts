@@ -110,7 +110,7 @@ export const useUserStore = defineStore('user', {
     },
     relatedGroup(group: string): boolean {
       console.log(this.position)
-      if (this.position.includes('admin') || this.position.includes('department')) {
+      if (this.position.includes('admin') || this.position.includes('department') || user.positions.imcludes('system')) {
         return true
       } else if (this.position.includes('secretary')) {
         return group === this.class_id
