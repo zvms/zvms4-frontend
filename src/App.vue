@@ -407,7 +407,7 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: height + 'px'}">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 5.2rem)'}">
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -491,7 +491,7 @@ onMounted(() => {
 .footer-container {
   height: 3rem;
   /* overflow-y: scroll; */
-  /* z-index: 999; */
+  z-index: 999;
 }
 
 .disconnected {
