@@ -123,7 +123,7 @@ function routeTo(page: string) {
     if (
       user.position.includes('admin') ||
       user.position.includes('department') ||
-      user.position.includes('auditor')
+      user.position.includes('system')
     ) {
       routeTo('/group')
     } else {
