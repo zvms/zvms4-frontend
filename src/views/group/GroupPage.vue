@@ -51,8 +51,7 @@ if (
   !(
     userStore.position.includes('admin') ||
     userStore.position.includes('department') ||
-    (userStore.position.includes('secretary') && userStore.class_id === id.value) ||
-    userStore.position.imcludes('system')
+    (userStore.position.includes('secretary') && userStore.class_id === id.value)
   )
 ) {
   router.push('/not-found')
