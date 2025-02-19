@@ -407,7 +407,7 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3.2rem)'}">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3rem)'}">
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -464,14 +464,14 @@ onMounted(() => {
         <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
         <RouterView
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-          :style="{width: width + 'px', height: 'calc(' + height + 'px - 3.2rem)'}"
+          :style="{width: width + 'px', height: 'calc(' + height + 'px - 5.2rem)'}"
         />
       </ElContainer>
       <ElContainer class="full" v-else>
         <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
       </ElContainer>
       <ElFooter
-        class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
+        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
         <p class="text-center">
           &copy; 2018-2025 | {{ t('about.footer') }} |
