@@ -474,8 +474,7 @@ onMounted(() => {
         class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
         <p class="text-center">
-          &copy; 2018-2025 | {{ t('about.footer') }} |
-          <abbr title="Massachusetts Institute of Technology">MIT</abbr> Licensed
+          &copy; 2018-2025 | {{ t('about.footer') }} | MIT Licensed
         </p>
       </ElFooter>
     </ElContainer>
