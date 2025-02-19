@@ -84,11 +84,6 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityPage.vue')
     },
     {
-      path: '/activity/details/:id/impression/:mode',
-      name: 'activity-impression',
-      component: () => import('../views/activity/ActivityImpression.vue')
-    },
-    {
       path: '/notifications',
       name: 'notifications',
       component: () => import('../views/notifications/NotificationHome.vue')
