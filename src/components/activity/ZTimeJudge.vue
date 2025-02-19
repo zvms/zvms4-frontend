@@ -72,7 +72,7 @@ function calculateLoss() {
         <span style="font-family: 12px">{{ t('home.panels.time.unit', real) }}</span
         >&nbsp;
         <span :class="calculateLoss().class">
-          <span>{{ calculateLoss().loss }}</span>
+          <span>{{ calculateLoss().loss.toFixed(1) }}</span>
           <ElIcon style="font-size: 9px"><Component :is="calculateLoss().icon" /></ElIcon>
         </span>
       </div>

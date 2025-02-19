@@ -464,7 +464,7 @@ onMounted(() => {
         <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
         <RouterView
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-          :style="{width: width + 'px', height: 'calc(' + height + 'px - 5.2rem)'}"
+          :style="{width: width + 'px', height: 'calc(' + height + 'px - 6.2rem)'}"
         />
       </ElContainer>
       <ElContainer class="full" v-else>
@@ -546,8 +546,7 @@ onMounted(() => {
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   transition:
-    color 0.5s,
-    background-color 0.5s !important;
+    color,background-color 0.5s !important;
   /* filter: grayscale(1); */
 }
 

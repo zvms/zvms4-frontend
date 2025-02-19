@@ -1,5 +1,3 @@
-<!-- Warning: this component is useless!! Please look at CreateActivity.vue -->
-
 <script setup lang="ts">
 import { ArrowRight } from '@element-plus/icons-vue'
 import { ElCard, ElButton, ElDivider } from 'element-plus'
@@ -32,7 +30,7 @@ const visibility: Record<ActivityType, boolean | 'need-audit'> = permissions(
   <div class="px-8 py-2">
     <p v-if="visibility['special']">
       NEW: Merge Activities.
-      <ElButton @click="$router.push('/activity/merge')"> Click here to use. </ElButton>
+      <ElButton bg text @click="$router.push('/activity/merge')"> Click here to use. </ElButton>
     </p>
     <div
       class="py-2"

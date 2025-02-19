@@ -11,25 +11,6 @@ import {
   ElRow,
   ElCol
 } from 'element-plus'
-import {
-  ZhangZisu,
-  LuJinxuan,
-  ZhuChengyang,
-  ChenChen,
-  ShenLechen,
-  HuangHanting,
-  ZhouShengjie,
-  QiuNianchu,
-  XiongTongrui,
-  ChenLiuchang,
-  WuChengyu,
-  BaoYihan,
-  ZhaiYanqi,
-  HuangHaojie,
-  ZhangShengze,
-  ZhouJirui,
-  ZhangZheheng
-} from './collaborators'
 import { ref, type Component as VueComponent, watch } from 'vue'
 import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
 import { useHeaderStore } from '@/stores/header'
@@ -55,142 +36,91 @@ header.setHeader(t('nav.about'))
 const collaborators = [
   {
     dispName: '张子苏',
-    component: ZhangZisu,
     grade: 201800,
     name: '张子苏'
   },
   {
     dispName: 'neko_moyi',
-    component: LuJinxuan,
     grade: 201900,
     name: '卢锦轩'
   },
   {
     dispName: 'Zecyel',
-    component: ZhuChengyang,
     grade: 202007,
     name: '朱程炀'
   },
   {
     dispName: 'fpc5719',
-    component: ChenChen,
     grade: 202000,
     name: '陈琛'
   },
   {
     dispName: 'So1aric',
-    component: ShenLechen,
     grade: 202105,
     name: '沈乐宸'
   },
   {
     dispName: 'solecour',
-    component: HuangHanting,
     grade: 202100,
     name: '黄瀚庭'
   },
   {
     dispName: 'dblark',
-    component: ZhouShengjie,
     grade: 202100,
     name: '周圣杰'
   },
   {
     dispName: 'qnc',
-    component: QiuNianchu,
     grade: 202209,
     name: '邱念楚'
   },
   {
     dispName: '_Kerman',
-    component: XiongTongrui,
     grade: 202203,
     name: '熊桐睿'
   },
   {
     dispName: 'clc',
-    component: ChenLiuchang,
     grade: 202204,
     name: '陈浏畅'
   },
   {
     dispName: '7086cmd',
-    component: WuChengyu,
     grade: 202306,
-    name: locale.value === 'zh-CN' ? '吴承宇' : 'Ethan Goh'
+    name: '吴承宇'
   },
   {
     dispName: 'Regir',
-    component: BaoYihan,
     grade: 202307,
     name: '鲍屹涵'
   },
   {
     dispName: 'Dignite',
-    component: ZhaiYanqi,
     grade: 202312,
     name: '翟彦棋'
   },
   {
     dispName: 'Zhang Zheheng',
-    component: ZhangZheheng,
     grade: 202311,
     name: '张哲恒'
   },
   {
     dispName: 'hhj',
-    component: HuangHaojie,
     grade: 202205,
     name: '黄浩杰'
   },
   {
     dispName: 'zsz',
-    component: ZhangShengze,
     grade: 202200,
     name: '张圣泽'
   },
   {
     dispName: 'zjr',
-    component: ZhouJirui,
     grade: 202100,
     name: '周济睿'
   }
-] as Array<{ dispName: string; component: VueComponent; grade: number; name: string }>
+] as Array<{ dispName: string; grade: number; name: string }>
 
-const currentCollaborator = ref<string>('')
-const currentStack = ref<number>()
-const openDialog = ref<boolean>(false)
-const openStackDialog = ref<boolean>(false)
-const curComponent = ref<VueComponent>()
-
-watch(openDialog, () => {
-  if (openDialog.value === false) {
-    header.setHeader('About')
-  }
-})
-
-watch(currentCollaborator, (newVal) => {
-  const target = collaborators.find((item) => item.dispName === newVal)
-  if (target) {
-    curComponent.value = target.component
-  }
-})
-
-watch(currentStack, (newVal) => {
-  if (newVal !== undefined) {
-    openStackDialog.value = true
-  }
-})
-
-function useCollaboratorDialog(dispName: string) {
-  currentCollaborator.value = dispName
-  openDialog.value = true
-}
-
-function useStackDialog(version: number) {
-  currentStack.value = version
-  openStackDialog.value = true
-}
 
 const V1List = ['neko_moyi', 'Zecyel', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
@@ -236,28 +166,8 @@ const stacks = [
   repos: string[]
 }>
 
-function useRandomColor(): 'primary' | 'success' | 'warning' | 'danger' | 'info' {
-  const colors = ['primary', 'success', 'warning', 'danger', 'info']
-  return colors[Math.floor(Math.random() * colors.length)] as
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
-}
-
 const displayGitHubName = ref(props.showRealName)
 
-function openGitHub() {
-  if (pad()) {
-    ElNotification({
-      title: 'Please visit GitHub through other devices.',
-      type: 'warning'
-    })
-  } else {
-    window.open('https://github.com/zvms', '_blank')
-  }
-}
 </script>
 <template>
   <div class="full px-4">
@@ -290,7 +200,7 @@ function openGitHub() {
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
             {{ t('about.repository.version.0') }}
-            <ElButton text bg :type="useRandomColor()" @click="useStackDialog(id)" size="small">
+            <ElButton text bg size="small">
               v{{ id }}.x
             </ElButton>
             {{ t('about.repository.version.1') }}
@@ -300,8 +210,6 @@ function openGitHub() {
                 bg
                 v-for="(collaborator, idx) in version.collaborators"
                 :key="idx"
-                :type="useRandomColor()"
-                @click="useCollaboratorDialog(collaborator)"
                 size="small"
               >
                 {{
@@ -318,8 +226,6 @@ function openGitHub() {
             <ElButton
               text
               bg
-              :type="useRandomColor()"
-              @click="useCollaboratorDialog('hhj')"
               size="small"
               >{{ displayGitHubName ? 'hhj' : '黄浩杰' }}</ElButton
             >
@@ -327,8 +233,6 @@ function openGitHub() {
             <ElButton
               text
               bg
-              :type="useRandomColor()"
-              @click="useCollaboratorDialog('zsz')"
               size="small"
               >{{ displayGitHubName ? 'zsz' : '张圣泽' }}</ElButton
             >
@@ -336,18 +240,12 @@ function openGitHub() {
             <ElButton
               text
               bg
-              :type="useRandomColor()"
-              @click="useCollaboratorDialog('zjr')"
               size="small"
               >{{ displayGitHubName ? 'zjr' : '周济睿' }}</ElButton
             >
             {{ t('about.repository.thank.end') }}
           </p>
         </div>
-        We're looking for students in Senior 1 to join the development team.
-        Interested parties please contact Ethan in Class 2, Class 6 (Z).
-        This is a great fit for someone familiar with Vue.js and Vite.js or Python and FastAPI.
-        🦀Rustaceans are also welcome - we plan to rewrite the backend in Rust.
       </ElCard>
     </div>
     <div class="py-4">
@@ -358,56 +256,6 @@ function openGitHub() {
         </p>
       </ElCard>
     </div>
-    <ElDrawer
-      v-if="!pad()"
-      direction="btt"
-      size="75%"
-      v-model="openDialog"
-      center
-      :title="`About ${currentCollaborator}${
-        ' in ' +
-        getClassName(
-          getUserClass(
-            (collaborators.find((x) => x.dispName === currentCollaborator)?.grade as number) * 100
-          )
-        )
-      }`"
-    >
-      <Component class="px-8 text-xl" :is="curComponent" />
-    </ElDrawer>
-    <ElDrawer
-      v-if="!pad()"
-      direction="btt"
-      size="40%"
-      v-model="openStackDialog"
-      center
-      :title="'About ZVMS v' + currentStack + '.x'"
-    >
-      Technique Stacks:
-      <ElButtonGroup>
-        <ElTooltip
-          v-for="(stack, idx) in stacks[currentStack as number].stacks"
-          :key="idx"
-          :content="stack.name"
-          effect="light"
-        >
-          <ElButton :icon="stack.icon" :type="useRandomColor()" circle text bg />
-        </ElTooltip>
-      </ElButtonGroup>
-      <br /><br />
-      Repository in GitHub:
-      <ElSpace>
-        <img
-          alt="open github"
-          @click="openGitHub"
-          v-for="(name, idx) in stacks[currentStack as number].repos"
-          :key="idx"
-          :src="`https://github-readme-stats.vercel.app/api/pin/?username=${
-            name.split('/')[0]
-          }&repo=${name.split('/')[1]}`"
-        />
-      </ElSpace>
-    </ElDrawer>
   </div>
 </template>
 

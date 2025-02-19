@@ -137,7 +137,7 @@ watch(height, () => {
         text
         bg
         type="success"
-        @click="router.push(`/user/${person?._id}/info`)"
+        @click="router.push(`/user/${person?._id}`)"
       >
         Open the Person Page
       </ElButton>

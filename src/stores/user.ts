@@ -11,12 +11,10 @@ export const useUserStore = defineStore('user', {
     id: 0,
     _id: '',
     name: '',
-    sex: 'unknown',
     position: [] as UserPosition[],
     groups: [] as string[],
     token: '',
     class_id: '',
-    code: 0,
     isLogin: false,
     shouldResetPassword: false,
     time: {
