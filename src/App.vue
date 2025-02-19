@@ -407,7 +407,7 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 5.2rem)'}">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3.2rem)'}">
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -461,10 +461,10 @@ onMounted(() => {
         </ElRow>
       </ElHeader>
       <ElContainer v-if="userStore.isLogin" class="full">
-        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode && userStore.isLogin" />
+        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
         <RouterView
-          v-if="userStore.isLogin"
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
+          :style="{width: width + 'px', height: 'calc(' + height + 'px - 3.2rem)'}"
         />
       </ElContainer>
       <ElContainer class="full" v-else>
