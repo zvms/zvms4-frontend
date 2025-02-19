@@ -2,9 +2,6 @@ export { TeckStackMagV0, TeckStackMagV1, TeckStackV2, TeckStackV4 } from '../sta
 import GitHub from '../stacks/GitHub.vue'
 import VSCode from '../stacks/VSCode.vue'
 import type { Component } from 'vue'
-import GenshinImpact from './GenshinImpact.vue'
-import HonkaiStarRail from './HonkaiStarRail.vue'
-import Phigros from './Phigros.vue'
 import Apple from './Apple.vue'
 import Starbucks from './Starbucks.vue'
 import KFC from './KFC.vue'
@@ -15,9 +12,6 @@ import PyTorch from '../stacks/PyTorch.vue'
 import LaTeX from '../stacks/LaTeX.vue'
 
 export const PersonalPreferences: Array<{ icon: Component; name: string; classify: string }> = [
-  { icon: GenshinImpact, name: 'Genshin Impact', classify: 'game' },
-  { icon: HonkaiStarRail, name: 'Honkai: Star Rail', classify: 'game' },
-  { icon: Phigros, name: 'Phigros', classify: 'game' },
   { icon: Clash, name: 'Clash', classify: 'tool' },
   { icon: GitHub, name: 'GitHub', classify: 'git' },
   { icon: VSCode, name: 'VSCode', classify: 'dev-tool' },
