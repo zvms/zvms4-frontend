@@ -179,7 +179,7 @@ export const enUS = {
       name: 'Classify',
       prize: 'Prize',
       import: 'Import',
-      club: 'Club',
+      club: 'Group',
       deduction: 'Deduction',
       other: 'Other'
     },
@@ -511,7 +511,7 @@ export const zhCN = {
       name: '分类',
       prize: '获奖',
       import: '导入',
-      club: '社团',
+      club: '团体',
       deduction: '扣分',
       other: '其他'
     },
