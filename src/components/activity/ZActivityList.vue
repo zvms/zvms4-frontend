@@ -147,13 +147,13 @@ function handleSelectionChange(val: string[]) {
 </script>
 
 <template>
-  <div :class="'card, pr-8, ' + (width < height ? 'pl-6' : '') + ''">
+  <div class="card pr-8 pl-8">
     <ElSkeleton
       v-if="loading && initial"
       :loading="loading && initial"
       :rows="8"
       animated
-      class="py-4 px-4"
+      class="pt-4 px-4"
       :throttle="500"
     />
     <ElCard shadow="never" v-else v-loading="loading && !initial">
