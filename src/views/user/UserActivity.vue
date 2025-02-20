@@ -28,6 +28,8 @@ watch(
   () => {
     if (route.path.startsWith('/activities/')) {
       tab.value = route.path.replace('/activities/', '') ?? 'mine'
+    } else {
+      tab.value = 'mine'
     }
   },
   { immediate: true }
