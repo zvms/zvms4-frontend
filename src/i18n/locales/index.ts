@@ -28,36 +28,3 @@ export const zhCN = {
   claim: claim.zhCN,
   validation: validation.zhCN
 }
-
-export const zhTW = {
-  about: about.zhTW,
-  activity: activity.zhTW,
-  home: home.zhTW,
-  nav: nav.zhTW,
-  preferences: preferences.zhTW,
-  notification: notification.zhTW,
-  claim: claim.zhTW,
-  validation: validation.zhTW
-}
-
-export const jaJP = {
-  about: about.jaJP,
-  activity: activity.jaJP,
-  home: home.jaJP,
-  nav: nav.jaJP,
-  preferences: preferences.jaJP,
-  notification: notification.jaJP,
-  claim: claim.jaJP,
-  validation: validation.jaJP
-}
-
-export const frFR = {
-  about: about.frFR,
-  activity: activity.frFR,
-  home: home.frFR,
-  nav: nav.frFR,
-  preferences: preferences.frFR,
-  notification: notification.frFR,
-  claim: claim.frFR,
-  validation: validation.frFR
-}

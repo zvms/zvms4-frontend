@@ -1,25 +1,25 @@
 export const enUS = {
   type: {
     specified: {
-      name: 'Specified Activity',
-      short: 'Specified',
+      name: 'On-Campus Activity',
+      short: 'On-Campus',
       key: 'specified',
       description:
-        'Specified Activities are volunteers created by the administrator, posted as a recruitment, and need to specify the maximum number of people who can sign up for each class.'
+        'On-Campus Activities are volunteers created by the administrator, posted as a recruitment, and need to specify the maximum number of people who can sign up for each class.'
     },
     social: {
-      name: 'Social Activity',
-      short: 'Social',
+      name: 'Off-Campus Activity',
+      short: 'Off-Campus',
       key: 'social',
       description:
-        'Social Activities are volunteers that can be created by at least the secretary, and all participants must be designated at the time of creation. It is limited to volunteers on weekends and holidays off campus during the semester.'
+        'Off-Campus Activities are volunteers that can be created by at least the secretary, and all participants must be designated at the time of creation. It is limited to volunteers on weekends and holidays off campus during the semester.'
     },
     scale: {
-      name: 'Scale Activity',
-      short: 'Scale',
+      name: 'Social Practice Activity',
+      short: 'Social Practice',
       key: 'scale',
       description:
-        'Scale Activities are volunteers that can be created by anyone in Jan - Mar, Jul - Oct, and all participants must be designated at the time of creation. It is limited to social volunteers during winter and summer vacation according to the scale notification file of the school.'
+        'Social Practice Activities are volunteers that can be created by anyone in Jan - Mar, Jul - Oct, and all participants must be designated at the time of creation. It is limited to social volunteers during winter and summer vacation according to the scale notification file of the school.'
     },
     special: {
       name: 'Special Activity',
@@ -32,17 +32,17 @@ export const enUS = {
   },
   mode: {
     'on-campus': {
-      name: 'On-compus Activities',
+      name: 'On-Campus Activities',
       short: 'On Campus',
       key: 'on-campus'
     },
     'off-campus': {
-      name: 'Off-compus Activities',
+      name: 'Off-Campus Activities',
       short: 'Off Campus',
       key: 'off-campus'
     },
     'social-practice': {
-      name: 'Large-scale Social Practice',
+      name: 'Social Practice Activities',
       short: 'Social Practice',
       key: 'social-practice'
     }
@@ -335,18 +335,18 @@ export const enUS = {
 export const zhCN = {
   type: {
     specified: {
-      name: '指定义工',
-      short: '指定',
+      name: '校内义工',
+      short: '校内',
       key: 'specified',
       description:
-        '指定义工是由管理员或团支书创建，发布为招募的义工，需要指定每个班级可以报名的人数上限。'
+        '校内义工是由管理员或团支书创建，发布为招募的义工，需要指定每个班级可以报名的人数上限。'
     },
     social: {
-      name: '社会义工',
-      short: '社会',
+      name: '校外义工',
+      short: '校外',
       key: 'social',
       description:
-        '社会义工是由任何人员可以创建，创建时需要指定所有参与人员，仅限于在学期内周末节假日校外的义工。'
+        '校外义工是由任何人员可以创建，创建时需要指定所有参与人员，仅限于在学期内周末节假日校外的义工。'
     },
     scale: {
       name: '实践义工',
@@ -375,7 +375,7 @@ export const zhCN = {
       key: 'off-campus'
     },
     'social-practice': {
-      name: '大型社会实践',
+      name: '社会实践',
       short: '实践',
       key: 'social-practice'
     }
