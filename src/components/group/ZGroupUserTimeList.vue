@@ -169,7 +169,7 @@ function handleSearch() {
             />
           </template>
           <template #default="{ row }">
-            <ElButton text bg size="small" @click="router.push(`/user/${row._id}/info`)">
+            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
               Details
             </ElButton>
           </template>

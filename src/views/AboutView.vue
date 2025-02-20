@@ -12,14 +12,12 @@ import {
   ElCol
 } from 'element-plus'
 import { ref, type Component as VueComponent, watch } from 'vue'
-import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
+//import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
 import { useHeaderStore } from '@/stores/header'
 import { getUserClass, getClassName } from '@/utils/getClass'
 import { useI18n } from 'vue-i18n'
-import { pad } from '@/plugins/ua'
 
 const header = useHeaderStore()
-// const user = useUserStore()
 const { t, locale } = useI18n()
 
 const props = withDefaults(
@@ -27,7 +25,7 @@ const props = withDefaults(
     showRealName?: boolean
   }>(),
   {
-    showRealName: true
+    showRealName: false
   }
 )
 
@@ -134,38 +132,6 @@ const versions = [
   { collaborators: V4List }
 ]
 
-const stacks = [
-  {
-    version: 0,
-    stacks: TeckStackV0,
-    repos: ['zhangzisu/zvms-frontend', 'zhangzisu/zvms']
-  },
-  {
-    version: 1,
-    stacks: TeckStackV1,
-    repos: ['zvms/zvms1-electron', 'zvms/zvms1-frontend', 'zvms/zvms1-backend']
-  },
-  {
-    version: 2,
-    stacks: TeckStackV2,
-    repos: ['zvms/zvms']
-  },
-  {
-    version: 3,
-    stacks: TeckStackV3,
-    repos: ['zvmsbackend/zvms3']
-  },
-  {
-    version: 4,
-    stacks: TeckStackV4,
-    repos: ['zvms/zvms4-frontend', 'zvms/zvms4-backend']
-  }
-] as Array<{
-  version: number
-  stacks: { icon: VueComponent; name: string; classify: string }[]
-  repos: string[]
-}>
-
 const displayGitHubName = ref(props.showRealName)
 
 </script>
@@ -188,13 +154,6 @@ const displayGitHubName = ref(props.showRealName)
             ><p class="text-xl">{{ t('about.about.developers') }}</p></ElCol
           >
           <ElCol :span="12" style="text-align: right">
-            <ElSwitch
-              class="pt-4"
-              v-if="props.showRealName"
-              :active-text="t('about.switch.nick')"
-              :inactive-text="t('about.switch.real')"
-              v-model="displayGitHubName"
-            />
           </ElCol>
         </ElRow>
         <div class="px-8">
