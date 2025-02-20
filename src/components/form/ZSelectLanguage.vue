@@ -43,26 +43,6 @@ const languages = ref<
     icon: English,
     display: 'English',
     value: 'en-US'
-  },
-  {
-    display: '文言',
-    value: 'zh-WY',
-    disabled: true
-  },
-  {
-    display: '繁體中文',
-    value: 'zh-TW',
-    disabled: pad() || !user.position.includes('admin')
-  },
-  {
-    display: '日本語',
-    value: 'ja-JP',
-    disabled: pad() || !user.position.includes('admin')
-  },
-  {
-    display: 'Français',
-    value: 'fr-FR',
-    disabled: pad() || !user.position.includes('admin')
   }
 ])
 
@@ -85,8 +65,9 @@ onMounted(() => {
         v-if="withText"
         type="primary"
         :icon="MdiTranslate"
-        :size="props.placement === 'bottom' ? '' : 'large'"
+        :size="props.placement === 'bottom' ? '' : ''"
         text
+        bg
       >
         {{ locale }}
       </ElButton>

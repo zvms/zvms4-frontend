@@ -117,9 +117,6 @@ localStorage.getItem('warning') === 'true' || useUserStore().isLogin ||
 
 <template>
   <div class="w-full">
-    <ElDialog v-model="openDialog" width="88%" height="60%" :title="t('nav.about')">
-      <AboutView />
-    </ElDialog>
     <div :style="`height: ${height * 0.25}px`"></div>
     <ElCard class="login-field text-center px-4 w-full" shadow="hover">
       <ElRow class="w-full py-1">
@@ -149,17 +146,9 @@ localStorage.getItem('warning') === 'true' || useUserStore().isLogin ||
       </ElForm>
       <ElRow>
         <ElCol :span="9" style="text-align: left">
-          <ElButton type="info" text bg :icon="InfoFilled" @click="openDialog = true">
-            {{ t('nav.about') }}
-          </ElButton>
           <ZSelectLanguage type="button" with-text placement="right" />
         </ElCol>
         <ElCol :span="15" class="actions">
-          <ElTooltip :content="t('nav.login.registration')" effect="light">
-            <ElButton type="success" text bg :icon="Plus" disabled>
-              {{ t('nav.login.actions.register') }}
-            </ElButton>
-          </ElTooltip>
           <ElButton type="warning" @click="refresh" text bg :icon="Refresh">
             {{ t('nav.login.actions.reset') }}
           </ElButton>
