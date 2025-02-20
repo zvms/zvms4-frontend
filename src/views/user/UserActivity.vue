@@ -17,7 +17,7 @@ header.setHeader(t('nav.activity'))
 const route = useRoute()
 const router = useRouter()
 
-const path = ref(route.params?.type ?? '')
+const path = ref(route.params?.type ?? 'mine')
 
 const tab = ref((path.value as string).replace('/', ''))
 
@@ -63,12 +63,8 @@ const panes = [
 }>
 
 function moveTo(type: string) {
-  availibility.value = false
   tab.value = type
   router.push(`/activities/${type}`)
-  setTimeout(() => {
-    availibility.value = true
-  }, 100)
 }
 </script>
 
@@ -117,6 +113,6 @@ function moveTo(type: string) {
         </template>
       </ElPageHeader>
     </Transition>
-    <RouterView v-if="availibility" />
+    <RouterView v-if="availibility" :key="route.path" />
   </div>
 </template>
