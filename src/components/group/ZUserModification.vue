@@ -133,7 +133,7 @@ async function submit() {
     type: 'success'
   })
   submission.value = false
-  await router.push(`/user/${modification._id}`)
+  //await router.push(`/user/${modification._id}`)
 }
 </script>
 

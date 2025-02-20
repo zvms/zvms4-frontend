@@ -30,7 +30,9 @@ watch(
 
 async function getUser() {
   const loading = ElLoading.service({ fullscreen: true, text: `Fetching user...` })
-  user.value = await api.user.readOne(id.value)
+  user.value = await api.user.readOne(id.value).catch(() => {
+    loading.close()
+  })
   loading.close()
 }
 

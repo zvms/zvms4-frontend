@@ -129,15 +129,12 @@ watch(height, () => {
         v-if="
           mode === 'button' &&
           (userStore.position.includes('admin') ||
-            userStore.position.includes('department') ||
-            (userStore.position.includes('secretary') &&
-              person?.group.includes(userStore.class_id)) ||
-            userStore._id === person?._id)
+            userStore.position.includes('department'))
         "
         text
         bg
         type="success"
-        @click="router.push(`/user/${person?._id}`)"
+        @click="router.push(`/user/${id}`)"
       >
         Open the Person Page
       </ElButton>
@@ -146,8 +143,8 @@ watch(height, () => {
           <ElButton
             v-if="
               (userStore.position.includes('admin') || userStore.position.includes('department')) &&
-              person?._id &&
-              person?._id !== userStore._id
+              id &&
+              id !== userStore._id
             "
             type="danger"
             text
