@@ -54,7 +54,7 @@ function handleSearch() {
 </script>
 
 <template>
-  <div class="px-12 py-4">
+  <div class="px-12 pt-4">
     <p class="text-2xl mb-4">Group List</p>
     <ElCard shadow="hover" v-loading="loading">
       <ElTable :data="groups">

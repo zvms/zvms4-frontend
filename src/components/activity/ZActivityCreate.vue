@@ -115,7 +115,6 @@ const classifyOfSpecial = [
   'prize',
   'import',
   'club',
-  'deduction',
   'other'
 ] as SpecialActivityClassification[]
 

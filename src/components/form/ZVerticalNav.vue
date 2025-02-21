@@ -79,7 +79,7 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) => path.startsWith('/group')
+    judge: (path) => path.startsWith('/group') || path.startsWith('/user/')
   },
   {
     icon: InfoFilled,
@@ -94,8 +94,7 @@ function routeTo(page: string) {
   if (page === '/management') {
     if (
       user.position.includes('admin') ||
-      user.position.includes('department') ||
-      user.position.includes('auditor')
+      user.position.includes('department')
     ) {
       routeTo('/group')
     } else {

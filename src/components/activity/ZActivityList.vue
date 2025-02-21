@@ -147,16 +147,8 @@ function handleSelectionChange(val: string[]) {
 </script>
 
 <template>
-  <div class="card pr-8 pl-8">
-    <ElSkeleton
-      v-if="loading && initial"
-      :loading="loading && initial"
-      :rows="8"
-      animated
-      class="pt-4 px-4"
-      :throttle="500"
-    />
-    <ElCard shadow="never" v-else v-loading="loading && !initial">
+  <div class="card">
+    <ElCard shadow="never" v-loading="loading">
       <div v-if="perspective === user._id" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
@@ -180,7 +172,6 @@ function handleSelectionChange(val: string[]) {
         :data="items"
         table-layout="auto"
         :on-sort-change="onSortChange"
-        stripe
         @selection-change="handleSelectionChange"
       >
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
@@ -195,7 +186,7 @@ function handleSelectionChange(val: string[]) {
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
-        <ElTableColumn prop="date" :label="t('activity.form.date')" sortable>
+        <ElTableColumn prop="date" :label="t('activity.form.date')">
           <template #default="{ row }">
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>

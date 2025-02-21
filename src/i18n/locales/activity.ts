@@ -349,8 +349,8 @@ export const zhCN = {
         '校外义工是由任何人员可以创建，创建时需要指定所有参与人员，仅限于在学期内周末节假日校外的义工。'
     },
     scale: {
-      name: '实践义工',
-      short: '实践',
+      name: '社会实践义工',
+      short: '社会实践',
       key: 'scale',
       description:
         '实践义工是由任何人都可以创建，创建时需要指定所有参与人员，仅限于在寒暑假期间根据学校文件的社会实践。'
@@ -375,8 +375,8 @@ export const zhCN = {
       key: 'off-campus'
     },
     'social-practice': {
-      name: '社会实践',
-      short: '实践',
+      name: '社会实践义工',
+      short: '社会实践',
       key: 'social-practice'
     }
   },
