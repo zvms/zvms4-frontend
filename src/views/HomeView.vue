@@ -8,7 +8,7 @@ const router = useRouter()
 if (!userStore.isLogin) {
   router.push('/user/login')
 } else {
-  router.push('/user/')
+  router.push('/user')
 }
 </script>
 
