@@ -84,17 +84,6 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityPage.vue')
     },
     {
-      path: '/notifications',
-      name: 'notifications',
-      component: () => import('../views/notifications/NotificationHome.vue')
-    },
-    {
-      path: '/notifications/:type',
-      name: 'notifications-type',
-      component: () => import('../views/notifications/NotificationHome.vue')
-    },
-    {
-      // 404
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFound.vue')
