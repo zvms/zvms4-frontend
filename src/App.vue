@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
@@ -154,6 +154,7 @@ function embedClarity() {
 locale.value = userStore.language ?? navigator.language
 
 const { width, height } = useWindowSize()
+const { dark } = useDark()
 
 const verticalMode = ref<boolean>(width.value < height.value * 1.2)
 
@@ -354,13 +355,6 @@ const locales: Record<
 }
 
 const panelButtons = [
-  {
-    icon: Notification,
-    click() {
-      router.push('/notifications')
-    },
-    text: 'notification'
-  },
   {
     icon: Password,
     async click() {
