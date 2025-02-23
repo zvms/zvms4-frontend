@@ -16,10 +16,10 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-// export const baseURL = 'https://api.zvms.site/api/'
-export const baseURL = import.meta.env.PROD
-  ? 'https://api.zvms.site/api/'
-  : 'http://localhost:8000/api/'
+export const baseURL = 'https://api.zvms.site/api/'
+// export const baseURL = import.meta.env.PROD
+//   ? 'https://api.zvms.site/api/'
+//   : 'http://localhost:8000/api/'
 
 const axiosInstance = axios.create({
   baseURL,

@@ -101,6 +101,7 @@ async function filter(number: string) {
     filterable
     :multiple="multiple"
     remote
+    class="w-full"
     size="default"
     remote-show-suffix
     v-bind="$attrs"

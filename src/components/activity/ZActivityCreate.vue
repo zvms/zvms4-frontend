@@ -22,18 +22,17 @@ import {
   ElDatePicker,
   ElButton,
   ElCard,
-  ElUpload,
-  ElIcon,
   ElRow,
   ElCol,
-  ElDivider
+  ElDivider,
+  ElRadioGroup,
+  ElRadio
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location } from '@element-plus/icons-vue'
+import { Refresh, ArrowRight, Plus, Delete, Location } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
-import type { FormInstance } from 'element-plus'
 import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
@@ -62,14 +61,13 @@ const activity = reactive<ActivityInstance | Activity>({
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
   status: 'effective',
-  url: ''
+  approver: ''
 })
 
+const approveStudent = ref('')
+
 const registration = reactive<Registration>({
-  deadline: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-  place: '',
-  duration: 0,
-  classes: []
+  place: ''
 })
 
 const modeMap = {
@@ -82,11 +80,8 @@ const members = reactive<ActivityMember[]>([
   {
     _id: '',
     status: 'effective',
-    impression: '',
     mode: modeMap[type.value],
-    duration: undefined as unknown as number,
-    history: [],
-    images: []
+    duration: undefined as unknown as number
   }
 ])
 
@@ -95,11 +90,8 @@ const membersFunctions = {
     members.push({
       _id: '',
       status: 'effective',
-      impression: '',
       mode: modeMap[type.value],
-      duration: members[0].duration ?? (undefined as unknown as number),
-      history: [],
-      images: []
+      duration: members[0].duration ?? (undefined as unknown as number)
     })
   },
   remove(ord: number) {
@@ -111,12 +103,7 @@ const special = reactive<Special>({
   classify: '' as unknown as SpecialActivityClassification
 })
 
-const classifyOfSpecial = [
-  'prize',
-  'import',
-  'club',
-  'other'
-] as SpecialActivityClassification[]
+const classifyOfSpecial = ['prize', 'import', 'club', 'other'] as SpecialActivityClassification[]
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 
@@ -152,9 +139,11 @@ function allow(): ActivityMode[] {
 const validated = ref(false)
 
 watch(
-  () => generateActivity(activity, members, registration, special),
+  () => generateActivity(activity, members, approveStudent.value, registration, special),
   () => {
-    validated.value = validateActivity(generateActivity(activity, members, registration, special))
+    validated.value = validateActivity(
+      generateActivity(activity, members, approveStudent.value, registration, special)
+    )
   },
   { deep: true, immediate: true }
 )
@@ -176,6 +165,21 @@ watch(
             </ElFormItem>
             <ElFormItem :label="t('activity.form.description')">
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
+            </ElFormItem>
+            <ElFormItem
+              v-if="type !== 'special'"
+              :label="t('activity.form.type')"
+              required
+              prop="type"
+            >
+              <ElSelect v-model="activity.type" class="full" disabled>
+                <ElOption
+                  v-for="type in ['specified', 'social', 'scale']"
+                  :key="type"
+                  :label="t('activity.form.type.' + type)"
+                  :value="type"
+                />
+              </ElSelect>
             </ElFormItem>
             <ElFormItem
               :label="t('activity.form.date')"
@@ -219,6 +223,23 @@ watch(
             >
               <ElInput :prefix-icon="Location" v-model="registration.place" required />
             </ElFormItem>
+            <ElFormItem required :label="t('activity.registration.approver')" style="width: 100%">
+              <ElRow style="width: 100%">
+                <ElCol :span="8">
+                  <ElRadioGroup v-model="activity.approver">
+                    <ElRadio border value="authority">
+                      {{ t('activity.registration.approvers.authority') }}
+                    </ElRadio>
+                    <ElRadio border value="member">
+                      {{ t('activity.registration.approvers.member') }}
+                    </ElRadio>
+                  </ElRadioGroup>
+                </ElCol>
+                <ElCol :span="16" style="width: 100%" v-if="activity.approver === 'member'">
+                  <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
+                </ElCol>
+              </ElRow>
+            </ElFormItem>
             <ElFormItem
               v-if="type !== 'special' || special.classify !== 'import'"
               :label="t('activity.form.person', members.length)"
@@ -249,7 +270,7 @@ watch(
                               :filter-start="6"
                               full-width
                             >
-                              <template #prepend> {{ idx + 1 }} </template>
+                              <template #prepend> {{ idx + 1 }}</template>
                             </ZSelectPerson>
                           </ElFormItem>
                         </ElCol>

@@ -3,29 +3,23 @@ import {
   ElButton,
   ElButtonGroup,
   ElCard,
-  ElDrawer,
-  ElSwitch,
-  ElTooltip,
-  ElSpace,
-  ElNotification,
   ElRow,
   ElCol
 } from 'element-plus'
-import { ref, type Component as VueComponent, watch } from 'vue'
-//import { TeckStackV0, TeckStackV1, TeckStackV2, TeckStackV3, TeckStackV4 } from '@/icons/stacks'
+import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
-import { getUserClass, getClassName } from '@/utils/getClass'
 import { useI18n } from 'vue-i18n'
+import { pad } from '@/plugins/ua.ts'
 
 const header = useHeaderStore()
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
     showRealName?: boolean
   }>(),
   {
-    showRealName: false
+    showRealName: pad()
   }
 )
 
@@ -33,91 +27,91 @@ header.setHeader(t('nav.about'))
 
 const collaborators = [
   {
-    dispName: '张子苏',
+    display: '张子苏',
     grade: 201800,
     name: '张子苏'
   },
   {
-    dispName: 'neko_moyi',
+    display: 'neko_moyi',
     grade: 201900,
     name: '卢锦轩'
   },
   {
-    dispName: 'Zecyel',
+    display: 'Zecyel',
     grade: 202007,
     name: '朱程炀'
   },
   {
-    dispName: 'fpc5719',
+    display: 'fpc5719',
     grade: 202000,
     name: '陈琛'
   },
   {
-    dispName: 'So1aric',
+    display: 'So1aric',
     grade: 202105,
     name: '沈乐宸'
   },
   {
-    dispName: 'solecour',
+    display: 'solecour',
     grade: 202100,
     name: '黄瀚庭'
   },
   {
-    dispName: 'dblark',
+    display: 'dblark',
     grade: 202100,
     name: '周圣杰'
   },
   {
-    dispName: 'qnc',
+    display: 'qnc',
     grade: 202209,
     name: '邱念楚'
   },
   {
-    dispName: '_Kerman',
+    display: '_Kerman',
     grade: 202203,
     name: '熊桐睿'
   },
   {
-    dispName: 'clc',
+    display: 'clc',
     grade: 202204,
     name: '陈浏畅'
   },
   {
-    dispName: '7086cmd',
+    display: '7086cmd',
     grade: 202306,
     name: '吴承宇'
   },
   {
-    dispName: 'Regir',
+    display: 'Regir',
     grade: 202307,
     name: '鲍屹涵'
   },
   {
-    dispName: 'Dignite',
+    display: 'Dignite',
     grade: 202312,
     name: '翟彦棋'
   },
   {
-    dispName: 'Zhang Zheheng',
+    display: 'Zhang Zheheng',
     grade: 202311,
     name: '张哲恒'
   },
   {
-    dispName: 'hhj',
+    display: 'hhj',
     grade: 202205,
     name: '黄浩杰'
   },
   {
-    dispName: 'zsz',
+    display: 'zsz',
     grade: 202200,
     name: '张圣泽'
   },
   {
-    dispName: 'zjr',
+    display: 'zjr',
     grade: 202100,
     name: '周济睿'
   }
-] as Array<{ dispName: string; grade: number; name: string }>
+] as Array<{ display: string; grade: number; name: string }>
 
 
 const V1List = ['neko_moyi', 'Zecyel', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
@@ -174,7 +168,7 @@ const displayGitHubName = ref(props.showRealName)
                 {{
                   displayGitHubName
                     ? collaborator
-                    : `${collaborators.find((x) => x.dispName === collaborator)?.name}`
+                    : `${collaborators.find((x) => x.display === collaborator)?.name}`
                 }}
               </ElButton>
             </ElButtonGroup>

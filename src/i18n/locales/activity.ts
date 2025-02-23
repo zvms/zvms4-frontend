@@ -151,6 +151,12 @@ export const enUS = {
     title: 'Register for Specified Activity',
     deadline: 'Deadline',
     location: 'Location',
+    approver: 'Approver',
+    approvers: {
+      authority: 'Authority',
+      member: 'Member'
+    },
+    ticket: 'Ticket ID',
     class: 'Class(es) | Class | Classes',
     count: ' person registered |  person registered | people registered',
     single: {
@@ -483,6 +489,12 @@ export const zhCN = {
     title: '报名指定义工',
     deadline: '截止日期',
     location: '地点',
+    approver: '审批人',
+    approvers: {
+      authority: '学校团委',
+      member: '部门成员'
+    },
+    ticket: '申请单号',
     class: '班级',
     count: '人已报名',
     single: {
