@@ -119,7 +119,7 @@ watch(useless, () => {
   <ElButton :icon="ApplicationMenu" text circle @click="show = !show" />
   <Teleport to="body">
     <div class="full">
-      <ElDrawer v-model="show" direction="ltr" size="40%" :with-header="false">
+      <ElDrawer v-model="show" direction="ltr" size="40%">
         <div class="menu full">
           <ElButtonGroup class="full">
             <ElButton
