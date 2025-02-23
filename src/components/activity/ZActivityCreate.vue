@@ -26,17 +26,19 @@ import {
   ElCol,
   ElDivider,
   ElRadioGroup,
-  ElRadio
+  ElRadio,
+  ElUpload
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, Plus, Delete, Location } from '@element-plus/icons-vue'
+import { Refresh, ArrowRight, Plus, Delete, Location, UploadFilled } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
 import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { baseURL } from '@/plugins/axios'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -117,9 +119,9 @@ async function submit() {
   load.value = false
   router.push(
     '/activities/' +
-      (userStore.position.includes('admin') || userStore.position.includes('department')
-        ? 'campus'
-        : userStore.position.includes('secretary')
+    (userStore.position.includes('admin') || userStore.position.includes('department')
+      ? 'campus'
+      : userStore.position.includes('secretary')
         ? 'class'
         : 'mine')
   )
@@ -155,72 +157,33 @@ watch(
       <ElCard shadow="hover" class="full">
         <ElForm label-position="right" label-width="108px" :model="activity">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
-            <ElFormItem
-              prop="name"
-              :label="t('activity.form.name')"
-              required
-              :rules="[{ required: true, message: t('validation.create.name.required') }]"
-            >
+            <ElFormItem prop="name" :label="t('activity.form.name')" required
+              :rules="[{ required: true, message: t('validation.create.name.required') }]">
               <ElInput v-model="activity.name" />
             </ElFormItem>
             <ElFormItem :label="t('activity.form.description')">
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
-            <ElFormItem
-              v-if="type !== 'special'"
-              :label="t('activity.form.type')"
-              required
-              prop="type"
-            >
+            <ElFormItem v-if="type !== 'special'" :label="t('activity.form.type')" required prop="type">
               <ElSelect v-model="activity.type" class="full" disabled>
-                <ElOption
-                  v-for="type in ['specified', 'social', 'scale']"
-                  :key="type"
-                  :label="t('activity.form.type.' + type)"
-                  :value="type"
-                />
+                <ElOption v-for="type in ['specified', 'social', 'scale']" :key="type"
+                  :label="t('activity.form.type.' + type)" :value="type" />
               </ElSelect>
             </ElFormItem>
-            <ElFormItem
-              :label="t('activity.form.date')"
-              required
-              prop="date"
-              :rules="[{ required: true, message: t('validation.create.date.required') }]"
-            >
-              <ElDatePicker
-                v-if="type !== 'specified'"
-                class="full"
-                style="width: 100%"
-                v-model="activity.date"
-              />
-              <ElDatePicker
-                v-else
-                class="full"
-                style="width: 100%"
-                v-model="activity.date"
-                type="datetime"
-              />
+            <ElFormItem :label="t('activity.form.date')" required prop="date"
+              :rules="[{ required: true, message: t('validation.create.date.required') }]">
+              <ElDatePicker v-if="type !== 'specified'" class="full" style="width: 100%" v-model="activity.date" />
+              <ElDatePicker v-else class="full" style="width: 100%" v-model="activity.date" type="datetime" />
             </ElFormItem>
-            <ElFormItem
-              v-if="type === 'special'"
-              :label="t('activity.special.classify.name')"
-              required
-              :rules="[{ required: true, message: t('validation.create.classify.required') }]"
-            >
+            <ElFormItem v-if="type === 'special'" :label="t('activity.special.classify.name')" required
+              :rules="[{ required: true, message: t('validation.create.classify.required') }]">
               <ElSelect v-model="special.classify" class="full">
-                <ElOption
-                  v-for="classify in classifyOfSpecial"
-                  :key="classify"
-                  :label="t('activity.special.classify.' + classify)"
-                  :value="classify"
-                />
+                <ElOption v-for="classify in classifyOfSpecial" :key="classify"
+                  :label="t('activity.special.classify.' + classify)" :value="classify" />
               </ElSelect>
             </ElFormItem>
-            <ElFormItem
-              v-if="type === 'specified'"
-              :label="t('activity.registration.location')"
-              prop="registration.place"
-            >
+            <ElFormItem v-if="type === 'specified'" :label="t('activity.registration.location')"
+              prop="registration.place">
               <ElInput :prefix-icon="Location" v-model="registration.place" required />
             </ElFormItem>
             <ElFormItem required :label="t('activity.registration.approver')" style="width: 100%">
@@ -240,36 +203,23 @@ watch(
                 </ElCol>
               </ElRow>
             </ElFormItem>
-            <ElFormItem
-              v-if="type !== 'special' || special.classify !== 'import'"
-              :label="t('activity.form.person', members.length)"
-              :required="type !== 'specified'"
-            >
+            <ElFormItem v-if="type !== 'special' || special.classify !== 'import'"
+              :label="t('activity.form.person', members.length)" :required="type !== 'specified'">
               <ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
-                  <Transition
-                    enter-active-class="animate__animated animate__fadeIn"
-                    leave-active-class="animate__animated animate__fadeOut"
-                    appear
-                  >
+                  <Transition enter-active-class="animate__animated animate__fadeIn"
+                    leave-active-class="animate__animated animate__fadeOut" appear>
                     <ElForm :model="member">
                       <ElRow class="full">
                         <ElCol :span="10" :xs="8" :sm="8">
-                          <ElFormItem
-                            prop="_id"
-                            :rules="[
-                              {
-                                required: true,
-                                message: t('validation.create.member.person.required')
-                              }
-                            ]"
-                          >
-                            <ZSelectPerson
-                              v-model="member._id"
-                              :placeholder="t('activity.form.person')"
-                              :filter-start="6"
-                              full-width
-                            >
+                          <ElFormItem prop="_id" :rules="[
+                            {
+                              required: true,
+                              message: t('validation.create.member.person.required')
+                            }
+                          ]">
+                            <ZSelectPerson v-model="member._id" :placeholder="t('activity.form.person')"
+                              :filter-start="6" full-width>
                               <template #prepend> {{ idx + 1 }}</template>
                             </ZSelectPerson>
                           </ElFormItem>
@@ -288,16 +238,9 @@ watch(
                         </ElCol>
                         <ElCol :span="1">
                           <div style="text-align: right">
-                            <ElButton
-                              :icon="idx === 0 ? Plus : Delete"
-                              @click="
-                                idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
-                              "
-                              :type="idx === 0 ? 'success' : 'danger'"
-                              circle
-                              text
-                              bg
-                            />
+                            <ElButton :icon="idx === 0 ? Plus : Delete" @click="
+                              idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
+                              " :type="idx === 0 ? 'success' : 'danger'" circle text bg />
                           </div>
                         </ElCol>
                       </ElRow>
@@ -306,20 +249,27 @@ watch(
                 </div>
               </ElCard>
             </ElFormItem>
+            <ElFormItem v-else label="Upload" required>
+              <ElUpload ref="uploadRef" drag :action="baseURL + '/activity/upload'" multiple :auto-upload="false">
+                <el-icon class="el-icon--upload">
+                  <UploadFilled />
+                </el-icon>
+                <div class="el-upload__text">
+                  Drop file here or <em>click to upload</em>
+                </div>
+                <template #tip>
+                  <div class="el-upload__tip">
+                    xls/xlsx files with a size less than 2 MB.
+                  </div>
+                </template>
+              </ElUpload>
+            </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right">
             <ElButton type="warning" :icon="Refresh" text bg>
               {{ t('activity.form.actions.reset') }}
             </ElButton>
-            <ElButton
-              type="primary"
-              :icon="ArrowRight"
-              text
-              bg
-              @click="submit"
-              :loading="load"
-              :disabled="!validated"
-            >
+            <ElButton type="primary" :icon="ArrowRight" text bg @click="submit" :loading="load" :disabled="!validated">
               {{ t('activity.form.actions.submit') }}
             </ElButton>
           </div>
