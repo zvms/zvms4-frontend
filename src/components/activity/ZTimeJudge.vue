@@ -22,7 +22,7 @@ if (!standard?.value || isNaN(standard?.value)) {
   if (type.value === 'social-practice') {
     standard.value = 18
   } else if (type.value === 'on-campus') {
-    standard.value = 30
+    standard.value = 25
   } else {
     standard.value = 15
   }

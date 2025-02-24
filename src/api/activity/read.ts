@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../types'
+import type { ActivityType, Response } from '@/../types'
 import type { ActivityInstance } from '@/../types'
 import { ElNotification } from 'element-plus'
 import { read as mine } from '@/api/user/activity'
@@ -40,7 +40,7 @@ async function getClassActivities(
 
 async function getAllActivities(
   filter: {
-    type: 'special' | 'specified' | 'off-campus' | 'all'
+    type: ActivityType | 'all'
   },
   page: number = 1,
   perpage: number = 10,
@@ -91,10 +91,10 @@ async function getActivity(id: string) {
 
 const exports = {
   campus: (
-    filter: { type: 'special' | 'specified' | 'off-campus' | 'all' },
+    filter: { type: ActivityType | 'all' },
     page: number = 1,
     perpage: number = 10,
-    query: string = ''
+    query: string = '',
   ) => getAllActivities(filter, page, perpage, query),
   class: (page: number = 1, perpage: number = 10, query: string = '', classid: string = '') =>
     getClassActivities(page, perpage, query, classid),

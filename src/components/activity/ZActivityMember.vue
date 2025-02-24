@@ -138,7 +138,7 @@ watch(height, () => {
       >
         Open the Person Page
       </ElButton>
-      <ElPopconfirm v-if="mode === 'card'" title="Are you sure?" @confirm="resetMemberPassword">
+      <ElPopconfirm v-if="mode === 'card'" :title="t('manage.personalPanel.resetConfirm')" @confirm="resetMemberPassword">
         <template #reference>
           <ElButton
             v-if="
@@ -152,7 +152,7 @@ watch(height, () => {
             class="w-full"
             :icon="Refresh"
           >
-            Reset Password to his / her ID
+            {{ t('manage.personalPanel.resetPassword') }}
           </ElButton>
         </template>
       </ElPopconfirm>

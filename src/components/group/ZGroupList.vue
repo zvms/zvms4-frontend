@@ -8,6 +8,7 @@ import { useWindowSize } from '@vueuse/core'
 import { useUserStore } from '@/stores/user.ts'
 import ZUserPosition from '../tags/ZUserPosition.vue'
 import { Search } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const groups = ref<Group[]>([])
 const { height } = useWindowSize()
@@ -18,6 +19,7 @@ const loading = ref(false)
 const search = ref('')
 const total = ref(0)
 const userStore = useUserStore()
+const { t } = useI18n()
 
 if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
   router.push('/not-found')
@@ -55,11 +57,11 @@ function handleSearch() {
 
 <template>
   <div class="px-12 pt-4">
-    <p class="text-2xl mb-4">Group List</p>
+    <p class="text-2xl mb-4">{{ t('manage.groupList.title') }}</p>
     <ElCard shadow="hover" v-loading="loading">
       <ElTable :data="groups">
-        <ElTableColumn prop="name" label="Name"></ElTableColumn>
-        <ElTableColumn prop="permission" label="Permission">
+        <ElTableColumn prop="name" :label="t('manage.groupList.columns.name')"></ElTableColumn>
+        <ElTableColumn prop="permission" :label="t('manage.groupList.columns.permission')">
           <template #default="{ row }">
             <ZUserPosition v-for="p in row.permissions" :key="p" :position="p" />
           </template>
@@ -69,15 +71,15 @@ function handleSearch() {
             <ElInput
               v-model="search"
               size="small"
-              placeholder="Search"
+              :placeholder="t('manage.groupList.columns.search')"
               :prefix-icon="Search"
               @blur="handleSearch"
               @keyup.enter="handleSearch"
             />
           </template>
           <template #default="{ row }">
-            <ElButton type="primary" text bg @click="router.push(`/group/${row._id}`)">
-              Detail
+            <ElButton type="primary" size="small" text bg @click="router.push(`/group/${row._id}`)">
+              {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>
         </ElTableColumn>

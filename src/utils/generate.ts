@@ -9,12 +9,14 @@ import type {
   SpecifiedActivity
 } from '@/../types'
 import dayjs from 'dayjs'
+import { ElNotification } from 'element-plus'
 export function generateActivity(
   base: Activity,
   members: ActivityMember[],
-  approverStudent: string,
+  approverStudent?: string,
   registration?: Registration,
   special?: Special,
+  submitting: boolean = false
 ) {
   if (base.type === 'specified' || base.type === 'social' || base.type === 'scale') {
     special = undefined
@@ -26,8 +28,15 @@ export function generateActivity(
     ...base,
     members
   } as ActivityInstance
-  if (activity.approver === 'member') {
-    activity.approver = approverStudent
+  if (activity.approver && activity.approver === 'member') {
+    if (!approverStudent && submitting) {
+      ElNotification({
+        title: 'Student-approved activities should indicate the approver.',
+        type: 'error',
+      })
+      return null
+    }
+    activity.approver = approverStudent ?? ''
   }
   if (registration && base.type === 'specified') {
     ;(activity as SpecifiedActivity).registration = registration

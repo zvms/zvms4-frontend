@@ -110,6 +110,21 @@ const collaborators = [
     display: 'zjr',
     grade: 202100,
     name: '周济睿'
+  },
+  {
+    display: 'lxl',
+    grade: 202400,
+    name: '李心磊',
+  },
+  {
+    display: 'zzj',
+    grade: 202400,
+    name: '章正杰',
+  },
+  {
+    display: 'ljj',
+    grade: 202400,
+    name: '陆蒋俊',
   }
 ] as Array<{ display: string; grade: number; name: string }>
 
@@ -126,6 +141,8 @@ const versions = [
   { collaborators: V4List }
 ]
 
+const v4ExtraMaintainers = ['lxl', 'zzj', 'ljj']
+
 const displayGitHubName = ref(props.showRealName)
 
 </script>
@@ -137,8 +154,11 @@ const displayGitHubName = ref(props.showRealName)
         <p class="text-l pl-4">
           <span class="large">Z</span>henhai High School <span class="large">V</span>olunteer
           <span class="large">M</span>anagement <span class="large">S</span>ystem
+          <span class="large px-2">
+            {{ t('about.alternative') }}
+          </span>
         </p>
-        <p>An open source project with a history.</p>
+        <p>{{ t('about.bio') }}</p>
       </ElCard>
     </div>
     <div class="py-4">
@@ -174,6 +194,25 @@ const displayGitHubName = ref(props.showRealName)
             </ElButtonGroup>
             {{ t('about.repository.version.2') }}
           </div>
+          <p class="pb-2">
+            {{ t('about.repository.v4More.0') }}
+            <ElButtonGroup>
+              <ElButton
+                text
+                bg
+                v-for="(collaborator, idx) in v4ExtraMaintainers"
+                :key="idx"
+                size="small"
+              >
+                {{
+                  displayGitHubName
+                    ? collaborator
+                    : `${collaborators.find((x) => x.display === collaborator)?.name}`
+                }}
+              </ElButton>
+              {{ t('about.repository.v4More.1') }}
+            </ElButtonGroup>
+          </p>
           <p class="py-2">
             {{ t('about.repository.thank.mean') }}
             <ElButton

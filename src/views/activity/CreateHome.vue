@@ -3,7 +3,7 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { ElCard, ElButton, ElDivider } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import classifications from '@/components/tags/classifications'
-import type { ActivityType, UserPosition } from '@/../types'
+import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { useUserStore } from '@/stores/user'
 import { permissions } from '@/components/activity'
 
@@ -14,38 +14,34 @@ const emits = defineEmits<{
 const { t } = useI18n()
 const user = useUserStore()
 
-const types = Object.entries(classifications.type).map(([key, value]) => ({
+const types = Object.entries(classifications.create).map(([key, value]) => ({
   label: '',
   value: key as ActivityType,
   color: value.color,
   icon: value.icon
 }))
 
-const visibility: Record<ActivityType, boolean | 'need-audit'> = permissions(
+const visibility: Record<CreateActivityType, boolean | 'need-audit'> = permissions(
   user.position as UserPosition[]
 )
 </script>
 
 <template>
   <div class="px-8 py-2">
-    <p v-if="visibility['special']">
-      NEW: Merge Activities.
-      <ElButton bg text @click="$router.push('/activity/merge')"> Click here to use. </ElButton>
-    </p>
     <div
       class="py-2"
-      v-for="typeOfActivity in types.filter((x) => visibility[x.value as ActivityType])"
+      v-for="typeOfActivity in types.filter((x) => visibility[x.value as CreateActivityType])"
       :key="typeOfActivity.value"
     >
       <ElCard shadow="hover">
         <div>
           <ElButton text bg circle :type="typeOfActivity.color" :icon="typeOfActivity.icon" />
           <ElDivider direction="vertical" />
-          <span class="text-xl">{{ t(`activity.type.${typeOfActivity.value}.name`) }}</span>
+          <span class="text-xl">{{ t(`activity.create.${typeOfActivity.value}`) }}</span>
         </div>
-        <p class="text-gray-500 py-2">
-          {{ t(`activity.type.${typeOfActivity.value}.description`) }}
-        </p>
+<!--        <p class="text-gray-500 py-2">-->
+<!--          {{ t(`activity.type.${typeOfActivity.value}.description`) }}-->
+<!--        </p>-->
         <div class="flex justify-end">
           <ElButton
             text

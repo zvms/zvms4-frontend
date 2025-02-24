@@ -34,7 +34,7 @@ const props = withDefaults(
     perspective?: string
     classTarget?: string
     modelValue?: ActivityInstance[]
-    selectTarget?: ActivityType
+    selectTarget?: ActivityType | ''
   }>(),
   {
     role: 'mine',
@@ -66,7 +66,8 @@ function refresh() {
     activePage.value,
     pageSize.value,
     query.value,
-    classTarget.value ?? user.class_id ?? ''
+    classTarget.value ?? user.class_id ?? '',
+    selectTarget.value ?? 'all',
   )
     .then((res) => {
       if (res && res?.data.length !== 0) {
@@ -94,6 +95,7 @@ watch(query, () => {
   activePage.value = 1
   refresh()
 })
+watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -147,8 +149,16 @@ function handleSelectionChange(val: string[]) {
 </script>
 
 <template>
-  <div class="card">
-    <ElCard shadow="never" v-loading="loading">
+  <div class="max-w-full">
+    <ElSkeleton
+      v-if="loading && initial"
+      :loading="loading && initial"
+      :rows="8"
+      animated
+      class="pt-4 px-4"
+      :throttle="500"
+    />
+    <ElCard shadow="never" v-else v-loading="loading && !initial">
       <div v-if="perspective === user._id" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
@@ -173,6 +183,7 @@ function handleSelectionChange(val: string[]) {
         table-layout="auto"
         :on-sort-change="onSortChange"
         @selection-change="handleSelectionChange"
+        stripe
       >
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
         <ElTableColumn v-else type="expand">
@@ -277,10 +288,6 @@ function handleSelectionChange(val: string[]) {
 </template>
 
 <style scoped>
-.card {
-  width: 100%;
-}
-
 .code {
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'Courier', 'monospace';
 }

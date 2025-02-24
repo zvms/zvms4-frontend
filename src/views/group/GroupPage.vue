@@ -10,11 +10,13 @@ import { useUserStore } from '@/stores/user.ts'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ZActivityList } from '@/components'
 import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
+import { useI18n } from 'vue-i18n'
 
 const { height } = useWindowSize()
 const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 
 const id = ref<string>('')
 
@@ -81,7 +83,11 @@ const tab = ref('users')
         {{ group?.name }}
       </template>
       <template #extra>
-        <ElSegmented v-model="tab" :options="tabs" />
+        <ElSegmented v-model="tab" :options="tabs">
+          <template #default="props">
+            {{ t('manage.groupDetails.tabs.' + (props.item).value as string) }}
+          </template>
+        </ElSegmented>
       </template>
     </ElPageHeader>
     <ZGroupUserList v-if="tab === 'users'" :id="id" />

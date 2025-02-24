@@ -18,9 +18,11 @@ import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import type { Group, User } from '@/../types'
 import { reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const userStore = useUserStore()
 const router = useRouter()
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -141,20 +143,20 @@ async function submit() {
   <div class="pt-12 px-4">
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
-        <ElFormItem label="Name" required>
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.name')" required>
           <ElInput v-model="modification.name" />
         </ElFormItem>
-        <ElFormItem label="ID" required>
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.id')" required>
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
-        <ElFormItem label="Class" required>
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
           <ElRadioGroup v-model="classGroupID">
             <ElRadio v-for="group in classes" :key="group._id" :label="group._id" border>
               {{ group.name }}
             </ElRadio>
           </ElRadioGroup>
         </ElFormItem>
-        <ElFormItem label="Permissions" required>
+        <ElFormItem  :label="t('manage.groupDetails.userList.columns.permission')" required>
           <ElCheckboxGroup v-model="permissionsID">
             <ElCheckbox v-for="group in permissions" :key="group._id" :label="group._id" border>
               {{ group.name }}
@@ -162,7 +164,7 @@ async function submit() {
           </ElCheckboxGroup>
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton type="primary" @click="submit" text bg :loading="submission">Submit</ElButton>
+          <ElButton type="primary" @click="submit" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.submit') }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

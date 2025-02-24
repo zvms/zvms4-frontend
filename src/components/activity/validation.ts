@@ -5,6 +5,7 @@ export function validateActivity(activity: ActivityInstance): boolean {
   if (!activity) return false
   if (!activity.name) return false
   if (!activity.date) return false
+  if (!activity.approver && activity.type !== 'special') return false
   try {
     dayjs(activity.date)
   } catch {

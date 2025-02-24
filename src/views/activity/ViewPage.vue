@@ -13,5 +13,5 @@ const type = ref<'mine' | 'class' | 'campus'>(page.value ? page.value : 'mine')
 </script>
 
 <template>
-  <ZActivityList class="px-8" :role="type" />
+  <ZActivityList class="mx-12" :role="type" />
 </template>

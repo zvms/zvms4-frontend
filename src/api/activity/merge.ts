@@ -1,4 +1,4 @@
-import type { ActivityMember } from '@/../types'
+import type { ActivityInstance, ActivityMember } from '@/../types'
 import { temporaryToken } from '@/plugins/short-token.ts'
 import * as api from '.'
 import dayjs from 'dayjs'
@@ -17,10 +17,9 @@ export default async function (
   const token = await temporaryToken(uid)
   triggerUpdate(10, 'Token ready')
   // 2. Read the activities
-  const activities: ActivityInstance[] = await Promise.all(
+  const activities: ActivityInstance[] = (await Promise.all(
     targets.map((target) => api.read.single(target._id))
-  )
-  console.log(activities)
+  )).filter(x => x !== undefined) as ActivityInstance[]
   // 3. Merge
   const merged = merge(activities, mergeOptions)
   merged.creator = uid
@@ -31,7 +30,7 @@ export default async function (
   triggerUpdate(60, 'Activity merged')
   console.log(merged)
   // 4. Create the new activity
-  const _ = await createActivity(merged)
+  await createActivity(merged)
   triggerUpdate(80, 'Activity created')
   // 5. Remove the old activities
   await Promise.all(targets.map((target) => api.deleteOne(target._id, uid, token)))

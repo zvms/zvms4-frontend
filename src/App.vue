@@ -154,7 +154,6 @@ function embedClarity() {
 locale.value = userStore.language ?? navigator.language
 
 const { width, height } = useWindowSize()
-const { dark } = useDark()
 
 const verticalMode = ref<boolean>(width.value < height.value * 1.2)
 

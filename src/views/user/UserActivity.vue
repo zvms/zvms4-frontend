@@ -115,6 +115,6 @@ function moveTo(type: string) {
         </template>
       </ElPageHeader>
     </Transition>
-    <RouterView v-if="availibility" :key="route.path" />
+    <RouterView class="px-4" v-if="availibility" :key="route.path" />
   </div>
 </template>

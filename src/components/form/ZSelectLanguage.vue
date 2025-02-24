@@ -69,7 +69,7 @@ onMounted(() => {
         text
         bg
       >
-        {{ locale }}
+        {{ languages.find(x => x.value === locale)?.display }}
       </ElButton>
     </template>
     <ElButtonGroup class="full">

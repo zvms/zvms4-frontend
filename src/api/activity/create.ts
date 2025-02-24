@@ -14,9 +14,6 @@ export async function createActivity(activity: ActivityInstance) {
   /// @ts-ignore
   delete activity._id
   activity.date = dayjs(activity.date).toISOString()
-  if (activity.type === 'specified') {
-    activity.registration.deadline = dayjs(activity.registration.deadline).toISOString()
-  }
   const result = (
     await axios('/activity', {
       method: 'post',
@@ -46,8 +43,10 @@ export async function createActivityWithDividedData(
   members: ActivityMember[],
   registration?: Registration,
   special?: Special,
-  prize?: string
+  approveStudent?: string,
 ) {
-  const activity = generateActivity(base, members, registration, special, prize)
-  await createActivity(activity)
+  const activity = generateActivity(base, members, approveStudent ?? '', registration, special, true)
+  if (activity !== null) {
+    await createActivity(activity)
+  }
 }

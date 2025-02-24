@@ -6,6 +6,7 @@ import * as preferences from './preferences'
 import * as notification from './notification'
 import * as claim from './claim'
 import * as validation from './validation'
+import * as manage from './manage'
 
 export const enUS = {
   about: about.enUS,
@@ -15,7 +16,8 @@ export const enUS = {
   preferences: preferences.enUS,
   notification: notification.enUS,
   claim: claim.enUS,
-  validation: validation.enUS
+  validation: validation.enUS,
+  manage: manage.enUS
 }
 
 export const zhCN = {
@@ -26,5 +28,6 @@ export const zhCN = {
   preferences: preferences.zhCN,
   notification: notification.zhCN,
   claim: claim.zhCN,
-  validation: validation.zhCN
+  validation: validation.zhCN,
+  manage: manage.zhCN
 }
