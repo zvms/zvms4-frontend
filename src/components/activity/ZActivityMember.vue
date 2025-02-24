@@ -136,7 +136,7 @@ watch(height, () => {
         type="success"
         @click="router.push(`/user/${id}`)"
       >
-        Open the Person Page
+        {{ t('manage.groupDetails.userList.open') }}
       </ElButton>
       <ElPopconfirm v-if="mode === 'card'" :title="t('manage.personalPanel.resetConfirm')" @confirm="resetMemberPassword">
         <template #reference>

@@ -46,7 +46,8 @@ export const enUS = {
           false: 'Unmodified'
         },
         submit: 'Submit'
-      }
+      },
+      open: 'Open detailed page'
     },
     timeList: {
       diff: 'Showing the time difference from meeting the standard',
@@ -112,7 +113,8 @@ export const zhCN = {
           false: '未修改'
         },
         submit: '提交'
-      }
+      },
+      open: '进入个人详细界面'
     },
     timeList: {
       diff: '查看与达标所差时间',
