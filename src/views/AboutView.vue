@@ -19,7 +19,7 @@ const props = withDefaults(
     showRealName?: boolean
   }>(),
   {
-    showRealName: pad()
+    showRealName: !pad()
   }
 )
 
@@ -112,13 +112,13 @@ const collaborators = [
     name: '周济睿'
   },
   {
-    display: 'lxl',
-    grade: 202400,
+    display: '2008-LXL',
+    grade: 202407,
     name: '李心磊',
   },
   {
-    display: 'zzj',
-    grade: 202400,
+    display: 'Zcraft_',
+    grade: 202410,
     name: '章正杰',
   },
   {
