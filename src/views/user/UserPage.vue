@@ -76,7 +76,7 @@ const tabs = ref([
       <ZActivityMember :id="id" mode="card" />
     </div>
     <div v-else-if="current === 'activity'">
-      <ZActivityList :perspective="id" role="mine" />
+      <ZActivityList :perspective="id" role="mine" :key="id" />
     </div>
     <div v-else-if="current === 'modify'">
       <ZUserModification :id="id" mode="modify" />
