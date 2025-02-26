@@ -122,6 +122,8 @@ async function resetPassword() {
 
 resetPassword()
 
+useDark() //Only this can fix login page background flashing in dark mode
+
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
   type ClarityFunction = {
