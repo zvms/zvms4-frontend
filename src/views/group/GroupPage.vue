@@ -11,6 +11,7 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 import { ZActivityList } from '@/components'
 import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 import { useI18n } from 'vue-i18n'
+import ZUserModification from '@/components/group/ZUserModification.vue'
 
 const { height } = useWindowSize()
 const userStore = useUserStore()
@@ -71,6 +72,10 @@ const tabs = ref([
   {
     label: 'Time',
     value: 'time'
+  },
+  {
+    label: 'Create',
+    value: 'create'
   }
 ])
 const tab = ref('users')
@@ -93,5 +98,6 @@ const tab = ref('users')
     <ZGroupUserList v-if="tab === 'users'" :id="id" />
     <ZActivityList v-else-if="tab === 'activities'" :class-target="id" role="class" />
     <ZGroupUserTimeList v-else-if="tab === 'time'" :id="id" />
+    <ZUserModification v-else-if="tab === 'create'" :cid="id" mode="create" id="" />
   </div>
 </template>

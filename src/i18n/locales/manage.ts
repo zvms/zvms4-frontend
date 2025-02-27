@@ -29,7 +29,8 @@ export const enUS = {
     tabs: {
       users: 'Users',
       activities: 'Activities',
-      time: 'Time'
+      time: 'Time',
+      create: 'Create'
     },
     userList: {
       checkPasswordPrompt: 'Check if password modified',
@@ -45,6 +46,7 @@ export const enUS = {
           true: 'Modified',
           false: 'Unmodified'
         },
+        remove: 'Remove',
         submit: 'Submit'
       },
       open: 'Open detailed page'
@@ -96,7 +98,8 @@ export const zhCN = {
     tabs: {
       users: '用户',
       activities: '义工',
-      time: '时间'
+      time: '时间',
+      create: '新增'
     },
     userList: {
       checkPasswordPrompt: '查看密码修改情况',
@@ -112,6 +115,7 @@ export const zhCN = {
           true: '已修改',
           false: '未修改'
         },
+        remove: '删除',
         submit: '提交'
       },
       open: '进入个人详细界面'

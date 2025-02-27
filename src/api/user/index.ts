@@ -1,5 +1,5 @@
 export * as auth from './auth'
-export { read, readOne, update } from './crud'
+export { read, readOne, update, removeOne } from './crud'
 export * as time from './time'
 export * as password from './password'
 export * as activity from './activity'
