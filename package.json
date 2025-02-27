@@ -19,14 +19,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "dev:docs": "vitepress dev docs",
-    "build:docs": "vitepress build docs",
-    "serve:docs": "vitepress serve docs",
-    "preview:docs": "vitepress preview docs",
     "commit": "git-cz",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
