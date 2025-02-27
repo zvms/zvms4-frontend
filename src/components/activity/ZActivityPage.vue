@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ActivityInstance } from '@/../types'
 import {
-  ZActivityHistory,
   ZActivityMemberList,
   ZActivityMember,
   ZActivityType,

@@ -4,27 +4,27 @@ import type {
   SpecialActivityClassification,
   ActivityMode,
   ActivityStatus,
-  MemberActivityStatus
+  MemberActivityStatus, CreateActivityType
 } from '@/../types'
 import {
   Vacation,
   School,
   CityGate,
-  Appointment,
   Star,
-  Association,
   Data,
-  Other
+  Other,
+  Merge
 } from '@icon-park/vue-next'
 import { memberActivityStatuses } from '@/icons/status'
-import { Minus, Trophy, User } from '@element-plus/icons-vue'
+import { Minus, Trophy, Upload, User } from '@element-plus/icons-vue'
+import { LucideWorkflow } from '@/icons'
 
 interface IconAndColor {
   icon: Component
   color: 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 
-type set = 'mode' | 'status' | 'type' | 'specials' | 'member'
+type set = 'mode' | 'status' | 'type' | 'specials' | 'member' | 'create'
 type typing =
   | ActivityMode
   | ActivityStatus
@@ -48,18 +48,16 @@ export default {
     }
   } as Record<ActivityMode, IconAndColor>,
   status: {
-    pending: memberActivityStatuses.pending,
     effective: memberActivityStatuses.effective,
-    refused: memberActivityStatuses.refused
   } as Record<ActivityStatus, IconAndColor>,
   type: {
     specified: {
       color: 'primary',
-      icon: Appointment
+      icon: School
     },
     social: {
       color: 'success',
-      icon: Association
+      icon: CityGate
     },
     scale: {
       color: 'warning',
@@ -70,6 +68,24 @@ export default {
       icon: Star
     }
   } as Record<ActivityType, IconAndColor>,
+  create: {
+    normal: {
+      color: 'primary',
+      icon: LucideWorkflow,
+    },
+    merge: {
+      color: 'success',
+      icon: Merge
+    },
+    upload: {
+      color: 'warning',
+      icon: Upload
+    },
+    special: {
+      color: 'danger',
+      icon: Star
+    }
+  } as Record<CreateActivityType, IconAndColor>,
   specials: {
     prize: {
       color: 'success',

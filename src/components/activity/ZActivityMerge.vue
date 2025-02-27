@@ -10,18 +10,21 @@ import {
   ElRadioGroup,
   ElAlert,
   ElSwitch,
-  ElScrollbar
+  ElScrollbar,
+  ElTooltip
 } from 'element-plus'
 import { ref, reactive, watch } from 'vue'
 import type { ActivityType, ActivityInstance } from '@/../types'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useDark } from '@vueuse/core'
 import { useUserStore } from '@/stores/user.ts'
+import { InfoFilled } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 const user = useUserStore()
 const { height } = useWindowSize()
+const dark = useDark()
 
 const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
 
@@ -59,15 +62,14 @@ async function mergeActivity() {
 </script>
 
 <template>
-  <div class="p-12">
-    <p class="text-xl">Merge Activity</p>
+  <div class="py-6 px-12">
     <ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="96px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
-          <ElFormItem label="Name">
+          <ElFormItem :label="t('manage.merge.form.name')">
             <ElInput v-model="mergeForm.name" class="w-full" />
           </ElFormItem>
-          <ElFormItem label="Type">
+          <ElFormItem :label="t('manage.merge.form.type')">
             <ElRadioGroup v-model="mergeForm.type">
               <ElRadio
                 v-for="type in typesOfActivity"
@@ -78,10 +80,9 @@ async function mergeActivity() {
               ></ElRadio>
             </ElRadioGroup>
           </ElFormItem>
-          <ElFormItem label="List">
+          <ElFormItem :label="t('manage.merge.form.list')">
             <ElAlert
-              title="NOTE: Only activities that is the same type and is effective can be merged. You also need to ensure them in a same page,
-            otherwise the system will only merge the activities in the same page."
+              :title="t('manage.merge.form.prompt')"
               show-icon
               type="info"
               class="mb-4"
@@ -94,12 +95,26 @@ async function mergeActivity() {
               role="campus"
             />
           </ElFormItem>
-          <ElFormItem label="Overwrite">
-            <ElSwitch v-model="overwriteTime" active-text="Yes" inactive-text="No" />
+          <ElFormItem :label="t('manage.merge.form.overwrite')">
+            <ElSwitch
+              class="px-2"
+              v-model="overwriteTime"
+              :active-text="t('manage.merge.form.overwritePrompt.yes')"
+              :inactive-text="t('manage.merge.form.overwritePrompt.no')"
+            />
+            <ElTooltip
+              class="px-3"
+              :content="t('manage.merge.form.overwriteInfo')"
+              placement="right"
+              :effect="dark ? undefined : 'light'"
+              style="width: 384px"
+            >
+              <ElButton size="small" text bg circle :icon="InfoFilled" />
+            </ElTooltip>
           </ElFormItem>
         </ElScrollbar>
         <div style="text-align: right" class="py-2">
-          <ElButton text bg type="primary" @click="mergeActivity">Merge</ElButton>
+          <ElButton text bg type="primary" @click="mergeActivity">{{ t('manage.merge.form.action') }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

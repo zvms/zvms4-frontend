@@ -35,13 +35,13 @@ async function getUsers(id: string) {
   return result.data
 }
 
-async function putUser(user: string, target: string, name: string, id: string, groups: string[]) {
+async function putUser(user: string, target: string, name: string, id: string, group: string[], create: boolean) {
   const token = await temporaryToken(user)
   const result = (
     await axios({
-      method: 'put',
+      method: create ? 'post' : 'put',
       url: `/user/${target}`,
-      data: { name, groups, id },
+      data: { name, group, id, sex: 'unknown' },
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -58,4 +58,26 @@ async function putUser(user: string, target: string, name: string, id: string, g
   return true
 }
 
-export { getUser as readOne, getUsers as read, putUser as update }
+async function deleteUser(user: string, target: string) {  const token = await temporaryToken(user)
+  const result = (
+    await axios({
+      method: 'delete',
+      url: `/user/${target}`,
+      data: { target },
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+  ).data as Response<null>
+  if (result.status === 'error') {
+    ElNotification({
+      title: 'Error when updating user: ' + result.message,
+      message: result.message,
+      type: 'error'
+    })
+    return false
+  }
+  return true
+}
+
+export { getUser as readOne, getUsers as read, putUser as update, deleteUser as removeOne }

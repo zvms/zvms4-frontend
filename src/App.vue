@@ -18,14 +18,13 @@ import {
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h } from 'vue'
-import { zhCn, en, ja, zhTw, fr } from 'element-plus/es/locale/index.mjs'
+import { zhCn, en } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { temporaryToken } from '@/plugins/short-token'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
@@ -42,12 +41,6 @@ function getLocale(ident: string) {
       return zhCn
     case 'en-US':
       return en
-    case 'ja-JP':
-      return ja
-    case 'zh-TW':
-      return zhTw
-    case 'fr-FR':
-      return fr
     default:
       return en
   }
@@ -113,7 +106,7 @@ async function resetPassword() {
           userStore.shouldResetPassword = false
           if (userStore.position.length !== 1) {
             await userStore.removeUser()
-            location.href = '/user/login'
+            router.push('/user/login')
           }
         }
       })
@@ -121,7 +114,7 @@ async function resetPassword() {
         userStore.shouldResetPassword = false
         if (userStore.position.length !== 1) {
           userStore.removeUser()
-          location.href = '/user/login'
+          router.push('/user/login')
         }
       })
   }
@@ -130,7 +123,6 @@ async function resetPassword() {
 resetPassword()
 
 function embedClarity() {
-  // if (userStore.position.includes('admin')) return
   // Define a type for the clarity function to improve readability and type safety
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void
@@ -363,25 +355,6 @@ const locales: Record<
 
 const panelButtons = [
   {
-    icon: Feedback,
-    click() {
-      ElNotification({
-        title: locales[locale.value].feedback.close.title,
-        message: locales[locale.value].feedback.close.message,
-        type: 'warning',
-        position: 'bottom-right'
-      })
-    },
-    text: 'feedback'
-  },
-  {
-    icon: Notification,
-    click() {
-      router.push('/notifications/')
-    },
-    text: 'notification'
-  },
-  {
     icon: Password,
     async click() {
       await modifyPasswordDialogs(userStore._id, locale.value, userStore.resetPassword)
@@ -417,8 +390,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 h-full">
-    <ElAlert type="error" center :closable="false" v-if="offlineReady">
+  <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
+    <ElAlert type="error" center :closable="true" v-if="offlineReady">
       <template #title>
         <ElIcon class="disconnected">
           <CarbonCloudOffline />
@@ -427,7 +400,7 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900 h-full">
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3rem)'}">
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -449,12 +422,12 @@ onMounted(() => {
             </div>
           </ElCol>
           <ElCol :span="8">
-            <div class="user">
+            <div class="user" v-if="userStore.isLogin">
               <ElButtonGroup>
-                <ElButton text bg :icon="User" type="primary" v-if="userStore.isLogin">
+                <ElButton text bg :icon="User" type="primary">
                   {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
                 </ElButton>
-                <ElPopover width="216px" v-if="userStore.isLogin">
+                <ElPopover width="216px">
                   <template #reference>
                     <ElButton
                       text
@@ -480,22 +453,21 @@ onMounted(() => {
           </ElCol>
         </ElRow>
       </ElHeader>
-      <ElContainer v-if="userStore.isLogin" style="width: 100%; height: 100%">
-        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode && userStore.isLogin" />
+      <ElContainer v-if="userStore.isLogin" class="full">
+        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
         <RouterView
-          v-if="userStore.isLogin"
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
+          :style="{width: width + 'px', height: 'calc(' + height + 'px - 6.75rem)'}"
         />
       </ElContainer>
-      <ElContainer style="height: 100%" v-else>
-        <RouterView />
+      <ElContainer class="full" v-else>
+        <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
       </ElContainer>
       <ElFooter
-        class="footer bg-gray-200 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
+        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
         <p class="text-center">
-          &copy; 2018-2025 | {{ t('about.footer') }} |
-          <abbr title="Massachusetts Institute of Technology">MIT</abbr> Licensed
+          &copy; 2018-2025 | {{ t('about.footer') }} | MIT Licensed
         </p>
       </ElFooter>
     </ElContainer>
@@ -503,9 +475,14 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.full {
+  width: 100%;
+  height: 100%;
+}
+
 .footer-container {
-  height: v-bind(height * 0.05 + 'px');
-  overflow-y: scroll;
+  height: 3rem;
+  /* overflow-y: scroll; */
   z-index: 999;
 }
 
@@ -528,9 +505,9 @@ onMounted(() => {
 }
 
 .fragment-container {
-  /* height: v-bind(height - '3rem'); */
   /* all is height, and - 3rem is this height */
-  height: v-bind(height * 0.88 + 'px');
+  /* height: v-bind(height * 0.88 + 'px'); */
+  height: 100%;
   overflow-y: scroll;
   /* max-width: 100vw; */
   /* margin: 0 auto; */
@@ -562,8 +539,7 @@ onMounted(() => {
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   transition:
-    color 0.5s,
-    background-color 0.5s !important;
+    color,background-color 0.5s !important;
   /* filter: grayscale(1); */
 }
 

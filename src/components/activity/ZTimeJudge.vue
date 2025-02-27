@@ -22,7 +22,7 @@ if (!standard?.value || isNaN(standard?.value)) {
   if (type.value === 'social-practice') {
     standard.value = 18
   } else if (type.value === 'on-campus') {
-    standard.value = 30
+    standard.value = 25
   } else {
     standard.value = 15
   }
@@ -72,7 +72,7 @@ function calculateLoss() {
         <span style="font-family: 12px">{{ t('home.panels.time.unit', real) }}</span
         >&nbsp;
         <span :class="calculateLoss().class">
-          <span>{{ calculateLoss().loss }}</span>
+          <span>{{ calculateLoss().loss.toFixed(1) }}</span>
           <ElIcon style="font-size: 9px"><Component :is="calculateLoss().icon" /></ElIcon>
         </span>
       </div>

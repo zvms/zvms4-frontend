@@ -7,7 +7,8 @@ import type {
   SpecialActivityClassification,
   ActivityMode,
   Special,
-  Activity
+  Activity,
+  CreateActivityType
 } from '@/../types'
 import { reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
@@ -22,22 +23,24 @@ import {
   ElDatePicker,
   ElButton,
   ElCard,
-  ElUpload,
-  ElIcon,
   ElRow,
   ElCol,
-  ElDivider
+  ElDivider,
+  ElRadioGroup,
+  ElRadio,
+  ElUpload,
+  ElMessageBox
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, UploadFilled, Plus, Delete, Location } from '@element-plus/icons-vue'
+import { Refresh, ArrowRight, Plus, Delete, Location, UploadFilled } from '@element-plus/icons-vue'
 import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
 import api from '@/api'
-import type { FormInstance } from 'element-plus'
 import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { baseURL } from '@/plugins/axios'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -46,14 +49,14 @@ const load = ref(false)
 const userStore = useUserStore()
 
 const props = defineProps<{
-  type: ActivityType
+  type: CreateActivityType
 }>()
 
 const { type } = toRefs(props)
 
 const activity = reactive<ActivityInstance | Activity>({
   _id: '',
-  type: type.value,
+  type: type.value === 'special' ? 'special' : ('' as unknown as ActivityType),
   name: '',
   description: '',
   members: [],
@@ -62,14 +65,13 @@ const activity = reactive<ActivityInstance | Activity>({
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
   status: 'effective',
-  url: ''
+  approver: ''
 })
 
+const approveStudent = ref('')
+
 const registration = reactive<Registration>({
-  deadline: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-  place: '',
-  duration: 0,
-  classes: []
+  place: ''
 })
 
 const modeMap = {
@@ -82,11 +84,8 @@ const members = reactive<ActivityMember[]>([
   {
     _id: '',
     status: 'effective',
-    impression: '',
-    mode: modeMap[type.value],
-    duration: undefined as unknown as number,
-    history: [],
-    images: []
+    mode: modeMap[activity.type],
+    duration: undefined as unknown as number
   }
 ])
 
@@ -95,11 +94,8 @@ const membersFunctions = {
     members.push({
       _id: '',
       status: 'effective',
-      impression: '',
-      mode: modeMap[type.value],
-      duration: members[0].duration ?? (undefined as unknown as number),
-      history: [],
-      images: []
+      mode: modeMap[activity.type],
+      duration: members[0].duration ?? (undefined as unknown as number)
     })
   },
   remove(ord: number) {
@@ -111,13 +107,7 @@ const special = reactive<Special>({
   classify: '' as unknown as SpecialActivityClassification
 })
 
-const classifyOfSpecial = [
-  'prize',
-  'import',
-  'club',
-  'deduction',
-  'other'
-] as SpecialActivityClassification[]
+const classifyOfSpecial = ['prize', 'club', 'other'] as SpecialActivityClassification[]
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 
@@ -127,16 +117,20 @@ watch(height, () => {
 
 async function submit() {
   load.value = true
-  await api.activity.insert(activity, members, registration, special)
-  load.value = false
-  router.push(
-    '/activities/' +
-      (userStore.position.includes('admin') || userStore.position.includes('department')
-        ? 'campus'
-        : userStore.position.includes('secretary')
-        ? 'class'
-        : 'mine')
-  )
+  try {
+    await api.activity.insert(activity, members, registration, special, approveStudent.value)
+    load.value = false
+    await router.push(
+      '/activities/' +
+        (userStore.position.includes('admin') || userStore.position.includes('department')
+          ? 'campus'
+          : userStore.position.includes('secretary')
+          ? 'class'
+          : 'mine')
+    )
+  } finally {
+    load.value = false
+  }
 }
 
 function allow(): ActivityMode[] {
@@ -153,9 +147,12 @@ function allow(): ActivityMode[] {
 const validated = ref(false)
 
 watch(
-  () => generateActivity(activity, members, registration, special),
+  () => generateActivity(activity, members, approveStudent.value, registration, special),
   () => {
-    validated.value = validateActivity(generateActivity(activity, members, registration, special))
+    const act = generateActivity(activity, members, approveStudent.value, registration, special)
+    if (act !== null) {
+      validated.value = validateActivity(act)
+    }
   },
   { deep: true, immediate: true }
 )
@@ -179,13 +176,28 @@ watch(
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
             <ElFormItem
+              v-if="type !== 'special'"
+              :label="t('activity.form.type')"
+              required
+              prop="type"
+            >
+              <ElSelect v-model="activity.type" class="full">
+                <ElOption
+                  v-for="type in ['specified', 'social', 'scale']"
+                  :key="type"
+                  :label="t('activity.type.' + type + '.short')"
+                  :value="type"
+                />
+              </ElSelect>
+            </ElFormItem>
+            <ElFormItem
               :label="t('activity.form.date')"
               required
               prop="date"
               :rules="[{ required: true, message: t('validation.create.date.required') }]"
             >
               <ElDatePicker
-                v-if="type !== 'specified'"
+                v-if="activity.type !== 'specified'"
                 class="full"
                 style="width: 100%"
                 v-model="activity.date"
@@ -214,11 +226,33 @@ watch(
               </ElSelect>
             </ElFormItem>
             <ElFormItem
-              v-if="type === 'specified'"
+              v-if="activity.type === 'specified'"
               :label="t('activity.registration.location')"
               prop="registration.place"
             >
               <ElInput :prefix-icon="Location" v-model="registration.place" required />
+            </ElFormItem>
+            <ElFormItem
+              v-if="type === 'normal'"
+              required
+              :label="t('activity.registration.approver')"
+              style="width: 100%"
+            >
+              <ElRow style="width: 100%">
+                <ElCol :span="8">
+                  <ElRadioGroup v-model="activity.approver">
+                    <ElRadio border value="authority">
+                      {{ t('activity.registration.approvers.authority') }}
+                    </ElRadio>
+                    <ElRadio border value="member">
+                      {{ t('activity.registration.approvers.member') }}
+                    </ElRadio>
+                  </ElRadioGroup>
+                </ElCol>
+                <ElCol :span="16" style="width: 100%" v-if="activity.approver === 'member'">
+                  <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
+                </ElCol>
+              </ElRow>
             </ElFormItem>
             <ElFormItem
               v-if="type !== 'special' || special.classify !== 'import'"
@@ -250,7 +284,7 @@ watch(
                               :filter-start="6"
                               full-width
                             >
-                              <template #prepend> {{ idx + 1 }} </template>
+                              <template #prepend> {{ idx + 1 }}</template>
                             </ZSelectPerson>
                           </ElFormItem>
                         </ElCol>
@@ -285,6 +319,23 @@ watch(
                   </Transition>
                 </div>
               </ElCard>
+            </ElFormItem>
+            <ElFormItem v-else label="Upload" required>
+              <ElUpload
+                ref="uploadRef"
+                drag
+                :action="baseURL + '/activity/upload'"
+                multiple
+                :auto-upload="false"
+              >
+                <el-icon class="el-icon--upload">
+                  <UploadFilled />
+                </el-icon>
+                <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+                <template #tip>
+                  <div class="el-upload__tip">xls/xlsx files with a size less than 2 MB.</div>
+                </template>
+              </ElUpload>
             </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right">

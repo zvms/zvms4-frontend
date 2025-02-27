@@ -91,10 +91,7 @@ const modes: Record<
       </ZButtonTag>
     </template>
     <ElRow>
-      <ElCol :span="14" class="py-4" v-if="showProperties">
-        {{ t(`claim.activityMember.mode.${mode}`) }}
-      </ElCol>
-      <ElCol :span="10" class="py-1" v-if="showMyDuration && mode">
+      <ElCol :span="24" class="py-1" v-if="showMyDuration && mode">
         <ElProgress
           type="dashboard"
           :percentage="percentOfMine"

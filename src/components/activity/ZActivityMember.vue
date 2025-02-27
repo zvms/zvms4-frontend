@@ -129,26 +129,22 @@ watch(height, () => {
         v-if="
           mode === 'button' &&
           (userStore.position.includes('admin') ||
-            userStore.position.includes('department') ||
-            userStore.position.includes('auditor') ||
-            (userStore.position.includes('secretary') &&
-              person?.group.includes(userStore.class_id)) ||
-            userStore._id === person?._id)
+            userStore.position.includes('department'))
         "
         text
         bg
         type="success"
-        @click="router.push(`/user/${person?._id}/info`)"
+        @click="router.push(`/user/${id}`)"
       >
-        Open the Person Page
+        {{ t('manage.groupDetails.userList.open') }}
       </ElButton>
-      <ElPopconfirm v-if="mode === 'card'" title="Are you sure?" @confirm="resetMemberPassword">
+      <ElPopconfirm v-if="mode === 'card'" :title="t('manage.personalPanel.resetConfirm')" @confirm="resetMemberPassword">
         <template #reference>
           <ElButton
             v-if="
               (userStore.position.includes('admin') || userStore.position.includes('department')) &&
-              person?._id &&
-              person?._id !== userStore._id
+              id &&
+              id !== userStore._id
             "
             type="danger"
             text
@@ -156,7 +152,7 @@ watch(height, () => {
             class="w-full"
             :icon="Refresh"
           >
-            Reset Password to his / her ID
+            {{ t('manage.personalPanel.resetPassword') }}
           </ElButton>
         </template>
       </ElPopconfirm>

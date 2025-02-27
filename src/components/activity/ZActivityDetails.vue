@@ -7,7 +7,6 @@ import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
   ZActivityDuration,
-  ZActivityHistory,
   ZActivityMember,
   ZActivityType,
   ZButtonOrCard,

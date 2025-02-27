@@ -84,7 +84,7 @@ const navs: Array<{
     name: 'home',
     path: '/user',
     show: true,
-    judge: (path) => path.startsWith('/user')
+    judge: (path) => path === '/user'
   },
   {
     icon: MdiEye,
@@ -107,7 +107,7 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) => path.startsWith('/group')
+    judge: (path) => path.startsWith('/group') || path.startsWith('/user/')
   },
   {
     icon: InfoFilled,
@@ -123,7 +123,7 @@ function routeTo(page: string) {
     if (
       user.position.includes('admin') ||
       user.position.includes('department') ||
-      user.position.includes('auditor')
+      user.position.includes('system')
     ) {
       routeTo('/group')
     } else {
@@ -144,7 +144,7 @@ function routeTo(page: string) {
           v-if="nav.show"
           :content="t(`nav.${nav.name}`)"
           placement="right"
-          :effect="dark ? 'dark' : 'light'"
+          effect="light"
           :show-after="200"
         >
           <ElButton
@@ -155,29 +155,6 @@ function routeTo(page: string) {
             :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"
-          >
-          </ElButton>
-        </ElTooltip>
-      </div>
-    </div>
-    <ElDivider />
-    <div v-for="nav in actions" :key="nav.path">
-      <div class="py-1" v-if="nav.show">
-        <ElTooltip
-          v-if="nav.show"
-          :content="nav.name"
-          placement="right"
-          :effect="dark ? 'dark' : 'light'"
-          :show-after="200"
-        >
-          <ElButton
-            :icon="nav.icon"
-            size="large"
-            text
-            v-if="nav.path === path"
-            :type="nav.path === path ? 'primary' : ''"
-            circle
-            @click="nav.action"
           >
           </ElButton>
         </ElTooltip>

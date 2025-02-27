@@ -97,32 +97,37 @@ watch(pwdm, refresh)
     "
   >
     <ElCard shadow="never" v-loading="loading">
-      <ElFormItem label="Check if password modified" class="mb-4">
+      <ElFormItem :label="t('manage.groupDetails.userList.checkPasswordPrompt')" class="mb-4">
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
       <ElTable :data="users" stripe :max-height="tableHeight">
-        <ElTableColumn prop="name" label="Name" />
-        <ElTableColumn prop="id" label="ID" />
-        <ElTableColumn prop="group" label="Group">
+        <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
+        <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
+        <ElTableColumn prop="group" :label="t('manage.groupDetails.userList.columns.group')">
           <template #default="{ row }">
             <ZUserGroup v-for="group in row.group" :key="group" :group="group" class="px-1" />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="pwdm" prop="password" label="PWDM" />
+        <ElTableColumn v-if="pwdm" prop="password" :label="t('manage.groupDetails.userList.columns.pwdm')">
+          <template #default="{ row }">
+            <span v-if="row.password" class="color-green">{{ t('manage.groupDetails.userList.columns.pwdmStatus.true') }}</span>
+            <span v-else class="color-red">{{ t('manage.groupDetails.userList.columns.pwdmStatus.false') }}</span>
+          </template>
+        </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
             <ElInput
               v-model="search"
               size="small"
-              placeholder="Search"
+              :placeholder="t('manage.groupList.columns.search')"
               :prefix-icon="Search"
               @blur="handleSearch"
               @keyup.enter="handleSearch"
             />
           </template>
           <template #default="{ row }">
-            <ElButton text bg size="small" @click="router.push(`/user/${row._id}/info`)">
-              Details
+            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
+              {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>
         </ElTableColumn>
@@ -139,5 +144,4 @@ watch(pwdm, refresh)
       />
     </ElCard>
   </div>
-  <ElResult v-else />
 </template>

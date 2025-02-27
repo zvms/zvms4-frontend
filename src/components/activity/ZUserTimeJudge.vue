@@ -70,7 +70,7 @@ async function getTime() {
     base.onCampus = result.onCampus
     base.offCampus = result.offCampus
     base.socialPractice = result.socialPractice
-    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 30, 3) : 0)
+    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 25, 3) : 0)
     on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
     if (user.value === userStore._id) {
       userStore.setTime(result)
@@ -87,7 +87,7 @@ const on = ref(base.onCampus)
 watch(
   exceed,
   () => {
-    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 30, 3) : 0)
+    off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 25, 3) : 0)
     on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
   },
   { immediate: true }

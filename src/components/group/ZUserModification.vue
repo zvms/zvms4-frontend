@@ -18,22 +18,27 @@ import api from '@/api'
 import { useUserStore } from '@/stores/user'
 import type { Group, User } from '@/../types'
 import { reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ArrowRight, Delete } from '@element-plus/icons-vue'
 
 const userStore = useUserStore()
 const router = useRouter()
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
     id: string
     mode: 'create' | 'modify'
+    cid: string
   }>(),
   {
     id: '',
-    mode: 'create'
+    mode: 'create',
+    cid: ''
   }
 )
 
-const { id } = toRefs(props)
+const { id, mode, cid } = toRefs(props)
 const userGroups = ref<string[]>([])
 const classGroupID = ref<string>('')
 const permissionsID = ref<string[]>([])
@@ -51,9 +56,13 @@ const modification = reactive<User>({
   sex: 'unknown'
 })
 
+if (cid.value.length === 24) {
+  classGroupID.value = cid.value
+}
+
 function refresh() {
   const loading = ElLoading.service({ fullscreen: true })
-  if (id.value)
+  if (id.value && mode.value === 'modify')
     api.user
       .readOne(id.value)
       .then((res) => {
@@ -107,6 +116,22 @@ onMounted(refreshPermissions)
 
 watch(id, refresh)
 
+async function remove() {
+  submission.value = true
+  try {
+    await api.user.removeOne(userStore._id, id.value)
+  } catch (_) {
+    submission.value = false
+    return
+  }
+  ElNotification({
+    title: 'Success',
+    message: 'User delete successfully',
+    type: 'success'
+  })
+  submission.value = false
+}
+
 async function submit() {
   submission.value = true
   if (modification.name === '') {
@@ -121,7 +146,8 @@ async function submit() {
       modification._id,
       modification.name,
       modification.id.toString(),
-      [classGroupID.value, ...permissionsID.value]
+      [classGroupID.value, ...permissionsID.value],
+      mode.value === 'create'
     )
   } catch (_) {
     submission.value = false
@@ -129,11 +155,11 @@ async function submit() {
   }
   ElNotification({
     title: 'Success',
-    message: 'User modified successfully',
+    message: `User ${mode.value === 'create' ? 'created' : 'modified'} successfully`,
     type: 'success'
   })
   submission.value = false
-  await router.push(`/user/${modification._id}`)
+  //await router.push(`/user/${modification._id}`)
 }
 </script>
 
@@ -141,20 +167,20 @@ async function submit() {
   <div class="pt-12 px-4">
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
-        <ElFormItem label="Name" required>
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.name')" required>
           <ElInput v-model="modification.name" />
         </ElFormItem>
-        <ElFormItem label="ID" required>
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.id')" required>
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
-        <ElFormItem label="Class" required>
-          <ElRadioGroup v-model="classGroupID">
+        <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
+          <ElRadioGroup :disabled="mode === 'create'" v-model="classGroupID">
             <ElRadio v-for="group in classes" :key="group._id" :label="group._id" border>
               {{ group.name }}
             </ElRadio>
           </ElRadioGroup>
         </ElFormItem>
-        <ElFormItem label="Permissions" required>
+        <ElFormItem v-if="mode === 'modify'" :label="t('manage.groupDetails.userList.columns.permission')" required>
           <ElCheckboxGroup v-model="permissionsID">
             <ElCheckbox v-for="group in permissions" :key="group._id" :label="group._id" border>
               {{ group.name }}
@@ -162,7 +188,8 @@ async function submit() {
           </ElCheckboxGroup>
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton type="primary" @click="submit" text bg :loading="submission">Submit</ElButton>
+          <ElButton class="px-4" v-if="mode === 'modify'" :icon="Delete" type="danger" @click="remove" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.remove') }}</ElButton>
+          <ElButton class="px-4" :icon="ArrowRight" type="primary" @click="submit" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.submit') }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

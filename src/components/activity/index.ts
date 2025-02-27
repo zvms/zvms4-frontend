@@ -1,10 +1,7 @@
-import type { UserPosition, ActivityType } from '@/../types'
+import type { UserPosition, ActivityType, CreateActivityType } from '@/../types'
 
 export { default as ZActivityCreate } from './ZActivityCreate.vue'
 export { default as ZActivityDetails } from './ZActivityDetails.vue'
-export { default as ZActivityHistory } from './ZActivityHistory.vue'
-export { default as ZActivityImpressionDrawer } from './ZActivityImpressionDrawer.vue'
-export { default as ZActivityImpressionManager } from './ZActivityImpressionManager.vue'
 export { default as ZActivityList } from './ZActivityList.vue'
 export { default as ZActivityMember } from './ZActivityMember.vue'
 export { default as ZActivityMemberTimeJudge } from './ZTimeJudge.vue'
@@ -35,10 +32,10 @@ export function permissions(positions: UserPosition[]) {
     return result
   }
   const insert = {
-    specified: upperStudent(positions),
-    social: upperStudent(positions),
-    scale: upperStudent(positions),
-    special: specialManagement(positions)
-  } as Record<ActivityType, boolean | 'need-audit'>
+    normal: upperStudent(positions),
+    special: specialManagement(positions),
+    merge: specialManagement(positions),
+    upload: positions.includes('admin')
+  } as Record<CreateActivityType, boolean | 'need-audit'>
   return insert
 }

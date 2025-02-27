@@ -17,7 +17,7 @@ header.setHeader(t('nav.activity'))
 const route = useRoute()
 const router = useRouter()
 
-const path = ref(route.params?.type ?? '')
+const path = ref(route.params?.type ?? 'mine')
 
 const tab = ref((path.value as string).replace('/', ''))
 
@@ -28,6 +28,8 @@ watch(
   () => {
     if (route.path.startsWith('/activities/')) {
       tab.value = route.path.replace('/activities/', '') ?? 'mine'
+    } else {
+      tab.value = 'mine'
     }
   },
   { immediate: true }
@@ -63,13 +65,8 @@ const panes = [
 }>
 
 function moveTo(type: string) {
-  availibility.value = false
   tab.value = type
-  if (type === 'trophy') router.push('/trophy')
-  else router.push(`/activities/${type}`)
-  setTimeout(() => {
-    availibility.value = true
-  }, 100)
+  router.push(`/activities/${type}`)
 }
 </script>
 
@@ -77,7 +74,7 @@ function moveTo(type: string) {
   <div class="p-4" style="width: 100%">
     <div
       class="flex px-12 py-4"
-      v-if="route.path.startsWith('/activities/') && !route.path.endsWith('register')"
+      v-if="route.path.startsWith('/activities')"
     >
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
@@ -118,6 +115,6 @@ function moveTo(type: string) {
         </template>
       </ElPageHeader>
     </Transition>
-    <RouterView v-if="availibility" />
+    <RouterView class="px-4" v-if="availibility" :key="route.path" />
   </div>
 </template>

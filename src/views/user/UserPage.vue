@@ -3,7 +3,8 @@ import ZActivityMember from '@/components/activity/ZActivityMember.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.ts'
 import { ref, watch } from 'vue'
-import { ElButton, ElPageHeader, ElSegmented, ElLoading } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { ElPageHeader, ElSegmented, ElLoading } from 'element-plus'
 import { ZActivityList } from '@/components'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import type { User } from '@/../types'
@@ -13,6 +14,7 @@ import ZUserModification from '@/components/group/ZUserModification.vue'
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const { t } = useI18n()
 const id = ref<string>(route.params.id as string)
 const user = ref<User>()
 
@@ -30,13 +32,15 @@ watch(
 
 async function getUser() {
   const loading = ElLoading.service({ fullscreen: true, text: `Fetching user...` })
-  user.value = await api.user.readOne(id.value)
+  user.value = await api.user.readOne(id.value).catch(() => {
+    loading.close()
+  })
   loading.close()
 }
 
 getUser()
 
-const current = ref(route.params.page.toString() ?? '')
+const current = ref('info')
 
 const tabs = ref([
   {
@@ -61,7 +65,11 @@ const tabs = ref([
         {{ user?.name }}
       </template>
       <template #extra>
-        <ElSegmented v-model="current" :options="tabs" />
+        <ElSegmented v-model="current" :options="tabs">
+          <template #default="props">
+            {{ t('manage.personalPanel.tabs.' + props.item.value as string) }}
+          </template>
+        </ElSegmented>
       </template>
     </ElPageHeader>
     <div v-if="current === 'info'">

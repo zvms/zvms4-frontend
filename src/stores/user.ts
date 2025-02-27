@@ -11,12 +11,10 @@ export const useUserStore = defineStore('user', {
     id: 0,
     _id: '',
     name: '',
-    sex: 'unknown',
     position: [] as UserPosition[],
     groups: [] as string[],
     token: '',
     class_id: '',
-    code: 0,
     isLogin: false,
     shouldResetPassword: false,
     time: {
@@ -110,7 +108,7 @@ export const useUserStore = defineStore('user', {
     },
     relatedGroup(group: string): boolean {
       console.log(this.position)
-      if (this.position.includes('admin') || this.position.includes('department')) {
+      if (this.position.includes('admin') || this.position.includes('department') || this.position.imcludes('system')) {
         return true
       } else if (this.position.includes('secretary')) {
         return group === this.class_id

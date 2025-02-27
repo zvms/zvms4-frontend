@@ -34,7 +34,7 @@ const props = withDefaults(
     perspective?: string
     classTarget?: string
     modelValue?: ActivityInstance[]
-    selectTarget?: ActivityType
+    selectTarget?: ActivityType | ''
   }>(),
   {
     role: 'mine',
@@ -66,7 +66,8 @@ function refresh() {
     activePage.value,
     pageSize.value,
     query.value,
-    classTarget.value ?? user.class_id ?? ''
+    classTarget.value ?? user.class_id ?? '',
+    selectTarget.value ?? 'all',
   )
     .then((res) => {
       if (res && res?.data.length !== 0) {
@@ -94,6 +95,8 @@ watch(query, () => {
   activePage.value = 1
   refresh()
 })
+
+watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -147,13 +150,13 @@ function handleSelectionChange(val: string[]) {
 </script>
 
 <template>
-  <div :class="'card, pr-8, ' + (width < height ? 'pl-6' : '') + ''">
+  <div class="max-w-full">
     <ElSkeleton
       v-if="loading && initial"
       :loading="loading && initial"
       :rows="8"
       animated
-      class="py-4 px-4"
+      class="pt-4 px-4"
       :throttle="500"
     />
     <ElCard shadow="never" v-else v-loading="loading && !initial">
@@ -180,8 +183,8 @@ function handleSelectionChange(val: string[]) {
         :data="items"
         table-layout="auto"
         :on-sort-change="onSortChange"
-        stripe
         @selection-change="handleSelectionChange"
+        stripe
       >
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
         <ElTableColumn v-else type="expand">
@@ -195,7 +198,7 @@ function handleSelectionChange(val: string[]) {
           </template>
         </ElTableColumn>
         <ElTableColumn prop="name" :label="t('activity.form.name')" />
-        <ElTableColumn prop="date" :label="t('activity.form.date')" sortable>
+        <ElTableColumn prop="date" :label="t('activity.form.date')">
           <template #default="{ row }">
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
@@ -286,10 +289,6 @@ function handleSelectionChange(val: string[]) {
 </template>
 
 <style scoped>
-.card {
-  width: 100%;
-}
-
 .code {
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'Courier', 'monospace';
 }

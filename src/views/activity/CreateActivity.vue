@@ -4,7 +4,7 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import type { ActivityType, UserPosition } from '@/../types'
+import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { ArrowLeft, InfoFilled } from '@element-plus/icons-vue'
 import classifications from '@/components/tags/classifications'
 import CreateHome from './CreateHome.vue'
@@ -43,7 +43,7 @@ watch(
   { immediate: true }
 )
 
-const tabs = Object.entries(classifications.type).map(([key, value]) => ({
+const tabs = Object.entries(classifications.create).map(([key, value]) => ({
   label: '',
   value: key as ActivityType,
   color: value.color,
@@ -78,7 +78,7 @@ const visibility = permissions(user.position as UserPosition[])
     <Transition enter-active-class="animate__animated animate__fadeInRight" appear>
       <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="returnHome" :icon="ArrowLeft">
         <template #content>
-          {{ $t(tab ? `activity.type.${tab}.name` : 'nav.create') }}
+          {{ $t(tab ? `activity.create.${tab}` : 'nav.create') }}
           <ElTooltip
             v-if="tab"
             :content="t('activity.type.' + tab + '.description')"
@@ -91,7 +91,7 @@ const visibility = permissions(user.position as UserPosition[])
         <template #extra>
           <ElSpace>
             <ElButton
-              v-for="button in tabs.filter((x) => visibility[x.value as ActivityType])"
+              v-for="button in tabs.filter((x) => visibility[x.value as CreateActivityType])"
               :key="button.value"
               @click="mov(button.value)"
               text
@@ -101,7 +101,7 @@ const visibility = permissions(user.position as UserPosition[])
               size="small"
               :disabled="button.value === tab"
             >
-              {{ t(`activity.type.${button.value}.short`) }}
+              {{ t(`activity.create.${button.value}`) }}
             </ElButton>
           </ElSpace>
         </template>

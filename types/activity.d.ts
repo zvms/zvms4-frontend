@@ -11,6 +11,7 @@ export interface Activity {
   status: 'pending' | 'effective' | 'refused'
   special?: SpecialInstance
   registration?: Registration
+  approver: 'authority' | 'member' | 'unknown' | string
 }
 
 export interface Registration {
@@ -20,12 +21,13 @@ export interface Registration {
 export interface ActivityMember {
   _id: string // ObjectId
   status: 'effective'
-  impression: string
   mode: 'on-campus' | 'off-campus' | 'social-practice'
   duration: number
 }
 
 export type ActivityType = Activity['type']
+
+export type CreateActivityType = 'normal' | 'special' | 'merge' | 'upload'
 
 export type MemberActivityStatus = ActivityMember['status']
 

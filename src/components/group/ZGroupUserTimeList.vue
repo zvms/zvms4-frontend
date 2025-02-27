@@ -106,22 +106,22 @@ function handleSearch() {
   >
     <ElCard shadow="never" v-loading="loading">
       <div style="text-align: right" class="my-2">
-        <ElFormItem label="Diff" style="text-align: right">
+        <ElFormItem :label="t('manage.groupDetails.timeList.diff')" style="text-align: right">
           <ElSwitch v-model="diff"></ElSwitch>
         </ElFormItem>
       </div>
       <ElTable :data="time" stripe :max-height="tableHeight">
-        <ElTableColumn prop="name" label="Name" />
-        <ElTableColumn prop="id" label="ID" />
-        <ElTableColumn prop="on-campus" label="On Campus" v-if="diff">
+        <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
+        <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
+        <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['on-campus'] <= 0">Complete</span>
-            <span class="color-red" v-else> {{ row['on-campus'].toFixed(1) }}h </span>
+            <span class="color-green" v-if="row['on-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
+            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['on-campus'].toFixed(1) }) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="on-campus" label="On Campus" v-else>
+        <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-else>
           <template #default="{ row }">
-            <span class="color-green" v-if="row['on-campus'] >= 30">{{
+            <span class="color-green" v-if="row['on-campus'] >= 25">{{
               row['on-campus'].toFixed(1)
             }}</span>
             <span class="color-red" v-else>
@@ -129,13 +129,13 @@ function handleSearch() {
             </span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="off-campus" label="Off Campus" v-if="diff">
+        <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['off-campus'] <= 0">Complete</span>
-            <span class="color-red" v-else> {{ row['off-campus'].toFixed(1) }}h </span>
+            <span class="color-green" v-if="row['off-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
+            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['off-campus'].toFixed(1) }) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="off-campus" label="Off Campus" v-else>
+        <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-else>
           <template #default="{ row }">
             <span class="color-green" v-if="row['off-campus'] >= 15">{{
               row['off-campus'].toFixed(1)
@@ -143,13 +143,13 @@ function handleSearch() {
             <span class="color-red" v-else>{{ row['off-campus'].toFixed(1) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" label="Social Practice" v-if="diff">
+        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['social-practice'] <= 0">Complete</span>
-            <span class="color-red" v-else> {{ row['social-practice'].toFixed(1) }}h </span>
+            <span class="color-green" v-if="row['social-practice'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
+            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['social-practice'].toFixed(1) }) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" label="Social Practice" v-else>
+        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-else>
           <template #default="{ row }">
             <span class="color-green" v-if="row['social-practice'] >= 18">{{
               row['social-practice'].toFixed(1)
@@ -162,15 +162,15 @@ function handleSearch() {
             <ElInput
               v-model="search"
               size="small"
-              placeholder="Search"
+              :placeholder="t('manage.groupList.columns.search')"
               :prefix-icon="Search"
               @blur="handleSearch"
               @keyup.enter="handleSearch"
             />
           </template>
           <template #default="{ row }">
-            <ElButton text bg size="small" @click="router.push(`/user/${row._id}/info`)">
-              Details
+            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
+              {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>
         </ElTableColumn>
