@@ -44,6 +44,7 @@ declare module 'vue' {
     ZSpecialActivityClassify: typeof import('./src/components/tags/ZSpecialActivityClassify.vue')['default']
     ZTime: typeof import('./src/components/tags/ZTime.vue')['default']
     ZTimeJudge: typeof import('./src/components/activity/ZTimeJudge.vue')['default']
+    ZUploadFile: typeof import('./src/components/activity/ZUploadFile.vue')['default']
     ZUserGroup: typeof import('./src/components/tags/ZUserGroup.vue')['default']
     ZUserModification: typeof import('./src/components/group/ZUserModification.vue')['default']
     ZUserPage: typeof import('./src/components/group/ZUserPage.vue')['default']

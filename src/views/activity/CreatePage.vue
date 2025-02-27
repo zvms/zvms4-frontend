@@ -4,7 +4,7 @@ import { ElResult, ElCard } from 'element-plus'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ActivityType, CreateActivityType } from '@/../types'
-import { ZActivityCreate, ZActivityMerge } from '@/components'
+import { ZActivityCreate, ZActivityMerge, ZUploadFile } from '@/components'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -31,6 +31,7 @@ if (
         :sub-title="t('nav.pages.NotFound.description')"
       />
     </ElCard>
+    <ZUploadFile v-else-if="type === 'upload'" />
     <ZActivityCreate v-else-if="type !== 'merge'" :type="type" />
     <ZActivityMerge v-else />
   </div>

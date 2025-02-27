@@ -68,6 +68,8 @@ const activity = reactive<ActivityInstance | Activity>({
   approver: ''
 })
 
+const token = localStorage.getItem('token')
+
 const approveStudent = ref('')
 
 const registration = reactive<Registration>({
@@ -257,7 +259,7 @@ watch(
             <ElFormItem
               v-if="type !== 'special' || special.classify !== 'import'"
               :label="t('activity.form.person', members.length)"
-              :required="type !== 'specified'"
+              :required="activity.type !== 'specified'"
             >
               <ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
@@ -326,6 +328,10 @@ watch(
                 drag
                 :action="baseURL + '/activity/upload'"
                 multiple
+                :headers="{
+                  'Authorization': `Bearer ${token}`
+                }"
+                with-credentials
                 :auto-upload="false"
               >
                 <el-icon class="el-icon--upload">
