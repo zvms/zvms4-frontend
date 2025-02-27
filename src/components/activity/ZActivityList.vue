@@ -95,6 +95,7 @@ watch(query, () => {
   activePage.value = 1
   refresh()
 })
+
 watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
