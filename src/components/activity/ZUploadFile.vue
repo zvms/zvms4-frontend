@@ -12,7 +12,7 @@ import {
   ElInput,
   ElScrollbar,
   ElCard,
-  ElUpload,
+  ElUpload, ElNotification
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
@@ -51,6 +51,10 @@ watch(height, () => {
 async function jump() {
   await router.push('/activities/campus')
 }
+
+async function handleError(err: Error) {
+  ElNotification(err.message)
+}
 </script>
 
 <template>
@@ -88,6 +92,7 @@ async function jump() {
                 }"
                 :limit="1"
                 :on-success="jump"
+                :on-error="handleError"
               >
                 <ElIcon class="el-icon--upload">
                   <UploadFilled />
