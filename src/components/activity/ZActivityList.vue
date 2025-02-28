@@ -14,17 +14,17 @@ import {
 import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
-import { Box, Search, PieChart, Refresh, Plus, EditPen, View } from '@element-plus/icons-vue'
+import { Box, Search, PieChart, Refresh, View } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
 import { ZActivityType, ZActivityStatus, ZActivityDuration, ZActivityCard } from '@/components'
-import { useRouter } from 'vue-router'
-import { Write } from '@icon-park/vue-next'
+import { useRouter, useRoute } from 'vue-router'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
 const router = useRouter()
+const route = useRoute()
 
 const user = useUserStore()
 
@@ -44,8 +44,8 @@ const props = withDefaults(
 )
 const emits = defineEmits(['update:modelValue'])
 
-const activePage = ref(1)
-const pageSize = ref(8)
+const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
+const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
 const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
@@ -53,8 +53,8 @@ const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRe
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
 const initial = ref(true)
-const searchWord = ref('')
-const query = ref('')
+const searchWord = ref(route.query?.search?.toString() ?? '')
+const query = ref(route.query?.search?.toString() ?? '')
 
 const activities = ref<ActivityInstance[]>([])
 
@@ -67,7 +67,7 @@ function refresh() {
     pageSize.value,
     query.value,
     classTarget.value ?? user.class_id ?? '',
-    selectTarget.value ?? 'all',
+    (selectTarget.value && selectTarget.value !== '') ? selectTarget.value : 'all',
   )
     .then((res) => {
       if (res && res?.data.length !== 0) {
@@ -91,10 +91,7 @@ onMounted(refresh)
 
 watch(activePage, refresh)
 watch(pageSize, refresh)
-watch(query, () => {
-  activePage.value = 1
-  refresh()
-})
+watch(query, refresh)
 watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
@@ -104,32 +101,6 @@ watch(width, () => {
 })
 
 const items = ref<ActivityInstance[]>([])
-
-onSortChange({
-  column: 'date',
-  order: 'ascending'
-})
-
-function onSortChange({ column, order }: { column: string; order: string }) {
-  activePage.value = 1
-  if (column === 'date') {
-    items.value.sort((a, b) => {
-      if (order === 'ascending') {
-        return dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1
-      } else {
-        return dayjs(a.date).isBefore(dayjs(b.date)) ? 1 : -1
-      }
-    })
-  } else if (column === 'name') {
-    items.value.sort((a, b) => {
-      if (order === 'ascending') {
-        return a.name.localeCompare(b.name)
-      } else {
-        return b.name.localeCompare(a.name)
-      }
-    })
-  }
-}
 
 watch(
   activities,
@@ -146,6 +117,14 @@ function selectable(row: ActivityInstance) {
 function handleSelectionChange(val: string[]) {
   emits('update:modelValue', val)
 }
+
+function confirmPage() {
+  router.push({ query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }})
+}
+
+watch(pageSize, confirmPage)
+watch(activePage, confirmPage)
+watch(searchWord, confirmPage)
 </script>
 
 <template>
@@ -181,7 +160,6 @@ function handleSelectionChange(val: string[]) {
         :max-height="tableMaxHeight"
         :data="items"
         table-layout="auto"
-        :on-sort-change="onSortChange"
         @selection-change="handleSelectionChange"
         stripe
       >

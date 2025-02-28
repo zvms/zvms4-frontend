@@ -32,15 +32,20 @@ watch(
 
 async function getUser() {
   const loading = ElLoading.service({ fullscreen: true, text: `Fetching user...` })
-  user.value = await api.user.readOne(id.value).catch(() => {
+  const result = await api.user.readOne(id.value).catch(() => {
     loading.close()
   })
+  if (result) {
+    user.value = result
+  }
   loading.close()
 }
 
 getUser()
 
-const current = ref('info')
+const curPage = route.params.action?.toString()
+
+const current = ref((curPage && curPage !== '') ? curPage : 'info')
 
 const tabs = ref([
   {
@@ -56,6 +61,10 @@ const tabs = ref([
     value: 'modify'
   }
 ])
+
+watch(current, () => {
+  router.push('/user/' + id.value + '/' + current.value)
+})
 </script>
 
 <template>
@@ -79,7 +88,7 @@ const tabs = ref([
       <ZActivityList :perspective="id" role="mine" :key="id" />
     </div>
     <div v-else-if="current === 'modify'">
-      <ZUserModification :id="id" mode="modify" />
+      <ZUserModification :id="id" mode="modify" cid="" />
     </div>
   </div>
 </template>

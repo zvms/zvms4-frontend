@@ -29,17 +29,17 @@ watch(height, () => {
   tableHeight.value = height.value * 0.6
 })
 
-onMounted(() => {
-  api.group.readOne(id.value).then((res) => {
-    group.value = res
-  })
-})
+async function refresh() {
+  const res = await api.group.readOne(id.value)
+  group.value = res
+  if (res.type !== 'class') {
+    tab.value = 'users'
+  }
+}
 
-watch(id, () => {
-  api.group.readOne(id.value).then((res) => {
-    group.value = res
-  })
-})
+onMounted(refresh)
+
+watch(id, refresh)
 
 watch(
   () => route.params.id,
@@ -78,17 +78,24 @@ const tabs = ref([
     value: 'create'
   }
 ])
-const tab = ref('users')
+
+const curPage = route.params.action?.toString()
+
+const tab = ref((curPage && curPage !== '') ? curPage : 'users')
+
+watch(tab, () => {
+  router.push('/group/' + id.value + '/' + tab.value)
+})
 </script>
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="group?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+    <ElPageHeader v-if="group?._id" :icon="ArrowLeft" @back="() => router.push('/group/')" class="py-4">
       <template #content>
         {{ group?.name }}
       </template>
       <template #extra>
-        <ElSegmented v-model="tab" :options="tabs">
+        <ElSegmented v-if="group?.type === 'class'" v-model="tab" :options="tabs">
           <template #default="props">
             {{ t('manage.groupDetails.tabs.' + (props.item).value as string) }}
           </template>

@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import('../views/user/UserPage.vue')
     },
     {
+      path: '/user/:id/:action',
+      name: 'user-action',
+      component: () => import('../views/user/UserPage.vue')
+    },
+    {
       path: '/activity/create',
       name: 'activity-create',
       component: () => import('../views/activity/CreateActivity.vue'),
@@ -76,6 +81,11 @@ const router = createRouter({
     {
       path: '/group/:id',
       name: 'group-user',
+      component: () => import('../views/group/GroupPage.vue')
+    },
+    {
+      path: '/group/:id/:action',
+      name: 'group-action',
       component: () => import('../views/group/GroupPage.vue')
     },
     {
