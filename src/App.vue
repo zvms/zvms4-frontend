@@ -540,8 +540,8 @@ onMounted(() => {
 <style>
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  transition:
-    color,background-color 0.5s !important;
+  transition-property: color,background-color !important;
+  transition-duration: 0.5s !important;
   /* filter: grayscale(1); */
 }
 
