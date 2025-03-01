@@ -93,7 +93,7 @@ async function createTask() {
         clearInterval(interval)
       }
     }
-  }, 500)
+  }, 5000)
 }
 </script>
 
