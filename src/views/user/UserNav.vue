@@ -125,7 +125,7 @@ function routeTo(page: string) {
       user.position.includes('department') ||
       user.position.includes('system')
     ) {
-      routeTo('/group')
+      routeTo('/manage/groups')
     } else {
       routeTo(`/group/${user.class_id}`)
     }

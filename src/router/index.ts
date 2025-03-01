@@ -74,9 +74,14 @@ const router = createRouter({
       ]
     },
     {
-      path: '/group',
-      name: 'group',
-      component: () => import('../views/group/GroupHome.vue')
+      path: '/manage',
+      name: 'manage',
+      component: () => import('../views/manage/ManageHome.vue')
+    },
+    {
+      path: '/manage/:action',
+      name: 'manage',
+      component: () => import('../views/manage/ManageHome.vue')
     },
     {
       path: '/group/:id',

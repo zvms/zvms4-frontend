@@ -4,12 +4,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.ts'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ElPageHeader, ElSegmented, ElLoading } from 'element-plus'
+import { ElPageHeader, ElSegmented, ElLoading, ElIcon } from 'element-plus'
 import { ZActivityList } from '@/components'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft, Edit } from '@element-plus/icons-vue'
 import type { User } from '@/../types'
 import api from '@/api'
 import ZUserModification from '@/components/group/ZUserModification.vue'
+import { Info, ViewList } from '@icon-park/vue-next'
 
 const route = useRoute()
 const router = useRouter()
@@ -50,21 +51,33 @@ const current = ref((curPage && curPage !== '') ? curPage : 'info')
 const tabs = ref([
   {
     label: 'Info',
-    value: 'info'
+    value: 'info',
+    icon: Info
   },
   {
     label: 'Activity',
-    value: 'activity'
+    value: 'activity',
+    icon: ViewList
   },
   {
     label: 'Modify',
-    value: 'modify'
+    value: 'modify',
+    icon: Edit
   }
 ])
 
 watch(current, () => {
   router.push('/user/' + id.value + '/' + current.value)
 })
+
+watch(
+  () => route.params.action,
+  (value) => {
+    console.log(value)
+    const curPage = route.params.action?.toString()
+    current.value = (curPage && curPage !== '') ? curPage : 'info'
+  }
+)
 </script>
 
 <template>
@@ -76,7 +89,12 @@ watch(current, () => {
       <template #extra>
         <ElSegmented v-model="current" :options="tabs">
           <template #default="props">
-            {{ t('manage.personalPanel.tabs.' + props.item.value as string) }}
+            <div class="flex flex-col items-center gap-2 p-2">
+              <ElIcon :size="18" class="mt-2">
+                <Component :is="props.item.icon" />
+              </ElIcon>
+              {{ t('manage.personalPanel.tabs.' + props.item.value as string) }}
+            </div>
           </template>
         </ElSegmented>
       </template>

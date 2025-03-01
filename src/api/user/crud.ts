@@ -16,23 +16,32 @@ async function getUser(id: string) {
   return result.data as User
 }
 
-async function getUsers(id: string) {
+async function getUsers(id: string = '', page: number = 1, perpage: number = 5) {
   const result = (
     await axios(`/user`, {
       params: {
-        query: id
+        query: id,
+        page,
+        perpage
       }
     })
-  ).data as Response<User[]>
+  ).data as Response<User[]> & {
+    metadata: {
+      size: number
+    }
+  }
   if (result.status === 'error') {
     ElNotification({
       title: '获取用户信息错误（' + result.code + '）',
       message: result.message,
       type: 'error'
     })
-    return []
+    return
   }
-  return result.data
+  return {
+    users: result.data,
+    size: result.metadata.size
+  }
 }
 
 async function putUser(user: string, target: string, name: string, id: string, group: string[], create: boolean) {

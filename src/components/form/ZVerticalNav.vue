@@ -96,7 +96,7 @@ function routeTo(page: string) {
       user.position.includes('admin') ||
       user.position.includes('department')
     ) {
-      routeTo('/group')
+      routeTo('/manage')
     } else {
       routeTo(`/group/${user.class_id}`)
     }

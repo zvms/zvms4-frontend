@@ -8,8 +8,9 @@ import {
   ElCard,
   ElPagination,
   ElInput,
-  ElResult,
-  ElButton
+  ElButton,
+  ElCol,
+  ElRow
 } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
@@ -18,7 +19,8 @@ import { useUserStore } from '@/stores/user'
 import type { User, Group } from '@/../types'
 import { ZUserGroup } from '@/components'
 import { useWindowSize } from '@vueuse/core'
-import { Search } from '@element-plus/icons-vue'
+import { Box, Search } from '@element-plus/icons-vue'
+import { pad } from '@/plugins/ua.ts'
 
 const router = useRouter()
 const { height } = useWindowSize()
@@ -63,14 +65,26 @@ watch(id, () => {
 
 const refresh = () => {
   loading.value = true
-  api.group.reads
-    .users(id.value, page.value, perpage.value, search.value, pwdm.value)
-    .then((res) => {
-      users.value = []
-      users.value.push(...res.users)
-      total.value = res.size
-      loading.value = false
-    })
+  if (id.value) {
+    api.group.reads
+      .users(id.value, page.value, perpage.value, search.value, pwdm.value)
+      .then((res) => {
+        users.value = []
+        users.value.push(...res.users)
+        total.value = res.size
+        loading.value = false
+      })
+  } else {
+    api.user.read(search.value, page.value, perpage.value)
+      .then((res) => {
+        if (res) {
+          users.value = []
+          users.value.push(...res.users)
+          total.value = res.size
+        }
+        loading.value = false
+      })
+  }
 }
 onMounted(refresh)
 watch(id, refresh)
@@ -97,7 +111,7 @@ watch(pwdm, refresh)
     "
   >
     <ElCard shadow="never" v-loading="loading">
-      <ElFormItem :label="t('manage.groupDetails.userList.checkPasswordPrompt')" class="mb-4">
+      <ElFormItem v-if="id" :label="t('manage.groupDetails.userList.checkPasswordPrompt')" class="mb-4">
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
       <ElTable :data="users" stripe :max-height="tableHeight">
@@ -116,14 +130,35 @@ watch(pwdm, refresh)
         </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
-            <ElInput
-              v-model="search"
-              size="small"
-              :placeholder="t('manage.groupList.columns.search')"
-              :prefix-icon="Search"
-              @blur="handleSearch"
-              @keyup.enter="handleSearch"
-            />
+            <div>
+              <ElInput
+                v-if="pad() || id"
+                v-model="search"
+                size="small"
+                :placeholder="t('manage.groupList.columns.search')"
+                :prefix-icon="Search"
+                @blur="handleSearch"
+                @keyup.enter="handleSearch"
+              />
+              <ElRow class="w-full" v-else>
+                <ElCol :span="16">
+                  <ElInput
+                    class="mx-1"
+                    v-model="search"
+                    size="small"
+                    :placeholder="t('manage.groupList.columns.search')"
+                    :prefix-icon="Search"
+                    @blur="handleSearch"
+                    @keyup.enter="handleSearch"
+                  />
+                </ElCol>
+                <ElCol :span="8">
+                  <ElButton :icon="Box" class="w-full mx-1" text bf round size="small" type="warning">
+                    Export
+                  </ElButton>
+                </ElCol>
+              </ElRow>
+            </div>
           </template>
           <template #default="{ row }">
             <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
