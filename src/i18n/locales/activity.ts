@@ -33,8 +33,14 @@ export const enUS = {
   create: {
     normal: 'Normal Activity',
     special: 'Special Activity',
-    merge: 'Merge Activity',
+    merge: 'Merge Activities',
     upload: 'Upload Data'
+  },
+  createMinimized: {
+    normal: 'Normal',
+    special: 'Special',
+    merge: 'Merge',
+    upload: 'Upload'
   },
   mode: {
     'on-campus': {
@@ -380,6 +386,12 @@ export const zhCN = {
     special: '特殊义工',
     merge: '合并义工',
     upload: '上传数据'
+  },
+  createMinimized: {
+    normal: '普通',
+    special: '特殊',
+    merge: '合并',
+    upload: '上传'
   },
   mode: {
     'on-campus': {

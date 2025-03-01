@@ -29,6 +29,7 @@ declare module 'vue' {
     ZActivityType: typeof import('./src/components/tags/ZActivityType.vue')['default']
     ZButtonOrCard: typeof import('./src/components/utils/ZButtonOrCard.vue')['default']
     ZButtonTag: typeof import('./src/components/utils/ZButtonTag.vue')['default']
+    ZDataExport: typeof import('./src/components/utils/ZDataExport.vue')['default']
     ZDisplayPerson: typeof import('./src/components/member/ZDisplayPerson.vue')['default']
     ZGroupList: typeof import('./src/components/group/ZGroupList.vue')['default']
     ZGroupUserList: typeof import('./src/components/group/ZGroupUserList.vue')['default']

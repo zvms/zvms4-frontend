@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ElPageHeader, ElButton, ElSpace, ElTooltip } from 'element-plus'
+import { ElPageHeader, ElButton, ElSpace } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
 import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
-import { ArrowLeft, InfoFilled } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import classifications from '@/components/tags/classifications'
 import CreateHome from './CreateHome.vue'
 import { permissions } from '@/components/activity'
@@ -79,14 +79,6 @@ const visibility = permissions(user.position as UserPosition[])
       <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="returnHome" :icon="ArrowLeft">
         <template #content>
           {{ $t(tab ? `activity.create.${tab}` : 'nav.create') }}
-          <ElTooltip
-            v-if="tab"
-            :content="t('activity.type.' + tab + '.description')"
-            effect="light"
-            placement="bottom"
-          >
-            <ElButton :icon="InfoFilled" text circle size="small" />
-          </ElTooltip>
         </template>
         <template #extra>
           <ElSpace>
@@ -101,7 +93,7 @@ const visibility = permissions(user.position as UserPosition[])
               size="small"
               :disabled="button.value === tab"
             >
-              {{ t(`activity.create.${button.value}`) }}
+              {{ t(`activity.createMinimized.${button.value}`) }}
             </ElButton>
           </ElSpace>
         </template>

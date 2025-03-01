@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElPageHeader, ElSegmented } from 'element-plus'
+import { ElPageHeader, ElSegmented, ElIcon, ElText } from 'element-plus'
 import { ref, onMounted, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@/../types'
@@ -12,6 +12,8 @@ import { ZActivityList } from '@/components'
 import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 import { useI18n } from 'vue-i18n'
 import ZUserModification from '@/components/group/ZUserModification.vue'
+import { AddUser, User, ViewList } from '@icon-park/vue-next'
+import { TablerSum } from '@/icons'
 
 const { height } = useWindowSize()
 const userStore = useUserStore()
@@ -32,7 +34,7 @@ watch(height, () => {
 async function refresh() {
   const res = await api.group.readOne(id.value)
   group.value = res
-  if (res.type !== 'class') {
+  if (res?.type !== 'class') {
     tab.value = 'users'
   }
 }
@@ -45,6 +47,14 @@ watch(
   () => route.params.id,
   (value) => {
     id.value = value as string
+  }
+)
+
+watch(
+  () => route.params.action,
+  (value) => {
+    console.log(value)
+    tab.value = value as string
   }
 )
 
@@ -63,25 +73,29 @@ if (
 const tabs = ref([
   {
     label: 'Users',
-    value: 'users'
+    value: 'users',
+    icon: User
   },
   {
     label: 'Activities',
-    value: 'activities'
+    value: 'activities',
+    icon: ViewList
   },
   {
     label: 'Time',
-    value: 'time'
+    value: 'time',
+    icon: TablerSum
   },
   {
     label: 'Create',
-    value: 'create'
+    value: 'create',
+    icon: AddUser
   }
 ])
 
 const curPage = route.params.action?.toString()
 
-const tab = ref((curPage && curPage !== '') ? curPage : 'users')
+const tab = ref(curPage && curPage !== '' ? curPage : 'users')
 
 watch(tab, () => {
   router.push('/group/' + id.value + '/' + tab.value)
@@ -90,14 +104,24 @@ watch(tab, () => {
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="group?._id" :icon="ArrowLeft" @back="() => router.push('/group/')" class="py-4">
+    <ElPageHeader
+      v-if="group?._id"
+      :icon="ArrowLeft"
+      @back="() => router.push('/manage/groups')"
+      class="py-4"
+    >
       <template #content>
         {{ group?.name }}
       </template>
       <template #extra>
         <ElSegmented v-if="group?.type === 'class'" v-model="tab" :options="tabs">
           <template #default="props">
-            {{ t('manage.groupDetails.tabs.' + (props.item).value as string) }}
+            <div class="flex flex-col items-center gap-2 p-2">
+              <ElIcon :size="18" class="mt-2">
+                <Component :is="props.item.icon" />
+              </ElIcon>
+              {{ t(('manage.groupDetails.tabs.' + props.item.value) as string) }}
+            </div>
           </template>
         </ElSegmented>
       </template>

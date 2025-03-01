@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ActivityInstance, ActivityMember, ActivityType } from '@/../types'
 import {
-  ElDialog,
+  ElDrawer,
   ElTable,
   ElTableColumn,
   ElButton,
@@ -20,6 +20,8 @@ import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
 import { ZActivityType, ZActivityStatus, ZActivityDuration, ZActivityCard } from '@/components'
 import { useRouter, useRoute } from 'vue-router'
+import ZDataExport from '@/components/utils/ZDataExport.vue'
+import { pad } from '@/plugins/ua.ts'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -125,10 +127,15 @@ function confirmPage() {
 watch(pageSize, confirmPage)
 watch(activePage, confirmPage)
 watch(searchWord, confirmPage)
+
+const openExport = ref(false)
 </script>
 
 <template>
   <div class="max-w-full">
+    <ElDrawer direction="rtl" size="50%" v-model="openExport" title="Data Export" center>
+      <ZDataExport type="time" />
+    </ElDrawer>
     <ElSkeleton
       v-if="loading && initial"
       :loading="loading && initial"
@@ -142,10 +149,11 @@ watch(searchWord, confirmPage)
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
         </ElButton>
-        <ElDivider direction="vertical" />
+        <ElDivider v-if="!pad()" direction="vertical" />
         <ElButton
-          v-if="role === 'campus'"
+          v-if="role === 'campus' && !pad()"
           :icon="Box"
+          @click="openExport = true"
           type="warning"
           text
           bg
@@ -258,7 +266,6 @@ watch(searchWord, confirmPage)
           layout="total, prev, pager, next, sizes, jumper"
           background
           :page-sizes="[3, 5, 8, 10, 15, 20]"
-          :on-current-change="onSortChange"
         />
       </div>
     </ElCard>

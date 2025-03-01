@@ -56,8 +56,7 @@ function handleSearch() {
 </script>
 
 <template>
-  <div class="px-12 pt-4">
-    <p class="text-2xl mb-4">{{ t('manage.groupList.title') }}</p>
+  <div class="px-2">
     <ElCard shadow="hover" v-loading="loading">
       <ElTable :data="groups">
         <ElTableColumn prop="name" :label="t('manage.groupList.columns.name')"></ElTableColumn>
@@ -85,6 +84,7 @@ function handleSearch() {
         </ElTableColumn>
       </ElTable>
       <ElPagination
+        class="py-2"
         v-model:currentPage="page"
         v-model:pageSize="perpage"
         :total="total"

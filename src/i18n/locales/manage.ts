@@ -65,6 +65,44 @@ export const enUS = {
     },
     resetPassword: 'Reset the user\'s password to their ID',
     resetConfirm: 'Please confirm your action.',
+  },
+  upload: {
+    label: 'Upload',
+    requirement: 'xls/xlsx files with a size less than 5 MiB. You should guarantee that the file is derived from provided template, or the server will reject it.',
+    prompt: {
+      black: 'Drop file here or ',
+      em: 'click to upload'
+    }
+  },
+  manage: {
+    tabs: {
+      groups: 'Groups',
+      users: 'Users',
+      import: 'Import'
+    }
+  },
+  exports: {
+    title: 'Export Data',
+    range: {
+      label: 'Range',
+      start: 'Start Date',
+      to: 'To',
+      end: 'End Date',
+    },
+    name: 'Filename',
+    format: 'Format',
+    formats: {
+      csv: 'CSV (Comma-Separated Values)',
+      json: 'JSON (JavaScript Object Notation)',
+      excel: 'Excel (OpenXML)',
+      html: 'HTML (HyperText Markup Language)',
+      latex: 'LaTeX (Leslie Lamport TeX)',
+    },
+    actions: {
+      export: 'Export',
+      download: 'Download'
+    },
+    prompt: 'The export task id is {task}. Check your progress, and click "download" when it is completed.'
   }
 }
 
@@ -134,5 +172,43 @@ export const zhCN = {
     },
     resetPassword: '重置该用户密码为学号',
     resetConfirm: '请确认您的操作。',
+  },
+  upload: {
+    label: '上传',
+    requirement: 'xls/xlsx 文件，大小不超过 5 MiB。您应保证文件是由提供的模板导出的，否则服务器将拒绝它。',
+    prompt: {
+      black: '拖拽文件至此或',
+      em: '点击上传'
+    }
+  },
+  manage: {
+    tabs: {
+      groups: '群组',
+      users: '用户',
+      import: '导入'
+    }
+  },
+  exports: {
+    title: '导出数据',
+    range: {
+      label: '范围',
+      start: '开始日期',
+      to: '至',
+      end: '结束日期',
+    },
+    name: '文件名',
+    format: '格式',
+    formats: {
+      csv: 'CSV (逗号分隔值)',
+      json: 'JSON (JavaScript 对象表示法)',
+      excel: 'Excel (OpenXML)',
+      html: 'HTML (超文本标记语言)',
+      latex: 'LaTeX (Leslie Lamport TeX)',
+    },
+    actions: {
+      export: '导出',
+      download: '下载'
+    },
+    prompt: '导出任务 ID 为 {task}。确认您的进度，当任务完成时点击下方「下载」按钮。'
   }
 }

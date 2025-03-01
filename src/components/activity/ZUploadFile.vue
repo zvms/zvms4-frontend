@@ -74,7 +74,7 @@ async function handleError(err: Error) {
             <ElFormItem :label="t('activity.form.description')">
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
-            <ElFormItem label="Upload" required class="w-full">
+            <ElFormItem :label="t('manage.upload.label')" required class="w-full">
               <ElUpload
                 class="w-full"
                 drag
@@ -97,9 +97,11 @@ async function handleError(err: Error) {
                 <ElIcon class="el-icon--upload">
                   <UploadFilled />
                 </ElIcon>
-                <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+                <div class="el-upload__text">{{ t('manage.upload.prompt.black') }}<em>{{ t('manage.upload.prompt.em') }}</em></div>
                 <template #tip>
-                  <div class="el-upload__tip">xls/xlsx files with a size less than 2 MB.</div>
+                  <div class="el-upload__tip">
+                    {{ t('manage.upload.requirement') }}
+                  </div>
                 </template>
               </ElUpload>
             </ElFormItem>
