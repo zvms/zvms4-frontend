@@ -48,14 +48,14 @@ async function login() {
     })
     return
   }
-  const users = (await api.user.read(user.value)).data
-  if (users.length !== 1) {
+  const users = (await api.user.read(user.value))?.users
+  if (users?.length !== 1) {
     await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
       type: 'error'
     })
     return
   }
-  const id = users[0]._id
+  const id = users?.[0]._id
   userStore.setUser(id, password.value as string).then(() => {
     router.push('/user')
   })

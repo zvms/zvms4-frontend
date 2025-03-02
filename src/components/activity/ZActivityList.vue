@@ -133,8 +133,8 @@ const openExport = ref(false)
 
 <template>
   <div class="max-w-full">
-    <ElDrawer direction="rtl" size="50%" v-model="openExport" title="Data Export" center>
-      <ZDataExport type="time" />
+    <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
+      <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
     <ElSkeleton
       v-if="loading && initial"

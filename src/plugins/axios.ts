@@ -54,6 +54,7 @@ axiosInstance.interceptors.response.use(
   },
   (error: Error | AxiosError) => {
     nprogress.done()
+    let errorDisplayed = false
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
         const token = parseJwt(localStorage.getItem('token') as string)
@@ -74,18 +75,24 @@ axiosInstance.interceptors.response.use(
           })
         }
       } else {
+        if (!errorDisplayed) {
+          errorDisplayed = true
+          ElMessageBox({
+            title: 'Error',
+            message: 'data: ' + JSON.stringify(error.response?.data),
+            type: 'error'
+          }).then(() => Promise.reject(error))
+        }
+      }
+    } else {
+      if (!errorDisplayed) {
+        errorDisplayed = true
         ElMessageBox({
           title: 'Error',
-          message: 'data: ' + JSON.stringify(error.response?.data),
+          message: 'error message: ' + error.message,
           type: 'error'
         }).then(() => Promise.reject(error))
       }
-    } else {
-      ElMessageBox({
-        title: 'Error',
-        message: 'error message: ' + error.message,
-        type: 'error'
-      }).then(() => Promise.reject(error))
     }
   }
 )

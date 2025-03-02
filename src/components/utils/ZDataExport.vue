@@ -17,8 +17,10 @@ import { useI18n } from 'vue-i18n'
 import 'dayjs/locale/zh-cn'
 
 const props = defineProps<{
-  type: 'time' | 'users' | 'activities'
+  type: 'time' | 'users' | 'activities',
+  modelValue: boolean
 }>()
+const emits = defineEmits(['update:modelValue'])
 const { t, locale } = useI18n()
 const { type } = toRefs(props)
 
@@ -67,7 +69,7 @@ const range = ref<[string, string]>(['', ''])
 const format = ref<FormatType>('excel')
 const taskID = ref('')
 const percentage = ref(0)
-const color = ref<'' | 'success' | 'exception'>('')
+const color = ref<'' | 'success' | 'exception' | 'warning'>('warning')
 const status = ref<'pending' | 'processing' | 'completed' | 'failed'>('pending')
 
 async function createTask() {
@@ -81,7 +83,10 @@ async function createTask() {
     taskID.value = result
   }
   const interval = setInterval(async () => {
-    const result = await api.exports.query(taskID.value)
+    const result = await api.exports.query(taskID.value).catch(() => {
+      color.value = 'exception'
+      clearInterval(interval)
+    })
     if (result) {
       percentage.value = parseFloat(result.percentage.toFixed(2))
       status.value = result.status
@@ -91,9 +96,31 @@ async function createTask() {
       } else if (result.status === 'failed') {
         color.value = 'exception'
         clearInterval(interval)
+      } else if (result.status === 'pending' || percentage.value < 10.0) {
+        color.value = 'warning'
+      } else {
+        color.value = ''
       }
+    } else {
+      color.value = 'exception'
+      clearInterval(interval)
     }
-  }, 5000)
+  }, 1500)
+}
+
+function cleanup() {
+  name.value = ''
+  format.value = 'excel'
+  status.value = 'pending'
+  taskID.value = ''
+  range.value = ['', '']
+  color.value = 'warning'
+  emits('update:modelValue', false)
+}
+
+async function download() {
+  await api.exports.download(taskID.value, name.value, format.value)
+  cleanup()
 }
 </script>
 
@@ -143,8 +170,8 @@ async function createTask() {
     </ElText>
     <ElProgress
       v-if="taskID"
-      :percentage="percentage"
-      :intermediate="status === 'pending'"
+      :percentage="(status === 'pending' || percentage <= 10) ? 100 : percentage"
+      :indeterminate="status === 'pending' || percentage <= 10"
       :duration="3"
       :status="color"
     />
@@ -155,7 +182,7 @@ async function createTask() {
       text
       bg
       type="success"
-      @click="api.exports.download(taskID, name, format)"
+      @click="download"
     >
       {{ t('manage.exports.actions.download') }}
     </ElButton>
