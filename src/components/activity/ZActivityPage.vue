@@ -144,17 +144,6 @@ watch(height, () => {
           dayjs(activity.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem
-        v-if="activity.type === 'specified' && activity.registration.place"
-        :label="t('activity.registration.location', activity.registration.classes.length)"
-      >
-        <ElButton round size="small" :icon="Location" text type="info">
-          {{ activity.registration.place }}
-        </ElButton>
-      </ElDescriptionsItem>
-      <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">
-        <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
-      </ElDescriptionsItem>
     </ElDescriptions>
     <ElDescriptions
       v-if="mine"
