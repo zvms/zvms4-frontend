@@ -53,7 +53,7 @@ watch(
 watch(
   () => route.params.action,
   (value) => {
-    tab.value = value ?? 'users' as string
+    tab.value = value.toString() ?? 'users' as string
   }
 )
 

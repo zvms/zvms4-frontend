@@ -12,7 +12,7 @@ const { t } = useI18n()
 const user = useUserStore()
 
 const targetsOfDuration = {
-  'on-campus': 30,
+  'on-campus': 25,
   'off-campus': 15,
   'social-practice': 18
 }
