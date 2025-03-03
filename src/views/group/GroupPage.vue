@@ -53,8 +53,7 @@ watch(
 watch(
   () => route.params.action,
   (value) => {
-    console.log(value)
-    tab.value = value as string
+    tab.value = value ?? 'users' as string
   }
 )
 
@@ -98,7 +97,7 @@ const curPage = route.params.action?.toString()
 const tab = ref(curPage && curPage !== '' ? curPage : 'users')
 
 watch(tab, () => {
-  router.push('/group/' + id.value + '/' + tab.value)
+  router.push('/group/' + id.value + '/' + tab.value ?? 'users')
 })
 </script>
 
