@@ -50,9 +50,11 @@ const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
-const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
+const { rol:role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
+// eslint-disable-next-line vue/no-dupe-keys
+const role = ref(rol.value ?? 'mine')
 const loading = ref(true)
 const initial = ref(true)
 const searchWord = ref(route.query?.search?.toString() ?? '')
