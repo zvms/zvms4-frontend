@@ -7,7 +7,7 @@ import type { User } from '@/../types'
 
 const props = defineProps<{
   modelValue: string | string[]
-  filterStart: number // 位数，6-8
+  filterStart: number // Digits, 6-8
   fullWidth?: boolean
   disabled?: boolean
   multiple?: boolean
@@ -45,7 +45,7 @@ async function filter(number: string) {
     load.value = false
     return []
   }
-  const result = await api.user.read(number)
+  const result = (await api.user.read(number))?.users
   if (result) {
     options.value = await Promise.all(
       result.map(

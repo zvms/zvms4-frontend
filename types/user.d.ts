@@ -4,6 +4,7 @@ export interface User {
   name: string
   sex: 'male' | 'female' | 'unknown'
   group: string[]
+  past: string[]
 }
 
 export type UserPosition = 'system' | 'admin' | 'auditor' | 'department' | 'secretary' | 'student'

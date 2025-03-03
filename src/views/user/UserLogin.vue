@@ -65,6 +65,9 @@ watch(user, async () => {
   await loginfield.value.validate()
 })
 
+watch(user, () => {
+  user.value = user.value.toString().replace(/[^0-9]/g, '')
+})
 </script>
 
 <template>
@@ -84,7 +87,7 @@ watch(user, async () => {
       </ElRow>
       <ElForm ref="loginfield" label-position="right" label-width="96px">
         <ElFormItem :label="t('nav.login.form.account')" prop="id" class="py-1">
-          <ElInput v-model.number="user" clearable type="number" class="w-full" :min="8" :max="8" />
+          <ElInput v-model.number="user" :minlength="8" :maxlength="8" clearable type="number" class="w-full" :min="8" :max="8" />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">
           <ElInput

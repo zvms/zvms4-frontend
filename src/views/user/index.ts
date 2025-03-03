@@ -103,7 +103,7 @@ export async function modifyPasswordDialogs(
   locale: string,
   caller: (a: string, b: string) => Promise<void>
 ) {
-  const token = await temporaryToken(user, false, locale as 'en-US')
+  const token = await temporaryToken(user, false)
   if (!token) {
     throw new Error('Token is not available')
   }

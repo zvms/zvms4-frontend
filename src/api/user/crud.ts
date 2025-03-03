@@ -50,7 +50,7 @@ async function putUser(user: string, target: string, name: string, id: string, g
     await axios({
       method: create ? 'post' : 'put',
       url: `/user/${target}`,
-      data: { name, group, id, sex: 'unknown' },
+      data: { name, group, id, sex: 'unknown', past: [] },
       headers: {
         Authorization: 'Bearer ' + token
       }

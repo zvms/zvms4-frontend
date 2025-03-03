@@ -53,7 +53,8 @@ const modification = reactive<User>({
   id: '' as unknown as number,
   name: '',
   group: [],
-  sex: 'unknown'
+  sex: 'unknown',
+  past: []
 })
 
 if (cid.value.length === 24) {

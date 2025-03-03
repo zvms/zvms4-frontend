@@ -118,6 +118,9 @@ watch(height, () => {
             :grouping="false"
           />
         </ElDescriptionsItem>
+        <ElDescriptionsItem :label="t('home.labels.past')">
+          {{ person?.past.length === 0 ? t('home.labels.nonPast') : person?.past.join(', ') }}
+        </ElDescriptionsItem>
       </ElDescriptions>
       <ZUserTimeJudge
         class="py-2"

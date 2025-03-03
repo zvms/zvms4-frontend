@@ -24,7 +24,9 @@ export const enUS = {
       unknown: 'Unknown'
     },
     class: 'Class',
-    identify: 'User Group'
+    identify: 'User Group',
+    past: 'Used Identities',
+    nonPast: 'None'
   },
   panels: {
     information: {
@@ -69,7 +71,9 @@ export const zhCN = {
       female: '女',
       unknown: '未知'
     },
-    identify: '身份'
+    identify: '身份',
+    past: '过往身份',
+    nonPast: '无'
   },
   panels: {
     information: {

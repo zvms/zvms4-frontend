@@ -123,7 +123,7 @@ export const enUS = {
       create: 'Create Notification',
       specific: 'Specific Notification'
     }
-  }
+  },
 }
 
 export const zhCN = {
@@ -250,5 +250,5 @@ export const zhCN = {
       create: '创建通知',
       specific: '指定通知'
     }
-  }
+  },
 }
