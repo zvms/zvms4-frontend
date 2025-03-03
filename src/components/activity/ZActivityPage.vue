@@ -95,7 +95,7 @@ watch(height, () => {
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
           <ElBreadcrumbItem>
-            <ElButton text size="small" @click="$router.push('/activities/')">
+            <ElButton text size="small" @click="$router.push('/activities')">
               {{ t('nav.breadcrumbs.view.home') }}
             </ElButton>
           </ElBreadcrumbItem>
@@ -144,6 +144,17 @@ watch(height, () => {
           dayjs(activity.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
+      <ElDescriptionsItem
+        v-if="activity.type === 'specified' && activity.registration.place"
+        :label="t('activity.registration.location')"
+      >
+        <ElButton round size="small" :icon="Location" text type="info">
+          {{ activity.registration.place }}
+        </ElButton>
+      </ElDescriptionsItem>
+      <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">
+        <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
+      </ElDescriptionsItem>
     </ElDescriptions>
     <ElDescriptions
       v-if="mine"
@@ -183,7 +194,7 @@ watch(height, () => {
           {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
         <ElButton text bg round size="small" type="warning" :icon="Edit">
-          {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
       </ElButtonGroup>
     </div>
