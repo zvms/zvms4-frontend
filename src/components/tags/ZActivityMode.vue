@@ -75,7 +75,7 @@ const modes: Record<
 <template>
   <ElPopover
     :title="t(`activity.mode.${mode}.name`)"
-    :width="384"
+    :width="160"
     :trigger="showMyDuration || showProperties ? 'hover' : 'contextmenu'"
   >
     <template #reference>
