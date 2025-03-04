@@ -114,17 +114,17 @@ const collaborators = [
   {
     display: '2008-LXL',
     grade: 202407,
-    name: '李心磊',
+    name: '李心磊'
   },
   {
     display: 'Zcraft_',
     grade: 202410,
-    name: '章正杰',
+    name: '章正杰'
   },
   {
     display: 'ljj',
     grade: 202400,
-    name: '陆蒋俊',
+    name: '陆蒋俊'
   }
 ] as Array<{ display: string; grade: number; name: string }>
 
@@ -141,7 +141,7 @@ const versions = [
   { collaborators: V4List }
 ]
 
-const v4ExtraMaintainers = ['lxl', 'zzj', 'ljj']
+const v4ExtraMaintainers = ['2008-LXL', 'Zcraft_', 'ljj']
 
 const displayGitHubName = ref(props.showRealName)
 
