@@ -59,19 +59,12 @@ const router = createRouter({
     {
       path: '/activities',
       name: 'activity',
-      component: () => import('../views/user/UserActivity.vue'),
-      children: [
-        {
-          path: '/activities',
-          name: 'activity',
-          component: () => import('../views/activity/ViewPage.vue')
-        },
-        {
-          path: '/activities/:type',
-          name: 'activity-type',
-          component: () => import('../views/activity/ViewPage.vue')
-        }
-      ]
+      component: () => import('../views/user/UserActivity.vue')
+    },
+    {
+      path: '/activities/:type',
+      name: 'activity-type',
+      component: () => import('../views/user/UserActivity.vue')
     },
     {
       path: '/manage',
