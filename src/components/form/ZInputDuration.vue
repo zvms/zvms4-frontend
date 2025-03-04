@@ -35,7 +35,7 @@ watch(
 </script>
 
 <template>
-  <ElForm :model="duration">
+  <ElForm :model="duration" @submit.prevent>
     <ElFormItem
       prop="duration"
       :rules="[
