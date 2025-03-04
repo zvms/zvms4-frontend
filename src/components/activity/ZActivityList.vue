@@ -126,7 +126,7 @@ function confirmPage() {
 
 watch(pageSize, confirmPage)
 watch(activePage, confirmPage)
-watch(searchWord, confirmPage)
+watch(query, confirmPage)
 
 const openExport = ref(false)
 </script>

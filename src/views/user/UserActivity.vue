@@ -71,11 +71,8 @@ function moveTo(type: string) {
 </script>
 
 <template>
-  <div class="p-4" style="width: 100%">
-    <div
-      class="flex px-12 py-4"
-      v-if="route.path.startsWith('/activities')"
-    >
+  <div class="p-4" style="width: 100%; height: 100%">
+    <div class="flex px-12 py-4">
       <Transition appear enter-active-class="animate__animated animate__fadeIn">
         <span class="text-xl">
           {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
@@ -104,17 +101,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <Transition appear v-else enter-active-class="animate__animated animate__fadeIn">
-      <ElPageHeader
-        :icon="ArrowLeft"
-        class="text-xl px-12 py-4"
-        @back="router.push('/activities/mine')"
-      >
-        <template #content>
-          {{ t(`activity.view.panels.${tab}.name`) }}
-        </template>
-      </ElPageHeader>
-    </Transition>
-    <RouterView class="px-4" v-if="availibility" :key="route.path" />
+    <RouterView class="px-4" :key="route.path" />
   </div>
 </template>
