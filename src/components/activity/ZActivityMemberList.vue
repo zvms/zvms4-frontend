@@ -91,7 +91,7 @@ function getAllow(): ActivityMode[] {
 const appending = ref<ActivityMember>({
   _id: '',
   duration:
-    activity.value.members.map((x) => x.duration).some((x) => x) ? ((activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)) / (activity.value.members.length)) : 0,
+    activity.value.members.map((x) => x.duration).some((x) => x) ? Math.round(((activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)) / (activity.value.members.length))) : 0,
   mode: getMode(),
   status: 'effective',
 })
@@ -254,7 +254,7 @@ function pushTo(url: string) {
                       {{ t('activity.form.actions.cancel') }}
                     </ElButton>
                     <ElButton
-                      :disabled="appending._id === '' || appending.duration <= 0 || appending.duration > 18 || activity.members.find(x => x._id === appending._id)"
+                      :disabled="appending._id === '' || appending.duration <= 0 || appending.duration > 18 || activity.members.find(x => x._id === appending._id) !== undefined"
                       text
                       bg
                       type="success"
