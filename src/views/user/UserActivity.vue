@@ -2,6 +2,7 @@
 import { ElPageHeader, ElSpace, ElButton, ElDivider } from 'element-plus'
 import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { ZActivityList } from '@/components'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
 import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
@@ -84,7 +85,7 @@ function moveTo(type: string) {
         class="flex justify-end"
         style="margin-left: auto"
       >
-        <ElSpace>
+        <ElSpace v-if="x.visibility">
           <ElButton
             text
             bg
@@ -101,6 +102,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <RouterView class="px-4" :key="route.path" />
+    <ZActivityList class="mx-12" :role="tab ?? 'mine'" />
   </div>
 </template>
