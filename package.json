@@ -123,7 +123,7 @@
     "vite-plugin-vue-devtools": "7.7.0",
     "vitepress": "1.0.0-rc.42",
     "vitest": "^3.0.2",
-    "vue-i18n": "^11.0.1",
+    "vue-i18n": "^11.1.2",
     "vue-tsc": "^1.8.19"
   },
   "config": {
