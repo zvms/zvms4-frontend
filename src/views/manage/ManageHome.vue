@@ -6,8 +6,10 @@ import { useI18n } from 'vue-i18n'
 import { ElPageHeader, ElSegmented, ElIcon } from 'element-plus'
 import { ArrowLeft, Edit, Upload } from '@element-plus/icons-vue'
 import type { User as UserType } from '@/../types'
-import { Group, User } from '@icon-park/vue-next'
+import { Group, Log, User } from '@icon-park/vue-next'
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
+import ZGroupList from '@/components/group/ZGroupList.vue'
+import ZLogList from '@/components/log/ZLogList.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +42,11 @@ const tabs = ref([
     label: 'Users',
     value: 'users',
     icon: User
+  },
+  {
+    label: 'Logs',
+    value: 'logs',
+    icon: Log
   },
   {
     label: 'Import',
@@ -82,6 +89,7 @@ watch(
       </template>
     </ElPageHeader>
     <ZGroupList v-if="current === 'groups'" />
-    <ZGroupUserList v-if="current === 'users'" />
+    <ZGroupUserList v-else-if="current === 'users'" id="" />
+    <ZLogList v-else-if="current === 'logs'" id="" />
   </div>
 </template>

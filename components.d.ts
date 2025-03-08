@@ -35,6 +35,8 @@ declare module 'vue' {
     ZGroupUserList: typeof import('./src/components/group/ZGroupUserList.vue')['default']
     ZGroupUserTimeList: typeof import('./src/components/group/ZGroupUserTimeList.vue')['default']
     ZInputDuration: typeof import('./src/components/form/ZInputDuration.vue')['default']
+    ZLogCard: typeof import('./src/components/log/ZLogCard.vue')['default']
+    ZLogList: typeof import('./src/components/log/ZLogList.vue')['default']
     ZNotificationCard: typeof import('./src/components/notifications/ZNotificationCard.vue')['default']
     ZNotificationContentDisplayer: typeof import('./src/components/notifications/ZNotificationContentDisplayer.vue')['default']
     ZNotificationForm: typeof import('./src/components/notifications/ZNotificationForm.vue')['default']

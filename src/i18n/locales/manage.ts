@@ -78,7 +78,8 @@ export const enUS = {
     tabs: {
       groups: 'Groups',
       users: 'Users',
-      import: 'Import'
+      import: 'Import',
+      logs: 'Logs',
     }
   },
   exports: {
@@ -185,7 +186,8 @@ export const zhCN = {
     tabs: {
       groups: '群组',
       users: '用户',
-      import: '导入'
+      import: '导入',
+      logs: '日志'
     }
   },
   exports: {
