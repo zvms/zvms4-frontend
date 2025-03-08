@@ -85,7 +85,7 @@ function moveTo(type: string) {
         class="flex justify-end"
         style="margin-left: auto"
       >
-        <ElSpace v-if="x.visibility">
+        <ElSpace v-if="panes.length > 1">
           <ElButton
             text
             bg
