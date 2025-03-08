@@ -79,7 +79,7 @@ async function handleError(err: Error) {
                 class="w-full"
                 drag
                 :disabled="activity.name === ''"
-                :action="baseURL + `imports/activity?name=${activity.name}&desc=${activity.description}`"
+                :action="baseURL + `imports/activities?name=${activity.name}&desc=${activity.description}`"
                 multiple
                 :headers="{
                   Authorization: `Bearer ${token}`

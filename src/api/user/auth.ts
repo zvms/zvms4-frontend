@@ -38,7 +38,7 @@ export async function resetPassword(
   const publicKey = await importPublicKey(await getRSAPublicCert())
   const credential = await encryptData(publicKey, payload)
   const hex = byteArrayToHex(new Uint8Array(credential))
-  const result = (await axios(`/user/${user}/password`, {
+  const result = (await axios(`/users/${user}/password`, {
     method: 'PUT',
     data: {
       credential: hex
@@ -69,7 +69,7 @@ async function UserLogin(user: string, password: string, term: 'long' | 'short' 
   const publicKey = await importPublicKey(await getRSAPublicCert())
   const credential = await encryptData(publicKey, payload)
   const hex = byteArrayToHex(new Uint8Array(credential))
-  const result = (await axios('/user/auth', {
+  const result = (await axios('/users/auth', {
     method: 'POST',
     data: {
       id: user.toString(),
@@ -79,7 +79,7 @@ async function UserLogin(user: string, password: string, term: 'long' | 'short' 
   })) as Response<LoginResult>
   if (result.status === 'error') {
     ElNotification({
-      title: '登录错误（' + result.code + '）',
+      title: 'Login failed (' + result.code + ')',
       message: result.message,
       type: 'error'
     })

@@ -10,7 +10,8 @@ import {
   ElInput,
   ElButton,
   ElCol,
-  ElRow
+  ElRow,
+  ElPopover
 } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
@@ -21,10 +22,11 @@ import { ZUserGroup } from '@/components'
 import { useWindowSize } from '@vueuse/core'
 import { Box, Search } from '@element-plus/icons-vue'
 import { pad } from '@/plugins/ua.ts'
+import ZDataExport from '@/components/utils/ZDataExport.vue'
 
 const router = useRouter()
 const { height } = useWindowSize()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const userStore = useUserStore()
 
 const props = withDefaults(
@@ -75,15 +77,14 @@ const refresh = () => {
         loading.value = false
       })
   } else {
-    api.user.read(search.value, page.value, perpage.value)
-      .then((res) => {
-        if (res) {
-          users.value = []
-          users.value.push(...res.users)
-          total.value = res.size
-        }
-        loading.value = false
-      })
+    api.user.read(search.value, page.value, perpage.value).then((res) => {
+      if (res) {
+        users.value = []
+        users.value.push(...res.users)
+        total.value = res.size
+      }
+      loading.value = false
+    })
   }
 }
 onMounted(refresh)
@@ -98,8 +99,23 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
+
 const pwdm = ref(false)
 watch(pwdm, refresh)
+
+async function exportUserList() {
+  const name =
+    id.value === ''
+      ? locale.value === 'zh-CN'
+        ? `全校学生名单`
+        : `Student List`
+      : locale.value === 'zh-CN'
+      ? `${group?.value?.name}学生名单`
+      : `Student List of ${group?.value?.name}`
+  if (id.value) {
+    await api.group.template(id.value, name)
+  }
+}
 </script>
 
 <template>
@@ -111,7 +127,11 @@ watch(pwdm, refresh)
     "
   >
     <ElCard shadow="never" v-loading="loading">
-      <ElFormItem v-if="id" :label="t('manage.groupDetails.userList.checkPasswordPrompt')" class="mb-4">
+      <ElFormItem
+        v-if="id"
+        :label="t('manage.groupDetails.userList.checkPasswordPrompt')"
+        class="mb-4"
+      >
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
       <ElTable :data="users" stripe :max-height="tableHeight">
@@ -122,17 +142,25 @@ watch(pwdm, refresh)
             <ZUserGroup v-for="group in row.group" :key="group" :group="group" class="px-1" />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="pwdm" prop="password" :label="t('manage.groupDetails.userList.columns.pwdm')">
+        <ElTableColumn
+          v-if="pwdm"
+          prop="password"
+          :label="t('manage.groupDetails.userList.columns.pwdm')"
+        >
           <template #default="{ row }">
-            <span v-if="row.password" class="color-green">{{ t('manage.groupDetails.userList.columns.pwdmStatus.true') }}</span>
-            <span v-else class="color-red">{{ t('manage.groupDetails.userList.columns.pwdmStatus.false') }}</span>
+            <span v-if="row.password" class="color-green">{{
+              t('manage.groupDetails.userList.columns.pwdmStatus.true')
+            }}</span>
+            <span v-else class="color-red">{{
+              t('manage.groupDetails.userList.columns.pwdmStatus.false')
+            }}</span>
           </template>
         </ElTableColumn>
         <ElTableColumn fixed="right">
           <template #header>
             <div>
               <ElInput
-                v-if="pad() || id"
+                v-if="pad() || (group?.type !== 'class' && id)"
                 v-model="search"
                 size="small"
                 :placeholder="t('manage.groupList.columns.search')"
@@ -153,9 +181,36 @@ watch(pwdm, refresh)
                   />
                 </ElCol>
                 <ElCol :span="8">
-                  <ElButton :icon="Box" class="w-full mx-1" text bf round size="small" type="warning">
+                  <ElButton
+                    v-if="id"
+                    :icon="Box"
+                    class="w-full mx-1"
+                    @click="exportUserList"
+                    text
+                    bf
+                    round
+                    size="small"
+                    type="warning"
+                  >
                     Export
                   </ElButton>
+                  <ElPopover v-else>
+                    <template #reference>
+                      <ElButton
+                        :icon="Box"
+                        class="w-full mx-1"
+                        @click="exportUserList"
+                        text
+                        bf
+                        round
+                        size="small"
+                        type="warning"
+                      >
+                        Export
+                      </ElButton>
+                    </template>
+                    <ZDataExport type="users" :model-value="true" />
+                  </ElPopover>
                 </ElCol>
               </ElRow>
             </div>

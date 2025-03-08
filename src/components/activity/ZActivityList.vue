@@ -246,7 +246,7 @@ const openExport = ref(false)
           <template #default="{ row }">
             <ElButton
               :icon="View"
-              :disabled="selectTarget !== ''"
+              v-if="selectTarget === ''"
               text
               bg
               type="info"

@@ -4,7 +4,7 @@ import type { Response } from '@/../types'
 async function modifyActivityTitle(aid: string, title: string) {
   const result = (
     await axios({
-      url: `/activity/${aid}/name`,
+      url: `/activities/${aid}/name`,
       method: 'put',
       data: {
         name: title
@@ -20,7 +20,7 @@ async function modifyActivityTitle(aid: string, title: string) {
 async function modifyActivityDescription(aid: string, description: string) {
   const result = (
     await axios({
-      url: `/activity/${aid}/description`,
+      url: `/activities/${aid}/description`,
       method: 'put',
       data: {
         description
@@ -36,7 +36,7 @@ async function modifyActivityDescription(aid: string, description: string) {
 async function modifyActivityStatus(aid: string, status: string) {
   const result = (
     await axios({
-      url: `/activity/${aid}/status`,
+      url: `/activities/${aid}/status`,
       method: 'put',
       data: {
         status

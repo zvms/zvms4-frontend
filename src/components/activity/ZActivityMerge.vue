@@ -20,11 +20,13 @@ import api from '@/api'
 import { useWindowSize, useDark } from '@vueuse/core'
 import { useUserStore } from '@/stores/user.ts'
 import { InfoFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
 const user = useUserStore()
 const { height } = useWindowSize()
 const dark = useDark()
+const { router } = useRouter()
 
 const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
 
@@ -58,13 +60,15 @@ async function mergeActivity() {
     user._id,
     updateStatus
   )
+
+  await router.push('/activities/campus')
 }
 </script>
 
 <template>
   <div class="py-6 px-12">
     <ElCard shadow="never">
-      <ElForm class="px-2" label-position="right" label-width="96px">
+      <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
           <ElFormItem :label="t('manage.merge.form.name')">
             <ElInput v-model="mergeForm.name" class="w-full" />
@@ -89,6 +93,7 @@ async function mergeActivity() {
               :closable="false"
             />
             <ZActivityList
+              v-if="mergeForm.type"
               :select-target="mergeForm.type"
               v-model="mergeForm.list"
               class="w-full"

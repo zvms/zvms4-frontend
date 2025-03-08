@@ -99,6 +99,11 @@ const router = createRouter({
       component: () => import('../views/activity/ActivityPage.vue')
     },
     {
+      path: '/sww',
+      name: 'something-went-wrong',
+      component: () => import('../views/SomethingWrong.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFound.vue')

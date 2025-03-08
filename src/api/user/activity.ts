@@ -9,7 +9,7 @@ async function getUserActivities(
   query: string = ''
 ) {
   const result = (
-    await axios(`/user/${id}/activity`, {
+    await axios(`/users/${id}/activities`, {
       method: 'get',
       params: {
         page,
@@ -24,7 +24,7 @@ async function getUserActivities(
   }
   if (result.status === 'error') {
     ElNotification({
-      title: `获取用户义工列表失败（${result.code}）`,
+      title: `Error in getting activity list (${result.code})`,
       message: result.message,
       type: 'error'
     })

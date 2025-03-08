@@ -6,7 +6,7 @@ import { ElNotification } from 'element-plus'
 export async function createGroup(group: Group) {
   const response = await axios({
     method: 'post',
-    url: '/group',
+    url: '/groups',
     data: group
   })
   const data = response.data as Response<{ _id: string }>
@@ -22,7 +22,7 @@ export async function createGroup(group: Group) {
 }
 
 export async function getGroup(gid: string) {
-  const response = await axios('/group/' + gid)
+  const response = await axios('/groups/' + gid)
   const data = response.data as Response<Group>
   if (data.status === 'ok') {
     return data.data
@@ -35,7 +35,7 @@ export async function getGroups(
   limit = 10,
   search = ''
 ) {
-  const response = await axios('/group', {
+  const response = await axios('/groups', {
     params: { type, page, perpage: limit, search }
   })
   const data = response.data as Response<Group[]> & { metadata: { size: number } }
@@ -50,7 +50,7 @@ export async function getGroups(
 export async function editGroupName(gid: string, name: string) {
   const response = await axios({
     method: 'put',
-    url: `/group/${gid}/name`,
+    url: `/groups/${gid}/name`,
     data: { name }
   })
   const data = response.data as Response<null>
@@ -60,7 +60,7 @@ export async function editGroupName(gid: string, name: string) {
 export async function editGroupDescription(gid: string, description: string) {
   const response = await axios({
     method: 'put',
-    url: `/group/${gid}/description`,
+    url: `/groups/${gid}/description`,
     data: { description }
   })
   const data = response.data as Response<null>
@@ -70,7 +70,7 @@ export async function editGroupDescription(gid: string, description: string) {
 export async function editGroupPermissions(gid: string, permissions: UserPosition[]) {
   const response = await axios({
     method: 'put',
-    url: `/group/${gid}/permissions`,
+    url: `/groups/${gid}/permissions`,
     data: { permissions }
   })
   const data = response.data as Response<null>
@@ -78,10 +78,10 @@ export async function editGroupPermissions(gid: string, permissions: UserPositio
 }
 
 export async function deleteGroup(uid: string, gid: string) {
-  const token = await temporaryToken(uid, true)
+  const token = await temporaryToken(uid)
   const response = await axios({
     method: 'delete',
-    url: `/group/${gid}`,
+    url: `/groups/${gid}`,
     headers: {
       Authorization: `Bearer ${token}`
     }

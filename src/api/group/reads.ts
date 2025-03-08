@@ -9,7 +9,7 @@ export async function users(
   pwdm: boolean = false
 ) {
   const response = (
-    await axios(`/group/${gid}/user`, {
+    await axios(`/groups/${gid}/user`, {
       params: {
         page,
         perpage,
@@ -40,7 +40,7 @@ export async function time(
   shortage: boolean = false
 ) {
   const response = (
-    await axios(`/group/${gid}/time`, {
+    await axios(`/groups/${gid}/time`, {
       params: {
         page,
         perpage,

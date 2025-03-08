@@ -4,7 +4,7 @@ import type { Response, ActivityMember } from '@/../types'
 
 export async function insert(aid: string, member: ActivityMember) {
   const result = (
-    await axios(`/activity/${aid}/member`, {
+    await axios(`/activities/${aid}/member`, {
       method: 'post',
       data: member
     })
@@ -17,7 +17,7 @@ export async function insert(aid: string, member: ActivityMember) {
 export async function remove(id: string, aid: string, uid: string) {
   const token = await temporaryToken(uid)
   const result = (
-    await axios(`/activity/${aid}/member/${id}`, {
+    await axios(`/activities/${aid}/member/${id}`, {
       method: 'delete',
       headers: {
         Authorization: `Bearer ${token}`
@@ -30,7 +30,7 @@ export async function remove(id: string, aid: string, uid: string) {
 }
 
 export async function read(aid: string, uid: string) {
-  const result = (await axios(`/activity/${aid}/member/${uid}`)).data as Response<ActivityMember>
+  const result = (await axios(`/activities/${aid}/member/${uid}`)).data as Response<ActivityMember>
   if (result.status === 'ok') {
     return result.data
   }

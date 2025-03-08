@@ -4,7 +4,7 @@ import type { User, Response } from '@/../types'
 import { ElNotification } from 'element-plus'
 
 async function getUser(id: string) {
-  const result = (await axios(`/user/${id}`)).data as Response<User>
+  const result = (await axios(`/users/${id}`)).data as Response<User>
   if (result.status === 'error') {
     ElNotification({
       title: 'Error in getting user: ' + result.message,
@@ -18,7 +18,7 @@ async function getUser(id: string) {
 
 async function getUsers(id: string = '', page: number = 1, perpage: number = 5) {
   const result = (
-    await axios(`/user`, {
+    await axios(`/users`, {
       params: {
         query: id,
         page,
@@ -32,7 +32,7 @@ async function getUsers(id: string = '', page: number = 1, perpage: number = 5) 
   }
   if (result.status === 'error') {
     ElNotification({
-      title: '获取用户信息错误（' + result.code + '）',
+      title: 'Error when fetching data (' + result.code + ')',
       message: result.message,
       type: 'error'
     })
@@ -49,7 +49,7 @@ async function putUser(user: string, target: string, name: string, id: string, g
   const result = (
     await axios({
       method: create ? 'post' : 'put',
-      url: `/user/${target}`,
+      url: `/users/${target}`,
       data: { name, group, id, sex: 'unknown', past: [] },
       headers: {
         Authorization: 'Bearer ' + token
@@ -71,7 +71,7 @@ async function deleteUser(user: string, target: string) {  const token = await t
   const result = (
     await axios({
       method: 'delete',
-      url: `/user/${target}`,
+      url: `/users/${target}`,
       data: { target },
       headers: {
         Authorization: 'Bearer ' + token

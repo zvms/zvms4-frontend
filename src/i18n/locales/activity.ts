@@ -2,14 +2,14 @@ export const enUS = {
   type: {
     specified: {
       name: 'On-Campus Activity',
-      short: 'On-Campus',
+      short: 'On Campus',
       key: 'specified',
       description:
         'On-Campus Activities are volunteers created by the administrator, posted as a recruitment, and need to specify the maximum number of people who can sign up for each class.'
     },
     social: {
       name: 'Off-Campus Activity',
-      short: 'Off-Campus',
+      short: 'Off Campus',
       key: 'social',
       description:
         'Off-Campus Activities are volunteers that can be created by at least the secretary, and all participants must be designated at the time of creation. It is limited to volunteers on weekends and holidays off campus during the semester.'
@@ -22,7 +22,7 @@ export const enUS = {
         'Social Practice Activities are volunteers that can be created by anyone in Jan - Mar, Jul - Oct, and all participants must be designated at the time of creation. It is limited to social volunteers during winter and summer vacation according to the scale notification file of the school.'
     },
     special: {
-      name: 'Special Activity',
+      name: 'Special Record',
       short: 'Special',
       key: 'special',
       description:
@@ -32,7 +32,7 @@ export const enUS = {
   },
   create: {
     normal: 'Normal Activity',
-    special: 'Special Activity',
+    special: 'Special Record',
     merge: 'Merge Activities',
     upload: 'Upload Data'
   },
@@ -44,12 +44,12 @@ export const enUS = {
   },
   mode: {
     'on-campus': {
-      name: 'On-Campus Activities',
+      name: 'On Campus Activities',
       short: 'On Campus',
       key: 'on-campus'
     },
     'off-campus': {
-      name: 'Off-Campus Activities',
+      name: 'Off Campus Activities',
       short: 'Off Campus',
       key: 'off-campus'
     },
@@ -356,34 +356,30 @@ export const zhCN = {
       name: '校内义工',
       short: '校内',
       key: 'specified',
-      description:
-        '校内义工是由管理员或团支书创建，发布为招募的义工，需要指定每个班级可以报名的人数上限。'
+      description: ''
     },
     social: {
       name: '校外义工',
       short: '校外',
       key: 'social',
-      description:
-        '校外义工是由任何人员可以创建，创建时需要指定所有参与人员，仅限于在学期内周末节假日校外的义工。'
+      description: ''
     },
     scale: {
       name: '社会实践义工',
       short: '社会实践',
       key: 'scale',
-      description:
-        '实践义工是由任何人都可以创建，创建时需要指定所有参与人员，仅限于在寒暑假期间根据学校文件的社会实践。'
+      description: ''
     },
     special: {
-      name: '特殊义工',
+      name: '特殊录入',
       short: '特殊',
       key: 'special',
-      description:
-        '特殊义工是由管理员创建的比赛获奖、社团活动统计的义工等，参与人员不需要提交感想。'
+      description: ''
     }
   },
   create: {
     normal: '普通义工',
-    special: '特殊义工',
+    special: '特殊录入',
     merge: '合并义工',
     upload: '上传数据'
   },

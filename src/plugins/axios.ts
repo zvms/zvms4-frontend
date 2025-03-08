@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios'
-import { ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
+import router from '@/router'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
@@ -68,30 +69,46 @@ axiosInstance.interceptors.response.use(
           localStorage.removeItem('user')
           // window.location.href = '/user/login'
         } else {
-          ElNotification({
+          ElMessageBox({
             title: 'Error',
             message: 'Your password is wrong. Please operate again.',
             type: 'error'
-          })
+          }).then((r) => Promise.reject(r))
         }
       } else {
         if (!errorDisplayed) {
           errorDisplayed = true
-          ElMessageBox({
-            title: 'Error',
-            message: 'data: ' + JSON.stringify(error.response?.data),
-            type: 'error'
-          }).then(() => Promise.reject(error))
+          ElMessage({
+            message: error.response?.data?.detail
+              ? 'Error: ' +
+                (typeof error.response?.data?.detail === 'string'
+                  ? error.response?.data?.detail
+                  : JSON.stringify(error.response?.data?.detail))
+              : 'Something went wrong',
+            type: 'error',
+            grouping: true,
+            plain: true
+          })
+          if (!error.response?.data?.detail) {
+            router.push('/sww')
+          }
         }
       }
     } else {
       if (!errorDisplayed) {
         errorDisplayed = true
-        ElMessageBox({
-          title: 'Error',
-          message: 'error message: ' + error.message,
-          type: 'error'
-        }).then(() => Promise.reject(error))
+        ElMessage({
+          message:
+            'Error:' + error.message
+              ? 'data: ' + JSON.stringify(error.message)
+              : 'Something went wrong',
+          type: 'error',
+          grouping: true,
+          plain: true
+        })
+        if (!error.message) {
+          router.push('/sww')
+        }
       }
     }
   }

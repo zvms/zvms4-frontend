@@ -11,7 +11,7 @@ async function getClassActivities(
   classid: string = ''
 ) {
   const result = (
-    await axios(`/group/${classid}/activity`, {
+    await axios(`/groups/${classid}/activities`, {
       params: {
         page,
         perpage,
@@ -26,7 +26,7 @@ async function getClassActivities(
   }
   if (result.status === 'error') {
     ElNotification({
-      title: `获取义工列表失败（${result.code}）`,
+      title: `Error fetching activity list (${result.code})`,
       message: result.message,
       type: 'error'
     })
@@ -47,7 +47,7 @@ async function getAllActivities(
   query: string = ''
 ) {
   const result = (
-    await axios('/activity', {
+    await axios('/activities', {
       params: {
         mode: 'campus',
         type: filter.type,
@@ -63,7 +63,7 @@ async function getAllActivities(
   }
   if (result.status === 'error') {
     ElNotification({
-      title: `获取义工列表失败（${result.code}）`,
+      title: `Error fetching activity list (${result.code})`,
       message: result.message,
       type: 'error'
     })
@@ -77,10 +77,10 @@ async function getAllActivities(
 
 async function getActivity(id: string) {
   // id: ObjectId
-  const result = (await axios(`/activity/${id}`)).data as Response<ActivityInstance>
+  const result = (await axios(`/activities/${id}`)).data as Response<ActivityInstance>
   if (result.status === 'error') {
     ElNotification({
-      title: `获取义工失败（${result.code}）`,
+      title: `Error fetching activity (${result.code})`,
       message: result.message,
       type: 'error'
     })

@@ -127,7 +127,7 @@ async function download() {
 <template>
   <div>
     <ElForm label-position="right" label-width="108px">
-      <ElFormItem :label="t('manage.exports.range.label')">
+      <ElFormItem :label="t('manage.exports.range.label')" v-if="type === 'time'">
         <ElDatePicker
           v-model="range"
           class="w-full"
@@ -138,7 +138,7 @@ async function download() {
           :end-placeholder="t('manage.exports.range.end')"
         />
       </ElFormItem>
-      <ElFormItem :label="t('manage.exports.format')">
+      <ElFormItem :label="t('manage.exports.format')" v-if="type === 'time'">
         <ElSelect v-model="format" class="w-full">
           <ElOption
             v-for="format in formats"
@@ -148,7 +148,7 @@ async function download() {
           />
         </ElSelect>
       </ElFormItem>
-      <ElFormItem :label="t('manage.exports.name')">
+      <ElFormItem :label="t('manage.exports.name')" v-if="type === 'time'">
         <ElInput v-model="name" />
       </ElFormItem>
       <div style="text-align: right">

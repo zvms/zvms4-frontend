@@ -21,7 +21,7 @@ export default async function (
     targets.map((target) => api.read.single(target._id))
   )).filter(x => x !== undefined) as ActivityInstance[]
   // 3. Merge
-  const merged = merge(activities, mergeOptions)
+  const merged = merge(activities, uid, mergeOptions)
   merged.creator = uid
   merged.date = dayjs().format('YYYY-MM-DD HH:mm:ss')
   merged.createdAt = dayjs().toISOString()
@@ -30,14 +30,16 @@ export default async function (
   triggerUpdate(60, 'Activity merged')
   console.log(merged)
   // 4. Create the new activity
-  await createActivity(merged)
+  const result = await createActivity(merged)
   triggerUpdate(80, 'Activity created')
   // 5. Remove the old activities
   await Promise.all(targets.map((target) => api.deleteOne(target._id, uid, token)))
+  return result
 }
 
 function merge(
   activities: ActivityInstance[],
+  user: string,
   options: {
     duplicateUser: 'add' | 'overwrite'
   }
@@ -65,6 +67,7 @@ function merge(
   return {
     ...activities[0],
     description,
-    members: userList
+    members: userList,
+    approver: user
   }
 }

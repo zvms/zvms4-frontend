@@ -6,7 +6,7 @@ export async function deleteActivity(id: string, uid: string, token: string = ''
     token = await temporaryToken(uid)
   }
   const result = (
-    await axios(`/activity/${id}`, {
+    await axios(`/activities/${id}`, {
       method: 'delete',
       headers: {
         Authorization: `Bearer ${token}`

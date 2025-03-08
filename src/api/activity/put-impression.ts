@@ -5,7 +5,7 @@ import { ElNotification } from 'element-plus'
 export async function userModifyDuration(user: string, aid: string, duration: number) {
   const result = (
     await axios({
-      url: `/activity/${aid}/member/${user.toString()}/duration`,
+      url: `/activities/${aid}/member/${user.toString()}/duration`,
       method: 'put',
       data: { duration }
     })
@@ -28,7 +28,7 @@ export async function userModifyStatus(
 ) {
   const result = (
     await axios({
-      url: `/activity/${aid}/member/${user.toString()}/status`,
+      url: `/activities/${aid}/member/${user.toString()}/status`,
       method: 'put',
       data: { status }
     })
@@ -59,13 +59,13 @@ export async function userModifyImpression(
   try {
     const result = (
       await axios({
-        url: `/activity/${aid}/member/${user.toString()}/impression`,
+        url: `/activities/${aid}/member/${user.toString()}/impression`,
         method: 'put',
         data: { impression }
       })
     ).data as Response<null>
     if (submit) {
-      await userModifyStatus(user, aid, 'pending', false)
+      await userModifyStatus(user, aid, 'effective', false)
     }
     if (result.status === 'error') {
       ElNotification({
