@@ -545,6 +545,16 @@ body {
   /* filter: grayscale(1); */
 }
 
+.el-pagination {
+  overflow-x: scroll;
+  .el-pagination--sizes {
+    flex-grow: 1;
+    .el-select {
+      width: 100% !important;
+    }
+  }
+}
+
 @media print {
   body {
     font-size: 12px;
