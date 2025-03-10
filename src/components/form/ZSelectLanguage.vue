@@ -88,7 +88,7 @@ onMounted(() => {
       </div>
     </ElButtonGroup>
   </ElPopover>
-  <ElSelect v-else-if="type === 'select'" v-model="user.language" @change="setLanguage">
+  <ElSelect v-else-if="type === 'select'" v-model="user.language" @change="setLanguage" style="width: 128px">
     <ElOption
       v-for="language in languages.filter(x => !x.disabled)"
       :key="language.value"
