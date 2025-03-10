@@ -42,7 +42,7 @@ watch(
         { required: true, message: t('validation.create.member.duration.required') },
         {
           validator: (_: InternalRuleItem, value: number, cb: Function) => {
-            if (value < 0) {
+            if (value <= 0) {
               return cb(t('validation.create.member.duration.invalid'))
             }
             return cb()
