@@ -194,7 +194,7 @@ watch(height, () => {
           {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
         <ElButton text bg round size="small" type="warning" :icon="Edit">
-          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD') }}
         </ElButton>
       </ElButtonGroup>
     </div>
@@ -215,9 +215,6 @@ watch(height, () => {
     margin: 0;
     padding: 0;
     filter: grayscale(100%);
-  }
-  #__vconsole {
-    display: none;
   }
 }
 </style>
