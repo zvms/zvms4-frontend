@@ -136,15 +136,7 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElSkeleton
-      v-if="loading && initial"
-      :loading="loading && initial"
-      :rows="8"
-      animated
-      class="pt-4 px-4"
-      :throttle="500"
-    />
-    <ElCard shadow="never" v-else v-loading="loading && !initial">
+    <ElCard shadow="never" v-loading="loading">
       <div v-if="perspective === user._id" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
