@@ -26,7 +26,6 @@ import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
-import { temporaryToken } from '@/plugins/short-token'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
 import { modifyPasswordDialogs } from '@/views'
@@ -59,29 +58,16 @@ const headerStore = useHeaderStore()
 async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
-      'zh-CN': '已有多起账号被盗事件，建议您修改密码以保护您的账号。',
-      'en-US':
-        'Multiple accounts have been hacked. It is recommended that you change your password to protect your account.',
-      'zh-TW': '已有多起帳號被盜事件，建議您修改密碼以保護您的帳號。',
-      'ja-JP':
-        '複数のアカウントがハッキングされています。アカウントを保護するためにパスワードを変更することをお勧めします。',
-      'fr-FR':
-        'Plusieurs comptes ont été piratés. Il est recommandé de changer votre mot de passe pour protéger votre compte.'
+      'zh-CN': '为防止您的账号被盗，建议您修改密码以保护您的账号。',
+      'en-US': 'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
     }
     const advice = {
       'zh-CN': '建议您重置密码',
       'en-US': 'It is recommended that you reset your password',
-      'zh-TW': '建議您重置密碼',
-      'ja-JP': 'パスワードをリセットすることをお勧めします',
-      'fr-FR': 'Il est recommandé de réinitialiser votre mot de passe'
     }
     const threaten = {
       'zh-CN': '您必须重置密码后才能继续使用本系统。',
       'en-US': 'You must reset your password before you can continue to use this system.',
-      'zh-TW': '您必須重置密碼後才能繼續使用本系統。',
-      'ja-JP': 'このシステムを引き続き使用する前にパスワードをリセットする必要があります。',
-      'fr-FR':
-        'Vous devez réinitialiser votre mot de passe avant de pouvoir continuer à utiliser ce système.'
     }
     await ElMessageBox({
       message: h(
@@ -260,99 +246,6 @@ const locales: Record<
       cancel: 'Cancel'
     }
   },
-  'zh-TW': {
-    feedback: {
-      close: {
-        title: '反饋渠道關閉',
-        message: `出於某些不可抗力因素，反饋渠道關閉，詳情請諮詢蛟二（3）班 樓瀚文同學。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
-      }
-    },
-    password: {
-      title: '重置密碼',
-      message: '請輸入新密碼',
-      confirmButtonText: '確定',
-      cancelButtonText: '取消',
-      inputErrorMessage: '密碼至少8位，且至少包含一個大寫字母，一個小寫字母，一個數字和一個特殊字符'
-    },
-    password_confirm: {
-      title: '重置密碼',
-      message: '請再次輸入新密碼',
-      inputErrorMessage: '密碼不匹配'
-    },
-    disconnected: {
-      title: '連接已斷開',
-      message: '已加載備用緩存數據但無法進行操作。'
-    },
-    refresh: {
-      title: '發現新版本',
-      message: '發現新版本，是否立即刷新？',
-      ok: '刷新',
-      cancel: '取消'
-    }
-  },
-  'ja-JP': {
-    feedback: {
-      close: {
-        title: 'フィードバックチャネルが閉じられました',
-        message: `あるいは、フィードバックチャネルは閉じられています。詳細については、蛟二（3）クラスの楼瀚文にお問い合わせください。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
-      }
-    },
-    password: {
-      title: 'パスワードをリセット',
-      message: '新しいパスワードを入力してください',
-      confirmButtonText: 'OK',
-      cancelButtonText: 'キャンセル',
-      inputErrorMessage:
-        'パスワードは少なくとも8文字で、大文字、小文字、数字、特殊文字がそれぞれ1つ以上含まれている必要があります'
-    },
-    password_confirm: {
-      title: 'パスワードをリセット',
-      message: '新しいパスワードをもう一度入力してください',
-      inputErrorMessage: 'パスワードが一致しません'
-    },
-    disconnected: {
-      title: '切断されました',
-      message: 'バックアップキャッシュデータを読み込みましたが、操作できません。'
-    },
-    refresh: {
-      title: '新しいバージョンが見つかりました',
-      message: '新しいバージョンが見つかりました。今すぐ更新しますか？',
-      ok: '更新',
-      cancel: 'キャンセル'
-    }
-  },
-  'fr-FR': {
-    feedback: {
-      close: {
-        title: 'Le canal de rétroaction est fermé',
-        message: `En raison de certains facteurs irrésistibles, le canal de rétroaction est fermé. Pour plus de détails, veuillez consulter Lou Hanwen en classe 3, 2e année à l'Académie Jiaochuan。`
-      }
-    },
-    password: {
-      title: 'Réinitialiser le mot de passe',
-      message: 'Veuillez entrer le nouveau mot de passe',
-      confirmButtonText: "D'accord",
-      cancelButtonText: 'Annuler',
-      inputErrorMessage:
-        'Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
-    },
-    password_confirm: {
-      title: 'Réinitialiser le mot de passe',
-      message: 'Veuillez entrer le nouveau mot de passe à nouveau',
-      inputErrorMessage: 'Le mot de passe ne correspond pas'
-    },
-    disconnected: {
-      title: 'Déconnecté',
-      message:
-        'Les données de cache de secours ont été chargées mais ne peuvent pas être exploitées.'
-    },
-    refresh: {
-      title: 'Nouvelle version trouvée',
-      message: 'Nouvelle version trouvée, rafraîchir maintenant?',
-      ok: 'Rafraîchir',
-      cancel: 'Annuler'
-    }
-  }
 }
 
 const panelButtons = [

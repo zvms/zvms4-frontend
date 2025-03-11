@@ -2,7 +2,7 @@
 import type { User } from '@/../types'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
-import { Refresh, User as UserIcon } from '@element-plus/icons-vue'
+import { Plus, Refresh, User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard, ZUserTimeJudge } from '@/components'
 import api from '@/api'
 import { ElButton, ElDescriptions, ElDescriptionsItem, ElPopconfirm } from 'element-plus'
@@ -34,6 +34,7 @@ const person = ref<User>()
 const loading = ref(true)
 const error = ref(false)
 const userStore = useUserStore()
+const past = ref<string[]>([])
 
 watch(id, () => {
   refresh()
@@ -46,7 +47,10 @@ function refresh() {
       .readOne(id.value)
       .then((res) => {
         if (!res) error.value = true
-        else person.value = res as User
+        else {
+          person.value = res as User
+          past.value = person.value.past
+        }
         loading.value = false
       })
       .catch(() => {
@@ -79,6 +83,28 @@ watch(width, () => {
 watch(height, () => {
   vert.value = width.value < height.value * 1.2
 })
+
+async function removeUserPast(tag: string) {
+  const index = past.value.indexOf(tag)
+  if (index > -1) {
+    past.value.splice(index, 1)
+    await api.user.past.delete(id.value, tag)
+  }
+}
+
+const inputVisible = ref(false)
+
+const inputValue = ref('')
+
+function insertUserPast() {
+  const value = inputValue.value
+  if (value && past.value.indexOf(value) === -1) {
+    past.value.push(value)
+    inputValue.value = ''
+    inputVisible.value = false
+    api.user.past.insert(id.value, value)
+  }
+}
 </script>
 
 <template>
@@ -118,8 +144,46 @@ watch(height, () => {
             :grouping="false"
           />
         </ElDescriptionsItem>
-        <ElDescriptionsItem :label="t('home.labels.past')">
-          {{ person?.past.length === 0 ? t('home.labels.nonPast') : person?.past.join(', ') }}
+        <ElDescriptionsItem
+          :label="t('home.labels.past')"
+          v-if="userStore.position.includes('admin') || userStore.position.includes('department')"
+        >
+          <div class="flex gap-2">
+            <span v-if="person?.past.length == 0">
+              {{ t('home.labels.nonPast') }}
+            </span>
+            <ElTag
+              v-for="tag in past"
+              :key="tag"
+              effect="plain"
+              round
+              class="px-3"
+              closable
+              :disable-transitions="false"
+              @close="removeUserPast(tag)"
+            >
+              {{ tag }}
+            </ElTag>
+            <ElInput
+              v-if="inputVisible"
+              ref="InputRef"
+              v-model="inputValue"
+              class="w-20 px-2"
+              size="small"
+              @keyup.enter="insertUserPast"
+              @blur="insertUserPast"
+            />
+            <ElButton
+              v-else
+              class="button-new-tag px-2"
+              text
+              bg
+              circle
+              size="small"
+              :icon="Plus"
+              @click="inputVisible = true"
+            />
+          </div>
         </ElDescriptionsItem>
       </ElDescriptions>
       <ZUserTimeJudge
@@ -131,8 +195,7 @@ watch(height, () => {
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') ||
-            userStore.position.includes('department'))
+          (userStore.position.includes('admin') || userStore.position.includes('department'))
         "
         text
         bg
@@ -142,7 +205,11 @@ watch(height, () => {
       >
         {{ t('manage.groupDetails.userList.open') }}
       </ElButton>
-      <ElPopconfirm v-if="mode === 'card'" :title="t('manage.personalPanel.resetConfirm')" @confirm="resetMemberPassword">
+      <ElPopconfirm
+        v-if="mode === 'card'"
+        :title="t('manage.personalPanel.resetConfirm')"
+        @confirm="resetMemberPassword"
+      >
         <template #reference>
           <ElButton
             v-if="

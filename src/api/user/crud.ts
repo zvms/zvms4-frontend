@@ -67,6 +67,44 @@ async function putUser(user: string, target: string, name: string, id: string, g
   return true
 }
 
+export const past = {
+  async insert(user: string, past: string) {
+    const result = (
+      await axios({
+        method: 'post',
+        url: `/users/${user}/past`,
+        data: { past },
+      })
+    ).data as Response<null>
+    if (result.status === 'error') {
+      ElNotification({
+        title: 'Error when updating user: ' + result.message,
+        message: result.message,
+        type: 'error'
+      })
+      return false
+    }
+    return true
+  },
+  async delete(user: string, past: string) {
+    const result = (
+      await axios({
+        method: 'delete',
+        url: `/users/${user}/past/${past}`,
+      })
+    ).data as Response<null>
+    if (result.status === 'error') {
+      ElNotification({
+        title: 'Error when updating user: ' + result.message,
+        message: result.message,
+        type: 'error'
+      })
+      return false
+    }
+    return true
+  }
+}
+
 async function deleteUser(user: string, target: string) {  const token = await temporaryToken(user)
   const result = (
     await axios({

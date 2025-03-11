@@ -20,6 +20,7 @@ import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
 import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useWindowSize } from '@vueuse/core'
+import { ZActivityList } from '@/components'
 
 const header = useHeaderStore()
 const user = useUserStore()
@@ -97,10 +98,12 @@ async function refreshUser() {
         discount
       />
     </div>
-    <div class="pt-4 pb-8" v-if="false">
-      <ElCard shadow="hover">
-        <ZNotificationList less mode="personal" />
-      </ElCard>
+    <div v-if="user.position.includes('student') && user.position.length === 1" class="py-4">
+      <ZActivityList role="mine">
+        <template #title>
+          My Activities
+        </template>
+      </ZActivityList>
     </div>
   </div>
 </template>

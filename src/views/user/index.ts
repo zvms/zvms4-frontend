@@ -52,50 +52,6 @@ const locales: Record<
       inputErrorMessage: 'Password not match'
     }
   },
-  'zh-TW': {
-    password: {
-      title: '重置密碼',
-      message: '請輸入新密碼',
-      confirmButtonText: '確定',
-      cancelButtonText: '取消',
-      inputErrorMessage: '密碼至少8位，且至少包含一個大寫字母，一個小寫字母，一個數字和一個特殊字符'
-    },
-    password_confirm: {
-      title: '重置密碼',
-      message: '請再次輸入新密碼',
-      inputErrorMessage: '密碼不匹配'
-    }
-  },
-  'ja-JP': {
-    password: {
-      title: 'パスワードをリセット',
-      message: '新しいパスワードを入力してください',
-      confirmButtonText: 'OK',
-      cancelButtonText: 'キャンセル',
-      inputErrorMessage:
-        'パスワードは少なくとも8文字で、大文字、小文字、数字、特殊文字がそれぞれ1つ以上含まれている必要があります'
-    },
-    password_confirm: {
-      title: 'パスワードをリセット',
-      message: '新しいパスワードをもう一度入力してください',
-      inputErrorMessage: 'パスワードが一致しません'
-    }
-  },
-  'fr-FR': {
-    password: {
-      title: 'Réinitialiser le mot de passe',
-      message: 'Veuillez entrer le nouveau mot de passe',
-      confirmButtonText: "D'accord",
-      cancelButtonText: 'Annuler',
-      inputErrorMessage:
-        'Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
-    },
-    password_confirm: {
-      title: 'Réinitialiser le mot de passe',
-      message: 'Veuillez entrer le nouveau mot de passe à nouveau',
-      inputErrorMessage: 'Le mot de passe ne correspond pas'
-    }
-  }
 }
 
 export async function modifyPasswordDialogs(
@@ -103,7 +59,7 @@ export async function modifyPasswordDialogs(
   locale: string,
   caller: (a: string, b: string) => Promise<void>
 ) {
-  const token = await temporaryToken(user, false)
+  const token = await temporaryToken(user)
   if (!token) {
     throw new Error('Token is not available')
   }

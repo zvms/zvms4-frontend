@@ -137,6 +137,9 @@ const openExport = ref(false)
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
     <ElCard shadow="never" v-loading="loading">
+      <div class="text-lg px-2">
+        <slot name="title" />
+      </div>
       <div v-if="perspective === user._id" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
