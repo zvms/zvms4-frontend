@@ -91,7 +91,7 @@ function handleSearch() {
         :page-sizes="[3, 5, 8, 10, 15, 20]"
         :pager-count="3"
         background
-        layout="total, prev, pager, next, jumper, sizes"
+        layout="total, prev, pager, next, sizes, jumper"
       />
     </ElCard>
   </div>
