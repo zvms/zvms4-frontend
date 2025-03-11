@@ -241,7 +241,7 @@ watch(
               style="width: 100%"
             >
               <ElRow style="width: 100%">
-                <ElCol :span="8">
+                <ElCol :span="16">
                   <ElRadioGroup v-model="activity.approver">
                     <ElRadio border value="authority">
                       {{ t('activity.registration.approvers.authority') }}
@@ -251,7 +251,7 @@ watch(
                     </ElRadio>
                   </ElRadioGroup>
                 </ElCol>
-                <ElCol :span="16" style="width: 100%" v-if="activity.approver === 'member'">
+                <ElCol :span="8" style="width: 100%" v-if="activity.approver === 'member'">
                   <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
                 </ElCol>
               </ElRow>

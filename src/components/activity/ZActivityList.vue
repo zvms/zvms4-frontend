@@ -136,7 +136,15 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElCard shadow="never" v-loading="loading">
+    <ElSkeleton
+      v-if="loading && initial"
+      :loading="loading && initial"
+      :rows="8"
+      animated
+      class="pt-4 px-4"
+      :throttle="500"
+    />
+    <ElCard shadow="never" v-else v-loading="loading && !initial">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
