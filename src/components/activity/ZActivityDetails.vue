@@ -77,7 +77,7 @@ const refresh = () => emits('refresh')
   <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false">
     <p class="text-xl pl-4">
       <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
-      <ElInput v-else v-model="name" style="width: 328px" @keydown.enter="submitName">
+      <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitName">
         <template #append>
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
         </template>
@@ -106,7 +106,6 @@ const refresh = () => emits('refresh')
         v-model="description"
         type="textarea"
         :autosize="{ minRows: 2 }"
-        @keydown.enter="submitDescription"
       />
       <div style="text-align: right" class="py-2">
         <ElButton
