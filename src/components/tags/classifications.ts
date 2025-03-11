@@ -99,10 +99,6 @@ export default {
       color: 'primary',
       icon: User
     },
-    deduction: {
-      color: 'danger',
-      icon: Minus
-    },
     other: {
       color: 'info',
       icon: Other
