@@ -102,6 +102,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <ZActivityList class="mx-12" :role="tab ?? 'mine'" />
+    <RouterView class="px-4" :key="route.path" />
   </div>
 </template>
