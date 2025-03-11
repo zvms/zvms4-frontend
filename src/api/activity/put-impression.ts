@@ -7,6 +7,9 @@ export async function userModifyDuration(user: string, aid: string, duration: nu
     await axios({
       url: `/activities/${aid}/member/${user.toString()}/duration`,
       method: 'put',
+      params: {
+        duration
+      },
       data: { duration }
     })
   ).data as Response<null>
