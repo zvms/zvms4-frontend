@@ -8,21 +8,12 @@ export const enUS = {
   positions: {
     student: 'Student',
     secretary: 'Secretary',
-    auditor: 'Auditor',
-    inspector: 'Inspector',
     department: 'Department',
-    system: 'System',
     admin: 'Admin'
   },
   labels: {
     name: 'Name',
     number: 'Student ID',
-    sex: 'Sex',
-    sexes: {
-      male: 'Male',
-      female: 'Female',
-      unknown: 'Unknown'
-    },
     class: 'Class',
     identify: 'User Group',
     past: 'Used Identities',
@@ -37,10 +28,6 @@ export const enUS = {
       discount: 'Show Discount',
       unit: 'Hour | Hours',
       least: '{type}: {least} Hours at least'
-    },
-    notification: {
-      title: 'Notification',
-      more: 'More'
     }
   }
 }
@@ -55,22 +42,13 @@ export const zhCN = {
   positions: {
     student: '学生',
     secretary: '团支书',
-    auditor: '审计员',
-    inspector: '督导员',
     department: '实践部',
-    system: '系统',
     admin: '管理员'
   },
   labels: {
     name: '姓名',
     number: '学号',
     class: '班级',
-    sex: '性别',
-    sexes: {
-      male: '男',
-      female: '女',
-      unknown: '未知'
-    },
     identify: '身份',
     past: '过往身份',
     nonPast: '无'
@@ -84,10 +62,6 @@ export const zhCN = {
       discount: '显示折算',
       unit: '小时',
       least: '{type}: 至少 {least} 小时'
-    },
-    notification: {
-      title: '通知',
-      more: '更多'
     }
   }
 }
