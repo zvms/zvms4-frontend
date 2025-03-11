@@ -18,6 +18,7 @@ const loading = ref(false)
 const page = ref(1)
 const perpage = ref(10)
 const query = ref('')
+const query2 = ref('')
 const amount = ref(0)
 
 async function refresh() {
@@ -29,12 +30,12 @@ refresh()
 
 watch(page, refresh)
 watch(perpage, refresh)
-watch(query, refresh)
+watch(query2, refresh)
 </script>
 
 <template>
   <div>
-    <ElInput v-model.lazy="query"></ElInput>
+    <ElInput v-model.lazy="query" @keydown.enter="query2 = query" @blur="query2 = query"></ElInput>
     <ZLogCard v-loading="loading" :log="log" v-for="log in logs" :key="log._id" />
     <div class="py-2">
       <ElPagination
