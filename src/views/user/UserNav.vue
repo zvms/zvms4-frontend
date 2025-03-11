@@ -89,7 +89,7 @@ const navs: Array<{
   {
     icon: MdiEye,
     name: 'activity',
-    path: '/activities',
+    path: '/activities/mine',
     show: true,
     judge: (path) =>
       (path.startsWith('/activity') && !path.startsWith('/activity/create')) ||
