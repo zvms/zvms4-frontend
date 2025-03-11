@@ -187,11 +187,6 @@ function pushTo(url: string) {
               <ZActivityMember :id="scope.row._id" />
             </template>
           </ElTableColumn>
-          <ElTableColumn prop="status" :label="t('activity.member.status')" class="w-full">
-            <template #default="scope">
-              <ZActivityStatus :type="scope.row.status" />
-            </template>
-          </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
               <ZActivityDuration
