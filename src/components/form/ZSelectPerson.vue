@@ -85,8 +85,16 @@ async function filter(number: string) {
     load.value = false
     return options
   } else {
-    load.value = false
+    if (modelValue.value) {
+      const userData = await api.user.readOne(modelValue.value)
+      if (userData) {
+        options.value = [userData]
+      } else {
+        options.value = []
+      }
+    }
     options.value = []
+    load.value = false
   }
 }
 </script>

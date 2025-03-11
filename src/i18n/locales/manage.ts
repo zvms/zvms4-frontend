@@ -61,7 +61,8 @@ export const enUS = {
     tabs: {
       info: 'Info',
       activity: 'Activities',
-      modify: 'Modify'
+      modify: 'Modify',
+      logs: 'Logs',
     },
     resetPassword: 'Reset the user\'s password to their ID',
     resetConfirm: 'Please confirm your action.',
@@ -169,7 +170,8 @@ export const zhCN = {
     tabs: {
       info: '信息',
       activity: '义工',
-      modify: '修改'
+      modify: '修改',
+      logs: '日志'
     },
     resetPassword: '重置该用户密码为学号',
     resetConfirm: '请确认您的操作。',

@@ -10,7 +10,8 @@ import { ArrowLeft, Edit } from '@element-plus/icons-vue'
 import type { User } from '@/../types'
 import api from '@/api'
 import ZUserModification from '@/components/group/ZUserModification.vue'
-import { Info, ViewList } from '@icon-park/vue-next'
+import { Info, Log, ViewList } from '@icon-park/vue-next'
+import ZLogList from '@/components/log/ZLogList.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -48,7 +49,7 @@ const curPage = route.params.action?.toString()
 
 const current = ref((curPage && curPage !== '') ? curPage : 'info')
 
-const tabs = ref([
+const tabs = ref(([
   {
     label: 'Info',
     value: 'info',
@@ -62,9 +63,16 @@ const tabs = ref([
   {
     label: 'Modify',
     value: 'modify',
-    icon: Edit
+    icon: Edit,
+    display: userStore.position.includes('admin')
+  },
+  {
+    label: 'Logs',
+    value: 'logs',
+    icon: Log,
+    display: userStore.position.includes('admin')
   }
-])
+]).filter(x => x.display ?? true))
 
 watch(current, () => {
   router.push('/user/' + id.value + '/' + current.value)
@@ -107,6 +115,9 @@ watch(
     </div>
     <div v-else-if="current === 'modify'">
       <ZUserModification :id="id" mode="modify" cid="" />
+    </div>
+    <div v-else-if="current === 'logs'">
+      <ZLogList :user="id" />
     </div>
   </div>
 </template>

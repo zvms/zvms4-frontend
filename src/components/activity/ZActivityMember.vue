@@ -138,6 +138,7 @@ watch(height, () => {
         bg
         type="success"
         @click="router.push(`/user/${id}`)"
+        class="w-full"
       >
         {{ t('manage.groupDetails.userList.open') }}
       </ElButton>

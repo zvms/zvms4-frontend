@@ -1,4 +1,4 @@
-import type { ActivityInstance, Response } from '../../types'
+import type { Response } from '../../types'
 import axios from '@/plugins/axios.ts'
 import { ElNotification } from 'element-plus'
 import type { Log } from '../../types/log'
@@ -6,10 +6,12 @@ import type { Log } from '../../types/log'
 export async function read(
   page: number = 1,
   perpage: number = 10,
-  query: string = ''
+  query: string = '',
+  user: string = ''
 ) {
+  const url = user ? `/users/${user}/logs` : '/logs'
   const result = (
-    await axios('/logs', {
+    await axios(url, {
       params: {
         mode: 'campus',
         page,

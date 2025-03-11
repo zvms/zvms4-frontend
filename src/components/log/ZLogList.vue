@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import type { Log } from '@/../types/log'
-import { ref, watch } from 'vue'
+import { ref, watch, toRefs } from 'vue'
 import api from '@/api'
 import ZLogCard from '@/components/log/ZLogCard.vue'
 import { ElPagination, ElInput } from 'element-plus'
+
+const props = withDefaults(defineProps<{
+  user: string
+}>(), {
+  user: ''
+})
+
+const { user } = toRefs(props)
 
 const logs = ref<Log[]>([])
 const loading = ref(false)
@@ -13,7 +21,7 @@ const query = ref('')
 const amount = ref(0)
 
 async function refresh() {
-  const result = (await api.logs.read(page.value, perpage.value, query.value))
+  const result = (await api.logs.read(page.value, perpage.value, query.value, user.value))
   logs.value = result?.data ?? []
   amount.value = result?.size ?? 0
 }

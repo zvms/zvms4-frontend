@@ -8,6 +8,8 @@ import {
   ElFormItem,
   ElRadio,
   ElRadioGroup,
+  ElSelect,
+  ElOption,
   ElButton,
   ElCheckbox,
   ElCheckboxGroup,
@@ -160,7 +162,27 @@ async function submit() {
     type: 'success'
   })
   submission.value = false
-  //await router.push(`/user/${modification._id}`)
+  await router.back()
+}
+
+async function remoteFetchClass(search: string) {
+  if (search) {
+    const classesSet = await api.group.read('class', 1, 5, search)
+    if (classesSet) {
+      classes.value = classesSet.groups
+    } else {
+      classes.value = []
+    }
+  } else if (classGroupID.value) {
+    const group = await api.group.readOne(classGroupID.value)
+    if (group) {
+      classes.value = [group]
+    } else {
+      classes.value = []
+    }
+  } else {
+    classes.value = []
+  }
 }
 </script>
 
@@ -175,11 +197,9 @@ async function submit() {
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
         <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
-          <ElRadioGroup v-if="mode === 'modify'" v-model="classGroupID">
-            <ElRadio v-for="group in classes" :key="group._id" :label="group._id" border>
-              {{ group.name }}
-            </ElRadio>
-          </ElRadioGroup>
+          <ElSelect v-if="mode === 'modify'" v-model="classGroupID" remote :remote-method="remoteFetchClass" filterable>
+            <ElOption v-for="group in classes" :key="group._id" :label="group.name" :value="group._id" />
+          </ElSelect>
           <span v-else>
             {{ classes.find(x => x._id === classGroupID)?.name }}
           </span>
