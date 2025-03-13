@@ -160,7 +160,7 @@ watch(height, () => {
       v-if="mine"
       border
       class="py-2"
-      :title="t('activity.impression.page.write.mine')"
+      :title="t('activity.view.panels.mine.name')"
       :direction="vert ? 'vertical' : 'horizontal'"
       :column="vert ? 2 : undefined"
     >
