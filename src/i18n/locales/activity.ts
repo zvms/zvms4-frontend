@@ -112,6 +112,9 @@ export const enUS = {
     approvers: {
       authority: 'Authority',
       member: 'Member'
+    },
+    status: {
+      title: 'Status'
     }
   },
   special: {
@@ -163,25 +166,6 @@ export const enUS = {
   export: {
     name: 'Export',
     title: 'Export Data',
-    range: 'Range',
-    format: 'Format',
-    formats: {
-      json: {
-        name: 'JSON',
-        short: 'JSON',
-        explain: 'JavaScript Object Notation'
-      },
-      csv: {
-        name: 'CSV',
-        short: 'CSV',
-        explain: 'Comma-Separated Values'
-      },
-      xlsx: {
-        name: 'Excel',
-        short: 'Excel',
-        explain: 'Microsoft Excel'
-      }
-    },
     actions: {
       export: 'Export',
       download: 'Download'
@@ -300,6 +284,9 @@ export const zhCN = {
     approvers: {
       authority: '学校团委',
       member: '部门成员'
+    },
+    status: {
+      title: '状态'
     }
   },
   special: {
@@ -351,25 +338,6 @@ export const zhCN = {
   export: {
     name: '导出',
     title: '导出数据',
-    range: '范围',
-    format: '格式',
-    formats: {
-      json: {
-        name: 'JSON',
-        short: 'JSON',
-        explain: 'JavaScript 对象表示法'
-      },
-      csv: {
-        name: 'CSV',
-        short: 'CSV',
-        explain: '逗号分隔值'
-      },
-      xlsx: {
-        name: 'Excel',
-        short: 'Excel',
-        explain: 'Microsoft Excel'
-      }
-    },
     actions: {
       export: '导出',
       download: '下载'
