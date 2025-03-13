@@ -2,7 +2,7 @@
 import { ElSelect, ElOption } from 'element-plus'
 import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
-import { extractHanCharacters } from '@/utils/extraChars'
+import { extractHanCharacters, extractNonHanCharacters } from '@/utils/extraChars'
 import type { User } from '@/../types'
 
 const props = defineProps<{
@@ -11,12 +11,13 @@ const props = defineProps<{
   fullWidth?: boolean
   disabled?: boolean
   multiple?: boolean
+  departmentOnly?: boolean
 }>()
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | string[]): void
 }>()
 
-const { modelValue, filterStart, fullWidth, disabled, multiple } = toRefs(props)
+const { modelValue, filterStart, fullWidth, disabled, multiple, departmentOnly } = toRefs(props)
 
 const id = ref<string | string[]>(modelValue.value)
 watch(id, () => emits('update:modelValue', id.value), { immediate: true })
@@ -39,14 +40,22 @@ const load = ref(false)
 
 async function filter(number: string) {
   load.value = true
+  const extra = extractNonHanCharacters(number).replace(/[0-9]/g, '').length
   const digits = number.replace(/[^0-9]/g, '').length
   const han = extractHanCharacters(number).length
-  if (filterStart.value && digits <= (filterStart.value ? filterStart.value : 5) && han < 2) {
+  if (extra > 0 || (digits > 0 && han > 0)) {
     load.value = false
     return []
   }
-  const result = (await api.user.read(number))?.users
-  if (result) {
+  if (filterStart.value && digits <= (filterStart.value ? filterStart.value : 5) && han < 2 && !departmentOnly.value) {
+    load.value = false
+    return []
+  }
+  const result0 = (await api.user.read(number, 1, departmentOnly.value ? 20 : 5))?.users
+  if (result0) {
+    const result = departmentOnly.value
+      ? result0.filter((x) => !!x.group.find((gr) => gr === '65e6fa210edc81d012ec41b6'))
+      : result0
     options.value = await Promise.all(
       result.map(
         (x) =>
@@ -92,9 +101,12 @@ async function filter(number: string) {
       } else {
         options.value = []
       }
+      load.value = false
+      return options
     }
     options.value = []
     load.value = false
+    return options
   }
 }
 </script>
