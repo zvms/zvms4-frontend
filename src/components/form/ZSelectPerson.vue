@@ -124,6 +124,8 @@ async function filter(number: string) {
     class="w-full"
     size="default"
     remote-show-suffix
+    popper-class="z-select-person__selector"
+    :popper-append-to-body="true"
     v-bind="$attrs"
   >
     <ElOption
@@ -144,3 +146,9 @@ async function filter(number: string) {
     </template>
   </ElSelect>
 </template>
+
+<style>
+.z-select-person__selector .el-select-dropdown__wrap {
+  max-height: 182px;
+}
+</style>
