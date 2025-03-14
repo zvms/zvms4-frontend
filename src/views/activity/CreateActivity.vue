@@ -15,6 +15,10 @@ const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
+window.addEventListener('beforeunload', (e) => {
+  e.preventDefault()
+})
+
 header.setHeader(t('nav.create'))
 
 const route = useRoute()
