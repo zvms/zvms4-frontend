@@ -54,7 +54,7 @@ const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRe
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
-const initial = ref(true)
+const initial = ref(user._id === "65e6fa210edc81d012ec45e3")
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
@@ -94,7 +94,10 @@ onMounted(refresh)
 watch(activePage, refresh)
 watch(pageSize, refresh)
 watch(query, refresh)
-watch(selectTarget, refresh)
+watch(selectTarget, () => {
+  $refs.items.clearSelection()
+  refresh()
+})
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -114,6 +117,10 @@ watch(
 
 function selectable(row: ActivityInstance) {
   return selectTarget.value.toLowerCase() === row.type.toLowerCase() && row.status === 'effective'
+}
+
+function getRowKeys(row: ActivityInstance) {
+  return row._id
 }
 
 function handleSelectionChange(val: string[]) {
@@ -168,13 +175,15 @@ const openExport = ref(false)
         <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
       <ElTable
+        ref="items"
         :max-height="tableMaxHeight"
         :data="items"
         table-layout="auto"
         @selection-change="handleSelectionChange"
         stripe
+        :row-key="getRowKeys"
       >
-        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
+        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" :reserve-selection="true" />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard
@@ -191,7 +200,7 @@ const openExport = ref(false)
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" v-if="role !== 'mine'" :label="t('activity.form.type')">
+        <ElTableColumn prop="type" v-if="role !== 'mine' && !selectTarget" :label="t('activity.form.type')">
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
@@ -210,7 +219,7 @@ const openExport = ref(false)
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="role === 'mine'" :label="t('activity.form.duration')">
+        <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
               v-if="
@@ -249,7 +258,7 @@ const openExport = ref(false)
           <template #default="{ row }">
             <ElButton
               :icon="View"
-              v-if="selectTarget === ''"
+              v-if="!selectTarget"
               text
               bg
               type="info"

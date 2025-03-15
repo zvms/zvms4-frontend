@@ -167,7 +167,7 @@ function insertUserPast() {
             <ElInput
               v-if="inputVisible"
               ref="InputRef"
-              v-model="inputValue"
+              v-model.trim="inputValue"
               class="w-20 px-2"
               size="small"
               @keyup.enter="insertUserPast"

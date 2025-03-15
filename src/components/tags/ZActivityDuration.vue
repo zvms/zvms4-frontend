@@ -6,6 +6,7 @@ import { ElButton, ElButtonGroup, ElForm, ElFormItem, ElPopover } from 'element-
 import { Timer } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
+import { useUserStore } from '@/stores/user'
 
 const props = defineProps<{
   mode?: ActivityMode
@@ -20,10 +21,12 @@ const { t } = useI18n()
 
 const { mode, duration, force, status, id, uid } = toRefs(props)
 
+const user = useUserStore()
+
 const modification = ref(duration.value)
 
 async function modify() {
-  if (id.value && uid.value) {
+  if (id.value && uid.value && modification > 0 && modification <= 18) {
     await api.activity.duration.modify(uid.value, id.value, modification.value)
   }
 }
@@ -33,7 +36,11 @@ async function modify() {
   <ElButtonGroup>
     <ZActivityMode :force="force" :mode="mode" />
 
-    <ElPopover width="328px" trigger="click">
+    <ElPopover
+      width="328px"
+      trigger="click"
+      v-if="(user.position.includes('admin') || user.position.includes('department')) && id.value && uid.value"
+    >
       <template #reference>
         <ElButton
           text
@@ -51,12 +58,23 @@ async function modify() {
           <ZInputDuration v-model="modification" class="w-full" />
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton text bg type="primary" @click="modify">
+          <ElButton text bg type="primary" @click="modify" :disabled="modification <= 0 || modification > 18">
             {{ t('activity.form.actions.modify') }}
           </ElButton>
         </div>
       </ElForm>
     </ElPopover>
+    <ElButton
+      v-else
+      text
+      :icon="force === 'full' ? Timer : undefined"
+      bg
+      round
+      size="small"
+      type="info"
+    >
+      {{ duration }} h
+    </ElButton>
     <ZActivityStatus :force="force" v-if="status" :type="status" />
   </ElButtonGroup>
 </template>

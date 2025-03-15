@@ -19,19 +19,22 @@ const { log } = toRefs(props)
         <ElFormItem label="Performer">
           <ZActivityMember :id="log.user" />
         </ElFormItem>
+        <ElFormItem label="Performer ID">
+          {{ log.user }}
+        </ElFormItem>
         <ElFormItem label="Date">
           {{ dayjs.unix(log.timestamp).format('YYYY-MM-DD HH:mm:ss') }}
         </ElFormItem>
-        <ElFormItem label="Data">
+        <ElFormItem label="Data" style="overflow-wrap: break-word; white-space: pre-wrap">
           {{ log.data }}
         </ElFormItem>
         <ElFormItem label="IP">
           {{ log.ip }}
         </ElFormItem>
-        <ElFormItem label="Clarity">
+        <ElFormItem label="Clarity" v-if="log.clarity">
           {{ log.clarity }}
         </ElFormItem>
-        <ElFormItem label="URL">
+        <ElFormItem label="URL" style="overflow-wrap: break-word">
           {{ log.url }}
         </ElFormItem>
       </ElForm>

@@ -440,13 +440,16 @@ body {
 
 .el-pagination {
   overflow-x: scroll;
-  .el-pagination--sizes {
-    flex-grow: 1;
-    .el-select {
-      width: 100% !important;
-    }
-  }
 }
+
+.el-pagination .el-pagination--sizes {
+  flex-grow: 1;
+}
+
+.el-pagination .el-pagination--sizes .el-select {
+  width: 100% !important;
+}
+
 
 @media print {
   body {
