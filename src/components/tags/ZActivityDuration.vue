@@ -26,7 +26,7 @@ const user = useUserStore()
 const modification = ref(duration.value)
 
 async function modify() {
-  if (id.value && uid.value) {
+  if (id.value && uid.value && modification > 0 && modification <= 18) {
     await api.activity.duration.modify(uid.value, id.value, modification.value)
   }
 }
@@ -58,7 +58,7 @@ async function modify() {
           <ZInputDuration v-model="modification" class="w-full" />
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton text bg type="primary" @click="modify">
+          <ElButton text bg type="primary" @click="modify" :disabled="modification <= 0 || modification > 18">
             {{ t('activity.form.actions.modify') }}
           </ElButton>
         </div>
