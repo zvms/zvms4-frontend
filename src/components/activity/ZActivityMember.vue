@@ -88,7 +88,7 @@ async function removeUserPast(tag: string) {
   const index = past.value.indexOf(tag)
   if (index > -1) {
     past.value.splice(index, 1)
-    await api.user.past.delete(id.value, tag)
+    await api.user.past.delete(id.value, index)
   }
 }
 
@@ -149,9 +149,6 @@ function insertUserPast() {
           v-if="userStore.position.includes('admin') || userStore.position.includes('department')"
         >
           <div class="flex gap-2">
-            <span v-if="person?.past.length == 0">
-              {{ t('home.labels.nonPast') }}
-            </span>
             <ElTag
               v-for="tag in past"
               :key="tag"

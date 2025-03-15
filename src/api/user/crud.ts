@@ -86,11 +86,11 @@ export const past = {
     }
     return true
   },
-  async delete(user: string, past: string) {
+  async delete(user: string, idx: number) {
     const result = (
       await axios({
         method: 'delete',
-        url: `/users/${user}/past/${past}`,
+        url: `/users/${user}/past/${idx}`,
       })
     ).data as Response<null>
     if (result.status === 'error') {
