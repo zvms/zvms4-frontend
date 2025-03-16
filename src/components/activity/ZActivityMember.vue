@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User } from '@/../types'
+import type { ErrorResponse, User } from '@/../types'
 import { toRefs, ref, watch } from 'vue'
 import type { Component as VueComponent } from 'vue'
 import { Plus, Refresh, User as UserIcon } from '@element-plus/icons-vue'
@@ -12,6 +12,7 @@ import { useUserStore } from '@/stores/user'
 import { temporaryToken } from '@/plugins/short-token'
 import { useWindowSize } from '@vueuse/core'
 import router from '@/router'
+import { AxiosError } from 'axios'
 
 const { width, height } = useWindowSize()
 const { t } = useI18n()
@@ -35,6 +36,7 @@ const loading = ref(true)
 const error = ref(false)
 const userStore = useUserStore()
 const past = ref<string[]>([])
+const notFound = ref(false)
 
 watch(id, () => {
   refresh()
@@ -53,7 +55,11 @@ function refresh() {
         }
         loading.value = false
       })
-      .catch(() => {
+      .catch((err: ErrorResponse) => {
+        console.log(err, err.code)
+        if (err.code === 404) {
+          notFound.value = true
+        }
         error.value = true
         loading.value = false
       })
@@ -87,8 +93,8 @@ watch(height, () => {
 async function removeUserPast(tag: string) {
   const index = past.value.indexOf(tag)
   if (index > -1) {
-    past.value.splice(index, 1)
     await api.user.past.delete(id.value, index)
+    past.value.splice(index, 1)
   }
 }
 
@@ -96,19 +102,23 @@ const inputVisible = ref(false)
 
 const inputValue = ref('')
 
-function insertUserPast() {
+async function insertUserPast() {
   const value = inputValue.value
   if (value && past.value.indexOf(value) === -1) {
-    past.value.push(value)
     inputValue.value = ''
     inputVisible.value = false
-    api.user.past.insert(id.value, value)
+    await api.user.past.insert(id.value, value)
+    past.value.push(value)
   }
 }
 </script>
 
 <template>
+  <ElButton v-if="notFound" text bg type="danger" :icon="icon" size="small" round>
+    {{ t('manage.personalPanel.notFound') }}
+  </ElButton>
   <ZButtonOrCard
+    v-else
     :mode="mode"
     :type="color"
     size="small"
