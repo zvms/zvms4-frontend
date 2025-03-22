@@ -44,6 +44,7 @@ watch(id, () => {
 
 function refresh() {
   loading.value = true
+  notFound.value = false
   if (id.value)
     api.user
       .readOne(id.value)
@@ -65,6 +66,7 @@ function refresh() {
       })
   else {
     person.value = undefined
+    notFound.value = true
     loading.value = false
   }
 }
