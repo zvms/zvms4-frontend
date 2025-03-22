@@ -56,6 +56,7 @@ async function remoteFetchClass(search: string) {
     :loading="load"
     filterable
     remote
+    remote-show-suffix
     class="w-full"
     size="default"
     remote-show-suffix
