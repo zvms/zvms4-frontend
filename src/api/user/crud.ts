@@ -111,7 +111,7 @@ export const past = {
     const result = (
       await axios({
         method: 'delete',
-        url: `/users/${user}/past/${idx}`,
+        url: `/users/${user}/past/${idx}`
       })
     ).data as Response<null>
     if (result.status === 'error') {

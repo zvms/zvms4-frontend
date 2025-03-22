@@ -62,7 +62,7 @@ const refresh = () => emits('refresh')
         :show-details="showDetails"
       />
     </Transition>
-    <ElResult v-else-if="error" status="error" title="404" />
+    <ElResult v-else-if="error" icon="error" status="error" title="t('nav.pages.SomethingWentWrong.title')" />
   </div>
   <ElSkeleton v-else v-model="loading" :rows="4" animated :throttle="500" />
 </template>
