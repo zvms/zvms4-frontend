@@ -45,33 +45,6 @@ watch(route, () => {
 
 const { height } = useWindowSize()
 
-const actions: Array<{
-  icon: VueComponent
-  name: string
-  path: string
-  show: boolean
-  action: () => void
-}> = [
-  {
-    icon: Notification,
-    name: t('nav.notification'),
-    path: '/notifications',
-    show: true,
-    action: () => {
-      routeTo('/notifications')
-    }
-  },
-  {
-    icon: Password,
-    name: t('nav.reset'),
-    path: '/password',
-    show: true,
-    action: () => {
-      routeTo('/password')
-    }
-  }
-]
-
 const navs: Array<{
   icon: VueComponent
   name: string
@@ -127,7 +100,7 @@ function routeTo(page: string) {
     ) {
       routeTo('/manage/groups')
     } else {
-      routeTo(`/group/${user.class_id}`)
+      routeTo(`/group/${user.class_id}/users`)
     }
   } else {
     path.value = page
@@ -151,7 +124,7 @@ function routeTo(page: string) {
             :icon="nav.icon"
             size="large"
             text
-            :bg="nav.path === path"
+            :bg="nav.judge(path ?? '') ? 'primary' : ''"
             :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"
