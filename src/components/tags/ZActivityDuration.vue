@@ -12,14 +12,13 @@ const props = defineProps<{
   mode?: ActivityMode
   duration: number
   force?: 'short' | 'full'
-  status?: MemberActivityStatus
   id?: string
   uid?: string
 }>()
 
 const { t } = useI18n()
 
-const { mode, duration, force, status, id, uid } = toRefs(props)
+const { mode, duration, force, id, uid } = toRefs(props)
 
 const user = useUserStore()
 
@@ -75,6 +74,5 @@ async function modify() {
     >
       {{ duration }} h
     </ElButton>
-    <ZActivityStatus :force="force" v-if="status" :type="status" />
   </ElButtonGroup>
 </template>
