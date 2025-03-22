@@ -66,6 +66,7 @@ export const enUS = {
     },
     resetPassword: 'Reset the user\'s password to their ID',
     resetConfirm: 'Please confirm your action.',
+    notFound: 'User not found'
   },
   upload: {
     label: 'Upload',
@@ -175,6 +176,7 @@ export const zhCN = {
     },
     resetPassword: '重置该用户密码为学号',
     resetConfirm: '请确认您的操作。',
+    notFound: '无此用户'
   },
   upload: {
     label: '上传',

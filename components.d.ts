@@ -43,6 +43,7 @@ declare module 'vue' {
     ZNotificationForm: typeof import('./src/components/notifications/ZNotificationForm.vue')['default']
     ZNotificationList: typeof import('./src/components/notifications/ZNotificationList.vue')['default']
     ZSelectActivityMode: typeof import('./src/components/form/ZSelectActivityMode.vue')['default']
+    ZSelectClass: typeof import('./src/components/form/ZSelectClass.vue')['default']
     ZSelectLanguage: typeof import('./src/components/form/ZSelectLanguage.vue')['default']
     ZSelectPerson: typeof import('./src/components/form/ZSelectPerson.vue')['default']
     ZSpecialActivityClassify: typeof import('./src/components/tags/ZSpecialActivityClassify.vue')['default']

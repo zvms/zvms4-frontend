@@ -50,9 +50,9 @@ function getDateStatusColor(date: string) {
 const editName = ref(false)
 const name = ref(activity.value.name)
 async function submitName() {
-  editName.value = false
   activity.value.name = name.value
   await api.activity.update.title(activity.value._id, name.value)
+  editName.value = false
   emits('refresh')
 }
 

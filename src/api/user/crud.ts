@@ -1,19 +1,40 @@
-import axios from '@/plugins/axios'
 import { temporaryToken } from '@/plugins/short-token'
 import type { User, Response } from '@/../types'
 import { ElNotification } from 'element-plus'
+import nprogress from 'nprogress'
+import axiosExported, { AxiosError } from 'axios'
+import { baseURL, default as axios } from '@/plugins/axios.ts'
 
 async function getUser(id: string) {
-  const result = (await axios(`/users/${id}`)).data as Response<User>
-  if (result.status === 'error') {
-    ElNotification({
-      title: 'Error in getting user: ' + result.message,
-      message: result.message,
-      type: 'error'
+  const instance = axiosExported.create({
+    baseURL,
+    withCredentials: true,
+    timeout: 24000,
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : ''
+    }
+  })
+  instance.interceptors.response.clear()
+  instance.interceptors.response.use(
+    (response) => {
+      nprogress.done()
+      return response.data
+    },
+    (error: Error | AxiosError) => {
+      nprogress.done()
+      console.log(error, 'error')
+      return {
+        status: 'error',
+        code: (error instanceof AxiosError ? error.response?.status : 500) ?? 500,
+        message: error.message
+      }
     })
-    return undefined
+  const result = (await instance(`/users/${id}`)) as Response<User>
+  if (result.status === 'error') {
+    throw result
   }
-  return result.data as User
+  return result?.data as User
 }
 
 async function getUsers(id: string = '', page: number = 1, perpage: number = 5) {
@@ -86,7 +107,7 @@ export const past = {
     }
     return true
   },
-  async delete(user: string, past: string) {
+  async delete(user: string, idx: number) {
     const result = (
       await axios({
         method: 'delete',
@@ -94,6 +115,7 @@ export const past = {
         params: {
           data: past
         }
+        url: `/users/${user}/past/${idx}`,
       })
     ).data as Response<null>
     if (result.status === 'error') {
