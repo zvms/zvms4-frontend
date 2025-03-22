@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
           })
           localStorage.removeItem('token')
           localStorage.removeItem('user')
-          // window.location.href = '/user/login'
+            router.push('/user/login')
         } else {
           ElMessageBox({
             title: 'Error',
@@ -89,7 +89,7 @@ axiosInstance.interceptors.response.use(
             grouping: true,
             plain: true
           })
-          if (!error.response?.data?.detail) {
+          if (!error.response?.data?.detail and navigator.onLine) {
             router.push('/sww')
           }
         }
@@ -106,7 +106,7 @@ axiosInstance.interceptors.response.use(
           grouping: true,
           plain: true
         })
-        if (!error.message) {
+        if (!error.message and navigator.onLine) {
           router.push('/sww')
         }
       }
