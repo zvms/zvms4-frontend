@@ -50,9 +50,9 @@ function getDateStatusColor(date: string) {
 const editName = ref(false)
 const name = ref(activity.value.name)
 async function submitName() {
+  editName.value = false
   activity.value.name = name.value
   await api.activity.update.title(activity.value._id, name.value)
-  editName.value = false
   emits('refresh')
 }
 
@@ -152,7 +152,6 @@ const refresh = () => emits('refresh')
         v-if="mode === 'mine'"
         :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
         :duration="activity.members.find((x) => x._id === perspective ?? user._id)?.duration ?? 0"
-        :status="activity.members.find((x) => x._id === perspective ?? user._id)?.status"
         force="full"
       />
       <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
