@@ -18,7 +18,6 @@ import { reactive } from 'vue'
 import type { UserActivityTimeSums } from '@/../types'
 import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
-import ZNotificationList from '@/components/notifications/ZNotificationList.vue'
 import { useWindowSize } from '@vueuse/core'
 import { ZActivityList } from '@/components'
 
