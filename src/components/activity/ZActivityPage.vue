@@ -82,15 +82,6 @@ watch(height, () => {
         {{ activity.name }}
       </template>
       <template #extra>
-        <ElSpace class="no-print">
-          <ZActivityType
-            :type="activity.type"
-            mode="full"
-            show-special
-            :status="activity.status"
-            :special="activity.type === 'special' ? activity.special.classify : undefined"
-          />
-        </ElSpace>
       </template>
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
@@ -193,9 +184,9 @@ watch(height, () => {
         <ElButton text bg round size="small" type="success" :icon="Plus">
           {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
-        <ElButton text bg round size="small" type="warning" :icon="Edit">
-          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD') }}
-        </ElButton>
+        <!--<ElButton text bg round size="small" type="warning" :icon="Edit">-->
+          <!--{{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}-->
+        <!--</ElButton>-->
       </ElButtonGroup>
     </div>
   </div>
