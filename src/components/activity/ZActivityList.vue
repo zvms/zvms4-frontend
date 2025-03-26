@@ -53,8 +53,7 @@ const size = ref(0)
 const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
-const loading = ref(true)
-const initial = ref(user._id === "65e6fa210edc81d012ec45e3")
+const loading = ref(false)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
@@ -75,17 +74,14 @@ function refresh() {
       if (res && res?.data.length !== 0) {
         activities.value = res?.data
         size.value = res?.size
-        loading.value = false
       } else {
         activities.value = []
-        loading.value = false
         size.value = 0
       }
-      initial.value = false
+      loading.value = false
     })
     .catch(() => {
       loading.value = false
-      initial.value = false
     })
 }
 
@@ -143,15 +139,7 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElSkeleton
-      v-if="loading && initial"
-      :loading="loading && initial"
-      :rows="8"
-      animated
-      class="pt-4 px-4"
-      :throttle="500"
-    />
-    <ElCard shadow="never" v-else v-loading="loading && !initial">
+    <ElCard shadow="never" v-loading="loading">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
