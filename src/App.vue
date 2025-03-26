@@ -94,7 +94,7 @@ async function resetPassword() {
           }
         }
       })
-      .catch(() => {
+      .catch(async () => {
         userStore.shouldResetPassword = false
         if (userStore.position.length !== 1) {
           await userStore.removeUser()
