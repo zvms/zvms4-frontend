@@ -90,10 +90,6 @@ onMounted(refresh)
 watch(activePage, refresh)
 watch(pageSize, refresh)
 watch(query, refresh)
-watch(selectTarget, () => {
-  $refs.items.clearSelection()
-  refresh()
-})
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -110,6 +106,11 @@ watch(
   },
   { immediate: true }
 )
+  
+watch(selectTarget, () => {
+  items.clearSelection()
+  refresh()
+})
 
 function selectable(row: ActivityInstance) {
   return selectTarget.value.toLowerCase() === row.type.toLowerCase() && row.status === 'effective'
@@ -163,7 +164,6 @@ const openExport = ref(false)
         <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
       <ElTable
-        ref="items"
         :max-height="tableMaxHeight"
         :data="items"
         table-layout="auto"
