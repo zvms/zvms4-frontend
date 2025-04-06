@@ -54,7 +54,7 @@ const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRe
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
-const initial = ref(true)
+const initial = ref(false)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
