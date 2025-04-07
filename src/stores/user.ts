@@ -20,8 +20,8 @@ export const useUserStore = defineStore('user', {
     time: {
       socialPractice: 0,
       onCampus: 0,
-      offCampus: 0,
-      trophy: 0
+      offCampus: 0//,
+      //trophy: 0
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
   }),
@@ -75,7 +75,7 @@ export const useUserStore = defineStore('user', {
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
       this.time.socialPractice = result.socialPractice
-      this.time.trophy = result.trophy
+      //this.time.trophy = result.trophy
     },
     setLanguage(language: string) {
       this.language = language
@@ -98,13 +98,13 @@ export const useUserStore = defineStore('user', {
       this.shouldResetPassword = false
       const router = useRouter()
       await router.push('/user/login')
-      location.reload()
+      //location.reload()
     },
     setTime(time: UserActivityTimeSums) {
       this.time.onCampus = time.onCampus
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice
-      this.time.trophy = time.trophy
+      //this.time.trophy = time.trophy
     },
     relatedGroup(group: string): boolean {
       console.log(this.position)
