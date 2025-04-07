@@ -366,8 +366,8 @@ onMounted(() => {
 </style>
 
 <style>
-body {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+/*body*/ * {
+  /*-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;*/
   transition-property: color,background-color !important;
   transition-duration: 0.5s !important;
   /* filter: grayscale(1); */
@@ -396,6 +396,12 @@ input[type="number"] {
 
 div[data-netlify-site-id] {
   display: none !important;
+}
+
+*, *:active, *:focus {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-focus-ring-color: rgba(0, 0, 0, 0)!important;
+  outline: none !important;
 }
 
 @media print {
