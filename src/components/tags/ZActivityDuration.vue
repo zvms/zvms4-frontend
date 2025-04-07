@@ -38,7 +38,7 @@ async function modify() {
     <ElPopover
       width="328px"
       trigger="click"
-      v-if="(user.position.includes('admin') || user.position.includes('department')) && id.value && uid.value"
+      v-if="(user.position.includes('admin') || user.position.includes('department')) && id && uid"
     >
       <template #reference>
         <ElButton
