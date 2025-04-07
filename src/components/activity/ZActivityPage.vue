@@ -97,7 +97,7 @@ watch(height, () => {
           </ElBreadcrumbItem>
           <ElBreadcrumbItem>
             <ElButton text size="small" type="info">
-              {{ route.path.split('/').pop() }}
+              {{ activity?.name ?? route.path.split('/').pop() }}
             </ElButton>
           </ElBreadcrumbItem>
         </ElBreadcrumb>
