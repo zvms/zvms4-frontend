@@ -11,6 +11,7 @@ import {
   ElSkeleton,
   ElDivider
 } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
@@ -46,6 +47,7 @@ const props = withDefaults(
 )
 const emits = defineEmits(['update:modelValue'])
 
+const tableRef = ref<TableInstance>()
 const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
@@ -81,11 +83,11 @@ function refresh() {
         loading.value = false
         size.value = 0
       }
-      initial.value = false
+      //initial.value = false
     })
     .catch(() => {
       loading.value = false
-      initial.value = false
+      //initial.value = false
     })
 }
 
@@ -168,11 +170,14 @@ const openExport = ref(false)
         <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
       <ElTable
+        :ref="tableRef"
         :max-height="tableMaxHeight"
         :data="items"
         table-layout="auto"
+        row-key="_id"
         @selection-change="handleSelectionChange"
         stripe
+        border
       >
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
         <ElTableColumn v-else type="expand">
@@ -191,7 +196,7 @@ const openExport = ref(false)
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" v-if="role !== 'mine'" :label="t('activity.form.type')">
+        <ElTableColumn prop="type" v-if="role !== 'mine' && !selectTarget" :label="t('activity.form.type')">
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
