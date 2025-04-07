@@ -62,6 +62,11 @@ const router = createRouter({
       component: () => import('../views/user/UserActivity.vue')
     },
     {
+      path: '/activities/:mode',
+      name: 'activity-mode',
+      component: () => import('../views/user/UserActivity.vue')
+    },
+    {
       path: '/manage',
       name: 'manage',
       component: () => import('../views/manage/ManageHome.vue')
