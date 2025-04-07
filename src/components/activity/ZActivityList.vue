@@ -177,9 +177,8 @@ const openExport = ref(false)
         row-key="_id"
         @selection-change="handleSelectionChange"
         stripe
-        border
       >
-        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
+        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" reserve-selection />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard
