@@ -394,6 +394,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+div[data-netlify-site-id] {
+  display: none !important;
+}
+
 @media print {
   body {
     font-size: 12px;
