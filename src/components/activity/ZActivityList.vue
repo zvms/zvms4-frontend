@@ -93,10 +93,10 @@ function refresh() {
 
 onMounted(refresh)
 
-watch(activePage, refresh)
-watch(pageSize, refresh)
-watch(query, refresh)
-watch(selectTarget, refresh)
+watch(selectTarget, () => {
+  tableRef.clearSelection()
+  refresh()
+})
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -123,6 +123,7 @@ function handleSelectionChange(val: string[]) {
 }
 
 function confirmPage() {
+  refresh()
   router.push({ query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }})
 }
 
@@ -138,19 +139,11 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElSkeleton
-      v-if="loading && initial"
-      :loading="loading && initial"
-      :rows="8"
-      animated
-      class="pt-4 px-4"
-      :throttle="500"
-    />
-    <ElCard shadow="never" v-else v-loading="loading && !initial">
+    <ElCard shadow="never" v-loading="loading">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
-      <div v-if="perspective === user._id" class="text-right">
+      <div v-if="perspective === user._id && !selectTarget" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
         </ElButton>
@@ -214,7 +207,7 @@ const openExport = ref(false)
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="role === 'mine'" :label="t('activity.form.duration')">
+        <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
               v-if="
