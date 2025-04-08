@@ -38,7 +38,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Zhenhai High School Volunteer Management System 4',
+        name: 'ZVMS 4',
         short_name: 'ZVMS',
         description: 'The Zhenhai High School Volunteer Management System 4',
         theme_color: '#ffffff',
