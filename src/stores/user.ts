@@ -44,15 +44,18 @@ export const useUserStore = defineStore('user', {
       this.isLogin = true
     },
     async setUser(user: string, password: string) {
+      const strongPasswordValidator = new RegExp(
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$'
+      )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(user)) as User
         await this.setUserInformation(information)
-        if (password === information.id.toString()) {
+        if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
         }
       }
-      location.reload()
+      //location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
