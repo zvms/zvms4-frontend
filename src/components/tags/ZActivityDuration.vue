@@ -28,7 +28,7 @@ const user = useUserStore()
 const modification = ref(duration.value)
 
 async function modify() {
-  if (id.value && uid.value && modification > 0 && modification <= 18) {
+  if (id.value && uid.value && modification.value > 0 && modification.value <= 18) {
     await api.activity.duration.modify(uid.value, id.value, modification.value)
     emits('update:duration', modification.value)
   }
