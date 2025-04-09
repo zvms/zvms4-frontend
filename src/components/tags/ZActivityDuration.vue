@@ -15,7 +15,9 @@ const props = defineProps<{
   id?: string
   uid?: string
 }>()
-const emits = defineEmits(['update:duration'])
+const emits = defineEmits<{
+  (e: 'update:duration', value: number): void
+}>()
 
 const { t } = useI18n()
 
