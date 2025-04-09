@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
     time: {
       socialPractice: 0,
       onCampus: 0,
-      offCampus: 0//,
+      offCampus: 0
       //trophy: 0
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
@@ -54,6 +54,7 @@ export const useUserStore = defineStore('user', {
         if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
         }
+        this.token = localStorage.getItem('token')
       }
       //location.reload()
     },
