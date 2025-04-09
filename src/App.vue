@@ -324,7 +324,7 @@ onMounted(() => {
 
 .footer-container {
   height: 3rem;
-  z-index: 2040;
+  z-index: 2004;
 }
 
 .disconnected {
@@ -336,7 +336,7 @@ onMounted(() => {
 
 .footer {
   font-size: 0.8rem;
-  position: absolute;
+  position: /*absolute*/fixed;
   width: 100%;
   bottom: 0;
   display: flex;
