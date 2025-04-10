@@ -4,6 +4,7 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 import router from '@/router'
+import { useUserStore } from '@/stores/user'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
@@ -64,14 +65,24 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401) {
         const token = parseJwt(localStorage.getItem('token') as string)
         if (token.payload.scope === 'access_token') {
-          ElNotification({
-            title: 'Error',
-            message: 'Your session has expired, or you are not authorized. Please login again.',
-            type: 'error'
-          })
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          router.push('/user/login')
+          //ElNotification({
+          //  title: 'Error',
+          //  message: 'Your session has expired, or you are not authorized. Please login again.',
+          //  type: 'error'
+          //}
+          if (!errorDisplayed) {
+            errorDisplayed = true
+            ElMessage({
+              message: 'Session expired',
+              type: 'error',
+              grouping: true,
+              plain: true
+            })
+            localStorage.removeItem('token')
+            //localStorage.removeItem('user')
+            await useUserStore().removeUser()
+            router.push('/user/login')
+          }
         } else {
           ElMessageBox({
             title: 'Error',
