@@ -28,7 +28,7 @@ const axiosInstance = axios.create({
   timeout: 24000,
   headers: {
     'Content-type': 'application/json',
-    Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
+    //Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
     'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
   }
 })
@@ -38,6 +38,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     nprogress.start()
+    const token = localStorage.getItem('token')
+    if(token && config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     return config
   },
   (error) => {
