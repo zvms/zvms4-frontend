@@ -54,7 +54,8 @@ export const useUserStore = defineStore('user', {
         if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
         }
-        this.token = localStorage.getItem('token')
+        await setTimeout(() => {
+        }, 100)
       }
       //location.reload()
     },
