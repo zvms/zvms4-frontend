@@ -56,9 +56,10 @@ async function login() {
     return
   }
   const id = users?.[0]._id
-  userStore.setUser(id, password.value as string).then(() => {
+  await userStore.setUser(id, password.value as string)
+  setTimeout(() => {
     router.push('/user')
-  })
+  }, 1000)
 }
 
 watch(user, async () => {
