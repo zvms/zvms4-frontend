@@ -190,7 +190,7 @@ function pushTo(url: string) {
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
               <ZActivityDuration
-                :duration="scope.row.duration"
+                v-model:duration="scope.row.duration"
                 :mode="scope.row.mode"
                 :id="activity._id"
                 :uid="scope.row._id"
