@@ -41,9 +41,6 @@ export const useUserStore = defineStore('user', {
       await this.getUserClassId(user.group)
       this.position = await getUserPositions(user)
       this.token = ''
-      setTimeout(() => {
-        this.isLogin = true
-      }, 500)
     },
     async setUser(user: string, password: string) {
       const strongPasswordValidator = new RegExp(
@@ -58,6 +55,7 @@ export const useUserStore = defineStore('user', {
         }
         await setTimeout(() => {
         }, 500)
+        this.isLogin = true
       }
       //location.reload()
     },
