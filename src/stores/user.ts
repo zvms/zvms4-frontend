@@ -53,16 +53,13 @@ export const useUserStore = defineStore('user', {
         if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
         }
-        alert(localStorage.getItem('token'))
-        await setTimeout(() => {
-        }, 500)
         this.isLogin = true
       }
       //location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
-      await this.setUserInformation(result)
+      await this.setUserInformation(result)y
     },
     getUser() {
       return {
@@ -71,6 +68,7 @@ export const useUserStore = defineStore('user', {
       }
     },
     async removeUser() {
+      this._id = ''
       this.id = 0
       this.name = ''
       this.token = ''
