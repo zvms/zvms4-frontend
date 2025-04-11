@@ -59,7 +59,7 @@ export const useUserStore = defineStore('user', {
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
-      await this.setUserInformation(result)y
+      await this.setUserInformation(result)
     },
     getUser() {
       return {
