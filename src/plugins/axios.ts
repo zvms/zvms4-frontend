@@ -40,7 +40,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     nprogress.start()
     const token = localStorage.getItem('token')
-    if(token && config.headers['Authorization']) {
+    if(token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config
