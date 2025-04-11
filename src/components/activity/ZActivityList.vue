@@ -95,7 +95,11 @@ onMounted(refresh)
 
 watch(selectTarget, () => {
   refresh()
-  tableRef.value.clearSelection()
+  if(tableRef.value?.clearSelection) {
+    tableRef.value.clearSelection()
+  } else if(tableRef.value?.clearSelectionFun) {
+    tableRef.value.clearSelectionFun()
+  }
 })
 
 const tableMaxHeight = ref(height.value * 0.56)
