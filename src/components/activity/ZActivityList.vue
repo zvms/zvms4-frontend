@@ -93,14 +93,7 @@ function refresh() {
 
 onMounted(refresh)
 
-watch(selectTarget, () => {
-  refresh()
-  if(tableRef.value?.clearSelection) {
-    tableRef.value.clearSelection()
-  } else if(tableRef.value?.clearSelectionFun) {
-    tableRef.value.clearSelectionFun()
-  }
-})
+watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -174,6 +167,7 @@ const openExport = ref(false)
         row-key="_id"
         @selection-change="handleSelectionChange"
         stripe
+        :key="selectTarget || 'all'"
       >
         <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" reserve-selection />
         <ElTableColumn v-else type="expand">
