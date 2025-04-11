@@ -80,8 +80,9 @@ axiosInstance.interceptors.response.use(
             })
             localStorage.removeItem('token')
             //localStorage.removeItem('user')
-            await useUserStore().removeUser()
-            router.push('/user/login')
+            useUserStore().removeUser().then(() => {
+              router.push('/user/login')
+            })
           }
         } else {
           ElMessageBox({
