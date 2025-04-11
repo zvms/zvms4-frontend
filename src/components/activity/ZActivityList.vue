@@ -34,6 +34,7 @@ const user = useUserStore()
 const props = withDefaults(
   defineProps<{
     role: 'campus' | 'class' | 'mine'
+    embed: boolean
     perspective?: string
     classTarget?: string
     modelValue?: ActivityInstance[]
@@ -41,6 +42,7 @@ const props = withDefaults(
   }>(),
   {
     role: 'mine',
+    embed: false,
     perspective: 'mine',
     selectTarget: ''
   }
@@ -52,7 +54,7 @@ const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
-const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
+const { role, perspective: persp, selectTarget, classTarget, modelValue, embed } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
@@ -136,7 +138,7 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElCard shadow="never" v-loading="loading">
+    <ElCard shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
@@ -273,5 +275,18 @@ const openExport = ref(false)
 <style scoped>
 .code {
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'Courier', 'monospace';
+}
+
+.el-card.z-embed {
+  border-radius: 0 !important;
+  border-style: none !important;
+  padding: 0 !important;
+}
+
+.el-card.z-embed > .el-card__body {
+  border-radius: 0 !important;
+  border-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 </style>
