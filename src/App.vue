@@ -404,6 +404,8 @@ div[data-netlify-site-id] {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   -webkit-focus-ring-color: rgba(0, 0, 0, 0)!important;
   outline: none !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 @media print {
