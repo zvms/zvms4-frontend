@@ -32,7 +32,7 @@ const nowTime = dayjs().hour()
 const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
 const loading = ref(false)
 
-const time = reactive<Omit<UserActivityTimeSums, 'trophy'>>({
+const time = reactive<UserActivityTimeSums>({
   socialPractice: user.time.socialPractice,
   onCampus: user.time.onCampus,
   offCampus: user.time.offCampus
@@ -100,7 +100,7 @@ async function refreshUser() {
     <div v-if="user.position.includes('student') && user.position.length === 1" class="py-4">
       <ZActivityList role="mine">
         <template #title>
-          My Activities
+          {{ t('activity.view.panels.mine.name') }}
         </template>
       </ZActivityList>
     </div>
