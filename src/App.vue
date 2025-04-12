@@ -379,6 +379,8 @@ body {
 }
 
 .el-pagination .el-pagination--sizes {
+  -moz-flex-grow: 1;
+  -webkit-flex-grow: 1;
   flex-grow: 1;
 }
 
