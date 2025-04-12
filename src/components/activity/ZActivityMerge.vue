@@ -70,10 +70,13 @@ async function mergeActivity() {
     <ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
-          <ElFormItem :label="t('manage.merge.form.name')">
+          <ElFormItem :label="t('manage.merge.form.name')"
+            required
+            :rules="[{ required: true, message: t('validation.create.name.required') }]"
+          >
             <ElInput v-model="mergeForm.name" class="w-full" />
           </ElFormItem>
-          <ElFormItem :label="t('manage.merge.form.type')">
+          <ElFormItem :label="t('manage.merge.form.type')" required>
             <ElRadioGroup v-model="mergeForm.type">
               <ElRadio
                 v-for="type in typesOfActivity"
@@ -84,7 +87,7 @@ async function mergeActivity() {
               ></ElRadio>
             </ElRadioGroup>
           </ElFormItem>
-          <ElFormItem :label="t('manage.merge.form.list')">
+          <ElFormItem :label="t('manage.merge.form.list')" required>
             <ElAlert
               :title="t('manage.merge.form.prompt')"
               show-icon
@@ -98,9 +101,10 @@ async function mergeActivity() {
               v-model="mergeForm.list"
               class="w-full"
               role="campus"
+              embed
             />
           </ElFormItem>
-          <ElFormItem :label="t('manage.merge.form.overwrite')">
+          <ElFormItem :label="t('manage.merge.form.overwrite')" required>
             <ElSwitch
               class="px-2"
               v-model="overwriteTime"
