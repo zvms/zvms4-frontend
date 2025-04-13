@@ -284,8 +284,8 @@ const openExport = ref(false)
 }
 
 .el-card.z-embed > .el-card__body {
-  border-radius: 0 !important;
-  border-style: none !important;
+  /*border-radius: 0 !important;
+  border-style: none !important;*/
   padding: 0 !important;
   margin: 0 !important;
 }
