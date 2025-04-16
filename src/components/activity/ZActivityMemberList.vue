@@ -200,8 +200,7 @@ function pushTo(url: string) {
           <ElTableColumn
             fixed="right"
             v-if="
-              (user._id === activity.creator ||
-                user.position.includes('admin') ||
+              ( user.position.includes('admin') ||
                 user.position.includes('department') ||
                 user.position.includes('secretary')) &&
               !wholesale
