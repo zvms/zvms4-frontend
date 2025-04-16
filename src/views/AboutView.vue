@@ -196,45 +196,23 @@ const displayGitHubName = ref(props.showRealName)
           </div>
           <p class="pb-2">
             {{ t('about.repository.v4More.0') }}
-            <ElButtonGroup>
-              <ElButton
-                text
-                bg
-                v-for="(collaborator, idx) in v4ExtraMaintainers"
-                :key="idx"
-                size="small"
-              >
-                {{
-                  displayGitHubName
-                    ? collaborator
-                    : `${collaborators.find((x) => x.display === collaborator)?.name}`
-                }}
-              </ElButton>
-              {{ t('about.repository.v4More.1') }}
-            </ElButtonGroup>
+            <span v-for="(collaborator, idx) in v4ExtraMaintainers">
+              {{ idx == 0 ? '' : ',' }}
+              {{
+                displayGitHubName
+                  ? collaborator
+                  : `${collaborators.find((x) => x.display === collaborator)?.name}`
+              }}
+            </span>
+            {{ t('about.repository.v4More.1') }}
           </p>
           <p class="py-2">
             {{ t('about.repository.thank.mean') }}
-            <ElButton
-              text
-              bg
-              size="small"
-              >{{ displayGitHubName ? 'hhj' : '黄浩杰' }}</ElButton
-            >
+            {{ displayGitHubName ? 'hhj' : '黄浩杰' }}
             {{ t('about.repository.thank.icon') }}
-            <ElButton
-              text
-              bg
-              size="small"
-              >{{ displayGitHubName ? 'zsz' : '张圣泽' }}</ElButton
-            >
+            {{ displayGitHubName ? 'zsz' : '张圣泽' }}
             {{ t('about.repository.thank.test') }}
-            <ElButton
-              text
-              bg
-              size="small"
-              >{{ displayGitHubName ? 'zjr' : '周济睿' }}</ElButton
-            >
+            {{ displayGitHubName ? 'zjr' : '周济睿' }}
             {{ t('about.repository.thank.end') }}
           </p>
         </div>
