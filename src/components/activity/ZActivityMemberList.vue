@@ -46,11 +46,13 @@ const props = withDefaults(
     mode?: 'button' | 'card'
     color?: 'primary' | 'success' | 'warning' | 'danger'
     wholesale: boolean
+    local: boolean
   }>(),
   {
     mode: 'button',
     color: 'danger',
-    wholesale: false
+    wholesale: false,
+    local: false
   }
 )
 const emits = defineEmits<{
@@ -174,7 +176,7 @@ function pushTo(url: string) {
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <div v-if="activity.members.length !== 0 && show">
+      <div v-if="show">
         <ElTable
           :data="
             activity.members.filter((x, idx) => idx < active * size && idx >= (active - 1) * size)
