@@ -15,8 +15,11 @@ const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
-window.addEventListener('beforeunload', (e) => {
-  e.preventDefault()
+window.onbeforeunload = ((e) => {
+  if(location.pathname.startsWith('/activity/create')) {
+    e.preventDefault()
+    return false
+  }
 })
 
 header.setHeader(t('nav.create'))
