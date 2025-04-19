@@ -264,6 +264,19 @@ function pushTo(url: string) {
                   </div>
                 </ElForm>
               </ElPopover>
+              <!-- Work in progresss -->
+              <!--<ZButtonOrCard
+                v-model:open="showAddPopover"
+                :mode="button"
+                pop-type="dialog"
+                width="80%"
+    size="small"
+    :icon="User"
+    round
+    type="danger"
+    :title="t('activity.member.dialog.title', { name: activity.name })"
+  >
+                </ZButtonOrCard>-->
             </template>
             <template #default="scope">
               <ElPopconfirm
