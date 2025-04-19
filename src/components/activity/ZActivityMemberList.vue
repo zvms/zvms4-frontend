@@ -44,13 +44,11 @@ const props = withDefaults(
   defineProps<{
     activity: ActivityInstance
     mode?: 'button' | 'card'
-    color?: 'primary' | 'success' | 'warning' | 'danger'
     wholesale: boolean
     local: boolean
   }>(),
   {
     mode: 'button',
-    color: 'danger',
     wholesale: false,
     local: false
   }
@@ -59,7 +57,7 @@ const emits = defineEmits<{
   refresh: []
 }>()
 
-const { activity, mode, wholesale } = toRefs(props)
+const { activity, mode, wholesale, local } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
 
@@ -95,7 +93,7 @@ const appending = ref<ActivityMember>({
   duration:
     activity.value.members.map((x) => x.duration).some((x) => x) ? Math.round(((activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)) / (activity.value.members.length))) : 0,
   mode: getMode(),
-  status: 'effective',
+  status: 'effective'
 })
 
 const loading = ref<string | 'add'>('')
@@ -117,12 +115,15 @@ const memberFunctions = {
   async remove(id: string) {
     modified.value = true
     loading.value = id
-    if (activity.value.members.length === 1) {
+    if (activity.value.members.length === 1 && !local.value) {
       await api.activity.deleteOne(activity.value._id, user._id).catch(() => {
         loading.value = ''
       })
       emits('refresh')
       return
+    }
+    if(local.value) {
+        activity.value.members = activity.value.members.filter((member) => member._id !== id)
     }
     await api.activity.member
       .remove(id, activity.value._id, user._id)
@@ -169,7 +170,7 @@ function pushTo(url: string) {
     size="small"
     :icon="User"
     round
-    :type="color"
+    type="danger"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text>
