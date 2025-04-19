@@ -10,6 +10,7 @@ export { default as ZActivityCard } from './ZActivityCard.vue'
 export { default as ZActivityMemberList } from './ZActivityMemberList.vue'
 export { default as ZActivityPage } from './ZActivityPage.vue'
 export { default as ZUserTimeJudge } from './ZUserTimeJudge.vue'
+export { default as ZActivityMerge } from './ZActivityMerge.vue'
 export { default as ZUploadFile } from './ZUploadFile.vue'
 export function permissions(positions: UserPosition[]) {
   function upperStudent(positions: UserPosition[]) {
