@@ -46,13 +46,13 @@ const props = withDefaults(
     mode?: 'button' | 'card'
     color?: 'primary' | 'success' | 'warning' | 'danger'
     wholesale: boolean
-    local: boolean
+    islocal: boolean
   }>(),
   {
     mode: 'button',
     color: 'danger',
     wholesale: false,
-    local: false
+    islocal: false
   }
 )
 const emits = defineEmits<{
