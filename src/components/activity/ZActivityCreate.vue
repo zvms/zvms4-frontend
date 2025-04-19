@@ -252,7 +252,7 @@ watch(
                   </ElRadioGroup>
                 </ElCol>
                 <ElCol :span="8" style="width: 100%" v-if="activity.approver === 'member'">
-                  <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" :department-only="true" />
+                  <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
                 </ElCol>
               </ElRow>
             </ElFormItem>
