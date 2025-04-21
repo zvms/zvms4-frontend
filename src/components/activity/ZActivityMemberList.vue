@@ -270,13 +270,14 @@ function pushTo(url: string) {
                 :mode="button"
                 pop-type="dialog"
                 width="80%"
-    size="small"
-    :icon="User"
-    round
-    type="danger"
-    :title="t('activity.member.dialog.title', { name: activity.name })"
-  >
-                </ZButtonOrCard>-->
+    						size="small"
+    						:icon="User"
+    						round
+    						type="success"
+    						:title="''"
+  						>
+              	<ZGroupMember>
+              </ZButtonOrCard>-->
             </template>
             <template #default="scope">
               <ElPopconfirm
