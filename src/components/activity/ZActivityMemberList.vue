@@ -280,7 +280,7 @@ function pushTo(url: string) {
     						type="success"
     						:title="''"
   						>
-              	<ZGroupMember>
+              	<ZGroupUserList />
               </ZButtonOrCard>-->
             </template>
             <template #default="scope">
