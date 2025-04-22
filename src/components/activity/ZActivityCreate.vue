@@ -261,7 +261,8 @@ watch(
               :label="t('activity.form.person', members.length)"
               :required="activity.type !== 'specified'"
             >
-              <ElCard shadow="hover" class="w-full">
+              <ZActivityMemberList mode="card" local />
+              <!--<ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
                   <Transition
                     enter-active-class="animate__animated animate__fadeIn"
@@ -320,7 +321,7 @@ watch(
                     </ElForm>
                   </Transition>
                 </div>
-              </ElCard>
+              </ElCard>-->
             </ElFormItem>
             <ElFormItem v-else label="Upload" required>
               <ElUpload
