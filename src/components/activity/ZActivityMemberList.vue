@@ -102,7 +102,9 @@ const memberFunctions = {
   async add() {
     modified.value = true
     loading.value = 'add'
-    await api.activity.member.insert(activity.value._id, appending.value)
+    if(!local.value) {
+      await api.activity.member.insert(activity.value._id, appending.value)
+    }
     activity.value.members.push({
       _id: appending.value._id.toString(),
       status: 'effective',
@@ -123,7 +125,9 @@ const memberFunctions = {
       return
     }
     if(local.value) {
-        activity.value.members = activity.value.members.filter((member) => member._id !== id)
+      activity.value.members = activity.value.members.filter((member) => member._id !== id)
+      loading.value = ''
+      return
     }
     await api.activity.member
       .remove(id, activity.value._id, user._id)
