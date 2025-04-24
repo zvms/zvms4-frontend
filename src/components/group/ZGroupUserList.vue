@@ -13,6 +13,7 @@ import {
   ElRow,
   ElPopover
 } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'
@@ -32,11 +33,17 @@ const userStore = useUserStore()
 const props = withDefaults(
   defineProps<{
     id: string
+    selectable: boolean
+    selectorCallBack?: Function
+    modelValue?: User[]
   }>(),
   {
-    id: ''
+    id: '',
+    selectable: false
   }
 )
+const emits = defineEmits(['update:modelValue'])
+const tableRef = ref<TableInstance>()
 const group = ref<Group>()
 const users = ref<User[]>([])
 const page = ref(1)
@@ -45,7 +52,7 @@ const loading = ref(false)
 const search = ref('')
 const total = ref(0)
 
-const { id } = toRefs(props)
+const { id, selectable, modelValue, selectorCallBack } = toRefs(props)
 
 const tableHeight = ref(height.value * 0.6)
 
@@ -116,6 +123,10 @@ async function exportUserList() {
     await api.group.template(id.value, name)
   }
 }
+
+function handleSelectionChange(val: string[]) {
+  emits('update:modelValue', val)
+}
 </script>
 
 <template>
@@ -123,18 +134,27 @@ async function exportUserList() {
     v-if="
       userStore.position.includes('admin') ||
       userStore.position.includes('department') ||
-      userStore.groups.includes(id)
+      userStore.groups.includes(id) ||
+      selectable
     "
   >
     <ElCard shadow="never" v-loading="loading">
       <ElFormItem
-        v-if="id"
+        v-if="id && !selectable"
         :label="t('manage.groupDetails.userList.checkPasswordPrompt')"
         class="mb-4"
       >
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
-      <ElTable :data="users" stripe :max-height="tableHeight">
+      <ElTable
+        :ref="tableRef"
+        :data="users"
+        stripe
+        row-key="_id"
+        @selection-change="handleSelectionChange"
+        :max-height="tableHeight"
+      >
+        <ElTableColumn v-if="selectable" type="selection" :selectable="selectorCallback ?? ((row) => true)" reserve-selection />
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
         <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="group" :label="t('manage.groupDetails.userList.columns.group')">
@@ -143,7 +163,7 @@ async function exportUserList() {
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="pwdm"
+          v-if="pwdm && !selectable"
           prop="password"
           :label="t('manage.groupDetails.userList.columns.pwdm')"
         >
@@ -160,7 +180,7 @@ async function exportUserList() {
           <template #header>
             <div>
               <ElInput
-                v-if="pad() || (group?.type !== 'class' && id)"
+                v-if="pad() || (group?.type !== 'class' && id) || selectable"
                 v-model="search"
                 size="small"
                 :placeholder="t('manage.groupList.columns.search')"
@@ -216,7 +236,7 @@ async function exportUserList() {
             </div>
           </template>
           <template #default="{ row }">
-            <ElButton text bg size="small" @click="router.push(`/user/${row._id}`)">
+            <ElButton v-if="!selectable" text bg size="small" @click="router.push(`/user/${row._id}`)">
               {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>
