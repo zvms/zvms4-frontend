@@ -47,12 +47,12 @@ const tabs = ref([
     label: 'Logs',
     value: 'logs',
     icon: Log
-  },
+  }/*,
   {
     label: 'Import',
     value: 'import',
     icon: Upload
-  }
+  }*/
 ])
 
 watch(current, () => {
