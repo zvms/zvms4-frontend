@@ -268,7 +268,7 @@ function pushTo(url: string) {
                   </div>
                 </ElForm>
               </ElPopover>-->
-              <<ZButtonOrCard
+              <ZButtonOrCard
                 v-model:open="showAddPopover"
                 :mode="button"
                 pop-type="dialog"
