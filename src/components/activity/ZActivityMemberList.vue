@@ -215,7 +215,7 @@ function pushTo(url: string) {
             class="no-print"
           >
             <template #header>
-              <ElPopover
+              <!--<ElPopover
                 placement="left"
                 :visible="showAddPopover"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
@@ -267,9 +267,8 @@ function pushTo(url: string) {
                     </ElButton>
                   </div>
                 </ElForm>
-              </ElPopover>
-              <!-- Work in progresss -->
-              <!--<ZButtonOrCard
+              </ElPopover>-->
+              <<ZButtonOrCard
                 v-model:open="showAddPopover"
                 :mode="button"
                 pop-type="dialog"
@@ -278,10 +277,13 @@ function pushTo(url: string) {
     						:icon="User"
     						round
     						type="success"
-    						:title="''"
+    						:title="local ? 'Add members' : `Add members to ${activity.name}`"
   						>
-              	<ZGroupUserList />
-              </ZButtonOrCard>-->
+              	<ZGroupUserList selectable :selector-callback="(row) => {
+                  (user.position.includes('admin') || user.position.includes('department') ? true : row.groups.filter(x => x == user.class_id).length > 0) &&
+                    activity.members.filter((x) => x._id == row._id).length == 0
+                }" />
+              </ZButtonOrCard>
             </template>
             <template #default="scope">
               <ElPopconfirm
