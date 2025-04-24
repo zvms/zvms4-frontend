@@ -20,6 +20,10 @@ const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
+  
+if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
+  router.push('/not-found')
+}
 
 const id = ref<string>('')
 
