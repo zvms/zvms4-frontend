@@ -120,6 +120,7 @@ watch(height, () => {
 async function submit() {
   load.value = true
   try {
+    members = activity.members
     await api.activity.insert(activity, members, registration, special, approveStudent.value)
     load.value = false
     await router.push(
@@ -149,9 +150,9 @@ function allow(): ActivityMode[] {
 const validated = ref(false)
 
 watch(
-  () => generateActivity(activity, members, approveStudent.value, registration, special),
+  () => generateActivity(activity, activity.members, approveStudent.value, registration, special),
   () => {
-    const act = generateActivity(activity, members, approveStudent.value, registration, special)
+    const act = generateActivity(activity, activity.members, approveStudent.value, registration, special)
     if (act !== null) {
       validated.value = validateActivity(act)
     }
@@ -257,11 +258,10 @@ watch(
               </ElRow>
             </ElFormItem>
             <ElFormItem
-              v-if="type !== 'special' || special.classify !== 'import'"
               :label="t('activity.form.person', members.length)"
               :required="activity.type !== 'specified'"
             >
-              <ZActivityMemberList mode="card" local />
+              <ZActivityMemberList mode="card" local :activity="activity" />
               <!--<ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
                   <Transition
@@ -323,7 +323,7 @@ watch(
                 </div>
               </ElCard>-->
             </ElFormItem>
-            <ElFormItem v-else label="Upload" required>
+            <!--<ElFormItem label="Upload" required>
               <ElUpload
                 ref="uploadRef"
                 drag
@@ -343,12 +343,12 @@ watch(
                   <div class="el-upload__tip">xls/xlsx files with a size less than 2 MB.</div>
                 </template>
               </ElUpload>
-            </ElFormItem>
+            </ElFormItem>-->
           </ElScrollbar>
           <div class="actions text-right">
-            <ElButton type="warning" :icon="Refresh" text bg>
+            <!--<ElButton type="warning" :icon="Refresh" text bg>
               {{ t('activity.form.actions.reset') }}
-            </ElButton>
+            </ElButton>-->
             <ElButton
               type="primary"
               :icon="ArrowRight"
