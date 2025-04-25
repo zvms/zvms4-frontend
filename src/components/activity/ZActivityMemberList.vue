@@ -8,7 +8,7 @@ import {
   ZSelectActivityMode,
   ZSelectPerson
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode } from '@/../types'
+import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
 import { toRefs, watch } from 'vue'
 import { User, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -60,6 +60,8 @@ const emits = defineEmits<{
 const { activity, mode, wholesale, local } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
+const addedUsers = ref<User[]>([])
+const useless = ref(1)
 
 // Add member of activity in first 5
 
@@ -162,6 +164,10 @@ watch(active, () => {
 function pushTo(url: string) {
   open.value = false
   router.push(url)
+}
+
+function addMembers() {
+  // to be done
 }
 </script>
 
@@ -282,7 +288,18 @@ function pushTo(url: string) {
               	<ZGroupUserList selectable :selector-callback="(row) => {
                   (user.position.includes('admin') || user.position.includes('department') ? true : row.groups.filter(x => x == user.class_id).length > 0) &&
                     activity.members.filter((x) => x._id == row._id).length == 0
-                }" />
+                }" v-model="addedUsers" :key="useless" />
+                <div style="text-align: right">
+                  <ElButton text bg type="warning" :icon="Close" @click="() => {
+                    addedUsers = []
+                    useless = useless + 1
+                  }">
+                    {{ t('activity.form.actions.reset') }}
+                  </ElButton>
+                  <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers">
+                    {{ t('activity.member.dialog.actions.add') }}
+                  </ElButton>
+                </div>
               </ZButtonOrCard>
             </template>
             <template #default="scope">
