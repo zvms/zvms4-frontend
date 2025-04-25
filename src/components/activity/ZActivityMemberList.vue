@@ -83,6 +83,9 @@ function getMode(): ActivityMode {
   return 'on-campus'
 }
 
+const appendingDuration = ref(0)
+const appendingMode = ref(getMode())
+
 function getAllow(): ActivityMode[] {
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
@@ -102,8 +105,8 @@ const loading = ref<string | 'add'>('')
 
 const memberFunctions = {
   async add() {
-    modified.value = true
-    loading.value = 'add'
+    //modified.value = true
+    //loading.value = 'add'
     if(!local.value) {
       await api.activity.member.insert(activity.value._id, appending.value)
     }
@@ -113,8 +116,8 @@ const memberFunctions = {
       duration: appending.value.duration,
       mode: appending.value.mode,
     })
-    loading.value = ''
-    showAddPopover.value = false
+    //loading.value = ''
+    //showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
@@ -168,6 +171,24 @@ function pushTo(url: string) {
 
 function addMembers() {
   // to be done
+  modified.value = true
+  loading.value = 'add'
+  addedUsers.forEach(mem => {
+    const adding = {
+      _id: mem._id.toString(),
+      status: 'effective',
+      duration: appendingDuration.value,
+      mode: appendingMode.value
+    }
+    if(!local.value) {
+      await api.activity.member.insert(activity.value._id, adding)
+    }
+    activity.value.members.push(adding)
+  })
+  addedUsers = []
+  useless = useless + 1
+  showAddPopover = false
+  loading.value = ''
 }
 </script>
 
@@ -289,6 +310,13 @@ function addMembers() {
                   (user.position.includes('admin') || user.position.includes('department') ? true : row.groups.filter(x => x == user.class_id).length > 0) &&
                     activity.members.filter((x) => x._id == row._id).length == 0
                 }" v-model="addedUsers" :key="useless" />
+                <div style="width: 100%">
+                  <ElRow>
+                    <!-- Working -->
+                    <ElCol :span="12"></ElCol>
+                    <ElCol :span="12"></ElCol>
+                  </ElRow>
+                </div>
                 <div style="text-align: right">
                   <ElButton text bg type="warning" :icon="Close" @click="() => {
                     addedUsers = []
@@ -296,7 +324,7 @@ function addMembers() {
                   }">
                     {{ t('activity.form.actions.reset') }}
                   </ElButton>
-                  <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers">
+                  <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'">
                     {{ t('activity.member.dialog.actions.add') }}
                   </ElButton>
                 </div>
