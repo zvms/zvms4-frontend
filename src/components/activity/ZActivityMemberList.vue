@@ -173,7 +173,7 @@ function addMembers() {
   // to be done
   modified.value = true
   loading.value = 'add'
-  addedUsers.forEach(mem => {
+  addedUsers.value.forEach(mem => {
     const adding = {
       _id: mem._id.toString(),
       status: 'effective',
@@ -185,9 +185,9 @@ function addMembers() {
     }
     activity.value.members.push(adding)
   })
-  addedUsers = []
-  useless = useless + 1
-  showAddPopover = false
+  addedUsers.value = []
+  useless.value = useless.value + 1
+  showAddPopover.value = false
   loading.value = ''
 }
 
