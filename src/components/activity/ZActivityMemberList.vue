@@ -190,6 +190,10 @@ function addMembers() {
   showAddPopover = false
   loading.value = ''
 }
+
+function selectorCallback(row) {
+  return ((user.position.includes('admin') || user.position.includes('department')) ? true : (row.groups.filter(x => x == user.class_id).length > 0)) && activity.value.members.filter((x) => x._id == row._id).length == 0
+}
 </script>
 
 <template>
@@ -306,10 +310,7 @@ function addMembers() {
     						type="success"
     						:title="local ? 'Add members' : `Add members to ${activity.name}`"
   						>
-              	<ZGroupUserList selectable :selector-callback="(row) => {
-                  (user.position.includes('admin') || user.position.includes('department') ? true : row.groups.filter(x => x == user.class_id).length > 0) &&
-                    activity.members.filter((x) => x._id == row._id).length == 0
-                }" v-model="addedUsers" :key="useless" />
+              	<ZGroupUserList selectable :selector-callback="selectorCallback" v-model="addedUsers" :key="useless" />
                 <div style="width: 100%">
                   <ElRow>
                     <!-- Working -->
@@ -318,10 +319,7 @@ function addMembers() {
                   </ElRow>
                 </div>
                 <div style="text-align: right">
-                  <ElButton text bg type="warning" :icon="Close" @click="() => {
-                    addedUsers = []
-                    useless = useless + 1
-                  }">
+                  <ElButton text bg type="warning" :icon="Close" @click="() => { addedUsers = []; useless = useless + 1 }">
                     {{ t('activity.form.actions.reset') }}
                   </ElButton>
                   <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'">
