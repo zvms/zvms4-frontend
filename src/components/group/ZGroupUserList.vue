@@ -34,7 +34,7 @@ const props = withDefaults(
   defineProps<{
     id: string
     selectable: boolean
-    selectorCallBack?: Function
+    selectorCallback?: Function
     modelValue?: User[]
   }>(),
   {
@@ -52,7 +52,7 @@ const loading = ref(false)
 const search = ref('')
 const total = ref(0)
 
-const { id, selectable, modelValue, selectorCallBack } = toRefs(props)
+const { id, selectable, modelValue, selectorCallback } = toRefs(props)
 
 const tableHeight = ref(height.value * 0.6)
 
