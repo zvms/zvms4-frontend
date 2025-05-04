@@ -297,7 +297,7 @@ function selectorCallback(row) {
               </ElPopover>-->
               <ZButtonOrCard
                 v-model:open="showAddPopover"
-                :mode="button"
+                mode="button"
                 pop-type="dialog"
                 width="80%"
     						size="small"
