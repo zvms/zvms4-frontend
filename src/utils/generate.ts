@@ -8,8 +8,8 @@ import type {
   SpecialActivity,
   SpecifiedActivity
 } from '@/../types'
-import dayjs from 'dayjs'
-import { ElNotification } from 'element-plus'
+//import dayjs from 'dayjs'
+import { ElMessage } from 'element-plus'
 export function generateActivity(
   base: Activity,
   members: ActivityMember[],
@@ -28,11 +28,13 @@ export function generateActivity(
     ...base,
     members
   } as ActivityInstance
-  if (activity.approver && activity.approver === 'member') {
+  if (!activity.approver || activity.approver === 'member') {
     if (!approverStudent && submitting) {
-      ElNotification({
-        title: 'Student-approved activities should indicate the approver.',
+      ElMessage({
+        message: 'Student-approved activities should indicate the approver.',
         type: 'error',
+        grouping: true,
+        plain: true
       })
       return null
     }
@@ -41,8 +43,8 @@ export function generateActivity(
   if (registration && base.type === 'specified') {
     ;(activity as SpecifiedActivity).registration = registration
   }
-  if (special && base.type === 'special') {
+  //if (special && base.type === 'special') {
     ;(activity as SpecialActivity).special = special
-  }
+  //}
   return activity
 }
