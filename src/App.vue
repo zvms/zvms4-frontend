@@ -384,6 +384,7 @@ div[data-netlify-site-id] {
 
 .z-wrap .el-form-item--default .el-form-item__content {
     display: block;
+    overflow-wrap: break-word;
 }
 
 @media print {

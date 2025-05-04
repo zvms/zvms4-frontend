@@ -82,7 +82,7 @@ async function ipLookup() {
           Track
           </ElButton>
         </ElFormItem>
-        <ElFormItem label="URL" style="overflow-wrap: break-word">
+        <ElFormItem label="URL">
           {{ log.url }}
         </ElFormItem>
       </ElForm>
