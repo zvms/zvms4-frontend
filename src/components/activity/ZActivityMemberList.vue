@@ -313,7 +313,6 @@ function selectorCallback(row) {
               	<ZGroupUserList selectable :selector-callback="selectorCallback" v-model="addedUsers" :key="useless" />
                 <div style="width: 100%">
                   <ElRow>
-                    <!-- Working -->
                     <ElCol :span="12"><ZSelectActivityMode v-model="appendingMode" :allow="getAllow()" class="w-full" /></ElCol>
                     <ElCol :span="12"><ZInputDuration v-model="appendingDuration" class="w-full" /></ElCol>
                   </ElRow>

@@ -120,7 +120,7 @@ watch(height, () => {
 async function submit() {
   load.value = true
   try {
-    members = activity.members
+    members.value = activity.members
     await api.activity.insert(activity, members, registration, special, approveStudent.value)
     load.value = false
     await router.push(
@@ -261,7 +261,7 @@ watch(
               :label="t('activity.form.person', members.length)"
               :required="activity.type !== 'specified'"
             >
-              <ZActivityMemberList mode="card" local :activity="activity" class="w-full" style="flex-grow: 1"/>
+              <div class="w-full" style="flex-grow: 1"><ZActivityMemberList mode="card" local :activity="activity" /></div>
               <!--<ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
                   <Transition
