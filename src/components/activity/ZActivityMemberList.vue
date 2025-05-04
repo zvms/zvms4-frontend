@@ -169,7 +169,7 @@ function addMembers() {
   // to be done
   modified.value = true
   loading.value = 'add'
-  addedUsers.value.forEach(mem => {
+  addedUsers.value.forEach(async (mem) => {
     const adding = {
       _id: mem._id.toString(),
       status: 'effective',
