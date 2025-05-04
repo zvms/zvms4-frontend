@@ -228,6 +228,7 @@ function selectorCallback(row) {
                 :mode="scope.row.mode"
                 :id="activity._id"
                 :uid="scope.row._id"
+                :local="local"
               />
             </template>
           </ElTableColumn>
