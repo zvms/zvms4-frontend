@@ -307,12 +307,15 @@ function selectorCallback(row) {
     						type="success"
     						:title="local ? 'Add members' : `Add members to ${activity.name}`"
   						>
+                <template #text>
+                  {{ t('activity.member.dialog.actions.add') }}
+                </template>
               	<ZGroupUserList selectable :selector-callback="selectorCallback" v-model="addedUsers" :key="useless" />
                 <div style="width: 100%">
                   <ElRow>
                     <!-- Working -->
-                    <ElCol :span="12"></ElCol>
-                    <ElCol :span="12"></ElCol>
+                    <ElCol :span="12"><ZSelectActivityMode v-model="appendingMode" :allow="getAllow()" class="w-full" /></ElCol>
+                    <ElCol :span="12"><ZInputDuration v-model="appendingDuration" class="w-full" /></ElCol>
                   </ElRow>
                 </div>
                 <div style="text-align: right">
