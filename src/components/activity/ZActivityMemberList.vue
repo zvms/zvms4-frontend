@@ -10,7 +10,7 @@ import {
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
 import { toRefs, watch } from 'vue'
-import { User, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
+import { User as IconUser, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
@@ -203,7 +203,7 @@ function selectorCallback(row) {
     pop-type="dialog"
     width="80%"
     size="small"
-    :icon="User"
+    :icon="IconUser"
     round
     type="danger"
     :title="t('activity.member.dialog.title', { name: activity.name })"
@@ -305,7 +305,7 @@ function selectorCallback(row) {
                 pop-type="dialog"
                 width="80%"
     						size="small"
-    						:icon="User"
+    						:icon="Plus"
     						round
     						type="success"
     						:title="local ? 'Add members' : `Add members to ${activity.name}`"
