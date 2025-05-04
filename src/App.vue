@@ -382,6 +382,10 @@ div[data-netlify-site-id] {
   scrollbar-width: none !important;
 }
 
+.z-wrap .el-form-item--default .el-form-item__content {
+    display: block;
+}
+
 @media print {
   body {
     font-size: 12px;

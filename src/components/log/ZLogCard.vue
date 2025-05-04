@@ -33,7 +33,7 @@ async function ipLookup() {
 </script>
 
 <template>
-  <div class="py-1">
+  <div class="py-1 z-wrap">
     <ElCard shadow="hover">
       <ElForm>
         <ElFormItem label="Performer">

@@ -212,7 +212,7 @@ function handleSelectionChange(val: string[]) {
                     size="small"
                     type="warning"
                   >
-                    Export
+                    {{ t('manage.exports.actions.export') }}
                   </ElButton>
                   <ElPopover v-else>
                     <template #reference>
@@ -226,7 +226,7 @@ function handleSelectionChange(val: string[]) {
                         size="small"
                         type="warning"
                       >
-                        Export
+                        {{ t('manage.exports.actions.export') }}
                       </ElButton>
                     </template>
                     <ZDataExport type="users" :model-value="true" />
