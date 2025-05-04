@@ -261,7 +261,7 @@ watch(
               :label="t('activity.form.person', members.length)"
               :required="activity.type !== 'specified'"
             >
-              <ZActivityMemberList mode="card" local :activity="activity" />
+              <ZActivityMemberList mode="card" local :activity="activity" class="w-full"/>
               <!--<ElCard shadow="hover" class="w-full">
                 <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
                   <Transition
