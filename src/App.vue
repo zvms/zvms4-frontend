@@ -161,38 +161,20 @@ const locales: Record<
       title: string
       message: string
     }
-    refresh: {
-      title: string
-      message: string
-      ok: string
-      cancel: string
-    }
   }
 > = {
   'zh-CN': {
     disconnected: {
       title: '连接已断开',
       message: '已加载备用缓存数据但无法进行操作。'
-    },
-    refresh: {
-      title: '发现新版本',
-      message: '发现新版本，是否立即刷新？',
-      ok: '刷新',
-      cancel: '取消'
     }
   },
   'en-US': {
     disconnected: {
       title: 'Disconnected',
       message: 'Loaded backup cache data but cannot operate.'
-    },
-    refresh: {
-      title: 'New version found',
-      message: 'New version found, refresh now?',
-      ok: 'Refresh',
-      cancel: 'Cancel'
     }
-  },
+  }
 }
 
 const panelButtons = [
@@ -217,13 +199,7 @@ watch(needRefresh, () => {
   if (!needRefresh.value) {
     return
   }
-  ElMessageBox.confirm(locales[locale.value].refresh.message, locales[locale.value].refresh.title, {
-    confirmButtonText: locales[locale.value].refresh.ok,
-    cancelButtonText: locales[locale.value].refresh.cancel,
-    type: 'warning'
-  }).then(() => {
-    updateServiceWorker()
-  })
+  updateServiceWorker()
 })
 
 onMounted(() => {
@@ -367,10 +343,8 @@ onMounted(() => {
 
 <style>
 body {
-  /*-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;*/
   transition-property: color,background-color !important;
   transition-duration: 1s !important;
-  /* filter: grayscale(1); */
 }
 
 .el-pagination {
@@ -378,13 +352,13 @@ body {
   height: 34px;
 }
 
-.el-pagination .el-pagination--sizes {
+.el-pagination .el-pagination__sizes {
   -moz-flex-grow: 1;
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
 
-.el-pagination .el-pagination--sizes .el-select {
+.el-pagination .el-pagination__sizes .el-select {
   width: 100% !important;
 }
 

@@ -41,7 +41,7 @@ const router = createRouter({
       children: [
         {
           path: '/activity/create',
-          name: 'activity-create',
+          name: 'activity-create-home',
           component: () => import('../views/activity/CreateHome.vue')
         },
         {

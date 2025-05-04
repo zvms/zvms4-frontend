@@ -22,8 +22,6 @@ const path = ref(route.params?.type ?? 'mine')
 
 const tab = ref((path.value as string).replace('/', ''))
 
-const availibility = ref(true)
-
 watch(
   () => route.params?.type,
   () => {
@@ -55,7 +53,6 @@ const panes = [
     icon: School,
     visibility:
       user.position.includes('department') ||
-      user.position.includes('auditor') ||
       user.position.includes('admin')
   }
 ] as Array<{

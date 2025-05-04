@@ -12,7 +12,7 @@ import { useI18n } from 'vue-i18n'
 import { pad } from '@/plugins/ua.ts'
 
 const header = useHeaderStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -177,27 +177,23 @@ const displayGitHubName = ref(props.showRealName)
               v{{ id }}.x
             </ElButton>
             {{ t('about.repository.version.1') }}
-            <ElButtonGroup>
-              <ElButton
-                text
-                bg
-                v-for="(collaborator, idx) in version.collaborators"
-                :key="idx"
-                size="small"
-              >
-                {{
-                  displayGitHubName
-                    ? collaborator
-                    : `${collaborators.find((x) => x.display === collaborator)?.name}`
-                }}
-              </ElButton>
-            </ElButtonGroup>
+            <span
+              v-for="(collaborator, idx) in version.collaborators"
+              :key="idx"
+            >
+              {{ idx == 0 ? '' : ( locale === 'zh-CN' ? '，' : ',') }}
+              {{
+                displayGitHubName
+                  ? collaborator
+                  : `${collaborators.find((x) => x.display === collaborator)?.name}`
+              }}
+            </span>
             {{ t('about.repository.version.2') }}
           </div>
           <p class="pb-2">
             {{ t('about.repository.v4More.0') }}
             <span v-for="(collaborator, idx) in v4ExtraMaintainers">
-              {{ idx == 0 ? '' : ',' }}
+              {{ idx == 0 ? '' : ( locale === 'zh-CN' ? '，' : ',') }}
               {{
                 displayGitHubName
                   ? collaborator
