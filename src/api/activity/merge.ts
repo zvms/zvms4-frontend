@@ -11,11 +11,11 @@ export default async function (
     duplicateUser: 'add' | 'overwrite'
   },
   uid: string,
-  triggerUpdate: (percent: number, message: string) => void
+  //triggerUpdate: (percent: number, message: string) => void
 ) {
   // 1. Read the token from the cache
   const token = await temporaryToken(uid)
-  triggerUpdate(10, 'Token ready')
+  //triggerUpdate(10, 'Token ready')
   // 2. Read the activities
   const activities: ActivityInstance[] = (await Promise.all(
     targets.map((target) => api.read.single(target._id))
@@ -27,11 +27,11 @@ export default async function (
   merged.createdAt = dayjs().toISOString()
   merged.updatedAt = dayjs().toISOString()
   merged.name = name
-  triggerUpdate(60, 'Activity merged')
+  //triggerUpdate(60, 'Activity merged')
   console.log(merged)
   // 4. Create the new activity
   const result = await createActivity(merged)
-  triggerUpdate(80, 'Activity created')
+  //triggerUpdate(80, 'Activity created')
   // 5. Remove the old activities
   await Promise.all(targets.map((target) => api.deleteOne(target._id, uid, token)))
   return result
