@@ -59,7 +59,6 @@ async function remoteFetchClass(search: string) {
     remote-show-suffix
     class="w-full"
     size="default"
-    remote-show-suffix
     v-bind="$attrs"
   >
     <ElOption
