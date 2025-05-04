@@ -9,8 +9,6 @@ import {
   Notification,
   Management
 } from '@element-plus/icons-vue'
-import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
-import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import { ElButton, ElDivider, ElTooltip, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -95,8 +93,7 @@ function routeTo(page: string) {
   if (page === '/management') {
     if (
       user.position.includes('admin') ||
-      user.position.includes('department') ||
-      user.position.includes('system')
+      user.position.includes('department')
     ) {
       routeTo('/manage/groups')
     } else {
