@@ -56,6 +56,7 @@ async function handleError(err: Error) {
   ElMessage({
     type: 'error',
     plain: true,
+    grouping: true,
     message: JSON.parse(err.message)?.detail
   })
 }

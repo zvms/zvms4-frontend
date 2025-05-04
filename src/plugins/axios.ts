@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
@@ -85,10 +85,11 @@ axiosInstance.interceptors.response.use(
             })
           }
         } else {
-          ElMessageBox({
-            title: 'Error',
+          ElMessage({
             message: 'Your password is wrong. Please operate again.',
-            type: 'error'
+            type: 'error',
+            grouping: true,
+            plain: true
           }).then((r) => Promise.reject(r))
         }
       } else {
