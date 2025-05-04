@@ -65,7 +65,10 @@ const activity = reactive<ActivityInstance | Activity>({
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
   status: 'effective',
-  approver: ''
+  approver: ''，
+  special: {
+    classify: '' as unknown as SpecialActivityClassification
+  }
 })
 
 const token = localStorage.getItem('token')
@@ -120,8 +123,7 @@ watch(height, () => {
 async function submit() {
   load.value = true
   try {
-    members.value = activity.members
-    await api.activity.insert(activity, members, registration, special, approveStudent.value)
+    await api.activity.insert(activity, activity.members, registration, activity.special, approveStudent.value)
     load.value = false
     await router.push(
       '/activities/' +
@@ -141,7 +143,7 @@ function allow(): ActivityMode[] {
   if (activity.type === 'social') return ['off-campus']
   if (activity.type === 'scale') return ['social-practice']
   if (activity.type === 'special') {
-    if (special.classify === 'prize') return ['on-campus', 'off-campus']
+    if (special.classify !== 'other') return ['on-campus', 'off-campus']
     return ['on-campus', 'off-campus', 'social-practice']
   }
   return []
@@ -150,9 +152,9 @@ function allow(): ActivityMode[] {
 const validated = ref(false)
 
 watch(
-  () => generateActivity(activity, activity.members, approveStudent.value, registration, special),
+  () => generateActivity(activity, activity.members, approveStudent.value, registration, activity.special),
   () => {
-    const act = generateActivity(activity, activity.members, approveStudent.value, registration, special)
+    const act = generateActivity(activity, activity.members, approveStudent.value, registration, activity.special)
     if (act !== null) {
       validated.value = validateActivity(act)
     }
@@ -219,7 +221,7 @@ watch(
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
-              <ElSelect v-model="special.classify" class="full">
+              <ElSelect v-model="activity.special.classify" class="full">
                 <ElOption
                   v-for="classify in classifyOfSpecial"
                   :key="classify"

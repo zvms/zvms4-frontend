@@ -77,6 +77,7 @@ function scroll() {
 }
 
 function getMode(): ActivityMode {
+  if (activity.value.type === '') return '' as unknown as ActivityMode
   if (activity.value.type === 'specified') return 'on-campus'
   if (activity.value.type === 'social') return 'off-campus'
   if (activity.value.type === 'scale') return 'social-practice'
@@ -87,6 +88,7 @@ const appendingDuration = ref(0)
 const appendingMode = ref(getMode())
 
 function getAllow(): ActivityMode[] {
+  if (activity.value.type === '') return []
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
     return ['on-campus', 'off-campus']
