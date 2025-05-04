@@ -105,8 +105,6 @@ const loading = ref<string | 'add'>('')
 
 const memberFunctions = {
   async add() {
-    //modified.value = true
-    //loading.value = 'add'
     if(!local.value) {
       await api.activity.member.insert(activity.value._id, appending.value)
     }
@@ -116,8 +114,6 @@ const memberFunctions = {
       duration: appending.value.duration,
       mode: appending.value.mode,
     })
-    //loading.value = ''
-    //showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
