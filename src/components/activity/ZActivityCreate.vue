@@ -65,7 +65,7 @@ const activity = reactive<ActivityInstance | Activity>({
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: '',
   status: 'effective',
-  approver: ''，
+  approver: '',
   special: {
     classify: '' as unknown as SpecialActivityClassification
   }
