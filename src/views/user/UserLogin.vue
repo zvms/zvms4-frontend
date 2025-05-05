@@ -27,9 +27,6 @@ if (useUserStore().isLogin) {
 const { height } = useWindowSize()
 const { t } = useI18n()
 
-// dark.value = false
-// We haven't already adjusted the color in dark mode.
-
 const user = ref('')
 const password = ref<string>('')
 const loginfield = ref()

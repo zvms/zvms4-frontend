@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ElPageHeader, ElSpace, ElButton, ElDivider } from 'element-plus'
+import { ElSpace, ElButton } from 'element-plus'
 import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ZActivityList } from '@/components'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { User, Group, School } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()

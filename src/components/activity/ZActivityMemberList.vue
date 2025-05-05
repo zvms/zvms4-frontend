@@ -2,25 +2,20 @@
 import {
   ZButtonOrCard,
   ZActivityMember,
-  ZActivityStatus,
   ZActivityDuration,
   ZInputDuration,
-  ZSelectActivityMode,
-  ZSelectPerson
+  ZSelectActivityMode
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
 import { toRefs, watch } from 'vue'
-import { User as IconUser, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
+import { User as IconUser, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
   ElTable,
   ElTableColumn,
   ElButton,
-  ElPopover,
   ElPopconfirm,
-  ElForm,
-  ElFormItem,
   ElPagination
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
@@ -29,7 +24,6 @@ import api from '@/api'
 import { useRouter } from 'vue-router'
 
 const user = useUserStore()
-const router = useRouter()
 const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
@@ -162,13 +156,7 @@ watch(active, () => {
   activity.value.members = members
 })
 
-function pushTo(url: string) {
-  open.value = false
-  router.push(url)
-}
-
 function addMembers() {
-  // to be done
   modified.value = true
   loading.value = 'add'
   addedUsers.value.forEach(async (mem) => {
@@ -177,7 +165,7 @@ function addMembers() {
       status: 'effective',
       duration: appendingDuration.value,
       mode: appendingMode.value
-    }
+    } as ActivityMember
     if(!local.value) {
       await api.activity.member.insert(activity.value._id, adding)
     }
@@ -245,59 +233,6 @@ function selectorCallback(row) {
             class="no-print"
           >
             <template #header>
-              <!--<ElPopover
-                placement="left"
-                :visible="showAddPopover"
-                :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
-                width="328px"
-                class="no-print"
-              >
-                <template #reference>
-                  <ElButton
-                    text
-                    bg
-                    round
-                    size="small"
-                    type="success"
-                    @click="showAddPopover = true"
-                    :loading="loading === 'add'"
-                    :icon="Plus"
-                  >
-                    {{ t('activity.member.dialog.actions.add') }}
-                  </ElButton>
-                </template>
-                <ElForm label-position="right" label-width="96px" class="pt-2">
-                  <ElFormItem :label="t('activity.member.name')">
-                    <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
-                  </ElFormItem>
-                  <ElFormItem :label="t('activity.form.classify')">
-                    <ZSelectActivityMode
-                      v-model="appending.mode"
-                      :allow="getAllow()"
-                      class="w-full"
-                    />
-                  </ElFormItem>
-                  <ElFormItem :label="t('activity.form.duration')">
-                    <ZInputDuration v-model="appending.duration" class="w-full" />
-                  </ElFormItem>
-                  <div style="text-align: right">
-                    <ElButton text bg type="danger" :icon="Close" @click="showAddPopover = false">
-                      {{ t('activity.form.actions.cancel') }}
-                    </ElButton>
-                    <ElButton
-                      :disabled="appending._id === '' || appending.duration <= 0 || appending.duration > 18 || activity.members.find(x => x._id === appending._id) !== undefined"
-                      text
-                      bg
-                      type="success"
-                      @click="memberFunctions.add"
-                      :icon="ArrowRight"
-                      :loading="loading === 'add'"
-                    >
-                      {{ t('activity.member.dialog.actions.add') }}
-                    </ElButton>
-                  </div>
-                </ElForm>
-              </ElPopover>-->
               <ZButtonOrCard
                 v-model:open="showAddPopover"
                 mode="button"

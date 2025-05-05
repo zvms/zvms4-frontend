@@ -12,7 +12,6 @@ import { useWindowSize } from '@vueuse/core'
 import {
   ElPageHeader,
   ElButton,
-  ElSpace,
   ElButtonGroup,
   ElBreadcrumb,
   ElBreadcrumbItem,
@@ -23,24 +22,19 @@ import {
   ArrowLeft,
   ArrowRight,
   Clock,
-  Edit,
   Location,
   Plus,
-  Timer,
-  View,
-  EditPen
+  Timer
 } from '@element-plus/icons-vue'
-import { Write } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 
 const user = useUserStore()
 const route = useRoute()
-const router = useRouter()
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
@@ -103,7 +97,7 @@ watch(height, () => {
         </ElBreadcrumb>
       </template>
     </ElPageHeader>
-    <p class="text-gray-500 dark:text-gray-400 px-4 py-2">
+    <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
       {{ activity.description }}
     </p>
     <ElDescriptions
@@ -184,9 +178,10 @@ watch(height, () => {
         <ElButton text bg round size="small" type="success" :icon="Plus">
           {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
-        <!--<ElButton text bg round size="small" type="warning" :icon="Edit">-->
-          <!--{{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}-->
-        <!--</ElButton>-->
+        <!-- Waiting for backend fix ('updatedAt' returns 1970-01-21) -->
+        <!--<ElButton text bg round size="small" type="warning" :icon="Edit">
+          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}
+        </ElButton>-->
       </ElButtonGroup>
     </div>
   </div>

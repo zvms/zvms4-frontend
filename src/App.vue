@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowDown, User, SwitchButton, Notification } from '@element-plus/icons-vue'
+import { ArrowDown, User, SwitchButton } from '@element-plus/icons-vue'
 import {
   ElContainer,
   ElHeader,
@@ -12,7 +12,6 @@ import {
   ElPopover,
   ElConfigProvider,
   ElDivider,
-  ElNotification,
   ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
@@ -312,7 +311,7 @@ onMounted(() => {
 
 .footer {
   font-size: 0.8rem;
-  position: /*absolute*/fixed;
+  position: fixed;
   width: 100%;
   bottom: 0;
   display: flex;

@@ -52,7 +52,6 @@ async function mergeActivity() {
       duplicateUser: overwriteTime.value ? 'overwrite' : 'add'
     },
     user._id
-    //updateStatus
   )
 
   await router.push('/activities/campus')

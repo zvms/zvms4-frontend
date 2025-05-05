@@ -4,11 +4,9 @@ import type {
   Registration,
   Special,
   ActivityInstance,
-  Trophy,
   SpecialActivity,
   SpecifiedActivity
 } from '@/../types'
-//import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 export function generateActivity(
   base: Activity,

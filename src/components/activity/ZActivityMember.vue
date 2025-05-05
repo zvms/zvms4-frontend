@@ -12,7 +12,6 @@ import { useUserStore } from '@/stores/user'
 import { temporaryToken } from '@/plugins/short-token'
 import { useWindowSize } from '@vueuse/core'
 import router from '@/router'
-import { AxiosError } from 'axios'
 
 const { width, height } = useWindowSize()
 const { t } = useI18n()

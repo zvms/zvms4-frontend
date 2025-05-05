@@ -18,7 +18,6 @@ const perpage = ref(10)
 const loading = ref(false)
 const search = ref('')
 const total = ref(0)
-const userStore = useUserStore()
 const { t } = useI18n()
 
 const tableHeight = ref(height.value * 0.6)

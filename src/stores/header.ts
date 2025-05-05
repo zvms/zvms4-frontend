@@ -17,6 +17,6 @@ export const useHeaderStore = defineStore('header', {
       this.header = this.base
       const title = useTitle()
       title.value = this.base
-    }
+    } //reserved
   }
 })

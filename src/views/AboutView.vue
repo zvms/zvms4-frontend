@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import {
-  ElButton,
-  ElButtonGroup,
   ElCard,
   ElRow,
   ElCol
@@ -173,9 +171,7 @@ const displayGitHubName = ref(props.showRealName)
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
             {{ t('about.repository.version.0') }}
-            <ElButton text bg size="small">
-              v{{ id }}.x
-            </ElButton>
+            v{{ id }}.x
             {{ t('about.repository.version.1') }}
             <span
               v-for="(collaborator, idx) in version.collaborators"

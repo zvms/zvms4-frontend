@@ -99,7 +99,7 @@ const refresh = () => emits('refresh')
       class="text-sm text-gray-500 pl-4"
       @dblclick="editDescription = true"
     >
-      <p v-for="desc in activity.description.split('\n')" :key="desc">{{ desc }}</p>
+      <p style="white-space: pre-wrap">{{ activity.description }}</p>
     </div>
     <div v-else class="pt-2 pl-4">
       <ElInput

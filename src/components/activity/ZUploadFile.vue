@@ -12,7 +12,8 @@ import {
   ElInput,
   ElScrollbar,
   ElCard,
-  ElUpload, ElNotification, ElMessage
+  ElUpload,
+  ElMessage
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'

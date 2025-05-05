@@ -18,7 +18,6 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-// export const baseURL = 'https://api.zvms.site/api/'
 export const baseURL = import.meta.env.PROD
   ? 'https://api.zvms.site/api/'
   : 'http://localhost:8000/api/'
@@ -29,7 +28,6 @@ const axiosInstance = axios.create({
   timeout: 24000,
   headers: {
     'Content-type': 'application/json',
-    //Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
     'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
   }
 })
@@ -65,11 +63,6 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401) {
         const token = parseJwt(localStorage.getItem('token') as string)
         if (token.payload.scope === 'access_token') {
-          //ElNotification({
-          //  title: 'Error',
-          //  message: 'Your session has expired, or you are not authorized. Please login again.',
-          //  type: 'error'
-          //}
           if (!errorDisplayed) {
             errorDisplayed = true
             ElMessage({
@@ -79,7 +72,6 @@ axiosInstance.interceptors.response.use(
               plain: true
             })
             localStorage.removeItem('token')
-            //localStorage.removeItem('user')
             useUserStore().removeUser().then(() => {
               router.push('/user/login')
             })

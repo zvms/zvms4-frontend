@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ActivityMode, MemberActivityStatus } from '@/../types'
+import type { ActivityMode } from '@/../types'
 import { ref, toRefs } from 'vue'
-import { ZActivityMode, ZActivityStatus, ZInputDuration } from '@/components'
+import { ZActivityMode ZInputDuration } from '@/components'
 import { ElButton, ElButtonGroup, ElForm, ElFormItem, ElPopover } from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'

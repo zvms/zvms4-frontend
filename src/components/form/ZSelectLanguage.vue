@@ -6,7 +6,6 @@ import { type Component as VueComponent, ref, toRefs } from 'vue'
 import { ElButton, ElButtonGroup, ElOption, ElPopover, ElSelect } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { onMounted } from 'vue'
-import { pad } from '@/plugins/ua'
 
 const { locale } = useI18n({
   useScope: 'global'

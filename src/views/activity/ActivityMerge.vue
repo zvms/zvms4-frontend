@@ -44,12 +44,6 @@ const mergeForm = reactive({
 
 const overwriteTime = ref(false)
 
-function updateStatus(percent: number, message: string) {
-  // WHO KNOWS WHAT AM I DOING?
-  void percent
-  void message.length
-}
-
 async function mergeActivity() {
   await api.activity.merge(
     mergeForm.list,
@@ -57,8 +51,7 @@ async function mergeActivity() {
     {
       duplicateUser: overwriteTime.value ? 'overwrite' : 'add'
     },
-    user._id,
-    updateStatus
+    user._id
   )
 
   await router.push('/activities/campus')

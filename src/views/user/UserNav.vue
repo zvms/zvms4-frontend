@@ -5,16 +5,12 @@ import {
   InfoFilled,
   Sunny,
   Moon,
-  SwitchButton,
-  Notification,
   Management
 } from '@element-plus/icons-vue'
-import { ElButton, ElDivider, ElTooltip, ElSpace } from 'element-plus'
+import { ElButton, ElTooltip, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import MdiEye from '@/icons/MdiEye.vue'
-import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
-import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
@@ -40,8 +36,6 @@ const path = ref(route.fullPath)
 watch(route, () => {
   path.value = route.fullPath
 })
-
-const { height } = useWindowSize()
 
 const navs: Array<{
   icon: VueComponent

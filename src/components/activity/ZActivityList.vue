@@ -8,7 +8,6 @@ import {
   ElPagination,
   ElCard,
   ElInput,
-  ElSkeleton,
   ElDivider
 } from 'element-plus'
 import type { TableInstance } from 'element-plus'
@@ -58,7 +57,6 @@ const { role, perspective: persp, selectTarget, classTarget, modelValue, embed }
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
-const initial = ref(false)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
@@ -85,11 +83,9 @@ function refresh() {
         loading.value = false
         size.value = 0
       }
-      //initial.value = false
     })
     .catch(() => {
       loading.value = false
-      //initial.value = false
     })
 }
 
@@ -278,14 +274,10 @@ const openExport = ref(false)
 }
 
 .el-card.z-embed {
-  /*border-radius: 0 !important;
-  border-style: none !important;*/
   padding: 0 !important;
 }
 
 .el-card.z-embed > .el-card__body {
-  /*border-radius: 0 !important;
-  border-style: none !important;*/
   padding: 0 !important;
   margin: 0 !important;
 }

@@ -25,22 +25,18 @@ import {
   ElCard,
   ElRow,
   ElCol,
-  ElDivider,
   ElRadioGroup,
-  ElRadio,
-  ElUpload,
-  ElMessageBox
+  ElRadio
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
-import { Refresh, ArrowRight, Plus, Delete, Location, UploadFilled } from '@element-plus/icons-vue'
-import { ZSelectPerson, ZInputDuration, ZSelectActivityMode } from '@/components'
+import { ArrowRight, Location } from '@element-plus/icons-vue'
+import { ZSelectPerson } from '@/components'
 import api from '@/api'
 import { validateActivity } from './validation'
 import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { baseURL } from '@/plugins/axios'
 
 const { t } = useI18n()
 const { height } = useWindowSize()
@@ -264,93 +260,9 @@ watch(
               :required="activity.type !== 'specified'"
             >
               <div class="w-full" style="flex-grow: 1"><ZActivityMemberList mode="card" local :activity="activity" /></div>
-              <!--<ElCard shadow="hover" class="w-full">
-                <div v-for="(member, idx) in members" :key="idx" class="py-2 px-2">
-                  <Transition
-                    enter-active-class="animate__animated animate__fadeIn"
-                    leave-active-class="animate__animated animate__fadeOut"
-                    appear
-                  >
-                    <ElForm :model="member">
-                      <ElRow class="full">
-                        <ElCol :span="10" :xs="8" :sm="8">
-                          <ElFormItem
-                            prop="_id"
-                            :rules="[
-                              {
-                                required: true,
-                                message: t('validation.create.member.person.required')
-                              }
-                            ]"
-                          >
-                            <ZSelectPerson
-                              v-model="member._id"
-                              :placeholder="t('activity.form.person')"
-                              :filter-start="6"
-                              full-width
-                            >
-                              <template #prepend> {{ idx + 1 }}</template>
-                            </ZSelectPerson>
-                          </ElFormItem>
-                        </ElCol>
-                        <ElCol :span="1" style="text-align: center">
-                          <ElDivider direction="vertical" />
-                        </ElCol>
-                        <ElCol :span="8" :xs="6" :sm="6">
-                          <ZSelectActivityMode v-model="member.mode" :allow="allow()" />
-                        </ElCol>
-                        <ElCol :span="1" style="text-align: center">
-                          <ElDivider direction="vertical" />
-                        </ElCol>
-                        <ElCol :span="5" :xs="7" :sm="7">
-                          <ZInputDuration v-model.number="member.duration" />
-                        </ElCol>
-                        <ElCol :span="1">
-                          <div style="text-align: right">
-                            <ElButton
-                              :icon="idx === 0 ? Plus : Delete"
-                              @click="
-                                idx === 0 ? membersFunctions.add() : membersFunctions.remove(idx)
-                              "
-                              :type="idx === 0 ? 'success' : 'danger'"
-                              circle
-                              text
-                              bg
-                            />
-                          </div>
-                        </ElCol>
-                      </ElRow>
-                    </ElForm>
-                  </Transition>
-                </div>
-              </ElCard>-->
             </ElFormItem>
-            <!--<ElFormItem label="Upload" required>
-              <ElUpload
-                ref="uploadRef"
-                drag
-                :action="baseURL + '/activity/upload'"
-                multiple
-                :headers="{
-                  'Authorization': `Bearer ${token}`
-                }"
-                with-credentials
-                :auto-upload="false"
-              >
-                <el-icon class="el-icon--upload">
-                  <UploadFilled />
-                </el-icon>
-                <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-                <template #tip>
-                  <div class="el-upload__tip">xls/xlsx files with a size less than 2 MB.</div>
-                </template>
-              </ElUpload>
-            </ElFormItem>-->
           </ElScrollbar>
           <div class="actions text-right">
-            <!--<ElButton type="warning" :icon="Refresh" text bg>
-              {{ t('activity.form.actions.reset') }}
-            </ElButton>-->
             <ElButton
               type="primary"
               :icon="ArrowRight"
