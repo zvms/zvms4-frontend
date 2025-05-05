@@ -21,7 +21,6 @@ import {
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
 import api from '@/api'
-import { useRouter } from 'vue-router'
 
 const user = useUserStore()
 const { t } = useI18n()
@@ -171,8 +170,6 @@ function addMembers() {
     }
     activity.value.members.push(adding)
   })
-  addedUsers.value = []
-  useless.value = useless.value + 1
   showAddPopover.value = false
   loading.value = ''
 }
@@ -180,6 +177,11 @@ function addMembers() {
 function selectorCallback(row) {
   return ((user.position.includes('admin') || user.position.includes('department')) ? true : (row.groups.filter(x => x == user.class_id).length > 0)) && activity.value.members.filter((x) => x._id == row._id).length == 0
 }
+
+watch(showAddPopover, () => {
+  addedUsers.value = []
+  useless.value = useless.value + 1
+})
 </script>
 
 <template>
@@ -255,7 +257,7 @@ function selectorCallback(row) {
                   </ElRow>
                 </div>
                 <div style="text-align: right">
-                  <ElButton text bg type="warning" :icon="Close" @click="() => { addedUsers = []; useless = useless + 1; showAddPopover = false }">
+                  <ElButton text bg type="warning" :icon="Close" @click="() => showAddPopover = false">
                     {{ t('activity.form.actions.cancel') }}
                   </ElButton>
                   <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'" :disabled="!addedUsers.length || !appendingMode || !appendingDuration">
