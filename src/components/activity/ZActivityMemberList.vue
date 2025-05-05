@@ -255,7 +255,7 @@ function selectorCallback(row) {
                   </ElRow>
                 </div>
                 <div style="text-align: right">
-                  <ElButton text bg type="warning" :icon="Close" @click="() => { addedUsers = []; useless = useless + 1 }">
+                  <ElButton text bg type="warning" :icon="Close" @click="() => { addedUsers = []; useless = useless + 1; showAddPopover = false }">
                     {{ t('activity.form.actions.cancel') }}
                   </ElButton>
                   <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'" :disabled="!addedUsers.length || !appendingMode || !appendingDuration">
