@@ -106,7 +106,7 @@ watch(tab, () => {
     <ElPageHeader
       v-if="group?._id"
       :icon="ArrowLeft"
-      @back="() => router.push('/manage/groups')"
+      @back="() => router.back()"
       class="py-4"
     >
       <template #content>
