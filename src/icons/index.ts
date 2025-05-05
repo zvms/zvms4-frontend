@@ -1,5 +1,4 @@
 export { default as MaterialSymbolsAccountCircleOutline } from './MaterialSymbolsAccountCircleOutline.vue'
-export { default as MaterialSymbolsAppRegistration } from './MaterialSymbolsAppRegistration.vue'
 export { default as MaterialSymbolsDescriptionOutline } from './MaterialSymbolsDescriptionOutline.vue'
 export { default as MaterialSymbolsLightHistoryRounded } from './MaterialSymbolsLightHistoryRounded.vue'
 export { default as MaterialSymbolsPasswordRounded } from './MaterialSymbolsPasswordRounded.vue'
