@@ -68,6 +68,7 @@ export const enUS = {
     classify: 'Classify',
     pending: 'Pending',
     detail: 'Detail',
+    unnamed: 'Unnamed',
     upload: {
       name: 'Upload',
       prompt: 'Click or drag file to this area to upload',
@@ -242,6 +243,7 @@ export const zhCN = {
     classify: '分类',
     pending: '等待审核',
     detail: '详细信息',
+    unnamed: '未命名',
     actions: {
       submit: '提交',
       cancel: '取消',

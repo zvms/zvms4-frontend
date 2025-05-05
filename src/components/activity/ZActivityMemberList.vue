@@ -242,7 +242,7 @@ function selectorCallback(row) {
     						:icon="Plus"
     						round
     						type="success"
-    						:title="local ? 'Add members' : `Add members to ${activity.name}`"
+    						:title="t('activity.member.dialog.actions.title', { activity: activity.name || t('activity.form.unnamed') })"
   						>
                 <template #text>
                   {{ t('activity.member.dialog.actions.add') }}
@@ -256,9 +256,9 @@ function selectorCallback(row) {
                 </div>
                 <div style="text-align: right">
                   <ElButton text bg type="warning" :icon="Close" @click="() => { addedUsers = []; useless = useless + 1 }">
-                    {{ t('activity.form.actions.reset') }}
+                    {{ t('activity.form.actions.cancel') }}
                   </ElButton>
-                  <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'">
+                  <ElButton text bg type="success" :icon="ArrowRight" @click="addMembers" :loading="loading === 'add'" :disabled="!addedUsers.length || !appendingMode || !appendingDuration">
                     {{ t('activity.member.dialog.actions.add') }}
                   </ElButton>
                 </div>
