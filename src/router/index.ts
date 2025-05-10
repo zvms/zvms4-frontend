@@ -68,7 +68,7 @@ const router = createRouter({
     },
     {
       path: '/manage/:action',
-      name: 'manage',
+      name: 'manage-action',
       component: () => import('../views/manage/ManageHome.vue')
     },
     {
@@ -97,6 +97,11 @@ const router = createRouter({
       component: () => import('../views/NotFound.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name.startsWith('manage') && !useUserStore().position.includes('admin') && !useUserStore().position.includes('department')) next({ name: 'not-found' })
+  else next()
 })
 
 export default router
