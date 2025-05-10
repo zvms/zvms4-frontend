@@ -10,7 +10,7 @@ import {
   ZActivityMember,
   ZActivityType,
   ZButtonOrCard,
-  ZActivityMemberList
+  ZActivityMemberList, ZActivityDetails
 } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
@@ -74,8 +74,8 @@ const refresh = () => emits('refresh')
 </script>
 
 <template>
-  <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false">
-    <p class="text-xl pl-4">
+  <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false" style="width: 100%">
+    <p class="text-xl pl-4" style="width: 100%">
       <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
       <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitName">
         <template #append>
@@ -134,18 +134,6 @@ const refresh = () => emits('refresh')
             activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
           )
         }}
-      </ElButton>
-      <ElButton
-        v-if="activity.type === 'specified' && (activity as SpecifiedActivity).registration.place"
-        size="small"
-        text
-        bg
-        round
-        type="info"
-        class="py-2"
-        :icon="Location"
-      >
-        {{ (activity as SpecifiedActivity).registration.place }}
       </ElButton>
       <ZActivityDuration
         class="px-2"

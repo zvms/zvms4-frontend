@@ -171,6 +171,26 @@ export const enUS = {
       export: 'Export',
       download: 'Download'
     }
+  },
+  batch: {
+    batch_import: 'Batch Import',
+    manual: {
+      member: 'Member',
+      mode: 'Mode',
+      duration: 'Duration',
+    },
+    batch: {
+      classid: 'Class ID',
+      members: 'Members',
+      selected: '{count} members selected.',
+      mode: 'Mode',
+      duration: 'Duration',
+    },
+    or: 'OR',
+    steps: {
+      prev: 'Previous',
+      next: 'Next'
+    }
   }
 }
 
@@ -343,6 +363,26 @@ export const zhCN = {
     actions: {
       export: '导出',
       download: '下载'
+    }
+  },
+  batch: {
+    batch_import: '批量导入',
+    manual: {
+      member: '成员',
+      mode: '模式',
+      duration: '时间',
+    },
+    batch: {
+      classid: '班级',
+      members: '成员',
+      selected: '已添加 {count} 位成员。',
+      mode: '模式',
+      duration: '时长',
+    },
+    or: '或',
+    steps: {
+      prev: '上一步',
+      next: '下一步'
     }
   }
 }
