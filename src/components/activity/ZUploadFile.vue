@@ -12,7 +12,8 @@ import {
   ElInput,
   ElScrollbar,
   ElCard,
-  ElUpload, ElNotification, ElMessage
+  ElUpload,
+  ElMessage
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
@@ -56,6 +57,7 @@ async function handleError(err: Error) {
   ElMessage({
     type: 'error',
     plain: true,
+    grouping: true,
     message: JSON.parse(err.message)?.detail
   })
 }

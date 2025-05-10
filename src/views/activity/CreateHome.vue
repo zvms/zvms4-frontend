@@ -39,9 +39,6 @@ const visibility: Record<CreateActivityType, boolean | 'need-audit'> = permissio
           <ElDivider direction="vertical" />
           <span class="text-xl">{{ t(`activity.create.${typeOfActivity.value}`) }}</span>
         </div>
-<!--        <p class="text-gray-500 py-2">-->
-<!--          {{ t(`activity.type.${typeOfActivity.value}.description`) }}-->
-<!--        </p>-->
         <div class="flex justify-end">
           <ElButton
             text

@@ -12,6 +12,11 @@ export const useHeaderStore = defineStore('header', {
       this.header = newHeader
       const title = useTitle()
       title.value = newHeader
-    }
+    },
+    resetHeader() {
+      this.header = this.base
+      const title = useTitle()
+      title.value = this.base
+    } //reserved
   }
 })

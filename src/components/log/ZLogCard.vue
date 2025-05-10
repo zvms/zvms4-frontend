@@ -33,16 +33,19 @@ async function ipLookup() {
 </script>
 
 <template>
-  <div class="py-1">
+  <div class="py-1 z-wrap">
     <ElCard shadow="hover">
       <ElForm>
         <ElFormItem label="Performer">
           <ZActivityMember :id="log.user" />
         </ElFormItem>
+        <ElFormItem label="Performer ID">
+          {{ log.user }}
+        </ElFormItem>
         <ElFormItem label="Date">
           {{ dayjs.unix(log.timestamp).format('YYYY-MM-DD HH:mm:ss') }}
         </ElFormItem>
-        <ElFormItem label="Data">
+        <ElFormItem label="Data" style="overflow-wrap: break-word; white-space: pre-wrap">
           {{ log.data }}
         </ElFormItem>
         <ElFormItem label="IP">
@@ -73,7 +76,7 @@ async function ipLookup() {
             </ElForm>
           </ElPopover>
         </ElFormItem>
-        <ElFormItem label="Clarity">
+        <ElFormItem label="Clarity" v-if="log.clarity">
           {{ log.clarity }}
           <ElButton v-if="!pad()" text bg round size="small" class="px-2" tag="a" target="_blank" :href="`https://clarity.microsoft.com/projects/view/jwc2tctpr3/impressions?UserId=is%3B${log.clarity}&date=Last%203%20days`">
           Track

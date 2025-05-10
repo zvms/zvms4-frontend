@@ -4,10 +4,6 @@ import type { MemberActivityStatus } from '@/../types'
 import type { Component } from 'vue'
 
 export const memberActivityStatuses = {
-  draft: {
-    icon: Edit,
-    color: 'info'
-  },
   pending: {
     icon: Loading,
     color: 'primary'
@@ -19,10 +15,6 @@ export const memberActivityStatuses = {
   refused: {
     icon: Close,
     color: 'danger'
-  },
-  rejected: {
-    icon: CaretLeft,
-    color: 'warning'
   }
 } as Record<
   MemberActivityStatus,

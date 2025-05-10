@@ -41,7 +41,7 @@ const router = createRouter({
       children: [
         {
           path: '/activity/create',
-          name: 'activity-create',
+          name: 'activity-create-home',
           component: () => import('../views/activity/CreateHome.vue')
         },
         {
@@ -52,26 +52,14 @@ const router = createRouter({
       ]
     },
     {
-      path: '/activity/merge',
-      name: 'activity-merge',
-      component: () => import('../views/activity/ActivityMerge.vue')
-    },
-    {
       path: '/activities',
       name: 'activity',
-      component: () => import('../views/user/UserActivity.vue'),
-      children: [
-        {
-          path: '/activities',
-          name: 'activity',
-          component: () => import('../views/activity/ViewPage.vue')
-        },
-        {
-          path: '/activities/:type',
-          name: 'activity-type',
-          component: () => import('../views/activity/ViewPage.vue')
-        }
-      ]
+      component: () => import('../views/user/UserActivity.vue')
+    },
+    {
+      path: '/activities/:mode',
+      name: 'activity-mode',
+      component: () => import('../views/user/UserActivity.vue')
     },
     {
       path: '/manage',

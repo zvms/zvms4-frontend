@@ -2,34 +2,32 @@
 import {
   ZButtonOrCard,
   ZActivityMember,
-  ZActivityStatus,
   ZActivityDuration,
   ZInputDuration,
-  ZSelectActivityMode,
-  ZSelectPerson
+  ZSelectActivityMode, ZSelectPerson, ZActivityCard
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode } from '@/../types'
+import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
 import { toRefs, watch } from 'vue'
-import { User, Minus, Plus, ArrowRight, Close, EditPen, View } from '@element-plus/icons-vue'
+import { User as IconUser, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
   ElTable,
   ElTableColumn,
   ElButton,
-  ElPopover,
   ElPopconfirm,
-  ElForm,
-  ElFormItem,
-  ElPagination
+  ElPagination,
+  ElPopover,
+  ElDivider,
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
+import { Pencil, Merge } from '@icon-park/vue-next'
 import api from '@/api'
-import { useRouter } from 'vue-router'
+import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
+import ZSelectClass from '@/components/form/ZSelectClass.vue'
 
 const user = useUserStore()
-const router = useRouter()
 const { t } = useI18n()
 const { height } = useWindowSize()
 const open = ref(false)
@@ -44,22 +42,24 @@ const props = withDefaults(
   defineProps<{
     activity: ActivityInstance
     mode?: 'button' | 'card'
-    color?: 'primary' | 'success' | 'warning' | 'danger'
-    wholesale: boolean
+    wholesale?: boolean
+    local?: boolean
   }>(),
   {
     mode: 'button',
-    color: 'danger',
-    wholesale: false
+    wholesale: false,
+    local: false
   }
 )
 const emits = defineEmits<{
   refresh: []
 }>()
 
-const { activity, mode, wholesale } = toRefs(props)
+const { activity, mode, wholesale, local } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
+const addedUsers = ref<User[]>([])
+const useless = ref(1)
 
 // Add member of activity in first 5
 
@@ -75,13 +75,18 @@ function scroll() {
 }
 
 function getMode(): ActivityMode {
+  if (activity.value.type.toString() === '') return '' as unknown as ActivityMode
   if (activity.value.type === 'specified') return 'on-campus'
   if (activity.value.type === 'social') return 'off-campus'
   if (activity.value.type === 'scale') return 'social-practice'
   return 'on-campus'
 }
 
+const appendingDuration = ref(0)
+const appendingMode = ref(getMode())
+
 function getAllow(): ActivityMode[] {
+  if (activity.value.type.toString() === '') return []
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
     return ['on-campus', 'off-campus']
@@ -90,36 +95,46 @@ function getAllow(): ActivityMode[] {
 
 const appending = ref<ActivityMember>({
   _id: '',
-  duration:
-    activity.value.members.map((x) => x.duration).some((x) => x) ? Math.round(((activity.value.members.map((x) => x.duration).reduce((a, b) => a + b)) / (activity.value.members.length))) : 0,
+  duration: activity.value.members.map((x) => x.duration).some((x) => x)
+    ? Math.round(
+        activity.value.members.map((x) => x.duration).reduce((a, b) => a + b) /
+          activity.value.members.length
+      )
+    : 0,
   mode: getMode(),
-  status: 'effective',
+  status: 'effective'
 })
 
 const loading = ref<string | 'add'>('')
+const openBatchImportWindow = ref(false)
+
+const selectedClassID = ref('')
 
 const memberFunctions = {
   async add() {
-    modified.value = true
-    loading.value = 'add'
-    await api.activity.member.insert(activity.value._id, appending.value)
+    if (!local.value) {
+      await api.activity.member.insert(activity.value._id, appending.value)
+    }
     activity.value.members.push({
       _id: appending.value._id.toString(),
       status: 'effective',
       duration: appending.value.duration,
-      mode: appending.value.mode,
+      mode: appending.value.mode
     })
-    loading.value = ''
-    showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
     loading.value = id
-    if (activity.value.members.length === 1) {
+    if (activity.value.members.length === 1 && !local.value) {
       await api.activity.deleteOne(activity.value._id, user._id).catch(() => {
         loading.value = ''
       })
       emits('refresh')
+      return
+    }
+    if (local.value) {
+      activity.value.members = activity.value.members.filter((member) => member._id !== id)
+      loading.value = ''
       return
     }
     await api.activity.member
@@ -152,10 +167,40 @@ watch(active, () => {
   activity.value.members = members
 })
 
-function pushTo(url: string) {
-  open.value = false
-  router.push(url)
+async function addMembers() {
+  modified.value = true
+  loading.value = 'add'
+  const pipeline = addedUsers.value.map(async (mem) => {
+    const adding = {
+      _id: mem._id.toString(),
+      status: 'effective',
+      duration: appendingDuration.value,
+      mode: appendingMode.value
+    } as ActivityMember
+    if (!local.value) {
+      return await api.activity.member.insert(activity.value._id, adding)
+    }
+    return activity.value.members.push(adding)
+  })
+  await Promise.all(pipeline)
+  showAddPopover.value = false
+  openBatchImportWindow.value = false
+  loading.value = ''
 }
+
+function selectorCallback(row: User) {
+  return (
+    (user.position.includes('admin') || user.position.includes('department')
+      ? true
+      : row.group.filter((x) => x == user.class_id).length > 0) &&
+    activity.value.members.filter((x) => x._id == row._id).length == 0
+  )
+}
+
+watch(showAddPopover, () => {
+  addedUsers.value = []
+  useless.value = useless.value + 1
+})
 </script>
 
 <template>
@@ -165,16 +210,16 @@ function pushTo(url: string) {
     pop-type="dialog"
     width="80%"
     size="small"
-    :icon="User"
+    :icon="IconUser"
     round
-    :type="color"
+    type="danger"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text>
       {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
     </template>
     <template #default>
-      <div v-if="activity.members.length !== 0 && show">
+      <div v-if="show">
         <ElTable
           :data="
             activity.members.filter((x, idx) => idx < active * size && idx >= (active - 1) * size)
@@ -190,18 +235,18 @@ function pushTo(url: string) {
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
             <template #default="scope">
               <ZActivityDuration
-                :duration="scope.row.duration"
+                v-model:duration="scope.row.duration"
                 :mode="scope.row.mode"
                 :id="activity._id"
                 :uid="scope.row._id"
+                :local="local"
               />
             </template>
           </ElTableColumn>
           <ElTableColumn
             fixed="right"
             v-if="
-              (user._id === activity.creator ||
-                user.position.includes('admin') ||
+              (user.position.includes('admin') ||
                 user.position.includes('department') ||
                 user.position.includes('secretary')) &&
               !wholesale
@@ -210,38 +255,119 @@ function pushTo(url: string) {
           >
             <template #header>
               <ElPopover
-                placement="left"
+                width="384px"
+                placement="right"
+                trigger="click"
+                v-if="
+                  (user._id === activity.creator ||
+                    user.position.includes('admin') ||
+                    user.position.includes('department') ||
+                    user.position.includes('secretary')) &&
+                  !wholesale
+                "
                 :visible="showAddPopover"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
-                width="328px"
                 class="no-print"
               >
                 <template #reference>
                   <ElButton
+                    mode="button"
+                    pop-type="dialog"
+                    size="small"
+                    :icon="Plus"
+                    round
                     text
                     bg
-                    round
-                    size="small"
                     type="success"
                     @click="showAddPopover = true"
-                    :loading="loading === 'add'"
-                    :icon="Plus"
                   >
                     {{ t('activity.member.dialog.actions.add') }}
                   </ElButton>
                 </template>
-                <ElForm label-position="right" label-width="96px" class="pt-2">
-                  <ElFormItem :label="t('activity.member.name')">
-                    <ZSelectPerson v-model="appending._id" :filter-start="6" full-width />
+                <ZButtonOrCard
+                  mode="button"
+                  pop-type="drawer"
+                  fullscreen
+                  v-model:open="openBatchImportWindow"
+                  width="100%"
+                  size="default"
+                  class="w-full"
+                  :icon="Merge"
+                  :round="false"
+                  type="warning"
+                  :title="
+                    t('activity.member.dialog.actions.title', {
+                      activity: activity.name || t('activity.form.unnamed')
+                    })
+                  "
+                >
+                  <template #text>
+                    {{ t('activity.batch.batch_import') }}
+                  </template>
+                  <ElForm>
+                    <ElFormItem :label="t('activity.batch.batch.classid')">
+                      <ZSelectClass v-model="selectedClassID" clearable />
+                    </ElFormItem>
+                    <ElFormItem :label="t('activity.batch.batch.members')" class="w-full">
+                      <ZGroupUserList
+                        class="w-full"
+                        :id="selectedClassID"
+                        selectable
+                        :selector-callback="selectorCallback"
+                        v-model="addedUsers"
+                        :key="useless"
+                      />
+                      <p class="py-0.5">
+                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
+                      </p>
+                    </ElFormItem>
+                    <ElFormItem :label="t('activity.batch.batch.mode')">
+                      <ZSelectActivityMode
+                        v-model="appendingMode"
+                        :allow="getAllow()"
+                        class="w-full"
+                      />
+                    </ElFormItem>
+                    <ElFormItem :label="t('activity.batch.batch.duration')">
+                      <ZInputDuration v-model="appendingDuration" class="w-full" />
+                    </ElFormItem>
+                  </ElForm>
+                  <div style="text-align: right">
+                    <ElButton
+                      text
+                      bg
+                      type="warning"
+                      :icon="Close"
+                      @click="() => (showAddPopover = false)"
+                    >
+                      {{ t('activity.form.actions.cancel') }}
+                    </ElButton>
+                    <ElButton
+                      text
+                      bg
+                      type="success"
+                      :icon="ArrowRight"
+                      @click="addMembers"
+                      :loading="loading === 'add'"
+                      :disabled="!addedUsers.length || !appendingMode || !appendingDuration"
+                    >
+                      {{ t('activity.member.dialog.actions.add') }}
+                    </ElButton>
+                  </div>
+                </ZButtonOrCard>
+                <ElDivider>{{ t('activity.batch.or') }}</ElDivider>
+                <ElForm>
+                  <ElFormItem :label="t('activity.batch.manual.member')">
+                    <ZSelectPerson full-width v-model="appending._id" :filter-start="6"></ZSelectPerson>
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.form.classify')">
+                  <ElFormItem :label="t('activity.batch.manual.mode')">
                     <ZSelectActivityMode
                       v-model="appending.mode"
                       :allow="getAllow()"
                       class="w-full"
                     />
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.form.duration')">
+                  <ElFormItem :label="t('activity.batch.manual.duration')">
                     <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">

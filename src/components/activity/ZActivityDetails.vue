@@ -10,7 +10,7 @@ import {
   ZActivityMember,
   ZActivityType,
   ZButtonOrCard,
-  ZActivityMemberList
+  ZActivityMemberList, ZActivityDetails
 } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
@@ -50,9 +50,9 @@ function getDateStatusColor(date: string) {
 const editName = ref(false)
 const name = ref(activity.value.name)
 async function submitName() {
+  editName.value = false
   activity.value.name = name.value
   await api.activity.update.title(activity.value._id, name.value)
-  editName.value = false
   emits('refresh')
 }
 
@@ -74,8 +74,8 @@ const refresh = () => emits('refresh')
 </script>
 
 <template>
-  <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false">
-    <p class="text-xl pl-4">
+  <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false" style="width: 100%">
+    <p class="text-xl pl-4" style="width: 100%">
       <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
       <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitName">
         <template #append>
@@ -99,7 +99,7 @@ const refresh = () => emits('refresh')
       class="text-sm text-gray-500 pl-4"
       @dblclick="editDescription = true"
     >
-      <p v-for="desc in activity.description.split('\n')" :key="desc">{{ desc }}</p>
+      <p style="white-space: pre-wrap">{{ activity.description }}</p>
     </div>
     <div v-else class="pt-2 pl-4">
       <ElInput
@@ -135,24 +135,11 @@ const refresh = () => emits('refresh')
           )
         }}
       </ElButton>
-      <ElButton
-        v-if="activity.type === 'specified' && (activity as SpecifiedActivity).registration.place"
-        size="small"
-        text
-        bg
-        round
-        type="info"
-        class="py-2"
-        :icon="Location"
-      >
-        {{ (activity as SpecifiedActivity).registration.place }}
-      </ElButton>
       <ZActivityDuration
         class="px-2"
         v-if="mode === 'mine'"
         :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
         :duration="activity.members.find((x) => x._id === perspective ?? user._id)?.duration ?? 0"
-        :status="activity.members.find((x) => x._id === perspective ?? user._id)?.status"
         force="full"
       />
       <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />

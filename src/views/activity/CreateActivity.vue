@@ -15,8 +15,11 @@ const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
-window.addEventListener('beforeunload', (e) => {
-  e.preventDefault()
+window.onbeforeunload = ((e) => {
+  if(location.pathname.startsWith('/activity/create')) {
+    e.preventDefault()
+    return false
+  }
 })
 
 header.setHeader(t('nav.create'))
@@ -58,8 +61,12 @@ const show = ref(true)
 
 function mov(mov: string) {
   show.value = false
-  tab.value = mov
-  router.push(`/activity/create/${mov}`)
+  //tab.value = mov
+  if(mov == '') {
+    router.push('/activity/create')
+  } else {
+    router.push(`/activity/create/${mov}`)
+  }
   setTimeout(() => {
     show.value = true
   }, 80)
@@ -70,7 +77,7 @@ watch(tab, () => {
 })
 
 function returnHome() {
-  router.push('/activity/create')
+  //router.push('/activity/create')
   tab.value = ''
 }
 
@@ -108,14 +115,16 @@ const visibility = permissions(user.position as UserPosition[])
       enter-active-class="animate__animated animate__fadeInUp"
       leave-active-class="animate__animated animate__fadeOutUp"
       appear
+      key="1"
     >
-      <RouterView />
+      <RouterView :key="tab"/>
     </Transition>
     <Transition
       v-else-if="show && !tab"
       enter-active-class="animate__animated animate__fadeIn"
       leave-active-class="animate__animated animate__fadeOut"
       appear
+      key="0"
     >
       <CreateHome @move="mov" />
     </Transition>

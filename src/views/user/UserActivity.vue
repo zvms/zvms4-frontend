@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ElPageHeader, ElSpace, ElButton, ElDivider } from 'element-plus'
+import { ElSpace, ElButton } from 'element-plus'
 import { ref, watch, type Component as VueComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ZActivityList } from '@/components'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import { User, Write, Group, School, Trophy } from '@icon-park/vue-next'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { User, Group, School } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 
 const header = useHeaderStore()
@@ -21,8 +20,6 @@ const router = useRouter()
 const path = ref(route.params?.type ?? 'mine')
 
 const tab = ref((path.value as string).replace('/', ''))
-
-const availibility = ref(true)
 
 watch(
   () => route.params?.type,
@@ -55,7 +52,6 @@ const panes = [
     icon: School,
     visibility:
       user.position.includes('department') ||
-      user.position.includes('auditor') ||
       user.position.includes('admin')
   }
 ] as Array<{
@@ -102,6 +98,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <RouterView class="px-4" :key="route.path" />
+    <ZActivityList class="mx-12" :role="tab":key="tab" />
   </div>
 </template>

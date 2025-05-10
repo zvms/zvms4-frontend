@@ -16,7 +16,7 @@ import {
   Merge
 } from '@icon-park/vue-next'
 import { memberActivityStatuses } from '@/icons/status'
-import { Minus, Trophy, Upload, User } from '@element-plus/icons-vue'
+import { Trophy, Upload, User } from '@element-plus/icons-vue'
 import { LucideWorkflow } from '@/icons'
 
 interface IconAndColor {

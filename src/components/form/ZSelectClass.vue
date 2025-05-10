@@ -4,15 +4,19 @@ import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@/../types'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   modelValue: string
-  fullWidth: boolean
-}>()
+  fullWidth?: boolean
+  clearable?: boolean
+}>(), {
+  fullWidth: true,
+  clearable: false
+})
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
 
-const { modelValue, fullWidth } = toRefs(props)
+const { modelValue, fullWidth, clearable } = toRefs(props)
 
 const classGroupID = ref<string>(modelValue.value)
 watch(classGroupID, () => emits('update:modelValue', classGroupID.value), { immediate: true })
@@ -56,10 +60,11 @@ async function remoteFetchClass(search: string) {
     :loading="load"
     filterable
     remote
+    remote-show-suffix
     class="w-full"
     size="default"
-    remote-show-suffix
     v-bind="$attrs"
+    :clearable="clearable"
   >
     <ElOption
       v-for="item in classes"

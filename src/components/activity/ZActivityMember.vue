@@ -12,7 +12,6 @@ import { useUserStore } from '@/stores/user'
 import { temporaryToken } from '@/plugins/short-token'
 import { useWindowSize } from '@vueuse/core'
 import router from '@/router'
-import { AxiosError } from 'axios'
 
 const { width, height } = useWindowSize()
 const { t } = useI18n()
@@ -44,6 +43,7 @@ watch(id, () => {
 
 function refresh() {
   loading.value = true
+  notFound.value = false
   if (id.value)
     api.user
       .readOne(id.value)
@@ -65,6 +65,7 @@ function refresh() {
       })
   else {
     person.value = undefined
+    notFound.value = true
     loading.value = false
   }
 }
@@ -174,7 +175,7 @@ async function insertUserPast() {
             <ElInput
               v-if="inputVisible"
               ref="InputRef"
-              v-model="inputValue"
+              v-model.trim="inputValue"
               class="w-20 px-2"
               size="small"
               @keyup.enter="insertUserPast"

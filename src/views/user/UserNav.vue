@@ -5,18 +5,12 @@ import {
   InfoFilled,
   Sunny,
   Moon,
-  SwitchButton,
-  Notification,
   Management
 } from '@element-plus/icons-vue'
-import Feedback from '@/icons/MaterialSymbolsFeedbackOutlineRounded.vue'
-import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
-import { ElButton, ElDivider, ElTooltip, ElSpace } from 'element-plus'
+import { ElButton, ElTooltip, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import MdiEye from '@/icons/MdiEye.vue'
-import MaterialSymbolsSettings from '@/icons/MaterialSymbolsSettings.vue'
-import { useWindowSize } from '@vueuse/core'
 import type { Component as VueComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
@@ -42,35 +36,6 @@ const path = ref(route.fullPath)
 watch(route, () => {
   path.value = route.fullPath
 })
-
-const { height } = useWindowSize()
-
-const actions: Array<{
-  icon: VueComponent
-  name: string
-  path: string
-  show: boolean
-  action: () => void
-}> = [
-  {
-    icon: Notification,
-    name: t('nav.notification'),
-    path: '/notifications',
-    show: true,
-    action: () => {
-      routeTo('/notifications')
-    }
-  },
-  {
-    icon: Password,
-    name: t('nav.reset'),
-    path: '/password',
-    show: true,
-    action: () => {
-      routeTo('/password')
-    }
-  }
-]
 
 const navs: Array<{
   icon: VueComponent
@@ -122,12 +87,11 @@ function routeTo(page: string) {
   if (page === '/management') {
     if (
       user.position.includes('admin') ||
-      user.position.includes('department') ||
-      user.position.includes('system')
+      user.position.includes('department')
     ) {
       routeTo('/manage/groups')
     } else {
-      routeTo(`/group/${user.class_id}`)
+      routeTo(`/group/${user.class_id}/users`)
     }
   } else {
     path.value = page
@@ -151,7 +115,7 @@ function routeTo(page: string) {
             :icon="nav.icon"
             size="large"
             text
-            :bg="nav.path === path"
+            :bg="nav.judge(path ?? '') ? 'primary' : ''"
             :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"

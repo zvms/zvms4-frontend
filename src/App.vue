@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowDown, User, SwitchButton, Notification } from '@element-plus/icons-vue'
+import { ArrowDown, User, SwitchButton } from '@element-plus/icons-vue'
 import {
   ElContainer,
   ElHeader,
@@ -12,12 +12,11 @@ import {
   ElPopover,
   ElConfigProvider,
   ElDivider,
-  ElNotification,
   ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
@@ -38,8 +37,6 @@ function getLocale(ident: string) {
   switch (ident) {
     case 'zh-CN':
       return zhCn
-    case 'en-US':
-      return en
     default:
       return en
   }
@@ -82,8 +79,8 @@ async function resetPassword() {
       ),
       showCancelButton: true,
       title: advice[userStore.language as 'en-US'] as string,
-      confirmButtonText: 'Modify Password',
-      cancelButtonText: 'Cancel'
+      confirmButtonText: locale.value == 'zh-CN' ? '重置密码' : 'Modify Password',
+      cancelButtonText: locale.value == 'zh-CN' ? '取消' : 'Cancel'
     })
       .then(async () => {
         try {
@@ -96,10 +93,10 @@ async function resetPassword() {
           }
         }
       })
-      .catch(() => {
+      .catch(async () => {
         userStore.shouldResetPassword = false
         if (userStore.position.length !== 1) {
-          userStore.removeUser()
+          await userStore.removeUser()
           router.push('/user/login')
         }
       })
@@ -109,6 +106,10 @@ async function resetPassword() {
 resetPassword()
 
 useDark() //Only this can fix login page background flashing in dark mode
+
+if(!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
+  router.push('/user/login')
+}
 
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
@@ -155,97 +156,24 @@ watch(
 const locales: Record<
   (typeof locale)['value'],
   {
-    feedback: {
-      close: {
-        title: string
-        message: string
-      }
-    }
-    password: {
-      title: string
-      message: string
-      confirmButtonText: string
-      cancelButtonText: string
-      inputErrorMessage: string
-    }
-    password_confirm: {
-      title: string
-      message: string
-      inputErrorMessage: string
-    }
     disconnected: {
       title: string
       message: string
-    }
-    refresh: {
-      title: string
-      message: string
-      ok: string
-      cancel: string
     }
   }
 > = {
   'zh-CN': {
-    feedback: {
-      close: {
-        title: '反馈渠道关闭',
-        message: `出于某些不可抗力因素，反馈渠道关闭，详情请咨询蛟二（3）班 楼瀚文同学。 Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
-      }
-    },
-    password: {
-      title: '重置密码',
-      message: '请输入新密码',
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      inputErrorMessage: '密码至少8位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
-    },
-    password_confirm: {
-      title: '重置密码',
-      message: '请再次输入新密码',
-      inputErrorMessage: '密码不匹配'
-    },
     disconnected: {
       title: '连接已断开',
       message: '已加载备用缓存数据但无法进行操作。'
-    },
-    refresh: {
-      title: '发现新版本',
-      message: '发现新版本，是否立即刷新？',
-      ok: '刷新',
-      cancel: '取消'
     }
   },
   'en-US': {
-    feedback: {
-      close: {
-        title: 'Feedback Channel Closed',
-        message: `Because of some irresistible factors, the feedback channel is closed. For details, please consult Lou Hanwen in Class 3, Senior 2 in Jiaochuan Academy。`
-      }
-    },
-    password: {
-      title: 'Reset Password',
-      message: 'Please input the new password',
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      inputErrorMessage:
-        'Password must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character'
-    },
-    password_confirm: {
-      title: 'Reset Password',
-      message: 'Please input the new password again',
-      inputErrorMessage: 'Password not match'
-    },
     disconnected: {
       title: 'Disconnected',
       message: 'Loaded backup cache data but cannot operate.'
-    },
-    refresh: {
-      title: 'New version found',
-      message: 'New version found, refresh now?',
-      ok: 'Refresh',
-      cancel: 'Cancel'
     }
-  },
+  }
 }
 
 const panelButtons = [
@@ -270,13 +198,7 @@ watch(needRefresh, () => {
   if (!needRefresh.value) {
     return
   }
-  ElMessageBox.confirm(locales[locale.value].refresh.message, locales[locale.value].refresh.title, {
-    confirmButtonText: locales[locale.value].refresh.ok,
-    cancelButtonText: locales[locale.value].refresh.cancel,
-    type: 'warning'
-  }).then(() => {
-    updateServiceWorker()
-  })
+  updateServiceWorker()
 })
 
 onMounted(() => {
@@ -362,7 +284,7 @@ onMounted(() => {
         class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
       >
         <p class="text-center">
-          &copy; 2018-2025 | {{ t('about.footer') }} | MIT Licensed
+          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
         </p>
       </ElFooter>
     </ElContainer>
@@ -377,8 +299,7 @@ onMounted(() => {
 
 .footer-container {
   height: 3rem;
-  /* overflow-y: scroll; */
-  z-index: 999;
+  z-index: 2004;
 }
 
 .disconnected {
@@ -390,22 +311,17 @@ onMounted(() => {
 
 .footer {
   font-size: 0.8rem;
-  position: absolute;
+  position: fixed;
   width: 100%;
   bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 3rem; */
 }
 
 .fragment-container {
-  /* all is height, and - 3rem is this height */
-  /* height: v-bind(height * 0.88 + 'px'); */
   height: 100%;
   overflow-y: scroll;
-  /* max-width: 100vw; */
-  /* margin: 0 auto; */
 }
 
 .action-btn {
@@ -422,30 +338,52 @@ onMounted(() => {
   right: 0;
 }
 
-/*
-@media print {
-  .user {
-    display: none;
-  }
-} */
 </style>
 
 <style>
 body {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   transition-property: color,background-color !important;
-  transition-duration: 0.5s !important;
-  /* filter: grayscale(1); */
+  transition-duration: 1s !important;
 }
 
 .el-pagination {
   overflow-x: scroll;
-  .el-pagination--sizes {
-    flex-grow: 1;
-    .el-select {
-      width: 100% !important;
-    }
-  }
+  height: 34px;
+}
+
+.el-pagination .el-pagination__sizes {
+  -moz-flex-grow: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+
+.el-pagination .el-pagination__sizes .el-select {
+  width: 100% !important;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+div[data-netlify-site-id] {
+  display: none !important;
+}
+
+*, *:active, *:focus {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-focus-ring-color: rgba(0, 0, 0, 0)!important;
+  outline: none !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.z-wrap .el-form-item--default .el-form-item__content {
+    display: block;
+    overflow-wrap: break-word;
 }
 
 @media print {

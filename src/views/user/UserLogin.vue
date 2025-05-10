@@ -27,47 +27,52 @@ if (useUserStore().isLogin) {
 const { height } = useWindowSize()
 const { t } = useI18n()
 
-// dark.value = false
-// We haven't already adjusted the color in dark mode.
-
 const user = ref('')
 const password = ref<string>('')
 const loginfield = ref()
 const userStore = useUserStore()
 const router = useRouter()
+const loading = ref(false)
 
 function refresh() {
   user.value = ''
   password.value = ''
+  loading.value = false
 }
 
 async function login() {
+  if (loading.value) {
+    return
+  }
+  loading.value = true
   if (user.value.toString().length !== 8) {
     await ElMessageBox.alert('User ID must be 8 digits.', 'Error', {
       type: 'error'
     })
+    loading.value = false
     return
   }
-  const users = (await api.user.read(user.value))?.users
+  const users = (await api.user.read(user.value).catch(() => {
+    loading.value = false
+  }))?.users
   if (users?.length !== 1) {
     await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
       type: 'error'
     })
+    loading.value = false
     return
   }
   const id = users?.[0]._id
-  userStore.setUser(id, password.value as string).then(() => {
-    router.push('/user')
+  await userStore.setUser(id, password.value as string).catch(() => {
+    loading.value = false
   })
+  router.push('/user')
 }
 
 watch(user, async () => {
   await loginfield.value.validate()
 })
 
-watch(user, () => {
-  user.value = user.value.toString().replace(/[^0-9]/g, '')
-})
 </script>
 
 <template>

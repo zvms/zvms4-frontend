@@ -13,15 +13,13 @@ export const useUserStore = defineStore('user', {
     name: '',
     position: [] as UserPosition[],
     groups: [] as string[],
-    token: '',
     class_id: '',
     isLogin: false,
     shouldResetPassword: false,
     time: {
       socialPractice: 0,
       onCampus: 0,
-      offCampus: 0,
-      trophy: 0
+      offCampus: 0
     } as UserActivityTimeSums,
     language: usePreferredLanguages().value[0]
   }),
@@ -40,19 +38,20 @@ export const useUserStore = defineStore('user', {
       this.groups = user.group
       await this.getUserClassId(user.group)
       this.position = await getUserPositions(user)
-      this.token = ''
-      this.isLogin = true
     },
     async setUser(user: string, password: string) {
+      const strongPasswordValidator = new RegExp(
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$'
+      )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(user)) as User
         await this.setUserInformation(information)
-        if (password === information.id.toString()) {
+        if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
         }
+        this.isLogin = true
       }
-      location.reload()
     },
     async refreshUser() {
       const result = (await api.user.readOne(this._id)) as User
@@ -65,9 +64,10 @@ export const useUserStore = defineStore('user', {
       }
     },
     async removeUser() {
+      this._id = ''
       this.id = 0
       this.name = ''
-      this.token = ''
+      this.groups = []
       this.isLogin = false
     },
     async getUserActivityTime() {
@@ -75,7 +75,6 @@ export const useUserStore = defineStore('user', {
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
       this.time.socialPractice = result.socialPractice
-      this.time.trophy = result.trophy
     },
     setLanguage(language: string) {
       this.language = language
@@ -98,17 +97,15 @@ export const useUserStore = defineStore('user', {
       this.shouldResetPassword = false
       const router = useRouter()
       await router.push('/user/login')
-      location.reload()
     },
     setTime(time: UserActivityTimeSums) {
       this.time.onCampus = time.onCampus
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice
-      this.time.trophy = time.trophy
     },
     relatedGroup(group: string): boolean {
       console.log(this.position)
-      if (this.position.includes('admin') || this.position.includes('department') || this.position.imcludes('system')) {
+      if (this.position.includes('admin') || this.position.includes('department')) {
         return true
       } else if (this.position.includes('secretary')) {
         return group === this.class_id

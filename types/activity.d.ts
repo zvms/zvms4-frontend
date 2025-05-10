@@ -46,42 +46,42 @@ export interface SocialActivity extends Activity {
 
 export interface ScaleActivity extends Activity {
   type: 'scale'
-  url: string // FTP Social Practice Report Location.
+  //url: string // FTP Social Practice Report Location.
 }
 
 export interface Special {
   classify: 'prize' | 'import' | 'club' | 'deduction' | 'other'
-  prize?: string // ObjectId
-  origin?: string // Path to the file.
-  reason?: string
+  //prize?: string // ObjectId
+  //origin?: string // Path to the file.
+  //reason?: string
 }
 
 export type SpecialActivityClassification = Special['classify']
 
 export interface PrizeSpecial extends Special {
   classify: 'prize'
-  prize: string // ObjectId
+  //prize: string // ObjectId
 }
 
 export interface ImportSpecial extends Special {
   classify: 'import'
-  origin: string // Path to the file.
+  //origin: string // Path to the file.
 }
 
 export interface ClubSpecial extends Special {
   classify: 'club'
 }
 
-export interface DeductionSpecial extends Special {
-  classify: 'deduction'
-  reason: string
-}
+//export interface DeductionSpecial extends Special {
+//  classify: 'deduction'
+//  reason: string
+//}
 
 export type SpecialInstance =
   | PrizeSpecial
   | ImportSpecial
   | ClubSpecial
-  | DeductionSpecial
+//  | DeductionSpecial
   | Special
 
 export interface SpecialActivity extends Activity {

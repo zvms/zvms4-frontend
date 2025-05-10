@@ -30,7 +30,6 @@ const props = withDefaults(
     onCampus?: number
     offCampus?: number
     socialPractice?: number
-    trophy?: number
     discount?: boolean
   }>(),
   {
@@ -38,7 +37,6 @@ const props = withDefaults(
     onCampus: 0,
     offCampus: 0,
     socialPractice: 0,
-    trophy: 0,
     discount: false
   }
 )

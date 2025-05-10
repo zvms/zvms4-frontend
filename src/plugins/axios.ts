@@ -1,9 +1,10 @@
 import axios, { AxiosError } from 'axios'
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 import router from '@/router'
+import { useUserStore } from '@/stores/user'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
@@ -17,10 +18,10 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-// export const baseURL = 'https://api.zvms.site/api/'
-export const baseURL = import.meta.env.PROD
-  ? 'https://api.zvms.site/api/'
-  : 'http://localhost:8000/api/'
+// export const baseURL = import.meta.env.PROD
+//   ? 'https://api.zvms.site/api/'
+//   : 'http://localhost:8000/api/'
+export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
@@ -28,7 +29,6 @@ const axiosInstance = axios.create({
   timeout: 24000,
   headers: {
     'Content-type': 'application/json',
-    Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : '',
     'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
   }
 })
@@ -38,6 +38,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     nprogress.start()
+    const token = localStorage.getItem('token')
+    if(token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     return config
   },
   (error) => {
@@ -60,19 +64,25 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401) {
         const token = parseJwt(localStorage.getItem('token') as string)
         if (token.payload.scope === 'access_token') {
-          ElNotification({
-            title: 'Error',
-            message: 'Your session has expired, or you are not authorized. Please login again.',
-            type: 'error'
-          })
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          // window.location.href = '/user/login'
+          if (!errorDisplayed) {
+            errorDisplayed = true
+            ElMessage({
+              message: 'Session expired',
+              type: 'error',
+              grouping: true,
+              plain: true
+            })
+            localStorage.removeItem('token')
+            useUserStore().removeUser().then(() => {
+              router.push('/user/login')
+            })
+          }
         } else {
-          ElMessageBox({
-            title: 'Error',
+          ElMessage({
             message: 'Your password is wrong. Please operate again.',
-            type: 'error'
+            type: 'error',
+            grouping: true,
+            plain: true
           }).then((r) => Promise.reject(r))
         }
       } else {
@@ -89,7 +99,7 @@ axiosInstance.interceptors.response.use(
             grouping: true,
             plain: true
           })
-          if (!error.response?.data?.detail) {
+          if (!error.response?.data?.detail && navigator.onLine) {
             router.push('/sww')
           }
         }
@@ -106,7 +116,7 @@ axiosInstance.interceptors.response.use(
           grouping: true,
           plain: true
         })
-        if (!error.message) {
+        if (!error.message && navigator.onLine) {
           router.push('/sww')
         }
       }

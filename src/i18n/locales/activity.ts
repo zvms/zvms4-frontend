@@ -68,6 +68,7 @@ export const enUS = {
     classify: 'Classify',
     pending: 'Pending',
     detail: 'Detail',
+    unnamed: 'Unnamed',
     upload: {
       name: 'Upload',
       prompt: 'Click or drag file to this area to upload',
@@ -112,6 +113,9 @@ export const enUS = {
     approvers: {
       authority: 'Authority',
       member: 'Member'
+    },
+    status: {
+      title: 'Status'
     }
   },
   special: {
@@ -163,28 +167,29 @@ export const enUS = {
   export: {
     name: 'Export',
     title: 'Export Data',
-    range: 'Range',
-    format: 'Format',
-    formats: {
-      json: {
-        name: 'JSON',
-        short: 'JSON',
-        explain: 'JavaScript Object Notation'
-      },
-      csv: {
-        name: 'CSV',
-        short: 'CSV',
-        explain: 'Comma-Separated Values'
-      },
-      xlsx: {
-        name: 'Excel',
-        short: 'Excel',
-        explain: 'Microsoft Excel'
-      }
-    },
     actions: {
       export: 'Export',
       download: 'Download'
+    }
+  },
+  batch: {
+    batch_import: 'Batch Import',
+    manual: {
+      member: 'Member',
+      mode: 'Mode',
+      duration: 'Duration',
+    },
+    batch: {
+      classid: 'Class ID',
+      members: 'Members',
+      selected: '{count} members selected.',
+      mode: 'Mode',
+      duration: 'Duration',
+    },
+    or: 'OR',
+    steps: {
+      prev: 'Previous',
+      next: 'Next'
     }
   }
 }
@@ -258,6 +263,7 @@ export const zhCN = {
     classify: '分类',
     pending: '等待审核',
     detail: '详细信息',
+    unnamed: '未命名',
     actions: {
       submit: '提交',
       cancel: '取消',
@@ -300,6 +306,9 @@ export const zhCN = {
     approvers: {
       authority: '学校团委',
       member: '部门成员'
+    },
+    status: {
+      title: '状态'
     }
   },
   special: {
@@ -351,28 +360,29 @@ export const zhCN = {
   export: {
     name: '导出',
     title: '导出数据',
-    range: '范围',
-    format: '格式',
-    formats: {
-      json: {
-        name: 'JSON',
-        short: 'JSON',
-        explain: 'JavaScript 对象表示法'
-      },
-      csv: {
-        name: 'CSV',
-        short: 'CSV',
-        explain: '逗号分隔值'
-      },
-      xlsx: {
-        name: 'Excel',
-        short: 'Excel',
-        explain: 'Microsoft Excel'
-      }
-    },
     actions: {
       export: '导出',
       download: '下载'
+    }
+  },
+  batch: {
+    batch_import: '批量导入',
+    manual: {
+      member: '成员',
+      mode: '模式',
+      duration: '时间',
+    },
+    batch: {
+      classid: '班级',
+      members: '成员',
+      selected: '已添加 {count} 位成员。',
+      mode: '模式',
+      duration: '时长',
+    },
+    or: '或',
+    steps: {
+      prev: '上一步',
+      next: '下一步'
     }
   }
 }

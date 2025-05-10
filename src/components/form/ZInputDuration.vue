@@ -42,15 +42,7 @@ watch(
         { required: true, message: t('validation.create.member.duration.required') },
         {
           validator: (_: InternalRuleItem, value: number, cb: Function) => {
-            if (value <= 0) {
-              return cb(t('validation.create.member.duration.invalid'))
-            }
-            return cb()
-          }
-        },
-        {
-          validator: (_: InternalRuleItem, value: number, cb: Function) => {
-            if (value > 30) {
+            if (value <= 0 || value > 30) {
               return cb(t('validation.create.member.duration.invalid'))
             }
             return cb()
@@ -58,7 +50,7 @@ watch(
         }
       ]"
     >
-      <ElInput :prefix-icon="Timer" type="number" v-model="duration.duration">
+      <ElInput :prefix-icon="Timer" type="number" v-model="duration.duration" @keydown.enter.prevent>
         <template #append v-if="showUnit">
           <span v-if="showUnit">{{ t('activity.units.hour', duration) }}</span>
         </template>

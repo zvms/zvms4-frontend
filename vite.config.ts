@@ -36,9 +36,10 @@ export default defineConfig({
     pwa({
       injectRegister: 'auto',
       registerType: 'autoUpdate',
+      immediate: true,
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Zhenhai High School Volunteer Management System 4',
+        name: 'ZVMS 4',
         short_name: 'ZVMS',
         description: 'The Zhenhai High School Volunteer Management System 4',
         theme_color: '#ffffff',
@@ -58,6 +59,29 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: false,
         sourcemap: true
+      },
+      onRegisteredSW(swUrl, r) {
+        r && setInterval(async () => {
+          if (r.installing || !navigator) {
+            return
+          }
+
+          if ('connection' in navigator && !navigator.onLine) {
+            return
+          }
+          
+          const resp = await fetch(swUrl, {
+            cache: 'no-store',
+            headers: {
+              cache: 'no-store',
+              'cache-control': 'no-cache',
+            },
+          });
+
+          if (resp?.status === 200) {
+            await r.update()
+          }
+        }, 36000000);
       }
     }),
     Icons({}),

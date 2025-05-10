@@ -8,9 +8,9 @@ import {
   ElPagination,
   ElCard,
   ElInput,
-  ElSkeleton,
   ElDivider
 } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import dayjs from 'dayjs'
@@ -33,6 +33,7 @@ const user = useUserStore()
 const props = withDefaults(
   defineProps<{
     role: 'campus' | 'class' | 'mine'
+    embed: boolean
     perspective?: string
     classTarget?: string
     modelValue?: ActivityInstance[]
@@ -40,21 +41,22 @@ const props = withDefaults(
   }>(),
   {
     role: 'mine',
+    embed: false,
     perspective: 'mine',
     selectTarget: ''
   }
 )
 const emits = defineEmits(['update:modelValue'])
 
+const tableRef = ref<TableInstance>()
 const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
-const { role, perspective: persp, selectTarget, classTarget, modelValue } = toRefs(props)
+const { role, perspective: persp, selectTarget, classTarget, modelValue, embed } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
-const initial = ref(true)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
@@ -81,19 +83,14 @@ function refresh() {
         loading.value = false
         size.value = 0
       }
-      initial.value = false
     })
     .catch(() => {
       loading.value = false
-      initial.value = false
     })
 }
 
 onMounted(refresh)
 
-watch(activePage, refresh)
-watch(pageSize, refresh)
-watch(query, refresh)
 watch(selectTarget, refresh)
 
 const tableMaxHeight = ref(height.value * 0.56)
@@ -121,6 +118,7 @@ function handleSelectionChange(val: string[]) {
 }
 
 function confirmPage() {
+  refresh()
   router.push({ query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }})
 }
 
@@ -136,19 +134,11 @@ const openExport = ref(false)
     <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElSkeleton
-      v-if="loading && initial"
-      :loading="loading && initial"
-      :rows="8"
-      animated
-      class="pt-4 px-4"
-      :throttle="500"
-    />
-    <ElCard shadow="never" v-else v-loading="loading && !initial">
+    <ElCard shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
-      <div v-if="perspective === user._id" class="text-right">
+      <div v-if="perspective === user._id && !selectTarget" class="text-right">
         <ElButton type="primary" round class="px-1" text bg :icon="Refresh" @click="refresh">
           {{ t('activity.form.actions.refresh') }}
         </ElButton>
@@ -168,13 +158,16 @@ const openExport = ref(false)
         <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
       <ElTable
+        :ref="tableRef"
         :max-height="tableMaxHeight"
         :data="items"
         table-layout="auto"
+        row-key="_id"
         @selection-change="handleSelectionChange"
         stripe
+        :key="selectTarget || 'all'"
       >
-        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" />
+        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" reserve-selection />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard
@@ -191,7 +184,7 @@ const openExport = ref(false)
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" v-if="role !== 'mine'" :label="t('activity.form.type')">
+        <ElTableColumn prop="type" v-if="role !== 'mine' && !selectTarget" :label="t('activity.form.type')">
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
@@ -210,7 +203,7 @@ const openExport = ref(false)
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-if="role === 'mine'" :label="t('activity.form.duration')">
+        <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
               v-if="
@@ -278,5 +271,14 @@ const openExport = ref(false)
 <style scoped>
 .code {
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'Courier', 'monospace';
+}
+
+.el-card.z-embed {
+  padding: 0 !important;
+}
+
+.el-card.z-embed > .el-card__body {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 </style>

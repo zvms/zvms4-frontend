@@ -12,7 +12,6 @@ import { useWindowSize } from '@vueuse/core'
 import {
   ElPageHeader,
   ElButton,
-  ElSpace,
   ElButtonGroup,
   ElBreadcrumb,
   ElBreadcrumbItem,
@@ -23,24 +22,19 @@ import {
   ArrowLeft,
   ArrowRight,
   Clock,
-  Edit,
   Location,
   Plus,
-  Timer,
-  View,
-  EditPen
+  Timer
 } from '@element-plus/icons-vue'
-import { Write } from '@icon-park/vue-next'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 
 const user = useUserStore()
 const route = useRoute()
-const router = useRouter()
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
@@ -82,15 +76,6 @@ watch(height, () => {
         {{ activity.name }}
       </template>
       <template #extra>
-        <ElSpace class="no-print">
-          <ZActivityType
-            :type="activity.type"
-            mode="full"
-            show-special
-            :status="activity.status"
-            :special="activity.type === 'special' ? activity.special.classify : undefined"
-          />
-        </ElSpace>
       </template>
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
@@ -106,13 +91,13 @@ watch(height, () => {
           </ElBreadcrumbItem>
           <ElBreadcrumbItem>
             <ElButton text size="small" type="info">
-              {{ route.path.split('/').pop() }}
+              {{ activity?.name ?? route.path.split('/').pop() }}
             </ElButton>
           </ElBreadcrumbItem>
         </ElBreadcrumb>
       </template>
     </ElPageHeader>
-    <p class="text-gray-500 dark:text-gray-400 px-4 py-2">
+    <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
       {{ activity.description }}
     </p>
     <ElDescriptions
@@ -160,7 +145,7 @@ watch(height, () => {
       v-if="mine"
       border
       class="py-2"
-      :title="t('activity.impression.page.write.mine')"
+      :title="t('activity.view.panels.mine.name')"
       :direction="vert ? 'vertical' : 'horizontal'"
       :column="vert ? 2 : undefined"
     >
@@ -193,9 +178,10 @@ watch(height, () => {
         <ElButton text bg round size="small" type="success" :icon="Plus">
           {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
-        <ElButton text bg round size="small" type="warning" :icon="Edit">
-          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD') }}
-        </ElButton>
+        <!-- Waiting for backend fix ('updatedAt' returns 1970-01-21) -->
+        <!--<ElButton text bg round size="small" type="warning" :icon="Edit">
+          {{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}
+        </ElButton>-->
       </ElButtonGroup>
     </div>
   </div>
