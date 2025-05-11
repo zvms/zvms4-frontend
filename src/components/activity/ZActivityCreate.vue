@@ -294,26 +294,15 @@ watch(
               </div>
             </ElFormItem>
             <ElFormItem label="Preview" v-if="activePage === 'review'" style="width: 100%">
-              <ZActivityDetails
-                style="width: 100%"
-                :activity="activity as unknown as ActivityInstance"
-                mode="campus"
-              />
+              <div class="w-full" style="flex-grow: 1">
+              	<ZActivityDetails
+                	:activity="activity as unknown as ActivityInstance"
+                	mode="campus"
+              	/>
+              </div>
             </ElFormItem>
           </ElScrollbar>
           <div class="actions text-right pt-2">
-            <ElButton
-              v-if="activePage === 'review'"
-              type="primary"
-              :icon="ArrowRight"
-              text
-              bg
-              @click="submit"
-              :loading="load"
-              :disabled="!validated"
-            >
-              {{ t('activity.form.actions.submit') }}
-            </ElButton>
             <ElButton
               v-if="activePage !== 'info'"
               type="primary"
@@ -334,6 +323,18 @@ watch(
               @click="nextStep"
             >
               {{ t('activity.batch.steps.next') }}
+            </ElButton>
+            <ElButton
+              v-if="activePage === 'review'"
+              type="primary"
+              :icon="ArrowRight"
+              text
+              bg
+              @click="submit"
+              :loading="load"
+              :disabled="!validated"
+            >
+              {{ t('activity.form.actions.submit') }}
             </ElButton>
           </div>
         </ElForm>
