@@ -25,7 +25,7 @@ const emits = defineEmits<{
   refresh: []
 }>()
 
-const { _id, mode, perspective } = toRefs(props)
+const { _id, mode, perspective, local } = toRefs(props)
 
 const error = ref(false)
 const loading = ref(true)
@@ -62,6 +62,7 @@ const refresh = () => emits('refresh')
         :perspective="perspective"
         @refresh="refresh"
         :show-details="showDetails"
+        :local="local"
       />
     </Transition>
     <ElResult v-else-if="error" icon="error" status="error" :title="t('nav.pages.SomethingWentWrong.title')" />
