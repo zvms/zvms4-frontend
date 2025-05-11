@@ -121,6 +121,7 @@ const memberFunctions = {
       duration: appending.value.duration,
       mode: appending.value.mode
     })
+  	showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
