@@ -298,6 +298,7 @@ watch(
               	<ZActivityDetails
                 	:activity="activity as unknown as ActivityInstance"
                 	mode="campus"
+                  local
               	/>
               </div>
             </ElFormItem>
