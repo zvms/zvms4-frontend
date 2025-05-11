@@ -22,11 +22,13 @@ const props = withDefaults(
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
+    local: boolean
   }>(),
   {
     mode: 'mine',
     perspective: 'mine',
-    showDetails: false
+    showDetails: false,
+    local: boolean
   }
 )
 const emits = defineEmits<{
