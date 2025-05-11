@@ -6,6 +6,7 @@ export function validateActivity(activity: ActivityInstance, index: 'info' | 'me
     if (!activity) return false
     if (!activity.name) return false
     if (!activity.date) return false
+    if (activity.approver === 'member') return false
     if (!activity.approver && activity.type !== 'special') return false
     try {
       dayjs(activity.date)
