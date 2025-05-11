@@ -37,7 +37,7 @@ const emits = defineEmits<{
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode, perspective, showDetails } = toRefs(props)
+const { activity, mode, perspective, showDetails, local } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -174,10 +174,9 @@ const refresh = () => emits('refresh')
           <ElPopconfirm
             v-if="
               mode !== 'mine' &&
-              mode !== 'register' &&
+            	!local &&
               (user._id === activity.creator ||
-                user.position.includes('admin') ||
-                user.position.includes('system'))
+                user.position.includes('admin'))
             "
             :title="t('activity.form.actions.delete.confirm')"
             width="328px"
