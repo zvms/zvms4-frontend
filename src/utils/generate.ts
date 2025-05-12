@@ -27,7 +27,7 @@ export function generateActivity(
     members
   } as ActivityInstance
   if (!activity.approver || activity.approver === 'member') {
-    if (!approverStudent && submitting) {
+    if (!approverStudent && submitting && base.type !== 'special') {
       ElMessage({
         message: 'Student-approved activities should indicate the approver.',
         type: 'error',
@@ -41,8 +41,8 @@ export function generateActivity(
   if (registration && base.type === 'specified') {
     ;(activity as SpecifiedActivity).registration = registration
   }
-  //if (special && base.type === 'special') {
+  if (special && base.type === 'special') {
     ;(activity as SpecialActivity).special = special
-  //}
+  }
   return activity
 }

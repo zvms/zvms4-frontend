@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ActivityInstance, SpecifiedActivity } from '@/../types'
+import type { ActivityInstance } from '@/../types'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
-import { Calendar, Location, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
+import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
@@ -10,7 +10,7 @@ import {
   ZActivityMember,
   ZActivityType,
   ZButtonOrCard,
-  ZActivityMemberList, ZActivityDetails
+  ZActivityMemberList
 } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
@@ -22,11 +22,13 @@ const props = withDefaults(
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
+    local: boolean
   }>(),
   {
     mode: 'mine',
     perspective: 'mine',
-    showDetails: false
+    showDetails: false,
+    local: false
   }
 )
 const emits = defineEmits<{
@@ -35,7 +37,7 @@ const emits = defineEmits<{
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode, perspective, showDetails } = toRefs(props)
+const { activity, mode, perspective, showDetails, local } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -172,10 +174,9 @@ const refresh = () => emits('refresh')
           <ElPopconfirm
             v-if="
               mode !== 'mine' &&
-              mode !== 'register' &&
+            	!local &&
               (user._id === activity.creator ||
-                user.position.includes('admin') ||
-                user.position.includes('system'))
+                user.position.includes('admin'))
             "
             :title="t('activity.form.actions.delete.confirm')"
             width="328px"

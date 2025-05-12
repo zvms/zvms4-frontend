@@ -30,5 +30,4 @@ export interface UserActivityTimeSums {
   onCampus: number
   offCampus: number
   socialPractice: number
-  trophy: number
 }

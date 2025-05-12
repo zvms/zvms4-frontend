@@ -23,7 +23,7 @@ import { ZActivityList } from '@/components'
 
 const header = useHeaderStore()
 const user = useUserStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { width, height } = useWindowSize()
 
 header.setHeader(t('nav.home'))
@@ -86,6 +86,9 @@ async function refreshUser() {
             />
           </ElDescriptionsItem>
         </ElDescriptions>
+        <div v-if="user.position.includes('secretary')" class="py-4">
+          <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)"> {{ locale === 'en-US' ? 'Manage my class' : '管理班级' }} </ElButton>
+        </div>
       </ElCard>
     </div>
     <div class="py-4">

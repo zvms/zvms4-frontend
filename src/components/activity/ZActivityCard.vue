@@ -12,18 +12,20 @@ const props = withDefaults(
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
+    local?: boolean
   }>(),
   {
     mode: 'mine',
     perspective: 'mine',
-    showDetails: true
+    showDetails: true,
+    local: false
   }
 )
 const emits = defineEmits<{
   refresh: []
 }>()
 
-const { _id, mode, perspective } = toRefs(props)
+const { _id, mode, perspective, local } = toRefs(props)
 
 const error = ref(false)
 const loading = ref(true)
@@ -60,6 +62,7 @@ const refresh = () => emits('refresh')
         :perspective="perspective"
         @refresh="refresh"
         :show-details="showDetails"
+        :local="local"
       />
     </Transition>
     <ElResult v-else-if="error" icon="error" status="error" :title="t('nav.pages.SomethingWentWrong.title')" />

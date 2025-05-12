@@ -4,7 +4,9 @@ import {
   ZActivityMember,
   ZActivityDuration,
   ZInputDuration,
-  ZSelectActivityMode, ZSelectPerson, ZActivityCard
+  ZSelectActivityMode,
+  ZSelectPerson,
+  ZActivityCard
 } from '@/components'
 import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
 import { toRefs, watch } from 'vue'
@@ -18,11 +20,11 @@ import {
   ElPopconfirm,
   ElPagination,
   ElPopover,
-  ElDivider,
+  ElDivider
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
-import { Pencil, Merge } from '@icon-park/vue-next'
+import { Merge } from '@icon-park/vue-next'
 import api from '@/api'
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
 import ZSelectClass from '@/components/form/ZSelectClass.vue'
@@ -61,12 +63,12 @@ const members = ref<ActivityMember[]>([])
 const addedUsers = ref<User[]>([])
 const useless = ref(1)
 
-// Add member of activity in first 5
+// Add 5 member of the activity at first
 
 members.value.push(...activity.value.members.slice(0, 5))
 
 function scroll() {
-  // Then add 2 members if available when touch bottom
+  // Then add two members if available when touch bottom
   if (members.value.length < activity.value.members.length) {
     members.value.push(
       ...activity.value.members.slice(members.value.length, members.value.length + 2)
@@ -85,7 +87,7 @@ function getMode(): ActivityMode {
 const appendingDuration = ref(0)
 const appendingMode = ref(getMode())
 
-function getAllow(): ActivityMode[] {
+function getAllowed(): ActivityMode[] {
   if (activity.value.type.toString() === '') return []
   if (activity.value.type !== 'special') return [getMode()]
   if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
@@ -95,12 +97,7 @@ function getAllow(): ActivityMode[] {
 
 const appending = ref<ActivityMember>({
   _id: '',
-  duration: activity.value.members.map((x) => x.duration).some((x) => x)
-    ? Math.round(
-        activity.value.members.map((x) => x.duration).reduce((a, b) => a + b) /
-          activity.value.members.length
-      )
-    : 0,
+  duration: undefined as unknown as number,
   mode: getMode(),
   status: 'effective'
 })
@@ -112,15 +109,26 @@ const selectedClassID = ref('')
 
 const memberFunctions = {
   async add() {
-    if (!local.value) {
+    if (local.value) {
+      activity.value.members.push({
+        _id: appending.value._id.toString(),
+        status: 'effective',
+        duration: appending.value.duration,
+        mode: appending.value.mode
+      })
+    } else {
       await api.activity.member.insert(activity.value._id, appending.value)
     }
-    activity.value.members.push({
-      _id: appending.value._id.toString(),
-      status: 'effective',
-      duration: appending.value.duration,
-      mode: appending.value.mode
-    })
+    appending.value._id = ''
+    appending.value.duration = activity.value.members
+      .map((x) => x.duration)
+      .some((x) => x)
+      ? Math.round(
+          activity.value.members.map((x) => x.duration).reduce((a, b) => a + b) /
+            activity.value.members.length
+        )
+      : 0
+    showAddPopover.value = false
   },
   async remove(id: string) {
     modified.value = true
@@ -324,7 +332,7 @@ watch(showAddPopover, () => {
                     <ElFormItem :label="t('activity.batch.batch.mode')">
                       <ZSelectActivityMode
                         v-model="appendingMode"
-                        :allow="getAllow()"
+                        :allow="getAllowed()"
                         class="w-full"
                       />
                     </ElFormItem>
@@ -358,12 +366,16 @@ watch(showAddPopover, () => {
                 <ElDivider>{{ t('activity.batch.or') }}</ElDivider>
                 <ElForm>
                   <ElFormItem :label="t('activity.batch.manual.member')">
-                    <ZSelectPerson full-width v-model="appending._id" :filter-start="6"></ZSelectPerson>
+                    <ZSelectPerson
+                      full-width
+                      v-model="appending._id"
+                      :filter-start="6"
+                    ></ZSelectPerson>
                   </ElFormItem>
                   <ElFormItem :label="t('activity.batch.manual.mode')">
                     <ZSelectActivityMode
                       v-model="appending.mode"
-                      :allow="getAllow()"
+                      :allow="getAllowed()"
                       class="w-full"
                     />
                   </ElFormItem>
@@ -375,7 +387,12 @@ watch(showAddPopover, () => {
                       {{ t('activity.form.actions.cancel') }}
                     </ElButton>
                     <ElButton
-                      :disabled="appending._id === '' || appending.duration <= 0 || appending.duration > 18 || activity.members.find(x => x._id === appending._id) !== undefined"
+                      :disabled="
+                        appending._id === '' ||
+                        appending.duration <= 0 ||
+                        appending.duration > 18 ||
+                        activity.members.find((x) => x._id === appending._id) !== undefined
+                      "
                       text
                       bg
                       type="success"

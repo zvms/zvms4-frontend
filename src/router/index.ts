@@ -68,7 +68,7 @@ const router = createRouter({
     },
     {
       path: '/manage/:action',
-      name: 'manage',
+      name: 'manage-action',
       component: () => import('../views/manage/ManageHome.vue')
     },
     {

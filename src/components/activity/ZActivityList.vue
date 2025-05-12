@@ -33,7 +33,7 @@ const user = useUserStore()
 const props = withDefaults(
   defineProps<{
     role: 'campus' | 'class' | 'mine'
-    embed: boolean
+    embed?: boolean
     perspective?: string
     classTarget?: string
     modelValue?: ActivityInstance[]
