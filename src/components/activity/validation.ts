@@ -6,7 +6,6 @@ export function validateActivity(activity: ActivityInstance, index: 'info' | 'me
     if (!activity) return false
     if (!activity.name) return false
     if (!activity.date) return false
-    if (activity.approver === 'member') return false
     if (!activity.approver && activity.type !== 'special') return false
     try {
       dayjs(activity.date)
@@ -18,6 +17,7 @@ export function validateActivity(activity: ActivityInstance, index: 'info' | 'me
     if (activity.type === 'special' && !activity.special.classify) return false
   }
   if (index !== 'info') {
+    if (activity.members.length === 0) return false
     for (const member of activity.members) {
       if (!member._id) return false
       if (!member.duration) return false

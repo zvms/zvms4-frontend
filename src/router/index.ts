@@ -99,9 +99,4 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.name.startsWith('manage') && !useUserStore().position.includes('admin') && !useUserStore().position.includes('department')) next({ name: 'not-found' })
-  else next()
-})
-
 export default router

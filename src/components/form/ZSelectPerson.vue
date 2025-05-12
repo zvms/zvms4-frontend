@@ -38,6 +38,10 @@ const options = ref<
 
 const load = ref(false)
 
+async function getUserGroups(user: User) {
+  return await Promise.all(user.group.map(async (group) => api.group.readOne(group)))
+}
+
 async function filter(number: string) {
   load.value = true
   const extra = extractNonHanCharacters(number).replace(/[0-9]/g, '').length
@@ -60,9 +64,6 @@ async function filter(number: string) {
       result.map(
         (x) =>
           new Promise((resolve) => {
-            async function getUserGroups(user: User) {
-              return await Promise.all(user.group.map(async (group) => api.group.readOne(group)))
-            }
             getUserGroups(x)
               .then((groups) => {
                 const className =
@@ -94,10 +95,17 @@ async function filter(number: string) {
     load.value = false
     return options
   } else {
-    if (modelValue.value) {
+    if (typeof modelValue.value === 'string') {
       const userData = await api.user.readOne(modelValue.value)
       if (userData) {
-        options.value = [userData]
+        options.value = [{
+          label: userData.name,
+          value: userData._id,
+          number: userData.id,
+          class: await getUserGroups(userData).then((groups) =>
+            groups.filter((group) => group?._id).find((group) => group?.type === 'class')?.name || ''
+          )
+        }]
       } else {
         options.value = []
       }

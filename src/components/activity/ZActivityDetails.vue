@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ActivityInstance, SpecifiedActivity } from '@/../types'
+import type { ActivityInstance } from '@/../types'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
-import { Calendar, Location, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
+import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
@@ -10,7 +10,7 @@ import {
   ZActivityMember,
   ZActivityType,
   ZButtonOrCard,
-  ZActivityMemberList, ZActivityDetails
+  ZActivityMemberList
 } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
@@ -28,7 +28,7 @@ const props = withDefaults(
     mode: 'mine',
     perspective: 'mine',
     showDetails: false,
-    local: boolean
+    local: false
   }
 )
 const emits = defineEmits<{

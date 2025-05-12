@@ -65,9 +65,21 @@ const activity = reactive<ActivityInstance | Activity>({
   status: 'effective',
   approver: '',
   special: {
-    classify: '' as unknown as SpecialActivityClassification
+    classify: 'other' as SpecialActivityClassification
   }
 })
+
+watch(() => activity.type, () => {
+  if (activity.type === 'special') {
+    activity.special = {
+      classify: '' as unknown as  SpecialActivityClassification
+    } as Special
+  } else {
+    activity.special = {
+      classify: 'other' as SpecialActivityClassification
+    }
+  }
+}, { immediate: true })
 
 const token = localStorage.getItem('token')
 
@@ -91,10 +103,6 @@ const members = reactive<ActivityMember[]>([
     duration: undefined as unknown as number
   }
 ])
-
-const special = reactive<Special>({
-  classify: '' as unknown as SpecialActivityClassification
-})
 
 const classifyOfSpecial = ['prize', 'club', 'other'] as SpecialActivityClassification[]
 
@@ -144,17 +152,6 @@ async function submit() {
   }
 }
 
-function allow(): ActivityMode[] {
-  if (activity.type === 'specified') return ['on-campus']
-  if (activity.type === 'social') return ['off-campus']
-  if (activity.type === 'scale') return ['social-practice']
-  if (activity.type === 'special') {
-    if (special.classify !== 'other') return ['on-campus', 'off-campus']
-    return ['on-campus', 'off-campus', 'social-practice']
-  }
-  return []
-}
-
 const validated = ref(false)
 
 watch(
@@ -175,11 +172,24 @@ watch(
       activity.special
     )
     if (act !== null) {
-      validated.value = validateActivity(act)
+      validated.value = validateActivity(act, activePage.value)
     }
   },
   { deep: true, immediate: true }
 )
+
+watch(activePage, () => {
+  const act = generateActivity(
+    activity,
+    activity.members,
+    approveStudent.value,
+    registration,
+    activity.special
+  )
+  if (act !== null) {
+    validated.value = validateActivity(act, activePage.value)
+  }
+})
 </script>
 
 <template>
