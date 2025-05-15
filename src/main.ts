@@ -9,7 +9,7 @@ import router from './router'
 import i18n from './i18n'
 
 import ElementPlus from 'element-plus'
-import CKEditor from '@ckeditor/ckeditor5-vue'
+import { Ckeditor as CKEditor } from '@ckeditor/ckeditor5-vue'
 
 import 'element-plus/theme-chalk/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'

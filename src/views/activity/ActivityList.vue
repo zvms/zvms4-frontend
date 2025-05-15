@@ -25,7 +25,7 @@ watch(
   () => route.params?.type,
   () => {
     if (route.path.startsWith('/activities/')) {
-      tab.value = route.path.replace('/activities/', '') ?? 'mine'
+      tab.value = route.path.replace('/activities/', '')
     } else {
       tab.value = 'mine'
     }
@@ -38,13 +38,15 @@ const panes = [
     value: 'mine',
     color: 'primary',
     icon: User,
-    visibility: user.position.includes('student')
+    visibility: true
   },
   {
     value: 'class',
     color: 'warning',
     icon: Group,
-    visibility: user.position.includes('secretary') || user.position.includes('admin')
+    visibility:
+      user.position.includes('secretary') ||
+      user.position.includes('admin')
   },
   {
     value: 'campus',
@@ -56,9 +58,9 @@ const panes = [
   }
 ] as Array<{
   value: string
-  color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
+  color: 'primary' | 'warning' | 'danger'
   icon: VueComponent
-  visibility?: boolean
+  visibility: boolean
 }>
 
 function moveTo(type: string) {
@@ -98,6 +100,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <ZActivityList class="mx-12" :role="tab":key="tab" />
+    <ZActivityList class="mx-12" :role="tab as ('mine' | 'class' | 'campus')":key="tab" />
   </div>
 </template>

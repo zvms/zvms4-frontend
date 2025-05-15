@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useHeaderStore } from '@/stores/header'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -54,12 +56,12 @@ const router = createRouter({
     {
       path: '/activities',
       name: 'activity',
-      component: () => import('../views/user/UserActivity.vue')
+      component: () => import('../views/activity/ActivityList.vue')
     },
     {
       path: '/activities/:mode',
       name: 'activity-mode',
-      component: () => import('../views/user/UserActivity.vue')
+      component: () => import('../views/activity/ActivityList.vue')
     },
     {
       path: '/manage',
@@ -97,6 +99,20 @@ const router = createRouter({
       component: () => import('../views/NotFound.vue')
     }
   ]
+})
+
+router.beforeEach((to, _, next) => {
+  useHeaderStore().resetHeader()
+  const name = (to.name ?? '') as string
+  const path = (to.path ?? '') as string
+  const user = useUserStore()
+  if (!user.isLogin && name !== 'user-login' && path !== '/user/login') next({ name: 'user-login' })
+  else if (
+    (name.startsWith('manage') || path.startsWith('/manage')) &&
+    !useUserStore().position.includes('admin') &&
+    !useUserStore().position.includes('department')
+  ) next({ name: 'not-found' })
+  else next()
 })
 
 export default router

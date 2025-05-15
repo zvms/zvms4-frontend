@@ -115,7 +115,7 @@ function routeTo(page: string) {
             :icon="nav.icon"
             size="large"
             text
-            :bg="nav.judge(path ?? '') ? 'primary' : ''"
+            :bg="nav.judge(path ?? '')"
             :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"
