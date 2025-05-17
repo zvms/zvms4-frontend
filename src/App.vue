@@ -28,6 +28,7 @@ import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
 import { modifyPasswordDialogs } from '@/views'
+import { Instruction } from '@icon-park/vue-next'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
@@ -215,6 +216,21 @@ onMounted(() => {
         </ElIcon>
         <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
+      </template>
+    </ElAlert>
+    <ElAlert type="warning" center :closable="true">
+      <template #title>
+        <ElIcon class="disconnected">
+          <Instruction />
+        </ElIcon>
+        <span class="text-lg px-1">Platform Maintenance | 平台维护</span>
+        <br />
+        <span class="text-sm px-1">From May 17th 18:00 to May 18th 12:00, the platform will be under maintenance, and functions such as volunteer registration and computation will be unavailable.
+          We will introduce some breaking change to the system, so you will be asked to update your platform immediately after the maintenance.
+          <br />
+          5 月 17 日 18:00 至 5 月 18 日 12:00，平台将进行维护，届时义工登记、计算分析等功能将无法使用。
+          我们将对系统进行一些重大更改，因此在维护后，您将被要求立即更新平台。
+        </span>
       </template>
     </ElAlert>
     <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3rem)'}">
