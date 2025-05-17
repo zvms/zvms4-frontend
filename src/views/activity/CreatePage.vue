@@ -13,10 +13,7 @@ const type = route.params?.type as CreateActivityType
 
 const effective = ref(false)
 
-if (
-  typeof type === 'string' &&
-  ['normal', 'special', 'upload', 'merge'].includes(type as string)
-) {
+if (typeof type === 'string' && ['normal', 'special', 'upload', 'merge'].includes(type as string)) {
   effective.value = true
 }
 </script>

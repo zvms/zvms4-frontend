@@ -15,12 +15,12 @@ const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
-window.onbeforeunload = ((e) => {
-  if(location.pathname.startsWith('/activity/create')) {
+window.onbeforeunload = (e) => {
+  if (location.pathname.startsWith('/activity/create')) {
     e.preventDefault()
     return false
   }
-})
+}
 
 header.setHeader(t('nav.create'))
 
@@ -62,7 +62,7 @@ const show = ref(true)
 function mov(mov: string) {
   show.value = false
   //tab.value = mov
-  if(mov == '') {
+  if (mov == '') {
     router.push('/activity/create')
   } else {
     router.push(`/activity/create/${mov}`)
@@ -117,7 +117,7 @@ const visibility = permissions(user.position as UserPosition[])
       appear
       key="1"
     >
-      <RouterView :key="tab"/>
+      <RouterView :key="tab" />
     </Transition>
     <Transition
       v-else-if="show && !tab"

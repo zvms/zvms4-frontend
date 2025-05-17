@@ -19,6 +19,7 @@ const props = withDefaults(
     round?: boolean
     open?: boolean
     disabled?: boolean
+    buttonLoading?: boolean
   }>(),
   {
     size: 'small',
@@ -32,11 +33,13 @@ const props = withDefaults(
     center: true,
     round: true,
     open: false,
-    disabled: false
+    disabled: false,
+    buttonLoading: false
   }
 )
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
+  (e: 'click', value: boolean): void
 }>()
 
 const {
@@ -53,7 +56,8 @@ const {
   title,
   center,
   round,
-  open
+  open,
+  buttonLoading
 } = toRefs(props)
 
 const show = ref(false)
@@ -73,6 +77,11 @@ watch(
   },
   { immediate: true }
 )
+
+function startOpen() {
+  emits('click', true)
+  show.value = true
+}
 </script>
 
 <template>
@@ -84,10 +93,11 @@ watch(
     :size="size"
     :type="type ?? 'primary'"
     :icon="icon"
-    @click="show = true"
+    @click="startOpen"
     :disabled="disabled"
     v-bind="$attrs"
     v-on="$attrs"
+    :loading="buttonLoading"
   >
     <slot name="text" />
   </ElButton>

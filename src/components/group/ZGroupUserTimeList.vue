@@ -115,8 +115,14 @@ function handleSearch() {
         <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['on-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['on-campus'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['on-campus'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', { time: row['on-campus'].toFixed(1) })
+              }}</span
+            >
           </template>
         </ElTableColumn>
         <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-else>
@@ -131,8 +137,14 @@ function handleSearch() {
         </ElTableColumn>
         <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['off-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['off-campus'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['off-campus'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', { time: row['off-campus'].toFixed(1) })
+              }}</span
+            >
           </template>
         </ElTableColumn>
         <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-else>
@@ -143,13 +155,29 @@ function handleSearch() {
             <span class="color-red" v-else>{{ row['off-campus'].toFixed(1) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-if="diff">
+        <ElTableColumn
+          prop="social-practice"
+          :label="t('activity.mode.social-practice.short')"
+          v-if="diff"
+        >
           <template #default="{ row }">
-            <span class="color-green" v-if="row['social-practice'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['social-practice'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['social-practice'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', {
+                  time: row['social-practice'].toFixed(1)
+                })
+              }}</span
+            >
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-else>
+        <ElTableColumn
+          prop="social-practice"
+          :label="t('activity.mode.social-practice.short')"
+          v-else
+        >
           <template #default="{ row }">
             <span class="color-green" v-if="row['social-practice'] >= 18">{{
               row['social-practice'].toFixed(1)

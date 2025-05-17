@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityInstance } from '@/../types'
+import type { Activity, ActivityMember } from '@/../types/v2'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
 import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
@@ -18,7 +18,9 @@ import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSi
 
 const props = withDefaults(
   defineProps<{
-    activity: ActivityInstance
+    activity: Activity
+    memberDetails?: ActivityMember
+    membersCount: number
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
@@ -37,7 +39,7 @@ const emits = defineEmits<{
 
 const user = useUserStore()
 const { t } = useI18n()
-const { activity, mode, perspective, showDetails, local } = toRefs(props)
+const { activity, mode, membersCount, showDetails, local, memberDetails } = toRefs(props)
 
 const hovered = ref(false)
 
@@ -76,7 +78,12 @@ const refresh = () => emits('refresh')
 </script>
 
 <template>
-  <ZButtonOrCard mode="card" @mouseover="hovered = true" @mouseleave="hovered = false" style="width: 100%">
+  <ZButtonOrCard
+    mode="card"
+    @mouseover="hovered = true"
+    @mouseleave="hovered = false"
+    style="width: 100%"
+  >
     <p class="text-xl pl-4" style="width: 100%">
       <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
       <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitName">
@@ -92,7 +99,6 @@ const refresh = () => emits('refresh')
           show-special
           force="full"
           :status="activity.status"
-          :special="activity.type === 'special' ? activity.special.classify : undefined"
         />
       </ElButtonGroup>
     </p>
@@ -104,11 +110,7 @@ const refresh = () => emits('refresh')
       <p style="white-space: pre-wrap">{{ activity.description }}</p>
     </div>
     <div v-else class="pt-2 pl-4">
-      <ElInput
-        v-model="description"
-        type="textarea"
-        :autosize="{ minRows: 2 }"
-      />
+      <ElInput v-model="description" type="textarea" :autosize="{ minRows: 2 }" />
       <div style="text-align: right" class="py-2">
         <ElButton
           text
@@ -131,20 +133,21 @@ const refresh = () => emits('refresh')
         class="py-2"
         :icon="Calendar"
       >
-        {{
-          dayjs(activity.date).format(
-            activity.type === 'specified' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
-          )
-        }}
+        {{ dayjs(activity.date).format('YYYY-MM-DD HH:mm:ss') }}
       </ElButton>
       <ZActivityDuration
         class="px-2"
-        v-if="mode === 'mine'"
-        :mode="activity.members.find((x) => x._id === perspective ?? user._id)?.mode"
-        :duration="activity.members.find((x) => x._id === perspective ?? user._id)?.duration ?? 0"
+        v-if="memberDetails"
+        :mode="memberDetails?.mode"
+        :duration="memberDetails?.duration"
         force="full"
       />
-      <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
+      <ZActivityMemberList
+        :members-count="membersCount"
+        class="px-2"
+        :activity="activity"
+        @refresh="refresh"
+      />
     </div>
     <ElRow>
       <ElCol :span="6">
@@ -174,9 +177,8 @@ const refresh = () => emits('refresh')
           <ElPopconfirm
             v-if="
               mode !== 'mine' &&
-            	!local &&
-              (user._id === activity.creator ||
-                user.position.includes('admin'))
+              !local &&
+              (user._id === activity.creator || user.position.includes('admin'))
             "
             :title="t('activity.form.actions.delete.confirm')"
             width="328px"

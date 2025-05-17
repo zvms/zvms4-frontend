@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance } from '@/../types'
+import type { Activity } from '@/../types.v2'
 import {
   ZActivityMemberList,
   ZActivityMember,
@@ -18,14 +18,7 @@ import {
   ElDescriptions,
   ElDescriptionsItem
 } from 'element-plus'
-import {
-  ArrowLeft,
-  ArrowRight,
-  Clock,
-  Location,
-  Plus,
-  Timer
-} from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, Clock, Location, Plus, Timer } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 import { useRoute } from 'vue-router'
@@ -40,7 +33,7 @@ const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
-    activity: ActivityInstance
+    activity: Activity
   }>(),
   {}
 )
@@ -75,8 +68,7 @@ watch(height, () => {
       <template #content>
         {{ activity.name }}
       </template>
-      <template #extra>
-      </template>
+      <template #extra> </template>
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
           <ElBreadcrumbItem>
@@ -129,12 +121,9 @@ watch(height, () => {
           dayjs(activity.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem
-        v-if="activity.type === 'specified' && activity.registration.place"
-        :label="t('activity.registration.location')"
-      >
+      <ElDescriptionsItem v-if="activity.place" :label="t('activity.registration.location')">
         <ElButton round size="small" :icon="Location" text type="info">
-          {{ activity.registration.place }}
+          {{ activity.place }}
         </ElButton>
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">

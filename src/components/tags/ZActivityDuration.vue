@@ -46,7 +46,11 @@ async function modify() {
     <ElPopover
       width="328px"
       trigger="click"
-      v-if="(user.position.includes('admin') || user.position.includes('department')) && (id || local) && uid"
+      v-if="
+        (user.position.includes('admin') || user.position.includes('department')) &&
+        (id || local) &&
+        uid
+      "
     >
       <template #reference>
         <ElButton
@@ -65,7 +69,13 @@ async function modify() {
           <ZInputDuration v-model="modification" class="w-full" />
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton text bg type="primary" @click="modify" :disabled="modification <= 0 || modification > 18">
+          <ElButton
+            text
+            bg
+            type="primary"
+            @click="modify"
+            :disabled="modification <= 0 || modification > 18"
+          >
             {{ t('activity.form.actions.modify') }}
           </ElButton>
         </div>

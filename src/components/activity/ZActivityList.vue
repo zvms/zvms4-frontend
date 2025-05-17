@@ -22,6 +22,7 @@ import { ZActivityType, ZActivityStatus, ZActivityDuration, ZActivityCard } from
 import { useRouter, useRoute } from 'vue-router'
 import ZDataExport from '@/components/utils/ZDataExport.vue'
 import { pad } from '@/plugins/ua.ts'
+import type { Activity } from '@/../types/v2'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -36,14 +37,16 @@ const props = withDefaults(
     embed?: boolean
     perspective?: string
     classTarget?: string
-    modelValue?: ActivityInstance[]
-    selectTarget?: ActivityType | ''
+    modelValue?: Activity[]
+    selectTarget?: Activity['type'] | '' | 'all'
+    selectedMax?: number
   }>(),
   {
     role: 'mine',
     embed: false,
     perspective: 'mine',
-    selectTarget: ''
+    selectTarget: '',
+    selectedMax: 0 // Infinite
   }
 )
 const emits = defineEmits(['update:modelValue'])
@@ -60,7 +63,7 @@ const loading = ref(true)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
-const activities = ref<ActivityInstance[]>([])
+const activities = ref<Activity[]>([])
 
 function refresh() {
   loading.value = true
@@ -71,12 +74,12 @@ function refresh() {
     pageSize.value,
     query.value,
     classTarget.value ?? user.class_id ?? '',
-    (selectTarget.value && selectTarget.value !== '') ? selectTarget.value : 'all',
+    selectTarget.value && selectTarget.value !== 'all' ? selectTarget.value : 'all'
   )
     .then((res) => {
-      if (res && res?.data.length !== 0) {
-        activities.value = res?.data
-        size.value = res?.size
+      if (res && res?.activities?.length !== 0) {
+        activities.value = res?.activities
+        size.value = res?.total
         loading.value = false
       } else {
         activities.value = []
@@ -110,7 +113,10 @@ watch(
 )
 
 function selectable(row: ActivityInstance) {
-  return selectTarget.value.toLowerCase() === row.type.toLowerCase() && row.status === 'effective'
+  return (
+    (selectTarget.value.toLowerCase() === row.type.toLowerCase() || selectTarget.value === 'all') &&
+    row.status === 'effective'
+  )
 }
 
 function handleSelectionChange(val: string[]) {
@@ -119,7 +125,9 @@ function handleSelectionChange(val: string[]) {
 
 function confirmPage() {
   refresh()
-  router.push({ query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }})
+  router.push({
+    query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }
+  })
 }
 
 watch(pageSize, confirmPage)
@@ -131,7 +139,13 @@ const openExport = ref(false)
 
 <template>
   <div class="max-w-full">
-    <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
+    <ElDrawer
+      direction="rtl"
+      size="50%"
+      v-model="openExport"
+      :title="t('manage.exports.title')"
+      center
+    >
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
     <ElCard shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
@@ -167,13 +181,19 @@ const openExport = ref(false)
         stripe
         :key="selectTarget || 'all'"
       >
-        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" reserve-selection />
+        <ElTableColumn
+          v-if="selectTarget"
+          type="selection"
+          :selectable="selectable"
+          reserve-selection
+        />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard
               :_id="row._id"
               :mode="role"
               :perspective="perspective"
+              :user-session="row?.mine?._id"
               @refresh="refresh"
             />
           </template>
@@ -184,7 +204,11 @@ const openExport = ref(false)
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" v-if="role !== 'mine' && !selectTarget" :label="t('activity.form.type')">
+        <ElTableColumn
+          prop="type"
+          v-if="role !== 'mine' && !selectTarget"
+          :label="t('activity.form.type')"
+        >
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
@@ -206,27 +230,12 @@ const openExport = ref(false)
         <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
-              v-if="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.status === 'effective'
-              "
-              :mode="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.mode
-              "
-              :duration="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.duration ?? 0
-              "
+              v-if="row.mine"
+              :mode="row.mine.mode"
+              :duration="row.mine.duration"
               force="short"
             />
-            <ZActivityStatus
-              v-else
-              :type="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.status
-              "
-            />
+            <ZActivityStatus v-else :type="row.mine.status" />
           </template>
         </ElTableColumn>
         <ElTableColumn fixed="right">

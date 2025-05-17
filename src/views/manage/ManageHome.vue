@@ -28,7 +28,7 @@ watch(
 )
 const curPage = route.params.action?.toString()
 
-const current = ref((curPage && curPage !== '') ? curPage : 'groups')
+const current = ref(curPage && curPage !== '' ? curPage : 'groups')
 
 const tabs = ref([
   {
@@ -45,7 +45,7 @@ const tabs = ref([
     label: 'Logs',
     value: 'logs',
     icon: Log
-  }/*,
+  } /*,
   {
     label: 'Import',
     value: 'import',
@@ -62,7 +62,7 @@ watch(
   (value) => {
     console.log(value)
     const curPage = route.params.action?.toString()
-    current.value = (curPage && curPage !== '') ? curPage : 'groups'
+    current.value = curPage && curPage !== '' ? curPage : 'groups'
   }
 )
 </script>
@@ -80,7 +80,7 @@ watch(
               <ElIcon :size="18" class="mt-2">
                 <Component :is="props.item.icon" />
               </ElIcon>
-              {{ t('manage.manage.tabs.' + props.item.value as string) }}
+              {{ t(('manage.manage.tabs.' + props.item.value) as string) }}
             </div>
           </template>
         </ElSegmented>

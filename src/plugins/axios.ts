@@ -18,10 +18,10 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-// export const baseURL = import.meta.env.PROD
-//   ? 'https://api.zvms.site/api/'
-//   : 'http://localhost:8000/api/'
-export const baseURL = 'https://api.zvms.site/api/'
+export const baseURL = import.meta.env.PROD
+  ? 'https://api.zvms.site/api/'
+  : 'http://localhost:8000/api/'
+// export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
@@ -39,8 +39,8 @@ axiosInstance.interceptors.request.use(
   (config) => {
     nprogress.start()
     const token = localStorage.getItem('token')
-    if(token && !config.headers['Authorization']) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    if (token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
@@ -73,9 +73,11 @@ axiosInstance.interceptors.response.use(
               plain: true
             })
             localStorage.removeItem('token')
-            useUserStore().removeUser().then(() => {
-              router.push('/user/login')
-            })
+            useUserStore()
+              .removeUser()
+              .then(() => {
+                router.push('/user/login')
+              })
           }
         } else {
           ElMessage({

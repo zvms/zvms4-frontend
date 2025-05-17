@@ -15,9 +15,9 @@ export default async function (
   // 1. Read the token from the cache
   const token = await temporaryToken(uid)
   // 2. Read the activities
-  const activities: ActivityInstance[] = (await Promise.all(
-    targets.map((target) => api.read.single(target._id))
-  )).filter(x => x !== undefined) as ActivityInstance[]
+  const activities: ActivityInstance[] = (
+    await Promise.all(targets.map((target) => api.read.single(target._id)))
+  ).filter((x) => x !== undefined) as ActivityInstance[]
   // 3. Merge
   const merged = merge(activities, uid, mergeOptions)
   merged.creator = uid

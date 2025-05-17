@@ -47,32 +47,34 @@ getUser()
 
 const curPage = route.params.action?.toString()
 
-const current = ref((curPage && curPage !== '') ? curPage : 'info')
+const current = ref(curPage && curPage !== '' ? curPage : 'info')
 
-const tabs = ref(([
-  {
-    label: 'Info',
-    value: 'info',
-    icon: Info
-  },
-  {
-    label: 'Activity',
-    value: 'activity',
-    icon: ViewList
-  },
-  {
-    label: 'Modify',
-    value: 'modify',
-    icon: Edit,
-    display: userStore.position.includes('admin')
-  },
-  {
-    label: 'Logs',
-    value: 'logs',
-    icon: Log,
-    display: userStore.position.includes('admin')
-  }
-]).filter(x => x.display ?? true))
+const tabs = ref(
+  [
+    {
+      label: 'Info',
+      value: 'info',
+      icon: Info
+    },
+    {
+      label: 'Activity',
+      value: 'activity',
+      icon: ViewList
+    },
+    {
+      label: 'Modify',
+      value: 'modify',
+      icon: Edit,
+      display: userStore.position.includes('admin')
+    },
+    {
+      label: 'Logs',
+      value: 'logs',
+      icon: Log,
+      display: userStore.position.includes('admin')
+    }
+  ].filter((x) => x.display ?? true)
+)
 
 watch(current, () => {
   router.push('/user/' + id.value + '/' + current.value)
@@ -83,7 +85,7 @@ watch(
   (value) => {
     console.log(value)
     const curPage = route.params.action?.toString()
-    current.value = (curPage && curPage !== '') ? curPage : 'info'
+    current.value = curPage && curPage !== '' ? curPage : 'info'
   }
 )
 </script>
@@ -101,7 +103,7 @@ watch(
               <ElIcon :size="18" class="mt-2">
                 <Component :is="props.item.icon" />
               </ElIcon>
-              {{ t('manage.personalPanel.tabs.' + props.item.value as string) }}
+              {{ t(('manage.personalPanel.tabs.' + props.item.value) as string) }}
             </div>
           </template>
         </ElSegmented>

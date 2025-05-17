@@ -19,4 +19,3 @@ export async function userModifyDuration(user: string, aid: string, duration: nu
     return
   }
 }
-

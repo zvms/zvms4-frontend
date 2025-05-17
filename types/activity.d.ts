@@ -81,7 +81,7 @@ export type SpecialInstance =
   | PrizeSpecial
   | ImportSpecial
   | ClubSpecial
-//  | DeductionSpecial
+  //  | DeductionSpecial
   | Special
 
 export interface SpecialActivity extends Activity {

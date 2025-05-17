@@ -1,40 +1,34 @@
 <script lang="ts" setup>
-import type {
-  ActivityMember,
-  ActivityInstance,
-  ActivityType,
-  Registration,
-  SpecialActivityClassification,
-  ActivityMode,
-  Special,
-  Activity,
-  CreateActivityType
-} from '@/../types'
-import { reactive, toRefs } from 'vue'
+import type { CreateActivityType } from '@/../types'
+import type { Activity, ActivityMember } from '@/../types/v2'
+import { reactive, ref, toRefs, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
 import {
-  ElFormItem,
-  ElForm,
-  ElInput,
-  ElSelect,
-  ElOption,
-  ElScrollbar,
-  ElDatePicker,
   ElButton,
   ElCard,
-  ElRow,
   ElCol,
+  ElDatePicker,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElOption,
+  ElRadio,
   ElRadioGroup,
-  ElRadio
+  ElRow,
+  ElScrollbar,
+  ElSelect
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
-import { watch, ref } from 'vue'
 import { ArrowLeft, ArrowRight, Location } from '@element-plus/icons-vue'
-import { ZActivityDetails, ZActivityMemberList, ZSelectPerson } from '@/components'
+import {
+  ZActivityDetails,
+  ZActivityMemberList,
+  ZSelectActivityMode,
+  ZSelectPerson
+} from '@/components'
 import api from '@/api'
 import { validateActivity } from './validation'
-import { generateActivity } from '@/utils/generate'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
@@ -52,59 +46,42 @@ const { type } = toRefs(props)
 
 const activePage = ref<'info' | 'member' | 'review'>('info')
 
-const activity = reactive<ActivityInstance | Activity>({
+const activity = reactive<Activity>({
   _id: '',
-  type: type.value === 'special' ? 'special' : ('' as unknown as ActivityType),
+  type: type.value === 'normal' ? ('' as unknown as Activity['type']) : 'hybrid',
   name: '',
   description: '',
-  members: [],
   date: '',
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: userStore._id,
   status: 'effective',
+  place: '',
+  appointee: userStore._id,
   approver: '',
-  special: {
-    classify: 'other' as SpecialActivityClassification
-  }
+  origin: '' as unknown as Activity['origin']
 })
 
-watch(() => activity.type, () => {
-  if (activity.type === 'special') {
-    activity.special = {
-      classify: '' as unknown as  SpecialActivityClassification
-    } as Special
-  } else {
-    activity.special = {
-      classify: 'other' as SpecialActivityClassification
-    }
-  }
-}, { immediate: true })
+const createdId = ref('')
 
 const token = localStorage.getItem('token')
 
 const approveStudent = ref('')
 
-const registration = reactive<Registration>({
-  place: ''
-})
+const members = reactive<ActivityMember[]>([])
 
-const modeMap = {
-  specified: 'on-campus',
-  social: 'off-campus',
-  scale: 'social-practice'
-} as Record<ActivityType, ActivityMode>
-
-const members = reactive<ActivityMember[]>([
-  {
-    _id: '',
-    status: 'effective',
-    mode: modeMap[activity.type],
-    duration: undefined as unknown as number
-  }
-])
-
-const classifyOfSpecial = ['prize', 'club', 'other'] as SpecialActivityClassification[]
+const origins = [
+  'labor',
+  'organization',
+  'tasks',
+  'occasions',
+  'import',
+  'activities',
+  'practice',
+  'club',
+  'prize',
+  'other'
+]
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 
@@ -112,8 +89,10 @@ watch(height, () => {
   scrollableCardHeight.value = (height.value - 64) * 0.6
 })
 
-function nextStep() {
+async function nextStep() {
   if (activePage.value === 'info') {
+    createdId.value = await api.activity.insert(activity)
+    activity._id = createdId.value
     activePage.value = 'member'
   } else if (activePage.value === 'member') {
     activePage.value = 'review'
@@ -121,75 +100,31 @@ function nextStep() {
 }
 
 function prevStep() {
-  if (activePage.value === 'member') {
-    activePage.value = 'info'
-  } else if (activePage.value === 'review') {
+  if (activePage.value === 'review') {
     activePage.value = 'member'
   }
 }
 
 async function submit() {
-  load.value = true
-  try {
-    await api.activity.insert(
-      activity,
-      activity.members,
-      registration,
-      activity.special,
-      approveStudent.value
-    )
-    load.value = false
-    await router.push(
-      '/activities/' +
-        (userStore.position.includes('admin') || userStore.position.includes('department')
-          ? 'campus'
-          : userStore.position.includes('secretary')
-          ? 'class'
-          : 'mine')
-    )
-  } finally {
-    load.value = false
-  }
+  await router.push(
+    '/activities/' +
+      (userStore.position.includes('admin') || userStore.position.includes('department')
+        ? 'campus'
+        : userStore.position.includes('secretary')
+        ? 'class'
+        : 'mine')
+  )
 }
 
 const validated = ref(false)
 
 watch(
-  () =>
-    generateActivity(
-      activity,
-      activity.members,
-      approveStudent.value,
-      registration,
-      activity.special
-    ),
+  () => activity,
   () => {
-    const act = generateActivity(
-      activity,
-      activity.members,
-      approveStudent.value,
-      registration,
-      activity.special
-    )
-    if (act !== null) {
-      validated.value = validateActivity(act, activePage.value)
-    }
+    validated.value = validateActivity(activity, activePage.value)
   },
   { deep: true, immediate: true }
 )
-
-watch(activePage, () => {
-  const act = generateActivity(
-    activity,
-    activity.members,
-    approveStudent.value,
-    registration,
-    activity.special
-  )
-  if (act !== null) {
-    validated.value = validateActivity(act, activePage.value)
-  }
-})
 </script>
 
 <template>
@@ -211,19 +146,12 @@ watch(activePage, () => {
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
             <ElFormItem
-              v-if="type !== 'special' && activePage === 'info'"
+              v-if="type !== 'special' && activity.type !== 'hybrid' && activePage === 'info'"
               :label="t('activity.form.type')"
               required
               prop="type"
             >
-              <ElSelect v-model="activity.type" class="full">
-                <ElOption
-                  v-for="type in ['specified', 'social', 'scale']"
-                  :key="type"
-                  :label="t('activity.type.' + type + '.short')"
-                  :value="type"
-                />
-              </ElSelect>
+              <ZSelectActivityMode v-model="activity.type" class="w-full" />
             </ElFormItem>
             <ElFormItem
               :label="t('activity.form.date')"
@@ -232,44 +160,32 @@ watch(activePage, () => {
               :rules="[{ required: true, message: t('validation.create.date.required') }]"
               v-if="activePage === 'info'"
             >
-              <ElDatePicker
-                v-if="activity.type !== 'specified'"
-                class="full"
-                style="width: 100%"
-                v-model="activity.date"
-              />
-              <ElDatePicker
-                v-else
-                class="full"
-                style="width: 100%"
-                v-model="activity.date"
-                type="datetime"
-              />
+              <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
             </ElFormItem>
             <ElFormItem
-              v-if="type === 'special' && activePage === 'info'"
-              :label="t('activity.special.classify.name')"
+              v-if="activePage === 'info'"
+              :label="t('activity.origins.name')"
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
-              <ElSelect v-model="activity.special.classify" class="full">
+              <ElSelect v-model="activity.origin" class="full">
                 <ElOption
-                  v-for="classify in classifyOfSpecial"
+                  v-for="classify in origins"
                   :key="classify"
-                  :label="t('activity.special.classify.' + classify)"
+                  :label="t('activity.origins.' + classify + '.name')"
                   :value="classify"
                 />
               </ElSelect>
             </ElFormItem>
             <ElFormItem
-              v-if="activity.type === 'specified' && activePage === 'info'"
+              v-if="activePage === 'info'"
               :label="t('activity.registration.location')"
-              prop="registration.place"
+              prop="place"
             >
-              <ElInput :prefix-icon="Location" v-model="registration.place" required />
+              <ElInput :prefix-icon="Location" v-model="activity.place" required />
             </ElFormItem>
             <ElFormItem
-              v-if="type === 'normal' && activePage === 'info'"
+              v-if="activePage === 'info'"
               required
               :label="t('activity.registration.approver')"
               style="width: 100%"
@@ -292,24 +208,15 @@ watch(activePage, () => {
             </ElFormItem>
             <ElFormItem
               :label="t('activity.form.person', members.length)"
-              :required="activity.type !== 'specified'"
               v-if="activePage === 'member'"
             >
               <div class="w-full" style="flex-grow: 1">
-                <ZActivityMemberList
-                  mode="card"
-                  local
-                  :activity="activity as unknown as ActivityInstance"
-                />
+                <ZActivityMemberList mode="card" :activity="activity as unknown as Activity" />
               </div>
             </ElFormItem>
             <ElFormItem label="Preview" v-if="activePage === 'review'" style="width: 100%">
               <div class="w-full" style="flex-grow: 1">
-              	<ZActivityDetails
-                	:activity="activity as unknown as ActivityInstance"
-                	mode="campus"
-                  local
-              	/>
+                <ZActivityDetails :activity="activity as unknown as Activity" mode="campus" />
               </div>
             </ElFormItem>
           </ElScrollbar>

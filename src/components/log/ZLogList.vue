@@ -5,11 +5,14 @@ import api from '@/api'
 import ZLogCard from '@/components/log/ZLogCard.vue'
 import { ElPagination, ElInput } from 'element-plus'
 
-const props = withDefaults(defineProps<{
-  user: string
-}>(), {
-  user: ''
-})
+const props = withDefaults(
+  defineProps<{
+    user: string
+  }>(),
+  {
+    user: ''
+  }
+)
 
 const { user } = toRefs(props)
 
@@ -22,7 +25,7 @@ const query2 = ref('')
 const amount = ref(0)
 
 async function refresh() {
-  const result = (await api.logs.read(page.value, perpage.value, query.value, user.value))
+  const result = await api.logs.read(page.value, perpage.value, query.value, user.value)
   logs.value = result?.data ?? []
   amount.value = result?.size ?? 0
 }
@@ -51,6 +54,4 @@ watch(query2, refresh)
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 import api from '@/api'
-import type { ActivityType } from '../../../types'
+import type { Activity } from '@/../types/v2'
 
 export async function getActivity(
   user: string,
@@ -8,17 +8,20 @@ export async function getActivity(
   perpage: number = 10,
   query: string = '',
   classid: string = '',
-  type: ActivityType | 'all' = 'all'
-) {
+  type: Activity['type'] | 'all' = 'all'
+): Promise<
+  | {
+      activities: Activity[]
+      total: number
+    }
+  | undefined
+> {
   if (mode === 'mine') {
-    const activities = await api.activity.read.mine(user, page, perpage, query)
-    return activities
+    return await api.activity.read.mine(user, page, perpage, query)
   } else if (mode === 'class') {
-    const activities = await api.activity.read.class(page, perpage, query, classid)
-    return activities
+    return await api.activity.read.class(page, perpage, query, classid)
   } else if (mode === 'campus') {
-    const activities = await api.activity.read.campus({ type }, page, perpage, query)
-    return activities
+    return await api.activity.read.campus({ type }, page, perpage, query)
   }
   // ...
 }

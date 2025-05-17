@@ -2,9 +2,7 @@ import { ElMessageBox } from 'element-plus'
 import api from '@/api'
 import i18n from '@/i18n'
 
-export function temporaryToken(
-  userid: string,
-): Promise<string> {
+export function temporaryToken(userid: string): Promise<string> {
   const locale = i18n.global.locale.value
   const locales = {
     'zh-CN': {
@@ -22,7 +20,7 @@ export function temporaryToken(
       cancel: 'Cancel',
       validation:
         'The password must contain uppercase and lowercase letters and numbers, and the length must be at least 8 characters. You should reset your password first if you have not done so.'
-    },
+    }
   }
   return new Promise((resolve, reject) => {
     ElMessageBox.prompt(locales[locale].message, locales[locale].title, {

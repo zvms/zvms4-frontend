@@ -154,7 +154,12 @@ function handleSelectionChange(val: string[]) {
         @selection-change="handleSelectionChange"
         :max-height="tableHeight"
       >
-        <ElTableColumn v-if="selectable" type="selection" :selectable="selectorCallback ?? ((row) => true)" reserve-selection />
+        <ElTableColumn
+          v-if="selectable"
+          type="selection"
+          :selectable="selectorCallback ?? ((row) => true)"
+          reserve-selection
+        />
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
         <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="group" :label="t('manage.groupDetails.userList.columns.group')">
@@ -236,7 +241,13 @@ function handleSelectionChange(val: string[]) {
             </div>
           </template>
           <template #default="{ row }">
-            <ElButton v-if="!selectable" text bg size="small" @click="router.push(`/user/${row._id}`)">
+            <ElButton
+              v-if="!selectable"
+              text
+              bg
+              size="small"
+              @click="router.push(`/user/${row._id}`)"
+            >
               {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>

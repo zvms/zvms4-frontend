@@ -1,20 +1,9 @@
 <script lang="ts" setup>
-import type {
-  ActivityInstance,
-  Activity,
-} from '@/../types'
+import type { ActivityInstance, Activity } from '@/../types'
 import { reactive } from 'vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
-import {
-  ElFormItem,
-  ElForm,
-  ElInput,
-  ElScrollbar,
-  ElCard,
-  ElUpload,
-  ElMessage
-} from 'element-plus'
+import { ElFormItem, ElForm, ElInput, ElScrollbar, ElCard, ElUpload, ElMessage } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { watch, ref } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
@@ -85,7 +74,9 @@ async function handleError(err: Error) {
                 class="w-full"
                 drag
                 :disabled="activity.name === ''"
-                :action="baseURL + `imports/activities?name=${activity.name}&desc=${activity.description}`"
+                :action="
+                  baseURL + `imports/activities?name=${activity.name}&desc=${activity.description}`
+                "
                 multiple
                 :headers="{
                   Authorization: `Bearer ${token}`
@@ -103,7 +94,9 @@ async function handleError(err: Error) {
                 <ElIcon class="el-icon--upload">
                   <UploadFilled />
                 </ElIcon>
-                <div class="el-upload__text">{{ t('manage.upload.prompt.black') }}<em>{{ t('manage.upload.prompt.em') }}</em></div>
+                <div class="el-upload__text">
+                  {{ t('manage.upload.prompt.black') }}<em>{{ t('manage.upload.prompt.em') }}</em>
+                </div>
                 <template #tip>
                   <div class="el-upload__tip">
                     {{ t('manage.upload.requirement') }}

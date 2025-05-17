@@ -4,17 +4,11 @@ import type {
   SpecialActivityClassification,
   ActivityMode,
   ActivityStatus,
-  MemberActivityStatus, CreateActivityType
+  MemberActivityStatus,
+  CreateActivityType
 } from '@/../types'
-import {
-  Vacation,
-  School,
-  CityGate,
-  Star,
-  Data,
-  Other,
-  Merge
-} from '@icon-park/vue-next'
+import type { Activity } from '@/../types/v2'
+import { Vacation, School, CityGate, Star, Data, Other, Merge } from '@icon-park/vue-next'
 import { memberActivityStatuses } from '@/icons/status'
 import { Trophy, Upload, User } from '@element-plus/icons-vue'
 import { LucideWorkflow } from '@/icons'
@@ -45,10 +39,14 @@ export default {
     'social-practice': {
       icon: Vacation,
       color: 'warning'
+    },
+    hybrid: {
+      icon: Star,
+      color: 'danger'
     }
-  } as Record<ActivityMode, IconAndColor>,
+  } as Record<Activity['type'], IconAndColor>,
   status: {
-    effective: memberActivityStatuses.effective,
+    effective: memberActivityStatuses.effective
   } as Record<ActivityStatus, IconAndColor>,
   type: {
     specified: {
@@ -71,7 +69,7 @@ export default {
   create: {
     normal: {
       color: 'primary',
-      icon: LucideWorkflow,
+      icon: LucideWorkflow
     },
     merge: {
       color: 'success',
@@ -86,24 +84,6 @@ export default {
       icon: Star
     }
   } as Record<CreateActivityType, IconAndColor>,
-  specials: {
-    prize: {
-      color: 'success',
-      icon: Trophy
-    },
-    import: {
-      color: 'warning',
-      icon: Data
-    },
-    club: {
-      color: 'primary',
-      icon: User
-    },
-    other: {
-      color: 'info',
-      icon: Other
-    }
-  } as Record<SpecialActivityClassification, IconAndColor>,
   member: memberActivityStatuses as Record<MemberActivityStatus, IconAndColor>
 } as Record<set, Record<typing, IconAndColor>>
 

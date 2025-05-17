@@ -87,7 +87,9 @@ async function refreshUser() {
           </ElDescriptionsItem>
         </ElDescriptions>
         <div v-if="user.position.includes('secretary')" class="py-4">
-          <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)"> {{ locale === 'en-US' ? 'Manage my class' : '管理班级' }} </ElButton>
+          <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)">
+            {{ locale === 'en-US' ? 'Manage my class' : '管理班级' }}
+          </ElButton>
         </div>
       </ElCard>
     </div>

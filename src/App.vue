@@ -57,15 +57,16 @@ async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
       'zh-CN': '为防止您的账号被盗，建议您修改密码以保护您的账号。',
-      'en-US': 'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
+      'en-US':
+        'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
     }
     const advice = {
       'zh-CN': '建议您重置密码',
-      'en-US': 'It is recommended that you reset your password',
+      'en-US': 'It is recommended that you reset your password'
     }
     const threaten = {
       'zh-CN': '您必须重置密码后才能继续使用本系统。',
-      'en-US': 'You must reset your password before you can continue to use this system.',
+      'en-US': 'You must reset your password before you can continue to use this system.'
     }
     await ElMessageBox({
       message: h(
@@ -108,7 +109,7 @@ resetPassword()
 
 useDark() //Only this can fix login page background flashing in dark mode
 
-if(!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
+if (!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
   router.push('/user/login')
 }
 
@@ -209,7 +210,7 @@ onMounted(() => {
 
 <template>
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
-    <ElAlert type="error" center :closable="true" v-if="offlineReady">
+    <ElAlert type="error" center :closable="true" v-if="offlineReady" class="hidden-print">
       <template #title>
         <ElIcon class="disconnected">
           <CarbonCloudOffline />
@@ -218,22 +219,12 @@ onMounted(() => {
         <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
       </template>
     </ElAlert>
-    <ElAlert type="warning" center :closable="true">
-      <template #title>
-        <ElIcon class="disconnected">
-          <Instruction />
-        </ElIcon>
-        <span class="text-lg px-1">Platform Maintenance | 平台维护</span>
-        <br />
-        <span class="text-sm px-1">From May 17th 18:00 to May 18th 12:00, the platform will be under maintenance, and functions such as volunteer registration and computation will be unavailable.
-          We will introduce some breaking change to the system, so you will be asked to update your platform immediately after the maintenance.
-          <br />
-          5 月 17 日 18:00 至 5 月 18 日 12:00，平台将进行维护，届时义工登记、计算分析等功能将无法使用。
-          我们将对系统进行一些重大更改，因此在维护后，您将被要求立即更新平台。
-        </span>
-      </template>
-    </ElAlert>
-    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3rem)'}">
+    <ElContainer
+      @contextmenu.prevent
+      class="bg-slate-100 dark:bg-gray-900"
+      direction="vertical"
+      :style="{ width: width + 'px', height: 'calc(' + height + 'px - 3rem)' }"
+    >
       <ElHeader>
         <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
           <ElCol :span="16">
@@ -290,14 +281,18 @@ onMounted(() => {
         <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
         <RouterView
           class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-          :style="{width: width + 'px', height: 'calc(' + height + 'px - 6.75rem)', boxSizing: 'border-box'}"
+          :style="{
+            width: width + 'px',
+            height: 'calc(' + height + 'px - 6.75rem)',
+            boxSizing: 'border-box'
+          }"
         />
       </ElContainer>
       <ElContainer class="full" v-else>
         <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
       </ElContainer>
       <ElFooter
-        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
+        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
       >
         <p class="text-center">
           &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
@@ -353,12 +348,20 @@ onMounted(() => {
   position: absolute;
   right: 0;
 }
-
 </style>
 
 <style>
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
+  .__vue-devtools-container__ {
+    display: none !important;
+  }
+}
+
 body {
-  transition-property: color,background-color !important;
+  transition-property: color, background-color !important;
   transition-duration: 1s !important;
 }
 
@@ -377,11 +380,12 @@ body {
   width: 100% !important;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -389,17 +393,19 @@ div[data-netlify-site-id] {
   display: none !important;
 }
 
-*, *:active, *:focus {
+*,
+*:active,
+*:focus {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  -webkit-focus-ring-color: rgba(0, 0, 0, 0)!important;
+  -webkit-focus-ring-color: rgba(0, 0, 0, 0) !important;
   outline: none !important;
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
 
 .z-wrap .el-form-item--default .el-form-item__content {
-    display: block;
-    overflow-wrap: break-word;
+  display: block;
+  overflow-wrap: break-word;
 }
 
 @media print {

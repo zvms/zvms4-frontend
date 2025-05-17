@@ -72,7 +72,8 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) => path.startsWith('/group') || path.startsWith('/user/') || path.startsWith('/manage')
+    judge: (path) =>
+      path.startsWith('/group') || path.startsWith('/user/') || path.startsWith('/manage')
   },
   {
     icon: InfoFilled,
@@ -85,10 +86,7 @@ const navs: Array<{
 
 function routeTo(page: string) {
   if (page === '/management') {
-    if (
-      user.position.includes('admin') ||
-      user.position.includes('department')
-    ) {
+    if (user.position.includes('admin') || user.position.includes('department')) {
       routeTo('/manage/groups')
     } else {
       routeTo(`/group/${user.class_id}/users`)

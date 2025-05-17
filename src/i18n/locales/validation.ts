@@ -8,7 +8,7 @@ export const enUS = {
       format: 'Date format is invalid.'
     },
     classify: {
-      required: 'Classify of special activity is required.'
+      required: 'Origin of activity is required.'
     },
     upload: {
       required: 'Upload is required.'
@@ -38,7 +38,7 @@ export const zhCN = {
       format: '日期格式不正确。'
     },
     classify: {
-      required: '特殊义工分类不能为空。'
+      required: '义工来源不能为空。'
     },
     upload: {
       required: '上传不能为空。'

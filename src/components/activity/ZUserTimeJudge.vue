@@ -9,6 +9,7 @@ import {
   ElSwitch,
   ElSpace,
   ElResult,
+  ElTooltip,
   ElSkeleton
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
@@ -18,6 +19,8 @@ import { ZActivityMemberTimeJudge } from '..'
 import { Refresh } from '@element-plus/icons-vue'
 import { TablerSum } from '@/icons'
 import api from '@/api'
+import { Certificate } from '@icon-park/vue-next'
+import { pad } from '@/plugins/ua.ts'
 
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
@@ -64,10 +67,11 @@ base.socialPractice = socialPractice.value
 async function getTime() {
   loading.value = true
   const result = await api.user.time.read(user.value)
+  console.log(result)
   if (result) {
-    base.onCampus = result.onCampus
-    base.offCampus = result.offCampus
-    base.socialPractice = result.socialPractice
+    base.onCampus = result['on-campus']
+    base.offCampus = result['off-campus']
+    base.socialPractice = result['social-practice']
     off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 25, 3) : 0)
     on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
     if (user.value === userStore._id) {
@@ -108,6 +112,27 @@ watch(
         </ElCol>
         <ElCol :span="12" style="text-align: right">
           <ElButton
+            v-if="!pad() && user === userStore._id"
+            type="primary"
+            :disabled="loading"
+            :icon="Certificate"
+            text
+            bg
+            round
+            @click="$router.push('/certification')"
+          >
+            Certificate
+          </ElButton>
+          <ElTooltip
+            v-else-if="user === userStore._id"
+            content="Log in via computers to obtain the certificate"
+          >
+            <ElButton disabled type="primary" :icon="Certificate" text bg round>
+              Unavailable
+            </ElButton>
+          </ElTooltip>
+          <ElDivider v-if="user === userStore._id" direction="vertical" />
+          <ElButton
             type="success"
             :disabled="loading"
             :icon="Refresh"
@@ -126,18 +151,22 @@ watch(
           <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />
           <ElDivider v-if="width < height" />
         </ElCol>
-        <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
+        <ElCol :span="2">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
         <ElCol :span="width < height ? 10 : 4">
           <ZActivityMemberTimeJudge type="on-campus" :realTime="on" />
           <ElDivider v-if="width < height" />
         </ElCol>
-        <ElCol v-if="width > height" :span="1"
-          ><ElDivider direction="vertical" class="height-full"
-        /></ElCol>
+        <ElCol v-if="width > height" :span="1">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
         <ElCol :span="width < height ? 10 : 4">
           <ZActivityMemberTimeJudge type="off-campus" :realTime="off" />
         </ElCol>
-        <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
+        <ElCol :span="2">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
         <ElCol v-if="width < height" :span="1" />
         <ElCol :span="width < height ? 8 : 4">
           <ElSpace direction="vertical">
@@ -149,7 +178,7 @@ watch(
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
     </ElCard>
-    <ElResult v-else type="error"> </ElResult>
+    <ElResult v-else type="error"></ElResult>
   </div>
 </template>
 
@@ -157,6 +186,7 @@ watch(
 .statistic {
   text-align: center;
 }
+
 .height-full {
   height: 100%;
 }

@@ -195,14 +195,29 @@ async function remoteFetchClass(search: string) {
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
         <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
-          <ElSelect v-if="mode === 'modify'" v-model="classGroupID" remote :remote-method="remoteFetchClass" filterable>
-            <ElOption v-for="group in classes" :key="group._id" :label="group.name" :value="group._id" />
+          <ElSelect
+            v-if="mode === 'modify'"
+            v-model="classGroupID"
+            remote
+            :remote-method="remoteFetchClass"
+            filterable
+          >
+            <ElOption
+              v-for="group in classes"
+              :key="group._id"
+              :label="group.name"
+              :value="group._id"
+            />
           </ElSelect>
           <span v-else>
-            {{ classes.find(x => x._id === classGroupID)?.name }}
+            {{ classes.find((x) => x._id === classGroupID)?.name }}
           </span>
         </ElFormItem>
-        <ElFormItem v-if="mode === 'modify'" :label="t('manage.groupDetails.userList.columns.permission')" required>
+        <ElFormItem
+          v-if="mode === 'modify'"
+          :label="t('manage.groupDetails.userList.columns.permission')"
+          required
+        >
           <ElCheckboxGroup v-model="permissionsID">
             <ElCheckbox v-for="group in permissions" :key="group._id" :label="group._id" border>
               {{ group.name }}
@@ -210,8 +225,27 @@ async function remoteFetchClass(search: string) {
           </ElCheckboxGroup>
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton class="px-4" v-if="mode === 'modify' && userStore.position.includes('admin') && id !== userStore._id" :icon="Delete" type="danger" @click="remove" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.remove') }}</ElButton>
-          <ElButton class="px-4" :icon="ArrowRight" type="primary" @click="submit" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.submit') }}</ElButton>
+          <ElButton
+            class="px-4"
+            v-if="mode === 'modify' && userStore.position.includes('admin') && id !== userStore._id"
+            :icon="Delete"
+            type="danger"
+            @click="remove"
+            text
+            bg
+            :loading="submission"
+            >{{ t('manage.groupDetails.userList.columns.remove') }}</ElButton
+          >
+          <ElButton
+            class="px-4"
+            :icon="ArrowRight"
+            type="primary"
+            @click="submit"
+            text
+            bg
+            :loading="submission"
+            >{{ t('manage.groupDetails.userList.columns.submit') }}</ElButton
+          >
         </div>
       </ElForm>
     </ElCard>

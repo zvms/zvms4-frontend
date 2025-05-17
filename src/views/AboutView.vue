@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import {
-  ElCard,
-  ElRow,
-  ElCol
-} from 'element-plus'
+import { ElCard, ElRow, ElCol } from 'element-plus'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
@@ -126,7 +122,6 @@ const collaborators = [
   }
 ] as Array<{ display: string; grade: number; name: string }>
 
-
 const V1List = ['neko_moyi', 'Zecyel', 'fpc5719', 'So1aric', 'solecour', 'dblark', '_Kerman', 'qnc']
 const V2List = ['qnc', '_Kerman', 'clc', '7086cmd']
 const V4List = ['7086cmd', 'Regir', 'Dignite', 'Zhang Zheheng']
@@ -142,7 +137,6 @@ const versions = [
 const v4ExtraMaintainers = ['2008-LXL', 'Zcraft_', 'ljj']
 
 const displayGitHubName = ref(props.showRealName)
-
 </script>
 <template>
   <div class="full px-4">
@@ -165,19 +159,15 @@ const displayGitHubName = ref(props.showRealName)
           <ElCol :span="12"
             ><p class="text-xl">{{ t('about.about.developers') }}</p></ElCol
           >
-          <ElCol :span="12" style="text-align: right">
-          </ElCol>
+          <ElCol :span="12" style="text-align: right"> </ElCol>
         </ElRow>
         <div class="px-8">
           <div class="py-2" v-for="(version, id) in versions" :key="id">
             {{ t('about.repository.version.0') }}
             v{{ id }}.x
             {{ t('about.repository.version.1') }}
-            <span
-              v-for="(collaborator, idx) in version.collaborators"
-              :key="idx"
-            >
-              {{ idx == 0 ? '' : ( locale === 'zh-CN' ? '，' : ',') }}
+            <span v-for="(collaborator, idx) in version.collaborators" :key="idx">
+              {{ idx == 0 ? '' : locale === 'zh-CN' ? '，' : ',' }}
               {{
                 displayGitHubName
                   ? collaborator
@@ -189,7 +179,7 @@ const displayGitHubName = ref(props.showRealName)
           <p class="pb-2">
             {{ t('about.repository.v4More.0') }}
             <span v-for="(collaborator, idx) in v4ExtraMaintainers">
-              {{ idx == 0 ? '' : ( locale === 'zh-CN' ? '，' : ',') }}
+              {{ idx == 0 ? '' : locale === 'zh-CN' ? '，' : ',' }}
               {{
                 displayGitHubName
                   ? collaborator

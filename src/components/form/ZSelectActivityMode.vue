@@ -7,7 +7,9 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const props = defineProps<{ modelValue: ActivityMode; allow?: ActivityMode[] }>()
+const props = withDefaults(defineProps<{ modelValue: ActivityMode; allow?: ActivityMode[] }>(), {
+  allow: () => ['on-campus', 'off-campus', 'social-practice']
+})
 const emits = defineEmits<{
   (e: 'update:modelValue', value: ActivityMode): void
 }>()

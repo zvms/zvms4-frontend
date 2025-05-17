@@ -23,10 +23,7 @@ export function permissions(positions: UserPosition[]) {
     return result
   }
   function specialManagement(positions: UserPosition[]) {
-    const result =
-      positions.includes('admin') || positions.includes('department')
-        ? true
-        : false
+    const result = positions.includes('admin') || positions.includes('department') ? true : false
     return result
   }
   const insert = {

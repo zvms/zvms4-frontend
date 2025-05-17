@@ -50,7 +50,12 @@ async function ipLookup() {
         </ElFormItem>
         <ElFormItem label="IP">
           {{ log.ip }}
-          <ElPopover v-if="!pad() && log.ip !== '127.0.0.1'" @before-enter="ipLookup" v-loading="loadingLookup" width="384px">
+          <ElPopover
+            v-if="!pad() && log.ip !== '127.0.0.1'"
+            @before-enter="ipLookup"
+            v-loading="loadingLookup"
+            width="384px"
+          >
             <template #reference>
               <ElButton text bg round size="small" class="px-2">Lookup</ElButton>
             </template>
@@ -78,8 +83,18 @@ async function ipLookup() {
         </ElFormItem>
         <ElFormItem label="Clarity" v-if="log.clarity">
           {{ log.clarity }}
-          <ElButton v-if="!pad()" text bg round size="small" class="px-2" tag="a" target="_blank" :href="`https://clarity.microsoft.com/projects/view/jwc2tctpr3/impressions?UserId=is%3B${log.clarity}&date=Last%203%20days`">
-          Track
+          <ElButton
+            v-if="!pad()"
+            text
+            bg
+            round
+            size="small"
+            class="px-2"
+            tag="a"
+            target="_blank"
+            :href="`https://clarity.microsoft.com/projects/view/jwc2tctpr3/impressions?UserId=is%3B${log.clarity}&date=Last%203%20days`"
+          >
+            Track
           </ElButton>
         </ElFormItem>
         <ElFormItem label="URL">

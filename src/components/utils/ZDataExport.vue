@@ -17,7 +17,7 @@ import { useI18n } from 'vue-i18n'
 import 'dayjs/locale/zh-cn'
 
 const props = defineProps<{
-  type: 'time' | 'users' | 'activities',
+  type: 'time' | 'users' | 'activities'
   modelValue: boolean
 }>()
 const emits = defineEmits(['update:modelValue'])
@@ -35,7 +35,8 @@ function getDateExpression(date: Dayjs) {
 }
 
 function getFileName(range: [Dayjs?, Dayjs?]) {
-  const dateMark = (range[0] && range[1]) ? `${getDateExpression(range[0])}–${getDateExpression(range[1])}` : ''
+  const dateMark =
+    range[0] && range[1] ? `${getDateExpression(range[0])}–${getDateExpression(range[1])}` : ''
   return locale.value === 'zh-CN' ? `${dateMark}数据导出` : `Export data of ${dateMark}`
 }
 
@@ -132,7 +133,9 @@ async function download() {
           v-model="range"
           class="w-full"
           type="datetimerange"
-          @blur="name = getFileName(range.map(x => x ? dayjs(x) : undefined) as [Dayjs?, Dayjs?])"
+          @blur="
+            name = getFileName(range.map((x) => (x ? dayjs(x) : undefined)) as [Dayjs?, Dayjs?])
+          "
           :range-separator="t('manage.exports.range.to')"
           :start-placeholder="t('manage.exports.range.start')"
           :end-placeholder="t('manage.exports.range.end')"
@@ -170,7 +173,7 @@ async function download() {
     </ElText>
     <ElProgress
       v-if="taskID"
-      :percentage="(status === 'pending' || percentage <= 10) ? 100 : percentage"
+      :percentage="status === 'pending' || percentage <= 10 ? 100 : percentage"
       :indeterminate="status === 'pending' || percentage <= 10"
       :duration="3"
       :status="color"

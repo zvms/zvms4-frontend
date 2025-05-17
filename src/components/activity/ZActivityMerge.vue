@@ -26,9 +26,9 @@ const { t } = useI18n()
 const user = useUserStore()
 const { height } = useWindowSize()
 const dark = useDark()
-const { router } = useRouter()
+const router = useRouter()
 
-const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
+const typesOfActivity = ref<ActivityType[]>(['on-campus', 'off-campus', 'social-practice'])
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -63,7 +63,8 @@ async function mergeActivity() {
     <ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
-          <ElFormItem :label="t('manage.merge.form.name')"
+          <ElFormItem
+            :label="t('manage.merge.form.name')"
             required
             :rules="[{ required: true, message: t('validation.create.name.required') }]"
           >
@@ -116,7 +117,9 @@ async function mergeActivity() {
           </ElFormItem>
         </ElScrollbar>
         <div style="text-align: right" class="py-2">
-          <ElButton text bg type="primary" @click="mergeActivity">{{ t('manage.merge.form.action') }}</ElButton>
+          <ElButton text bg type="primary" @click="mergeActivity">{{
+            t('manage.merge.form.action')
+          }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

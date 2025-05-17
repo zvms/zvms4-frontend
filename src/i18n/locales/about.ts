@@ -3,7 +3,8 @@ export const enUS = {
     project: 'About ZVMS',
     developers: 'About Developers'
   },
-  footer: 'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
+  footer:
+    'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
   license: 'MIT Licensed',
   repository: {
     license: 'License',

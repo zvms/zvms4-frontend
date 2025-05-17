@@ -50,9 +50,7 @@ const panes = [
     value: 'campus',
     color: 'danger',
     icon: School,
-    visibility:
-      user.position.includes('department') ||
-      user.position.includes('admin')
+    visibility: user.position.includes('department') || user.position.includes('admin')
   }
 ] as Array<{
   value: string
@@ -98,6 +96,6 @@ function moveTo(type: string) {
         </ElSpace>
       </Transition>
     </div>
-    <ZActivityList class="mx-12" :role="tab":key="tab" />
+    <ZActivityList class="mx-12" :role="tab" :key="tab" />
   </div>
 </template>

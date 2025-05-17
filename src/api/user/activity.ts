@@ -1,38 +1,26 @@
 import axios from '@/plugins/axios'
 import type { ActivityInstance, Response } from '@/../types'
 import { ElNotification } from 'element-plus'
+import type { Activity } from '../../../types/activity.v2'
 
 async function getUserActivities(
   id: string,
   page: number = 1,
   perpage: number = 10,
-  query: string = ''
+  search: string = ''
 ) {
-  const result = (
-    await axios(`/users/${id}/activities`, {
+  return (
+    await axios(`/v2/users/${id}/activities`, {
       method: 'get',
       params: {
         page,
         perpage,
-        query
+        search
       }
     })
-  ).data as Response<ActivityInstance[]> & {
-    metadata: {
-      size: number
-    }
-  }
-  if (result.status === 'error') {
-    ElNotification({
-      title: `Error in getting activity list (${result.code})`,
-      message: result.message,
-      type: 'error'
-    })
-    return
-  }
-  return {
-    data: result.data,
-    size: result.metadata.size
+  ).data as {
+    activities: Activity[]
+    total: number
   }
 }
 

@@ -8,7 +8,7 @@ import {
   ElRow,
   ElCol,
   ElCard,
-  ElMessageBox,
+  ElMessageBox
 } from 'element-plus'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -52,9 +52,11 @@ async function login() {
     loading.value = false
     return
   }
-  const users = (await api.user.read(user.value).catch(() => {
-    loading.value = false
-  }))?.users
+  const users = (
+    await api.user.read(user.value).catch(() => {
+      loading.value = false
+    })
+  )?.users
   if (users?.length !== 1) {
     await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
       type: 'error'
@@ -72,7 +74,6 @@ async function login() {
 watch(user, async () => {
   await loginfield.value.validate()
 })
-
 </script>
 
 <template>
@@ -92,7 +93,16 @@ watch(user, async () => {
       </ElRow>
       <ElForm ref="loginfield" label-position="right" label-width="96px">
         <ElFormItem :label="t('nav.login.form.account')" prop="id" class="py-1">
-          <ElInput v-model.number="user" :minlength="8" :maxlength="8" clearable type="number" class="w-full" :min="8" :max="8" />
+          <ElInput
+            v-model.number="user"
+            :minlength="8"
+            :maxlength="8"
+            clearable
+            type="number"
+            class="w-full"
+            :min="8"
+            :max="8"
+          />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">
           <ElInput

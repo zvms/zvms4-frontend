@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { ActivityMode } from '@/../types'
-import { Vacation, School, CityGate } from '@icon-park/vue-next'
+import type { Activity } from '@/../types/v2'
+import { Vacation, School, CityGate, Star } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { ZButtonTag } from '@/components'
 import { useI18n } from 'vue-i18n'
@@ -19,7 +19,7 @@ const targetsOfDuration = {
 
 const props = withDefaults(
   defineProps<{
-    mode?: ActivityMode
+    mode?: Activity['type']
     size?: 'large' | 'default' | 'small'
     force?: 'full' | 'short'
     bg?: boolean
@@ -43,7 +43,11 @@ const timeOfMine = {
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)
 
 const percentOfMine = ref(
-  mode?.value ? Math.floor((timeOfMine[mode?.value] / targetsOfDuration[mode?.value]) * 100) : 0
+  mode?.value
+    ? mode.value !== 'hybrid'
+      ? Math.floor((timeOfMine[mode?.value] / targetsOfDuration[mode?.value]) * 100)
+      : 0
+    : 0
 )
 
 if (percentOfMine.value > 100) {
@@ -51,10 +55,10 @@ if (percentOfMine.value > 100) {
 }
 
 const modes: Record<
-  ActivityMode,
+  Activity['type'],
   {
     icon: VueComponent
-    color: 'primary' | 'warning' | 'success'
+    color: 'primary' | 'warning' | 'success' | 'danger'
   }
 > = {
   'on-campus': {
@@ -68,6 +72,10 @@ const modes: Record<
   'social-practice': {
     icon: Vacation,
     color: 'warning'
+  },
+  hybrid: {
+    icon: Star,
+    color: 'danger'
   }
 }
 </script>
@@ -77,12 +85,13 @@ const modes: Record<
     :title="t(`activity.mode.${mode}.name`)"
     :width="160"
     :trigger="showMyDuration || showProperties ? 'hover' : 'contextmenu'"
+    v-if="mode !== 'hybrid'"
   >
     <template #reference>
       <ZButtonTag
         :size="size ?? 'small'"
-        :type="modes[mode as ActivityMode].color"
-        :icon="modes[mode as ActivityMode].icon"
+        :type="modes[mode].color"
+        :icon="modes[mode].icon"
         :unknown="!mode || !(mode in modes)"
         :force="force"
         :bg="bg"
@@ -106,4 +115,7 @@ const modes: Record<
       </ElCol>
     </ElRow>
   </ElPopover>
+  <ZButtonTag v-else :size="size ?? 'small'" type="danger" :icon="Star" :force="force" :bg="bg">
+    {{ t(`activity.mode.hybrid.short`) }}
+  </ZButtonTag>
 </template>

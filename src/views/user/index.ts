@@ -51,7 +51,7 @@ const locales: Record<
       message: 'Please input the new password again',
       inputErrorMessage: 'Password not match'
     }
-  },
+  }
 }
 
 export async function modifyPasswordDialogs(

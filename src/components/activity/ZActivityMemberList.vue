@@ -5,10 +5,9 @@ import {
   ZActivityDuration,
   ZInputDuration,
   ZSelectActivityMode,
-  ZSelectPerson,
-  ZActivityCard
+  ZSelectPerson
 } from '@/components'
-import type { ActivityMember, ActivityInstance, ActivityMode, User } from '@/../types'
+import type { ActivityMember, Activity, User } from '@/../types/v2'
 import { toRefs, watch } from 'vue'
 import { User as IconUser, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -20,7 +19,8 @@ import {
   ElPopconfirm,
   ElPagination,
   ElPopover,
-  ElDivider
+  ElDivider,
+  ElMessage
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ref } from 'vue'
@@ -42,63 +42,62 @@ watch(height, () => {
 
 const props = withDefaults(
   defineProps<{
-    activity: ActivityInstance
+    activity: Activity
+    membersCount: number
     mode?: 'button' | 'card'
     wholesale?: boolean
-    local?: boolean
   }>(),
   {
     mode: 'button',
-    wholesale: false,
-    local: false
+    wholesale: false
   }
 )
 const emits = defineEmits<{
   refresh: []
 }>()
 
-const { activity, mode, wholesale, local } = toRefs(props)
+const { activity, mode, wholesale, membersCount } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
 const addedUsers = ref<User[]>([])
-const useless = ref(1)
+const page = ref(1)
+const perpage = ref(10)
+const search = ref('')
+const size = ref(membersCount.value)
+const pageLoading = ref(false)
 
-// Add 5 member of the activity at first
-
-members.value.push(...activity.value.members.slice(0, 5))
-
-function scroll() {
-  // Then add two members if available when touch bottom
-  if (members.value.length < activity.value.members.length) {
-    members.value.push(
-      ...activity.value.members.slice(members.value.length, members.value.length + 2)
-    )
-  }
+async function refreshMembers() {
+  pageLoading.value = true
+  const { members: members_result, total } = await api.activity.member.reads(
+    activity.value._id,
+    page.value,
+    perpage.value,
+    search.value
+  )
+  console.log(members_result, total)
+  members.value = members_result
+  size.value = total
+  pageLoading.value = false
 }
 
-function getMode(): ActivityMode {
-  if (activity.value.type.toString() === '') return '' as unknown as ActivityMode
-  if (activity.value.type === 'specified') return 'on-campus'
-  if (activity.value.type === 'social') return 'off-campus'
-  if (activity.value.type === 'scale') return 'social-practice'
-  return 'on-campus'
-}
+refreshMembers()
 
 const appendingDuration = ref(0)
-const appendingMode = ref(getMode())
+const appendingMode = ref(activity.value.type === 'hybrid' ? '' : activity.value.type)
 
-function getAllowed(): ActivityMode[] {
+function getAllowed(): Activity['type'][] {
   if (activity.value.type.toString() === '') return []
-  if (activity.value.type !== 'special') return [getMode()]
-  if (activity.value.special.classify === 'prize' || activity.value.special.classify === 'club')
-    return ['on-campus', 'off-campus']
+  if (activity.value.type !== 'hybrid') return [appendingMode.value as Activity['type']]
+  if (activity.value.origin === 'prize') return ['on-campus', 'off-campus']
   return ['on-campus', 'off-campus', 'social-practice']
 }
 
 const appending = ref<ActivityMember>({
   _id: '',
+  member: '',
+  activity: activity.value._id,
   duration: undefined as unknown as number,
-  mode: getMode(),
+  mode: appendingMode.value as unknown as ActivityMember['mode'],
   status: 'effective'
 })
 
@@ -109,106 +108,84 @@ const selectedClassID = ref('')
 
 const memberFunctions = {
   async add() {
-    if (local.value) {
-      activity.value.members.push({
-        _id: appending.value._id.toString(),
-        status: 'effective',
-        duration: appending.value.duration,
-        mode: appending.value.mode
-      })
-    } else {
-      await api.activity.member.insert(activity.value._id, appending.value)
-    }
+    await api.activity.member.insert(activity.value._id, appending.value)
+    appending.value.member = ''
     appending.value._id = ''
-    appending.value.duration = activity.value.members
-      .map((x) => x.duration)
-      .some((x) => x)
-      ? Math.round(
-          activity.value.members.map((x) => x.duration).reduce((a, b) => a + b) /
-            activity.value.members.length
-        )
-      : 0
-    showAddPopover.value = false
+    appending.value.duration = undefined as unknown as number
+    await refreshMembers()
   },
   async remove(id: string) {
     modified.value = true
     loading.value = id
-    if (activity.value.members.length === 1 && !local.value) {
-      await api.activity.deleteOne(activity.value._id, user._id).catch(() => {
-        loading.value = ''
-      })
-      emits('refresh')
-      return
-    }
-    if (local.value) {
-      activity.value.members = activity.value.members.filter((member) => member._id !== id)
+    await api.activity.member.remove(id, activity.value._id, user._id).catch(() => {
       loading.value = ''
-      return
-    }
-    await api.activity.member
-      .remove(id, activity.value._id, user._id)
-      .then(() => {
-        activity.value.members = activity.value.members.filter((member) => member._id !== id)
-      })
-      .catch(() => {
-        loading.value = ''
-      })
+    })
     loading.value = ''
+    await refreshMembers()
   }
 }
 
 watch(open, () => {
-  if (open.value) modified.value = false
+  refreshMembers()
+  if (open.value) {
+    modified.value = false
+  }
   if (!open.value && modified.value) emits('refresh')
   if (!open.value) showAddPopover.value = false
 })
 
-const active = ref(1)
-const size = ref(5)
 const show = ref(false)
 
 show.value = true
-
-watch(active, () => {
-  const members = activity.value.members
-  activity.value.members = []
-  activity.value.members = members
-})
 
 async function addMembers() {
   modified.value = true
   loading.value = 'add'
   const pipeline = addedUsers.value.map(async (mem) => {
     const adding = {
-      _id: mem._id.toString(),
+      _id: '',
+      member: mem._id.toString(),
+      activity: activity.value._id,
       status: 'effective',
       duration: appendingDuration.value,
       mode: appendingMode.value
     } as ActivityMember
-    if (!local.value) {
-      return await api.activity.member.insert(activity.value._id, adding)
-    }
-    return activity.value.members.push(adding)
+    return await api.activity.member.insert(activity.value._id, adding)
   })
-  await Promise.all(pipeline)
+  const results = await Promise.allSettled(pipeline)
+
+  const successCount = results.filter((r) => r.status === 'fulfilled').length
+  const failureCount = results.length - successCount
+  ElMessage({
+    message:
+      'Handled ' +
+      results.length +
+      ' members, ' +
+      successCount +
+      ' succeeded, ' +
+      failureCount +
+      ' failed',
+    type: 'success',
+    plain: true
+  })
   showAddPopover.value = false
   openBatchImportWindow.value = false
   loading.value = ''
+  await refreshMembers()
 }
 
 function selectorCallback(row: User) {
   return (
     (user.position.includes('admin') || user.position.includes('department')
       ? true
-      : row.group.filter((x) => x == user.class_id).length > 0) &&
-    activity.value.members.filter((x) => x._id == row._id).length == 0
+      : row.groups.filter((x) => x == user.class_id).length > 0) &&
+    members.value.filter((x) => x._id == row._id).length == 0
   )
 }
 
-watch(showAddPopover, () => {
-  addedUsers.value = []
-  useless.value = useless.value + 1
-})
+watch(page, refreshMembers)
+watch(perpage, refreshMembers)
+watch(search, refreshMembers)
 </script>
 
 <template>
@@ -221,23 +198,17 @@ watch(showAddPopover, () => {
     :icon="IconUser"
     round
     type="danger"
+    :button-loading="pageLoading"
+    @click="refreshMembers"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
-    <template #text>
-      {{ activity.members.length }} {{ t('activity.units.person', activity.members.length) }}
-    </template>
+    <template #text> {{ size }} {{ t('activity.units.person', membersCount) }} </template>
     <template #default>
       <div v-if="show">
-        <ElTable
-          :data="
-            activity.members.filter((x, idx) => idx < active * size && idx >= (active - 1) * size)
-          "
-          stripe
-          :height="max"
-        >
-          <ElTableColumn v-infinite-scroll="scroll" prop="_id" :label="t('activity.member.name')">
+        <ElTable :data="members" stripe :height="max" v-loading="pageLoading">
+          <ElTableColumn prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
-              <ZActivityMember :id="scope.row._id" />
+              <ZActivityMember :id="scope.row.member" />
             </template>
           </ElTableColumn>
           <ElTableColumn prop="duration" :label="t('activity.form.duration')">
@@ -246,8 +217,7 @@ watch(showAddPopover, () => {
                 v-model:duration="scope.row.duration"
                 :mode="scope.row.mode"
                 :id="activity._id"
-                :uid="scope.row._id"
-                :local="local"
+                :uid="scope.row.member"
               />
             </template>
           </ElTableColumn>
@@ -368,7 +338,7 @@ watch(showAddPopover, () => {
                   <ElFormItem :label="t('activity.batch.manual.member')">
                     <ZSelectPerson
                       full-width
-                      v-model="appending._id"
+                      v-model="appending.member"
                       :filter-start="6"
                     ></ZSelectPerson>
                   </ElFormItem>
@@ -388,10 +358,12 @@ watch(showAddPopover, () => {
                     </ElButton>
                     <ElButton
                       :disabled="
-                        appending._id === '' ||
+                        appending.member === '' ||
                         appending.duration <= 0 ||
                         appending.duration > 18 ||
-                        activity.members.find((x) => x._id === appending._id) !== undefined
+                        members.find(
+                          (x) => x._id === appending.member && x.mode === appending.mode
+                        ) !== undefined
                       "
                       text
                       bg
@@ -433,12 +405,12 @@ watch(showAddPopover, () => {
           </ElTableColumn>
         </ElTable>
       </div>
-      <div class="py-2 text-center" v-if="activity.members.length !== 0">
+      <div class="py-2 text-center" v-if="size !== 0">
         <ElPagination
-          v-model:current-page="active"
-          v-model:page-size="size"
+          v-model:current-page="page"
+          v-model:page-size="perpage"
           :pager-count="3"
-          :total="activity.members.length"
+          :total="size"
           layout="total, prev, pager, next, sizes, jumper"
           background
           :page-sizes="[3, 5, 8, 10]"
