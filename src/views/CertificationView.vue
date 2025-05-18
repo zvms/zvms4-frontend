@@ -53,9 +53,9 @@ const times = reactive({
 
 api.user.time.read(user._id).then((result) => {
   if (result) {
-    times.onCampus = result.onCampus
-    times.offCampus = result.offCampus
-    times.total = result.onCampus + result.offCampus + result.socialPractice
+    times.onCampus = result['on-campus']
+    times.offCampus = result['off-campus']
+    times.total = result['on-campus'] + result['off-campus'] + result['social-practice']
   }
 })
 
