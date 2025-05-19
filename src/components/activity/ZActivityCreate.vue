@@ -55,7 +55,7 @@ const activity = reactive<Activity>({
   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
   creator: userStore._id,
-  status: 'effective',
+  status: 'pending',
   place: '',
   appointee: userStore._id,
   approver: '',
@@ -90,12 +90,25 @@ watch(height, () => {
 })
 
 async function nextStep() {
+
   if (activePage.value === 'info') {
     createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
     activePage.value = 'member'
   } else if (activePage.value === 'member') {
     activePage.value = 'review'
+  } else if (activePage.value === 'review') {
+    if (checkReviewAllowed()) {
+      await api.activity.update.status(createdId.value, 'effective')
+    }
+    await router.push(
+      '/activities/' +
+      (userStore.position.includes('admin') || userStore.position.includes('department')
+        ? 'campus'
+        : userStore.position.includes('secretary')
+          ? 'class'
+          : 'mine')
+    )
   }
 }
 
@@ -103,17 +116,6 @@ function prevStep() {
   if (activePage.value === 'review') {
     activePage.value = 'member'
   }
-}
-
-async function submit() {
-  await router.push(
-    '/activities/' +
-      (userStore.position.includes('admin') || userStore.position.includes('department')
-        ? 'campus'
-        : userStore.position.includes('secretary')
-        ? 'class'
-        : 'mine')
-  )
 }
 
 const validated = ref(false)
@@ -125,6 +127,20 @@ watch(
   },
   { deep: true, immediate: true }
 )
+
+function checkReviewAllowed() {
+  if (userStore.position.includes("admin")) {
+    return true
+  }
+  if (userStore.position.includes("department")) {
+    if (activity.approver === "authority") {
+      return true
+    } else {
+      return userStore._id == activity.approver
+    }
+  }
+  return false
+}
 </script>
 
 <template>
@@ -215,11 +231,25 @@ watch(
               </div>
             </ElFormItem>
             <ElFormItem label="Preview" v-if="activePage === 'review'" style="width: 100%">
+              <p class="text-center text-xl py-6">
+                {{ t('activity.creating_guide.check.created') }}
+              </p>
               <div class="w-full" style="flex-grow: 1">
                 <ZActivityDetails :activity="activity as unknown as Activity" mode="campus" />
               </div>
+              <p class="py-6">
+                <span v-if="checkReviewAllowed()">
+                  {{ t('activity.creating_guide.check.allowed') }}
+                </span>
+                <span v-else>
+                  {{ t('activity.creating_guide.check.disallowed') }}
+                </span>
+              </p>
             </ElFormItem>
           </ElScrollbar>
+          <span class="text-sm text-gray-500 dark:text-gray-300 px-16" v-if="activePage === 'info'">
+            {{ t('activity.creating_guide.info.next') }}
+          </span>
           <div class="actions text-right pt-2">
             <ElButton
               v-if="activePage !== 'info'"
@@ -232,27 +262,15 @@ watch(
               {{ t('activity.batch.steps.prev') }}
             </ElButton>
             <ElButton
-              v-if="activePage !== 'review'"
               :disabled="!validated"
               type="primary"
               :icon="ArrowRight"
+              :loading="load"
               text
               bg
               @click="nextStep"
             >
               {{ t('activity.batch.steps.next') }}
-            </ElButton>
-            <ElButton
-              v-if="activePage === 'review'"
-              type="primary"
-              :icon="ArrowRight"
-              text
-              bg
-              @click="submit"
-              :loading="load"
-              :disabled="!validated"
-            >
-              {{ t('activity.form.actions.submit') }}
             </ElButton>
           </div>
         </ElForm>

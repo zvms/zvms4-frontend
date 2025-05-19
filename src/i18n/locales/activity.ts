@@ -220,6 +220,19 @@ export const enUS = {
       name: 'Other',
       description: 'Activities that do not fall under any predefined category.'
     }
+  },
+  creating_guide: {
+    info: {
+      next: 'By clicking "Next," you will directly register the activity, and modify the member list in the next page. Please ensure that the information is accurate and complete.'
+    },
+    check: {
+      created: 'Activity created. The activity will be reviewed next.',
+      allowed:
+        'Please review the activity carefully. If it requires an application form, link it using the Form ID (if available). The form must be signed by both the student and the supervising teacher, with full names and final confirmation for volunteer credit.',
+      disallowed:
+        'You do not have permission to review this activity. It will be evaluated by the responsible members in the Department of Practice. Please wait patiently; you will be notified once the review is complete.'
+    },
+    print: 'You can print the system-generated application form by clicking the "Print" button. However, we recommend using the official template and filling it out manually.'
   }
 }
 
@@ -438,5 +451,18 @@ export const zhCN = {
       name: '其他义工',
       description: '不属于任何预定义类别的活动。'
     }
+  },
+  creating_guide: {
+    info: {
+      next: '点击「下一步」将直接注册义工，成员列表在下一页修改，请确保信息准确完整。'
+    },
+    check: {
+      created: '创建已完成，接下来将对该义工进行审核。',
+      allowed:
+        '请仔细检查义工信息，如果需要申请表，请链接表单 ID（若有）。表单必须由学生和相关老师签字，姓名完整，最终确认发放时间。',
+      disallowed:
+        '您没有权限审核此义工。它将由实践部的负责成员进行评估。请耐心等待，审核完成后会通知您。'
+    },
+    print: '您可以通过点击「打印」按钮打印系统生成的申请表，但我们建议使用官方模板并手动填写。'
   }
 }

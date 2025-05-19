@@ -9,7 +9,7 @@ export async function users(
   pwdm: boolean = false
 ) {
   const response = (
-    await axios(`/groups/${gid}/user`, {
+    await axios(`/v2/groups/${gid}/users`, {
       params: {
         page,
         perpage,
@@ -17,17 +17,13 @@ export async function users(
         pwdm
       }
     })
-  ).data as Response<User[]> & { metadata: { size: number } }
-  if (response.status === 'ok') {
-    return {
-      users: response.data,
-      size: response.metadata.size
-    }
-  } else {
-    return {
-      users: [],
-      size: 0
-    }
+  ).data as {
+    members: User[],
+    total: number
+  }
+  return {
+    users: response.members,
+    size: response.total
   }
 }
 
@@ -40,7 +36,7 @@ export async function time(
   shortage: boolean = false
 ) {
   const response = (
-    await axios(`/groups/${gid}/time`, {
+    await axios(`/v2/groups/${gid}/time`, {
       params: {
         page,
         perpage,
@@ -49,25 +45,19 @@ export async function time(
         search
       }
     })
-  ).data as Response<
-    {
+  ).data as {
+    members: {
       _id: string
       name: string
       id: string
       'on-campus': number
       'off-campus': number
       'social-practice': number
-    }[]
-  > & { metadata: { size: number } }
-  if (response.status === 'ok') {
-    return {
-      time: response.data,
-      size: response.metadata.size
-    }
-  } else {
-    return {
-      time: [],
-      size: 0
-    }
+    }[],
+    total: number
+  }
+  return {
+    time: response.members,
+    size: response.total
   }
 }
