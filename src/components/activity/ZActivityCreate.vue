@@ -90,7 +90,7 @@ watch(height, () => {
 })
 
 async function nextStep() {
-
+  load.value = true
   if (activePage.value === 'info') {
     createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
@@ -110,6 +110,7 @@ async function nextStep() {
           : 'mine')
     )
   }
+  load.value = false
 }
 
 function prevStep() {

@@ -6,7 +6,9 @@ async function getClassActivities(
   page: number = 1,
   perpage: number = 10,
   search: string = '',
-  classid: string = ''
+  classid: string = '',
+  sort: string = '_id',
+  asc: boolean = false
 ) {
   return (
     await axios(`/v2/groups/${classid}/activities`, {
@@ -14,7 +16,9 @@ async function getClassActivities(
         page,
         perpage,
         search,
-        classid
+        classid,
+        sort,
+        asc
       }
     })
   ).data as {
@@ -29,7 +33,9 @@ async function getAllActivities(
   },
   page: number = 1,
   perpage: number = 10,
-  search: string = ''
+  search: string = '',
+  sortField: string = '_id',
+  ascending: boolean = false,
 ) {
   return (
     await axios('/v2/activities', {
@@ -38,7 +44,9 @@ async function getAllActivities(
         activity_type: filter.type,
         page,
         perpage,
-        search
+        search,
+        sort: sortField,
+        asc: ascending
       }
     })
   ).data as {
@@ -60,10 +68,18 @@ const exports = {
     filter: { type: Activity['type'] | 'all' },
     page: number = 1,
     perpage: number = 10,
-    query: string = ''
-  ) => getAllActivities(filter, page, perpage, query),
-  class: (page: number = 1, perpage: number = 10, query: string = '', classid: string = '') =>
-    getClassActivities(page, perpage, query, classid),
+    query: string = '',
+    sortField: string = '_id',
+    ascending: boolean = false
+  ) => getAllActivities(filter, page, perpage, query, sortField, ascending),
+  class: (
+    page: number = 1,
+    perpage: number = 10,
+    query: string = '',
+    classid: string = '',
+    sortField: string = '_id',
+    ascending: boolean = false
+  ) => getClassActivities(page, perpage, query, classid, sortField, ascending),
   mine,
   single: (id: string) => getActivity(id)
 }

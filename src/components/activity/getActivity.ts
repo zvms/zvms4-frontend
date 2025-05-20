@@ -8,7 +8,9 @@ export async function getActivity(
   perpage: number = 10,
   query: string = '',
   classid: string = '',
-  type: Activity['type'] | 'all' = 'all'
+  type: Activity['type'] | 'all' = 'all',
+  sortField: string = '_id',
+  ascending: boolean = false,
 ): Promise<
   | {
       activities: Activity[]
@@ -17,11 +19,11 @@ export async function getActivity(
   | undefined
 > {
   if (mode === 'mine') {
-    return await api.activity.read.mine(user, page, perpage, query)
+    return await api.activity.read.mine(user, page, perpage, query, sortField, ascending)
   } else if (mode === 'class') {
-    return await api.activity.read.class(page, perpage, query, classid)
+    return await api.activity.read.class(page, perpage, query, classid, sortField, ascending)
   } else if (mode === 'campus') {
-    return await api.activity.read.campus({ type }, page, perpage, query)
+    return await api.activity.read.campus({ type }, page, perpage, query, sortField, ascending)
   }
   // ...
 }

@@ -65,6 +65,9 @@ const query = ref(route.query?.search?.toString() ?? '')
 
 const activities = ref<Activity[]>([])
 
+const sort = ref('_id')
+const asc = ref(false)
+
 function refresh() {
   loading.value = true
   getActivity(
@@ -74,9 +77,10 @@ function refresh() {
     pageSize.value,
     query.value,
     classTarget.value ?? user.class_id ?? '',
-    selectTarget.value && selectTarget.value !== 'all' ? selectTarget.value : 'all'
-  )
-    .then((res) => {
+    selectTarget.value && selectTarget.value !== 'all' ? selectTarget.value : 'all',
+    sort.value,
+    asc.value
+  ).then((res) => {
       if (res && res?.activities?.length !== 0) {
         activities.value = res?.activities
         size.value = res?.total
@@ -102,7 +106,7 @@ watch(width, () => {
   tableMaxHeight.value = height.value * 0.56
 })
 
-const items = ref<ActivityInstance[]>([])
+const items = ref<Activity[]>([])
 
 watch(
   activities,
@@ -135,6 +139,18 @@ watch(activePage, confirmPage)
 watch(query, confirmPage)
 
 const openExport = ref(false)
+
+async function onSortChange(data: {column: Activity, prop: string, order?: "ascending" | "descending" }) {
+  if (data.order) {
+    sort.value = data.prop
+    asc.value = data.order === 'ascending'
+  } else {
+    sort.value = '_id'
+    asc.value = false
+  }
+  refresh()
+}
+
 </script>
 
 <template>
@@ -180,6 +196,7 @@ const openExport = ref(false)
         @selection-change="handleSelectionChange"
         stripe
         :key="selectTarget || 'all'"
+        @sort-change="onSortChange"
       >
         <ElTableColumn
           v-if="selectTarget"
@@ -198,8 +215,8 @@ const openExport = ref(false)
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="name" :label="t('activity.form.name')" />
-        <ElTableColumn prop="date" :label="t('activity.form.date')">
+        <ElTableColumn prop="name" sortable :label="t('activity.form.name')" />
+        <ElTableColumn prop="date" sortable :label="t('activity.form.date')">
           <template #default="{ row }">
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>

@@ -152,7 +152,20 @@ async function addMembers() {
     } as ActivityMember
     return await api.activity.member.insert(activity.value._id, adding)
   })
-  const results = await Promise.allSettled(pipeline)
+
+  Promise.allSettled = undefined
+
+  const results = Promise.allSettled ? await Promise.allSettled(pipeline) : await (async () => {
+    const results = []
+    for (const promise of pipeline) {
+      try {
+        results.push({ status: 'fulfilled', value: await promise })
+      } catch (error) {
+        results.push({ status: 'rejected', reason: error })
+      }
+    }
+    return results
+  })()
 
   const successCount = results.filter((r) => r.status === 'fulfilled').length
   const failureCount = results.length - successCount

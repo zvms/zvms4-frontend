@@ -7,7 +7,9 @@ async function getUserActivities(
   id: string,
   page: number = 1,
   perpage: number = 10,
-  search: string = ''
+  search: string = '',
+  sort: string = '_id',
+  ascending: boolean = false
 ) {
   return (
     await axios(`/v2/users/${id}/activities`, {
@@ -15,7 +17,9 @@ async function getUserActivities(
       params: {
         page,
         perpage,
-        search
+        search,
+        sort,
+        asc: ascending
       }
     })
   ).data as {
