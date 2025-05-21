@@ -8,6 +8,7 @@ import {
   ZSelectPerson
 } from '@/components'
 import type { ActivityMember, Activity, User } from '@/../types/v2'
+import type { User as UserV1 } from '@/../types'
 import { toRefs, watch } from 'vue'
 import { User as IconUser, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -74,7 +75,6 @@ async function refreshMembers() {
     perpage.value,
     search.value
   )
-  console.log(members_result, total)
   members.value = members_result
   size.value = total
   pageLoading.value = false
@@ -104,7 +104,9 @@ const appending = ref<ActivityMember>({
 const loading = ref<string | 'add'>('')
 const openBatchImportWindow = ref(false)
 
-const selectedClassID = ref('')
+const isOnlyMonitor = user.position.includes('secretary') && user.position.length === 2
+
+const selectedClassID = ref(isOnlyMonitor ? user.class_id : '')
 
 const memberFunctions = {
   async add() {
@@ -153,8 +155,6 @@ async function addMembers() {
     return await api.activity.member.insert(activity.value._id, adding)
   })
 
-  Promise.allSettled = undefined
-
   const results = Promise.allSettled ? await Promise.allSettled(pipeline) : await (async () => {
     const results = []
     for (const promise of pipeline) {
@@ -178,7 +178,7 @@ async function addMembers() {
       ' succeeded, ' +
       failureCount +
       ' failed',
-    type: 'success',
+    type: successCount > results.length * 0.6 ? 'success' : (successCount < results.length * 0.3 ? 'error' : 'warning'),
     plain: true
   })
   showAddPopover.value = false
@@ -187,11 +187,11 @@ async function addMembers() {
   await refreshMembers()
 }
 
-function selectorCallback(row: User) {
+function selectorCallback(row: UserV1) {
   return (
     (user.position.includes('admin') || user.position.includes('department')
       ? true
-      : row.groups.filter((x) => x == user.class_id).length > 0) &&
+      : row.group.filter((x) => x == user.class_id).length > 0) &&
     members.value.filter((x) => x._id == row._id).length == 0
   )
 }
@@ -296,7 +296,7 @@ watch(search, refreshMembers)
                     {{ t('activity.batch.batch_import') }}
                   </template>
                   <ElForm>
-                    <ElFormItem :label="t('activity.batch.batch.classid')">
+                    <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
                       <ZSelectClass v-model="selectedClassID" clearable />
                     </ElFormItem>
                     <ElFormItem :label="t('activity.batch.batch.members')" class="w-full">
@@ -306,7 +306,6 @@ watch(search, refreshMembers)
                         selectable
                         :selector-callback="selectorCallback"
                         v-model="addedUsers"
-                        :key="useless"
                       />
                       <p class="py-0.5">
                         {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
