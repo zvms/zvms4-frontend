@@ -38,15 +38,17 @@ const props = withDefaults(
     perspective?: string
     classTarget?: string
     modelValue?: Activity[]
-    selectTarget?: Activity['type'] | '' | 'all'
+    selectTarget?: string
     selectedMax?: number
+    select?: boolean
   }>(),
   {
     role: 'mine',
     embed: false,
     perspective: 'mine',
     selectTarget: '',
-    selectedMax: 0 // Infinite
+    selectedMax: 0, // Infinite
+    select: false,
   }
 )
 const emits = defineEmits(['update:modelValue'])
@@ -56,7 +58,7 @@ const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
-const { role, perspective: persp, selectTarget, classTarget, modelValue, embed } = toRefs(props)
+const { role, perspective: persp, selectTarget, classTarget, select, embed } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
@@ -77,7 +79,7 @@ function refresh() {
     pageSize.value,
     query.value,
     classTarget.value ?? user.class_id ?? '',
-    selectTarget.value && selectTarget.value !== 'all' ? selectTarget.value : 'all',
+    selectTarget.value,
     sort.value,
     asc.value
   ).then((res) => {
@@ -118,7 +120,7 @@ watch(
 
 function selectable(row: ActivityInstance) {
   return (
-    (selectTarget.value.toLowerCase() === row.type.toLowerCase() || selectTarget.value === 'all') &&
+    (selectTarget.value.toLowerCase().includes(row.type.toLowerCase()) || selectTarget.value === '') &&
     row.status === 'effective'
   )
 }
@@ -199,7 +201,7 @@ async function onSortChange(data: {column: Activity, prop: string, order?: "asce
         @sort-change="onSortChange"
       >
         <ElTableColumn
-          v-if="selectTarget"
+          v-if="select"
           type="selection"
           :selectable="selectable"
           reserve-selection

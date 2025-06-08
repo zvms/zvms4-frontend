@@ -8,7 +8,7 @@ export async function getActivity(
   perpage: number = 10,
   query: string = '',
   classid: string = '',
-  type: Activity['type'] | 'all' = 'all',
+  type: string,
   sortField: string = '_id',
   ascending: boolean = false,
 ): Promise<
@@ -23,7 +23,7 @@ export async function getActivity(
   } else if (mode === 'class') {
     return await api.activity.read.class(page, perpage, query, classid, sortField, ascending)
   } else if (mode === 'campus') {
-    return await api.activity.read.campus({ type }, page, perpage, query, sortField, ascending)
+    return await api.activity.read.campus(type, page, perpage, query, sortField, ascending)
   }
   // ...
 }

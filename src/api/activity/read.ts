@@ -29,7 +29,7 @@ async function getClassActivities(
 
 async function getAllActivities(
   filter: {
-    type: Activity['type'] | 'all'
+    type: string
   },
   page: number = 1,
   perpage: number = 10,
@@ -65,7 +65,7 @@ async function getActivity(id: string) {
 
 const exports = {
   campus: (
-    filter: { type: Activity['type'] | 'all' },
+    filter: string,
     page: number = 1,
     perpage: number = 10,
     query: string = '',
