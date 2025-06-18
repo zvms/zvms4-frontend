@@ -30,7 +30,14 @@ const user = useUserStore()
 const modification = ref(duration.value)
 
 async function modify() {
-  if (id.value && uid.value && record.value && modification.value > 0 && modification.value <= 18 && mode.value) {
+  if (
+    id.value &&
+    uid.value &&
+    record.value &&
+    modification.value > 0 &&
+    modification.value <= 18 &&
+    mode.value
+  ) {
     await api.activity.duration.modify(record.value, id.value, modification.value, mode.value)
     emits('update:duration', modification.value)
   }
@@ -46,8 +53,9 @@ async function modify() {
       trigger="click"
       v-if="
         (user.position.includes('admin') || user.position.includes('department')) &&
-        (id) &&
-        uid && record
+        id &&
+        uid &&
+        record
       "
     >
       <template #reference>

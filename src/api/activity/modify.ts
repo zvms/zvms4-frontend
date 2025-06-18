@@ -28,7 +28,4 @@ async function modifyActivityStatus(aid: string, status: string) {
   })
 }
 
-export {
-  modifyActivityInfo as info,
-  modifyActivityStatus as status
-}
+export { modifyActivityInfo as info, modifyActivityStatus as status }

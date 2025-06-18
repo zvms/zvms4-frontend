@@ -1,7 +1,16 @@
 <script lang="ts" setup>
 import type { Activity, ActivityMember } from '@/../types/v2'
-import { toRefs, ref } from 'vue'
-import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
+import { toRefs, ref, watch } from 'vue'
+import {
+  ElButton,
+  ElInput,
+  ElRow,
+  ElCol,
+  ElPopconfirm,
+  ElButtonGroup,
+  ElStatistic,
+  ElSegmented
+} from 'element-plus'
 import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from '@/plugins/dayjs'
 import { useUserStore } from '@/stores/user'
@@ -15,6 +24,21 @@ import {
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
+import UilStatistics from '@/icons/UilStatistics.vue'
+import { Doughnut } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  Colors
+} from 'chart.js'
+
+ChartJS.register(Colors, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
 
 const props = withDefaults(
   defineProps<{
@@ -42,6 +66,7 @@ const { t } = useI18n()
 const { activity, mode, membersCount, showDetails, local, memberDetails } = toRefs(props)
 
 const hovered = ref(false)
+const openStatistics = ref(false)
 
 function getDateStatusColor(date: string) {
   const now = dayjs()
@@ -71,6 +96,60 @@ async function deleteActivity(id: string) {
 }
 
 const refresh = () => emits('refresh')
+
+const statistics = ref<{
+  description: Record<string, number>
+  layers: Array<{ value: number; count: number }>
+  layersChart: {
+    labels: string[],
+    datasets: {
+      label?: string
+      data: number[]
+      backgroundColor?: string[]
+    }[]
+  }
+}>({
+  description: {},
+  layers: [],
+  layersChart: {
+    labels: [],
+    datasets: []
+  }
+})
+
+async function fetchStatistics() {
+  if (activity.value._id) {
+    try {
+      const description = await api.activity.stats.description(activity.value._id)
+      const layers = await api.activity.stats.layers(activity.value._id)
+      // @ts-ignore
+      statistics.value.description = description
+      statistics.value.layers = layers
+      console.log(statistics.value)
+      if (layers && layers.length > 0) {
+        statistics.value.layersChart.labels = layers.map(layer => `${layer.value.toFixed(1)} Hours (${(layer.count/description.total * 100).toFixed(1)}%)`)
+        statistics.value.layersChart.datasets = [
+          {
+            data: layers.map(layer => layer.count),
+          }
+        ]
+      }
+
+      console.log(statistics.value)
+    } catch (error) {
+      console.error('Failed to fetch statistics:', error)
+    }
+  }
+}
+
+watch(openStatistics, () => {
+  if (openStatistics.value) {
+    fetchStatistics()
+  }
+})
+
+const statTable = ['Description', 'Layers']
+const activeStatistic = ref(statTable[0])
 </script>
 
 <template>
@@ -144,6 +223,52 @@ const refresh = () => emits('refresh')
         :activity="activity"
         @refresh="refresh"
       />
+      <ZButtonOrCard
+        class="px-2"
+        v-model:open="openStatistics"
+        mode="button"
+        pop-type="dialog"
+        width="30%"
+        type="warning"
+        :icon="UilStatistics"
+      >
+        <template #default>
+          <div style="text-align: center">
+            <ElSegmented v-model="activeStatistic" :options="statTable" />
+          </div>
+          <ElRow v-if="activeStatistic === 'Description'">
+            <ElCol :span="4">
+              <ElStatistic title="Mean" :value="statistics.description.mean" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Median" :value="statistics.description.median" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Mode" :value="statistics.description.mode" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Min" :value="statistics.description.min" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Max" :value="statistics.description.max" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Standard variance" :value="statistics.description.std" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="Variance" :value="statistics.description.var" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="25% Percentile" :value="statistics.description['25_percentile']" />
+            </ElCol>
+            <ElCol :span="4">
+              <ElStatistic title="75% Percentile" :value="statistics.description['75_percentile']" />
+            </ElCol>
+          </ElRow>
+          <Doughnut v-else-if="activeStatistic === 'Layers'" :data="statistics.layersChart" :options="{responsive: true}" />
+        </template>
+        <template #text> Statistics </template>
+      </ZButtonOrCard>
     </div>
     <ElRow>
       <ElCol :span="6">
