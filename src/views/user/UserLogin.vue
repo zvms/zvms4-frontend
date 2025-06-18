@@ -65,9 +65,12 @@ async function login() {
     return
   }
   const id = users?.[0]._id
-  await userStore.setUser(id, password.value as string).then(() => router.push('/user')).catch(() => {
-    loading.value = false
-  })
+  await userStore
+    .setUser(id, password.value as string)
+    .then(() => router.push('/user'))
+    .catch(() => {
+      loading.value = false
+    })
 }
 
 watch(user, async () => {

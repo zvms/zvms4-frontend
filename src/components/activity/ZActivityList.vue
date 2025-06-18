@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance, ActivityMember, ActivityType } from '@/../types'
+import type { ActivityInstance } from '@/../types'
 import {
   ElDrawer,
   ElTable,
@@ -11,11 +11,11 @@ import {
   ElDivider
 } from 'element-plus'
 import type { TableInstance } from 'element-plus'
-import { onMounted, ref, toRefs, watch } from 'vue'
+import { onMounted, ref, toRefs, watch, useTemplateRef } from 'vue'
 import { useUserStore } from '@/stores/user'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { Box, Search, PieChart, Refresh, View } from '@element-plus/icons-vue'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useSwipe, usePointerSwipe } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
 import { ZActivityType, ZActivityStatus, ZActivityDuration, ZActivityCard } from '@/components'
@@ -48,7 +48,7 @@ const props = withDefaults(
     perspective: 'mine',
     selectTarget: '',
     selectedMax: 0, // Infinite
-    select: false,
+    select: false
   }
 )
 const emits = defineEmits(['update:modelValue'])
@@ -82,7 +82,8 @@ function refresh() {
     selectTarget.value,
     sort.value,
     asc.value
-  ).then((res) => {
+  )
+    .then((res) => {
       if (res && res?.activities?.length !== 0) {
         activities.value = res?.activities
         size.value = res?.total
@@ -120,7 +121,8 @@ watch(
 
 function selectable(row: ActivityInstance) {
   return (
-    (selectTarget.value.toLowerCase().includes(row.type.toLowerCase()) || selectTarget.value === '') &&
+    (selectTarget.value.toLowerCase().includes(row.type.toLowerCase()) ||
+      selectTarget.value === '') &&
     row.status === 'effective'
   )
 }
@@ -142,7 +144,11 @@ watch(query, confirmPage)
 
 const openExport = ref(false)
 
-async function onSortChange(data: {column: Activity, prop: string, order?: "ascending" | "descending" }) {
+async function onSortChange(data: {
+  column: Activity
+  prop: string
+  order?: 'ascending' | 'descending'
+}) {
   if (data.order) {
     sort.value = data.prop
     asc.value = data.order === 'ascending'
@@ -153,6 +159,40 @@ async function onSortChange(data: {column: Activity, prop: string, order?: "asce
   refresh()
 }
 
+const el = useTemplateRef('card')
+// @ts-ignore
+const { isSwiping, direction } = useSwipe(el)
+
+watch(isSwiping, (swiping) => {
+  if (swiping && direction.value === 'left') {
+    if (activePage.value > 1) {
+      activePage.value -= 1
+      refresh()
+    }
+  } else if (swiping && direction.value === 'right') {
+    if (activePage.value < Math.ceil(size.value / pageSize.value)) {
+      activePage.value += 1
+      refresh()
+    }
+  }
+})
+
+// @ts-ignore
+const { isSwiping: isPointerSwiping, direction: pointerDirection } = usePointerSwipe(el)
+
+watch(isPointerSwiping, (swiping) => {
+  if (swiping && pointerDirection.value === 'left') {
+    if (activePage.value > 1) {
+      activePage.value -= 1
+      refresh()
+    }
+  } else if (swiping && pointerDirection.value === 'right') {
+    if (activePage.value < Math.ceil(size.value / pageSize.value)) {
+      activePage.value += 1
+      refresh()
+    }
+  }
+})
 </script>
 
 <template>
@@ -166,7 +206,7 @@ async function onSortChange(data: {column: Activity, prop: string, order?: "asce
     >
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElCard shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
+    <ElCard ref="card" shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
@@ -189,6 +229,7 @@ async function onSortChange(data: {column: Activity, prop: string, order?: "asce
         </ElButton>
         <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
+      <!-- @vue-ignore -->
       <ElTable
         :ref="tableRef"
         :max-height="tableMaxHeight"
@@ -200,12 +241,7 @@ async function onSortChange(data: {column: Activity, prop: string, order?: "asce
         :key="selectTarget || 'all'"
         @sort-change="onSortChange"
       >
-        <ElTableColumn
-          v-if="select"
-          type="selection"
-          :selectable="selectable"
-          reserve-selection
-        />
+        <ElTableColumn v-if="select" type="selection" :selectable="selectable" reserve-selection />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard

@@ -24,7 +24,7 @@ import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSi
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 
 const user = useUserStore()
 const route = useRoute()

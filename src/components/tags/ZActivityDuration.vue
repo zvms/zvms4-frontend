@@ -14,7 +14,7 @@ const props = defineProps<{
   force?: 'short' | 'full'
   id?: string
   uid?: string
-  local?: boolean
+  record?: string
   max?: number //reserved for future use
 }>()
 const emits = defineEmits<{
@@ -23,17 +23,15 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 
-const { mode, duration, force, id, uid, local } = toRefs(props)
+const { mode, duration, force, id, uid, record } = toRefs(props)
 
 const user = useUserStore()
 
 const modification = ref(duration.value)
 
 async function modify() {
-  if (id.value && uid.value && modification.value > 0 && modification.value <= 18) {
-    await api.activity.duration.modify(uid.value, id.value, modification.value)
-    emits('update:duration', modification.value)
-  } else if (local?.value && uid.value && modification.value > 0 && modification.value <= 18) {
+  if (id.value && uid.value && record.value && modification.value > 0 && modification.value <= 18 && mode.value) {
+    await api.activity.duration.modify(record.value, id.value, modification.value, mode.value)
     emits('update:duration', modification.value)
   }
 }
@@ -48,8 +46,8 @@ async function modify() {
       trigger="click"
       v-if="
         (user.position.includes('admin') || user.position.includes('department')) &&
-        (id || local) &&
-        uid
+        (id) &&
+        uid && record
       "
     >
       <template #reference>

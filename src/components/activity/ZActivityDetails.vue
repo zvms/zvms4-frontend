@@ -3,7 +3,7 @@ import type { Activity, ActivityMember } from '@/../types/v2'
 import { toRefs, ref } from 'vue'
 import { ElButton, ElInput, ElRow, ElCol, ElPopconfirm, ElButtonGroup } from 'element-plus'
 import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { useUserStore } from '@/stores/user'
 import {
   ZActivityDuration,
@@ -53,19 +53,15 @@ function getDateStatusColor(date: string) {
 
 const editName = ref(false)
 const name = ref(activity.value.name)
-async function submitName() {
-  editName.value = false
-  activity.value.name = name.value
-  await api.activity.update.title(activity.value._id, name.value)
-  emits('refresh')
-}
-
 const editDescription = ref(false)
 const description = ref(activity.value.description)
-async function submitDescription() {
+
+async function submitInfo() {
   editDescription.value = false
+  editName.value = false
   activity.value.description = description.value
-  await api.activity.update.description(activity.value._id, description.value)
+  activity.value.name = name.value
+  await api.activity.update.info(activity.value._id, name.value, description.value)
   emits('refresh')
 }
 
@@ -86,9 +82,9 @@ const refresh = () => emits('refresh')
   >
     <p class="text-xl pl-4" style="width: 100%">
       <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
-      <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitName">
+      <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitInfo">
         <template #append>
-          <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitName" />
+          <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitInfo" />
         </template>
       </ElInput>
       <ElButtonGroup>
@@ -119,7 +115,7 @@ const refresh = () => emits('refresh')
           class="px-2"
           type="success"
           :icon="ArrowRight"
-          @click="submitDescription"
+          @click="submitInfo"
         />
       </div>
     </div>

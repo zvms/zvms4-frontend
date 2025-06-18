@@ -2,7 +2,7 @@
 import type { CreateActivityType } from '@/../types'
 import type { Activity, ActivityMember } from '@/../types/v2'
 import { reactive, ref, toRefs, watch } from 'vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { useI18n } from 'vue-i18n'
 import {
   ElButton,
@@ -103,9 +103,9 @@ async function nextStep() {
     }
     await router.push(
       '/activities/' +
-      (userStore.position.includes('admin') || userStore.position.includes('department')
-        ? 'campus'
-        : userStore.position.includes('secretary')
+        (userStore.position.includes('admin') || userStore.position.includes('department')
+          ? 'campus'
+          : userStore.position.includes('secretary')
           ? 'class'
           : 'mine')
     )
@@ -130,11 +130,11 @@ watch(
 )
 
 function checkReviewAllowed() {
-  if (userStore.position.includes("admin")) {
+  if (userStore.position.includes('admin')) {
     return true
   }
-  if (userStore.position.includes("department")) {
-    if (activity.approver === "authority") {
+  if (userStore.position.includes('department')) {
+    if (activity.approver === 'authority') {
       return true
     } else {
       return userStore._id == activity.approver

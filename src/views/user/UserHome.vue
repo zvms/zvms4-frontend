@@ -10,7 +10,7 @@ import {
 } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'

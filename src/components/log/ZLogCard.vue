@@ -3,7 +3,7 @@ import type { Log } from '../../../types/log'
 import { toRefs, ref } from 'vue'
 import { ElCard, ElForm, ElFormItem, ElButton, ElPopover } from 'element-plus'
 import { ZActivityMember } from '@/components'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { pad } from '@/plugins/ua.ts'
 import axios from 'axios'
 

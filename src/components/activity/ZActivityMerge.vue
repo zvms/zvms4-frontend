@@ -11,7 +11,9 @@ import {
   ElAlert,
   ElSwitch,
   ElScrollbar,
-  ElTooltip, ElSelect, ElOption
+  ElTooltip,
+  ElSelect,
+  ElOption
 } from 'element-plus'
 import { ref, reactive, watch } from 'vue'
 // import type { ActivityType, ActivityInstance } from '@/../types'
@@ -29,7 +31,12 @@ const { height } = useWindowSize()
 const dark = useDark()
 const router = useRouter()
 
-const typesOfActivity = ref<Activity['type'][]>(['on-campus', 'off-campus', 'social-practice', 'hybrid'])
+const typesOfActivity = ref<Activity['type'][]>([
+  'on-campus',
+  'off-campus',
+  'social-practice',
+  'hybrid'
+])
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -45,13 +52,17 @@ const mergeForm = reactive({
 })
 const allowed = ref('')
 
-watch(mergeForm.list, (newList) => {
-  if (newList.length > 0) {
-    allowed.value = newList.map((item) => item.name).join(',')
-  } else {
-    allowed.value = ''
-  }
-}, { immediate: true, deep: true })
+watch(
+  mergeForm.list,
+  (newList) => {
+    if (newList.length > 0) {
+      allowed.value = newList.map((item) => item.name).join(',')
+    } else {
+      allowed.value = ''
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 const overwriteTime = ref(false)
 

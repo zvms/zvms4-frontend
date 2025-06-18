@@ -1,21 +1,21 @@
 import axios from '@/plugins/axios'
-import type { Response } from '@/../types'
-import { ElNotification } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import type { ActivityMember } from 'types/activity.v2'
 
-export async function userModifyDuration(user: string, aid: string, duration: number) {
-  const result = (
-    await axios({
-      url: `/activities/${aid}/member/${user.toString()}/duration`,
-      method: 'put',
-      data: { duration }
-    })
-  ).data as Response<null>
-  if (result.status === 'error') {
-    ElNotification({
-      title: `Error in modifying duration (${result.code.toString()})`,
-      message: result.message,
-      type: 'error'
-    })
-    return
-  }
+export async function userModifyDuration(
+  user: string,
+  aid: string,
+  duration: number,
+  mode: ActivityMember['mode']
+) {
+  await axios({
+    url: `/v2/activities/${aid}/members/${user.toString()}/record`,
+    method: 'put',
+    data: { duration, mode }
+  })
+  ElMessage({
+    message: 'Successfully modified duration',
+    type: 'success',
+    plain: true
+  })
 }

@@ -10,7 +10,7 @@ export async function getActivity(
   classid: string = '',
   type: string,
   sortField: string = '_id',
-  ascending: boolean = false,
+  ascending: boolean = false
 ): Promise<
   | {
       activities: Activity[]

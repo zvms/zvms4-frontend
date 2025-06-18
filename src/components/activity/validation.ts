@@ -1,5 +1,5 @@
 import type { Activity } from '@/../types/v2'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 
 export function validateActivity(
   activity: Activity,

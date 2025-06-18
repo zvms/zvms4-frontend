@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user.ts'
 import { reactive, ref, watch } from 'vue'
 import type { Activity } from '../../types/activity.v2'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import {
   ElForm,
   ElFormItem,

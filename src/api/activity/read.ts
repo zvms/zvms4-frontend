@@ -35,7 +35,7 @@ async function getAllActivities(
   perpage: number = 10,
   search: string = '',
   sortField: string = '_id',
-  ascending: boolean = false,
+  ascending: boolean = false
 ) {
   return (
     await axios('/v2/activities', {
@@ -71,7 +71,7 @@ const exports = {
     query: string = '',
     sortField: string = '_id',
     ascending: boolean = false
-  ) => getAllActivities(filter, page, perpage, query, sortField, ascending),
+  ) => getAllActivities({ type: filter }, page, perpage, query, sortField, ascending),
   class: (
     page: number = 1,
     perpage: number = 10,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActivityInstance, Activity } from '@/../types'
 import { reactive } from 'vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { useI18n } from 'vue-i18n'
 import { ElFormItem, ElForm, ElInput, ElScrollbar, ElCard, ElUpload, ElMessage } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'

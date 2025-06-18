@@ -155,17 +155,19 @@ async function addMembers() {
     return await api.activity.member.insert(activity.value._id, adding)
   })
 
-  const results = Promise.allSettled ? await Promise.allSettled(pipeline) : await (async () => {
-    const results = []
-    for (const promise of pipeline) {
-      try {
-        results.push({ status: 'fulfilled', value: await promise })
-      } catch (error) {
-        results.push({ status: 'rejected', reason: error })
-      }
-    }
-    return results
-  })()
+  const results = Promise.allSettled
+    ? await Promise.allSettled(pipeline)
+    : await (async () => {
+        const results = []
+        for (const promise of pipeline) {
+          try {
+            results.push({ status: 'fulfilled', value: await promise })
+          } catch (error) {
+            results.push({ status: 'rejected', reason: error })
+          }
+        }
+        return results
+      })()
 
   const successCount = results.filter((r) => r.status === 'fulfilled').length
   const failureCount = results.length - successCount
@@ -178,7 +180,12 @@ async function addMembers() {
       ' succeeded, ' +
       failureCount +
       ' failed',
-    type: successCount > results.length * 0.6 ? 'success' : (successCount < results.length * 0.3 ? 'error' : 'warning'),
+    type:
+      successCount > results.length * 0.6
+        ? 'success'
+        : successCount < results.length * 0.3
+        ? 'error'
+        : 'warning',
     plain: true
   })
   showAddPopover.value = false
@@ -231,6 +238,7 @@ watch(search, refreshMembers)
                 :mode="scope.row.mode"
                 :id="activity._id"
                 :uid="scope.row.member"
+                :record="scope.row._id"
               />
             </template>
           </ElTableColumn>
@@ -300,6 +308,7 @@ watch(search, refreshMembers)
                       <ZSelectClass v-model="selectedClassID" clearable />
                     </ElFormItem>
                     <ElFormItem :label="t('activity.batch.batch.members')" class="w-full">
+                      <!-- @vue-ignore -->
                       <ZGroupUserList
                         class="w-full"
                         :id="selectedClassID"
@@ -312,6 +321,7 @@ watch(search, refreshMembers)
                       </p>
                     </ElFormItem>
                     <ElFormItem :label="t('activity.batch.batch.mode')">
+                      <!-- @vue-ignore -->
                       <ZSelectActivityMode
                         v-model="appendingMode"
                         :allow="getAllowed()"
@@ -355,6 +365,7 @@ watch(search, refreshMembers)
                     ></ZSelectPerson>
                   </ElFormItem>
                   <ElFormItem :label="t('activity.batch.manual.mode')">
+                    <!-- @vue-ignore -->
                     <ZSelectActivityMode
                       v-model="appending.mode"
                       :allow="getAllowed()"

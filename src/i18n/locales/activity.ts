@@ -232,7 +232,8 @@ export const enUS = {
       disallowed:
         'You do not have permission to review this activity. It will be evaluated by the responsible members in the Department of Practice. Please wait patiently; you will be notified once the review is complete.'
     },
-    print: 'You can print the system-generated application form by clicking the "Print" button. However, we recommend using the official template and filling it out manually.'
+    print:
+      'You can print the system-generated application form by clicking the "Print" button. However, we recommend using the official template and filling it out manually.'
   }
 }
 

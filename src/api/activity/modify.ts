@@ -1,29 +1,14 @@
 import axios from '@/plugins/axios'
 import type { Response } from '@/../types'
 
-async function modifyActivityTitle(aid: string, title: string) {
+async function modifyActivityInfo(aid: string, name: string, description: string) {
   const result = (
     await axios({
-      url: `/activities/${aid}/name`,
+      url: `/v2/activities/${aid}/info`,
       method: 'put',
       data: {
-        name: title
-      }
-    })
-  ).data as Response<null>
-  if (result.status === 'error') {
-    return result
-  }
-  return
-}
-
-async function modifyActivityDescription(aid: string, description: string) {
-  const result = (
-    await axios({
-      url: `/activities/${aid}/description`,
-      method: 'put',
-      data: {
-        description
+        description,
+        name
       }
     })
   ).data as Response<null>
@@ -44,7 +29,6 @@ async function modifyActivityStatus(aid: string, status: string) {
 }
 
 export {
-  modifyActivityDescription as description,
-  modifyActivityTitle as title,
+  modifyActivityInfo as info,
   modifyActivityStatus as status
 }

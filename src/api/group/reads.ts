@@ -18,7 +18,7 @@ export async function users(
       }
     })
   ).data as {
-    members: User[],
+    members: User[]
     total: number
   }
   return {
@@ -53,7 +53,7 @@ export async function time(
       'on-campus': number
       'off-campus': number
       'social-practice': number
-    }[],
+    }[]
     total: number
   }
   return {
