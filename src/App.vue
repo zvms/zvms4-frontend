@@ -29,6 +29,7 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
 import { modifyPasswordDialogs } from '@/views'
 import { Instruction } from '@icon-park/vue-next'
+import { pad } from '@/plugins/ua.ts'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
@@ -44,6 +45,25 @@ function getLocale(ident: string) {
 }
 
 const langPack = ref(getLocale(locale.value))
+
+const xuehaiId = ref<string>('')
+const xuehaiName = ref<string>('')
+
+if (pad()) {
+  try {
+    if ('webView' in window) {
+      xuehaiId.value = (window as any).webView?.getUserId() || ''
+      xuehaiName.value = (window as any).webView?.getUserName() || ''
+    } else {
+      xuehaiId.value = localStorage.getItem('userId') || ''
+      xuehaiName.value = localStorage.getItem('userName') || ''
+    }
+  } catch (_) {
+    // Fallback to empty string if unable to retrieve userId
+    xuehaiId.value = localStorage.getItem('userId') || ''
+    xuehaiName.value = localStorage.getItem('userName') || ''
+  }
+}
 
 watch(locale, () => {
   langPack.value = getLocale(locale.value)
@@ -295,7 +315,7 @@ onMounted(() => {
         class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
       >
         <p class="text-center">
-          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
+          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }} | {{ xuehaiId }}
         </p>
       </ElFooter>
     </ElContainer>
