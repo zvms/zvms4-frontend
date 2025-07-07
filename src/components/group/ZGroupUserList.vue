@@ -33,7 +33,7 @@ const userStore = useUserStore()
 const props = withDefaults(
   defineProps<{
     id: string
-    selectable: boolean
+    selectable?: boolean
     selectorCallback?: Function
     modelValue?: User[]
   }>(),
@@ -117,8 +117,8 @@ async function exportUserList() {
         ? `全校学生名单`
         : `Student List`
       : locale.value === 'zh-CN'
-      ? `${group?.value?.name}学生名单`
-      : `Student List of ${group?.value?.name}`
+        ? `${group?.value?.name}学生名单`
+        : `Student List of ${group?.value?.name}`
   if (id.value) {
     await api.group.template(id.value, name)
   }

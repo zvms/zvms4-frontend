@@ -11,6 +11,7 @@ import {
   ElStatistic,
   ElSegmented
 } from 'element-plus'
+import { useWindowSize } from '@vueuse/core'
 import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from '@/plugins/dayjs'
 import { useUserStore } from '@/stores/user'
@@ -39,6 +40,8 @@ import {
 } from 'chart.js'
 
 ChartJS.register(Colors, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+
+const { width, height } = useWindowSize()
 
 const props = withDefaults(
   defineProps<{
@@ -101,7 +104,7 @@ const statistics = ref<{
   description: Record<string, number>
   layers: Array<{ value: number; count: number }>
   layersChart: {
-    labels: string[],
+    labels: string[]
     datasets: {
       label?: string
       data: number[]
@@ -127,10 +130,13 @@ async function fetchStatistics() {
       statistics.value.layers = layers
       console.log(statistics.value)
       if (layers && layers.length > 0) {
-        statistics.value.layersChart.labels = layers.map(layer => `${layer.value.toFixed(1)} Hours (${(layer.count/description.total * 100).toFixed(1)}%)`)
+        statistics.value.layersChart.labels = layers.map(
+          (layer) =>
+            `${layer.value.toFixed(1)} Hours (${((layer.count / description.total) * 100).toFixed(1)}%)`
+        )
         statistics.value.layersChart.datasets = [
           {
-            data: layers.map(layer => layer.count),
+            data: layers.map((layer) => layer.count)
           }
         ]
       }
@@ -228,7 +234,7 @@ const activeStatistic = ref(statTable[0])
         v-model:open="openStatistics"
         mode="button"
         pop-type="dialog"
-        width="30%"
+        :width="width < height ? '60%' : '30%'"
         type="warning"
         :icon="UilStatistics"
       >
@@ -237,35 +243,51 @@ const activeStatistic = ref(statTable[0])
             <ElSegmented v-model="activeStatistic" :options="statTable" />
           </div>
           <ElRow v-if="activeStatistic === 'Description'">
-            <ElCol :span="4">
-              <ElStatistic title="Mean" :value="statistics.description.mean" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Mean" :value="statistics.description.mean" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Median" :value="statistics.description.median" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Median" :value="statistics.description.median" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Mode" :value="statistics.description.mode" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Mode" :value="statistics.description.mode" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Min" :value="statistics.description.min" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Min" :value="statistics.description.min" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Max" :value="statistics.description.max" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Max" :value="statistics.description.max" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Standard variance" :value="statistics.description.std" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic
+                title="Standard variance"
+                :value="statistics.description.std"
+                :precision="1"
+              />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="Variance" :value="statistics.description.var" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic title="Variance" :value="statistics.description.var" :precision="1" />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="25% Percentile" :value="statistics.description['25_percentile']" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic
+                title="25% Percentile"
+                :value="statistics.description['25_percentile']"
+                :precision="1"
+              />
             </ElCol>
-            <ElCol :span="4">
-              <ElStatistic title="75% Percentile" :value="statistics.description['75_percentile']" />
+            <ElCol :span="4" :sm="6" :xs="8">
+              <ElStatistic
+                title="75% Percentile"
+                :value="statistics.description['75_percentile']"
+                :precision="1"
+              />
             </ElCol>
           </ElRow>
-          <Doughnut v-else-if="activeStatistic === 'Layers'" :data="statistics.layersChart" :options="{responsive: true}" />
+          <Doughnut
+            v-else-if="activeStatistic === 'Layers'"
+            :data="statistics.layersChart"
+            :options="{ responsive: true }"
+          />
         </template>
         <template #text> Statistics </template>
       </ZButtonOrCard>

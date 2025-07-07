@@ -9,7 +9,7 @@ import router from './router'
 import i18n from './i18n'
 
 import ElementPlus from 'element-plus'
-import CKEditor from '@ckeditor/ckeditor5-vue'
+// import CKEditor from '@ckeditor/ckeditor5-vue'
 
 import 'element-plus/theme-chalk/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
@@ -24,7 +24,7 @@ const app = createApp(App)
 app.use(createPinia().use(persistedstate))
 app.use(router as unknown as Plugin)
 app.use(i18n as unknown as Plugin)
-app.use(CKEditor as unknown as Plugin)
+// app.use(CKEditor as unknown as Plugin)
 
 app.use(ElementPlus, {
   size: 'default'

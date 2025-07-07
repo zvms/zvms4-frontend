@@ -30,6 +30,7 @@ export const enUS = {
       users: 'Users',
       activities: 'Activities',
       time: 'Time',
+      statistics: 'Statistics',
       create: 'Create'
     },
     userList: {
@@ -143,6 +144,7 @@ export const zhCN = {
       users: '用户',
       activities: '义工',
       time: '时间',
+      statistics: '统计',
       create: '新增'
     },
     userList: {

@@ -184,8 +184,8 @@ async function addMembers() {
       successCount > results.length * 0.6
         ? 'success'
         : successCount < results.length * 0.3
-        ? 'error'
-        : 'warning',
+          ? 'error'
+          : 'warning',
     plain: true
   })
   showAddPopover.value = false

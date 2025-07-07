@@ -14,6 +14,8 @@ import { useI18n } from 'vue-i18n'
 import ZUserModification from '@/components/group/ZUserModification.vue'
 import { AddUser, User, ViewList } from '@icon-park/vue-next'
 import { TablerSum } from '@/icons'
+import UilStatistics from '@/icons/UilStatistics.vue'
+import ZGroupTimeStatistics from '@/components/group/ZGroupTimeStatistics.vue'
 
 const { height } = useWindowSize()
 const userStore = useUserStore()
@@ -86,6 +88,11 @@ const tabs = ref([
     icon: TablerSum
   },
   {
+    label: 'Statistics',
+    value: 'statistics',
+    icon: UilStatistics
+  },
+  {
     label: 'Create',
     value: 'create',
     icon: AddUser
@@ -97,7 +104,7 @@ const curPage = route.params.action?.toString()
 const tab = ref(curPage && curPage !== '' ? curPage : 'users')
 
 watch(tab, () => {
-  router.push('/group/' + id.value + '/' + tab.value ?? 'users')
+  router.push('/group/' + id.value + '/' + (tab.value ?? 'users'))
 })
 </script>
 
@@ -124,5 +131,6 @@ watch(tab, () => {
     <ZActivityList v-else-if="tab === 'activities'" :class-target="id" role="class" />
     <ZGroupUserTimeList v-else-if="tab === 'time'" :id="id" />
     <ZUserModification v-else-if="tab === 'create'" :cid="id" mode="create" id="" />
+    <ZGroupTimeStatistics v-else-if="tab === 'statistics'" :group-id="id" />
   </div>
 </template>

@@ -106,8 +106,8 @@ async function nextStep() {
         (userStore.position.includes('admin') || userStore.position.includes('department')
           ? 'campus'
           : userStore.position.includes('secretary')
-          ? 'class'
-          : 'mine')
+            ? 'class'
+            : 'mine')
     )
   }
   load.value = false

@@ -61,3 +61,7 @@ export async function time(
     size: response.total
   }
 }
+
+export async function statisticsCompliance(groupId: string) {
+  return (await axios(`/v2/groups/${groupId}/statistics/compliance`)).data
+}

@@ -5,8 +5,9 @@ body {
   overflow: hidden;
   position: fixed;
   width: 100%;
-  font-family: Ubuntu, 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', 'Helvetica Neue',
-    Helvetica, Arial, sans-serif !important;
+  font-family:
+    Ubuntu, 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif !important;
 }
 
 ::-webkit-scrollbar {
