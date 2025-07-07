@@ -5,12 +5,14 @@ async function createExportTask(
   type: 'time' | 'users' | 'activities',
   format: 'csv' | 'json' | 'excel' | 'html' | 'latex',
   start?: Dayjs,
-  end?: Dayjs
+  end?: Dayjs,
+  allowCache: boolean = false
 ) {
   const body = {
     format,
     start: start?.toISOString(),
-    end: end?.toISOString()
+    end: end?.toISOString(),
+    allowCache
   }
   const result = await axios(`/exports/${type}`, {
     data: body,

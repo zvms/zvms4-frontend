@@ -9,6 +9,8 @@ import { Group, Log, User } from '@icon-park/vue-next'
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
 import ZGroupList from '@/components/group/ZGroupList.vue'
 import ZLogList from '@/components/log/ZLogList.vue'
+import TablerSum from '@/icons/TablerSum.vue'
+import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +42,11 @@ const tabs = ref([
     label: 'Users',
     value: 'users',
     icon: User
+  },
+  {
+    label: 'Time',
+    value: 'time',
+    icon: TablerSum
   },
   {
     label: 'Logs',
@@ -88,6 +95,7 @@ watch(
     </ElPageHeader>
     <ZGroupList v-if="current === 'groups'" />
     <ZGroupUserList v-else-if="current === 'users'" id="" />
-    <ZLogList v-else-if="current === 'logs'" id="" />
+    <ZLogList v-else-if="current === 'logs'" id="" user="" />
+    <ZGroupUserTimeList v-else-if="current === 'time'" id="" />
   </div>
 </template>

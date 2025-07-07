@@ -7,7 +7,8 @@ import {
   ElDatePicker,
   ElText,
   ElProgress,
-  ElInput
+  ElInput,
+  ElSwitch
 } from 'element-plus'
 import api from '@/api'
 import { ref, toRefs } from 'vue'
@@ -72,13 +73,15 @@ const taskID = ref('')
 const percentage = ref(0)
 const color = ref<'' | 'success' | 'exception' | 'warning'>('warning')
 const status = ref<'pending' | 'processing' | 'completed' | 'failed'>('pending')
+const allowCache = ref(false)
 
 async function createTask() {
   const result = await api.exports.create(
     type.value,
     format.value,
     range.value[0] ? dayjs(range.value[0]) : undefined,
-    range.value[1] ? dayjs(range.value[1]) : undefined
+    range.value[1] ? dayjs(range.value[1]) : undefined,
+    allowCache.value
   )
   if (result) {
     taskID.value = result
@@ -153,6 +156,9 @@ async function download() {
       </ElFormItem>
       <ElFormItem :label="t('manage.exports.name')" v-if="type === 'time'">
         <ElInput v-model="name" />
+      </ElFormItem>
+      <ElFormItem :label="t('manage.exports.cache')">
+        <ElSwitch v-model="allowCache" active-text="允许使用缓存数据" inactive-text="重新计算" />
       </ElFormItem>
       <div style="text-align: right">
         <ElButton

@@ -33,7 +33,9 @@ export async function time(
   perpage: number = 10,
   search: string = '',
   exceed: boolean = true,
-  shortage: boolean = false
+  shortage: boolean = false,
+  sort: string = 'id',
+  asc: boolean = true
 ) {
   const response = (
     await axios(`/v2/groups/${gid}/time`, {
@@ -42,7 +44,9 @@ export async function time(
         perpage,
         exceed,
         shortage,
-        search
+        search,
+        sort,
+        asc
       }
     })
   ).data as {

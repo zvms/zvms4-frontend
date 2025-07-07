@@ -83,6 +83,7 @@ export const enUS = {
       groups: 'Groups',
       users: 'Users',
       import: 'Import',
+      time: 'Time',
       logs: 'Logs'
     }
   },
@@ -96,6 +97,7 @@ export const enUS = {
     },
     name: 'Filename',
     format: 'Format',
+    cache: 'Cache',
     formats: {
       csv: 'CSV (Comma-Separated Values)',
       json: 'JSON (JavaScript Object Notation)',
@@ -196,6 +198,7 @@ export const zhCN = {
     tabs: {
       groups: '群组',
       users: '用户',
+      time: '时间',
       import: '导入',
       logs: '日志'
     }
@@ -210,6 +213,7 @@ export const zhCN = {
     },
     name: '文件名',
     format: '格式',
+    cache: '缓存',
     formats: {
       csv: 'CSV (逗号分隔值)',
       json: 'JSON (JavaScript 对象表示法)',

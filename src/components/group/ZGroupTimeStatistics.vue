@@ -10,20 +10,23 @@ import {
   ArcElement,
   Colors
 } from 'chart.js'
-import { Bar, Doughnut } from 'vue-chartjs';
-import { ElSegmented, ElSwitch } from 'element-plus';
-import { ref, toRefs, computed, watch } from 'vue';
+import { Bar, Doughnut } from 'vue-chartjs'
+import { ElSegmented, ElSwitch } from 'element-plus'
+import { ref, toRefs, computed, watch } from 'vue'
 import api from '@/api'
-import type { ActivityMember } from 'types/activity.v2';
-import { useI18n } from 'vue-i18n';
+import type { ActivityMember } from 'types/activity.v2'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const props = withDefaults(defineProps<{
-  groupId: string
-}>(), {
-  groupId: ''
-})
+const props = withDefaults(
+  defineProps<{
+    groupId: string
+  }>(),
+  {
+    groupId: ''
+  }
+)
 
 ChartJS.register(Colors, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
 
@@ -49,11 +52,7 @@ refresh()
 
 const activeMode = ref<ActivityMember['mode']>('on-campus')
 
-const modes = ref<ActivityMember['mode'][]>([
-  'on-campus',
-  'off-campus',
-  'social-practice'
-])
+const modes = ref<ActivityMember['mode'][]>(['on-campus', 'off-campus', 'social-practice'])
 
 const barChart = ref(false)
 
@@ -63,16 +62,15 @@ function computeBarChartData() {
 
   // Get all unique labels from all modes
   const allLabels = new Set<string>()
-  Object.values(statistics.value).forEach(modeData => {
+  Object.values(statistics.value).forEach((modeData) => {
     // kebab-case to Title Case
-    Object.keys(modeData).forEach(label => allLabels.add(label))
+    Object.keys(modeData).forEach((label) => allLabels.add(label))
   })
   const labels = Array.from(allLabels)
 
-  const datasets = Object.keys(statistics.value).map(mode => ({
-    label: mode.replace(/-/g, ' ')
-      .replace(/\b\w/g, char => char.toUpperCase()),
-    data: labels.map(label => statistics.value[mode]?.[label] || 0)
+  const datasets = Object.keys(statistics.value).map((mode) => ({
+    label: mode.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()),
+    data: labels.map((label) => statistics.value[mode]?.[label] || 0)
   }))
 
   return {
@@ -96,9 +94,12 @@ function computeDoughnutChartData() {
   }
 }
 
-watch(() => activeMode.value, () => {
-  doughnutChartData.value = computeDoughnutChartData()
-})
+watch(
+  () => activeMode.value,
+  () => {
+    doughnutChartData.value = computeDoughnutChartData()
+  }
+)
 </script>
 
 <template>
@@ -113,9 +114,13 @@ watch(() => activeMode.value, () => {
         </template>
       </ElSegmented>
     </div>
-    <div class="mt-6" v-if="!loading" style="text-align: center !important;">
+    <div class="mt-6" v-if="!loading" style="text-align: center !important">
       <Bar v-if="barChart" :data="barChartData" />
-      <Doughnut v-else :data="doughnutChartData" style="width: 384px; height: auto; text-align: center;" />
+      <Doughnut
+        v-else
+        :data="doughnutChartData"
+        style="width: 384px; height: auto; text-align: center"
+      />
     </div>
   </div>
 </template>
