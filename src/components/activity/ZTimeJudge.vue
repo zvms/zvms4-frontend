@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ElButton, ElIcon, ElStatistic, ElTooltip } from 'element-plus'
 import { toRefs } from 'vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { CaretTop, CaretBottom, Warning } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import type { ActivityMode } from '@/../types'
+import type { ActivityMember } from 'types/activity.v2'
 
 const props = defineProps<{
-  type: ActivityMode
+  type: ActivityMember['mode']
   standardTime?: number
   realTime: number
 }>()
@@ -18,7 +18,7 @@ const { t } = useI18n()
 
 const standard = ref(0)
 
-if (!standard?.value || isNaN(standard?.value)) {
+function refreshStandardTime() {
   if (type.value === 'social-practice') {
     standard.value = 18
   } else if (type.value === 'on-campus') {
@@ -26,9 +26,17 @@ if (!standard?.value || isNaN(standard?.value)) {
   } else {
     standard.value = 15
   }
-} else {
-  standard.value = props.standardTime as number
 }
+
+watch(
+  type,
+  () => {
+    refreshStandardTime()
+  },
+  { immediate: true }
+)
+
+refreshStandardTime()
 
 function calculateLoss() {
   const loss = standard.value - real.value

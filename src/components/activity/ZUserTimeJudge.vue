@@ -10,7 +10,8 @@ import {
   ElSpace,
   ElResult,
   ElTooltip,
-  ElSkeleton
+  ElSkeleton,
+  ElDialog
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
@@ -19,8 +20,9 @@ import { ZActivityMemberTimeJudge } from '..'
 import { Refresh } from '@element-plus/icons-vue'
 import { TablerSum } from '@/icons'
 import api from '@/api'
-import { Certificate } from '@icon-park/vue-next'
+import { Certificate, TableReport } from '@icon-park/vue-next'
 import { pad } from '@/plugins/ua.ts'
+import ZDetailedAnalysis from './ZDetailedAnalysis.vue'
 
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
@@ -75,7 +77,11 @@ async function getTime() {
     off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 25, 3) : 0)
     on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
     if (user.value === userStore._id) {
-      userStore.setTime(result)
+      userStore.setTime(result as unknown as {
+        onCampus: number
+        offCampus: number
+        socialPractice: number
+      })
     }
   }
   loading.value = false
@@ -94,10 +100,15 @@ watch(
   },
   { immediate: true }
 )
+
+const reportPage = ref(false)
 </script>
 
 <template>
   <div>
+    <ElDialog fullscreen title="User Activity Time Report" v-model="reportPage">
+      <ZDetailedAnalysis :id="user" mode="on-campus" />
+    </ElDialog>
     <ElCard
       shadow="hover"
       v-if="
@@ -111,6 +122,7 @@ watch(
           <p class="text-lg">{{ t('home.panels.time.title') }}</p>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
+          <ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
           <ElButton
             v-if="!pad() && user === userStore._id"
             type="primary"

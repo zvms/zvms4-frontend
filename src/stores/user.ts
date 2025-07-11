@@ -1,5 +1,5 @@
 import api from '@/api'
-import type { User, UserActivityTimeSums, UserPosition } from '@/../types'
+import type { User, UserPosition } from '@/../types'
 import { defineStore } from 'pinia'
 import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
       socialPractice: 0,
       onCampus: 0,
       offCampus: 0
-    } as UserActivityTimeSums,
+    },
     language: usePreferredLanguages().value[0]
   }),
   actions: {
@@ -71,7 +71,11 @@ export const useUserStore = defineStore('user', {
       this.isLogin = false
     },
     async getUserActivityTime() {
-      const result = (await api.user.time.read(this._id)) as UserActivityTimeSums
+      const result = (await api.user.time.read(this._id)) as unknown as {
+        offCampus: number
+        onCampus: number
+        socialPractice: number
+      }
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
       this.time.socialPractice = result.socialPractice
@@ -98,7 +102,11 @@ export const useUserStore = defineStore('user', {
       const router = useRouter()
       await router.push('/user/login')
     },
-    setTime(time: UserActivityTimeSums) {
+    setTime(time: {
+      onCampus: number
+      offCampus: number
+      socialPractice: number
+    }) {
       this.time.onCampus = time.onCampus
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice

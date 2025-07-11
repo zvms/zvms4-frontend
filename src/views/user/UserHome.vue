@@ -32,7 +32,7 @@ const nowTime = dayjs().hour()
 const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
 const loading = ref(false)
 
-const time = reactive<UserActivityTimeSums>({
+const time = reactive({
   socialPractice: user.time.socialPractice,
   onCampus: user.time.onCampus,
   offCampus: user.time.offCampus

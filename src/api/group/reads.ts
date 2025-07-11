@@ -50,7 +50,7 @@ export async function time(
       }
     })
   ).data as {
-    members: {
+    data: {
       _id: string
       name: string
       id: string
@@ -58,11 +58,11 @@ export async function time(
       'off-campus': number
       'social-practice': number
     }[]
-    total: number
+    metadata: { size: number }
   }
   return {
-    time: response.members,
-    size: response.total
+    time: response.data,
+    size: response.metadata.size
   }
 }
 
