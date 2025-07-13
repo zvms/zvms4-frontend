@@ -98,6 +98,15 @@ export const enUS = {
     name: 'Filename',
     format: 'Format',
     cache: 'Cache',
+    cacheFields: {
+      enabled: 'Enable Cache',
+      disabled: 'Recalculate'
+    },
+    desc: 'Description',
+    descFields: {
+      enabled: 'Include',
+      disabled: 'Exclude'
+    },
     formats: {
       csv: 'CSV (Comma-Separated Values)',
       json: 'JSON (JavaScript Object Notation)',
@@ -214,6 +223,15 @@ export const zhCN = {
     name: '文件名',
     format: '格式',
     cache: '缓存',
+    cacheFields: {
+      enabled: '启用缓存',
+      disabled: '重新计算'
+    },
+    desc: '描述',
+    descFields: {
+      enabled: '包含描述',
+      disabled: '不包含描述'
+    },
     formats: {
       csv: 'CSV (逗号分隔值)',
       json: 'JSON (JavaScript 对象表示法)',

@@ -11,7 +11,7 @@ import {
   ElSwitch
 } from 'element-plus'
 import api from '@/api'
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import dayjs, { type Dayjs } from 'dayjs'
 import { Box, Download } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
@@ -74,6 +74,7 @@ const percentage = ref(0)
 const color = ref<'' | 'success' | 'exception' | 'warning'>('warning')
 const status = ref<'pending' | 'processing' | 'completed' | 'failed'>('pending')
 const allowCache = ref(false)
+const includeDescription = ref(false)
 
 async function createTask() {
   const result = await api.exports.create(
@@ -81,7 +82,8 @@ async function createTask() {
     format.value,
     range.value[0] ? dayjs(range.value[0]) : undefined,
     range.value[1] ? dayjs(range.value[1]) : undefined,
-    allowCache.value
+    allowCache.value,
+    includeDescription.value
   )
   if (result) {
     taskID.value = result
@@ -123,9 +125,15 @@ function cleanup() {
 }
 
 async function download() {
-  await api.exports.download(taskID.value, name.value, format.value)
+  await api.exports.download(taskID.value, name.value, format.value, locale.value)
   cleanup()
 }
+
+watch(allowCache, () => {
+  if (allowCache.value) {
+    includeDescription.value = false // Disable description if cache is not allowed
+  }
+})
 </script>
 
 <template>
@@ -158,7 +166,10 @@ async function download() {
         <ElInput v-model="name" />
       </ElFormItem>
       <ElFormItem :label="t('manage.exports.cache')">
-        <ElSwitch v-model="allowCache" active-text="允许使用缓存数据" inactive-text="重新计算" />
+        <ElSwitch v-model="allowCache" :active-text="t('manage.exports.cacheFields.enabled')" :inactive-text="t('manage.exports.cacheFields.disabled')" />
+      </ElFormItem>
+      <ElFormItem :label="t('manage.exports.desc')">
+        <ElSwitch :disabled="allowCache" v-model="includeDescription" :active-text="t('manage.exports.descFields.enabled')" :inactive-text="t('manage.exports.descFields.disabled')" />
       </ElFormItem>
       <div style="text-align: right">
         <ElButton

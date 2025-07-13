@@ -6,13 +6,15 @@ async function createExportTask(
   format: 'csv' | 'json' | 'excel' | 'html' | 'latex',
   start?: Dayjs,
   end?: Dayjs,
-  allowCache: boolean = false
+  allowCache: boolean = false,
+  includeDescription: boolean = false // Default to false, can be changed in the UI
 ) {
   const body = {
     format,
     start: start?.toISOString(),
     end: end?.toISOString(),
-    allowCache
+    allow_cache: allowCache,
+    include_description: includeDescription
   }
   const result = await axios(`/exports/${type}`, {
     data: body,
@@ -36,10 +38,12 @@ async function queryTaskStatus(id: string) {
 async function downloadTaskFile(
   id: string,
   name: string,
-  format: 'csv' | 'excel' | 'json' | 'html' | 'latex'
+  format: 'csv' | 'excel' | 'json' | 'html' | 'latex',
+  language: string = 'en-US' // Default to English, can be changed in the UI
 ) {
   const result = await axios(`/exports/${id}/file`, {
     method: 'get',
+    params: { language },
     responseType: 'blob'
   })
   const mime = (
