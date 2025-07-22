@@ -11,7 +11,6 @@ declare module 'vue' {
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
-    ElEmpty: (typeof import('element-plus/es'))['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']

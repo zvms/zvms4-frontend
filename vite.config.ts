@@ -58,7 +58,8 @@ export default defineConfig({
       },
       workbox: {
         cleanupOutdatedCaches: false,
-        sourcemap: true
+        sourcemap: true,
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
       },
       onRegisteredSW(swUrl, r) {
         r &&
