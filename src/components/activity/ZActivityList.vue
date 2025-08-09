@@ -310,7 +310,7 @@ watch(isPointerSwiping, (swiping) => {
               text
               bg
               type="info"
-              @click="router.push(`/activity/details/${row._id}`)"
+              @click="router.push(`/activity/details/${row._id}` + (role === 'mine' ? '?session=' + row.mine._id : ''))"
             >
               {{ t('activity.impression.actions.view') }}
             </ElButton>

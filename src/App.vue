@@ -12,7 +12,8 @@ import {
   ElPopover,
   ElConfigProvider,
   ElDivider,
-  ElMessageBox
+  ElMessageBox,
+  ElWatermark
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -22,7 +23,7 @@ import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
 import { useWindowSize, useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { watch, ref, onMounted, h } from 'vue'
+import { watch, ref, onMounted, h, reactive } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
@@ -127,8 +128,23 @@ async function resetPassword() {
 
 resetPassword()
 
-useDark() //Only this can fix login page background flashing in dark mode
+const watermark = reactive({
+  color: 'rgba(0, 0, 0, .05)',
+  text: 'ZVMS 4',
+  fontSize: 14
+})
 
+const dark = useDark() // Only this can fix login page background flashing in dark mode
+
+watch(
+  dark,
+  () => {
+    watermark.color = dark.value ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .05)'
+  },
+  {
+    immediate: true
+  }
+)
 if (!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
   router.push('/user/login')
 }
@@ -230,95 +246,101 @@ onMounted(() => {
 
 <template>
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
-    <ElAlert type="error" center :closable="true" v-if="offlineReady" class="hidden-print">
-      <template #title>
-        <ElIcon class="disconnected">
-          <CarbonCloudOffline />
-        </ElIcon>
-        <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
-        <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
-      </template>
-    </ElAlert>
-    <ElContainer
-      @contextmenu.prevent
-      class="bg-slate-100 dark:bg-gray-900"
-      direction="vertical"
-      :style="{ width: width + 'px', height: 'calc(' + height + 'px - 3rem)' }"
+    <ElWatermark
+      :font="watermark"
+      :content="(userStore.isLogin && userStore.position.length >= 2) ? [userStore.name + ' ' + userStore.id] : []"
+      :z-index="999"
     >
-      <ElHeader>
-        <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
-          <ElCol :span="16">
-            <div
-              :class="[
-                'text-2xl',
-                'w-full',
-                verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
-                'pt-1.5',
-                'flex',
-                'items-center'
-              ]"
-              @dblclick="router.push('/')"
-            >
-              <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
-              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
-              <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
-              <span class="lh-100% ml-2">{{ headerStore.header }}</span>
-            </div>
-          </ElCol>
-          <ElCol :span="8">
-            <div class="user" v-if="userStore.isLogin">
-              <ElButtonGroup>
-                <ElButton text bg :icon="User" type="primary">
-                  {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
-                </ElButton>
-                <ElPopover width="216px">
-                  <template #reference>
-                    <ElButton
-                      text
-                      bg
-                      :icon="ArrowDown"
-                      :disabled="!userStore.isLogin"
-                      type="primary"
-                    />
-                  </template>
-                  <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
-                    <ElButton
-                      text
-                      :icon="button.icon"
-                      class="action-btn p-1 w-full"
-                      @click="button.click"
-                    >
-                      {{ t(`nav.${button.text}`) }}
-                    </ElButton>
-                  </ElButtonGroup>
-                </ElPopover>
-              </ElButtonGroup>
-            </div>
-          </ElCol>
-        </ElRow>
-      </ElHeader>
-      <ElContainer v-if="userStore.isLogin" class="full">
-        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
-        <RouterView
-          class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-          :style="{
-            width: width + 'px',
-            height: 'calc(' + height + 'px - 6.75rem)',
-            boxSizing: 'border-box'
-          }"
-        />
-      </ElContainer>
-      <ElContainer class="full" v-else>
-        <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
-      </ElContainer>
-      <ElFooter
-        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
+      <ElAlert type="error" center :closable="true" v-if="offlineReady" class="hidden-print">
+        <template #title>
+          <ElIcon class="disconnected">
+            <CarbonCloudOffline />
+          </ElIcon>
+          <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
+          <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
+        </template>
+      </ElAlert>
+      <ElContainer
+        @contextmenu.prevent
+        class="bg-slate-100 dark:bg-gray-900"
+        direction="vertical"
+        :style="{ width: width + 'px', height: 'calc(' + height + 'px - 3rem)' }"
       >
-        <p class="text-center">
-          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }} | {{ xuehaiId }}
-        </p>
-      </ElFooter>
-    </ElContainer>
+        <ElHeader>
+          <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
+            <ElCol :span="16">
+              <div
+                :class="[
+                  'text-2xl',
+                  'w-full',
+                  verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
+                  'pt-1.5',
+                  'flex',
+                  'items-center'
+                ]"
+                @dblclick="router.push('/')"
+              >
+                <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
+                <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
+                <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
+                <span class="lh-100% ml-2">{{ headerStore.header }}</span>
+              </div>
+            </ElCol>
+            <ElCol :span="8">
+              <div class="user" v-if="userStore.isLogin">
+                <ElButtonGroup>
+                  <ElButton text bg :icon="User" type="primary">
+                    {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
+                  </ElButton>
+                  <ElPopover width="216px">
+                    <template #reference>
+                      <ElButton
+                        text
+                        bg
+                        :icon="ArrowDown"
+                        :disabled="!userStore.isLogin"
+                        type="primary"
+                      />
+                    </template>
+                    <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
+                      <ElButton
+                        text
+                        :icon="button.icon"
+                        class="action-btn p-1 w-full"
+                        @click="button.click"
+                      >
+                        {{ t(`nav.${button.text}`) }}
+                      </ElButton>
+                    </ElButtonGroup>
+                  </ElPopover>
+                </ElButtonGroup>
+              </div>
+            </ElCol>
+          </ElRow>
+        </ElHeader>
+        <ElContainer v-if="userStore.isLogin" class="full">
+          <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
+          <RouterView
+            class="bg-slate-50 dark:bg-gray-950 view fragment-container"
+            :style="{
+              width: width + 'px',
+              height: 'calc(' + height + 'px - 6.75rem)',
+              boxSizing: 'border-box'
+            }"
+          />
+        </ElContainer>
+        <ElContainer class="full" v-else>
+          <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
+        </ElContainer>
+        <ElFooter
+          class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
+        >
+          <p class="text-center">
+            &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }} | {{ xuehaiId }}
+          </p>
+        </ElFooter>
+      </ElContainer>
+    </ElWatermark>
   </ElConfigProvider>
 </template>
 

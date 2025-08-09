@@ -123,26 +123,6 @@ const reportPage = ref(false)
         </ElCol>
         <ElCol :span="12" style="text-align: right">
           <ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
-          <ElButton
-            v-if="!pad() && user === userStore._id"
-            type="primary"
-            :disabled="loading"
-            :icon="Certificate"
-            text
-            bg
-            round
-            @click="$router.push('/certification')"
-          >
-            Certificate
-          </ElButton>
-          <ElTooltip
-            v-else-if="user === userStore._id"
-            content="Log in via computers to obtain the certificate"
-          >
-            <ElButton disabled type="primary" :icon="Certificate" text bg round>
-              Unavailable
-            </ElButton>
-          </ElTooltip>
           <ElDivider v-if="user === userStore._id" direction="vertical" />
           <ElButton
             type="success"

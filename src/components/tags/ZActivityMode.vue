@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import type { Activity } from '@/../types/v2'
+import type { Activity, ActivityMember } from '@/../types/v2'
 import { Vacation, School, CityGate, Star } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { ZButtonTag } from '@/components'
 import { useI18n } from 'vue-i18n'
-import { ref, toRefs } from 'vue'
+import { onMounted, ref, toRefs, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ElPopover, ElProgress, ElRow, ElCol } from 'element-plus'
+import api from '@/api'
 
 const { t } = useI18n()
 const user = useUserStore()
@@ -34,25 +35,56 @@ const props = withDefaults(
   }
 )
 
-const timeOfMine = {
+const timeOfMine = ref({
   'on-campus': user.time.onCampus,
   'off-campus': user.time.offCampus,
   'social-practice': user.time.socialPractice
+})
+const loading = ref(false)
+
+async function getTimeOfMine() {
+  loading.value = true
+  const response = await api.user.time.read(user._id)
+  const percentage = await api.user.time.percentile(user._id)
+  timeOfMine.value = response
+  loading.value = false
 }
+
+onMounted(() => {
+  getTimeOfMine()
+})
 
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)
 
 const percentOfMine = ref(
   mode?.value
     ? mode.value !== 'hybrid'
-      ? Math.floor((timeOfMine[mode?.value] / targetsOfDuration[mode?.value]) * 100)
+      ? Math.floor((timeOfMine.value[mode?.value] / targetsOfDuration[mode?.value]) * 100)
       : 0
     : 0
 )
 
-if (percentOfMine.value > 100) {
-  percentOfMine.value = 100
-}
+watch(timeOfMine, (newVal) => {
+  percentOfMine.value = mode?.value
+    ? mode.value !== 'hybrid'
+      ? Math.floor((newVal[mode?.value] / targetsOfDuration[mode?.value]) * 100)
+      : 0
+    : 0
+
+  if (percentOfMine.value > 100) {
+    percentOfMine.value = 100
+  }
+})
+
+watch(mode, (newVal) => {
+  percentOfMine.value = newVal !== 'hybrid'
+    ? Math.floor((timeOfMine.value[newVal] / targetsOfDuration[newVal]) * 100)
+    : 0
+
+  if (percentOfMine.value > 100) {
+    percentOfMine.value = 100
+  }
+})
 
 const modes: Record<
   Activity['type'],

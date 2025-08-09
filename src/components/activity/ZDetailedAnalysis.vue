@@ -20,6 +20,7 @@ const props = withDefaults(
 const { id } = toRefs(props)
 
 const mode = ref<ActivityMember['mode']>('on-campus')
+const loading = ref(false)
 
 const data = ref<{
   time: number
@@ -47,6 +48,7 @@ function getTargetsOfDuration() {
 
 async function refresh() {
   if (!id.value) return
+  loading.value = true
   const percentiles = await api.user.time.percentile(id.value)
   console.log(percentiles)
   const categ = percentiles[mode.value]
@@ -58,6 +60,7 @@ async function refresh() {
     mode?.value ? Math.floor((data.value.time / getTargetsOfDuration()[mode.value]) * 100) : 0,
     100
   )
+  loading.value = false
 }
 
 refresh()
@@ -96,7 +99,7 @@ watch(id, () => {
 </script>
 
 <template>
-  <div class="mx-12 sm:mx-6 xs:mx-4">
+  <div class="mx-12 sm:mx-6 xs:mx-4" v-loading="loading">
     <div class="text-right">
       <ElSegmented
         v-model="mode"
