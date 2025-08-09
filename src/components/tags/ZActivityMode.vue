@@ -77,9 +77,10 @@ watch(timeOfMine, (newVal) => {
 })
 
 watch(mode, (newVal) => {
-  percentOfMine.value = newVal !== 'hybrid'
-    ? Math.floor((timeOfMine.value[newVal] / targetsOfDuration[newVal]) * 100)
-    : 0
+  percentOfMine.value =
+    newVal !== 'hybrid'
+      ? Math.floor((timeOfMine.value[newVal] / targetsOfDuration[newVal]) * 100)
+      : 0
 
   if (percentOfMine.value > 100) {
     percentOfMine.value = 100

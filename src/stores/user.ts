@@ -102,11 +102,7 @@ export const useUserStore = defineStore('user', {
       const router = useRouter()
       await router.push('/user/login')
     },
-    setTime(time: {
-      onCampus: number
-      offCampus: number
-      socialPractice: number
-    }) {
+    setTime(time: { onCampus: number; offCampus: number; socialPractice: number }) {
       this.time.onCampus = time.onCampus
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice

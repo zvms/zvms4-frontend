@@ -9,7 +9,13 @@ export * as group from './group'
 export * as exports from './exports'
 export * as logs from './logs'
 export const time = {
-  async reads(search: string = '', page: number = 1, perpage: number = 5, sort: string = 'id', asc: boolean = true) {
+  async reads(
+    search: string = '',
+    page: number = 1,
+    perpage: number = 5,
+    sort: string = 'id',
+    asc: boolean = true
+  ) {
     const result = (
       await axios(`/v2/times`, {
         params: {

@@ -132,13 +132,7 @@ watch(height, () => {
           :type="activity?.type ?? 'hybrid'"
           :bg="false"
         />
-        <ZActivityType
-          force="full"
-          v-else
-          type="hybrid"
-          :special="activity?.origin"
-          :bg="false"
-        />
+        <ZActivityType force="full" v-else type="hybrid" :special="activity?.origin" :bg="false" />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.registration.status.title')">
         <ZActivityStatus force="full" :type="activity?.status ?? 'effective'" :bg="false" />
@@ -154,7 +148,12 @@ watch(height, () => {
         </ElButton>
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person')" v-if="activity">
-        <ZActivityMemberList class="px-2" :activity="activity" :members-count="membersCount" @refresh="refresh" />
+        <ZActivityMemberList
+          class="px-2"
+          :activity="activity"
+          :members-count="membersCount"
+          @refresh="refresh"
+        />
       </ElDescriptionsItem>
     </ElDescriptions>
     <ElDescriptions

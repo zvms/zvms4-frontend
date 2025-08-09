@@ -82,8 +82,10 @@ const speech_skills = {
 } as Record<string, string>
 
 function getDescOfPercentile(range: 'grade' | 'group', percentile: number) {
-  if (percentile !== 100) return `In your ${range}, you are in the ${percentile}th percentile, which means you are better than ${percentile}% of your peers, yet there are still ${100 - percentile}% of your peers who are better than you. Keep up the good work!`
-  else return `You've met the requirements in this mode, so we don't have any percentile data for you to avoid exaggerated data.`
+  if (percentile !== 100)
+    return `In your ${range}, you are in the ${percentile}th percentile, which means you are better than ${percentile}% of your peers, yet there are still ${100 - percentile}% of your peers who are better than you. Keep up the good work!`
+  else
+    return `You've met the requirements in this mode, so we don't have any percentile data for you to avoid exaggerated data.`
 }
 
 function getPercentileProgressColor(percentile: number) {
@@ -93,9 +95,13 @@ function getPercentileProgressColor(percentile: number) {
   else return 'exception'
 }
 
-watch(id, () => {
-  refresh()
-}, { immediate: true })
+watch(
+  id,
+  () => {
+    refresh()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>

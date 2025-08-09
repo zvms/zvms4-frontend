@@ -5,8 +5,8 @@ import type { ActivityMember } from 'types/activity.v2'
 
 async function getUserTime(user: string) {
   return (await axios(`/v2/users/${user}/time`)).data as {
-    'on-campus': number,
-    'off-campus': number,
+    'on-campus': number
+    'off-campus': number
     'social-practice': number
   }
 }
@@ -18,7 +18,10 @@ export interface UserActivityTimePercentile {
 }
 
 async function getUserTimePercentile(user: string) {
-  return (await axios(`/v2/users/${user}/time_statistics`)).data as Record<ActivityMember['mode'], UserActivityTimePercentile>
+  return (await axios(`/v2/users/${user}/time_statistics`)).data as Record<
+    ActivityMember['mode'],
+    UserActivityTimePercentile
+  >
 }
 
 export { getUserTime as read, getUserTimePercentile as percentile }

@@ -248,7 +248,11 @@ onMounted(() => {
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
     <ElWatermark
       :font="watermark"
-      :content="(userStore.isLogin && userStore.position.length >= 2) ? [userStore.name + ' ' + userStore.id] : []"
+      :content="
+        userStore.isLogin && userStore.position.length >= 2
+          ? [userStore.name + ' ' + userStore.id]
+          : []
+      "
       :z-index="999"
     >
       <ElAlert type="error" center :closable="true" v-if="offlineReady" class="hidden-print">

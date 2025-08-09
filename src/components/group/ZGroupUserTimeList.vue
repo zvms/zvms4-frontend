@@ -52,7 +52,6 @@ const diff = ref(false)
 const sort = ref('_id')
 const asc = ref(true)
 
-
 const { id } = toRefs(props)
 
 const tableHeight = ref(height.value * 0.6)
@@ -116,7 +115,6 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
-
 
 async function onSortChange(data: {
   column: unknown
@@ -185,7 +183,12 @@ async function onSortChange(data: {
             >
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="off-campus" sortable :label="t('activity.mode.off-campus.short')" v-else>
+        <ElTableColumn
+          prop="off-campus"
+          sortable
+          :label="t('activity.mode.off-campus.short')"
+          v-else
+        >
           <template #default="{ row }">
             <span class="color-green" v-if="row['off-campus'] >= 15">{{
               row['off-campus'].toFixed(1)

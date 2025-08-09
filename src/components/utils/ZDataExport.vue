@@ -166,10 +166,19 @@ watch(allowCache, () => {
         <ElInput v-model="name" />
       </ElFormItem>
       <ElFormItem :label="t('manage.exports.cache')">
-        <ElSwitch v-model="allowCache" :active-text="t('manage.exports.cacheFields.enabled')" :inactive-text="t('manage.exports.cacheFields.disabled')" />
+        <ElSwitch
+          v-model="allowCache"
+          :active-text="t('manage.exports.cacheFields.enabled')"
+          :inactive-text="t('manage.exports.cacheFields.disabled')"
+        />
       </ElFormItem>
       <ElFormItem :label="t('manage.exports.desc')">
-        <ElSwitch :disabled="allowCache" v-model="includeDescription" :active-text="t('manage.exports.descFields.enabled')" :inactive-text="t('manage.exports.descFields.disabled')" />
+        <ElSwitch
+          :disabled="allowCache"
+          v-model="includeDescription"
+          :active-text="t('manage.exports.descFields.enabled')"
+          :inactive-text="t('manage.exports.descFields.disabled')"
+        />
       </ElFormItem>
       <div style="text-align: right">
         <ElButton
