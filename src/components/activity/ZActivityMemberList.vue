@@ -7,8 +7,8 @@ import {
   ZSelectActivityMode,
   ZSelectPerson
 } from '@/components'
-import type { ActivityMember, Activity, User } from '@/../types/v2'
-import type { User as UserV1 } from '@/../types'
+import type { ActivityMember, Activity } from '@/../types/v2'
+import type { User } from '@/../types'
 import { toRefs, watch } from 'vue'
 import { User as IconUser, Minus, Plus, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
@@ -21,14 +21,18 @@ import {
   ElPagination,
   ElPopover,
   ElDivider,
-  ElMessage
+  ElMessage,
+  ElLoading,
+  type TableInstance
 } from 'element-plus'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useClipboard } from '@vueuse/core'
 import { ref } from 'vue'
 import { Merge } from '@icon-park/vue-next'
 import api from '@/api'
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
 import ZSelectClass from '@/components/form/ZSelectClass.vue'
+import { pad } from '@/plugins/ua'
+import { users } from '@/api/group/reads'
 
 const user = useUserStore()
 const { t } = useI18n()
@@ -36,6 +40,28 @@ const { height } = useWindowSize()
 const open = ref(false)
 const max = ref(height.value * 0.5)
 const showAddPopover = ref(false)
+const clipboard = useClipboard({ read: true })
+const activitySearch = ref('')
+const activitySelected = ref<Activity | null>(null)
+const activitySelectedMembersCount = ref(0)
+const activitySearchResult = ref<
+  {
+    label: string
+    value: string
+  }[]
+>([])
+
+watch(activitySearch, async (newVal) => {
+  if (newVal) {
+    const result = await api.activity.read.single(newVal)
+    if (result) {
+      activitySelected.value = result.activity
+      activitySelectedMembersCount.value = result.members_count
+    }
+  }
+})
+
+const tableRef = ref<TableInstance>()
 
 watch(height, () => {
   max.value = height.value * 0.5
@@ -44,20 +70,25 @@ watch(height, () => {
 const props = withDefaults(
   defineProps<{
     activity: Activity
-    membersCount: number
+    membersCount?: number
     mode?: 'button' | 'card'
     wholesale?: boolean
+    modelValue?: ActivityMember[]
+    selectable?: boolean
   }>(),
   {
     mode: 'button',
-    wholesale: false
+    wholesale: false,
+    membersCount: 0,
+    selectable: false
   }
 )
 const emits = defineEmits<{
   refresh: []
+  'update:modelValue': [ActivityMember[]]
 }>()
 
-const { activity, mode, wholesale, membersCount } = toRefs(props)
+const { activity, mode, wholesale, membersCount, modelValue, selectable } = toRefs(props)
 const modified = ref(false)
 const members = ref<ActivityMember[]>([])
 const addedUsers = ref<User[]>([])
@@ -67,15 +98,91 @@ const search = ref('')
 const size = ref(membersCount.value)
 const pageLoading = ref(false)
 
+const batchOriginTags = ['From Classes', 'From Past Activities']
+if (!pad()) {
+  batchOriginTags.push('From Pasted Name/IDs')
+}
+const batchOrigin = ref(batchOriginTags[0])
+const pastedContent = ref(typeof clipboard.copied.value === 'string' ? clipboard.copied.value : '')
+const contentParsed = ref<boolean>(false)
+const batchWindowLoading = ref(false)
+const searchActivityLoading = ref(false)
+const selectedActivity = ref<Activity | null>(null)
+const usersSelected = ref<ActivityMember[]>(modelValue.value ?? [])
+
+function handleSelectionChange(val: ActivityMember[]) {
+  emits('update:modelValue', val)
+}
+
+watch(
+  usersSelected,
+  (newVal) => {
+    emits('update:modelValue', newVal)
+  },
+  { deep: true, immediate: true }
+)
+
+async function parsePastedContent() {
+  const loading = ElLoading.service({ fullscreen: true })
+  const lines = pastedContent.value.split('\n').map((x) => x.trim())
+  const usersToAdd = await Promise.all(
+    lines.map(async (line) => {
+      const trimmedLine = line.trim()
+      try {
+        if (trimmedLine) {
+          const user = await api.user.read(trimmedLine, 1, 1)
+          if (user && user.users.length > 0) {
+            return {
+              status: 'success',
+              content: user.users[0]
+            }
+          } else {
+            return {
+              status: 'error',
+              content: trimmedLine
+            }
+          }
+        } else {
+          return {
+            status: 'error',
+            content: trimmedLine
+          }
+        }
+      } catch (_) {
+        return {
+          status: 'error',
+          content: trimmedLine
+        }
+      }
+    })
+  )
+  const successful = usersToAdd.filter((item) => item.status === 'success')
+  const failed = usersToAdd.filter((item) => item.status === 'error')
+  loading.close()
+  if (failed.length > 0) {
+    pastedContent.value = failed.map((item) => item.content).join('\n')
+    ElMessage({
+      message: 'There are ' + failed.length + ' errors in the pasted content.',
+      type: 'error',
+      duration: 5000,
+      plain: true
+    })
+  } else {
+    contentParsed.value = true
+  }
+  // @ts-ignore
+  addedUsers.value = successful.map((item) => item.content)
+}
+
 async function refreshMembers() {
   pageLoading.value = true
-  const { members: members_result, total } = await api.activity.member.reads(
+  const { members: membersResult, total } = await api.activity.member.reads(
     activity.value._id,
     page.value,
     perpage.value,
     search.value
   )
-  members.value = members_result
+  members.value = membersResult
   size.value = total
   pageLoading.value = false
 }
@@ -136,6 +243,22 @@ watch(open, () => {
   if (!open.value) showAddPopover.value = false
 })
 
+async function searchActivity(search: string) {
+  searchActivityLoading.value = true
+  if (!search) {
+    activitySelected.value = null
+    return
+  }
+  const { activities } = await api.activity.read.campus('', 1, 20, search)
+  activitySearchResult.value = activities.map((x) => {
+    return {
+      label: x.name,
+      value: x._id
+    }
+  })
+  searchActivityLoading.value = false
+}
+
 const show = ref(false)
 
 show.value = true
@@ -143,10 +266,12 @@ show.value = true
 async function addMembers() {
   modified.value = true
   loading.value = 'add'
-  const pipeline = addedUsers.value.map(async (mem) => {
+  const target = addedUsers.value.map((x) => x._id)
+  target.push(...usersSelected.value.map(x => x.member))
+  const pipeline = target.map(async (mem) => {
     const adding = {
       _id: '',
-      member: mem._id.toString(),
+      member: mem.toString(),
       activity: activity.value._id,
       status: 'effective',
       duration: appendingDuration.value,
@@ -194,7 +319,7 @@ async function addMembers() {
   await refreshMembers()
 }
 
-function selectorCallback(row: UserV1) {
+function selectorCallback(row: User) {
   return (
     (user.position.includes('admin') || user.position.includes('department')
       ? true
@@ -225,7 +350,15 @@ watch(search, refreshMembers)
     <template #text> {{ size }} {{ t('activity.units.person', membersCount) }} </template>
     <template #default>
       <div v-if="show">
-        <ElTable :data="members" stripe :height="max" v-loading="pageLoading">
+        <ElTable
+          :data="members"
+          stripe
+          :height="max"
+          v-loading="pageLoading"
+          row-key="member"
+          @selection-change="handleSelectionChange"
+        >
+          <ElTableColumn v-if="selectable" type="selection" width="55" reserve-selection />
           <ElTableColumn prop="_id" :label="t('activity.member.name')">
             <template #default="scope">
               <ZActivityMember :id="scope.row.member" />
@@ -248,7 +381,8 @@ watch(search, refreshMembers)
               (user.position.includes('admin') ||
                 user.position.includes('department') ||
                 user.position.includes('secretary')) &&
-              !wholesale
+              !wholesale &&
+              !selectable
             "
             class="no-print"
           >
@@ -293,6 +427,7 @@ watch(search, refreshMembers)
                   class="w-full"
                   :icon="Merge"
                   :round="false"
+                  v-loading="batchWindowLoading"
                   type="warning"
                   :title="
                     t('activity.member.dialog.actions.title', {
@@ -305,19 +440,79 @@ watch(search, refreshMembers)
                   </template>
                   <ElForm>
                     <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
+                      <ElSegmented v-model="batchOrigin" :options="batchOriginTags" />
+                    </ElFormItem>
+                    <ElFormItem
+                      :label="t('activity.batch.batch.classid')"
+                      v-if="!isOnlyMonitor && batchOrigin === 'From Classes'"
+                    >
                       <ZSelectClass v-model="selectedClassID" clearable />
                     </ElFormItem>
-                    <ElFormItem :label="t('activity.batch.batch.members')" class="w-full">
+                    <ElFormItem
+                      :label="t('activity.batch.batch.members')"
+                      class="w-full"
+                      v-if="batchOrigin === 'From Pasted Name/IDs' && !contentParsed"
+                    >
+                      <ElInput
+                        v-model="pastedContent"
+                        type="textarea"
+                        autosize
+                        @blur="parsePastedContent"
+                      />
+                    </ElFormItem>
+                    <ElFormItem
+                      label="Activity Name"
+                      v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
+                    >
+                      <ElSelect
+                        :remote-method="searchActivity"
+                        class="w-full"
+                        filterable
+                        remote
+                        reserve-keyword
+                        v-model="activitySearch"
+                        :loading="searchActivityLoading"
+                      >
+                        <ElOption
+                          v-for="activity in activitySearchResult"
+                          :key="activity.value"
+                          :label="activity.label"
+                          :value="activity.value"
+                        />
+                      </ElSelect>
+                    </ElFormItem>
+                    <ElFormItem
+                      label="Activity Members"
+                      v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
+                    >
+                      <ZActivityMemberList
+                        v-if="activitySelected"
+                        :activity="activitySelected"
+                        :members-count="activitySelectedMembersCount"
+                        selectable
+                        class="w-full"
+                        v-model="usersSelected"
+                        mode="card"
+                      />
+                      {{ usersSelected.length }} students selected.
+                    </ElFormItem>
+                    <ElFormItem
+                      :label="t('activity.batch.batch.members')"
+                      class="w-full"
+                      v-if="
+                        batchOrigin === 'From Classes' || batchOrigin === 'From Pasted Name/IDs'
+                      "
+                    >
                       <!-- @vue-ignore -->
                       <ZGroupUserList
                         class="w-full"
                         :id="selectedClassID"
                         selectable
                         :selector-callback="selectorCallback"
-                        v-model="addedUsers"
+                        v-model="usersSelected"
                       />
                       <p class="py-0.5">
-                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
+                        {{ t('activity.batch.batch.selected', { count: usersSelected.length }) }}
                       </p>
                     </ElFormItem>
                     <ElFormItem :label="t('activity.batch.batch.mode')">
@@ -349,7 +544,11 @@ watch(search, refreshMembers)
                       :icon="ArrowRight"
                       @click="addMembers"
                       :loading="loading === 'add'"
-                      :disabled="!addedUsers.length || !appendingMode || !appendingDuration"
+                      :disabled="
+                        (!addedUsers.length && !usersSelected.length) ||
+                        !appendingMode ||
+                        !appendingDuration
+                      "
                     >
                       {{ t('activity.member.dialog.actions.add') }}
                     </ElButton>

@@ -17,7 +17,8 @@ import {
   ElRadioGroup,
   ElRow,
   ElScrollbar,
-  ElSelect
+  ElSelect,
+  ElCascader
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { ArrowLeft, ArrowRight, Location } from '@element-plus/icons-vue'
@@ -31,8 +32,9 @@ import api from '@/api'
 import { validateActivity } from './validation'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import categories from './categories.json'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { height } = useWindowSize()
 const router = useRouter()
 const load = ref(false)
@@ -68,20 +70,9 @@ const token = localStorage.getItem('token')
 
 const approveStudent = ref('')
 
-const members = reactive<ActivityMember[]>([])
+const activityCategories = Object.getOwnPropertyDescriptor(categories, locale.value)?.value ?? categories['en-US']
 
-const origins = [
-  'labor',
-  'organization',
-  'tasks',
-  'occasions',
-  'import',
-  'activities',
-  'practice',
-  'club',
-  'prize',
-  'other'
-]
+const members = reactive<ActivityMember[]>([])
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 
@@ -185,14 +176,7 @@ function checkReviewAllowed() {
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
-              <ElSelect v-model="activity.origin" class="full">
-                <ElOption
-                  v-for="classify in origins"
-                  :key="classify"
-                  :label="t('activity.origins.' + classify + '.name')"
-                  :value="classify"
-                />
-              </ElSelect>
+              <ElCascader v-model="activity.origin" :options="activityCategories" class="w-full" />
             </ElFormItem>
             <ElFormItem
               v-if="activePage === 'info'"

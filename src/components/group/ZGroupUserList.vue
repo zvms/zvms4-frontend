@@ -43,7 +43,6 @@ const props = withDefaults(
   }
 )
 const emits = defineEmits(['update:modelValue'])
-const tableRef = ref<TableInstance>()
 const group = ref<Group>()
 const users = ref<User[]>([])
 const page = ref(1)
@@ -147,7 +146,6 @@ function handleSelectionChange(val: string[]) {
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
       <ElTable
-        :ref="tableRef"
         :data="users"
         stripe
         row-key="_id"
@@ -157,7 +155,6 @@ function handleSelectionChange(val: string[]) {
         <ElTableColumn
           v-if="selectable"
           type="selection"
-          :selectable="selectorCallback ?? ((row) => true)"
           reserve-selection
         />
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />

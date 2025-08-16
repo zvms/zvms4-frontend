@@ -20,6 +20,7 @@ const props = withDefaults(
     open?: boolean
     disabled?: boolean
     buttonLoading?: boolean
+    wFull?: boolean
   }>(),
   {
     size: 'small',
@@ -34,7 +35,8 @@ const props = withDefaults(
     round: true,
     open: false,
     disabled: false,
-    buttonLoading: false
+    buttonLoading: false,
+    wFull: false
   }
 )
 const emits = defineEmits<{
@@ -138,7 +140,7 @@ function startOpen() {
     </ElDrawer>
   </Teleport>
   <div v-if="mode === 'card'">
-    <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading">
+    <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading" :class="[wFull ? 'w-full' : '']">
       <slot name="default" />
     </ElCard>
   </div>

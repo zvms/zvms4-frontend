@@ -21,7 +21,7 @@ import { useRouter, useRoute } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize, useDark } from '@vueuse/core'
+import { useWindowSize, useDark, useOnline } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h, reactive } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
@@ -33,6 +33,8 @@ import { Instruction } from '@icon-park/vue-next'
 import { pad } from '@/plugins/ua.ts'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
+
+const online = useOnline()
 
 const { t, locale } = useI18n()
 
@@ -255,7 +257,7 @@ onMounted(() => {
       "
       :z-index="999"
     >
-      <ElAlert type="error" center :closable="true" v-if="offlineReady" class="hidden-print">
+      <ElAlert type="error" center :closable="true" v-if="offlineReady && !online" class="hidden-print">
         <template #title>
           <ElIcon class="disconnected">
             <CarbonCloudOffline />

@@ -11,6 +11,7 @@ import {
   ElStatistic,
   ElSegmented
 } from 'element-plus'
+import categories from './categories.json'
 import { useWindowSize } from '@vueuse/core'
 import { Calendar, ArrowRight, Delete, Plus } from '@element-plus/icons-vue'
 import dayjs from '@/plugins/dayjs'
@@ -47,17 +48,18 @@ const props = withDefaults(
   defineProps<{
     activity: Activity
     memberDetails?: ActivityMember
-    membersCount: number
+    membersCount?: number
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
-    local: boolean
+    local?: boolean
   }>(),
   {
     mode: 'mine',
     perspective: 'mine',
     showDetails: false,
-    local: false
+    local: false,
+    membersCount: 0,
   }
 )
 const emits = defineEmits<{
@@ -65,7 +67,7 @@ const emits = defineEmits<{
 }>()
 
 const user = useUserStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { activity, mode, membersCount, showDetails, local, memberDetails } = toRefs(props)
 
 const hovered = ref(false)
