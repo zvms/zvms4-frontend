@@ -98,10 +98,7 @@ const search = ref('')
 const size = ref(membersCount.value)
 const pageLoading = ref(false)
 
-const batchOriginTags = ['From Classes', 'From Past Activities']
-if (!pad()) {
-  batchOriginTags.push('From Pasted Name/IDs')
-}
+const batchOriginTags = ['From Classes', 'From Past Activities', 'From Pasted Name/IDs']
 const batchOrigin = ref(batchOriginTags[0])
 const pastedContent = ref(typeof clipboard.copied.value === 'string' ? clipboard.copied.value : '')
 const contentParsed = ref<boolean>(false)
