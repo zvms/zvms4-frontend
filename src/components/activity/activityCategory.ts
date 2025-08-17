@@ -30,9 +30,10 @@ export function composeDurationRecommendation(config: {
       ? `根据《镇海中学学生义工管理细则》（2025 年 2 月修订）${attachmentName}，`
       : `According to the 'Volunteer Management Regulations of Zhenhai High School' (Revised in February 2025) ${attachmentName}, `
   if (ticketRequired) {
-    base += (lang === 'zh-CN'
-      ? `该义工活动需要《非常规义工申请单》。`
-      : `This volunteer activity requires a 'Non-Regular Volunteer Application Form'. `)
+    base +=
+      lang === 'zh-CN'
+        ? `该义工活动需要《非常规义工申请单》。`
+        : `This volunteer activity requires a 'Non-Regular Volunteer Application Form'. `
   }
   if (lte && !gte && !unlimited) {
     return (

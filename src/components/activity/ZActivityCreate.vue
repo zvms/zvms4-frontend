@@ -68,12 +68,15 @@ const activity = reactive<Activity>({
 const createdId = ref('')
 
 const token = localStorage.getItem('token')
-const remindText = ref(locale.value === 'zh-CN' ? '请先选择义工来源' : 'Please select a volunteer source first')
+const remindText = ref(
+  locale.value === 'zh-CN' ? '请先选择义工来源' : 'Please select a volunteer source first'
+)
 const remindCategory = ref<string[]>([])
 
 const approveStudent = ref('')
 
-const activityCategories = Object.getOwnPropertyDescriptor(categories, locale.value)?.value ?? categories['en-US']
+const activityCategories =
+  Object.getOwnPropertyDescriptor(categories, locale.value)?.value ?? categories['en-US']
 
 const members = reactive<ActivityMember[]>([])
 
@@ -96,28 +99,44 @@ watch(origin, (newVal) => {
     reminder = intermediate
   }
   console.log(reminder)
-  // @ts-ignore
-  const duration = reminder?.duration ?? {} as Record<ActivityMember['mode'] | 'hybrid', { lte?: number; gte?: number; unlimited?: boolean }>
+  const duration =
+    // @ts-ignore
+    reminder?.duration ??
+    ({} as Record<
+      ActivityMember['mode'] | 'hybrid',
+      { lte?: number; gte?: number; unlimited?: boolean }
+    >)
   const dict = {
-    'on-campus': locale.value === 'zh-CN' ? '仅可计入校内义工。' : ' Could only count as on-campus volunteer work.',
-    'off-campus': locale.value === 'zh-CN' ? '仅可计入校外义工。' : ' Could only count as off-campus volunteer work.',
-    'social-practice': locale.value === 'zh-CN' ? '仅可计入社会实践。' : ' Could only count as social practice.',
-    'hybrid': locale.value === 'zh-CN' ? '可按个人选择计入模式。' : ' Could select record mode according to personal choice.'
+    'on-campus':
+      locale.value === 'zh-CN'
+        ? '仅可计入校内义工。'
+        : ' Could only count as on-campus volunteer work.',
+    'off-campus':
+      locale.value === 'zh-CN'
+        ? '仅可计入校外义工。'
+        : ' Could only count as off-campus volunteer work.',
+    'social-practice':
+      locale.value === 'zh-CN' ? '仅可计入社会实践。' : ' Could only count as social practice.',
+    hybrid:
+      locale.value === 'zh-CN'
+        ? '可按个人选择计入模式。'
+        : ' Could select record mode according to personal choice.'
   }
   console.log(duration)
   // @ts-ignore
   const [mode, config] = Object.entries(duration)[0]
   console.log(newVal)
-  remindText.value = (composeDurationRecommendation({
+  remindText.value =
+    composeDurationRecommendation({
       // @ts-ignore
       ...config,
       documented: newVal.includes('content-clubs'),
       lang: locale.value,
       ticketRequired: newVal.includes('student-activities') || newVal.includes('awards'),
       // @ts-ignore
-    attachment: reminder?.attachment ?? 0
-    // @ts-ignore
-  }) + dict[mode])
+      attachment: reminder?.attachment ?? 0
+      // @ts-ignore
+    }) + dict[mode]
 })
 
 watch(height, () => {
@@ -128,19 +147,19 @@ async function nextStep() {
   load.value = true
   if (activePage.value === 'info') {
     if (origin.value.includes('physical-labor')) {
-      activity.origin =  'labor'
+      activity.origin = 'labor'
     } else if (origin.value.includes('off-campus')) {
-      activity.origin =  'activity'
+      activity.origin = 'activity'
     } else if (origin.value.includes('social-practice')) {
-      activity.origin =  'activity'
+      activity.origin = 'activity'
     } else if (origin.value.includes('mental-labor')) {
-      activity.origin =  'labor'
+      activity.origin = 'labor'
     } else if (origin.value.includes('ad-hoc-tasks')) {
-      activity.origin =  'labor'
+      activity.origin = 'labor'
     } else if (origin.value.includes('student-activities')) {
-      activity.origin =  'organization'
+      activity.origin = 'organization'
     } else if (origin.value.includes('awards')) {
-      activity.origin =  'prize'
+      activity.origin = 'prize'
     }
     console.log(activity.origin)
     createdId.value = await api.activity.insert(activity)

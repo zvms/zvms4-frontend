@@ -140,7 +140,12 @@ function startOpen() {
     </ElDrawer>
   </Teleport>
   <div v-if="mode === 'card'">
-    <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading" :class="[wFull ? 'w-full' : '']">
+    <ElCard
+      v-if="mode === 'card'"
+      shadow="hover"
+      v-loading="loading"
+      :class="[wFull ? 'w-full' : '']"
+    >
       <slot name="default" />
     </ElCard>
   </div>

@@ -264,7 +264,7 @@ async function addMembers() {
   modified.value = true
   loading.value = 'add'
   const target = addedUsers.value.map((x) => x._id)
-  target.push(...usersSelected.value.map(x => x.member))
+  target.push(...usersSelected.value.map((x) => x.member))
   const pipeline = target.map(async (mem) => {
     const adding = {
       _id: '',

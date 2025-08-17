@@ -257,7 +257,13 @@ onMounted(() => {
       "
       :z-index="999"
     >
-      <ElAlert type="error" center :closable="true" v-if="offlineReady && !online" class="hidden-print">
+      <ElAlert
+        type="error"
+        center
+        :closable="true"
+        v-if="offlineReady && !online"
+        class="hidden-print"
+      >
         <template #title>
           <ElIcon class="disconnected">
             <CarbonCloudOffline />

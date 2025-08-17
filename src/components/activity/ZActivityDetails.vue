@@ -59,7 +59,7 @@ const props = withDefaults(
     perspective: 'mine',
     showDetails: false,
     local: false,
-    membersCount: 0,
+    membersCount: 0
   }
 )
 const emits = defineEmits<{

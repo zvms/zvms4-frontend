@@ -152,11 +152,7 @@ function handleSelectionChange(val: string[]) {
         @selection-change="handleSelectionChange"
         :max-height="tableHeight"
       >
-        <ElTableColumn
-          v-if="selectable"
-          type="selection"
-          reserve-selection
-        />
+        <ElTableColumn v-if="selectable" type="selection" reserve-selection />
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
         <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="group" :label="t('manage.groupDetails.userList.columns.group')">
