@@ -17,7 +17,7 @@ export interface Activity {
   creator: string
   status: 'pending' | 'effective' | 'refused'
   place: string
-  origin: 'prize' | 'labor' | 'club' | 'organization' | 'activity' | 'import' | 'other'
+  origin: 'prize' | 'labor' | 'club' | 'organization' | 'activities' | 'import' | 'other'
 }
 
 /**

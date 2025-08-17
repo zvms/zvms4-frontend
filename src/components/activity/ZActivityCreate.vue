@@ -83,6 +83,7 @@ const members = reactive<ActivityMember[]>([])
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
 const origin = ref<string[]>([])
 
+// @ts-ignore
 watch(origin, (newVal) => {
   while (remindCategory.value.length > 0) {
     remindCategory.value.pop()
@@ -90,6 +91,21 @@ watch(origin, (newVal) => {
   const val = Array.from(newVal)
   // @ts-ignore
   let reminder = { children: categories[locale.value] }
+  if (
+    newVal.includes('off-campus') ||
+    newVal.includes('social-practice') ||
+    newVal.includes('others')
+  ) {
+    remindText.value =
+      locale.value === 'zh-CN'
+        ? '请确保已提交相关纸质材料并由团委审核通过。'
+        : 'Please ensure that relevant paper materials have been submitted and approved by the Youth League Committee.'
+    remindCategory.value = [
+      // @ts-ignore
+      categories[locale.value].find((item) => item.value === newVal[0])?.label
+    ]
+    return
+  }
   while (val.length > 0) {
     const target = val.shift()
     // @ts-ignore
@@ -98,7 +114,6 @@ watch(origin, (newVal) => {
     // @ts-ignore
     reminder = intermediate
   }
-  console.log(reminder)
   const duration =
     // @ts-ignore
     reminder?.duration ??
@@ -122,10 +137,8 @@ watch(origin, (newVal) => {
         ? '可按个人选择计入模式。'
         : ' Could select record mode according to personal choice.'
   }
-  console.log(duration)
   // @ts-ignore
   const [mode, config] = Object.entries(duration)[0]
-  console.log(newVal)
   remindText.value =
     composeDurationRecommendation({
       // @ts-ignore
@@ -149,9 +162,9 @@ async function nextStep() {
     if (origin.value.includes('physical-labor')) {
       activity.origin = 'labor'
     } else if (origin.value.includes('off-campus')) {
-      activity.origin = 'activity'
+      activity.origin = 'activities'
     } else if (origin.value.includes('social-practice')) {
-      activity.origin = 'activity'
+      activity.origin = 'activities'
     } else if (origin.value.includes('mental-labor')) {
       activity.origin = 'labor'
     } else if (origin.value.includes('ad-hoc-tasks')) {
@@ -160,8 +173,9 @@ async function nextStep() {
       activity.origin = 'organization'
     } else if (origin.value.includes('awards')) {
       activity.origin = 'prize'
+    } else {
+      activity.origin = 'other'
     }
-    console.log(activity.origin)
     createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
     activePage.value = 'member'
