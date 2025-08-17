@@ -1,4 +1,4 @@
-export interface User {
+export interface ActivityMemberUser {
   _id: string // ObjectId
   id: number
   name: string

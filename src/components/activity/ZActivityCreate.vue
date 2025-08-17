@@ -12,7 +12,7 @@ import {
   ElForm,
   ElFormItem,
   ElInput,
-  ElOption,
+  ElAlert,
   ElRadio,
   ElRadioGroup,
   ElRow,
@@ -33,6 +33,7 @@ import { validateActivity } from './validation'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import categories from './categories.json'
+import { composeDurationRecommendation } from './activityCategory'
 
 const { t, locale } = useI18n()
 const { height } = useWindowSize()
@@ -67,6 +68,8 @@ const activity = reactive<Activity>({
 const createdId = ref('')
 
 const token = localStorage.getItem('token')
+const remindText = ref(locale.value === 'zh-CN' ? '请先选择义工来源' : 'Please select a volunteer source first')
+const remindCategory = ref<string[]>([])
 
 const approveStudent = ref('')
 
@@ -75,6 +78,47 @@ const activityCategories = Object.getOwnPropertyDescriptor(categories, locale.va
 const members = reactive<ActivityMember[]>([])
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
+const origin = ref<string[]>([])
+
+watch(origin, (newVal) => {
+  while (remindCategory.value.length > 0) {
+    remindCategory.value.pop()
+  }
+  const val = Array.from(newVal)
+  // @ts-ignore
+  let reminder = { children: categories[locale.value] }
+  while (val.length > 0) {
+    const target = val.shift()
+    // @ts-ignore
+    const intermediate = reminder.children.find((item) => item.value === target) ?? reminder
+    remindCategory.value.push(intermediate?.label ?? '')
+    // @ts-ignore
+    reminder = intermediate
+  }
+  console.log(reminder)
+  // @ts-ignore
+  const duration = reminder?.duration ?? {} as Record<ActivityMember['mode'] | 'hybrid', { lte?: number; gte?: number; unlimited?: boolean }>
+  const dict = {
+    'on-campus': locale.value === 'zh-CN' ? '仅可计入校内义工。' : ' Could only count as on-campus volunteer work.',
+    'off-campus': locale.value === 'zh-CN' ? '仅可计入校外义工。' : ' Could only count as off-campus volunteer work.',
+    'social-practice': locale.value === 'zh-CN' ? '仅可计入社会实践。' : ' Could only count as social practice.',
+    'hybrid': locale.value === 'zh-CN' ? '可按个人选择计入模式。' : ' Could select record mode according to personal choice.'
+  }
+  console.log(duration)
+  // @ts-ignore
+  const [mode, config] = Object.entries(duration)[0]
+  console.log(newVal)
+  remindText.value = (composeDurationRecommendation({
+      // @ts-ignore
+      ...config,
+      documented: newVal.includes('content-clubs'),
+      lang: locale.value,
+      ticketRequired: newVal.includes('student-activities') || newVal.includes('awards'),
+      // @ts-ignore
+    attachment: reminder?.attachment ?? 0
+    // @ts-ignore
+  }) + dict[mode])
+})
 
 watch(height, () => {
   scrollableCardHeight.value = (height.value - 64) * 0.6
@@ -83,6 +127,22 @@ watch(height, () => {
 async function nextStep() {
   load.value = true
   if (activePage.value === 'info') {
+    if (origin.value.includes('physical-labor')) {
+      activity.origin =  'labor'
+    } else if (origin.value.includes('off-campus')) {
+      activity.origin =  'activity'
+    } else if (origin.value.includes('social-practice')) {
+      activity.origin =  'activity'
+    } else if (origin.value.includes('mental-labor')) {
+      activity.origin =  'labor'
+    } else if (origin.value.includes('ad-hoc-tasks')) {
+      activity.origin =  'labor'
+    } else if (origin.value.includes('student-activities')) {
+      activity.origin =  'organization'
+    } else if (origin.value.includes('awards')) {
+      activity.origin =  'prize'
+    }
+    console.log(activity.origin)
     createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
     activePage.value = 'member'
@@ -176,7 +236,7 @@ function checkReviewAllowed() {
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
-              <ElCascader v-model="activity.origin" :options="activityCategories" class="w-full" />
+              <ElCascader v-model="origin" :options="activityCategories" class="w-full" />
             </ElFormItem>
             <ElFormItem
               v-if="activePage === 'info'"
@@ -206,6 +266,15 @@ function checkReviewAllowed() {
                   <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
                 </ElCol>
               </ElRow>
+            </ElFormItem>
+            <ElFormItem v-if="activePage === 'member' || activePage === 'info'">
+              <ElAlert
+                :title="remindCategory.join(' / ')"
+                :description="remindText"
+                type="info"
+                :closable="false"
+                class="mb-4"
+              />
             </ElFormItem>
             <ElFormItem
               :label="t('activity.form.person', members.length)"

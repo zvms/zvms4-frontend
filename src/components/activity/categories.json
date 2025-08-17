@@ -8,35 +8,92 @@
           "label": "Cleaning and Organizing",
           "value": "cleaning-organizing",
           "children": [
-            { "label": "Library", "value": "library", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } } },
-            { "label": "Sports and Arts Hall", "value": "stadium-arts-hall", "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 5 } } },
-            { "label": "Music Classroom", "value": "music-classroom", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "Teacher's Office", "value": "teacher-office", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "Other Public Areas", "value": "other-public-areas", "duration": { "on-campus": { "unlimited": false, "lte": 3 } } }
+            {
+              "label": "Library",
+              "value": "library",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
+            },
+            {
+              "label": "Sports and Arts Hall",
+              "value": "stadium-arts-hall",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 5 } }
+            },
+            {
+              "label": "Music Classroom",
+              "value": "music-classroom",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "Teacher's Office",
+              "value": "teacher-office",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "Other Public Areas",
+              "value": "other-public-areas",
+              "duration": { "on-campus": { "unlimited": false, "lte": 3 } }
+            }
           ]
         },
         {
           "label": "School Affairs",
           "value": "school-affairs",
           "children": [
-            { "label": "Club Fair Setup", "value": "club-fair-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "Cultural Performance Setup", "value": "performance-setup", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } } },
-            { "label": "Year-End Charity Sale Setup", "value": "year-end-sale-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "Festival Event Setup", "value": "festival-event-setup", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } } },
-            { "label": "Gate Duty", "value": "gate-duty", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } } },
-            { "label": "Holiday School Guarding", "value": "holiday-school-guarding", "duration": { "on-campus": { "unlimited": false, "gte": 4, "lte": 6 } } }
+            {
+              "label": "Club Fair Setup",
+              "value": "club-fair-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "Cultural Performance Setup",
+              "value": "performance-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
+            },
+            {
+              "label": "Year-End Charity Sale Setup",
+              "value": "year-end-sale-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "Festival Event Setup",
+              "value": "festival-event-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
+            },
+            {
+              "label": "Gate Duty",
+              "value": "gate-duty",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
+            },
+            {
+              "label": "Holiday School Guarding",
+              "value": "holiday-school-guarding",
+              "duration": { "on-campus": { "unlimited": false, "gte": 4, "lte": 6 } }
+            }
           ]
         },
         {
           "label": "Major Exams",
           "value": "major-exams",
           "children": [
-            { "label": "Gym Setup for Exams", "value": "gym-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 6 } } },
-            { "label": "Guide or Volunteer", "value": "guide-volunteer", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "Academic/College Entrance Exam Volunteer", "value": "exam-volunteer", "duration": { "on-campus": { "unlimited": false, "gte": 5, "lte": 8 } } }
+            {
+              "label": "Gym Setup for Exams",
+              "value": "gym-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 6 } }
+            },
+            {
+              "label": "Guide or Volunteer",
+              "value": "guide-volunteer",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "Academic/College Entrance Exam Volunteer",
+              "value": "exam-volunteer",
+              "duration": { "on-campus": { "unlimited": false, "gte": 5, "lte": 8 } }
+            }
           ]
         }
-      ]
+      ],
+      "attachment": 1
     },
     {
       "label": "Mental Labor",
@@ -52,12 +109,14 @@
           "value": "innovation-support",
           "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 8 } }
         }
-      ]
+      ],
+      "attachment": 1
     },
     {
       "label": "Ad-hoc Tasks",
       "value": "ad-hoc-tasks",
-      "duration": { "on-campus": { "unlimited": false, "lte": 5 } }
+      "duration": { "on-campus": { "unlimited": false, "lte": 5 } },
+      "attachment": 1
     },
     {
       "label": "Student Activities",
@@ -67,17 +126,32 @@
           "label": "School-based Roles",
           "value": "school-roles",
           "children": [
-            { "label": "Student Council (Minister)", "value": "student-council-minister", "duration": { "on-campus": { "unlimited": true } } },
-            { "label": "Student Council Member", "value": "student-council-member", "duration": { "on-campus": { "unlimited": true } } },
-            { "label": "National Flag Team", "value": "national-flag-team", "duration": { "on-campus": { "unlimited": true } } }
+            {
+              "label": "Student Council (Minister)",
+              "value": "student-council-minister",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Student Council Member",
+              "value": "student-council-member",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "National Flag Team",
+              "value": "national-flag-team",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
           "label": "Clubs (Content-based)",
           "value": "content-clubs",
-          "duration": { "on-campus": { "unlimited": true } },
           "children": [
-            { "label": "Lingtong Journalist Team", "value": "lingtong-journalist" }
+            {
+              "label": "Lingtong Journalist Team",
+              "value": "lingtong-journalist",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
@@ -86,21 +160,57 @@
           "timeDistribution": "layered",
           "duration": { "on-campus": { "unlimited": true } },
           "children": [
-            { "label": "Choir", "value": "choir" },
-            { "label": "Orchestra", "value": "orchestra" },
-            { "label": "Cheerleading Team", "value": "cheerleading" },
-            { "label": "Dance Team", "value": "dance-team" }
+            {
+              "label": "Choir",
+              "value": "choir",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Orchestra",
+              "value": "orchestra",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Cheerleading Team",
+              "value": "cheerleading",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Dance Team",
+              "value": "dance-team",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
           "label": "External Activities",
           "value": "external-activities",
           "children": [
-            { "label": "Love for Alma Mater", "value": "love-for-alma-mater", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "Leadership Project Team", "value": "leadership-project", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "Model CPPCC Competition", "value": "model-cppcc", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "Science Talent Seedling Program", "value": "science-talent-seedling", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "Special Club External Activities", "value": "special-club-external", "duration": { "off-campus": { "unlimited": false, "gte": 1, "lte": 5 } } }
+            {
+              "label": "Love for Alma Mater",
+              "value": "love-for-alma-mater",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Leadership Project Team",
+              "value": "leadership-project",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Model CPPCC Competition",
+              "value": "model-cppcc",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Science Talent Seedling Program",
+              "value": "science-talent-seedling",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "Special Club External Activities",
+              "value": "special-club-external",
+              "duration": { "off-campus": { "unlimited": false, "gte": 1, "lte": 5 } }
+            }
           ]
         },
         {
@@ -108,7 +218,8 @@
           "value": "beneficial-club-activities",
           "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
         }
-      ]
+      ],
+      "attachment": 1
     },
     {
       "label": "Awards",
@@ -118,40 +229,112 @@
           "label": "Art Awards",
           "value": "art-awards",
           "children": [
-            { "label": "District 2nd/3rd Prize", "value": "art-district-23", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "District 1st or City 2nd/3rd", "value": "art-district-1-city-23", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "City 1st or Province 2nd/3rd", "value": "art-city-1-province-23", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "Province 1st", "value": "art-province-1", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } },
-            { "label": "National Level", "value": "art-national", "duration": { "on-campus": { "unlimited": false, "gte": 6 } } }
+            {
+              "label": "District 2nd/3rd Prize",
+              "value": "art-district-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "District 1st or City 2nd/3rd",
+              "value": "art-district-1-city-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "City 1st or Province 2nd/3rd",
+              "value": "art-city-1-province-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "Province 1st",
+              "value": "art-province-1",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            },
+            {
+              "label": "National Level",
+              "value": "art-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 6 } }
+            }
           ]
         },
         {
           "label": "Academic Awards",
           "value": "academic-awards",
           "children": [
-            { "label": "District 2nd/3rd Prize", "value": "academic-district-23", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "District 1st or City 2nd/3rd", "value": "academic-district-1-city-23", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "City 1st or Province 2nd/3rd", "value": "academic-city-1-province-23", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "Province 1st or National", "value": "academic-province-1-national", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } },
-            { "label": "AMC Top 5%", "value": "academic-amc-top5", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "AMC Top 1%", "value": "academic-amc-top1", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } }
+            {
+              "label": "District 2nd/3rd Prize",
+              "value": "academic-district-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "District 1st or City 2nd/3rd",
+              "value": "academic-district-1-city-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "City 1st or Province 2nd/3rd",
+              "value": "academic-city-1-province-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "Province 1st or National",
+              "value": "academic-province-1-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            },
+            {
+              "label": "AMC Top 5%",
+              "value": "academic-amc-top5",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "AMC Top 1%",
+              "value": "academic-amc-top1",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            }
           ]
         },
         {
           "label": "Sports Awards",
           "value": "sports-awards",
           "children": [
-            { "label": "District 4th-8th", "value": "sports-district-48", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "District 1st-3rd or City 4th-8th", "value": "sports-district-13-city-48", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "City 1st-3rd or Province 4th-10th", "value": "sports-city-13-province-410", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "Province 1st-3rd or National", "value": "sports-province-13-national", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } }
+            {
+              "label": "District 4th-8th",
+              "value": "sports-district-48",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "District 1st-3rd or City 4th-8th",
+              "value": "sports-district-13-city-48",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "City 1st-3rd or Province 4th-10th",
+              "value": "sports-city-13-province-410",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "Province 1st-3rd or National",
+              "value": "sports-province-13-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            }
           ]
         }
-      ]
+      ],
+      "attachment": 2
+    },
+    {
+      "label": "off-campus",
+      "value": "Off-campus Activities",
+      "attachment": 0
+    },
+    {
+      "label": "social-practice",
+      "value": "Social Practice",
+      "attachment": 0
     },
     {
       "label": "Others",
-      "value": "others"
+      "value": "others",
+      "attachment": 0
     }
   ],
   "zh-CN": [
@@ -163,35 +346,92 @@
           "label": "整理打扫类",
           "value": "cleaning-organizing",
           "children": [
-            { "label": "图书馆", "value": "library", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } } },
-            { "label": "体艺馆", "value": "stadium-arts-hall", "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 5 } } },
-            { "label": "音乐教室", "value": "music-classroom", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "教师办公室", "value": "teacher-office", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "其他公共区域", "value": "other-public-areas", "duration": { "on-campus": { "unlimited": false, "lte": 3 } } }
+            {
+              "label": "图书馆",
+              "value": "library",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
+            },
+            {
+              "label": "体艺馆",
+              "value": "stadium-arts-hall",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 5 } }
+            },
+            {
+              "label": "音乐教室",
+              "value": "music-classroom",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "教师办公室",
+              "value": "teacher-office",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "其他公共区域",
+              "value": "other-public-areas",
+              "duration": { "on-campus": { "unlimited": false, "lte": 3 } }
+            }
           ]
         },
         {
           "label": "校内事务类",
           "value": "school-affairs",
           "children": [
-            { "label": "百团大战会场布置", "value": "club-fair-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "“一二·九”文艺汇演会场布置", "value": "129-performance-setup", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } } },
-            { "label": "年终义卖布置", "value": "year-end-sale-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "各种节日活动布置", "value": "festival-event-setup", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } } },
-            { "label": "门口执勤", "value": "gate-duty", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } } },
-            { "label": "假期护校", "value": "holiday-school-guarding", "duration": { "on-campus": { "unlimited": false, "gte": 4, "lte": 6 } } }
+            {
+              "label": "百团大战会场布置",
+              "value": "club-fair-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "“一二·九”文艺汇演会场布置",
+              "value": "129-performance-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
+            },
+            {
+              "label": "年终义卖布置",
+              "value": "year-end-sale-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "各种节日活动布置",
+              "value": "festival-event-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
+            },
+            {
+              "label": "门口执勤",
+              "value": "gate-duty",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
+            },
+            {
+              "label": "假期护校",
+              "value": "holiday-school-guarding",
+              "duration": { "on-campus": { "unlimited": false, "gte": 4, "lte": 6 } }
+            }
           ]
         },
         {
           "label": "大型考试类",
           "value": "major-exams",
           "children": [
-            { "label": "布置体育馆", "value": "gym-setup", "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 6 } } },
-            { "label": "引导员、志愿者", "value": "guide-volunteer", "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } } },
-            { "label": "学选考义工、高考义工", "value": "exam-volunteer", "duration": { "on-campus": { "unlimited": false, "gte": 5, "lte": 8 } } }
+            {
+              "label": "布置体育馆",
+              "value": "gym-setup",
+              "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 6 } }
+            },
+            {
+              "label": "引导员、志愿者",
+              "value": "guide-volunteer",
+              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 3 } }
+            },
+            {
+              "label": "学选考义工、高考义工",
+              "value": "exam-volunteer",
+              "duration": { "on-campus": { "unlimited": false, "gte": 5, "lte": 8 } }
+            }
           ]
         }
-      ]
+      ],
+      "attachment": 1
     },
     {
       "label": "脑力劳动",
@@ -207,12 +447,14 @@
           "value": "innovation-support",
           "duration": { "on-campus": { "unlimited": false, "gte": 2, "lte": 8 } }
         }
-      ]
+      ],
+      "attachment": 1
     },
     {
       "label": "临时安排任务",
       "value": "ad-hoc-tasks",
-      "duration": { "on-campus": { "unlimited": false, "lte": 5 } }
+      "duration": { "on-campus": { "unlimited": false, "lte": 5 } },
+      "attachment": 1
     },
     {
       "label": "学生活动",
@@ -222,40 +464,90 @@
           "label": "校内活动",
           "value": "school-activities",
           "children": [
-            { "label": "学生会部长级", "value": "student-council-minister", "duration": { "on-campus": { "unlimited": true } } },
-            { "label": "学生会干事", "value": "student-council-member", "duration": { "on-campus": { "unlimited": true } } },
-            { "label": "国旗班", "value": "national-flag-team", "duration": { "on-campus": { "unlimited": true } } }
+            {
+              "label": "学生会部长级",
+              "value": "student-council-minister",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "学生会干事",
+              "value": "student-council-member",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "国旗班",
+              "value": "national-flag-team",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
           "label": "社团类",
           "value": "content-clubs",
-          "duration": { "on-campus": { "unlimited": true } },
           "children": [
-            { "label": "灵通记者团", "value": "lingtong-journalist" }
+            {
+              "label": "灵通记者团",
+              "value": "lingtong-journalist",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
           "label": "艺术类",
           "value": "arts-groups",
           "timeDistribution": "分层发放",
-          "duration": { "on-campus": { "unlimited": true } },
           "children": [
-            { "label": "合唱团", "value": "choir" },
-            { "label": "管弦乐队", "value": "orchestra" },
-            { "label": "健美操队", "value": "cheerleading" },
-            { "label": "舞蹈队", "value": "dance-team" }
+            {
+              "label": "合唱团",
+              "value": "choir",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "管弦乐队",
+              "value": "orchestra",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "健美操队",
+              "value": "cheerleading",
+              "duration": { "on-campus": { "unlimited": true } }
+            },
+            {
+              "label": "舞蹈队",
+              "value": "dance-team",
+              "duration": { "on-campus": { "unlimited": true } }
+            }
           ]
         },
         {
-          "label": "校外活动",
+          "label": "社团校外活动",
           "value": "external-activities",
           "children": [
-            { "label": "情系母校", "value": "love-for-alma-mater", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "领导力项目组", "value": "leadership-project", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "模拟政协比赛", "value": "model-cppcc", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "科技新苗", "value": "science-talent-seedling", "duration": { "off-campus": { "unlimited": true } } },
-            { "label": "社团特殊校外活动", "value": "special-club-external", "duration": { "off-campus": { "unlimited": false, "gte": 1, "lte": 5 } } }
+            {
+              "label": "情系母校",
+              "value": "love-for-alma-mater",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "领导力项目组",
+              "value": "leadership-project",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "模拟政协比赛",
+              "value": "model-cppcc",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "科技新苗",
+              "value": "science-talent-seedling",
+              "duration": { "off-campus": { "unlimited": true } }
+            },
+            {
+              "label": "社团特殊校外活动",
+              "value": "special-club-external",
+              "duration": { "off-campus": { "unlimited": false, "gte": 1, "lte": 5 } }
+            }
           ]
         },
         {
@@ -273,40 +565,112 @@
           "label": "艺术类（个人）",
           "value": "art-awards",
           "children": [
-            { "label": "区级二、三等奖", "value": "art-district-23", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "区级一等奖、市级二三等奖", "value": "art-district-1-city-23", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "市级一等奖以上、省二省三", "value": "art-city-1-province-23", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "省一", "value": "art-province-1", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } },
-            { "label": "国家", "value": "art-national", "duration": { "on-campus": { "unlimited": false, "gte": 6 } } }
+            {
+              "label": "区级二、三等奖",
+              "value": "art-district-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "区级一等奖、市级二三等奖",
+              "value": "art-district-1-city-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "市级一等奖以上、省二省三",
+              "value": "art-city-1-province-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "省一",
+              "value": "art-province-1",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            },
+            {
+              "label": "国家",
+              "value": "art-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 6 } }
+            }
           ]
         },
         {
           "label": "学科类",
           "value": "academic-awards",
           "children": [
-            { "label": "区级二、三等奖", "value": "academic-district-23", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "区级一等奖、市级二三等奖", "value": "academic-district-1-city-23", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "市级一等奖以上、省级二三等奖", "value": "academic-city-1-province-23", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "省级一等奖或国家级奖项", "value": "academic-province-1-national", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } },
-            { "label": "AMC top-5%", "value": "academic-amc-top5", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "AMC top-1%", "value": "academic-amc-top1", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } }
+            {
+              "label": "区级二、三等奖",
+              "value": "academic-district-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "区级一等奖、市级二三等奖",
+              "value": "academic-district-1-city-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "市级一等奖以上、省级二三等奖",
+              "value": "academic-city-1-province-23",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "省级一等奖或国家级奖项",
+              "value": "academic-province-1-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            },
+            {
+              "label": "AMC top-5%",
+              "value": "academic-amc-top5",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "AMC top-1%",
+              "value": "academic-amc-top1",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            }
           ]
         },
         {
           "label": "体育类",
           "value": "sports-awards",
           "children": [
-            { "label": "区4—8名", "value": "sports-district-48", "duration": { "on-campus": { "unlimited": false, "gte": 1 } } },
-            { "label": "区1-3名、市4-8名", "value": "sports-district-13-city-48", "duration": { "on-campus": { "unlimited": false, "gte": 2 } } },
-            { "label": "市1-3名、省4-10名", "value": "sports-city-13-province-410", "duration": { "on-campus": { "unlimited": false, "gte": 3 } } },
-            { "label": "省1-3名、国家级名次", "value": "sports-province-13-national", "duration": { "on-campus": { "unlimited": false, "gte": 4 } } }
+            {
+              "label": "区4—8名",
+              "value": "sports-district-48",
+              "duration": { "hybrid": { "unlimited": false, "gte": 1 } }
+            },
+            {
+              "label": "区1-3名、市4-8名",
+              "value": "sports-district-13-city-48",
+              "duration": { "hybrid": { "unlimited": false, "gte": 2 } }
+            },
+            {
+              "label": "市1-3名、省4-10名",
+              "value": "sports-city-13-province-410",
+              "duration": { "hybrid": { "unlimited": false, "gte": 3 } }
+            },
+            {
+              "label": "省1-3名、国家级名次",
+              "value": "sports-province-13-national",
+              "duration": { "hybrid": { "unlimited": false, "gte": 4 } }
+            }
           ]
         }
-      ]
+      ],
+      "attachment": 2
+    },
+    {
+      "label": "校外义工",
+      "value": "off-campus",
+      "attachment": 0
+    },
+    {
+      "label": "社会实践",
+      "value": "social-practice",
+      "attachment": 0
     },
     {
       "label": "其他",
-      "value": "others"
+      "value": "others",
+      "attachment": 0
     }
   ]
 }
