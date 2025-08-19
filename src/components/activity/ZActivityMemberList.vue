@@ -61,8 +61,6 @@ watch(activitySearch, async (newVal) => {
   }
 })
 
-const tableRef = ref<TableInstance>()
-
 watch(height, () => {
   max.value = height.value * 0.5
 })
@@ -436,6 +434,8 @@ watch(search, refreshMembers)
                     {{ t('activity.batch.batch_import') }}
                   </template>
                   <ElForm>
+                    {{ JSON.stringify(addedUsers) }}
+                    {{ JSON.stringify(usersSelected) }}
                     <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
                       <ElSegmented v-model="batchOrigin" :options="batchOriginTags" />
                     </ElFormItem>
@@ -506,10 +506,10 @@ watch(search, refreshMembers)
                         :id="selectedClassID"
                         selectable
                         :selector-callback="selectorCallback"
-                        v-model="usersSelected"
+                        v-model="addedUsers"
                       />
                       <p class="py-0.5">
-                        {{ t('activity.batch.batch.selected', { count: usersSelected.length }) }}
+                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
                       </p>
                     </ElFormItem>
                     <ElFormItem :label="t('activity.batch.batch.mode')">
