@@ -18,10 +18,39 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
+function determineFastestBaseURL(urls: string[]): Promise<string> {
+  return new Promise((resolve) => {
+    let fastestURL = urls[0]
+    let fastestTime = Infinity
+
+    urls.forEach((url) => {
+      const startTime = performance.now()
+      fetch(url, { method: 'HEAD' })
+        .then(() => {
+          const elapsedTime = performance.now() - startTime
+          if (elapsedTime < fastestTime) {
+            fastestTime = elapsedTime
+            fastestURL = url
+          }
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (urls.indexOf(url) === urls.length - 1) {
+            resolve(fastestURL)
+          }
+        })
+    })
+  })
+}
+
+const baseURLs = [
+  'https://api.zvms.site/api/',
+  'https://zvms-api.amzcd.top/api/'
+]
+
 export const baseURL = import.meta.env.PROD
-  ? 'https://api.zvms.site/api/'
+  ? await determineFastestBaseURL(baseURLs)
   : 'http://localhost:8000/api/'
-// export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
