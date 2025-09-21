@@ -54,7 +54,9 @@ const xuehaiName = ref<string>('')
 
 if (pad()) {
   try {
-    if ('webView' in window) {
+    if ('BrowserJsInterface' in window) {
+      xuehaiId.value = (window as any).BrowserJsInterface?.getUserId() || ''
+    } else if ('webView' in window) {
       xuehaiId.value = (window as any).webView?.getUserId() || ''
       xuehaiName.value = (window as any).webView?.getUserName() || ''
     } else {
@@ -128,7 +130,12 @@ async function resetPassword() {
   }
 }
 
-resetPassword()
+watch(
+  () => userStore.isLogin,
+  (v) => {
+    v || resetPassword()
+  }
+)
 
 const watermark = reactive({
   color: 'rgba(0, 0, 0, .05)',
@@ -364,7 +371,6 @@ onMounted(() => {
 
 .footer-container {
   height: 3rem;
-  z-index: 2004;
 }
 
 .disconnected {
