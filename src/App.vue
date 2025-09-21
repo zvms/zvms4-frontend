@@ -54,7 +54,9 @@ const xuehaiName = ref<string>('')
 
 if (pad()) {
   try {
-    if ('BrowserJsInterface' in window) {
+    if ('AjaxInterceptJavascriptInterface' in window) {
+      xuehaiId.value = (window as any).AjaxInterceptJavascriptInterface?.getUserId() || ''
+    } else if ('BrowserJsInterface' in window) {
       xuehaiId.value = (window as any).BrowserJsInterface?.getUserId() || ''
     } else if ('webView' in window) {
       xuehaiId.value = (window as any).webView?.getUserId() || ''
