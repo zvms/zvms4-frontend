@@ -20,10 +20,6 @@ const { t } = useI18n()
 const id = ref<string>(route.params.id as string)
 const user = ref<User>()
 
-if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
-  router.push('/not-found')
-}
-
 watch(
   () => route.params.id,
   (value) => {
@@ -33,7 +29,7 @@ watch(
 )
 
 async function getUser() {
-  const loading = ElLoading.service({ fullscreen: true, text: `Fetching user...` })
+  const loading = ElLoading.service({ fullscreen: true})
   const result = await api.user.readOne(id.value).catch(() => {
     loading.close()
   })
@@ -44,6 +40,10 @@ async function getUser() {
 }
 
 getUser()
+
+if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) {
+  router.replace('/not-found')
+}
 
 const curPage = route.params.action?.toString()
 
@@ -77,7 +77,7 @@ const tabs = ref(
 )
 
 watch(current, () => {
-  router.push('/user/' + id.value + '/' + current.value)
+  router.replace('/user/' + id.value + '/' + current.value)
 })
 
 watch(
