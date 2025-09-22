@@ -28,7 +28,7 @@ export function permissions(positions: UserPosition[]) {
   }
   const insert = {
     normal: upperStudent(positions),
-    special: specialManagement(positions),
+    special: upperStudent(positions),
     merge: specialManagement(positions),
     upload: positions.includes('admin') && !pad()
   } as Record<CreateActivityType, boolean>
