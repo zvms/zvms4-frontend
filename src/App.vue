@@ -235,8 +235,8 @@ const panelButtons = [
   },
   {
     icon: SwitchButton,
-    click() {
-      userStore.removeUser()
+    async click() {
+      await userStore.removeUser()
       router.push('/user/login')
     },
     text: 'logout'
@@ -252,6 +252,7 @@ watch(needRefresh, () => {
 
 onMounted(() => {
   embedClarity()
+  userStore.isLogin || resetPassword()
 })
 </script>
 
