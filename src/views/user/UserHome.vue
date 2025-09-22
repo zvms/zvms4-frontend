@@ -27,7 +27,7 @@ const { t, locale } = useI18n()
 const { width, height } = useWindowSize()
 
 if (!user.isLogin) {
-  useRouter().push('/user/login')
+  useRouter().replace('/user/login')
 }
 
 header.setHeader(t('nav.home'))
