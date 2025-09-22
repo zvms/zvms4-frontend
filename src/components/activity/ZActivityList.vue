@@ -133,7 +133,7 @@ function handleSelectionChange(val: string[]) {
 
 function confirmPage() {
   refresh()
-  router.push({
+  router.replace({
     query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }
   })
 }
