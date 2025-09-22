@@ -62,10 +62,12 @@ const show = ref(true)
 function mov(mov: string) {
   show.value = false
   //tab.value = mov
-  if (mov == '') {
+  if (route.path === '/activity/create' and mov != '') {
+    router.push(`/activity/create/${mov}`)
+  } else if (mov == '') {
     router.push('/activity/create')
   } else {
-    router.push(`/activity/create/${mov}`)
+    router.replace(`/activity/create/${mov}`)
   }
   setTimeout(() => {
     show.value = true
@@ -87,7 +89,7 @@ const visibility = permissions(user.position as UserPosition[])
 <template>
   <div class="p-4" style="width: 100%">
     <Transition enter-active-class="animate__animated animate__fadeInRight" appear>
-      <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="returnHome" :icon="ArrowLeft">
+      <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="router.back()" :icon="ArrowLeft">
         <template #content>
           {{ $t(tab ? `activity.create.${tab}` : 'nav.create') }}
         </template>
