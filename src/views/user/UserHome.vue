@@ -26,6 +26,10 @@ const user = useUserStore()
 const { t, locale } = useI18n()
 const { width, height } = useWindowSize()
 
+if (!user.isLogin) {
+  useRouter().push('/user/login')
+}
+
 header.setHeader(t('nav.home'))
 
 const nowTime = dayjs().hour()
