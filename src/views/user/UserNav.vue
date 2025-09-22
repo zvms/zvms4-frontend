@@ -73,7 +73,7 @@ const navs: Array<{
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
     judge: (path) =>
-      path.startsWith('/group') || path.startsWith('/user/') || path.startsWith('/manage')
+      path.startsWith('/group') || path.startsWith('/user/') && path !== '/user/login' || path.startsWith('/manage')
   },
   {
     icon: InfoFilled,
@@ -113,7 +113,7 @@ function routeTo(page: string) {
             :icon="nav.icon"
             size="large"
             text
-            :bg="nav.judge(path ?? '') ? 'primary' : ''"
+            :bg="nav.judge(path ?? '')"
             :type="nav.judge(path ?? '') ? 'primary' : ''"
             circle
             @click="routeTo(nav.path)"

@@ -54,7 +54,11 @@ const xuehaiName = ref<string>('')
 
 if (pad()) {
   try {
-    if ('webView' in window) {
+    if ('AjaxInterceptJavascriptInterface' in window) {
+      xuehaiId.value = (window as any).AjaxInterceptJavascriptInterface?.getUserId() || ''
+    } else if ('BrowserJsInterface' in window) {
+      xuehaiId.value = (window as any).BrowserJsInterface?.getUserId() || ''
+    } else if ('webView' in window) {
       xuehaiId.value = (window as any).webView?.getUserId() || ''
       xuehaiName.value = (window as any).webView?.getUserName() || ''
     } else {
@@ -128,7 +132,12 @@ async function resetPassword() {
   }
 }
 
-resetPassword()
+watch(
+  () => userStore.isLogin,
+  (v) => {
+    v || resetPassword()
+  }
+)
 
 const watermark = reactive({
   color: 'rgba(0, 0, 0, .05)',
@@ -226,8 +235,8 @@ const panelButtons = [
   },
   {
     icon: SwitchButton,
-    click() {
-      userStore.removeUser()
+    async click() {
+      await userStore.removeUser()
       router.push('/user/login')
     },
     text: 'logout'
@@ -243,6 +252,7 @@ watch(needRefresh, () => {
 
 onMounted(() => {
   embedClarity()
+  userStore.isLogin || resetPassword()
 })
 </script>
 
@@ -364,7 +374,6 @@ onMounted(() => {
 
 .footer-container {
   height: 3rem;
-  z-index: 2004;
 }
 
 .disconnected {

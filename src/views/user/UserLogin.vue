@@ -19,7 +19,7 @@ import { useI18n } from 'vue-i18n'
 import api from '@/api'
 
 if (useUserStore().isLogin) {
-  useRouter().push('/user')
+  useRouter().replace('/user')
 } else {
   localStorage.removeItem('token')
 }

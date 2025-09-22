@@ -5,7 +5,7 @@ import nprogress from 'nprogress'
 import axiosExported, { AxiosError } from 'axios'
 import { baseURL, default as axios } from '@/plugins/axios.ts'
 
-async function getUser(id: string) {
+async function getUser(id: string, overrideAxios: boolean = true) {
   const instance = axiosExported.create({
     baseURL,
     withCredentials: true,
@@ -31,7 +31,8 @@ async function getUser(id: string) {
       }
     }
   )
-  const result = (await instance(`/users/${id}`)) as Response<User>
+  const axiosInstance = overrideAxios ? instance : axios
+  const result = (await axiosInstance(`/users/${id}`)) as Response<User>
   if (result.status === 'error') {
     throw result
   }

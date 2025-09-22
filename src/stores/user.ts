@@ -69,6 +69,7 @@ export const useUserStore = defineStore('user', {
       this.name = ''
       this.groups = []
       this.isLogin = false
+      this.shouldResetPassword = false
     },
     async getUserActivityTime() {
       const result = (await api.user.time.read(this._id)) as unknown as {
@@ -98,7 +99,6 @@ export const useUserStore = defineStore('user', {
         type: 'success'
       })
       await this.removeUser()
-      this.shouldResetPassword = false
       const router = useRouter()
       await router.push('/user/login')
     },
