@@ -61,7 +61,7 @@ const panes = [
 
 function moveTo(type: string) {
   tab.value = type
-  router.push(`/activities/${type}`)
+  router.replace(`/activities/${type}`)
 }
 </script>
 
