@@ -62,7 +62,7 @@ const show = ref(true)
 function mov(mov: string) {
   show.value = false
   //tab.value = mov
-  if (route.path === '/activity/create' and mov != '') {
+  if (route.path === '/activity/create' && mov != '') {
     router.push(`/activity/create/${mov}`)
   } else if (mov == '') {
     router.push('/activity/create')
