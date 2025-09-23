@@ -131,6 +131,7 @@ async function remove() {
     type: 'success'
   })
   submission.value = false
+  await router.back()
 }
 
 async function submit() {
@@ -160,7 +161,6 @@ async function submit() {
     type: 'success'
   })
   submission.value = false
-  await router.back()
 }
 
 async function remoteFetchClass(search: string) {
