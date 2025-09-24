@@ -19,7 +19,7 @@ const { t } = useI18n()
 const id = ref<string>(route.params.id as string)
 
 if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
-  router.push('/not-found')
+  router.replace('/not-found')
 }
 
 watch(
@@ -61,7 +61,7 @@ const tabs = ref([
 ])
 
 watch(current, () => {
-  router.push('/manage/' + current.value)
+  router.replace('/manage/' + current.value)
 })
 
 watch(

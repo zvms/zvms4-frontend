@@ -135,7 +135,7 @@ async function resetPassword() {
 watch(
   () => userStore.isLogin,
   (v) => {
-    v || resetPassword()
+    v && resetPassword()
   }
 )
 
@@ -252,7 +252,7 @@ watch(needRefresh, () => {
 
 onMounted(() => {
   embedClarity()
-  userStore.isLogin || resetPassword()
+  userStore.isLogin && resetPassword()
 })
 </script>
 

@@ -68,7 +68,7 @@ if (
     (userStore.position.includes('secretary') && userStore.class_id === id.value)
   )
 ) {
-  router.push('/not-found')
+  router.replace('/not-found')
 }
 
 const tabs = ref([
@@ -104,7 +104,7 @@ const curPage = route.params.action?.toString()
 const tab = ref(curPage && curPage !== '' ? curPage : 'users')
 
 watch(tab, () => {
-  router.push('/group/' + id.value + '/' + (tab.value ?? 'users'))
+  router.replace('/group/' + id.value + '/' + (tab.value ?? 'users'))
 })
 </script>
 
