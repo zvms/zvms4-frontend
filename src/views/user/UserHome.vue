@@ -20,6 +20,7 @@ import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
 import { useWindowSize } from '@vueuse/core'
 import { ZActivityList } from '@/components'
+import { useRouter } from 'vue-router'
 
 const header = useHeaderStore()
 const user = useUserStore()
