@@ -41,7 +41,7 @@ async function getUser() {
 
 getUser()
 
-if (!(userStore.position.includes('admin') || userStore.position.includes('department') || (userStore.position.includes('secretary') && user.value?.group[0] === userStore.class_id))) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.groups[0] === userStore.class_id)) {
   router.replace('/not-found')
 }
 
