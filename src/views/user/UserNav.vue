@@ -123,7 +123,6 @@ function routeTo(page: string) {
       </div>
     </div>
     <ElSpace class="bottom" direction="vertical">
-      <ZSelectLanguage type="button" placement="right" />
       <ElButton
         v-if="!pad() || getTabletType() === 'p615'"
         :icon="dark ? Moon : Sunny"
