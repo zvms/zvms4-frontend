@@ -39,12 +39,7 @@ const online = useOnline()
 const { t, locale } = useI18n()
 
 function getLocale(ident: string) {
-  switch (ident) {
-    case 'zh-CN':
-      return zhCn
-    default:
-      return en
-  }
+  return zhCn
 }
 
 const langPack = ref(getLocale(locale.value))
@@ -156,9 +151,11 @@ watch(
     immediate: true
   }
 )
+/*
 if (!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
   router.push('/user/login')
 }
+*/
 
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
@@ -189,7 +186,7 @@ function embedClarity() {
   firstScriptTag.parentNode!.insertBefore(scriptElement, firstScriptTag)
 }
 
-locale.value = userStore.language ?? navigator.language
+locale.value = userStore.language ?? 'zh-CN'
 
 const { width, height } = useWindowSize()
 
