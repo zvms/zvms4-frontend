@@ -164,7 +164,7 @@ function embedClarity() {
   firstScriptTag.parentNode!.insertBefore(scriptElement, firstScriptTag)
 }
 
-locale.value = userStore.language ?? 'zh-CN'
+locale.value = 'zh-CN'
 
 const { width, height } = useWindowSize()
 
@@ -212,7 +212,7 @@ const panelButtons = [
     icon: SwitchButton,
     async click() {
       await userStore.removeUser()
-      router.push('/user/login')
+      router.replace('/user/login')
     },
     text: 'logout'
   }
@@ -275,7 +275,7 @@ onMounted(() => {
                   'flex',
                   'items-center'
                 ]"
-                @dblclick="router.push('/')"
+                @dblclick="router.push(userStore.isLogin ? '/user' : '/user/login')"
               >
                 <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
@@ -287,7 +287,7 @@ onMounted(() => {
               <div class="user" v-if="userStore.isLogin">
                 <ElButtonGroup>
                   <ElButton text bg :icon="User" type="primary">
-                    {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
+                    {{ userStore.name }}
                   </ElButton>
                   <ElPopover width="216px">
                     <template #reference>
@@ -295,7 +295,6 @@ onMounted(() => {
                         text
                         bg
                         :icon="ArrowDown"
-                        :disabled="!userStore.isLogin"
                         type="primary"
                       />
                     </template>
@@ -329,13 +328,6 @@ onMounted(() => {
         <ElContainer class="full" v-else>
           <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
         </ElContainer>
-        <!--<ElFooter
-          class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
-        >
-          <p class="text-center">
-            &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
-          </p>
-        </ElFooter>-->
       </ElContainer>
     </ElWatermark>
   </ElConfigProvider>
