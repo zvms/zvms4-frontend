@@ -16,6 +16,9 @@ header.setHeader(t('nav.about'))
         title="ZVMS 4"
         sub-title="v4.1.1.20250926"
       >
+        <template #icon>
+            <img src="/favicon.png" alt="logo" style="width: 256px; height: 256px; border-radius: 1rem;"/>
+        </template>
         <template #extra>
           <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
