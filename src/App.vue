@@ -262,7 +262,7 @@ onMounted(() => {
         @contextmenu.prevent
         class="bg-slate-100 dark:bg-gray-900"
         direction="vertical"
-        :style="{ width: width + 'px', height: 'calc(' + height + 'px - 3rem)' }"
+        :style="{ width: width + 'px', height: height + 'px' }"
       >
         <ElHeader>
           <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
