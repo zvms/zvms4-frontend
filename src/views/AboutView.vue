@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ElResult, ElButton, ElCard } from 'element-plus'
+import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const header = useHeaderStore()
+header.setHeader(t('nav.about'))
 </script>
 
 <template>
