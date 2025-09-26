@@ -148,7 +148,7 @@ function routeTo(page: string) {
 .bottom {
   position: absolute;
   left: 0.72rem;
-  bottom: 2rem;
+  bottom: 1rem;
 }
 
 @media print {
