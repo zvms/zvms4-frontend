@@ -17,7 +17,7 @@ header.setHeader(t('nav.about'))
         sub-title="v4.1.1.20250926"
       >
         <template #icon>
-            <img src="/favicon.png" alt="logo" style="width: 256px; height: 256px; border-radius: 1rem;"/>
+            <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
         </template>
         <template #extra>
           <!--<ElButton text bg type="primary" disabled>{{
