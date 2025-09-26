@@ -92,7 +92,7 @@ watch(
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="userStore?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+    <ElPageHeader v-if="id" :icon="ArrowLeft" @back="router.back()" class="py-4">
       <template #content>
         {{ user?.name }}
       </template>
