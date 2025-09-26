@@ -79,9 +79,9 @@ watch(user, async () => {
 </script>
 
 <template>
-  <div class="w-full">
-    <div :style="`height: ${height * 0.25}px`"></div>
-    <ElCard class="login-field text-center px-4 w-full" shadow="hover">
+  <div class="w-full" style="display: flex; flex-direction: column;">
+    <div style="flex-grow: 1;"></div>
+    <ElCard class="login-field text-center px-4 w-full" shadow="hover" style="flex-grow: 0;">
       <ElRow class="w-full py-1">
         <ElCol :span="8" />
         <ElCol :span="6">
@@ -118,7 +118,9 @@ watch(user, async () => {
       </ElForm>
       <ElRow>
         <ElCol :span="9" style="text-align: left">
-          <ZSelectLanguage type="button" with-text placement="right" />
+          <ElButton type="info" @click="useRouter().push('/about')">
+            {{ t('nav.about') }}
+          </ElButton>
         </ElCol>
         <ElCol :span="15" class="actions">
           <ElButton type="warning" @click="refresh" text bg :icon="Refresh">
@@ -137,7 +139,7 @@ watch(user, async () => {
         </ElCol>
       </ElRow>
     </ElCard>
-    <div :style="`height: ${height * 0.31}px`"></div>
+    <div style="flex-grow: 1;"></div>
   </div>
 </template>
 
