@@ -17,9 +17,10 @@ header.setHeader(t('nav.about'))
         sub-title="v4.1.1.20250926"
       >
         <template #extra>
-          <ElButton text bg type="primary" disabled>{{
+          <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
-          }}</ElButton>
+          }}</ElButton>-->
+          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
         </template>
       </ElResult>
     </ElCard>
