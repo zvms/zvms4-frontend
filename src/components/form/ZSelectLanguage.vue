@@ -21,8 +21,8 @@ const props = defineProps<{
 const { placement, type, withText } = toRefs(props)
 
 function setLanguage(language: string) {
-  user.setLanguage(language)
-  locale.value = language
+  user.setLanguage('zh-CN')
+  locale.value = 'zh-CN'
 }
 
 const languages = ref<
@@ -38,11 +38,6 @@ const languages = ref<
     display: '简体中文',
     value: 'zh-CN'
   },
-  {
-    icon: English,
-    display: 'English',
-    value: 'en-US'
-  }
 ])
 
 onMounted(() => {
