@@ -118,7 +118,7 @@ watch(user, async () => {
       </ElForm>
       <ElRow>
         <ElCol :span="9" style="text-align: left">
-          <ElButton type="info" @click="useRouter().push('/about')">
+          <ElButton type="info" text bg @click="router.push('/about')">
             {{ t('nav.about') }}
           </ElButton>
         </ElCol>
