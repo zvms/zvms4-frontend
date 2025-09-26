@@ -73,12 +73,10 @@ async function resetPassword() {
       message: h(
         'p',
         null,
-        userStore.position.length !== 1
-          ? [
-              h('span', null, messages[userStore.language as 'en-US'] as string),
-              h('strong', null, threaten[userStore.language as 'en-US'] as string)
-            ]
-          : [h('span', null, messages[userStore.language as 'en-US'] as string)]
+        [
+          h('span', null, messages[userStore.language as 'en-US'] as string),
+          h('strong', null, threaten[userStore.language as 'en-US'] as string)
+        ]
       ),
       showCancelButton: true,
       title: advice[userStore.language as 'en-US'] as string,
@@ -88,20 +86,21 @@ async function resetPassword() {
       .then(async () => {
         try {
           await modifyPasswordDialogs(userStore._id, userStore.language, userStore.resetPassword)
+          .catch(async () => {
+            userStore.shouldResetPassword = false
+            await userStore.removeUser()
+            router.replace('/user/login')
+          })
         } catch {
           userStore.shouldResetPassword = false
-          if (userStore.position.length !== 1) {
-            await userStore.removeUser()
-            router.push('/user/login')
-          }
+          await userStore.removeUser()
+          router.replace('/user/login')
         }
       })
       .catch(async () => {
         userStore.shouldResetPassword = false
-        if (userStore.position.length !== 1) {
-          await userStore.removeUser()
-          router.push('/user/login')
-        }
+        await userStore.removeUser()
+        router.replace('/user/login')
       })
   }
 }
