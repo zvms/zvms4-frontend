@@ -44,28 +44,7 @@ function getLocale(ident: string) {
 
 const langPack = ref(getLocale(locale.value))
 
-const xuehaiId = ref<string>('')
-const xuehaiName = ref<string>('')
 
-if (pad()) {
-  try {
-    if ('AjaxInterceptJavascriptInterface' in window) {
-      xuehaiId.value = (window as any).AjaxInterceptJavascriptInterface?.getUserId() || ''
-    } else if ('BrowserJsInterface' in window) {
-      xuehaiId.value = (window as any).BrowserJsInterface?.getUserId() || ''
-    } else if ('webView' in window) {
-      xuehaiId.value = (window as any).webView?.getUserId() || ''
-      xuehaiName.value = (window as any).webView?.getUserName() || ''
-    } else {
-      xuehaiId.value = localStorage.getItem('userId') || ''
-      xuehaiName.value = localStorage.getItem('userName') || ''
-    }
-  } catch (_) {
-    // Fallback to empty string if unable to retrieve userId
-    xuehaiId.value = localStorage.getItem('userId') || ''
-    xuehaiName.value = localStorage.getItem('userName') || ''
-  }
-}
 
 watch(locale, () => {
   langPack.value = getLocale(locale.value)
@@ -351,13 +330,13 @@ onMounted(() => {
         <ElContainer class="full" v-else>
           <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
         </ElContainer>
-        <ElFooter
+        <!--<ElFooter
           class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container hidden-print"
         >
           <p class="text-center">
-            &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }} | {{ xuehaiId }}
+            &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
           </p>
-        </ElFooter>
+        </ElFooter>-->
       </ElContainer>
     </ElWatermark>
   </ElConfigProvider>
