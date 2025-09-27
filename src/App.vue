@@ -244,7 +244,7 @@ onMounted(() => {
     <ElWatermark
       :font="watermark"
       :content="
-        userStore.isLogin && userStore.position.length >= 2
+        userStore.isLogin && userStore.position.length >= 2 && false
           ? [userStore.name + ' ' + userStore.id]
           : []
       "
@@ -287,7 +287,7 @@ onMounted(() => {
               >
                 <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
-                <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
+                <ElIcon><img src="/favicon.ico" class="scale-50" style="border-radius: .1rem;" alt="favicon" /></ElIcon>
                 <span class="lh-100% ml-2">{{ title }}</span>
               </div>
             </ElCol>
