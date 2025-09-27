@@ -36,6 +36,13 @@ const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
 const online = useOnline()
 
+window.onbeforeunload = (e) => {
+  if (location.pathname.startsWith('/activity/create/') || location.pathname.endsWith('/modify')) {
+    e.preventDefault()
+    return false
+  }
+}
+
 const { t, locale } = useI18n()
 
 function getLocale(ident: string) {
