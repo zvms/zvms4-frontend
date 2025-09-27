@@ -40,21 +40,6 @@
           "value": "school-affairs",
           "children": [
             {
-              "label": "Club Fair Setup",
-              "value": "club-fair-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
-            },
-            {
-              "label": "Cultural Performance Setup",
-              "value": "performance-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
-            },
-            {
-              "label": "Year-End Charity Sale Setup",
-              "value": "year-end-sale-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
-            },
-            {
               "label": "Festival Event Setup",
               "value": "festival-event-setup",
               "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
@@ -127,57 +112,19 @@
           "value": "school-roles",
           "children": [
             {
-              "label": "Student Council (Minister)",
-              "value": "student-council-minister",
+              "label": "Service Groups",
+              "value": "service-groups",
               "duration": { "on-campus": { "unlimited": true } }
             },
             {
-              "label": "Student Council Member",
-              "value": "student-council-member",
+              "label": "Clubs (Content-based)",
+              "value": "content-clubs",
               "duration": { "on-campus": { "unlimited": true } }
             },
             {
-              "label": "National Flag Team",
-              "value": "national-flag-team",
-              "duration": { "on-campus": { "unlimited": true } }
-            }
-          ]
-        },
-        {
-          "label": "Clubs (Content-based)",
-          "value": "content-clubs",
-          "children": [
-            {
-              "label": "Lingtong Journalist Team",
-              "value": "lingtong-journalist",
-              "duration": { "on-campus": { "unlimited": true } }
-            }
-          ]
-        },
-        {
-          "label": "Arts Groups",
-          "value": "arts-groups",
-          "timeDistribution": "layered",
-          "duration": { "on-campus": { "unlimited": true } },
-          "children": [
-            {
-              "label": "Choir",
-              "value": "choir",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "Orchestra",
-              "value": "orchestra",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "Cheerleading Team",
-              "value": "cheerleading",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "Dance Team",
-              "value": "dance-team",
+              "label": "Arts Groups",
+              "value": "arts-groups",
+              "timeDistribution": "layered",
               "duration": { "on-campus": { "unlimited": true } }
             }
           ]
@@ -378,21 +325,6 @@
           "value": "school-affairs",
           "children": [
             {
-              "label": "百团大战会场布置",
-              "value": "club-fair-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
-            },
-            {
-              "label": "“一二·九”文艺汇演会场布置",
-              "value": "129-performance-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 2 } }
-            },
-            {
-              "label": "年终义卖布置",
-              "value": "year-end-sale-setup",
-              "duration": { "on-campus": { "unlimited": false, "gte": 2 } }
-            },
-            {
               "label": "各种节日活动布置",
               "value": "festival-event-setup",
               "duration": { "on-campus": { "unlimited": false, "gte": 1, "lte": 4 } }
@@ -465,56 +397,19 @@
           "value": "school-activities",
           "children": [
             {
-              "label": "学生会部长级",
-              "value": "student-council-minister",
+              "label": "服务类",
+              "value": "service-groups",
               "duration": { "on-campus": { "unlimited": true } }
             },
             {
-              "label": "学生会干事",
-              "value": "student-council-member",
+              "label": "社团类",
+              "value": "content-clubs",
               "duration": { "on-campus": { "unlimited": true } }
             },
             {
-              "label": "国旗班",
-              "value": "national-flag-team",
-              "duration": { "on-campus": { "unlimited": true } }
-            }
-          ]
-        },
-        {
-          "label": "社团类",
-          "value": "content-clubs",
-          "children": [
-            {
-              "label": "灵通记者团",
-              "value": "lingtong-journalist",
-              "duration": { "on-campus": { "unlimited": true } }
-            }
-          ]
-        },
-        {
-          "label": "艺术类",
-          "value": "arts-groups",
-          "timeDistribution": "分层发放",
-          "children": [
-            {
-              "label": "合唱团",
-              "value": "choir",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "管弦乐队",
-              "value": "orchestra",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "健美操队",
-              "value": "cheerleading",
-              "duration": { "on-campus": { "unlimited": true } }
-            },
-            {
-              "label": "舞蹈队",
-              "value": "dance-team",
+              "label": "艺术类",
+              "value": "arts-groups",
+              "timeDistribution": "分层发放",
               "duration": { "on-campus": { "unlimited": true } }
             }
           ]

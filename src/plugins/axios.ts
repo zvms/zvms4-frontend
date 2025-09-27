@@ -62,30 +62,20 @@ axiosInstance.interceptors.response.use(
     let errorDisplayed = false
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        const token = parseJwt(localStorage.getItem('token') as string)
-        if (token.payload.scope === 'access_token') {
-          if (!errorDisplayed) {
-            errorDisplayed = true
-            ElMessage({
-              message: 'Session expired',
-              type: 'error',
-              grouping: true,
-              plain: true
-            })
-            localStorage.removeItem('token')
-            useUserStore()
-              .removeUser()
-              .then(() => {
-                router.push('/user/login')
-              })
-          }
-        } else {
+        if (!errorDisplayed) {
+          errorDisplayed = true
           ElMessage({
-            message: 'Your password is wrong. Please operate again.',
+            message: 'Session expired',
             type: 'error',
             grouping: true,
             plain: true
-          }).then((r) => Promise.reject(r))
+          })
+          localStorage.removeItem('token')
+          useUserStore()
+            .removeUser()
+            .then(() => {
+              router.replace('/user/login')
+            })
         }
       } else {
         if (!errorDisplayed) {
@@ -118,9 +108,6 @@ axiosInstance.interceptors.response.use(
           grouping: true,
           plain: true
         })
-        if (!error.message && navigator.onLine) {
-          router.push('/sww')
-        }
       }
     }
   }

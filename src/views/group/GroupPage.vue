@@ -110,7 +110,7 @@ watch(tab, () => {
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="group?._id" :icon="ArrowLeft" @back="() => router.back()" class="py-4">
+    <ElPageHeader v-if="id" :icon="ArrowLeft" @back="() => router.back()" class="py-4">
       <template #content>
         {{ group?.name }}
       </template>

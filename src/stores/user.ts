@@ -1,7 +1,6 @@
 import api from '@/api'
 import type { User, UserPosition } from '@/../types'
 import { defineStore } from 'pinia'
-import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getUserPositions } from '@/utils/groupPosition'
@@ -21,7 +20,7 @@ export const useUserStore = defineStore('user', {
       onCampus: 0,
       offCampus: 0
     },
-    language: usePreferredLanguages().value[0]
+    language: 'zh-CN'
   }),
   actions: {
     async getUserClassId(groups: string[]) {
@@ -100,7 +99,7 @@ export const useUserStore = defineStore('user', {
       })
       await this.removeUser()
       const router = useRouter()
-      await router.push('/user/login')
+      await router.replace('/user/login')
     },
     setTime(time: { onCampus: number; offCampus: number; socialPractice: number }) {
       this.time.onCampus = time.onCampus

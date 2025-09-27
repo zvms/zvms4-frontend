@@ -136,9 +136,6 @@ watch(useless, () => {
         </div>
         <div class="bottom">
           <ElForm label-position="right" label-width="120px">
-            <ElFormItem :label="t('nav.language')">
-              <ZSelectLanguage type="select" placement="bottom" />
-            </ElFormItem>
             <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'">
               <ElSwitch
                 v-model="useless"

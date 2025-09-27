@@ -41,7 +41,7 @@ async function getUser() {
 
 getUser()
 
-if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) {
+if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.groups[0] === userStore.class_id)) {
   router.replace('/not-found')
 }
 
@@ -92,7 +92,7 @@ watch(
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="userStore?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+    <ElPageHeader v-if="id" :icon="ArrowLeft" @back="router.back()" class="py-4">
       <template #content>
         {{ user?.name }}
       </template>
