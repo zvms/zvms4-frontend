@@ -21,7 +21,7 @@ import { useRouter, useRoute } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize, useDark, useOnline } from '@vueuse/core'
+import { useWindowSize, useDark, useOnline, useTitle } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h, reactive } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
@@ -118,7 +118,8 @@ const watermark = reactive({
   fontSize: 14
 })
 
-const dark = useDark() // Only this can fix login page background flashing in dark mode
+const dark = useDark()
+const title = useTitle()
 
 watch(
   dark,
@@ -280,7 +281,7 @@ onMounted(() => {
                 <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
                 <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
-                <span class="lh-100% ml-2">{{ headerStore.header }}</span>
+                <span class="lh-100% ml-2">{{ title }}</span>
               </div>
             </ElCol>
             <ElCol :span="8">
