@@ -124,8 +124,8 @@ const reportPage = ref(false)
           <p class="text-lg">{{ t('home.panels.time.title') }}</p>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
-          <ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
-          <ElDivider v-if="user === userStore._id" direction="vertical" />
+          <!--<ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
+          <ElDivider v-if="user === userStore._id" direction="vertical" />-->
           <ElButton
             type="success"
             :disabled="loading"
@@ -135,28 +135,28 @@ const reportPage = ref(false)
             circle
             @click="getTime"
           />
-          <ElDivider direction="vertical" />
-          <ElButton type="info" :icon="TablerSum" text bg circle />
+          <!--<ElDivider direction="vertical" />
+          <ElButton type="info" :icon="TablerSum" text bg circle />-->
         </ElCol>
       </ElRow>
       <ElRow class="fill py-2 statistic" v-if="!loading">
         <ElCol v-if="width > height" :span="2" />
         <ElCol :span="width < height ? 10 : 4">
-          <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />
+          <ZActivityMemberTimeJudge type="on-campus" :realTime="on" />
           <ElDivider v-if="width < height" />
         </ElCol>
         <ElCol :span="2">
           <ElDivider direction="vertical" class="height-full" />
         </ElCol>
         <ElCol :span="width < height ? 10 : 4">
-          <ZActivityMemberTimeJudge type="on-campus" :realTime="on" />
+          <ZActivityMemberTimeJudge type="off-campus" :realTime="off" />
           <ElDivider v-if="width < height" />
         </ElCol>
         <ElCol v-if="width > height" :span="1">
           <ElDivider direction="vertical" class="height-full" />
         </ElCol>
         <ElCol :span="width < height ? 10 : 4">
-          <ZActivityMemberTimeJudge type="off-campus" :realTime="off" />
+          <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />
         </ElCol>
         <ElCol :span="2">
           <ElDivider direction="vertical" class="height-full" />
