@@ -108,9 +108,9 @@ const reportPage = ref(false)
 
 <template>
   <div>
-    <ElDialog fullscreen title="User Activity Time Report" v-model="reportPage">
+    <!--<ElDialog fullscreen title="User Activity Time Report" v-model="reportPage">
       <ZDetailedAnalysis :id="user" mode="on-campus" />
-    </ElDialog>
+    </ElDialog>-->
     <ElCard
       shadow="hover"
       v-if="
