@@ -10,6 +10,9 @@ import {
   ElCard,
   ElMessageBox
 } from 'element-plus'
+import {
+  InfoFilled
+} from '@element-plus/icons-vue'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
@@ -118,7 +121,7 @@ watch(user, async () => {
       </ElForm>
       <ElRow>
         <ElCol :span="9" style="text-align: left">
-          <ElButton type="info" text bg @click="router.push('/about')">
+          <ElButton type="info" text bg :icon="InfoFilled" @click="router.push('/about')">
             {{ t('nav.about') }}
           </ElButton>
         </ElCol>
