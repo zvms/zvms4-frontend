@@ -7,7 +7,7 @@ const { t } = useI18n()
 const header = useHeaderStore()
 header.setHeader(t('nav.about'))
 
-debug_func() {
+function debug_func() {
   try {
     window.alert(Object.keys(window))
   } catch(ex) {
