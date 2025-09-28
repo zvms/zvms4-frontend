@@ -247,12 +247,12 @@ function checkReviewAllowed() {
               <ElInput v-model="activity.description" type="textarea" :autosize="{ minRows: 2 }" />
             </ElFormItem>
             <ElFormItem
-              v-if="type !== 'special' && activity.type !== 'hybrid' && activePage === 'info'"
+              v-if="activePage === 'info'"
               :label="t('activity.form.type')"
               required
               prop="type"
             >
-              <ZSelectActivityMode v-model="activity.type" class="w-full" />
+              <ZSelectActivityMode v-model="activity.type" show-hybrid class="w-full" />
             </ElFormItem>
             <ElFormItem
               :label="t('activity.form.date')"
@@ -276,7 +276,7 @@ function checkReviewAllowed() {
               :label="t('activity.registration.location')"
               prop="place"
             >
-              <ElInput :prefix-icon="Location" v-model="activity.place" required />
+              <ElInput :prefix-icon="Location" v-model="activity.place" />
             </ElFormItem>
             <ElFormItem
               v-if="activePage === 'info'"
@@ -344,6 +344,7 @@ function checkReviewAllowed() {
               :icon="ArrowLeft"
               text
               bg
+              :disabled="activePage === 'member'"
               @click="prevStep"
             >
               {{ t('activity.batch.steps.prev') }}
