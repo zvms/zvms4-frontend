@@ -79,10 +79,6 @@ export default {
       color: 'warning',
       icon: Upload
     },
-    special: {
-      color: 'danger',
-      icon: Star
-    }
   } as Record<CreateActivityType, IconAndColor>,
   member: memberActivityStatuses as Record<MemberActivityStatus, IconAndColor>
 } as Record<set, Record<typing, IconAndColor>>
