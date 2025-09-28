@@ -23,7 +23,7 @@ header.setHeader(t('nav.about'))
           <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
           }}</ElButton>-->
-          <span style="opacity: .5" @dblclick="alert(Object.keys(window))">
+          <span style="opacity: .5" @click="alert(Object.keys(window))">
             &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
           </span>
         </template>
