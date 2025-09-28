@@ -262,13 +262,13 @@ export const zhCN = {
       key: 'off-campus'
     },
     'social-practice': {
-      name: '社会实践义工',
+      name: '社会实践',
       short: '社会实践',
       key: 'social-practice'
     },
     hybrid: {
-      name: '混合计入义工',
-      short: '混合',
+      name: '特殊义工',
+      short: '特殊',
       key: 'hybrid'
     }
   },
@@ -462,7 +462,7 @@ export const zhCN = {
       allowed:
         '请仔细检查义工信息，如果需要申请表，请链接表单 ID（若有）。表单必须由学生和相关老师签字，姓名完整，最终确认发放时间。',
       disallowed:
-        '您没有权限审核此义工。它将由实践部的负责成员进行评估。请耐心等待，审核完成后会通知您。'
+        '您没有权限审核此义工。它将由学生会的负责成员进行评估。请耐心等待，审核完成后会通知您。'
     },
     print: '您可以通过点击「打印」按钮打印系统生成的申请表，但我们建议使用官方模板并手动填写。'
   }
