@@ -6,6 +6,14 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const header = useHeaderStore()
 header.setHeader(t('nav.about'))
+
+debug_func() {
+  try {
+    window.alert(Object.keys(window))
+  } catch(ex) {
+    window.alert(ex)
+  }
+}
 </script>
 
 <template>
@@ -23,7 +31,7 @@ header.setHeader(t('nav.about'))
           <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
           }}</ElButton>-->
-          <span style="opacity: .5" @click="alert(Object.keys(window))">
+          <span style="opacity: .5" @click="debug_func">
             &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
           </span>
         </template>
