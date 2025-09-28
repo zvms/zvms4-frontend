@@ -287,7 +287,7 @@ onMounted(() => {
               >
                 <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
-                <ElIcon><img src="/favicon.ico" class="scale-50" style="border-radius: .25rem;" alt="favicon" /></ElIcon>
+                <ElIcon style="border-radius: .25rem;"><img src="/favicon.ico" class="scale-50" style="border-radius: .25rem;" alt="favicon" /></ElIcon>
                 <span class="lh-100% ml-2">{{ title }}</span>
               </div>
             </ElCol>
