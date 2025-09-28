@@ -43,6 +43,11 @@ window.onbeforeunload = (e) => {
   }
 }
 
+window.oncontextmenu = (e) => {
+  e.preventDefault()
+  return false
+}
+
 const { t, locale } = useI18n()
 
 function getLocale(ident: string) {
