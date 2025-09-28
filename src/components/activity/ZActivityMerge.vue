@@ -98,7 +98,7 @@ async function mergeActivity() {
 
 <template>
   <div class="py-6 px-12">
-    <ElCard shadow="never">
+    <!--<ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
           <ElFormItem
@@ -175,6 +175,14 @@ async function mergeActivity() {
           }}</ElButton>
         </div>
       </ElForm>
+    </ElCard>-->
+    <ElCard shadow="never">
+      <ElResult
+        icon="error"
+        :title="维护中"
+        :sub-title="该功能暂停开放"
+      >
+      </ElResult>
     </ElCard>
   </div>
 </template>

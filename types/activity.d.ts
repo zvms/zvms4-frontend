@@ -33,7 +33,7 @@ export type MemberActivityStatus = ActivityMember['status']
 
 export type ActivityStatus = Activity['status']
 
-export type ActivityMode = ActivityMember['mode']
+export type ActivityMode = 'on-campus' | 'off-campus' | 'social-practice' | 'hybrid'
 
 export interface SpecifiedActivity extends Activity {
   type: 'specified'

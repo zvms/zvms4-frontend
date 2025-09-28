@@ -15,13 +15,6 @@ const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
-window.onbeforeunload = (e) => {
-  if (location.pathname.startsWith('/activity/create')) {
-    e.preventDefault()
-    return false
-  }
-}
-
 header.setHeader(t('nav.create'))
 
 const route = useRoute()
