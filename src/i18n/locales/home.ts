@@ -44,7 +44,7 @@ export const zhCN = {
   positions: {
     student: '学生',
     secretary: '团支书',
-    department: '实践部',
+    department: '学生会',
     admin: '管理员'
   },
   labels: {
