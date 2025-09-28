@@ -71,8 +71,8 @@ async function refreshUser() {
               @click="refreshUser"
               :disabled="loading"
             />
-            <ElDivider direction="vertical" />
-            <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />
+            <!--<ElDivider direction="vertical" />
+            <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />-->
           </template>
           <ElSkeleton v-if="loading" :loading="true" :rows="3" />
           <ElDescriptionsItem v-if="!loading" :label="t('home.labels.name')">{{
@@ -98,7 +98,7 @@ async function refreshUser() {
         </div>
       </ElCard>
     </div>
-    <div class="py-4">
+    <div :class="['py-4', user.shouldResetPassword ? 'z-blur' : '']">
       <ZUserTimeJudge
         :user="user._id"
         :on-campus="user.time.onCampus"
@@ -120,5 +120,8 @@ async function refreshUser() {
 <style scoped>
 .fill {
   width: 100%;
+}
+.z-blur {
+  filter: blur(2rem);
 }
 </style>
