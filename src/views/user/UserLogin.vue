@@ -143,7 +143,7 @@ watch(user, async () => {
       </ElRow>
     </ElCard>
     <div style="flex-grow: 1;"></div>
-    <div style="flex-grow: 0; min-height: 3rem; max-height: 3rem;"></div>
+    <div style="flex-grow: 0; min-height: 3.75rem; max-height: 3.75rem;"></div>
   </div>
 </template>
 
