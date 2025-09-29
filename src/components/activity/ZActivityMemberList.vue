@@ -528,15 +528,6 @@ watch(search, refreshMembers)
                     <ElButton
                       text
                       bg
-                      type="warning"
-                      :icon="Close"
-                      @click="() => (showAddPopover = false)"
-                    >
-                      {{ t('activity.form.actions.cancel') }}
-                    </ElButton>
-                    <ElButton
-                      text
-                      bg
                       type="success"
                       :icon="ArrowRight"
                       @click="addMembers"
