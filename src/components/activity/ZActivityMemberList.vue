@@ -434,8 +434,6 @@ watch(search, refreshMembers)
                     {{ t('activity.batch.batch_import') }}
                   </template>
                   <ElForm>
-                    {{ JSON.stringify(addedUsers) }}
-                    {{ JSON.stringify(usersSelected) }}
                     <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
                       <ElSegmented v-model="batchOrigin" :options="batchOriginTags" />
                     </ElFormItem>
