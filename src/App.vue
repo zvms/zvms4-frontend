@@ -124,6 +124,16 @@ watch(
   }
 )
 
+// force insecure sessions to log out
+const security = ref((localStorage.getItem('security') || '0') - 0)
+
+if (security.value < 1) {
+  security.value = 1
+  localStorage.setItem('security', '' + security.value)
+  userStore.removeUser()
+  router.replace('/user/login')
+}
+
 const watermark = reactive({
   color: 'rgba(0, 0, 0, .05)',
   text: 'ZVMS 4',
