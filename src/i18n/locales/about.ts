@@ -38,7 +38,7 @@ export const zhCN = {
     project: '关于 ZVMS',
     developers: '关于开发者'
   },
-  footer: '来自 ZZDev 团队的 ZVMS 开发组、镇海中学学生会实践部',
+  footer: '来自 ZZDev 团队的 ZVMS 开发组、镇海中学学生会',
   license: '基于 MIT 证书开源',
   repository: {
     license: '许可协议',
