@@ -94,12 +94,22 @@ const tabs = ref([
   },
 ])
 
-if(userStore.position.includes('admin')) {
+if (userStore.position.includes('admin')) {
   tabs.value[tabs.value.length] = {
     label: 'Create',
     value: 'create',
     icon: AddUser
   }
+}
+
+if (group.value?.type !== 'class') {
+  tabs.value = [
+    {
+      label: 'Users',
+      value: 'users',
+      icon: User
+    },
+  ]
 }
 
 const curPage = route.params.action?.toString()
@@ -118,7 +128,7 @@ watch(tab, () => {
         {{ group?.name }}
       </template>
       <template #extra>
-        <ElSegmented v-if="group?.type === 'class'" v-model="tab" :options="tabs">
+        <ElSegmented v-model="tab" :options="tabs">
           <template #default="props">
             <div class="flex flex-col items-center gap-2 p-2">
               <ElIcon :size="18" class="mt-2">
