@@ -215,7 +215,7 @@ async function insertUserPast() {
       </ElButton>
       <ElButton
         v-if="
-          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) &&
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id) &&
           id &&
           id !== userStore._id &&
           mode === 'card'
