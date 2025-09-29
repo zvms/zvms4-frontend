@@ -92,12 +92,15 @@ const tabs = ref([
     value: 'statistics',
     icon: UilStatistics
   },
-  {
+])
+
+if(userStore.position.includes('admin')) {
+  tabs.value[tabs.value.length] = {
     label: 'Create',
     value: 'create',
     icon: AddUser
   }
-])
+}
 
 const curPage = route.params.action?.toString()
 
