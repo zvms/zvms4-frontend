@@ -8,8 +8,11 @@ const header = useHeaderStore()
 header.setHeader(t('nav.about'))
 
 function debug_func() {
+  if('xhBrowserJava' not in window) {
+    return
+  }
   try {
-    window.alert(Object.keys(window))
+    window.alert(Object.keys(window?.xhBrowserJava || {}))
   } catch(ex) {
     window.alert(ex)
   }
