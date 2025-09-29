@@ -8,7 +8,7 @@ const header = useHeaderStore()
 header.setHeader(t('nav.about'))
 
 function debug_func() {
-  if('xhBrowserJava' not in window) {
+  if(!('xhBrowserJava' in window)) {
     return
   }
   try {
