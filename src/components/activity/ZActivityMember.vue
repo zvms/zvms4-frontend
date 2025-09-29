@@ -115,7 +115,7 @@ async function insertUserPast() {
 </script>
 
 <template>
-  <ElButton v-if="notFound" text bg type="danger" :icon="icon" size="small" round>
+  <ElButton v-if="notFound && mode === 'button'" text bg type="danger" :icon="icon" size="small" round>
     {{ t('manage.personalPanel.notFound') }}
   </ElButton>
   <ZButtonOrCard
@@ -157,7 +157,7 @@ async function insertUserPast() {
         </ElDescriptionsItem>
         <ElDescriptionsItem
           :label="t('home.labels.past')"
-          v-if="userStore.position.includes('admin') || userStore.position.includes('department')"
+          v-if="(userStore.position.includes('admin') || userStore.position.includes('department')) && past.length"
         >
           <div class="flex gap-2">
             <ElTag
@@ -172,7 +172,7 @@ async function insertUserPast() {
             >
               {{ tag }}
             </ElTag>
-            <ElInput
+            <!--<ElInput
               v-if="inputVisible"
               ref="InputRef"
               v-model.trim="inputValue"
@@ -190,7 +190,7 @@ async function insertUserPast() {
               size="small"
               :icon="Plus"
               @click="inputVisible = true"
-            />
+            />-->
           </div>
         </ElDescriptionsItem>
       </ElDescriptions>
@@ -203,7 +203,7 @@ async function insertUserPast() {
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') || userStore.position.includes('department'))
+          (userStore.position.includes('admin') || userStore.position.includes('department')) || userStore.position.includes('secretary') && person.value.group[0] === userStore.class_id)
         "
         text
         bg
@@ -213,28 +213,22 @@ async function insertUserPast() {
       >
         {{ t('manage.groupDetails.userList.open') }}
       </ElButton>
-      <ElPopconfirm
-        v-if="mode === 'card'"
-        :title="t('manage.personalPanel.resetConfirm')"
-        @confirm="resetMemberPassword"
+      <ElButton
+        v-if="
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) &&
+          id &&
+          id !== userStore._id &&
+          mode === 'card'
+        "
+        type="danger"
+        text
+        bg
+        class="w-full"
+        :icon="Refresh"
+        @click="resetMemberPassword"
       >
-        <template #reference>
-          <ElButton
-            v-if="
-              (userStore.position.includes('admin') || userStore.position.includes('department')) &&
-              id &&
-              id !== userStore._id
-            "
-            type="danger"
-            text
-            bg
-            class="w-full"
-            :icon="Refresh"
-          >
-            {{ t('manage.personalPanel.resetPassword') }}
-          </ElButton>
-        </template>
-      </ElPopconfirm>
+        {{ t('manage.personalPanel.resetPassword') }}
+      </ElButton>
     </template>
     <template #text>
       {{ person?.name }}
