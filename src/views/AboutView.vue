@@ -25,7 +25,7 @@ function debug_func() {
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.1.20250929"
+        sub-title="v4.1.2.20250929"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
@@ -34,9 +34,9 @@ function debug_func() {
           <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
           }}</ElButton>-->
-          <span style="opacity: .5" @dblclick="debug_func">
+          <div style="opacity: .5; font-size: smaller;" @dblclick="debug_func">
             &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
-          </span>
+          </div>
         </template>
       </ElResult>
     </ElCard>
