@@ -179,8 +179,8 @@ async function mergeActivity() {
     <ElCard shadow="never">
       <ElResult
         icon="error"
-        :title="维护中"
-        :sub-title="该功能暂停开放"
+        title="维护中"
+        sub-title="该功能暂停开放"
       >
       </ElResult>
     </ElCard>
