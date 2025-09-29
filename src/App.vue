@@ -135,7 +135,7 @@ const title = useTitle()
 const titleval = ref(title.value)
 
 watch(
-  () => title.value,
+  () => document.title,
   (val) => {
     titleval.value = val
   },
@@ -153,11 +153,10 @@ watch(
     immediate: true
   }
 )
-/*
-if (!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
-  router.push('/user/login')
+
+if (!userStore.isLogin && !useRoute().fullPath.endsWith('login') && !useRoute().fullPath.endsWith('about')) {
+  router.replace('/user/login')
 }
-*/
 
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
@@ -285,7 +284,7 @@ onMounted(() => {
         @contextmenu.prevent
         class="bg-slate-100 dark:bg-gray-900"
         direction="vertical"
-        :style="{ width: width + 'px', height: height + 'px' }"
+        style="width: 100%; height: 100%;"
       >
         <ElHeader>
           <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
@@ -342,11 +341,7 @@ onMounted(() => {
           <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
           <RouterView
             class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-            :style="{
-              width: width + 'px',
-              height: 'calc(' + height + 'px - 6.75rem)',
-              boxSizing: 'border-box'
-            }"
+            style="width: 100%; height: 100%; box-sizing: border-box;"
           />
         </ElContainer>
         <ElContainer class="full" v-else>
