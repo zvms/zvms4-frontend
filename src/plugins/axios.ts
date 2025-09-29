@@ -65,7 +65,7 @@ axiosInstance.interceptors.response.use(
         if (!errorDisplayed) {
           errorDisplayed = true
           ElMessage({
-            message: 'Session expired',
+            message: '登录已过期',
             type: 'error',
             grouping: true,
             plain: true
@@ -82,18 +82,15 @@ axiosInstance.interceptors.response.use(
           errorDisplayed = true
           ElMessage({
             message: error.response?.data?.detail
-              ? 'Error: ' +
+              ? '错误: ' +
                 (typeof error.response?.data?.detail === 'string'
                   ? error.response?.data?.detail
                   : JSON.stringify(error.response?.data?.detail))
-              : 'Something went wrong',
+              : '未知错误',
             type: 'error',
             grouping: true,
             plain: true
           })
-          if (!error.response?.data?.detail && navigator.onLine) {
-            router.push('/sww')
-          }
         }
       }
     } else {
@@ -101,7 +98,7 @@ axiosInstance.interceptors.response.use(
         errorDisplayed = true
         ElMessage({
           message:
-            'Error:' + error.message
+            '错误: ' + error.message
               ? 'data: ' + JSON.stringify(error.message)
               : 'Something went wrong',
           type: 'error',
