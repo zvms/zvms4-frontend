@@ -17,7 +17,6 @@ import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
-import { ZSelectLanguage } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
 
