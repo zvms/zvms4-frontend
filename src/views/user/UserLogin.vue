@@ -43,24 +43,21 @@ function refresh() {
 }
 
 async function login() {
-  if (loading.value) {
+  if (loading.value || password.value === '') {
     return
   }
   loading.value = true
-  if (user.value.toString().length !== 8) {
-    await ElMessageBox.alert('User ID must be 8 digits.', 'Error', {
-      type: 'error'
-    })
-    loading.value = false
-    return
-  }
   const users = (
     await api.user.read(user.value).catch(() => {
       loading.value = false
     })
   )?.users
+  if (!users) {
+    loading.value = false
+    return
+  }
   if (users?.length !== 1) {
-    await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
+    await ElMessageBox.alert('用户不存在', '错误', {
       type: 'error'
     })
     loading.value = false
@@ -95,7 +92,7 @@ watch(user, async () => {
           <p class="align-right motto" style="text-align: right">{{ t('nav.login.motto') }}</p>
         </ElCol>
       </ElRow>
-      <ElForm ref="loginfield" label-position="right" label-width="96px">
+      <ElForm ref="loginfield" label-position="right" label-width="48px">
         <ElFormItem :label="t('nav.login.form.account')" prop="id" class="py-1">
           <ElInput
             v-model.number="user"
@@ -125,16 +122,17 @@ watch(user, async () => {
           </ElButton>
         </ElCol>
         <ElCol :span="15" class="actions">
-          <ElButton type="warning" @click="refresh" text bg :icon="Refresh">
+          <!--<ElButton type="warning" @click="refresh" text bg :icon="Refresh">
             {{ t('nav.login.actions.reset') }}
-          </ElButton>
+          </ElButton>-->
           <ElButton
             type="primary"
             @click="login"
             text
             bg
             :icon="ArrowRight"
-            :disabled="password === '' || user === ''"
+            :disabled="password === '' || user?.length !== 8"
+            :loading="loading"
           >
             {{ t('nav.login.actions.login') }}
           </ElButton>
