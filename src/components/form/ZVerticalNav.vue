@@ -18,7 +18,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
-import ZSelectLanguage from './ZSelectLanguage.vue'
 import { pad, getTabletType } from '@/plugins/ua'
 
 const user = useUserStore()
