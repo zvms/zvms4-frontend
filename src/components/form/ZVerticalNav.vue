@@ -159,6 +159,6 @@ watch(useless, () => {
 .bottom {
   position: absolute;
   left: 0.72rem;
-  bottom: 4rem;
+  bottom: 1rem;
 }
 </style>
