@@ -21,12 +21,11 @@ function getCookieValue(cookieName: string) {
 export const baseURL = import.meta.env.PROD
   ? 'https://api.zvms.site/api/'
   : 'http://localhost:8000/api/'
-// export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
   withCredentials: true,
-  timeout: 24000,
+  timeout: 12000,
   headers: {
     'Content-type': 'application/json',
     'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
@@ -64,13 +63,16 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401) {
         if (!errorDisplayed) {
           errorDisplayed = true
+          const token = localStorage.getItem('token')
           ElMessage({
-            message: 'Session expired',
+            message: token ? '登录已过期' : '未登录',
             type: 'error',
             grouping: true,
             plain: true
           })
-          localStorage.removeItem('token')
+          if (token) {
+            localStorage.removeItem('token')
+          }
           useUserStore()
             .removeUser()
             .then(() => {
@@ -82,18 +84,15 @@ axiosInstance.interceptors.response.use(
           errorDisplayed = true
           ElMessage({
             message: error.response?.data?.detail
-              ? 'Error: ' +
+              ? '错误: ' +
                 (typeof error.response?.data?.detail === 'string'
                   ? error.response?.data?.detail
                   : JSON.stringify(error.response?.data?.detail))
-              : 'Something went wrong',
+              : '未知错误',
             type: 'error',
             grouping: true,
             plain: true
           })
-          if (!error.response?.data?.detail && navigator.onLine) {
-            router.push('/sww')
-          }
         }
       }
     } else {
@@ -101,9 +100,9 @@ axiosInstance.interceptors.response.use(
         errorDisplayed = true
         ElMessage({
           message:
-            'Error:' + error.message
+            '错误: ' + error.message
               ? 'data: ' + JSON.stringify(error.message)
-              : 'Something went wrong',
+              : '未知错误',
           type: 'error',
           grouping: true,
           plain: true

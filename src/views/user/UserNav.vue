@@ -124,7 +124,7 @@ function routeTo(page: string) {
     </div>
     <ElSpace class="bottom" direction="vertical">
       <ElButton
-        v-if="!pad() || getTabletType() === 'p615'"
+        v-if="!pad() || getTabletType() === 'p615' || getTabletType() === 'p620'"
         :icon="dark ? Moon : Sunny"
         size="large"
         text

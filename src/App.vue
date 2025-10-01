@@ -69,12 +69,12 @@ const headerStore = useHeaderStore()
 async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
-      'zh-CN': '为防止您的账号被盗，建议您修改密码以保护您的账号。',
+      'zh-CN': '为防止您的账号被盗，您必须修改密码以保护您的账号。',
       'en-US':
         'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
     }
     const advice = {
-      'zh-CN': '建议您重置密码',
+      'zh-CN': '您必须重置密码',
       'en-US': 'It is recommended that you reset your password'
     }
     const threaten = {
@@ -124,6 +124,16 @@ watch(
   }
 )
 
+// force insecure sessions to log out
+const security = ref((localStorage.getItem('security') || '0') - 0)
+
+if (security.value < 1) {
+  security.value = 1
+  localStorage.setItem('security', '' + security.value)
+  userStore.removeUser()
+  router.replace('/user/login')
+}
+
 const watermark = reactive({
   color: 'rgba(0, 0, 0, .05)',
   text: 'ZVMS 4',
@@ -135,7 +145,7 @@ const title = useTitle()
 const titleval = ref(title.value)
 
 watch(
-  () => title.value,
+  () => document.title,
   (val) => {
     titleval.value = val
   },
@@ -153,11 +163,10 @@ watch(
     immediate: true
   }
 )
-/*
-if (!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
-  router.push('/user/login')
+
+if (!userStore.isLogin && !useRoute().fullPath.endsWith('login') && !useRoute().fullPath.endsWith('about')) {
+  router.replace('/user/login')
 }
-*/
 
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
@@ -285,7 +294,7 @@ onMounted(() => {
         @contextmenu.prevent
         class="bg-slate-100 dark:bg-gray-900"
         direction="vertical"
-        :style="{ width: width + 'px', height: height + 'px' }"
+        style="width: 100%; height: 100%;"
       >
         <ElHeader>
           <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
@@ -342,15 +351,11 @@ onMounted(() => {
           <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
           <RouterView
             class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-            :style="{
-              width: width + 'px',
-              height: 'calc(' + height + 'px - 6.75rem)',
-              boxSizing: 'border-box'
-            }"
+            style="width: 100%; height: 100%; box-sizing: border-box;"
           />
         </ElContainer>
         <ElContainer class="full" v-else>
-          <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
+          <RouterView style="width: 100%; height: 100%; overflow-y: scroll;" />
         </ElContainer>
       </ElContainer>
     </ElWatermark>

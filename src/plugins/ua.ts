@@ -24,20 +24,18 @@ export const pad = () => {
   }
 } // If is XueHai Pad on campus, return true, use `large`
 
-export function getTabletType(): 'p615' | 'p200' | 'p335' | 'unknown' {
-  /**
-   * Because the platform runs on XueHai tablet, which includes (only) Samsung SM-P615, SM-P200, SM-P335
-   * We can use the model to determine the type of tablet
-   */
+export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' | 'unknown' {
   const model = result.device.model
-  if (!pad()) return 'p615'
+  if (!pad()) return 'p620'
   switch (model) {
+    case 'SM-P620':
+      return 'p620'
     case 'SM-P615C':
       return 'p615'
     case 'SM-P200':
       return 'p200'
-    case 'SM-P335':
-      return 'p335'
+    case 'SM-P355C':
+      return 'p355'
     default:
       return 'unknown'
   }

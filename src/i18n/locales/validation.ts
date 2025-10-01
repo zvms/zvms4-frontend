@@ -37,6 +37,9 @@ export const zhCN = {
       required: '日期不能为空。',
       format: '日期格式不正确。'
     },
+    mode: {
+      required: '义工模式不能为空。'
+    },
     classify: {
       required: '义工来源不能为空。'
     },

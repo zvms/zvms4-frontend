@@ -24,66 +24,30 @@ const lookupResult = ref({
   timezone: ''
 })
 
-async function ipLookup() {
-  loadingLookup.value = true
-  const result = await axios.get('https://api.ip.sb/geoip/' + log.value.ip)
-  lookupResult.value = result.data
-  loadingLookup.value = false
-}
 </script>
 
 <template>
   <div class="py-1 z-wrap">
     <ElCard shadow="hover">
       <ElForm>
-        <ElFormItem label="Performer">
+        <ElFormItem label="用户">
           <ZActivityMember :id="log.user" />
         </ElFormItem>
-        <ElFormItem label="Performer ID">
+        <ElFormItem label="用户 ID">
           {{ log.user }}
         </ElFormItem>
-        <ElFormItem label="Date">
+        <ElFormItem label="日期">
           {{ dayjs.unix(log.timestamp).format('YYYY-MM-DD HH:mm:ss') }}
         </ElFormItem>
-        <ElFormItem label="Data" style="overflow-wrap: break-word; white-space: pre-wrap">
+        <ElFormItem label="详情" style="overflow-wrap: break-word; white-space: pre-wrap">
           {{ log.data }}
         </ElFormItem>
-        <ElFormItem label="IP">
+        <ElFormItem label="IP" v-if="log.ip !== '127.0.0.1'">
           {{ log.ip }}
-          <ElPopover
-            v-if="!pad() && log.ip !== '127.0.0.1'"
-            @before-enter="ipLookup"
-            v-loading="loadingLookup"
-            width="384px"
-          >
-            <template #reference>
-              <ElButton text bg round size="small" class="px-2">Lookup</ElButton>
-            </template>
-            <ElForm>
-              <ElFormItem label="Country">
-                {{ lookupResult.country }}
-              </ElFormItem>
-              <ElFormItem label="Region">
-                {{ lookupResult.region }}
-              </ElFormItem>
-              <ElFormItem label="City">
-                {{ lookupResult.city }}
-              </ElFormItem>
-              <ElFormItem label="ISP">
-                {{ lookupResult.isp }}
-              </ElFormItem>
-              <ElFormItem label="Geo">
-                {{ lookupResult.longitude }}, {{ lookupResult.latitude }}
-              </ElFormItem>
-              <ElFormItem label="Timezone">
-                {{ lookupResult.timezone }}
-              </ElFormItem>
-            </ElForm>
-          </ElPopover>
         </ElFormItem>
-        <ElFormItem label="Clarity" v-if="log.clarity">
+        <ElFormItem label="Clarity ID" v-if="log.clarity">
           {{ log.clarity }}
-          <ElButton
+          <!--<ElButton
             v-if="!pad()"
             text
             bg
@@ -95,7 +59,7 @@ async function ipLookup() {
             :href="`https://clarity.microsoft.com/projects/view/jwc2tctpr3/impressions?UserId=is%3B${log.clarity}&date=Last%203%20days`"
           >
             Track
-          </ElButton>
+          </ElButton>-->
         </ElFormItem>
         <ElFormItem label="URL">
           {{ log.url }}
