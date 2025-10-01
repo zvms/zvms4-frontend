@@ -392,6 +392,7 @@ onMounted(() => {
 .fragment-container {
   height: 100%;
   overflow-y: scroll;
+  max-height: calc(100vh - 3.75rem);
 }
 
 .action-btn {
