@@ -131,7 +131,7 @@ watch(user, async () => {
             text
             bg
             :icon="ArrowRight"
-            :disabled="password === '' || user?.length !== 8"
+            :disabled="password === '' || String(user).length !== 8"
             :loading="loading"
           >
             {{ t('nav.login.actions.login') }}
