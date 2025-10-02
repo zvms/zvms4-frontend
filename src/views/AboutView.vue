@@ -12,9 +12,11 @@ function debug_func() {
     return
   }
   try {
-    window.alert(Object.keys(window?.xhBrowserJava || {}))
+    const fun = window?.xhBrowserJava?.getUserId
+    fun && alert(fun())
+    if (
   } catch(ex) {
-    window.alert(ex)
+    // window.alert(ex)
   }
 }
 </script>
@@ -25,7 +27,7 @@ function debug_func() {
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.2.20251001"
+        sub-title="v4.1.3.20251002"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>

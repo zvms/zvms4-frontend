@@ -239,7 +239,7 @@ export const enUS = {
 
 export const zhCN = {
   create: {
-    normal: '普通义工',
+    normal: '录入义工',
     special: '特殊录入',
     merge: '合并义工',
     upload: '上传数据'
