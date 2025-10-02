@@ -152,14 +152,14 @@ watch(
     immediate: true
   }
 )
-if (!userStore.isLogin && !route.fullPath.endsWith('login') && !route.fullPath.endsWith('about')) {
-  router.replace('/user/login')
-}
 
 watch(
   () => route.path,
   () => {
     headerStore.resetHeader()
+    if (!userStore.isLogin && !route.fullPath.endsWith('login') && !route.fullPath.endsWith('about')) {
+      router.replace('/user/login')
+    }
   }
 )
 
