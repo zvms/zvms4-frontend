@@ -141,18 +141,6 @@ const watermark = reactive({
 })
 
 const dark = useDark()
-const title = useTitle()
-const titleval = ref(title.value)
-
-watch(
-  () => document.title,
-  (val) => {
-    titleval.value = val
-  },
-  {
-    immediate: true
-  }
-)
 
 watch(
   dark,
@@ -313,7 +301,7 @@ onMounted(() => {
                 <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
                 <ElIcon style="border-radius: .25rem;"><img src="/favicon.ico" class="scale-50" style="border-radius: 20%;" alt="favicon" /></ElIcon>
-                <span class="lh-100% ml-2">{{ titleval }}</span>
+                <span class="lh-100% ml-2">{{ headerStore.header }}</span>
               </div>
             </ElCol>
             <ElCol :span="8">
