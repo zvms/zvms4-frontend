@@ -14,7 +14,6 @@ function debug_func() {
   try {
     const fun = window?.xhBrowserJava?.getUserId
     fun && alert(fun())
-    if (
   } catch(ex) {
     // window.alert(ex)
   }
