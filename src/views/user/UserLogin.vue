@@ -15,6 +15,7 @@ import {
 } from '@element-plus/icons-vue'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
+import { useHeaderStore } from '@/stores/header'
 import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
@@ -25,6 +26,9 @@ if (useUserStore().isLogin) {
 } else {
   localStorage.removeItem('token')
 }
+
+const header = useHeaderStore()
+header.setHeader(t('nav.login.actions.login'))
 
 const { height } = useWindowSize()
 const { t } = useI18n()
