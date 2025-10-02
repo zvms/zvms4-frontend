@@ -13,7 +13,7 @@ function debug_func() {
   }
   try {
     const fun = window?.xhBrowserJava?.getUserId
-    fun && alert(fun())
+    fun && alert(window?.xhBrowserJava?.getUserId())
   } catch(ex) {
     // window.alert(ex)
   }
