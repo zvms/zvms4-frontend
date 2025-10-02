@@ -62,6 +62,7 @@ watch(locale, () => {
   langPack.value = getLocale(locale.value)
 })
 
+const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
@@ -152,9 +153,17 @@ watch(
   }
 )
 
-if (!userStore.isLogin && !useRoute().fullPath.endsWith('login') && !useRoute().fullPath.endsWith('about')) {
-  router.replace('/user/login')
-}
+watch(
+  () => route.path,
+  () => {
+    headerStore.resetHeader()
+    if (!userStore.isLogin && !route.fullPath.endsWith('login') && !route.fullPath.endsWith('about')) {
+      router.replace('/user/login')
+    }
+  }
+)
+
+
 
 function embedClarity() {
   // Define a type for the clarity function to improve readability and type safety
