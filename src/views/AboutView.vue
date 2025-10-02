@@ -12,9 +12,11 @@ function debug_func() {
     return
   }
   try {
-    window.alert(Object.keys(window?.xhBrowserJava || {}))
+    const fun = window?.xhBrowserJava?.getUserId
+    fun && alert(fun())
+    if (
   } catch(ex) {
-    window.alert(ex)
+    // window.alert(ex)
   }
 }
 </script>
