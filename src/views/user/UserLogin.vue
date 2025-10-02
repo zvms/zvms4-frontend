@@ -28,7 +28,6 @@ if (useUserStore().isLogin) {
 }
 
 const header = useHeaderStore()
-header.setHeader(t('nav.login.actions.login'))
 
 const { height } = useWindowSize()
 const { t } = useI18n()
@@ -39,6 +38,8 @@ const loginfield = ref()
 const userStore = useUserStore()
 const router = useRouter()
 const loading = ref(false)
+
+header.setHeader(t('nav.login.actions.login'))
 
 function refresh() {
   user.value = ''
