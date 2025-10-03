@@ -26,7 +26,7 @@ function debug_func() {
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.3.20251002"
+        sub-title="v4.1.4.20251003"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
