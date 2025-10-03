@@ -203,7 +203,7 @@ async function insertUserPast() {
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person.value.group[0] === userStore.class_id)
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id)
         "
         text
         bg
@@ -215,7 +215,7 @@ async function insertUserPast() {
       </ElButton>
       <ElButton
         v-if="
-          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id) &&
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id) &&
           id &&
           id !== userStore._id &&
           mode === 'card'
