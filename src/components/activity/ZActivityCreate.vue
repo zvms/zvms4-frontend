@@ -51,7 +51,7 @@ const activePage = ref<'info' | 'member' | 'review'>('info')
 
 const activity = reactive<Activity>({
   _id: '',
-  type: type.value === 'normal' ? ('' as unknown as Activity['type']) : 'hybrid',
+  type: '' as unknown as Activity['type']),
   name: '',
   description: '',
   date: '',
@@ -61,8 +61,8 @@ const activity = reactive<Activity>({
   status: 'pending',
   place: '',
   appointee: userStore._id,
-  approver: '',
-  origin: '' as unknown as Activity['origin']
+  approver: 'authority',
+  origin: 'other'
 })
 
 const createdId = ref('')
@@ -271,14 +271,14 @@ function checkReviewAllowed() {
             >
               <ElCascader v-model="origin" :options="activityCategories" class="w-full" />
             </ElFormItem>
-            <ElFormItem
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               :label="t('activity.registration.location')"
               prop="place"
             >
               <ElInput :prefix-icon="Location" v-model="activity.place" />
-            </ElFormItem>
-            <ElFormItem
+            </ElFormItem>-->
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               required
               :label="t('activity.registration.approver')"
@@ -299,7 +299,7 @@ function checkReviewAllowed() {
                   <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
                 </ElCol>
               </ElRow>
-            </ElFormItem>
+            </ElFormItem>-->
             <ElFormItem v-if="activePage === 'member' || activePage === 'info'">
               <ElAlert
                 :title="remindCategory.join(' / ')"
