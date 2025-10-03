@@ -13,9 +13,9 @@ function debug_func() {
   }
   try {
     const fun = window?.xhBrowserJava?.getUserId
-    fun && alert(window?.xhBrowserJava?.getUserId())
+    fun && alert('学海用户ID: ' + window?.xhBrowserJava?.getUserId())
   } catch(ex) {
-    // window.alert(ex)
+    window.alert(ex)
   }
 }
 </script>
