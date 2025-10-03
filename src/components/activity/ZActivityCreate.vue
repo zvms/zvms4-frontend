@@ -51,7 +51,7 @@ const activePage = ref<'info' | 'member' | 'review'>('info')
 
 const activity = reactive<Activity>({
   _id: '',
-  type: '' as unknown as Activity['type']),
+  type: '' as unknown as Activity['type'],
   name: '',
   description: '',
   date: '',
