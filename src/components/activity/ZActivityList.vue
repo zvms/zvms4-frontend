@@ -164,12 +164,12 @@ const el = useTemplateRef('card')
 const { isSwiping, direction } = useSwipe(el)
 
 watch(isSwiping, (swiping) => {
-  if (swiping && direction.value === 'left') {
+  if (swiping && direction.value === 'right') {
     if (activePage.value > 1) {
       activePage.value -= 1
       refresh()
     }
-  } else if (swiping && direction.value === 'right') {
+  } else if (swiping && direction.value === 'left') {
     if (activePage.value < Math.ceil(size.value / pageSize.value)) {
       activePage.value += 1
       refresh()
