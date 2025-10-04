@@ -77,7 +77,12 @@ async function resetMemberPassword() {
   const password = user?.id.toString()
   if (password) {
     const token = await temporaryToken(userStore._id)
-    await api.user.password.put(id.value, password, token, true)
+    await api.user.password.put(id.value, password, token, true).then(
+      ElNotification({
+        title: '密码重置成功',
+        type: 'success'
+      })
+    )
   }
 }
 
