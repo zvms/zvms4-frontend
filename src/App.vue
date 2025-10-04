@@ -88,6 +88,9 @@ async function resetPassword() {
       title: advice['zh-CN'] as string,
       confirmButtonText: '修改密码',
       cancelButtonText: '退出登录',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
     })
       .then(async () => {
         try {
