@@ -68,33 +68,24 @@ function moveTo(type: string) {
 <template>
   <div class="p-4" style="width: 100%; height: 100%">
     <div class="flex px-12 py-4">
-      <Transition appear enter-active-class="animate__animated animate__fadeIn">
-        <span class="text-xl">
-          {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
-        </span>
-      </Transition>
-      <Transition
-        appear
-        enter-active-class="animate__animated animate__fadeInRight"
-        class="flex justify-end"
-        style="margin-left: auto"
-      >
-        <ElSpace v-if="panes.length > 1">
-          <ElButton
-            text
-            bg
-            size="small"
-            v-for="pane in panes.filter((x) => x.visibility)"
-            :key="pane.value"
-            :type="pane.color"
-            :icon="pane.icon"
-            @click="moveTo(pane.value)"
-            :disabled="tab === pane.value || (tab === '' && pane.value === 'mine')"
-          >
-            {{ t(`activity.view.panels.${pane.value}.short`) }}
-          </ElButton>
-        </ElSpace>
-      </Transition>
+      <span class="text-xl">
+        {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
+      </span>
+      <ElSpace v-if="panes.length > 1">
+        <ElButton
+          text
+          bg
+          size="small"
+          v-for="pane in panes.filter((x) => x.visibility)"
+          :key="pane.value"
+          :type="pane.color"
+          :icon="pane.icon"
+          @click="moveTo(pane.value)"
+          :disabled="tab === pane.value || (tab === '' && pane.value === 'mine')"
+        >
+          {{ t(`activity.view.panels.${pane.value}.short`) }}
+        </ElButton>
+      </ElSpace>
     </div>
     <ZActivityList class="mx-12" :role="tab" :key="tab" />
   </div>
