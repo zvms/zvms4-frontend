@@ -85,7 +85,7 @@ export async function modifyPasswordDialogs(
       confirmButtonText: locales['zh-CN'].password.confirmButtonText,
       cancelButtonText: locales['zh-CN'].password.cancelButtonText,
       inputValidator: (ipt: string) => input.value === ipt,
-      inputType: ''zh-CN'',
+      inputType: 'password',
       inputErrorMessage: locales['zh-CN'].password_confirm.inputErrorMessage
     }
   ).catch(() => {
