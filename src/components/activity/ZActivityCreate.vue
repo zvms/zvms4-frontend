@@ -169,11 +169,11 @@ async function nextStep() {
     activity._id = createdId.value
     activePage.value = 'member'
   } else if (activePage.value === 'member') {
-    activePage.value = 'review'
+  /*  activePage.value = 'review'
   } else if (activePage.value === 'review') {
     if (checkReviewAllowed()) {
       await api.activity.update.status(createdId.value, 'effective')
-    }
+    }*/
     await router.push(
       '/activities/' +
         (userStore.position.includes('admin') || userStore.position.includes('department')
