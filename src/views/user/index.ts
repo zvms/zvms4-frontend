@@ -73,7 +73,10 @@ export async function modifyPasswordDialogs(
       cancelButtonText: locales['zh-CN'].password.cancelButtonText,
       inputValidator: (ipt: string) => strongPasswordValidator.test(ipt),
       inputType: 'password',
-      inputErrorMessage: locales['zh-CN'].password.inputErrorMessage
+      inputErrorMessage: locales['zh-CN'].password.inputErrorMessage,
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
     }
   ).catch(() => {
     throw new Error('Password input canceled')
@@ -86,7 +89,10 @@ export async function modifyPasswordDialogs(
       cancelButtonText: locales['zh-CN'].password.cancelButtonText,
       inputValidator: (ipt: string) => input.value === ipt,
       inputType: 'password',
-      inputErrorMessage: locales['zh-CN'].password_confirm.inputErrorMessage
+      inputErrorMessage: locales['zh-CN'].password_confirm.inputErrorMessage,
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
     }
   ).catch(() => {
     throw new Error('Password confirm canceled')
