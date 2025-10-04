@@ -102,15 +102,7 @@ const visibility = permissions(user.position as UserPosition[])
         </ElSpace>
      </template>
    </ElPageHeader>
-   <Transition
-     v-if="show && tab"
-     enter-active-class="animate__animated animate__fadeInUp"
-     leave-active-class="animate__animated animate__fadeOutUp"
-     appear
-     key="1"
-   >
-     <RouterView :key="tab" />
-   </Transition>
+   <RouterView v-if="show && tab" :key="tab" />
    <Transition
      v-else-if="show && !tab"
      enter-active-class="animate__animated animate__fadeIn"
@@ -118,7 +110,7 @@ const visibility = permissions(user.position as UserPosition[])
      appear
      key="0"
     >
-      <CreateHome @move="mov" />
+      <CreateHome  @move="mov" />
     </Transition>
   </div>
 </template>
