@@ -61,6 +61,9 @@ const lookupResult = ref({
             Track
           </ElButton>-->
         </ElFormItem>
+        <ElFormItem label="Clarity ID" v-if="log.xuehai_id">
+          {{ log.xuehai_id }}
+        </ElFormItem>
         <ElFormItem label="URL">
           {{ log.url }}
         </ElFormItem>
