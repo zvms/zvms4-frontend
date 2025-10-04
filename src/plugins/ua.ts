@@ -22,7 +22,7 @@ export const pad = () => {
   } else {
     return false
   }
-} // If is XueHai Pad on campus, return true, use `large`
+}
 
 export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' | 'unknown' {
   const model = result.device.model
