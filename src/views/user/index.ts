@@ -25,14 +25,14 @@ const locales: Record<
 > = {
   'zh-CN': {
     password: {
-      title: '重置密码',
+      title: '修改密码',
       message: '请输入新密码',
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       inputErrorMessage: '密码至少8位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
     },
     password_confirm: {
-      title: '重置密码',
+      title: '修改密码',
       message: '请再次输入新密码',
       inputErrorMessage: '密码不匹配'
     }
