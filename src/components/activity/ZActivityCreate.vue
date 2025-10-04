@@ -81,7 +81,7 @@ const activityCategories =
 const members = reactive<ActivityMember[]>([])
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
-const origin = ref<string[]>([])
+const origin = ref<string[]>(['others'])
 
 // @ts-ignore
 watch(origin, (newVal) => {
@@ -252,14 +252,14 @@ function checkReviewAllowed() {
             >
               <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
             </ElFormItem>
-            <ElFormItem
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               :label="t('activity.origins.name')"
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
               <ElCascader v-model="origin" :options="activityCategories" class="w-full" />
-            </ElFormItem>
+            </ElFormItem>-->
             <!--<ElFormItem
               v-if="activePage === 'info'"
               :label="t('activity.registration.location')"
@@ -289,7 +289,7 @@ function checkReviewAllowed() {
                 </ElCol>
               </ElRow>
             </ElFormItem>-->
-            <ElFormItem v-if="activePage === 'member' || activePage === 'info'">
+            <!--<ElFormItem v-if="activePage === 'member' || activePage === 'info'">
               <ElAlert
                 :title="remindCategory.join(' / ')"
                 :description="remindText"
@@ -297,7 +297,7 @@ function checkReviewAllowed() {
                 :closable="false"
                 class="mb-4"
               />
-            </ElFormItem>
+            </ElFormItem>-->
             <ElFormItem
               :label="t('activity.form.person', members.length)"
               v-if="activePage === 'member'"
