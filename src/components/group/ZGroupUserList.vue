@@ -81,6 +81,8 @@ const refresh = () => {
         users.value.push(...res.users)
         total.value = res.size
         loading.value = false
+      }).catch(() => {
+        loading.value = false
       })
   } else {
     api.user.read(search.value, page.value, perpage.value).then((res) => {
@@ -89,6 +91,8 @@ const refresh = () => {
         users.value.push(...res.users)
         total.value = res.size
       }
+      loading.value = false
+    }).catch(() => {
       loading.value = false
     })
   }
