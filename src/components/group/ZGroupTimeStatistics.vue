@@ -27,7 +27,7 @@ const props = withDefaults(
     groupId: ''
   }
 )
-
+/*
 ChartJS.register(Colors, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
 
 const { groupId } = toRefs(props)
@@ -100,10 +100,11 @@ watch(
     doughnutChartData.value = computeDoughnutChartData()
   }
 )
+*/
 </script>
 
 <template>
-  <div class="mx-4 text-center" v-loading="loading">
+  <!--<div class="mx-4 text-center" v-loading="loading">
     <div class="text-center">
       <ElSwitch v-model="barChart" active-text="Bar Chart" inactive-text="Ring Chart" />
     </div>
@@ -122,5 +123,13 @@ watch(
         style="width: 384px; height: auto; text-align: center"
       />
     </div>
-  </div>
+  </div>-->
+  <ElCard shadow="never">
+    <ElResult
+      icon="error"
+      title="维护中"
+      sub-title="该功能暂停开放"
+    >
+    </ElResult>
+  </ElCard>
 </template>
