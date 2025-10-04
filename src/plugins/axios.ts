@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
+import { getXuehaiId } from '@/plugins/ua.ts'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
