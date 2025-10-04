@@ -159,24 +159,13 @@ watch(height, () => {
 async function nextStep() {
   load.value = true
   if (activePage.value === 'info') {
-    if (origin.value.includes('physical-labor')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('off-campus')) {
-      activity.origin = 'activities'
-    } else if (origin.value.includes('social-practice')) {
-      activity.origin = 'activities'
-    } else if (origin.value.includes('mental-labor')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('ad-hoc-tasks')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('student-activities')) {
-      activity.origin = 'organization'
-    } else if (origin.value.includes('awards')) {
-      activity.origin = 'prize'
-    } else {
-      activity.origin = 'other'
+    activity.origin = 'other'
+    createdId.value = await api.activity.insert(activity).catch(() => {
+      load.value = false
+    })
+    if (!createdId.value) {
+      return
     }
-    createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
     activePage.value = 'member'
   } else if (activePage.value === 'member') {
