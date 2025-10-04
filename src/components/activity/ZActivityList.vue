@@ -227,7 +227,6 @@ watch(isPointerSwiping, (swiping) => {
         >
           {{ t('activity.export.name') }}
         </ElButton>
-        <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
       <!-- @vue-ignore -->
       <ElTable
