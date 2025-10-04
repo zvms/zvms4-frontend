@@ -50,11 +50,11 @@ async function getTimeOfMine() {
   loading.value = false
 }
 
-onMounted(() => {
-  getTimeOfMine()
-})
-
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)
+
+onMounted(() => {
+  showMyDuration?.value && mode?.value && getTimeOfMine()
+})
 
 const percentOfMine = ref(
   mode?.value
