@@ -81,45 +81,43 @@ const visibility = permissions(user.position as UserPosition[])
 
 <template>
   <div class="p-4" style="width: 100%">
-    <Transition enter-active-class="animate__animated animate__fadeInRight" appear>
-      <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="router.back()" :icon="ArrowLeft">
-        <template #content>
-          {{ $t(tab ? `activity.create.${tab}` : 'nav.create') }}
-        </template>
-        <template #extra>
-          <ElSpace>
-            <ElButton
-              v-for="button in tabs.filter((x) => visibility[x.value as CreateActivityType])"
-              :key="button.value"
-              @click="mov(button.value)"
-              text
-              bg
-              :icon="button.icon"
-              :type="button.color"
-              size="small"
-              :disabled="button.value === tab"
-            >
-              {{ t(`activity.createMinimized.${button.value}`) }}
-            </ElButton>
-          </ElSpace>
-        </template>
-      </ElPageHeader>
-    </Transition>
-    <Transition
-      v-if="show && tab"
-      enter-active-class="animate__animated animate__fadeInUp"
-      leave-active-class="animate__animated animate__fadeOutUp"
-      appear
-      key="1"
-    >
-      <RouterView :key="tab" />
-    </Transition>
-    <Transition
-      v-else-if="show && !tab"
-      enter-active-class="animate__animated animate__fadeIn"
-      leave-active-class="animate__animated animate__fadeOut"
-      appear
-      key="0"
+    <ElPageHeader v-if="tab" class="text-2xl px-12 py-6" @back="router.back()" :icon="ArrowLeft">
+      <template #content>
+        {{ $t(tab ? `activity.create.${tab}` : 'nav.create') }}
+      </template>
+      <template #extra>
+        <ElSpace>
+          <ElButton
+            v-for="button in tabs.filter((x) => visibility[x.value as CreateActivityType])"
+            :key="button.value"
+            @click="mov(button.value)"
+            text
+            bg
+            :icon="button.icon"
+            :type="button.color"
+            size="small"
+            :disabled="button.value === tab"
+          >
+            {{ t(`activity.createMinimized.${button.value}`) }}
+          </ElButton>
+        </ElSpace>
+     </template>
+   </ElPageHeader>
+   <Transition
+     v-if="show && tab"
+     enter-active-class="animate__animated animate__fadeInUp"
+     leave-active-class="animate__animated animate__fadeOutUp"
+     appear
+     key="1"
+   >
+     <RouterView :key="tab" />
+   </Transition>
+   <Transition
+     v-else-if="show && !tab"
+     enter-active-class="animate__animated animate__fadeIn"
+     leave-active-class="animate__animated animate__fadeOut"
+     appear
+     key="0"
     >
       <CreateHome @move="mov" />
     </Transition>
