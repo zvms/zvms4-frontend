@@ -201,7 +201,7 @@ async function insertUserPast() {
       </ElDescriptions>
       <ZUserTimeJudge
         class="py-2"
-        v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
+        v-if="userStore.position.includes('department') || userStore.position.includes('admin') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id)"
         :user="id"
         discount
       />
