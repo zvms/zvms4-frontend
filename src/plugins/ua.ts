@@ -16,15 +16,19 @@ export const getUA = () => result.ua
 
 export const getCPU = () => result.cpu
 
+export function getXuehaiId(): number {
+  return window.xhBrowserJava && window.xhBrowserJava?.getUserId() || 0
+}
+
 export const pad = () => {
-  if (result.device.vendor === 'Samsung' && result.os.name === 'Android') {
+  if (result.device.vendor === 'Samsung' && result.os.name === 'Android' || getXuehaiId()) {
     return true
   } else {
     return false
   }
 }
 
-export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' | 'unknown' {
+export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' {
   const model = result.device.model
   if (!pad()) return 'p620'
   switch (model) {
@@ -37,10 +41,6 @@ export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' | 'unknown' {
     case 'SM-P355C':
       return 'p355'
     default:
-      return 'unknown'
+      return 'p620'
   }
-}
-
-export function getXuehaiId(): number {
-  return window.xhBrowserJava && window.xhBrowserJava?.getUserId() || 0
 }
