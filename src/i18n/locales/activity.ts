@@ -245,7 +245,7 @@ export const zhCN = {
     upload: '上传数据'
   },
   createMinimized: {
-    normal: '普通',
+    normal: '录入',
     special: '特殊',
     merge: '合并',
     upload: '上传'
