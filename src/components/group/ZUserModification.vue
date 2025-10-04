@@ -182,7 +182,7 @@ async function remoteFetchClass(search: string) {
 </script>
 
 <template>
-  <div class="px-4">
+  <div>
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
         <ElFormItem :label="t('manage.groupDetails.userList.columns.name')" required>
