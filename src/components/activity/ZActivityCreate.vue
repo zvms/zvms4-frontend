@@ -221,7 +221,7 @@ function checkReviewAllowed() {
   <div class="px-6 py-3">
     <div class="p-4">
       <ElCard shadow="hover" class="full">
-        <ElForm label-position="right" label-width="108px" :model="activity" style="width: 100%">
+        <ElForm label-position="right" label-width="64px" :model="activity" style="width: 100%">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
             <ElFormItem
               prop="name"
