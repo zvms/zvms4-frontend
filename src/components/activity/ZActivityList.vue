@@ -164,12 +164,12 @@ const el = useTemplateRef('card')
 const { isSwiping, direction } = useSwipe(el)
 
 watch(isSwiping, (swiping) => {
-  if (swiping && direction.value === 'left') {
+  if (swiping && direction.value === 'right') {
     if (activePage.value > 1) {
       activePage.value -= 1
       refresh()
     }
-  } else if (swiping && direction.value === 'right') {
+  } else if (swiping && direction.value === 'left') {
     if (activePage.value < Math.ceil(size.value / pageSize.value)) {
       activePage.value += 1
       refresh()
@@ -261,18 +261,16 @@ watch(isPointerSwiping, (swiping) => {
         </ElTableColumn>
         <ElTableColumn
           prop="type"
-          v-if="role !== 'mine' && !selectTarget"
+          v-if="role !== 'mine'"
           :label="t('activity.form.type')"
         >
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
               size="small"
-              show-special
-              :special="row?.special?.classify ?? 'other'"
+              special="other"
               :status="row?.status"
               :status-modifiable="
-                (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
                 user.position.includes('admin') ||
                 user.position.includes('department')
               "
@@ -282,15 +280,13 @@ watch(isPointerSwiping, (swiping) => {
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
+        <ElTableColumn v-else :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
-              v-if="row.mine"
               :mode="row.mine.mode"
               :duration="row.mine.duration"
               force="short"
             />
-            <ZActivityStatus v-else :type="row.mine.status" />
           </template>
         </ElTableColumn>
         <ElTableColumn fixed="right">

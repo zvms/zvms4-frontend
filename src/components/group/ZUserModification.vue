@@ -71,7 +71,6 @@ function refresh() {
         if (res) {
           userGroups.value = res.group
           modification.name = res.name
-          modification.sex = res.sex
           modification.id = res.id
           return Promise.all(res.group.map((groupId) => api.group.readOne(groupId)))
         }
@@ -126,8 +125,7 @@ async function remove() {
     return
   }
   ElNotification({
-    title: 'Success',
-    message: 'User delete successfully',
+    title: '用户已删除',
     type: 'success'
   })
   submission.value = false
@@ -156,8 +154,7 @@ async function submit() {
     return
   }
   ElNotification({
-    title: 'Success',
-    message: `User ${mode.value === 'create' ? 'created' : 'modified'} successfully`,
+    title: `用户${mode.value === 'create' ? '创建成功' : '已修改'}`,
     type: 'success'
   })
   submission.value = false
@@ -185,7 +182,7 @@ async function remoteFetchClass(search: string) {
 </script>
 
 <template>
-  <div class="px-4">
+  <div>
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
         <ElFormItem :label="t('manage.groupDetails.userList.columns.name')" required>
@@ -194,9 +191,8 @@ async function remoteFetchClass(search: string) {
         <ElFormItem :label="t('manage.groupDetails.userList.columns.id')" required>
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
-        <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
+        <ElFormItem v-if="mode === 'modify'" :label="t('manage.groupDetails.userList.columns.classid')" required>
           <ElSelect
-            v-if="mode === 'modify'"
             v-model="classGroupID"
             remote
             :remote-method="remoteFetchClass"
@@ -209,9 +205,6 @@ async function remoteFetchClass(search: string) {
               :value="group._id"
             />
           </ElSelect>
-          <span v-else>
-            {{ classes.find((x) => x._id === classGroupID)?.name }}
-          </span>
         </ElFormItem>
         <ElFormItem
           v-if="mode === 'modify'"

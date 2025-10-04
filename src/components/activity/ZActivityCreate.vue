@@ -51,7 +51,7 @@ const activePage = ref<'info' | 'member' | 'review'>('info')
 
 const activity = reactive<Activity>({
   _id: '',
-  type: type.value === 'normal' ? ('' as unknown as Activity['type']) : 'hybrid',
+  type: '' as unknown as Activity['type'],
   name: '',
   description: '',
   date: '',
@@ -61,8 +61,8 @@ const activity = reactive<Activity>({
   status: 'pending',
   place: '',
   appointee: userStore._id,
-  approver: '',
-  origin: '' as unknown as Activity['origin']
+  approver: 'authority',
+  origin: 'other'
 })
 
 const createdId = ref('')
@@ -81,7 +81,7 @@ const activityCategories =
 const members = reactive<ActivityMember[]>([])
 
 const scrollableCardHeight = ref((height.value - 64) * 0.6)
-const origin = ref<string[]>([])
+const origin = ref<string[]>(['others'])
 
 // @ts-ignore
 watch(origin, (newVal) => {
@@ -159,32 +159,21 @@ watch(height, () => {
 async function nextStep() {
   load.value = true
   if (activePage.value === 'info') {
-    if (origin.value.includes('physical-labor')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('off-campus')) {
-      activity.origin = 'activities'
-    } else if (origin.value.includes('social-practice')) {
-      activity.origin = 'activities'
-    } else if (origin.value.includes('mental-labor')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('ad-hoc-tasks')) {
-      activity.origin = 'labor'
-    } else if (origin.value.includes('student-activities')) {
-      activity.origin = 'organization'
-    } else if (origin.value.includes('awards')) {
-      activity.origin = 'prize'
-    } else {
-      activity.origin = 'other'
+    activity.origin = 'other'
+    createdId.value = await api.activity.insert(activity).catch(() => {
+      load.value = false
+    })
+    if (!createdId.value) {
+      return
     }
-    createdId.value = await api.activity.insert(activity)
     activity._id = createdId.value
     activePage.value = 'member'
   } else if (activePage.value === 'member') {
-    activePage.value = 'review'
+  /*  activePage.value = 'review'
   } else if (activePage.value === 'review') {
     if (checkReviewAllowed()) {
       await api.activity.update.status(createdId.value, 'effective')
-    }
+    }*/
     await router.push(
       '/activities/' +
         (userStore.position.includes('admin') || userStore.position.includes('department')
@@ -232,7 +221,7 @@ function checkReviewAllowed() {
   <div class="px-6 py-3">
     <div class="p-4">
       <ElCard shadow="hover" class="full">
-        <ElForm label-position="right" label-width="108px" :model="activity" style="width: 100%">
+        <ElForm label-position="right" label-width="64px" :model="activity" style="width: 100%">
           <ElScrollbar :height="scrollableCardHeight + 'px'">
             <ElFormItem
               prop="name"
@@ -263,22 +252,22 @@ function checkReviewAllowed() {
             >
               <ElDatePicker class="full" style="width: 100%" v-model="activity.date" />
             </ElFormItem>
-            <ElFormItem
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               :label="t('activity.origins.name')"
               required
               :rules="[{ required: true, message: t('validation.create.classify.required') }]"
             >
               <ElCascader v-model="origin" :options="activityCategories" class="w-full" />
-            </ElFormItem>
-            <ElFormItem
+            </ElFormItem>-->
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               :label="t('activity.registration.location')"
               prop="place"
             >
               <ElInput :prefix-icon="Location" v-model="activity.place" />
-            </ElFormItem>
-            <ElFormItem
+            </ElFormItem>-->
+            <!--<ElFormItem
               v-if="activePage === 'info'"
               required
               :label="t('activity.registration.approver')"
@@ -299,8 +288,8 @@ function checkReviewAllowed() {
                   <ZSelectPerson style="width: 100%" v-model="approveStudent" :filter-start="6" />
                 </ElCol>
               </ElRow>
-            </ElFormItem>
-            <ElFormItem v-if="activePage === 'member' || activePage === 'info'">
+            </ElFormItem>-->
+            <!--<ElFormItem v-if="activePage === 'member' || activePage === 'info'">
               <ElAlert
                 :title="remindCategory.join(' / ')"
                 :description="remindText"
@@ -308,7 +297,7 @@ function checkReviewAllowed() {
                 :closable="false"
                 class="mb-4"
               />
-            </ElFormItem>
+            </ElFormItem>-->
             <ElFormItem
               :label="t('activity.form.person', members.length)"
               v-if="activePage === 'member'"

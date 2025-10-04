@@ -13,6 +13,12 @@ export const enUS = {
     upload: {
       required: 'Upload is required.'
     },
+    mode: {
+      required: 'Mode is required.'
+    },
+    type: {
+      required: 'Type is required.'
+    },
     member: {
       person: {
         required: 'Person is required.'
@@ -40,6 +46,9 @@ export const zhCN = {
     mode: {
       required: '义工模式不能为空。'
     },
+    type: {
+      required: '义工类型不能为空。'
+    },
     classify: {
       required: '义工来源不能为空。'
     },
@@ -55,7 +64,7 @@ export const zhCN = {
       },
       duration: {
         required: '时长不能为空。',
-        invalid: '时长不正确。它应该是一个大于 0 并且小于 18 的数字。'
+        invalid: '时长不正确。'
       }
     }
   }

@@ -38,7 +38,7 @@ const panes = [
     value: 'mine',
     color: 'primary',
     icon: User,
-    visibility: user.position.includes('student')
+    visibility: true
   },
   {
     value: 'class',

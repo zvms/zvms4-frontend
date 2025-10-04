@@ -34,6 +34,8 @@ function refresh() {
     groups.value.push(...res.groups)
     total.value = res.size
     loading.value = false
+  }).catch(() => {
+    loading.value = false
   })
 }
 

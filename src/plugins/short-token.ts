@@ -7,19 +7,17 @@ export function temporaryToken(userid: string): Promise<string> {
   const locales = {
     'zh-CN': {
       title: '请输入密码',
-      message: '危险操作，您必须输入密码才能继续。',
+      message: '请确认您的密码。',
       confirm: '确认',
       cancel: '取消',
-      validation:
-        '密码必须包含大小写字母和数字，且长度不小于 8 位。如果您尚未重置密码，您应该先重置密码。'
+      validation: ''
     },
     'en-US': {
-      title: 'Please enter your password',
-      message: 'Dangerous operation, you must enter your password to continue.',
-      confirm: 'Confirm',
-      cancel: 'Cancel',
-      validation:
-        'The password must contain uppercase and lowercase letters and numbers, and the length must be at least 8 characters. You should reset your password first if you have not done so.'
+      title: '',
+      message: '',
+      confirm: '',
+      cancel: '',
+      validation: ''
     }
   }
   return new Promise((resolve, reject) => {
@@ -27,7 +25,10 @@ export function temporaryToken(userid: string): Promise<string> {
       confirmButtonText: locales[locale].confirm,
       cancelButtonText: locales[locale].cancel,
       inputType: 'password',
-      type: 'warning'
+      type: 'warning',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
     })
       .then(({ value }) => {
         api.user.auth

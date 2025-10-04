@@ -96,7 +96,7 @@ const search = ref('')
 const size = ref(membersCount.value)
 const pageLoading = ref(false)
 
-const batchOriginTags = ['From Classes', 'From Past Activities', 'From Pasted Name/IDs']
+const batchOriginTags = ['从列表选择', '手动粘贴或输入名单 / 学号']
 const batchOrigin = ref(batchOriginTags[0])
 const pastedContent = ref(typeof clipboard.copied.value === 'string' ? clipboard.copied.value : '')
 const contentParsed = ref<boolean>(false)
@@ -439,14 +439,14 @@ watch(search, refreshMembers)
                     </ElFormItem>
                     <ElFormItem
                       :label="t('activity.batch.batch.classid')"
-                      v-if="!isOnlyMonitor && batchOrigin === 'From Classes'"
+                      v-if="!isOnlyMonitor && batchOrigin === '从列表选择'"
                     >
                       <ZSelectClass v-model="selectedClassID" clearable />
                     </ElFormItem>
                     <ElFormItem
                       :label="t('activity.batch.batch.members')"
                       class="w-full"
-                      v-if="batchOrigin === 'From Pasted Name/IDs' && !contentParsed"
+                      v-if="batchOrigin === '手动粘贴或输入名单 / 学号'"
                     >
                       <ElInput
                         v-model="pastedContent"
@@ -494,9 +494,7 @@ watch(search, refreshMembers)
                     <ElFormItem
                       :label="t('activity.batch.batch.members')"
                       class="w-full"
-                      v-if="
-                        batchOrigin === 'From Classes' || batchOrigin === 'From Pasted Name/IDs'
-                      "
+                      v-if=" batchOrigin === '从列表选择'"
                     >
                       <!-- @vue-ignore -->
                       <ZGroupUserList
@@ -533,7 +531,8 @@ watch(search, refreshMembers)
                       :disabled="
                         (!addedUsers.length && !usersSelected.length) ||
                         !appendingMode ||
-                        !appendingDuration
+                        appendingDuration <= 0 ||
+                        appendingDuration > 30
                       "
                     >
                       {{ t('activity.member.dialog.actions.add') }}
@@ -561,14 +560,11 @@ watch(search, refreshMembers)
                     <ZInputDuration v-model="appending.duration" class="w-full" />
                   </ElFormItem>
                   <div style="text-align: right">
-                    <ElButton text bg type="danger" :icon="Close" @click="showAddPopover = false">
-                      {{ t('activity.form.actions.cancel') }}
-                    </ElButton>
                     <ElButton
                       :disabled="
                         appending.member === '' ||
                         appending.duration <= 0 ||
-                        appending.duration > 18 ||
+                        appending.duration > 30 ||
                         members.find(
                           (x) => x._id === appending.member && x.mode === appending.mode
                         ) !== undefined

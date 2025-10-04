@@ -13,9 +13,9 @@ function debug_func() {
   }
   try {
     const fun = window?.xhBrowserJava?.getUserId
-    fun && alert(fun())
+    fun && alert('学海用户ID: ' + window?.xhBrowserJava?.getUserId())
   } catch(ex) {
-    // window.alert(ex)
+    window.alert(ex)
   }
 }
 </script>
@@ -26,7 +26,7 @@ function debug_func() {
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.3.20251002"
+        sub-title="v4.1.4.20251004"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>

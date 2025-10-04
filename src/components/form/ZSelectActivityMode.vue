@@ -42,7 +42,7 @@ const icons: Record<ActivityMode, VueComponent> = {
   <ElForm :model="mode">
     <ElFormItem
       prop="mode"
-      :rules="[{ required: true, message: t('validation.create.activity.mode.required') }]"
+      :rules="[{ required: true, message: t(showHybrid ? 'validation.create.type.required' : 'validation.create.mode.required') }]"
     >
       <ElSelect v-model="mode.mode" class="w-full">
         <ElOption

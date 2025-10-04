@@ -54,13 +54,7 @@ function getLocale(ident: string) {
   return zhCn
 }
 
-const langPack = ref(getLocale(locale.value))
-
-
-
-watch(locale, () => {
-  langPack.value = getLocale(locale.value)
-})
+const langPack = ref(zhCn)
 
 const route = useRoute()
 const router = useRouter()
@@ -71,34 +65,36 @@ async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
       'zh-CN': '为防止您的账号被盗，您必须修改密码以保护您的账号。',
-      'en-US':
-        'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
+      'en-US': ''
     }
     const advice = {
-      'zh-CN': '您必须重置密码',
-      'en-US': 'It is recommended that you reset your password'
+      'zh-CN': '您必须修改密码',
+      'en-US': ''
     }
     const threaten = {
-      'zh-CN': '您必须重置密码后才能继续使用本系统。',
-      'en-US': 'You must reset your password before you can continue to use this system.'
+      'zh-CN': '您必须修改密码后才能继续使用本系统。',
+      'en-US': ''
     }
     await ElMessageBox({
       message: h(
         'p',
         null,
         [
-          h('span', null, messages[userStore.language as 'en-US'] as string),
-          h('strong', null, threaten[userStore.language as 'en-US'] as string)
+          h('span', null, messages['zh-CN'] as string),
+          h('strong', null, threaten['zh-CN'] as string)
         ]
       ),
       showCancelButton: true,
-      title: advice[userStore.language as 'en-US'] as string,
-      confirmButtonText: locale.value == 'zh-CN' ? '重置密码' : 'Modify Password',
-      cancelButtonText: locale.value == 'zh-CN' ? '取消' : 'Cancel'
+      title: advice['zh-CN'] as string,
+      confirmButtonText: '修改密码',
+      cancelButtonText: '退出登录',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
     })
       .then(async () => {
         try {
-          await modifyPasswordDialogs(userStore._id, userStore.language, userStore.resetPassword)
+          await modifyPasswordDialogs(userStore._id, 'zh-CN', userStore.resetPassword)
           .catch(async () => {
             userStore.shouldResetPassword = false
             await userStore.removeUser()
@@ -137,21 +133,11 @@ if (security.value < 1) {
 
 const watermark = reactive({
   color: 'rgba(0, 0, 0, .05)',
-  text: 'ZVMS 4',
+  text: '',
   fontSize: 14
 })
 
 const dark = useDark()
-
-watch(
-  dark,
-  () => {
-    watermark.color = dark.value ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .05)'
-  },
-  {
-    immediate: true
-  }
-)
 
 watch(
   () => route.path,
@@ -163,10 +149,8 @@ watch(
   }
 )
 
-
-
 function embedClarity() {
-  // Define a type for the clarity function to improve readability and type safety
+
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void
     q?: IArguments[]
@@ -182,12 +166,10 @@ function embedClarity() {
 
   setupClarity({})
 
-  // Create the script element with more descriptive variable names and TypeScript type assertions where necessary
   const scriptElement: HTMLScriptElement = document.createElement('script') as HTMLScriptElement
   scriptElement.async = true
   scriptElement.src = `https://www.clarity.ms/tag/${scriptId}`
 
-  // Insert the script before the first script tag in the document
   const firstScriptTag: HTMLScriptElement = document.getElementsByTagName(
     'script'
   )[0] as HTMLScriptElement
@@ -224,8 +206,8 @@ const locales: Record<
   },
   'en-US': {
     disconnected: {
-      title: 'Disconnected',
-      message: 'Loaded backup cache data but cannot operate.'
+      title: '',
+      message: ''
     }
   }
 }
@@ -265,11 +247,7 @@ onMounted(() => {
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
     <ElWatermark
       :font="watermark"
-      :content="
-        userStore.isLogin && userStore.position.length >= 2 && false
-          ? [userStore.name + ' ' + userStore.id]
-          : []
-      "
+      content=""
       :z-index="999"
     >
       <ElAlert
@@ -344,15 +322,12 @@ onMounted(() => {
             </ElCol>
           </ElRow>
         </ElHeader>
-        <ElContainer v-if="userStore.isLogin" class="full">
-          <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
+        <ElContainer class="full">
+          <UserNav style="height: 100%; width: 3.2rem" v-if="userStore.isLogin && !verticalMode" />
           <RouterView
             class="bg-slate-50 dark:bg-gray-950 view fragment-container"
             style="width: 100%; height: 100%; box-sizing: border-box;"
           />
-        </ElContainer>
-        <ElContainer class="full" v-else>
-          <RouterView style="width: 100%; height: 100%; overflow-y: scroll;" />
         </ElContainer>
       </ElContainer>
     </ElWatermark>

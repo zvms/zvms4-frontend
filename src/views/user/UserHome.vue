@@ -51,7 +51,7 @@ async function refreshUser() {
 </script>
 
 <template>
-  <div class="px-20 fill" style="width: 100%">
+  <div class="px-20 fill" style="width: 100%" v-if="user.isLogin">
     <p class="text-2xl py-8">
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
     </p>
@@ -93,7 +93,7 @@ async function refreshUser() {
         </ElDescriptions>
         <div v-if="user.position.includes('secretary')" class="py-4">
           <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)">
-            {{ locale === 'en-US' ? 'Manage my class' : '管理班级' }}
+            管理班级
           </ElButton>
         </div>
       </ElCard>
@@ -106,13 +106,6 @@ async function refreshUser() {
         :social-practice="time.socialPractice"
         discount
       />
-    </div>
-    <div v-if="user.position.includes('student') && user.position.length === 1" class="py-4">
-      <ZActivityList role="mine">
-        <template #title>
-          {{ t('activity.view.panels.mine.name') }}
-        </template>
-      </ZActivityList>
     </div>
   </div>
 </template>
