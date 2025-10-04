@@ -39,17 +39,16 @@ const locales: Record<
   },
   'en-US': {
     password: {
-      title: 'Reset Password',
-      message: 'Please input the new password',
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      inputErrorMessage:
-        'Password must be at least 8 characters long, and must contain at least one uppercase letter, one lowercase letter, one number and one special character'
+      title: '',
+      message: '',
+      confirmButtonText: '',
+      cancelButtonText: '',
+      inputErrorMessage: ''
     },
     password_confirm: {
-      title: 'Reset Password',
-      message: 'Please input the new password again',
-      inputErrorMessage: 'Password not match'
+      title: '',
+      message: '',
+      inputErrorMessage: ''
     }
   }
 }
@@ -61,33 +60,33 @@ export async function modifyPasswordDialogs(
 ) {
   const token = await temporaryToken(user)
   if (!token) {
-    throw new Error('Token is not available')
+    throw new Error('Authorization canceled')
   }
   const strongPasswordValidator = new RegExp(
     '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$'
   )
   const input = await ElMessageBox.prompt(
-    locales[locale].password.message,
-    locales[locale].password.title,
+    locales['zh-CN'].password.message,
+    locales['zh-CN'].password.title,
     {
-      confirmButtonText: locales[locale].password.confirmButtonText,
-      cancelButtonText: locales[locale].password.cancelButtonText,
+      confirmButtonText: locales['zh-CN'].password.confirmButtonText,
+      cancelButtonText: locales['zh-CN'].password.cancelButtonText,
       inputValidator: (ipt: string) => strongPasswordValidator.test(ipt),
       inputType: 'password',
-      inputErrorMessage: locales[locale].password.inputErrorMessage
+      inputErrorMessage: locales['zh-CN'].password.inputErrorMessage
     }
   ).catch(() => {
     throw new Error('Password input canceled')
   })
   const confirm = await ElMessageBox.prompt(
-    locales[locale].password_confirm.message,
-    locales[locale].password_confirm.title,
+    locales['zh-CN'].password_confirm.message,
+    locales['zh-CN'].password_confirm.title,
     {
-      confirmButtonText: locales[locale].password.confirmButtonText,
-      cancelButtonText: locales[locale].password.cancelButtonText,
+      confirmButtonText: locales['zh-CN'].password.confirmButtonText,
+      cancelButtonText: locales['zh-CN'].password.cancelButtonText,
       inputValidator: (ipt: string) => input.value === ipt,
-      inputType: 'password',
-      inputErrorMessage: locales[locale].password_confirm.inputErrorMessage
+      inputType: ''zh-CN'',
+      inputErrorMessage: locales['zh-CN'].password_confirm.inputErrorMessage
     }
   ).catch(() => {
     throw new Error('Password confirm canceled')
