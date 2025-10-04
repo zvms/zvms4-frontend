@@ -76,7 +76,6 @@ function returnHome() {
 
 const visibility = permissions(user.position as UserPosition[])
 
-header.setHeader(t('nav.create'))
 </script>
 
 <template>
