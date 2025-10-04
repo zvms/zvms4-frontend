@@ -121,7 +121,7 @@ const reportPage = ref(false)
     >
       <ElRow>
         <ElCol :span="12">
-          <p class="text-lg">{{ t('home.panels.time.title') }}</p>
+          <span class="text-lg">{{ t('home.panels.time.title') }}</span>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
           <!--<ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
