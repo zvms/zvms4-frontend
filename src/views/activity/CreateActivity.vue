@@ -100,17 +100,9 @@ const visibility = permissions(user.position as UserPosition[])
             {{ t(`activity.createMinimized.${button.value}`) }}
           </ElButton>
         </ElSpace>
-     </template>
-   </ElPageHeader>
-   <RouterView v-if="show && tab" :key="tab" />
-   <Transition
-     v-else-if="show && !tab"
-     enter-active-class="animate__animated animate__fadeIn"
-     leave-active-class="animate__animated animate__fadeOut"
-     appear
-     key="0"
-    >
-      <CreateHome  @move="mov" />
-    </Transition>
+      </template>
+    </ElPageHeader>
+    <RouterView v-if="show && tab" :key="tab" />
+    <CreateHome v-else-if="show && !tab" @move="mov" />
   </div>
 </template>
