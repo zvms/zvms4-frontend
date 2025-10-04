@@ -86,15 +86,11 @@ export const useUserStore = defineStore('user', {
     async resetPassword(token: string, newPassword: string) {
       const result = await api.user.password.put(this._id, newPassword, token)
       if (!result) {
-        ElNotification({
-          title: 'Error when resetting password',
-          message: 'Please try again later',
-          type: 'error'
-        })
+        return
       }
       ElNotification({
-        title: 'Password reset successfully',
-        message: 'Please login again',
+        title: '密码修改成功',
+        message: '请重新登录',
         type: 'success'
       })
       await this.removeUser()
