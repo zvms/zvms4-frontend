@@ -60,6 +60,7 @@ watch(height, () => {
   tableHeight.value = height.value * 0.6
 })
 
+/*
 onMounted(() => {
   api.group.readOne(id.value).then((res) => {
     group.value = res
@@ -130,10 +131,11 @@ async function onSortChange(data: {
   }
   refresh()
 }
+*/
 </script>
 
 <template>
-  <div
+  <!--<div
     v-if="
       userStore.position.includes('admin') ||
       userStore.position.includes('department') ||
@@ -256,6 +258,13 @@ async function onSortChange(data: {
         :page-sizes="[3, 5, 8, 10, 15, 20]"
       />
     </ElCard>
-  </div>
-  <ElResult v-else />
+  </div>-->
+  <ElCard shadow="never">
+    <ElResult
+      icon="error"
+      title="维护中"
+      sub-title="该功能暂停开放"
+    >
+    </ElResult>
+  </ElCard>
 </template>
