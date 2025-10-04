@@ -29,7 +29,8 @@ const axiosInstance = axios.create({
   timeout: 12000,
   headers: {
     'Content-type': 'application/json',
-    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
+    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? '',
+    'Xuehai-ID': getXuehaiId() && '' + getXuehaiId() || ''
   }
 })
 
