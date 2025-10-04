@@ -39,11 +39,11 @@ async function getUser() {
   loading.close()
 }
 
-getUser()
-
-if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) {
-  router.replace('/not-found')
-}
+getUser().then(() => {
+  if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value?.group[0] === userStore.class_id)) {
+    router.replace('/not-found')
+  }
+})
 
 const curPage = route.params.action?.toString()
 
