@@ -40,3 +40,7 @@ export function getTabletType(): 'p615' | 'p620' | 'p200' | 'p355' | 'unknown' {
       return 'unknown'
   }
 }
+
+export function getXuehaiId(): number {
+  return window.xhBrowserJava && window.xhBrowserJava?.getUserId() || 0
+}
