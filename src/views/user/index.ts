@@ -29,7 +29,7 @@ const locales: Record<
       message: '请输入新密码',
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      inputErrorMessage: '密码至少8位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
+      inputErrorMessage: '密码至少8位，至多14位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
     },
     password_confirm: {
       title: '修改密码',
@@ -63,7 +63,7 @@ export async function modifyPasswordDialogs(
     throw new Error('Authorization canceled')
   }
   const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$'
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
   )
   const input = await ElMessageBox.prompt(
     locales['zh-CN'].password.message,
