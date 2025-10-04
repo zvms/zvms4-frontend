@@ -15,11 +15,6 @@ body {
 }
 
 @font-face {
-  font-family: 'Source Han Sans SC';
-  src: url('./SourceHanSansSC-Regular.woff2');
-}
-
-@font-face {
   font-family: 'Ubuntu';
   src: url('./Ubuntu-R.ttf');
 }
