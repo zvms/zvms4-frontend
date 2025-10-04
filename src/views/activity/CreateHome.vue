@@ -6,6 +6,7 @@ import classifications from '@/components/tags/classifications'
 import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { useUserStore } from '@/stores/user'
 import { permissions } from '@/components/activity'
+import { useHeaderStore } from '@/stores/header'
 
 const emits = defineEmits<{
   (e: 'move', value: string): void
@@ -13,6 +14,9 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 const user = useUserStore()
+const header = useHeaderStore()
+
+header.setHeader(t('nav.create'))
 
 const types = Object.entries(classifications.create).map(([key, value]) => ({
   label: '',
