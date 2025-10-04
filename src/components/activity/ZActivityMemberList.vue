@@ -531,7 +531,8 @@ watch(search, refreshMembers)
                       :disabled="
                         (!addedUsers.length && !usersSelected.length) ||
                         !appendingMode ||
-                        !appendingDuration
+                        appendingDuration <= 0 ||
+                        appendingDuration > 30
                       "
                     >
                       {{ t('activity.member.dialog.actions.add') }}
@@ -563,7 +564,7 @@ watch(search, refreshMembers)
                       :disabled="
                         appending.member === '' ||
                         appending.duration <= 0 ||
-                        appending.duration > 18 ||
+                        appending.duration > 30 ||
                         members.find(
                           (x) => x._id === appending.member && x.mode === appending.mode
                         ) !== undefined
