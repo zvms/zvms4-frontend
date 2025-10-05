@@ -8,7 +8,8 @@ import {
   ElRow,
   ElCol,
   ElCard,
-  ElMessageBox
+  ElMessageBox,
+  ElMessage,
 } from 'element-plus'
 import {
   InfoFilled
@@ -59,12 +60,16 @@ async function login() {
       return
     }
     if (users?.length !== 1) {
-      await ElMessageBox.alert('用户不存在', '错误', {
-        type: 'error'
+      ElMessage({
+        message: '用户不存在',
+        type: 'error',
+        grouping: true,
+        plain: true
       })
       loading.value = false
       return
     }
+    
     const id = users[0]._id
     const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
       loading.value = false
@@ -103,8 +108,11 @@ async function login() {
     return
   }
   if (users?.length !== 1) {
-    await ElMessageBox.alert('用户不存在', '错误', {
-      type: 'error'
+    ElMessage({
+      message: '用户不存在',
+      type: 'error',
+      grouping: true,
+      plain: true
     })
     loading.value = false
     return
