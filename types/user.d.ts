@@ -2,7 +2,7 @@ export interface User {
   _id: string // ObjectId
   id: number
   name: string
-  sex: 'male' | 'female' | 'unknown'
+  sex?: 'male' | 'female' | 'unknown'
   group: string[]
   past: string[]
 }
