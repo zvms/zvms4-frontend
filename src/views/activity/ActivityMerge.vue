@@ -63,8 +63,7 @@ async function mergeActivity() {
     <ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
-          <ElFormItem
-            :label="t('manage.merge.form.name')"
+          <ElFormItem :label="t('manage.merge.form.name')"
             required
             :rules="[{ required: true, message: t('validation.create.name.required') }]"
           >
@@ -117,9 +116,7 @@ async function mergeActivity() {
           </ElFormItem>
         </ElScrollbar>
         <div style="text-align: right" class="py-2">
-          <ElButton text bg type="primary" @click="mergeActivity">{{
-            t('manage.merge.form.action')
-          }}</ElButton>
+          <ElButton text bg type="primary" @click="mergeActivity">{{ t('manage.merge.form.action') }}</ElButton>
         </div>
       </ElForm>
     </ElCard>

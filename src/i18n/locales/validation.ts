@@ -8,16 +8,10 @@ export const enUS = {
       format: 'Date format is invalid.'
     },
     classify: {
-      required: 'Origin of activity is required.'
+      required: 'Classify of special activity is required.'
     },
     upload: {
       required: 'Upload is required.'
-    },
-    mode: {
-      required: 'Mode is required.'
-    },
-    type: {
-      required: 'Type is required.'
     },
     member: {
       person: {
@@ -43,14 +37,8 @@ export const zhCN = {
       required: '日期不能为空。',
       format: '日期格式不正确。'
     },
-    mode: {
-      required: '义工模式不能为空。'
-    },
-    type: {
-      required: '义工类型不能为空。'
-    },
     classify: {
-      required: '义工来源不能为空。'
+      required: '特殊义工分类不能为空。'
     },
     upload: {
       required: '上传不能为空。'
@@ -64,7 +52,7 @@ export const zhCN = {
       },
       duration: {
         required: '时长不能为空。',
-        invalid: '时长不正确。'
+        invalid: '时长不正确。它应该是一个大于 0 并且小于 18 的数字。'
       }
     }
   }

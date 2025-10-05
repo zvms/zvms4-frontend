@@ -14,8 +14,6 @@ import { useI18n } from 'vue-i18n'
 import ZUserModification from '@/components/group/ZUserModification.vue'
 import { AddUser, User, ViewList } from '@icon-park/vue-next'
 import { TablerSum } from '@/icons'
-import UilStatistics from '@/icons/UilStatistics.vue'
-import ZGroupTimeStatistics from '@/components/group/ZGroupTimeStatistics.vue'
 
 const { height } = useWindowSize()
 const userStore = useUserStore()
@@ -55,7 +53,7 @@ watch(
 watch(
   () => route.params.action,
   (value) => {
-    tab.value = value.toString() ?? ('users' as string)
+    tab.value = value.toString() ?? 'users' as string
   }
 )
 
@@ -68,7 +66,7 @@ if (
     (userStore.position.includes('secretary') && userStore.class_id === id.value)
   )
 ) {
-  router.replace('/not-found')
+  router.push('/not-found')
 }
 
 const tabs = ref([
@@ -88,38 +86,10 @@ const tabs = ref([
     icon: TablerSum
   },
   {
-    label: 'Statistics',
-    value: 'statistics',
-    icon: UilStatistics
-  },
-])
-
-if (userStore.position.includes('admin')) {
-  tabs.value[tabs.value.length] = {
     label: 'Create',
     value: 'create',
     icon: AddUser
   }
-}
-
-/*
-if (group.value?.type !== 'class') {
-  tabs.value = [
-    {
-      label: 'Users',
-      value: 'users',
-      icon: User
-    },
-  ]
-}
-*/
-
-const tabs2 = ref([
-  {
-    label: 'Users',
-    value: 'users',
-    icon: User
-  },
 ])
 
 const curPage = route.params.action?.toString()
@@ -127,18 +97,23 @@ const curPage = route.params.action?.toString()
 const tab = ref(curPage && curPage !== '' ? curPage : 'users')
 
 watch(tab, () => {
-  router.replace('/group/' + id.value + '/' + (tab.value ?? 'users'))
+  router.push('/group/' + id.value + '/' + tab.value ?? 'users')
 })
 </script>
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader v-if="id" :icon="ArrowLeft" @back="() => router.back()" class="py-4">
+    <ElPageHeader
+      v-if="group?._id"
+      :icon="ArrowLeft"
+      @back="() => router.back()"
+      class="py-4"
+    >
       <template #content>
         {{ group?.name }}
       </template>
       <template #extra>
-        <ElSegmented v-model="tab" :options="group?.type !== 'class' ? tabs2 : tabs">
+        <ElSegmented v-if="group?.type === 'class'" v-model="tab" :options="tabs">
           <template #default="props">
             <div class="flex flex-col items-center gap-2 p-2">
               <ElIcon :size="18" class="mt-2">
@@ -154,6 +129,5 @@ watch(tab, () => {
     <ZActivityList v-else-if="tab === 'activities'" :class-target="id" role="class" />
     <ZGroupUserTimeList v-else-if="tab === 'time'" :id="id" />
     <ZUserModification v-else-if="tab === 'create'" :cid="id" mode="create" id="" />
-    <ZGroupTimeStatistics v-else-if="tab === 'statistics'" :group-id="id" />
   </div>
 </template>

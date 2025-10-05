@@ -51,19 +51,11 @@ async function filter(number: string) {
     load.value = false
     return []
   }
-  if (
-    filterStart.value &&
-    digits <= (filterStart.value ? filterStart.value : 5) &&
-    han < 2 &&
-    !departmentOnly.value &&
-    !modelValue.value
-  ) {
+  if (filterStart.value && digits <= (filterStart.value ? filterStart.value : 5) && han < 2 && !departmentOnly.value && !modelValue.value) {
     load.value = false
     return []
   }
-  const result0 = modelValue.value
-    ? null
-    : (await api.user.read(number, 1, departmentOnly.value ? 20 : 5))?.users
+  const result0 = modelValue.value ? null : (await api.user.read(number, 1, departmentOnly.value ? 20 : 5))?.users
   if (result0) {
     const result = departmentOnly.value
       ? result0.filter((x) => !!x.group.find((gr) => gr === '65e6fa210edc81d012ec41b6'))
@@ -106,18 +98,14 @@ async function filter(number: string) {
     if (typeof modelValue.value === 'string') {
       const userData = await api.user.readOne(modelValue.value)
       if (userData) {
-        options.value = [
-          {
-            label: userData.name,
-            value: userData._id,
-            number: userData.id,
-            class: await getUserGroups(userData).then(
-              (groups) =>
-                groups.filter((group) => group?._id).find((group) => group?.type === 'class')
-                  ?.name || ''
-            )
-          }
-        ]
+        options.value = [{
+          label: userData.name,
+          value: userData._id,
+          number: userData.id,
+          class: await getUserGroups(userData).then((groups) =>
+            groups.filter((group) => group?._id).find((group) => group?.type === 'class')?.name || ''
+          )
+        }]
       } else {
         options.value = []
       }

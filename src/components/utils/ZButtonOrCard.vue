@@ -19,8 +19,6 @@ const props = withDefaults(
     round?: boolean
     open?: boolean
     disabled?: boolean
-    buttonLoading?: boolean
-    wFull?: boolean
   }>(),
   {
     size: 'small',
@@ -34,14 +32,11 @@ const props = withDefaults(
     center: true,
     round: true,
     open: false,
-    disabled: false,
-    buttonLoading: false,
-    wFull: false
+    disabled: false
   }
 )
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
-  (e: 'click', value: boolean): void
 }>()
 
 const {
@@ -58,8 +53,7 @@ const {
   title,
   center,
   round,
-  open,
-  buttonLoading
+  open
 } = toRefs(props)
 
 const show = ref(false)
@@ -79,11 +73,6 @@ watch(
   },
   { immediate: true }
 )
-
-function startOpen() {
-  emits('click', true)
-  show.value = true
-}
 </script>
 
 <template>
@@ -95,11 +84,10 @@ function startOpen() {
     :size="size"
     :type="type ?? 'primary'"
     :icon="icon"
-    @click="startOpen"
+    @click="show = true"
     :disabled="disabled"
     v-bind="$attrs"
     v-on="$attrs"
-    :loading="buttonLoading"
   >
     <slot name="text" />
   </ElButton>
@@ -140,12 +128,7 @@ function startOpen() {
     </ElDrawer>
   </Teleport>
   <div v-if="mode === 'card'">
-    <ElCard
-      v-if="mode === 'card'"
-      shadow="hover"
-      v-loading="loading"
-      :class="[wFull ? 'w-full' : '']"
-    >
+    <ElCard v-if="mode === 'card'" shadow="hover" v-loading="loading">
       <slot name="default" />
     </ElCard>
   </div>

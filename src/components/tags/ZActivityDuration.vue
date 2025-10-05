@@ -14,7 +14,7 @@ const props = defineProps<{
   force?: 'short' | 'full'
   id?: string
   uid?: string
-  record?: string
+  local?: boolean
   max?: number //reserved for future use
 }>()
 const emits = defineEmits<{
@@ -23,22 +23,17 @@ const emits = defineEmits<{
 
 const { t } = useI18n()
 
-const { mode, duration, force, id, uid, record } = toRefs(props)
+const { mode, duration, force, id, uid, local } = toRefs(props)
 
 const user = useUserStore()
 
 const modification = ref(duration.value)
 
 async function modify() {
-  if (
-    id.value &&
-    uid.value &&
-    record.value &&
-    modification.value > 0 &&
-    modification.value <= 18 &&
-    mode.value
-  ) {
-    await api.activity.duration.modify(record.value, id.value, modification.value, mode.value)
+  if (id.value && uid.value && modification.value > 0 && modification.value <= 18) {
+    await api.activity.duration.modify(uid.value, id.value, modification.value)
+    emits('update:duration', modification.value)
+  } else if (local?.value && uid.value && modification.value > 0 && modification.value <= 18) {
     emits('update:duration', modification.value)
   }
 }
@@ -51,12 +46,7 @@ async function modify() {
     <ElPopover
       width="328px"
       trigger="click"
-      v-if="
-        (user.position.includes('admin') || user.position.includes('department')) &&
-        id &&
-        uid &&
-        record
-      "
+      v-if="(user.position.includes('admin') || user.position.includes('department')) && (id || local) && uid"
     >
       <template #reference>
         <ElButton
@@ -75,13 +65,7 @@ async function modify() {
           <ZInputDuration v-model="modification" class="w-full" />
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton
-            text
-            bg
-            type="primary"
-            @click="modify"
-            :disabled="modification <= 0 || modification > 18"
-          >
+          <ElButton text bg type="primary" @click="modify" :disabled="modification <= 0 || modification > 18">
             {{ t('activity.form.actions.modify') }}
           </ElButton>
         </div>

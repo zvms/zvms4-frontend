@@ -9,8 +9,6 @@ import { Group, Log, User } from '@icon-park/vue-next'
 import ZGroupUserList from '@/components/group/ZGroupUserList.vue'
 import ZGroupList from '@/components/group/ZGroupList.vue'
 import ZLogList from '@/components/log/ZLogList.vue'
-import TablerSum from '@/icons/TablerSum.vue'
-import ZGroupUserTimeList from '@/components/group/ZGroupUserTimeList.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -19,7 +17,7 @@ const { t } = useI18n()
 const id = ref<string>(route.params.id as string)
 
 if (!(userStore.position.includes('admin') || userStore.position.includes('department'))) {
-  router.replace('/not-found')
+  router.push('/not-found')
 }
 
 watch(
@@ -30,7 +28,7 @@ watch(
 )
 const curPage = route.params.action?.toString()
 
-const current = ref(curPage && curPage !== '' ? curPage : 'groups')
+const current = ref((curPage && curPage !== '') ? curPage : 'groups')
 
 const tabs = ref([
   {
@@ -44,15 +42,10 @@ const tabs = ref([
     icon: User
   },
   {
-    label: 'Time',
-    value: 'time',
-    icon: TablerSum
-  },
-  {
     label: 'Logs',
     value: 'logs',
     icon: Log
-  } /*,
+  }/*,
   {
     label: 'Import',
     value: 'import',
@@ -61,7 +54,7 @@ const tabs = ref([
 ])
 
 watch(current, () => {
-  router.replace('/manage/' + current.value)
+  router.push('/manage/' + current.value)
 })
 
 watch(
@@ -69,7 +62,7 @@ watch(
   (value) => {
     console.log(value)
     const curPage = route.params.action?.toString()
-    current.value = curPage && curPage !== '' ? curPage : 'groups'
+    current.value = (curPage && curPage !== '') ? curPage : 'groups'
   }
 )
 </script>
@@ -87,7 +80,7 @@ watch(
               <ElIcon :size="18" class="mt-2">
                 <Component :is="props.item.icon" />
               </ElIcon>
-              {{ t(('manage.manage.tabs.' + props.item.value) as string) }}
+              {{ t('manage.manage.tabs.' + props.item.value as string) }}
             </div>
           </template>
         </ElSegmented>
@@ -95,7 +88,6 @@ watch(
     </ElPageHeader>
     <ZGroupList v-if="current === 'groups'" />
     <ZGroupUserList v-else-if="current === 'users'" id="" />
-    <ZLogList v-else-if="current === 'logs'" id="" user="" />
-    <ZGroupUserTimeList v-else-if="current === 'time'" id="" />
+    <ZLogList v-else-if="current === 'logs'" id="" />
   </div>
 </template>

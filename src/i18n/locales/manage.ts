@@ -7,8 +7,7 @@ export const enUS = {
       list: 'List',
       prompt: 'NOTE: Only activities that is the same type and is effective can be merged.',
       overwrite: 'Overwrite',
-      overwriteInfo:
-        'If you enable this option, if there exists duplicated users in activities waiting to be merged, its result time will be the max one in one of existed activities; otherwise it will be the sum.',
+      overwriteInfo: 'If you enable this option, if there exists duplicated users in activities waiting to be merged, its result time will be the max one in one of existed activities; otherwise it will be the sum.',
       overwritePrompt: {
         yes: 'Yes',
         no: 'No'
@@ -30,7 +29,6 @@ export const enUS = {
       users: 'Users',
       activities: 'Activities',
       time: 'Time',
-      statistics: 'Statistics',
       create: 'Create'
     },
     userList: {
@@ -63,16 +61,15 @@ export const enUS = {
       info: 'Info',
       activity: 'Activities',
       modify: 'Modify',
-      logs: 'Logs'
+      logs: 'Logs',
     },
-    resetPassword: "Reset the user's password to their ID",
+    resetPassword: 'Reset the user\'s password to their ID',
     resetConfirm: 'Please confirm your action.',
     notFound: 'User not found'
   },
   upload: {
     label: 'Upload',
-    requirement:
-      'xls/xlsx files with a size less than 5 MiB. You should guarantee that the file is derived from provided template, or the server will reject it.',
+    requirement: 'xls/xlsx files with a size less than 5 MiB. You should guarantee that the file is derived from provided template, or the server will reject it.',
     prompt: {
       black: 'Drop file here or ',
       em: 'click to upload'
@@ -83,8 +80,7 @@ export const enUS = {
       groups: 'Groups',
       users: 'Users',
       import: 'Import',
-      time: 'Time',
-      logs: 'Logs'
+      logs: 'Logs',
     }
   },
   exports: {
@@ -93,33 +89,22 @@ export const enUS = {
       label: 'Range',
       start: 'Start Date',
       to: 'To',
-      end: 'End Date'
+      end: 'End Date',
     },
     name: 'Filename',
     format: 'Format',
-    cache: 'Cache',
-    cacheFields: {
-      enabled: 'Enable Cache',
-      disabled: 'Recalculate'
-    },
-    desc: 'Description',
-    descFields: {
-      enabled: 'Include',
-      disabled: 'Exclude'
-    },
     formats: {
       csv: 'CSV (Comma-Separated Values)',
       json: 'JSON (JavaScript Object Notation)',
       excel: 'Excel (OpenXML)',
       html: 'HTML (HyperText Markup Language)',
-      latex: 'LaTeX (Leslie Lamport TeX)'
+      latex: 'LaTeX (Leslie Lamport TeX)',
     },
     actions: {
       export: 'Export',
       download: 'Download'
     },
-    prompt:
-      'The export task id is {task}. Check your progress, and click "download" when it is completed.'
+    prompt: 'The export task id is {task}. Check your progress, and click "download" when it is completed.'
   }
 }
 
@@ -132,8 +117,7 @@ export const zhCN = {
       list: '列表',
       prompt: '注意：只有类型相同且有效的义工才能被合并。',
       overwrite: '覆盖时间',
-      overwriteInfo:
-        '如果启用此选项，如果待合并的义工中存在重复用户，其结果时间将是现有义工中的最大时间；否则将是总和。',
+      overwriteInfo: '如果启用此选项，如果待合并的义工中存在重复用户，其结果时间将是现有义工中的最大时间；否则将是总和。',
       overwritePrompt: {
         yes: '是',
         no: '否'
@@ -155,7 +139,6 @@ export const zhCN = {
       users: '用户',
       activities: '义工',
       time: '时间',
-      statistics: '统计',
       create: '新增'
     },
     userList: {
@@ -196,8 +179,7 @@ export const zhCN = {
   },
   upload: {
     label: '上传',
-    requirement:
-      'xls/xlsx 文件，大小不超过 5 MiB。您应保证文件是由提供的模板导出的，否则服务器将拒绝它。',
+    requirement: 'xls/xlsx 文件，大小不超过 5 MiB。您应保证文件是由提供的模板导出的，否则服务器将拒绝它。',
     prompt: {
       black: '拖拽文件至此或',
       em: '点击上传'
@@ -207,7 +189,6 @@ export const zhCN = {
     tabs: {
       groups: '群组',
       users: '用户',
-      time: '时间',
       import: '导入',
       logs: '日志'
     }
@@ -218,26 +199,16 @@ export const zhCN = {
       label: '范围',
       start: '开始日期',
       to: '至',
-      end: '结束日期'
+      end: '结束日期',
     },
     name: '文件名',
     format: '格式',
-    cache: '缓存',
-    cacheFields: {
-      enabled: '启用缓存',
-      disabled: '重新计算'
-    },
-    desc: '描述',
-    descFields: {
-      enabled: '包含描述',
-      disabled: '不包含描述'
-    },
     formats: {
       csv: 'CSV (逗号分隔值)',
       json: 'JSON (JavaScript 对象表示法)',
       excel: 'Excel (OpenXML)',
       html: 'HTML (超文本标记语言)',
-      latex: 'LaTeX (Leslie Lamport TeX)'
+      latex: 'LaTeX (Leslie Lamport TeX)',
     },
     actions: {
       export: '导出',

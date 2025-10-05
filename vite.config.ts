@@ -58,32 +58,30 @@ export default defineConfig({
       },
       workbox: {
         cleanupOutdatedCaches: false,
-        sourcemap: true,
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
+        sourcemap: true
       },
       onRegisteredSW(swUrl, r) {
-        r &&
-          setInterval(async () => {
-            if (r.installing || !navigator) {
-              return
-            }
+        r && setInterval(async () => {
+          if (r.installing || !navigator) {
+            return
+          }
 
-            if ('connection' in navigator && !navigator.onLine) {
-              return
-            }
-
-            const resp = await fetch(swUrl, {
+          if ('connection' in navigator && !navigator.onLine) {
+            return
+          }
+          
+          const resp = await fetch(swUrl, {
+            cache: 'no-store',
+            headers: {
               cache: 'no-store',
-              headers: {
-                cache: 'no-store',
-                'cache-control': 'no-cache'
-              }
-            })
+              'cache-control': 'no-cache',
+            },
+          });
 
-            if (resp?.status === 200) {
-              await r.update()
-            }
-          }, 36000000)
+          if (resp?.status === 200) {
+            await r.update()
+          }
+        }, 36000000);
       }
     }),
     Icons({}),
@@ -92,7 +90,7 @@ export default defineConfig({
     }),
     VueComponents({
       resolvers: [ElementPlusResolver(), VantResolver(), IconsResolver()]
-    })
+    }),
   ],
   resolve: {
     alias: {

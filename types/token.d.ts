@@ -5,8 +5,7 @@ export interface LongTermToken {
   expire: string // ISO-8601
 }
 
-export interface ShortTermToken {
-  // Only 30 minutes
+export interface ShortTermToken { // Only 30 minutes
   _id: string
   token: string
   user: string

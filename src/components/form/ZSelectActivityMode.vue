@@ -7,15 +7,12 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const props = withDefaults(defineProps<{ modelValue: ActivityMode; allow?: ActivityMode[], showHybrid?: boolean }>(), {
-  allow: () => ['on-campus', 'off-campus', 'social-practice', 'hybrid'],
-  showHybrid: false
-})
+const props = defineProps<{ modelValue: ActivityMode; allow?: ActivityMode[] }>()
 const emits = defineEmits<{
   (e: 'update:modelValue', value: ActivityMode): void
 }>()
 
-const { modelValue, allow, showHybrid } = toRefs(props)
+const { modelValue, allow } = toRefs(props)
 
 const mode = ref({
   mode: modelValue.value
@@ -28,13 +25,11 @@ watch(
 watch(modelValue, () => (mode.value.mode = modelValue.value))
 
 const modes = ['on-campus', 'off-campus', 'social-practice'] as ActivityMode[]
-const modes_with_hybrid = ['on-campus', 'off-campus', 'social-practice', 'hybrid'] as ActivityMode[]
-const shown_modes = showHybrid.value ? modes_with_hybrid : modes
 
 const icons: Record<ActivityMode, VueComponent> = {
   'on-campus': School,
   'off-campus': CityGate,
-  'social-practice': Vacation,
+  'social-practice': Vacation
 }
 </script>
 
@@ -42,16 +37,19 @@ const icons: Record<ActivityMode, VueComponent> = {
   <ElForm :model="mode">
     <ElFormItem
       prop="mode"
-      :rules="[{ required: true, message: t(showHybrid ? 'validation.create.type.required' : 'validation.create.mode.required') }]"
+      :rules="[{ required: true, message: t('validation.create.activity.mode.required') }]"
     >
       <ElSelect v-model="mode.mode" class="w-full">
         <ElOption
-          v-for="mode in shown_modes"
+          v-for="mode in modes"
           :key="mode"
           :value="mode"
           :label="t(`activity.mode.${mode}.name`)"
           :disabled="!allow || !allow.includes(mode)"
         ></ElOption>
+        <template #prefix>
+          <component :is="icons[mode.mode]" />
+        </template>
       </ElSelect>
     </ElFormItem>
   </ElForm>

@@ -18,6 +18,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
+import ZSelectLanguage from './ZSelectLanguage.vue'
 import { pad, getTabletType } from '@/plugins/ua'
 
 const user = useUserStore()
@@ -27,6 +28,10 @@ const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
 })
+
+if (getTabletType() !== 'p615') {
+  dark.value = false
+}
 
 const show = ref(false)
 
@@ -73,8 +78,7 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) =>
-      path.startsWith('/group') || path.startsWith('/user/') && path !== '/user/login' || path.startsWith('/manage')
+    judge: (path) => path.startsWith('/group') || path.startsWith('/user/') || path.startsWith('/manage')
   },
   {
     icon: InfoFilled,
@@ -87,7 +91,10 @@ const navs: Array<{
 
 function routeTo(page: string) {
   if (page === '/management') {
-    if (user.position.includes('admin') || user.position.includes('department')) {
+    if (
+      user.position.includes('admin') ||
+      user.position.includes('department')
+    ) {
       routeTo('/manage/groups')
     } else {
       routeTo(`/group/${user.class_id}`)
@@ -101,7 +108,9 @@ function routeTo(page: string) {
 const useless = ref(dark.value)
 
 watch(useless, () => {
-  dark.value = useless.value
+  setTimeout(() => {
+    dark.value = useless.value
+  }, 60)
 })
 </script>
 
@@ -129,7 +138,10 @@ watch(useless, () => {
         </div>
         <div class="bottom">
           <ElForm label-position="right" label-width="120px">
-            <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615' || getTabletType() === 'p620'">
+            <ElFormItem :label="t('nav.language')">
+              <ZSelectLanguage type="select" placement="bottom" />
+            </ElFormItem>
+            <ElFormItem :label="t('nav.dark')" v-if="!pad() || getTabletType() === 'p615'">
               <ElSwitch
                 v-model="useless"
                 inline-prompt
@@ -159,6 +171,6 @@ watch(useless, () => {
 .bottom {
   position: absolute;
   left: 0.72rem;
-  bottom: 1rem;
+  bottom: 4rem;
 }
 </style>

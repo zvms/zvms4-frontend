@@ -7,18 +7,17 @@ import {
   ElDatePicker,
   ElText,
   ElProgress,
-  ElInput,
-  ElSwitch
+  ElInput
 } from 'element-plus'
 import api from '@/api'
-import { ref, toRefs, watch } from 'vue'
+import { ref, toRefs } from 'vue'
 import dayjs, { type Dayjs } from 'dayjs'
 import { Box, Download } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import 'dayjs/locale/zh-cn'
 
 const props = defineProps<{
-  type: 'time' | 'users' | 'activities'
+  type: 'time' | 'users' | 'activities',
   modelValue: boolean
 }>()
 const emits = defineEmits(['update:modelValue'])
@@ -36,8 +35,7 @@ function getDateExpression(date: Dayjs) {
 }
 
 function getFileName(range: [Dayjs?, Dayjs?]) {
-  const dateMark =
-    range[0] && range[1] ? `${getDateExpression(range[0])}–${getDateExpression(range[1])}` : ''
+  const dateMark = (range[0] && range[1]) ? `${getDateExpression(range[0])}–${getDateExpression(range[1])}` : ''
   return locale.value === 'zh-CN' ? `${dateMark}数据导出` : `Export data of ${dateMark}`
 }
 
@@ -73,17 +71,13 @@ const taskID = ref('')
 const percentage = ref(0)
 const color = ref<'' | 'success' | 'exception' | 'warning'>('warning')
 const status = ref<'pending' | 'processing' | 'completed' | 'failed'>('pending')
-const allowCache = ref(false)
-const includeDescription = ref(false)
 
 async function createTask() {
   const result = await api.exports.create(
     type.value,
     format.value,
     range.value[0] ? dayjs(range.value[0]) : undefined,
-    range.value[1] ? dayjs(range.value[1]) : undefined,
-    allowCache.value,
-    includeDescription.value
+    range.value[1] ? dayjs(range.value[1]) : undefined
   )
   if (result) {
     taskID.value = result
@@ -125,15 +119,9 @@ function cleanup() {
 }
 
 async function download() {
-  await api.exports.download(taskID.value, name.value, format.value, locale.value)
+  await api.exports.download(taskID.value, name.value, format.value)
   cleanup()
 }
-
-watch(allowCache, () => {
-  if (allowCache.value) {
-    includeDescription.value = false // Disable description if cache is not allowed
-  }
-})
 </script>
 
 <template>
@@ -144,9 +132,7 @@ watch(allowCache, () => {
           v-model="range"
           class="w-full"
           type="datetimerange"
-          @blur="
-            name = getFileName(range.map((x) => (x ? dayjs(x) : undefined)) as [Dayjs?, Dayjs?])
-          "
+          @blur="name = getFileName(range.map(x => x ? dayjs(x) : undefined) as [Dayjs?, Dayjs?])"
           :range-separator="t('manage.exports.range.to')"
           :start-placeholder="t('manage.exports.range.start')"
           :end-placeholder="t('manage.exports.range.end')"
@@ -164,21 +150,6 @@ watch(allowCache, () => {
       </ElFormItem>
       <ElFormItem :label="t('manage.exports.name')" v-if="type === 'time'">
         <ElInput v-model="name" />
-      </ElFormItem>
-      <ElFormItem :label="t('manage.exports.cache')">
-        <ElSwitch
-          v-model="allowCache"
-          :active-text="t('manage.exports.cacheFields.enabled')"
-          :inactive-text="t('manage.exports.cacheFields.disabled')"
-        />
-      </ElFormItem>
-      <ElFormItem :label="t('manage.exports.desc')">
-        <ElSwitch
-          :disabled="allowCache"
-          v-model="includeDescription"
-          :active-text="t('manage.exports.descFields.enabled')"
-          :inactive-text="t('manage.exports.descFields.disabled')"
-        />
       </ElFormItem>
       <div style="text-align: right">
         <ElButton
@@ -199,7 +170,7 @@ watch(allowCache, () => {
     </ElText>
     <ElProgress
       v-if="taskID"
-      :percentage="status === 'pending' || percentage <= 10 ? 100 : percentage"
+      :percentage="(status === 'pending' || percentage <= 10) ? 100 : percentage"
       :indeterminate="status === 'pending' || percentage <= 10"
       :duration="3"
       :status="color"

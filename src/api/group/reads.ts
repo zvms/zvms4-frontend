@@ -9,7 +9,7 @@ export async function users(
   pwdm: boolean = false
 ) {
   const response = (
-    await axios(`/v2/groups/${gid}/users`, {
+    await axios(`/groups/${gid}/user`, {
       params: {
         page,
         perpage,
@@ -17,13 +17,17 @@ export async function users(
         pwdm
       }
     })
-  ).data as {
-    members: User[]
-    total: number
-  }
-  return {
-    users: response.members,
-    size: response.total
+  ).data as Response<User[]> & { metadata: { size: number } }
+  if (response.status === 'ok') {
+    return {
+      users: response.data,
+      size: response.metadata.size
+    }
+  } else {
+    return {
+      users: [],
+      size: 0
+    }
   }
 }
 
@@ -33,24 +37,20 @@ export async function time(
   perpage: number = 10,
   search: string = '',
   exceed: boolean = true,
-  shortage: boolean = false,
-  sort: string = 'id',
-  asc: boolean = true
+  shortage: boolean = false
 ) {
   const response = (
-    await axios(`/v2/groups/${gid}/time`, {
+    await axios(`/groups/${gid}/time`, {
       params: {
         page,
         perpage,
         exceed,
         shortage,
-        search,
-        sort,
-        asc
+        search
       }
     })
-  ).data as {
-    data: {
+  ).data as Response<
+    {
       _id: string
       name: string
       id: string
@@ -58,14 +58,16 @@ export async function time(
       'off-campus': number
       'social-practice': number
     }[]
-    metadata: { size: number }
+  > & { metadata: { size: number } }
+  if (response.status === 'ok') {
+    return {
+      time: response.data,
+      size: response.metadata.size
+    }
+  } else {
+    return {
+      time: [],
+      size: 0
+    }
   }
-  return {
-    time: response.data,
-    size: response.metadata.size
-  }
-}
-
-export async function statisticsCompliance(groupId: string) {
-  return (await axios(`/v2/groups/${groupId}/statistics/compliance`)).data
 }

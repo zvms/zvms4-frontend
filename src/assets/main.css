@@ -5,13 +5,17 @@ body {
   overflow: hidden;
   position: fixed;
   width: 100%;
-  font-family:
-    Ubuntu, 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
-    Arial, sans-serif !important;
+  font-family: Ubuntu, 'PingFang SC', 'Source Han Sans SC', 'Microsoft YaHei', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif !important;
 }
 
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
+}
+
+@font-face {
+  font-family: 'Source Han Sans SC';
+  src: url('./SourceHanSansSC-Regular.woff2');
 }
 
 @font-face {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { ref, toRefs, h } from 'vue'
-import type { Activity, ActivityMember } from '@/../types/v2'
+import type { MemberActivityStatus, ActivityInstance } from '@/../types'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
 import { ElPopover, ElButton, ElSpace, ElPopconfirm, ElDivider } from 'element-plus'
@@ -11,12 +11,12 @@ const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
-    type?: Activity['status']
+    type?: MemberActivityStatus
     size?: 'large' | 'default' | 'small'
     color?: boolean
     force?: 'full' | 'short'
     modifiable?: boolean
-    activity?: Activity
+    activity?: ActivityInstance
     refresh?: () => void
     bg?: boolean
     callWhenModify?: boolean
@@ -33,7 +33,7 @@ const props = withDefaults(
 )
 
 const emits = defineEmits<{
-  modify: [ActivityMember['status']]
+  modify: [MemberActivityStatus]
 }>()
 
 const { type, size, activity, callWhenModify } = toRefs(props)

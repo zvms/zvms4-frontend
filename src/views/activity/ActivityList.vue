@@ -25,7 +25,7 @@ watch(
   () => route.params?.type,
   () => {
     if (route.path.startsWith('/activities/')) {
-      tab.value = route.path.replace('/activities/', '') ?? 'mine'
+      tab.value = route.path.replace('/activities/', '')
     } else {
       tab.value = 'mine'
     }
@@ -44,49 +44,62 @@ const panes = [
     value: 'class',
     color: 'warning',
     icon: Group,
-    visibility: user.position.includes('secretary') || user.position.includes('admin')
+    visibility:
+      user.position.includes('secretary') ||
+      user.position.includes('admin')
   },
   {
     value: 'campus',
     color: 'danger',
     icon: School,
-    visibility: user.position.includes('department') || user.position.includes('admin')
+    visibility:
+      user.position.includes('department') ||
+      user.position.includes('admin')
   }
 ] as Array<{
   value: string
-  color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | ''
+  color: 'primary' | 'warning' | 'danger'
   icon: VueComponent
-  visibility?: boolean
+  visibility: boolean
 }>
 
 function moveTo(type: string) {
   tab.value = type
-  router.replace(`/activities/${type}`)
+  router.push(`/activities/${type}`)
 }
 </script>
 
 <template>
   <div class="p-4" style="width: 100%; height: 100%">
     <div class="flex px-12 py-4">
-      <span class="text-xl">
-        {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
-      </span>
-      <ElSpace v-if="panes.length > 1">
-        <ElButton
-          text
-          bg
-          size="small"
-          v-for="pane in panes.filter((x) => x.visibility)"
-          :key="pane.value"
-          :type="pane.color"
-          :icon="pane.icon"
-          @click="moveTo(pane.value)"
-          :disabled="tab === pane.value || (tab === '' && pane.value === 'mine')"
-        >
-          {{ t(`activity.view.panels.${pane.value}.short`) }}
-        </ElButton>
-      </ElSpace>
+      <Transition appear enter-active-class="animate__animated animate__fadeIn">
+        <span class="text-xl">
+          {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
+        </span>
+      </Transition>
+      <Transition
+        appear
+        enter-active-class="animate__animated animate__fadeInRight"
+        class="flex justify-end"
+        style="margin-left: auto"
+      >
+        <ElSpace v-if="panes.length > 1">
+          <ElButton
+            text
+            bg
+            size="small"
+            v-for="pane in panes.filter((x) => x.visibility)"
+            :key="pane.value"
+            :type="pane.color"
+            :icon="pane.icon"
+            @click="moveTo(pane.value)"
+            :disabled="tab === pane.value || (tab === '' && pane.value === 'mine')"
+          >
+            {{ t(`activity.view.panels.${pane.value}.short`) }}
+          </ElButton>
+        </ElSpace>
+      </Transition>
     </div>
-    <ZActivityList class="mx-12" :role="tab" :key="tab" />
+    <ZActivityList class="mx-12" :role="tab as ('mine' | 'class' | 'campus')":key="tab" />
   </div>
 </template>

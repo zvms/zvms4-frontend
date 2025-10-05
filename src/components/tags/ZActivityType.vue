@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { toRefs } from 'vue'
-import type { SpecialActivityClassification, ActivityStatus } from '@/../types'
-import type { Activity } from '@/../types/v2'
+import type {
+  ActivityType,
+  SpecialActivityClassification,
+  ActivityStatus,
+  ActivityInstance
+} from '@/../types'
 import { ZButtonTag } from '@/components'
 import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
@@ -12,18 +16,18 @@ const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
-    type: Activity['type']
+    type: ActivityType
     special?: SpecialActivityClassification
     showSpecial?: boolean
     size?: 'large' | 'default' | 'small'
     color?: boolean
     mode?: 'auto' | 'full' | 'icon'
     force?: 'full' | 'short'
-    status?: Activity['status']
+    status?: ActivityStatus
     bg?: boolean
     statusModifiable?: boolean
     callWhenModify?: boolean
-    activity?: Activity
+    activity?: ActivityInstance
     refresh?: () => void
   }>(),
   {
@@ -54,7 +58,7 @@ const {
   callWhenModify
 } = toRefs(props)
 
-const types = classifications.mode
+const types = classifications.type
 
 const effective = type?.value in types
 </script>
@@ -62,7 +66,6 @@ const effective = type?.value in types
 <template>
   <ElButtonGroup>
     <ZButtonTag
-      v-if="type in types"
       :size="size ?? 'small'"
       :type="types[type].color"
       :icon="types[type].icon"
@@ -70,18 +73,18 @@ const effective = type?.value in types
       :force="force"
       :bg="bg"
     >
-      {{ t(`activity.mode.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
+      {{ t(`activity.type.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
     </ZButtonTag>
-    <!--    <ZSpecialActivityClassify-->
-    <!--      v-if="special && showSpecial && type === 'hybrid'"-->
-    <!--      :classify="special"-->
-    <!--      :size="size"-->
-    <!--      :force="force"-->
-    <!--      :mode="mode"-->
-    <!--      :bg="bg"-->
-    <!--    />-->
+    <ZSpecialActivityClassify
+      v-if="special && showSpecial && type === 'special'"
+      :classify="special"
+      :size="size"
+      :force="force"
+      :mode="mode"
+      :bg="bg"
+    />
     <ZActivityStatus
-      v-if="status"
+      v-if="type !== 'special' && status"
       :activity="activity"
       :type="status"
       :force="force"

@@ -23,8 +23,7 @@ export const enUS = {
     },
     SomethingWentWrong: {
       title: 'Something Went Wrong',
-      description:
-        'An error occurred while processing your request. It can be caused by a network issue or a server error. Please try again later, or contact the administrator if the problem persists.'
+      description: 'An error occurred while processing your request. It can be caused by a network issue or a server error. Please try again later, or contact the administrator if the problem persists.',
     }
   },
   login: {
@@ -93,8 +92,7 @@ export const zhCN = {
     },
     SomethingWentWrong: {
       title: '出现错误',
-      description:
-        '处理您的请求时发生了错误。这可能是由于网络问题或服务器错误引起的。请稍后再试，如果问题仍然存在，请联系管理员。'
+      description: '处理您的请求时发生了错误。这可能是由于网络问题或服务器错误引起的。请稍后再试，如果问题仍然存在，请联系管理员。',
     }
   },
   login: {
@@ -129,5 +127,5 @@ export const zhCN = {
       logout: '登出'
     },
     manage: '管理'
-  }
+  },
 }

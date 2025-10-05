@@ -12,8 +12,7 @@ import {
   ElPopover,
   ElConfigProvider,
   ElDivider,
-  ElMessageBox,
-  ElWatermark
+  ElMessageBox
 } from 'element-plus'
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -21,42 +20,34 @@ import { useRouter, useRoute } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize, useDark, useOnline, useTitle } from '@vueuse/core'
+import { useWindowSize, useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { watch, ref, onMounted, h, reactive } from 'vue'
+import { watch, ref, onMounted, h } from 'vue'
 import { zhCn, en } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
 import { modifyPasswordDialogs } from '@/views'
-import { Instruction } from '@icon-park/vue-next'
-import { pad } from '@/plugins/ua.ts'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
-
-const online = useOnline()
-
-window.onbeforeunload = (e) => {
-  if (location.pathname.startsWith('/activity/create/') || location.pathname.endsWith('/modify')) {
-    e.preventDefault()
-    return false
-  }
-}
-
-window.oncontextmenu = (e) => {
-  e.preventDefault()
-  return false
-}
 
 const { t, locale } = useI18n()
 
 function getLocale(ident: string) {
-  return zhCn
+  switch (ident) {
+    case 'zh-CN':
+      return zhCn
+    default:
+      return en
+  }
 }
 
-const langPack = ref(zhCn)
+const langPack = ref(getLocale(locale.value))
 
-const route = useRoute()
+watch(locale, () => {
+  langPack.value = getLocale(locale.value)
+})
+
 const router = useRouter()
 const userStore = useUserStore()
 const headerStore = useHeaderStore()
@@ -64,93 +55,64 @@ const headerStore = useHeaderStore()
 async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
-      'zh-CN': '为防止您的账号被盗，您必须修改密码以保护您的账号。',
-      'en-US': ''
+      'zh-CN': '为防止您的账号被盗，建议您修改密码以保护您的账号。',
+      'en-US': 'To prevent your account from being stolen, it is recommended that you change your password to protect your account.'
     }
     const advice = {
-      'zh-CN': '您必须修改密码',
-      'en-US': ''
+      'zh-CN': '建议您重置密码',
+      'en-US': 'It is recommended that you reset your password',
     }
     const threaten = {
-      'zh-CN': '您必须修改密码后才能继续使用本系统。',
-      'en-US': ''
+      'zh-CN': '您必须重置密码后才能继续使用本系统。',
+      'en-US': 'You must reset your password before you can continue to use this system.',
     }
     await ElMessageBox({
       message: h(
         'p',
         null,
-        [
-          h('span', null, messages['zh-CN'] as string),
-          h('strong', null, threaten['zh-CN'] as string)
-        ]
+        userStore.position.length !== 1
+          ? [
+              h('span', null, messages[userStore.language as 'en-US'] as string),
+              h('strong', null, threaten[userStore.language as 'en-US'] as string)
+            ]
+          : [h('span', null, messages[userStore.language as 'en-US'] as string)]
       ),
       showCancelButton: true,
-      title: advice['zh-CN'] as string,
-      confirmButtonText: '修改密码',
-      cancelButtonText: '退出登录',
-      showClose: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
+      title: advice[userStore.language as 'en-US'] as string,
+      confirmButtonText: locale.value == 'zh-CN' ? '重置密码' : 'Modify Password',
+      cancelButtonText: locale.value == 'zh-CN' ? '取消' : 'Cancel'
     })
       .then(async () => {
         try {
-          await modifyPasswordDialogs(userStore._id, 'zh-CN', userStore.resetPassword)
-          .catch(async () => {
-            userStore.shouldResetPassword = false
-            await userStore.removeUser()
-            router.replace('/user/login')
-          })
+          await modifyPasswordDialogs(userStore._id, userStore.language, userStore.resetPassword)
         } catch {
           userStore.shouldResetPassword = false
-          await userStore.removeUser()
-          router.replace('/user/login')
+          if (userStore.position.length !== 1) {
+            await userStore.removeUser()
+            router.push('/user/login')
+          }
         }
       })
       .catch(async () => {
         userStore.shouldResetPassword = false
-        await userStore.removeUser()
-        router.replace('/user/login')
+        if (userStore.position.length !== 1) {
+          await userStore.removeUser()
+          router.push('/user/login')
+        }
       })
   }
 }
 
-watch(
-  () => userStore.isLogin,
-  (v) => {
-    v && resetPassword()
-  }
-)
+resetPassword()
 
-// force insecure sessions to log out
-const security = ref((localStorage.getItem('security') || '0') - 0)
+useDark() //Only this can fix login page background flashing in dark mode
 
-if (security.value < 1) {
-  security.value = 1
-  localStorage.setItem('security', '' + security.value)
-  userStore.removeUser()
-  router.replace('/user/login')
+if(!userStore.isLogin && !useRoute().fullPath.endsWith('login')) {
+  router.push('/user/login')
 }
 
-const watermark = reactive({
-  color: 'rgba(0, 0, 0, .05)',
-  text: '',
-  fontSize: 14
-})
-
-const dark = useDark()
-
-watch(
-  () => route.path,
-  () => {
-    headerStore.resetHeader()
-    if (!userStore.isLogin && !route.fullPath.endsWith('login') && !route.fullPath.endsWith('about')) {
-      router.replace('/user/login')
-    }
-  }
-)
-
 function embedClarity() {
-
+  // Define a type for the clarity function to improve readability and type safety
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void
     q?: IArguments[]
@@ -166,17 +128,19 @@ function embedClarity() {
 
   setupClarity({})
 
+  // Create the script element with more descriptive variable names and TypeScript type assertions where necessary
   const scriptElement: HTMLScriptElement = document.createElement('script') as HTMLScriptElement
   scriptElement.async = true
   scriptElement.src = `https://www.clarity.ms/tag/${scriptId}`
 
+  // Insert the script before the first script tag in the document
   const firstScriptTag: HTMLScriptElement = document.getElementsByTagName(
     'script'
   )[0] as HTMLScriptElement
   firstScriptTag.parentNode!.insertBefore(scriptElement, firstScriptTag)
 }
 
-locale.value = 'zh-CN'
+locale.value = userStore.language ?? navigator.language
 
 const { width, height } = useWindowSize()
 
@@ -206,8 +170,8 @@ const locales: Record<
   },
   'en-US': {
     disconnected: {
-      title: '',
-      message: ''
+      title: 'Disconnected',
+      message: 'Loaded backup cache data but cannot operate.'
     }
   }
 }
@@ -222,9 +186,9 @@ const panelButtons = [
   },
   {
     icon: SwitchButton,
-    async click() {
-      await userStore.removeUser()
-      router.replace('/user/login')
+    click() {
+      userStore.removeUser()
+      router.push('/user/login')
     },
     text: 'logout'
   }
@@ -239,98 +203,91 @@ watch(needRefresh, () => {
 
 onMounted(() => {
   embedClarity()
-  userStore.isLogin && resetPassword()
 })
 </script>
 
 <template>
   <ElConfigProvider :locale="langPack" class="bg-slate-100 dark:bg-gray-900 full">
-    <ElWatermark
-      :font="watermark"
-      content=""
-      :z-index="999"
-    >
-      <ElAlert
-        type="error"
-        center
-        :closable="true"
-        v-if="offlineReady && !online"
-        class="hidden-print"
-      >
-        <template #title>
-          <ElIcon class="disconnected">
-            <CarbonCloudOffline />
-          </ElIcon>
-          <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
-          <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
-        </template>
-      </ElAlert>
-      <ElContainer
-        @contextmenu.prevent
-        class="bg-slate-100 dark:bg-gray-900"
-        direction="vertical"
-        :style="{ width: width + 'px', height: height + 'px' }"
-      >
-        <ElHeader>
-          <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
-            <ElCol :span="16">
-              <div
-                :class="[
-                  'text-2xl',
-                  'w-full',
-                  verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
-                  'pt-1.5',
-                  'flex',
-                  'items-center'
-                ]"
-                @dblclick="router.push(userStore.isLogin ? '/user' : '/user/login')"
-              >
-                <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
-                <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
-                <ElIcon style="border-radius: .25rem;"><img src="/favicon.ico" class="scale-50" style="border-radius: 20%;" alt="favicon" /></ElIcon>
-                <span class="lh-100% ml-2">{{ headerStore.header }}</span>
-              </div>
-            </ElCol>
-            <ElCol :span="8">
-              <div class="user" v-if="userStore.isLogin">
-                <ElButtonGroup>
-                  <ElButton text bg :icon="User" type="primary">
-                    {{ userStore.name }}
-                  </ElButton>
-                  <ElPopover width="216px">
-                    <template #reference>
-                      <ElButton
-                        text
-                        bg
-                        :icon="ArrowDown"
-                        type="primary"
-                      />
-                    </template>
-                    <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
-                      <ElButton
-                        text
-                        :icon="button.icon"
-                        class="action-btn p-1 w-full"
-                        @click="button.click"
-                      >
-                        {{ t(`nav.${button.text}`) }}
-                      </ElButton>
-                    </ElButtonGroup>
-                  </ElPopover>
-                </ElButtonGroup>
-              </div>
-            </ElCol>
-          </ElRow>
-        </ElHeader>
-        <ElContainer class="full">
-          <UserNav style="height: 100%; width: 3.2rem" v-if="userStore.isLogin && !verticalMode" />
-          <RouterView
-            class="bg-slate-50 dark:bg-gray-950 view fragment-container"
-            style="width: 100%; height: 100%; box-sizing: border-box;"
-          />
-        </ElContainer>
+    <ElAlert type="error" center :closable="true" v-if="offlineReady">
+      <template #title>
+        <ElIcon class="disconnected">
+          <CarbonCloudOffline />
+        </ElIcon>
+        <span class="text-lg px-1">{{ locales[locale].disconnected.title }}</span>
+        <span class="text-sm px-1">{{ locales[locale].disconnected.message }}</span>
+      </template>
+    </ElAlert>
+    <ElContainer @contextmenu.prevent class="bg-slate-100 dark:bg-gray-900" direction="vertical" :style="{width: width + 'px', height: 'calc(' + height + 'px - 3rem)'}">
+      <ElHeader>
+        <ElRow :class="['pt-4', verticalMode && userStore.isLogin ? 'px-1' : 'px-4']">
+          <ElCol :span="16">
+            <div
+              :class="[
+                'text-2xl',
+                'w-full',
+                verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
+                'pt-1.5',
+                'flex',
+                'items-center'
+              ]"
+              @dblclick="router.push('/')"
+            >
+              <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
+              <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
+              <ElIcon><img src="/favicon.ico" class="scale-50" alt="favicon" /></ElIcon>
+              <span class="lh-100% ml-2">{{ headerStore.header }}</span>
+            </div>
+          </ElCol>
+          <ElCol :span="8">
+            <div class="user" v-if="userStore.isLogin">
+              <ElButtonGroup>
+                <ElButton text bg :icon="User" type="primary">
+                  {{ userStore.isLogin ? userStore.name : t('login.unlogined') }}
+                </ElButton>
+                <ElPopover width="216px">
+                  <template #reference>
+                    <ElButton
+                      text
+                      bg
+                      :icon="ArrowDown"
+                      :disabled="!userStore.isLogin"
+                      type="primary"
+                    />
+                  </template>
+                  <ElButtonGroup class="w-full" v-for="button in panelButtons" :key="button.text">
+                    <ElButton
+                      text
+                      :icon="button.icon"
+                      class="action-btn p-1 w-full"
+                      @click="button.click"
+                    >
+                      {{ t(`nav.${button.text}`) }}
+                    </ElButton>
+                  </ElButtonGroup>
+                </ElPopover>
+              </ElButtonGroup>
+            </div>
+          </ElCol>
+        </ElRow>
+      </ElHeader>
+      <ElContainer v-if="userStore.isLogin" class="full">
+        <UserNav style="height: 100%; width: 3.2rem" v-if="!verticalMode" />
+        <RouterView
+          class="bg-slate-50 dark:bg-gray-950 view fragment-container"
+          :style="{width: width + 'px', height: 'calc(' + height + 'px - 6.75rem)', boxSizing: 'border-box'}"
+        />
       </ElContainer>
-    </ElWatermark>
+      <ElContainer class="full" v-else>
+        <RouterView style="width: 100%; height: 100%; overflow-y: scroll" />
+      </ElContainer>
+      <ElFooter
+        class="footer bg-slate-100 text-gray-500 dark:text-gray-300 dark:bg-gray-900 footer-container"
+      >
+        <p class="text-center">
+          &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
+        </p>
+      </ElFooter>
+    </ElContainer>
   </ElConfigProvider>
 </template>
 
@@ -342,6 +299,7 @@ onMounted(() => {
 
 .footer-container {
   height: 3rem;
+  z-index: 2004;
 }
 
 .disconnected {
@@ -364,7 +322,6 @@ onMounted(() => {
 .fragment-container {
   height: 100%;
   overflow-y: scroll;
-  max-height: calc(100vh - 3.75rem);
 }
 
 .action-btn {
@@ -380,20 +337,12 @@ onMounted(() => {
   position: absolute;
   right: 0;
 }
+
 </style>
 
 <style>
-@media print {
-  .hidden-print {
-    display: none !important;
-  }
-  .__vue-devtools-container__ {
-    display: none !important;
-  }
-}
-
 body {
-  transition-property: color, background-color !important;
+  transition-property: color,background-color !important;
   transition-duration: 1s !important;
 }
 
@@ -412,12 +361,11 @@ body {
   width: 100% !important;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -425,19 +373,17 @@ div[data-netlify-site-id] {
   display: none !important;
 }
 
-*,
-*:active,
-*:focus {
+*, *:active, *:focus {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  -webkit-focus-ring-color: rgba(0, 0, 0, 0) !important;
+  -webkit-focus-ring-color: rgba(0, 0, 0, 0)!important;
   outline: none !important;
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
 
 .z-wrap .el-form-item--default .el-form-item__content {
-  display: block;
-  overflow-wrap: break-word;
+    display: block;
+    overflow-wrap: break-word;
 }
 
 @media print {

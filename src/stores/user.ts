@@ -1,6 +1,7 @@
 import api from '@/api'
-import type { User, UserPosition } from '@/../types'
+import type { User, UserActivityTimeSums, UserPosition } from '@/../types'
 import { defineStore } from 'pinia'
+import { usePreferredLanguages } from '@vueuse/core'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getUserPositions } from '@/utils/groupPosition'
@@ -19,8 +20,8 @@ export const useUserStore = defineStore('user', {
       socialPractice: 0,
       onCampus: 0,
       offCampus: 0
-    },
-    language: 'zh-CN'
+    } as UserActivityTimeSums,
+    language: usePreferredLanguages().value[0]
   }),
   actions: {
     async getUserClassId(groups: string[]) {
@@ -40,7 +41,7 @@ export const useUserStore = defineStore('user', {
     },
     async setUser(user: string, password: string) {
       const strongPasswordValidator = new RegExp(
-        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$'
       )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
@@ -68,14 +69,9 @@ export const useUserStore = defineStore('user', {
       this.name = ''
       this.groups = []
       this.isLogin = false
-      this.shouldResetPassword = false
     },
     async getUserActivityTime() {
-      const result = (await api.user.time.read(this._id)) as unknown as {
-        offCampus: number
-        onCampus: number
-        socialPractice: number
-      }
+      const result = (await api.user.time.read(this._id)) as UserActivityTimeSums
       this.time.offCampus = result.offCampus
       this.time.onCampus = result.onCampus
       this.time.socialPractice = result.socialPractice
@@ -86,18 +82,23 @@ export const useUserStore = defineStore('user', {
     async resetPassword(token: string, newPassword: string) {
       const result = await api.user.password.put(this._id, newPassword, token)
       if (!result) {
-        return
+        ElNotification({
+          title: 'Error when resetting password',
+          message: 'Please try again later',
+          type: 'error'
+        })
       }
       ElNotification({
-        title: '密码修改成功',
-        message: '请重新登录',
+        title: 'Password reset successfully',
+        message: 'Please login again',
         type: 'success'
       })
       await this.removeUser()
+      this.shouldResetPassword = false
       const router = useRouter()
-      await router.replace('/user/login')
+      await router.push('/user/login')
     },
-    setTime(time: { onCampus: number; offCampus: number; socialPractice: number }) {
+    setTime(time: UserActivityTimeSums) {
       this.time.onCampus = time.onCampus
       this.time.offCampus = time.offCampus
       this.time.socialPractice = time.socialPractice

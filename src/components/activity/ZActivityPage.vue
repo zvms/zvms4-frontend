@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Activity, ActivityMember } from '@/../types/v2'
+import type { ActivityInstance } from '@/../types'
 import {
   ZActivityMemberList,
   ZActivityMember,
@@ -7,7 +7,7 @@ import {
   ZActivityStatus,
   ZActivityMode
 } from '..'
-import { onMounted, ref, toRefs, withDefaults } from 'vue'
+import { ref, withDefaults } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import {
   ElPageHeader,
@@ -18,14 +18,20 @@ import {
   ElDescriptions,
   ElDescriptionsItem
 } from 'element-plus'
-import { ArrowLeft, ArrowRight, Clock, Location, Plus, Timer, Edit } from '@element-plus/icons-vue'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Clock,
+  Location,
+  Plus,
+  Timer
+} from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import dayjs from '@/plugins/dayjs'
-import api from '@/api'
+import dayjs from 'dayjs'
 
 const user = useUserStore()
 const route = useRoute()
@@ -34,18 +40,14 @@ const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
-    id: string
-    session: string
+    activity: ActivityInstance
   }>(),
-  {
-    session: ''
-  }
+  {}
 )
 
-const { id, session } = toRefs(props)
+const { activity } = props
 
 const scroll = ref(height.value * 0.54 + 'px')
-const loading = ref(false)
 
 watch(
   () => height.value,
@@ -54,29 +56,7 @@ watch(
   }
 )
 
-const mine = ref<ActivityMember>()
-const activity = ref<Activity>()
-const membersCount = ref(0)
-
-async function getInfo() {
-  if (session.value) {
-    mine.value = await api.activity.member.read(id.value, session.value)
-  }
-  const response = await api.activity.read.single(id.value)
-  activity.value = response.activity
-  membersCount.value = response.members_count
-  console.log(response)
-  loading.value = false
-}
-
-onMounted(() => {
-  loading.value = true
-  if (user._id && id.value) {
-    getInfo().then(() => {
-      loading.value = false
-    })
-  }
-})
+const mine = ref(activity.members.find((x) => x._id === user._id))
 
 const vert = ref(width.value < height.value * 1.2)
 
@@ -90,12 +70,13 @@ watch(height, () => {
 </script>
 
 <template>
-  <div v-loading="loading" v-if="activity">
-    <ElPageHeader v-if="activity?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+  <div>
+    <ElPageHeader v-if="activity._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
       <template #content>
         {{ activity.name }}
       </template>
-      <template #extra> </template>
+      <template #extra>
+      </template>
       <template #breadcrumb>
         <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
           <ElBreadcrumbItem>
@@ -117,7 +98,7 @@ watch(height, () => {
       </template>
     </ElPageHeader>
     <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
-      {{ activity?.description }}
+      {{ activity.description }}
     </p>
     <ElDescriptions
       border
@@ -128,32 +109,36 @@ watch(height, () => {
       <ElDescriptionsItem :label="t('activity.form.type')">
         <ZActivityType
           force="full"
-          v-if="activity?.type !== 'hybrid'"
-          :type="activity?.type ?? 'hybrid'"
+          v-if="activity.type !== 'special'"
+          :type="activity.type"
           :bg="false"
         />
-        <ZActivityType force="full" v-else type="hybrid" :special="activity?.origin" :bg="false" />
+        <ZActivityType
+          force="full"
+          v-else
+          type="special"
+          :special="activity.special.classify"
+          :bg="false"
+        />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.registration.status.title')">
-        <ZActivityStatus force="full" :type="activity?.status ?? 'effective'" :bg="false" />
+        <ZActivityStatus force="full" :type="activity.status" :bg="false" />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.date')">
         <ElButton round size="small" :icon="Clock" text type="primary">{{
-          dayjs(activity?.date).format('YYYY-MM-DD HH:mm')
+          dayjs(activity.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem v-if="activity?.place" :label="t('activity.registration.location')">
+      <ElDescriptionsItem
+        v-if="activity.type === 'specified' && activity.registration.place"
+        :label="t('activity.registration.location')"
+      >
         <ElButton round size="small" :icon="Location" text type="info">
-          {{ activity?.place }}
+          {{ activity.registration.place }}
         </ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem :label="t('activity.form.person')" v-if="activity">
-        <ZActivityMemberList
-          class="px-2"
-          :activity="activity"
-          :members-count="membersCount"
-          @refresh="refresh"
-        />
+      <ElDescriptionsItem :label="t('activity.form.person', activity.members.length)">
+        <ZActivityMemberList class="px-2" :activity="activity" @refresh="refresh" />
       </ElDescriptionsItem>
     </ElDescriptions>
     <ElDescriptions
@@ -165,11 +150,11 @@ watch(height, () => {
       :column="vert ? 2 : undefined"
     >
       <ElDescriptionsItem :label="t('activity.registration.status.title')">
-        <ZActivityStatus force="full" :type="mine?.status ?? 'effective'" :bg="false" />
+        <ZActivityStatus force="full" :type="mine.status" :bg="false" />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.duration')">
         <ElButton :icon="Timer" type="info" text round size="small">
-          {{ mine?.duration ?? 0 }} h
+          {{ mine.duration }} h
         </ElButton>
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.mode')">
@@ -184,18 +169,19 @@ watch(height, () => {
     </ElDescriptions>
     <div class="py-2 flex justify-end">
       <ZActivityMember
-        :id="activity?.creator ?? ''"
+        :id="activity.creator"
         :icon="
           StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
         "
       />
-      <ElButtonGroup class="px-2">
+      <ElButtonGroup>
         <ElButton text bg round size="small" type="success" :icon="Plus">
-          {{ dayjs(activity?.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(activity.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </ElButton>
-        <ElButton text bg round size="small" type="warning" :icon="Edit">
+        <!-- Waiting for backend fix ('updatedAt' returns 1970-01-21) -->
+        <!--<ElButton text bg round size="small" type="warning" :icon="Edit">
           {{ dayjs(activity.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}
-        </ElButton>
+        </ElButton>-->
       </ElButtonGroup>
     </div>
   </div>

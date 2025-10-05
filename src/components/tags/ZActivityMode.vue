@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import type { Activity, ActivityMember } from '@/../types/v2'
-import { Vacation, School, CityGate, Star } from '@icon-park/vue-next'
+import type { ActivityMode } from '@/../types'
+import { Vacation, School, CityGate } from '@icon-park/vue-next'
 import type { Component as VueComponent } from 'vue'
 import { ZButtonTag } from '@/components'
 import { useI18n } from 'vue-i18n'
-import { onMounted, ref, toRefs, watch } from 'vue'
+import { ref, toRefs } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ElPopover, ElProgress, ElRow, ElCol } from 'element-plus'
-import api from '@/api'
 
 const { t } = useI18n()
 const user = useUserStore()
@@ -20,7 +19,7 @@ const targetsOfDuration = {
 
 const props = withDefaults(
   defineProps<{
-    mode?: Activity['type']
+    mode?: ActivityMode
     size?: 'large' | 'default' | 'small'
     force?: 'full' | 'short'
     bg?: boolean
@@ -35,63 +34,27 @@ const props = withDefaults(
   }
 )
 
-const timeOfMine = ref({
+const timeOfMine = {
   'on-campus': user.time.onCampus,
   'off-campus': user.time.offCampus,
   'social-practice': user.time.socialPractice
-})
-const loading = ref(false)
-
-async function getTimeOfMine() {
-  loading.value = true
-  const response = await api.user.time.read(user._id)
-  const percentage = await api.user.time.percentile(user._id)
-  timeOfMine.value = response
-  loading.value = false
 }
 
 const { mode, size, force, bg, showMyDuration, showProperties } = toRefs(props)
 
-onMounted(() => {
-  showMyDuration?.value && mode?.value && getTimeOfMine()
-})
-
 const percentOfMine = ref(
-  mode?.value
-    ? mode.value !== 'hybrid'
-      ? Math.floor((timeOfMine.value[mode?.value] / targetsOfDuration[mode?.value]) * 100)
-      : 0
-    : 0
+  mode?.value ? Math.floor((timeOfMine[mode?.value] / targetsOfDuration[mode?.value]) * 100) : 0
 )
 
-watch(timeOfMine, (newVal) => {
-  percentOfMine.value = mode?.value
-    ? mode.value !== 'hybrid'
-      ? Math.floor((newVal[mode?.value] / targetsOfDuration[mode?.value]) * 100)
-      : 0
-    : 0
-
-  if (percentOfMine.value > 100) {
-    percentOfMine.value = 100
-  }
-})
-
-watch(mode, (newVal) => {
-  percentOfMine.value =
-    newVal !== 'hybrid'
-      ? Math.floor((timeOfMine.value[newVal] / targetsOfDuration[newVal]) * 100)
-      : 0
-
-  if (percentOfMine.value > 100) {
-    percentOfMine.value = 100
-  }
-})
+if (percentOfMine.value > 100) {
+  percentOfMine.value = 100
+}
 
 const modes: Record<
-  Activity['type'],
+  ActivityMode,
   {
     icon: VueComponent
-    color: 'primary' | 'warning' | 'success' | 'danger'
+    color: 'primary' | 'warning' | 'success'
   }
 > = {
   'on-campus': {
@@ -105,10 +68,6 @@ const modes: Record<
   'social-practice': {
     icon: Vacation,
     color: 'warning'
-  },
-  hybrid: {
-    icon: Star,
-    color: 'danger'
   }
 }
 </script>
@@ -118,13 +77,12 @@ const modes: Record<
     :title="t(`activity.mode.${mode}.name`)"
     :width="160"
     :trigger="showMyDuration || showProperties ? 'hover' : 'contextmenu'"
-    v-if="mode !== 'hybrid'"
   >
     <template #reference>
       <ZButtonTag
         :size="size ?? 'small'"
-        :type="modes[mode].color"
-        :icon="modes[mode].icon"
+        :type="modes[mode as ActivityMode].color"
+        :icon="modes[mode as ActivityMode].icon"
         :unknown="!mode || !(mode in modes)"
         :force="force"
         :bg="bg"
@@ -148,7 +106,4 @@ const modes: Record<
       </ElCol>
     </ElRow>
   </ElPopover>
-  <ZButtonTag v-else :size="size ?? 'small'" type="danger" :icon="Star" :force="force" :bg="bg">
-    {{ t(`activity.mode.hybrid.short`) }}
-  </ZButtonTag>
 </template>

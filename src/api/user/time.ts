@@ -1,27 +1,20 @@
 import axios from '@/plugins/axios'
 import type { Response, UserActivityTimeSums } from '@/../types'
 import { ElNotification } from 'element-plus'
-import type { ActivityMember } from 'types/activity.v2'
 
 async function getUserTime(user: string) {
-  return (await axios(`/v2/users/${user}/time`)).data as {
-    'on-campus': number
-    'off-campus': number
-    'social-practice': number
-  }
-}
-
-export interface UserActivityTimePercentile {
-  value: number
-  group: number
-  grade: number
-}
-
-async function getUserTimePercentile(user: string) {
-  return (await axios(`/v2/users/${user}/time_statistics`)).data as Record<
-    ActivityMember['mode'],
-    UserActivityTimePercentile
+  const result = (await axios(`/users/${user}/time`)).data as Response<
+    UserActivityTimeSums
   >
+  if (result.status === 'error') {
+    ElNotification({
+      title: 'Error fetching time (' + result.code + ')',
+      message: result.message,
+      type: 'error'
+    })
+    return null
+  }
+  return result.data as UserActivityTimeSums
 }
 
-export { getUserTime as read, getUserTimePercentile as percentile }
+export { getUserTime as read }

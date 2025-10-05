@@ -3,8 +3,7 @@ export const enUS = {
     project: 'About ZVMS',
     developers: 'About Developers'
   },
-  footer:
-    'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
+  footer: 'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
   license: 'MIT Licensed',
   repository: {
     license: 'License',
@@ -38,7 +37,7 @@ export const zhCN = {
     project: '关于 ZVMS',
     developers: '关于开发者'
   },
-  footer: '来自 ZZDev 团队的 ZVMS 开发组、镇海中学学生会',
+  footer: '来自 ZZDev 团队的 ZVMS 开发组、镇海中学学生会实践部',
   license: '基于 MIT 证书开源',
   repository: {
     license: '许可协议',

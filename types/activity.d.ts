@@ -33,7 +33,7 @@ export type MemberActivityStatus = ActivityMember['status']
 
 export type ActivityStatus = Activity['status']
 
-export type ActivityMode = 'on-campus' | 'off-campus' | 'social-practice' | 'hybrid'
+export type ActivityMode = ActivityMember['mode']
 
 export interface SpecifiedActivity extends Activity {
   type: 'specified'
@@ -81,7 +81,7 @@ export type SpecialInstance =
   | PrizeSpecial
   | ImportSpecial
   | ClubSpecial
-  //  | DeductionSpecial
+//  | DeductionSpecial
   | Special
 
 export interface SpecialActivity extends Activity {
