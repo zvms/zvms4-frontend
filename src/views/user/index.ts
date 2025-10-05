@@ -56,9 +56,10 @@ const locales: Record<
 export async function modifyPasswordDialogs(
   user: string,
   locale: string,
-  caller: (a: string, b: string) => Promise<void>
+  caller: (a: string, b: string) => Promise<void>,
+  token_?: string
 ) {
-  const token = await temporaryToken(user)
+  const token = token_ || (await temporaryToken(user))
   if (!token) {
     throw new Error('Authorization canceled')
   }
