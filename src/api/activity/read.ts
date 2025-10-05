@@ -1,103 +1,85 @@
 import axios from '@/plugins/axios'
-import type { ActivityType, Response } from '@/../types'
-import type { ActivityInstance } from '@/../types'
-import { ElNotification } from 'element-plus'
+import type { Activity } from '@/../types/v2'
 import { read as mine } from '@/api/user/activity'
 
 async function getClassActivities(
   page: number = 1,
   perpage: number = 10,
-  query: string = '',
-  classid: string = ''
+  search: string = '',
+  classid: string = '',
+  sort: string = '_id',
+  asc: boolean = false
 ) {
-  const result = (
-    await axios(`/groups/${classid}/activities`, {
+  return (
+    await axios(`/v2/groups/${classid}/activities`, {
       params: {
         page,
         perpage,
-        query,
-        classid
+        search,
+        classid,
+        sort,
+        asc
       }
     })
-  ).data as Response<ActivityInstance[]> & {
-    metadata: {
-      size: number
-    }
-  }
-  if (result.status === 'error') {
-    ElNotification({
-      title: `Error fetching activity list (${result.code})`,
-      message: result.message,
-      type: 'error'
-    })
-    return
-  }
-  return {
-    data: result.data,
-    size: result.metadata.size
+  ).data as {
+    activities: Activity[]
+    total: number
   }
 }
 
 async function getAllActivities(
   filter: {
-    type: ActivityType | 'all'
+    type: string
   },
   page: number = 1,
   perpage: number = 10,
-  query: string = ''
+  search: string = '',
+  sortField: string = '_id',
+  ascending: boolean = false
 ) {
-  const result = (
-    await axios('/activities', {
+  return (
+    await axios('/v2/activities', {
       params: {
         mode: 'campus',
-        type: filter.type,
+        activity_type: filter.type,
         page,
         perpage,
-        query
+        search,
+        sort: sortField,
+        asc: ascending
       }
     })
-  ).data as Response<ActivityInstance[]> & {
-    metadata: {
-      size: number
-    }
-  }
-  if (result.status === 'error') {
-    ElNotification({
-      title: `Error fetching activity list (${result.code})`,
-      message: result.message,
-      type: 'error'
-    })
-    return
-  }
-  return {
-    data: result.data,
-    size: result.metadata.size
+  ).data as {
+    activities: Activity[]
+    total: number
   }
 }
 
 async function getActivity(id: string) {
   // id: ObjectId
-  const result = (await axios(`/activities/${id}`)).data as Response<ActivityInstance>
-  if (result.status === 'error') {
-    ElNotification({
-      title: `Error fetching activity (${result.code})`,
-      message: result.message,
-      type: 'error'
-    })
-    return
+  return (await axios(`/v2/activities/${id}`)).data as {
+    activity: Activity
+    members_count: number
   }
-  return result.data
 }
 
 const exports = {
   campus: (
-    filter: { type: ActivityType | 'all' },
+    filter: string,
     page: number = 1,
     perpage: number = 10,
     query: string = '',
-  ) => getAllActivities(filter, page, perpage, query),
-  class: (page: number = 1, perpage: number = 10, query: string = '', classid: string = '') =>
-    getClassActivities(page, perpage, query, classid),
+    sortField: string = '_id',
+    ascending: boolean = false
+  ) => getAllActivities({ type: filter }, page, perpage, query, sortField, ascending),
+  class: (
+    page: number = 1,
+    perpage: number = 10,
+    query: string = '',
+    classid: string = '',
+    sortField: string = '_id',
+    ascending: boolean = false
+  ) => getClassActivities(page, perpage, query, classid, sortField, ascending),
   mine,
   single: (id: string) => getActivity(id)
 }

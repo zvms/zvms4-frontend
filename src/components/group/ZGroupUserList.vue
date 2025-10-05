@@ -33,7 +33,7 @@ const userStore = useUserStore()
 const props = withDefaults(
   defineProps<{
     id: string
-    selectable: boolean
+    selectable?: boolean
     selectorCallback?: Function
     modelValue?: User[]
   }>(),
@@ -43,7 +43,6 @@ const props = withDefaults(
   }
 )
 const emits = defineEmits(['update:modelValue'])
-const tableRef = ref<TableInstance>()
 const group = ref<Group>()
 const users = ref<User[]>([])
 const page = ref(1)
@@ -82,6 +81,8 @@ const refresh = () => {
         users.value.push(...res.users)
         total.value = res.size
         loading.value = false
+      }).catch(() => {
+        loading.value = false
       })
   } else {
     api.user.read(search.value, page.value, perpage.value).then((res) => {
@@ -90,6 +91,8 @@ const refresh = () => {
         users.value.push(...res.users)
         total.value = res.size
       }
+      loading.value = false
+    }).catch(() => {
       loading.value = false
     })
   }
@@ -117,8 +120,8 @@ async function exportUserList() {
         ? `全校学生名单`
         : `Student List`
       : locale.value === 'zh-CN'
-      ? `${group?.value?.name}学生名单`
-      : `Student List of ${group?.value?.name}`
+        ? `${group?.value?.name}学生名单`
+        : `Student List of ${group?.value?.name}`
   if (id.value) {
     await api.group.template(id.value, name)
   }
@@ -147,14 +150,13 @@ function handleSelectionChange(val: string[]) {
         <ElSwitch v-model="pwdm" />
       </ElFormItem>
       <ElTable
-        :ref="tableRef"
         :data="users"
         stripe
         row-key="_id"
         @selection-change="handleSelectionChange"
         :max-height="tableHeight"
       >
-        <ElTableColumn v-if="selectable" type="selection" :selectable="selectorCallback ?? ((row) => true)" reserve-selection />
+        <ElTableColumn v-if="selectable" type="selection" reserve-selection />
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
         <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="group" :label="t('manage.groupDetails.userList.columns.group')">
@@ -236,7 +238,13 @@ function handleSelectionChange(val: string[]) {
             </div>
           </template>
           <template #default="{ row }">
-            <ElButton v-if="!selectable" text bg size="small" @click="router.push(`/user/${row._id}`)">
+            <ElButton
+              v-if="!selectable"
+              text
+              bg
+              size="small"
+              @click="router.push(`/user/${row._id}`)"
+            >
               {{ t('manage.groupList.columns.details') }}
             </ElButton>
           </template>

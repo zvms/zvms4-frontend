@@ -49,6 +49,8 @@ const loading = ref(false)
 const search = ref('')
 const total = ref(0)
 const diff = ref(false)
+const sort = ref('_id')
+const asc = ref(true)
 
 const { id } = toRefs(props)
 
@@ -58,6 +60,7 @@ watch(height, () => {
   tableHeight.value = height.value * 0.6
 })
 
+/*
 onMounted(() => {
   api.group.readOne(id.value).then((res) => {
     group.value = res
@@ -70,16 +73,35 @@ watch(id, () => {
   })
 })
 
-const refresh = () => {
+const refresh = async () => {
   loading.value = true
-  api.group.reads
-    .time(id.value, page.value, perpage.value, search.value, true, diff.value)
-    .then((res) => {
-      time.value = []
-      time.value.push(...res.time)
-      total.value = res.size
-      loading.value = false
-    })
+  const res =
+    id.value === ''
+      ? await api.time.reads(search.value, page.value, perpage.value, sort.value, asc.value)
+      : ((await api.group.reads.time(
+          id.value,
+          page.value,
+          perpage.value,
+          search.value,
+          false,
+          diff.value,
+          sort.value,
+          asc.value
+        )) as {
+          time: {
+            _id: string
+            name: string
+            id: string
+            'on-campus': number
+            'off-campus': number
+            'social-practice': number
+          }[]
+          size: number
+        })
+  time.value = []
+  time.value.push(...res.time)
+  total.value = res.size
+  loading.value = false
 }
 onMounted(refresh)
 watch(id, refresh)
@@ -94,10 +116,26 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
+
+async function onSortChange(data: {
+  column: unknown
+  prop: string
+  order?: 'ascending' | 'descending'
+}) {
+  if (data.order) {
+    sort.value = data.prop
+    asc.value = data.order === 'ascending'
+  } else {
+    sort.value = '_id'
+    asc.value = false
+  }
+  refresh()
+}
+*/
 </script>
 
 <template>
-  <div
+  <!--<div
     v-if="
       userStore.position.includes('admin') ||
       userStore.position.includes('department') ||
@@ -110,16 +148,22 @@ function handleSearch() {
           <ElSwitch v-model="diff"></ElSwitch>
         </ElFormItem>
       </div>
-      <ElTable :data="time" stripe :max-height="tableHeight">
+      <ElTable :data="time" stripe :max-height="tableHeight" @sort-change="onSortChange">
         <ElTableColumn prop="name" :label="t('manage.groupDetails.userList.columns.name')" />
-        <ElTableColumn prop="id" :label="t('manage.groupDetails.userList.columns.id')" />
+        <ElTableColumn prop="id" sortable :label="t('manage.groupDetails.userList.columns.id')" />
         <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['on-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['on-campus'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['on-campus'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', { time: row['on-campus'].toFixed(1) })
+              }}</span
+            >
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="on-campus" :label="t('activity.mode.on-campus.short')" v-else>
+        <ElTableColumn prop="on-campus" sortable :label="t('activity.mode.on-campus.short')" v-else>
           <template #default="{ row }">
             <span class="color-green" v-if="row['on-campus'] >= 25">{{
               row['on-campus'].toFixed(1)
@@ -131,11 +175,22 @@ function handleSearch() {
         </ElTableColumn>
         <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-if="diff">
           <template #default="{ row }">
-            <span class="color-green" v-if="row['off-campus'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['off-campus'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['off-campus'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', { time: row['off-campus'].toFixed(1) })
+              }}</span
+            >
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="off-campus" :label="t('activity.mode.off-campus.short')" v-else>
+        <ElTableColumn
+          prop="off-campus"
+          sortable
+          :label="t('activity.mode.off-campus.short')"
+          v-else
+        >
           <template #default="{ row }">
             <span class="color-green" v-if="row['off-campus'] >= 15">{{
               row['off-campus'].toFixed(1)
@@ -143,13 +198,30 @@ function handleSearch() {
             <span class="color-red" v-else>{{ row['off-campus'].toFixed(1) }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-if="diff">
+        <ElTableColumn
+          prop="social-practice"
+          :label="t('activity.mode.social-practice.short')"
+          v-if="diff"
+        >
           <template #default="{ row }">
-            <span class="color-green" v-if="row['social-practice'] <= 0">{{ t('manage.groupDetails.timeList.filled') }}</span>
-            <span class="color-red" v-else> {{ t('manage.groupDetails.timeList.diffed', { time: row['social-practice'].toFixed(1) }) }}</span>
+            <span class="color-green" v-if="row['social-practice'] <= 0">{{
+              t('manage.groupDetails.timeList.filled')
+            }}</span>
+            <span class="color-red" v-else>
+              {{
+                t('manage.groupDetails.timeList.diffed', {
+                  time: row['social-practice'].toFixed(1)
+                })
+              }}</span
+            >
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="social-practice" :label="t('activity.mode.social-practice.short')" v-else>
+        <ElTableColumn
+          prop="social-practice"
+          :label="t('activity.mode.social-practice.short')"
+          sortable
+          v-else
+        >
           <template #default="{ row }">
             <span class="color-green" v-if="row['social-practice'] >= 18">{{
               row['social-practice'].toFixed(1)
@@ -186,6 +258,13 @@ function handleSearch() {
         :page-sizes="[3, 5, 8, 10, 15, 20]"
       />
     </ElCard>
-  </div>
-  <ElResult v-else />
+  </div>-->
+  <ElCard shadow="never">
+    <ElResult
+      icon="error"
+      title="维护中"
+      sub-title="该功能暂停开放"
+    >
+    </ElResult>
+  </ElCard>
 </template>

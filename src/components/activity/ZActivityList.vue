@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityInstance, ActivityMember, ActivityType } from '@/../types'
+import type { ActivityInstance } from '@/../types'
 import {
   ElDrawer,
   ElTable,
@@ -11,17 +11,18 @@ import {
   ElDivider
 } from 'element-plus'
 import type { TableInstance } from 'element-plus'
-import { onMounted, ref, toRefs, watch } from 'vue'
+import { onMounted, ref, toRefs, watch, useTemplateRef } from 'vue'
 import { useUserStore } from '@/stores/user'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { Box, Search, PieChart, Refresh, View } from '@element-plus/icons-vue'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useSwipe, usePointerSwipe } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { getActivity } from './getActivity'
 import { ZActivityType, ZActivityStatus, ZActivityDuration, ZActivityCard } from '@/components'
 import { useRouter, useRoute } from 'vue-router'
 import ZDataExport from '@/components/utils/ZDataExport.vue'
 import { pad } from '@/plugins/ua.ts'
+import type { Activity } from '@/../types/v2'
 
 const { t } = useI18n()
 const { width, height } = useWindowSize()
@@ -36,14 +37,18 @@ const props = withDefaults(
     embed?: boolean
     perspective?: string
     classTarget?: string
-    modelValue?: ActivityInstance[]
-    selectTarget?: ActivityType | ''
+    modelValue?: Activity[]
+    selectTarget?: string
+    selectedMax?: number
+    select?: boolean
   }>(),
   {
     role: 'mine',
     embed: false,
     perspective: 'mine',
-    selectTarget: ''
+    selectTarget: '',
+    selectedMax: 0, // Infinite
+    select: false
   }
 )
 const emits = defineEmits(['update:modelValue'])
@@ -53,14 +58,17 @@ const activePage = ref(parseInt(route.query?.page?.toString() ?? '1') ?? 1)
 const pageSize = ref(parseInt(route.query?.perpage?.toString() ?? '8') ?? 8)
 const size = ref(0)
 
-const { role, perspective: persp, selectTarget, classTarget, modelValue, embed } = toRefs(props)
+const { role, perspective: persp, selectTarget, classTarget, select, embed } = toRefs(props)
 // eslint-disable-next-line vue/no-dupe-keys
 const perspective = ref(persp.value === 'mine' ? user._id : persp.value)
 const loading = ref(true)
 const searchWord = ref(route.query?.search?.toString() ?? '')
 const query = ref(route.query?.search?.toString() ?? '')
 
-const activities = ref<ActivityInstance[]>([])
+const activities = ref<Activity[]>([])
+
+const sort = ref('_id')
+const asc = ref(false)
 
 function refresh() {
   loading.value = true
@@ -71,12 +79,14 @@ function refresh() {
     pageSize.value,
     query.value,
     classTarget.value ?? user.class_id ?? '',
-    (selectTarget.value && selectTarget.value !== '') ? selectTarget.value : 'all',
+    selectTarget.value,
+    sort.value,
+    asc.value
   )
     .then((res) => {
-      if (res && res?.data.length !== 0) {
-        activities.value = res?.data
-        size.value = res?.size
+      if (res && res?.activities?.length !== 0) {
+        activities.value = res?.activities
+        size.value = res?.total
         loading.value = false
       } else {
         activities.value = []
@@ -99,7 +109,7 @@ watch(width, () => {
   tableMaxHeight.value = height.value * 0.56
 })
 
-const items = ref<ActivityInstance[]>([])
+const items = ref<Activity[]>([])
 
 watch(
   activities,
@@ -110,7 +120,11 @@ watch(
 )
 
 function selectable(row: ActivityInstance) {
-  return selectTarget.value.toLowerCase() === row.type.toLowerCase() && row.status === 'effective'
+  return (
+    (selectTarget.value.toLowerCase().includes(row.type.toLowerCase()) ||
+      selectTarget.value === '') &&
+    row.status === 'effective'
+  )
 }
 
 function handleSelectionChange(val: string[]) {
@@ -119,7 +133,9 @@ function handleSelectionChange(val: string[]) {
 
 function confirmPage() {
   refresh()
-  router.push({ query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }})
+  router.replace({
+    query: { perpage: pageSize.value, page: activePage.value, search: searchWord.value }
+  })
 }
 
 watch(pageSize, confirmPage)
@@ -127,14 +143,70 @@ watch(activePage, confirmPage)
 watch(query, confirmPage)
 
 const openExport = ref(false)
+
+async function onSortChange(data: {
+  column: Activity
+  prop: string
+  order?: 'ascending' | 'descending'
+}) {
+  if (data.order) {
+    sort.value = data.prop
+    asc.value = data.order === 'ascending'
+  } else {
+    sort.value = '_id'
+    asc.value = false
+  }
+  refresh()
+}
+
+const el = useTemplateRef('card')
+// @ts-ignore
+const { isSwiping, direction } = useSwipe(el)
+
+watch(isSwiping, (swiping) => {
+  if (swiping && direction.value === 'right') {
+    if (activePage.value > 1) {
+      activePage.value -= 1
+      refresh()
+    }
+  } else if (swiping && direction.value === 'left') {
+    if (activePage.value < Math.ceil(size.value / pageSize.value)) {
+      activePage.value += 1
+      refresh()
+    }
+  }
+})
+
+// @ts-ignore
+const { isSwiping: isPointerSwiping, direction: pointerDirection } = usePointerSwipe(el)
+
+watch(isPointerSwiping, (swiping) => {
+  if (swiping && pointerDirection.value === 'left') {
+    if (activePage.value > 1) {
+      activePage.value -= 1
+      refresh()
+    }
+  } else if (swiping && pointerDirection.value === 'right') {
+    if (activePage.value < Math.ceil(size.value / pageSize.value)) {
+      activePage.value += 1
+      refresh()
+    }
+  }
+})
 </script>
 
 <template>
   <div class="max-w-full">
-    <ElDrawer direction="rtl" size="50%" v-model="openExport" :title="t('manage.exports.title')" center>
+    <ElDrawer
+      direction="rtl"
+      size="50%"
+      v-model="openExport"
+      :title="t('manage.exports.title')"
+      center
+    >
       <ZDataExport type="time" v-model="openExport" />
     </ElDrawer>
-    <ElCard shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
+    <ElCard ref="card" shadow="never" v-loading="loading" :class="[embed ? 'z-embed' : '']">
       <div class="text-lg px-2">
         <slot name="title" />
       </div>
@@ -155,8 +227,8 @@ const openExport = ref(false)
         >
           {{ t('activity.export.name') }}
         </ElButton>
-        <ElButton v-else :icon="PieChart" type="warning" text bg circle disabled />
       </div>
+      <!-- @vue-ignore -->
       <ElTable
         :ref="tableRef"
         :max-height="tableMaxHeight"
@@ -166,34 +238,38 @@ const openExport = ref(false)
         @selection-change="handleSelectionChange"
         stripe
         :key="selectTarget || 'all'"
+        @sort-change="onSortChange"
       >
-        <ElTableColumn v-if="selectTarget" type="selection" :selectable="selectable" reserve-selection />
+        <ElTableColumn v-if="select" type="selection" :selectable="selectable" reserve-selection />
         <ElTableColumn v-else type="expand">
           <template #default="{ row }">
             <ZActivityCard
               :_id="row._id"
               :mode="role"
               :perspective="perspective"
+              :user-session="row?.mine?._id"
               @refresh="refresh"
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="name" :label="t('activity.form.name')" />
-        <ElTableColumn prop="date" :label="t('activity.form.date')">
+        <ElTableColumn prop="name" sortable :label="t('activity.form.name')" />
+        <ElTableColumn prop="date" sortable :label="t('activity.form.date')">
           <template #default="{ row }">
             {{ dayjs(row.date).format('YYYY-MM-DD') }}
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="type" v-if="role !== 'mine' && !selectTarget" :label="t('activity.form.type')">
+        <ElTableColumn
+          prop="type"
+          v-if="role !== 'mine'"
+          :label="t('activity.form.type')"
+        >
           <template #default="{ row }">
             <ZActivityType
               :type="row.type"
               size="small"
-              show-special
-              :special="row?.special?.classify ?? 'other'"
+              special="other"
               :status="row?.status"
               :status-modifiable="
-                (role === 'class' && (row.type === 'social' || row.type === 'scale')) ||
                 user.position.includes('admin') ||
                 user.position.includes('department')
               "
@@ -203,29 +279,12 @@ const openExport = ref(false)
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn v-else-if="!selectTarget" :label="t('activity.form.duration')">
+        <ElTableColumn v-else :label="t('activity.form.duration')">
           <template #default="{ row }">
             <ZActivityDuration
-              v-if="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.status === 'effective'
-              "
-              :mode="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.mode
-              "
-              :duration="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.duration ?? 0
-              "
+              :mode="row.mine.mode"
+              :duration="row.mine.duration"
               force="short"
-            />
-            <ZActivityStatus
-              v-else
-              :type="
-                (row as ActivityInstance).members.find((x: ActivityMember) => x._id === perspective)
-                  ?.status
-              "
             />
           </template>
         </ElTableColumn>
@@ -246,7 +305,12 @@ const openExport = ref(false)
               text
               bg
               type="info"
-              @click="router.push(`/activity/details/${row._id}`)"
+              @click="
+                router.push(
+                  `/activity/details/${row._id}` +
+                    (role === 'mine' ? '?session=' + row.mine._id : '')
+                )
+              "
             >
               {{ t('activity.impression.actions.view') }}
             </ElButton>

@@ -71,7 +71,6 @@ function refresh() {
         if (res) {
           userGroups.value = res.group
           modification.name = res.name
-          modification.sex = res.sex
           modification.id = res.id
           return Promise.all(res.group.map((groupId) => api.group.readOne(groupId)))
         }
@@ -126,11 +125,11 @@ async function remove() {
     return
   }
   ElNotification({
-    title: 'Success',
-    message: 'User delete successfully',
+    title: '用户已删除',
     type: 'success'
   })
   submission.value = false
+  await router.back()
 }
 
 async function submit() {
@@ -155,12 +154,10 @@ async function submit() {
     return
   }
   ElNotification({
-    title: 'Success',
-    message: `User ${mode.value === 'create' ? 'created' : 'modified'} successfully`,
+    title: `用户${mode.value === 'create' ? '创建成功' : '已修改'}`,
     type: 'success'
   })
   submission.value = false
-  await router.back()
 }
 
 async function remoteFetchClass(search: string) {
@@ -185,7 +182,7 @@ async function remoteFetchClass(search: string) {
 </script>
 
 <template>
-  <div class="pt-12 px-4">
+  <div>
     <ElCard shadow="hover">
       <ElForm :model="modification" label-position="right" label-width="96px">
         <ElFormItem :label="t('manage.groupDetails.userList.columns.name')" required>
@@ -194,15 +191,26 @@ async function remoteFetchClass(search: string) {
         <ElFormItem :label="t('manage.groupDetails.userList.columns.id')" required>
           <ElInput v-model.number="modification.id" />
         </ElFormItem>
-        <ElFormItem :label="t('manage.groupDetails.userList.columns.classid')" required>
-          <ElSelect v-if="mode === 'modify'" v-model="classGroupID" remote :remote-method="remoteFetchClass" filterable>
-            <ElOption v-for="group in classes" :key="group._id" :label="group.name" :value="group._id" />
+        <ElFormItem v-if="mode === 'modify'" :label="t('manage.groupDetails.userList.columns.classid')" required>
+          <ElSelect
+            v-model="classGroupID"
+            remote
+            :remote-method="remoteFetchClass"
+            filterable
+          >
+            <ElOption
+              v-for="group in classes"
+              :key="group._id"
+              :label="group.name"
+              :value="group._id"
+            />
           </ElSelect>
-          <span v-else>
-            {{ classes.find(x => x._id === classGroupID)?.name }}
-          </span>
         </ElFormItem>
-        <ElFormItem v-if="mode === 'modify'" :label="t('manage.groupDetails.userList.columns.permission')" required>
+        <ElFormItem
+          v-if="mode === 'modify'"
+          :label="t('manage.groupDetails.userList.columns.permission')"
+          required
+        >
           <ElCheckboxGroup v-model="permissionsID">
             <ElCheckbox v-for="group in permissions" :key="group._id" :label="group._id" border>
               {{ group.name }}
@@ -210,8 +218,27 @@ async function remoteFetchClass(search: string) {
           </ElCheckboxGroup>
         </ElFormItem>
         <div style="text-align: right">
-          <ElButton class="px-4" v-if="mode === 'modify' && userStore.position.includes('admin') && id !== userStore._id" :icon="Delete" type="danger" @click="remove" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.remove') }}</ElButton>
-          <ElButton class="px-4" :icon="ArrowRight" type="primary" @click="submit" text bg :loading="submission">{{  t('manage.groupDetails.userList.columns.submit') }}</ElButton>
+          <ElButton
+            class="px-4"
+            v-if="mode === 'modify' && userStore.position.includes('admin') && id !== userStore._id"
+            :icon="Delete"
+            type="danger"
+            @click="remove"
+            text
+            bg
+            :loading="submission"
+            >{{ t('manage.groupDetails.userList.columns.remove') }}</ElButton
+          >
+          <ElButton
+            class="px-4"
+            :icon="ArrowRight"
+            type="primary"
+            @click="submit"
+            text
+            bg
+            :loading="submission"
+            >{{ t('manage.groupDetails.userList.columns.submit') }}</ElButton
+          >
         </div>
       </ElForm>
     </ElCard>

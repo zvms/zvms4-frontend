@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 

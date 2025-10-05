@@ -8,21 +8,26 @@ import {
   ElRow,
   ElCol,
   ElCard,
-  ElMessageBox,
+  ElMessageBox
 } from 'element-plus'
+import {
+  InfoFilled
+} from '@element-plus/icons-vue'
 import { Refresh, ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
+import { useHeaderStore } from '@/stores/header'
 import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
-import { ZSelectLanguage } from '@/components'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
 
 if (useUserStore().isLogin) {
-  useRouter().push('/user')
+  useRouter().replace('/user')
 } else {
   localStorage.removeItem('token')
 }
+
+const header = useHeaderStore()
 
 const { height } = useWindowSize()
 const { t } = useI18n()
@@ -34,6 +39,8 @@ const userStore = useUserStore()
 const router = useRouter()
 const loading = ref(false)
 
+header.setHeader(t('nav.login.actions.login'))
+
 function refresh() {
   user.value = ''
   password.value = ''
@@ -41,44 +48,105 @@ function refresh() {
 }
 
 async function login() {
-  if (loading.value) {
+  if (loading.value || password.value === '' || String(user.value).length !== 8) {
+    return
+  }
+  const strongPasswordValidator = new RegExp(
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+  )
+  if (!strongPasswordValidator.test(password.value)) {
+    await ElMessageBox({
+      message: h(
+        'p',
+        null,
+        [
+          h('span', null, '为防止您的账号被盗，您必须修改密码以保护您的账号。'),
+          h('strong', null, '您必须修改密码后才能继续使用本系统。')
+        ]
+      ),
+      showCancelButton: true,
+      title: '您必须修改密码',
+      confirmButtonText: '修改密码',
+      cancelButtonText: '退出登录',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+    }).then(reset_and_login)
     return
   }
   loading.value = true
-  if (user.value.toString().length !== 8) {
-    await ElMessageBox.alert('User ID must be 8 digits.', 'Error', {
-      type: 'error'
+  const users = (
+    await api.user.read(user.value).catch(() => {
+      loading.value = false
     })
+  )?.users
+  if (!users) {
     loading.value = false
     return
   }
-  const users = (await api.user.read(user.value).catch(() => {
-    loading.value = false
-  }))?.users
   if (users?.length !== 1) {
-    await ElMessageBox.alert('User not found or multiple users found.', 'Error', {
+    await ElMessageBox.alert('用户不存在', '错误', {
       type: 'error'
     })
     loading.value = false
     return
   }
-  const id = users?.[0]._id
-  await userStore.setUser(id, password.value as string).catch(() => {
+  const id = users[0]._id
+  await userStore
+    .setUser(id, password.value as string)
+    .then(() => router.replace('/user'))
+    .catch(() => {
+      loading.value = false
+    })
+}
+
+async function reset_and_login() {
+  loading.value = true
+  const users = (
+    await api.user.read(user.value).catch(() => {
+      loading.value = false
+    })
+  )?.users
+  if (!users) {
+    loading.value = false
+    return
+  }
+  if (users?.length !== 1) {
+    await ElMessageBox.alert('用户不存在', '错误', {
+      type: 'error'
+    })
+    loading.value = false
+    return
+  }
+  const id = users[0]._id
+  const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
+    loading.value = false
+  }))?.token
+  if (!token) {
+    loading.value = false
+    return
+  }
+  await modifyPasswordDialogs(id, 'zh-CN', async (a: string, new_password: string) => {
+    await userStore
+      .setUser(id, new_password)
+      .then(() => router.replace('/user'))
+      .catch(() => {
+        loading.value = false
+      })
+  }, token).catch(() => {
     loading.value = false
   })
-  router.push('/user')
 }
 
 watch(user, async () => {
   await loginfield.value.validate()
 })
-
 </script>
 
 <template>
-  <div class="w-full">
-    <div :style="`height: ${height * 0.25}px`"></div>
-    <ElCard class="login-field text-center px-4 w-full" shadow="hover">
+  <div class="w-full" style="display: flex; flex-direction: column;">
+    <div style="flex-grow: 1;"></div>
+    <ElCard class="login-field text-center px-4 w-full" shadow="hover" style="flex-grow: 0;">
       <ElRow class="w-full py-1">
         <ElCol :span="8" />
         <ElCol :span="6">
@@ -90,9 +158,18 @@ watch(user, async () => {
           <p class="align-right motto" style="text-align: right">{{ t('nav.login.motto') }}</p>
         </ElCol>
       </ElRow>
-      <ElForm ref="loginfield" label-position="right" label-width="96px">
+      <ElForm ref="loginfield" label-position="right" label-width="48px">
         <ElFormItem :label="t('nav.login.form.account')" prop="id" class="py-1">
-          <ElInput v-model.number="user" :minlength="8" :maxlength="8" clearable type="number" class="w-full" :min="8" :max="8" />
+          <ElInput
+            v-model.number="user"
+            :minlength="8"
+            :maxlength="8"
+            clearable
+            type="number"
+            class="w-full"
+            :min="8"
+            :max="8"
+          />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">
           <ElInput
@@ -106,26 +183,30 @@ watch(user, async () => {
       </ElForm>
       <ElRow>
         <ElCol :span="9" style="text-align: left">
-          <ZSelectLanguage type="button" with-text placement="right" />
+          <ElButton type="info" text bg :icon="InfoFilled" @click="router.push('/about')">
+            {{ t('nav.about') }}
+          </ElButton>
         </ElCol>
         <ElCol :span="15" class="actions">
-          <ElButton type="warning" @click="refresh" text bg :icon="Refresh">
+          <!--<ElButton type="warning" @click="refresh" text bg :icon="Refresh">
             {{ t('nav.login.actions.reset') }}
-          </ElButton>
+          </ElButton>-->
           <ElButton
             type="primary"
             @click="login"
             text
             bg
             :icon="ArrowRight"
-            :disabled="password === '' || user === ''"
+            :disabled="password === '' || String(user).length !== 8"
+            :loading="loading"
           >
             {{ t('nav.login.actions.login') }}
           </ElButton>
         </ElCol>
       </ElRow>
     </ElCard>
-    <div :style="`height: ${height * 0.31}px`"></div>
+    <div style="flex-grow: 1;"></div>
+    <div style="flex-grow: 0; min-height: 3.75rem; max-height: 3.75rem;"></div>
   </div>
 </template>
 
@@ -133,6 +214,7 @@ watch(user, async () => {
 .login-field {
   width: 80%;
   height: 296px !important;
+  overflow-y: scroll;
   text-align: center;
   margin-left: auto;
   margin-right: auto;

@@ -9,7 +9,9 @@ import {
   ElSwitch,
   ElSpace,
   ElResult,
-  ElSkeleton
+  ElTooltip,
+  ElSkeleton,
+  ElDialog
 } from 'element-plus'
 import { useWindowSize } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
@@ -18,6 +20,9 @@ import { ZActivityMemberTimeJudge } from '..'
 import { Refresh } from '@element-plus/icons-vue'
 import { TablerSum } from '@/icons'
 import api from '@/api'
+import { Certificate, TableReport } from '@icon-park/vue-next'
+import { pad } from '@/plugins/ua.ts'
+import ZDetailedAnalysis from './ZDetailedAnalysis.vue'
 
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
@@ -64,14 +69,21 @@ base.socialPractice = socialPractice.value
 async function getTime() {
   loading.value = true
   const result = await api.user.time.read(user.value)
+  console.log(result)
   if (result) {
-    base.onCampus = result.onCampus
-    base.offCampus = result.offCampus
-    base.socialPractice = result.socialPractice
+    base.onCampus = result['on-campus']
+    base.offCampus = result['off-campus']
+    base.socialPractice = result['social-practice']
     off.value = base.offCampus + (exceed.value ? getDiscount(base.onCampus, 25, 3) : 0)
     on.value = base.onCampus + (exceed.value ? getDiscount(base.offCampus, 15, 2) : 0)
     if (user.value === userStore._id) {
-      userStore.setTime(result)
+      userStore.setTime(
+        result as unknown as {
+          onCampus: number
+          offCampus: number
+          socialPractice: number
+        }
+      )
     }
   }
   loading.value = false
@@ -90,10 +102,15 @@ watch(
   },
   { immediate: true }
 )
+
+const reportPage = ref(false)
 </script>
 
 <template>
   <div>
+    <!--<ElDialog fullscreen title="User Activity Time Report" v-model="reportPage">
+      <ZDetailedAnalysis :id="user" mode="on-campus" />
+    </ElDialog>-->
     <ElCard
       shadow="hover"
       v-if="
@@ -104,9 +121,11 @@ watch(
     >
       <ElRow>
         <ElCol :span="12">
-          <p class="text-lg">{{ t('home.panels.time.title') }}</p>
+          <span class="text-lg">{{ t('home.panels.time.title') }}</span>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
+          <!--<ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
+          <ElDivider v-if="user === userStore._id" direction="vertical" />-->
           <ElButton
             type="success"
             :disabled="loading"
@@ -116,28 +135,32 @@ watch(
             circle
             @click="getTime"
           />
-          <ElDivider direction="vertical" />
-          <ElButton type="info" :icon="TablerSum" text bg circle />
+          <!--<ElDivider direction="vertical" />
+          <ElButton type="info" :icon="TablerSum" text bg circle />-->
         </ElCol>
       </ElRow>
       <ElRow class="fill py-2 statistic" v-if="!loading">
         <ElCol v-if="width > height" :span="2" />
         <ElCol :span="width < height ? 10 : 4">
-          <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />
-          <ElDivider v-if="width < height" />
-        </ElCol>
-        <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
-        <ElCol :span="width < height ? 10 : 4">
           <ZActivityMemberTimeJudge type="on-campus" :realTime="on" />
           <ElDivider v-if="width < height" />
         </ElCol>
-        <ElCol v-if="width > height" :span="1"
-          ><ElDivider direction="vertical" class="height-full"
-        /></ElCol>
+        <ElCol :span="2">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
         <ElCol :span="width < height ? 10 : 4">
           <ZActivityMemberTimeJudge type="off-campus" :realTime="off" />
+          <ElDivider v-if="width < height" />
         </ElCol>
-        <ElCol :span="2"><ElDivider direction="vertical" class="height-full" /></ElCol>
+        <ElCol v-if="width > height" :span="1">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
+        <ElCol :span="width < height ? 10 : 4">
+          <ZActivityMemberTimeJudge type="social-practice" :realTime="base.socialPractice" />
+        </ElCol>
+        <ElCol :span="2">
+          <ElDivider direction="vertical" class="height-full" />
+        </ElCol>
         <ElCol v-if="width < height" :span="1" />
         <ElCol :span="width < height ? 8 : 4">
           <ElSpace direction="vertical">
@@ -149,7 +172,7 @@ watch(
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
     </ElCard>
-    <ElResult v-else type="error"> </ElResult>
+    <ElResult v-else type="error"></ElResult>
   </div>
 </template>
 
@@ -157,6 +180,7 @@ watch(
 .statistic {
   text-align: center;
 }
+
 .height-full {
   height: 100%;
 }

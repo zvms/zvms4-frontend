@@ -10,7 +10,7 @@ import {
 } from 'element-plus'
 import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
-import dayjs from 'dayjs'
+import dayjs from '@/plugins/dayjs'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
@@ -20,11 +20,16 @@ import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
 import { useWindowSize } from '@vueuse/core'
 import { ZActivityList } from '@/components'
+import { useRouter } from 'vue-router'
 
 const header = useHeaderStore()
 const user = useUserStore()
 const { t, locale } = useI18n()
 const { width, height } = useWindowSize()
+
+if (!user.isLogin) {
+  useRouter().replace('/user/login')
+}
 
 header.setHeader(t('nav.home'))
 
@@ -32,7 +37,7 @@ const nowTime = dayjs().hour()
 const greeting = ref(nowTime < 12 ? 'morning' : nowTime < 18 ? 'afternoon' : 'evening')
 const loading = ref(false)
 
-const time = reactive<UserActivityTimeSums>({
+const time = reactive({
   socialPractice: user.time.socialPractice,
   onCampus: user.time.onCampus,
   offCampus: user.time.offCampus
@@ -46,7 +51,7 @@ async function refreshUser() {
 </script>
 
 <template>
-  <div class="px-20 fill" style="width: 100%">
+  <div class="px-20 fill" style="width: 100%" v-if="user.isLogin">
     <p class="text-2xl py-8">
       {{ t('home.greeting', { greet: t('home.greetings.' + greeting), name: user.name }) }}
     </p>
@@ -66,8 +71,8 @@ async function refreshUser() {
               @click="refreshUser"
               :disabled="loading"
             />
-            <ElDivider direction="vertical" />
-            <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />
+            <!--<ElDivider direction="vertical" />
+            <ElButton type="info" :icon="MaterialSymbolsDescriptionOutline" text bg circle />-->
           </template>
           <ElSkeleton v-if="loading" :loading="true" :rows="3" />
           <ElDescriptionsItem v-if="!loading" :label="t('home.labels.name')">{{
@@ -87,11 +92,13 @@ async function refreshUser() {
           </ElDescriptionsItem>
         </ElDescriptions>
         <div v-if="user.position.includes('secretary')" class="py-4">
-          <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)"> {{ locale === 'en-US' ? 'Manage my class' : '管理班级' }} </ElButton>
+          <ElButton text bg class="w-full" @click="$router.push('/group/' + user.class_id)">
+            管理班级
+          </ElButton>
         </div>
       </ElCard>
     </div>
-    <div class="py-4">
+    <div :class="['py-4', user.shouldResetPassword ? 'z-blur' : '']">
       <ZUserTimeJudge
         :user="user._id"
         :on-campus="user.time.onCampus"
@@ -100,18 +107,14 @@ async function refreshUser() {
         discount
       />
     </div>
-    <div v-if="user.position.includes('student') && user.position.length === 1" class="py-4">
-      <ZActivityList role="mine">
-        <template #title>
-          {{ t('activity.view.panels.mine.name') }}
-        </template>
-      </ZActivityList>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .fill {
   width: 100%;
+}
+.z-blur {
+  filter: blur(2rem);
 }
 </style>

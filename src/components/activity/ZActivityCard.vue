@@ -2,13 +2,15 @@
 import { toRefs } from 'vue'
 import api from '@/api'
 import { ref } from 'vue'
-import type { ActivityInstance } from '@/../types'
+import type { Activity, ActivityMember } from '@/../types/v2'
 import { ElResult, ElSkeleton } from 'element-plus'
 import { ZActivityDetails } from '.'
+import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(
   defineProps<{
     _id: string
+    userSession?: string
     mode?: 'mine' | 'class' | 'campus' | 'register'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
@@ -25,21 +27,36 @@ const emits = defineEmits<{
   refresh: []
 }>()
 
-const { _id, mode, perspective, local } = toRefs(props)
+const { t } = useI18n()
+
+const { _id, mode, perspective, local, userSession } = toRefs(props)
 
 const error = ref(false)
 const loading = ref(true)
-
-const activity = ref<ActivityInstance>()
+const membersCount = ref(0)
+const activity = ref<Activity>()
+const mine = ref<ActivityMember>()
 
 api.activity.read
   .single(_id.value)
-  .then((res) => {
-    if (res) {
-      activity.value = res as ActivityInstance
+  .then((result) => {
+    activity.value = result.activity as Activity
+    membersCount.value = result.members_count
+    if (mode.value === 'mine' && userSession.value) {
+      api.activity.member
+        .read(activity.value._id, userSession.value)
+        .then((res) => {
+          console.log(res)
+          mine.value = res
+          loading.value = false
+        })
+        .catch(() => {
+          error.value = true
+          loading.value = false
+        })
+    } else {
       loading.value = false
-      return
-    } else throw ''
+    }
   })
   .catch(() => {
     error.value = true
@@ -59,13 +76,20 @@ const refresh = () => emits('refresh')
       <ZActivityDetails
         :activity="activity"
         :mode="mode"
+        :members-count="membersCount"
+        :member-details="mine"
         :perspective="perspective"
         @refresh="refresh"
         :show-details="showDetails"
         :local="local"
       />
     </Transition>
-    <ElResult v-else-if="error" icon="error" status="error" :title="t('nav.pages.SomethingWentWrong.title')" />
+    <ElResult
+      v-else-if="error"
+      icon="error"
+      status="error"
+      :title="t('nav.pages.SomethingWentWrong.title')"
+    />
   </div>
   <ElSkeleton v-else v-model="loading" :rows="4" animated :throttle="500" />
 </template>

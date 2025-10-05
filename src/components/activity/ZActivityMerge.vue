@@ -6,15 +6,18 @@ import {
   ElInput,
   ElButton,
   ElCard,
-  ElRadio,
-  ElRadioGroup,
+  ElCheckbox,
+  ElCheckboxGroup,
   ElAlert,
   ElSwitch,
   ElScrollbar,
-  ElTooltip
+  ElTooltip,
+  ElSelect,
+  ElOption
 } from 'element-plus'
 import { ref, reactive, watch } from 'vue'
-import type { ActivityType, ActivityInstance } from '@/../types'
+// import type { ActivityType, ActivityInstance } from '@/../types'
+import type { Activity } from '@/../types/v2'
 import { useI18n } from 'vue-i18n'
 import api from '@/api'
 import { useWindowSize, useDark } from '@vueuse/core'
@@ -26,9 +29,14 @@ const { t } = useI18n()
 const user = useUserStore()
 const { height } = useWindowSize()
 const dark = useDark()
-const { router } = useRouter()
+const router = useRouter()
 
-const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
+const typesOfActivity = ref<Activity['type'][]>([
+  'on-campus',
+  'off-campus',
+  'social-practice',
+  'hybrid'
+])
 
 const tableMaxHeight = ref(height.value * 0.56)
 
@@ -38,18 +46,48 @@ watch(height, () => {
 
 const mergeForm = reactive({
   name: '',
-  type: '' as unknown as ActivityType,
-  list: [] as ActivityInstance[]
+  type: [] as Activity['type'][],
+  list: [] as Activity[],
+  origin: '' as unknown as Activity['origin']
 })
+const allowed = ref('')
+
+watch(
+  mergeForm.list,
+  (newList) => {
+    if (newList.length > 0) {
+      allowed.value = newList.map((item) => item.name).join(',')
+    } else {
+      allowed.value = ''
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 const overwriteTime = ref(false)
+
+const origins = [
+  'labor',
+  'organization',
+  'tasks',
+  'occasions',
+  'import',
+  'activities',
+  'practice',
+  'club',
+  'prize',
+  'other'
+]
 
 async function mergeActivity() {
   await api.activity.merge(
     mergeForm.list,
     mergeForm.name,
+    '',
+    mergeForm.origin,
     {
-      duplicateUser: overwriteTime.value ? 'overwrite' : 'add'
+      duplicateUser: overwriteTime.value ? 'max' : 'sum',
+      proceedPending: false
     },
     user._id
   )
@@ -60,25 +98,40 @@ async function mergeActivity() {
 
 <template>
   <div class="py-6 px-12">
-    <ElCard shadow="never">
+    <!--<ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
-          <ElFormItem :label="t('manage.merge.form.name')"
+          <ElFormItem
+            :label="t('manage.merge.form.name')"
             required
             :rules="[{ required: true, message: t('validation.create.name.required') }]"
           >
             <ElInput v-model="mergeForm.name" class="w-full" />
           </ElFormItem>
           <ElFormItem :label="t('manage.merge.form.type')" required>
-            <ElRadioGroup v-model="mergeForm.type">
-              <ElRadio
+            <ElCheckboxGroup v-model="mergeForm.type">
+              <ElCheckbox
                 v-for="type in typesOfActivity"
                 border
                 :key="type"
                 :value="type"
-                :label="t('activity.type.' + type + '.short')"
-              ></ElRadio>
-            </ElRadioGroup>
+                :label="t('activity.mode.' + type + '.name')"
+              ></ElCheckbox>
+            </ElCheckboxGroup>
+          </ElFormItem>
+          <ElFormItem
+            :label="t('activity.origins.name')"
+            required
+            :rules="[{ required: true, message: t('validation.create.classify.required') }]"
+          >
+            <ElSelect v-model="mergeForm.origin" class="full">
+              <ElOption
+                v-for="classify in origins"
+                :key="classify"
+                :label="t('activity.origins.' + classify + '.name')"
+                :value="classify"
+              />
+            </ElSelect>
           </ElFormItem>
           <ElFormItem :label="t('manage.merge.form.list')" required>
             <ElAlert
@@ -89,8 +142,9 @@ async function mergeActivity() {
               :closable="false"
             />
             <ZActivityList
+              select
               v-if="mergeForm.type"
-              :select-target="mergeForm.type"
+              :select-target="allowed"
               v-model="mergeForm.list"
               class="w-full"
               role="campus"
@@ -116,9 +170,19 @@ async function mergeActivity() {
           </ElFormItem>
         </ElScrollbar>
         <div style="text-align: right" class="py-2">
-          <ElButton text bg type="primary" @click="mergeActivity">{{ t('manage.merge.form.action') }}</ElButton>
+          <ElButton text bg type="primary" @click="mergeActivity">{{
+            t('manage.merge.form.action')
+          }}</ElButton>
         </div>
       </ElForm>
+    </ElCard>-->
+    <ElCard shadow="never">
+      <ElResult
+        icon="error"
+        title="维护中"
+        sub-title="该功能暂停开放"
+      >
+      </ElResult>
     </ElCard>
   </div>
 </template>

@@ -4,14 +4,17 @@ import { ref, toRefs, watch } from 'vue'
 import api from '@/api'
 import type { Group } from '@/../types'
 
-const props = withDefaults(defineProps<{
-  modelValue: string
-  fullWidth?: boolean
-  clearable?: boolean
-}>(), {
-  fullWidth: true,
-  clearable: false
-})
+const props = withDefaults(
+  defineProps<{
+    modelValue: string
+    fullWidth?: boolean
+    clearable?: boolean
+  }>(),
+  {
+    fullWidth: true,
+    clearable: false
+  }
+)
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
@@ -25,9 +28,7 @@ watch(
   () => emits('update:modelValue', classGroupID.value),
   { immediate: true }
 )
-const classes = ref<
-  Group[]
->([])
+const classes = ref<Group[]>([])
 
 const load = ref(false)
 

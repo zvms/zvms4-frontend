@@ -1,10 +1,6 @@
 import axios from '@/plugins/axios.ts'
 
-export {
-  getGroup as readOne,
-  getGroups as read,
-  updateMethods as update,
-} from './crud'
+export { getGroup as readOne, getGroups as read, updateMethods as update } from './crud'
 export * as reads from './reads'
 export async function template(id: string, name: string) {
   const result = await axios(`/groups/${id}/template?export_format=excel`, {

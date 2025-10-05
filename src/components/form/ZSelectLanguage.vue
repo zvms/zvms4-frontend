@@ -21,8 +21,8 @@ const props = defineProps<{
 const { placement, type, withText } = toRefs(props)
 
 function setLanguage(language: string) {
-  user.setLanguage(language)
-  locale.value = language
+  user.setLanguage('zh-CN')
+  locale.value = 'zh-CN'
 }
 
 const languages = ref<
@@ -38,11 +38,6 @@ const languages = ref<
     display: '简体中文',
     value: 'zh-CN'
   },
-  {
-    icon: English,
-    display: 'English',
-    value: 'en-US'
-  }
 ])
 
 onMounted(() => {
@@ -68,7 +63,7 @@ onMounted(() => {
         text
         bg
       >
-        {{ languages.find(x => x.value === locale)?.display }}
+        {{ languages.find((x) => x.value === locale)?.display }}
       </ElButton>
     </template>
     <ElButtonGroup class="full">
@@ -87,9 +82,14 @@ onMounted(() => {
       </div>
     </ElButtonGroup>
   </ElPopover>
-  <ElSelect v-else-if="type === 'select'" v-model="user.language" @change="setLanguage" style="width: 128px">
+  <ElSelect
+    v-else-if="type === 'select'"
+    v-model="user.language"
+    @change="setLanguage"
+    style="width: 128px"
+  >
     <ElOption
-      v-for="language in languages.filter(x => !x.disabled)"
+      v-for="language in languages.filter((x) => !x.disabled)"
       :key="language.value"
       :label="language.display"
       :value="language.value"

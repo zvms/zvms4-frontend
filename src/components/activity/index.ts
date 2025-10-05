@@ -23,15 +23,12 @@ export function permissions(positions: UserPosition[]) {
     return result
   }
   function specialManagement(positions: UserPosition[]) {
-    const result =
-      positions.includes('admin') || positions.includes('department')
-        ? true
-        : false
+    const result = positions.includes('admin') || positions.includes('department') ? true : false
     return result
   }
   const insert = {
     normal: upperStudent(positions),
-    special: specialManagement(positions),
+    special: upperStudent(positions),
     merge: specialManagement(positions),
     upload: positions.includes('admin') && !pad()
   } as Record<CreateActivityType, boolean>

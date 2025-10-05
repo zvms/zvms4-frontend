@@ -72,7 +72,8 @@ const navs: Array<{
     name: 'manage',
     path: '/management',
     show: user.position.filter((x) => x !== 'student').length > 0,
-    judge: (path) => path.startsWith('/group') || path.startsWith('/user/') || path.startsWith('/manage')
+    judge: (path) =>
+      path.startsWith('/group') || path.startsWith('/user/') && path !== '/user/login' || path.startsWith('/manage')
   },
   {
     icon: InfoFilled,
@@ -85,10 +86,7 @@ const navs: Array<{
 
 function routeTo(page: string) {
   if (page === '/management') {
-    if (
-      user.position.includes('admin') ||
-      user.position.includes('department')
-    ) {
+    if (user.position.includes('admin') || user.position.includes('department')) {
       routeTo('/manage/groups')
     } else {
       routeTo(`/group/${user.class_id}/users`)
@@ -125,9 +123,8 @@ function routeTo(page: string) {
       </div>
     </div>
     <ElSpace class="bottom" direction="vertical">
-      <ZSelectLanguage type="button" placement="right" />
       <ElButton
-        v-if="!pad() || getTabletType() === 'p615'"
+        v-if="!pad() || getTabletType() === 'p615' || getTabletType() === 'p620'"
         :icon="dark ? Moon : Sunny"
         size="large"
         text
@@ -151,7 +148,7 @@ function routeTo(page: string) {
 .bottom {
   position: absolute;
   left: 0.72rem;
-  bottom: 4rem;
+  bottom: 1rem;
 }
 
 @media print {

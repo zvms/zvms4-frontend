@@ -50,7 +50,12 @@ watch(
         }
       ]"
     >
-      <ElInput :prefix-icon="Timer" type="number" v-model="duration.duration" @keydown.enter.prevent>
+      <ElInput
+        :prefix-icon="Timer"
+        type="number"
+        v-model="duration.duration"
+        @keydown.enter.prevent
+      >
         <template #append v-if="showUnit">
           <span v-if="showUnit">{{ t('activity.units.hour', duration) }}</span>
         </template>

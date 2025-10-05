@@ -5,7 +5,7 @@ import nprogress from 'nprogress'
 import axiosExported, { AxiosError } from 'axios'
 import { baseURL, default as axios } from '@/plugins/axios.ts'
 
-async function getUser(id: string) {
+async function getUser(id: string, overrideAxios: boolean = true) {
   const instance = axiosExported.create({
     baseURL,
     withCredentials: true,
@@ -29,8 +29,10 @@ async function getUser(id: string) {
         code: (error instanceof AxiosError ? error.response?.status : 500) ?? 500,
         message: error.message
       }
-    })
-  const result = (await instance(`/users/${id}`)) as Response<User>
+    }
+  )
+  const axiosInstance = overrideAxios ? instance : axios
+  const result = (await axiosInstance(`/users/${id}`)) as Response<User>
   if (result.status === 'error') {
     throw result
   }
@@ -65,7 +67,14 @@ async function getUsers(id: string = '', page: number = 1, perpage: number = 5) 
   }
 }
 
-async function putUser(user: string, target: string, name: string, id: string, group: string[], create: boolean) {
+async function putUser(
+  user: string,
+  target: string,
+  name: string,
+  id: string,
+  group: string[],
+  create: boolean
+) {
   const token = await temporaryToken(user)
   const result = (
     await axios({
@@ -94,7 +103,7 @@ export const past = {
       await axios({
         method: 'post',
         url: `/users/${user}/past`,
-        data: { past },
+        data: { past }
       })
     ).data as Response<null>
     if (result.status === 'error') {
@@ -126,7 +135,8 @@ export const past = {
   }
 }
 
-async function deleteUser(user: string, target: string) {  const token = await temporaryToken(user)
+async function deleteUser(user: string, target: string) {
+  const token = await temporaryToken(user)
   const result = (
     await axios({
       method: 'delete',

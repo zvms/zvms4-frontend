@@ -5,7 +5,7 @@ import type { Component as VueComponent } from 'vue'
 import { Plus, Refresh, User as UserIcon } from '@element-plus/icons-vue'
 import { ZButtonOrCard, ZUserTimeJudge } from '@/components'
 import api from '@/api'
-import { ElButton, ElDescriptions, ElDescriptionsItem, ElPopconfirm } from 'element-plus'
+import { ElButton, ElDescriptions, ElDescriptionsItem, ElNotification } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import ZUserGroup from '../tags/ZUserGroup.vue'
 import { useUserStore } from '@/stores/user'
@@ -77,7 +77,12 @@ async function resetMemberPassword() {
   const password = user?.id.toString()
   if (password) {
     const token = await temporaryToken(userStore._id)
-    await api.user.password.put(id.value, password, token, true)
+    await api.user.password.put(id.value, password, token, true).then(
+      ElNotification({
+        title: '密码重置成功',
+        type: 'success'
+      })
+    )
   }
 }
 
@@ -115,7 +120,7 @@ async function insertUserPast() {
 </script>
 
 <template>
-  <ElButton v-if="notFound" text bg type="danger" :icon="icon" size="small" round>
+  <ElButton v-if="notFound && mode === 'button'" text bg type="danger" :icon="icon" size="small" round>
     {{ t('manage.personalPanel.notFound') }}
   </ElButton>
   <ZButtonOrCard
@@ -157,7 +162,7 @@ async function insertUserPast() {
         </ElDescriptionsItem>
         <ElDescriptionsItem
           :label="t('home.labels.past')"
-          v-if="userStore.position.includes('admin') || userStore.position.includes('department')"
+          v-if="(userStore.position.includes('admin') || userStore.position.includes('department')) && past.length"
         >
           <div class="flex gap-2">
             <ElTag
@@ -172,7 +177,7 @@ async function insertUserPast() {
             >
               {{ tag }}
             </ElTag>
-            <ElInput
+            <!--<ElInput
               v-if="inputVisible"
               ref="InputRef"
               v-model.trim="inputValue"
@@ -190,20 +195,20 @@ async function insertUserPast() {
               size="small"
               :icon="Plus"
               @click="inputVisible = true"
-            />
+            />-->
           </div>
         </ElDescriptionsItem>
       </ElDescriptions>
       <ZUserTimeJudge
         class="py-2"
-        v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
+        v-if="userStore.position.includes('department') || userStore.position.includes('admin') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id"
         :user="id"
         discount
       />
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') || userStore.position.includes('department'))
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id)
         "
         text
         bg
@@ -213,28 +218,22 @@ async function insertUserPast() {
       >
         {{ t('manage.groupDetails.userList.open') }}
       </ElButton>
-      <ElPopconfirm
-        v-if="mode === 'card'"
-        :title="t('manage.personalPanel.resetConfirm')"
-        @confirm="resetMemberPassword"
+      <ElButton
+        v-if="
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id) &&
+          id &&
+          id !== userStore._id &&
+          mode === 'card'
+        "
+        type="danger"
+        text
+        bg
+        class="w-full"
+        :icon="Refresh"
+        @click="resetMemberPassword"
       >
-        <template #reference>
-          <ElButton
-            v-if="
-              (userStore.position.includes('admin') || userStore.position.includes('department')) &&
-              id &&
-              id !== userStore._id
-            "
-            type="danger"
-            text
-            bg
-            class="w-full"
-            :icon="Refresh"
-          >
-            {{ t('manage.personalPanel.resetPassword') }}
-          </ElButton>
-        </template>
-      </ElPopconfirm>
+        {{ t('manage.personalPanel.resetPassword') }}
+      </ElButton>
     </template>
     <template #text>
       {{ person?.name }}

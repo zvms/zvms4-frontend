@@ -5,12 +5,16 @@ async function createExportTask(
   type: 'time' | 'users' | 'activities',
   format: 'csv' | 'json' | 'excel' | 'html' | 'latex',
   start?: Dayjs,
-  end?: Dayjs
+  end?: Dayjs,
+  allowCache: boolean = false,
+  includeDescription: boolean = false // Default to false, can be changed in the UI
 ) {
   const body = {
     format,
     start: start?.toISOString(),
-    end: end?.toISOString()
+    end: end?.toISOString(),
+    allow_cache: allowCache,
+    include_description: includeDescription
   }
   const result = await axios(`/exports/${type}`, {
     data: body,
@@ -26,29 +30,37 @@ async function queryTaskStatus(id: string) {
     method: 'get'
   })
   return result.data.data as {
-    status: 'pending' | 'processing' | 'completed' | 'failed',
+    status: 'pending' | 'processing' | 'completed' | 'failed'
     percentage: number
   }
 }
 
-async function downloadTaskFile(id: string, name: string, format: 'csv' | 'excel' | 'json' | 'html' | 'latex') {
+async function downloadTaskFile(
+  id: string,
+  name: string,
+  format: 'csv' | 'excel' | 'json' | 'html' | 'latex',
+  language: string = 'en-US' // Default to English, can be changed in the UI
+) {
   const result = await axios(`/exports/${id}/file`, {
     method: 'get',
+    params: { language },
     responseType: 'blob'
   })
-  const mime = ({
-    csv: 'text/csv',
-    excel: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    json: 'application/json',
-    html: 'text/html',
-    latex: 'application/octet-stream'
-  } as { [key: string]: string })[format]
+  const mime = (
+    {
+      csv: 'text/csv',
+      excel: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      json: 'application/json',
+      html: 'text/html',
+      latex: 'application/octet-stream'
+    } as { [key: string]: string }
+  )[format]
   // Use `blob` style to download it
   const file = new Blob([result.data], { type: mime })
   const url = URL.createObjectURL(file)
   const a = document.createElement('a')
   a.href = url
-  const extension = format === 'excel' ? 'xlsx' : (format === 'latex' ? 'tex' : format)
+  const extension = format === 'excel' ? 'xlsx' : format === 'latex' ? 'tex' : format
   a.download = `${name}.${extension}`
   a.click()
   URL.revokeObjectURL(url)

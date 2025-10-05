@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css'
 import { parseJwt } from './jwt'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
+import { getXuehaiId } from '@/plugins/ua.ts'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
@@ -18,18 +19,18 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-// export const baseURL = import.meta.env.PROD
-//   ? 'https://api.zvms.site/api/'
-//   : 'http://localhost:8000/api/'
-export const baseURL = 'https://api.zvms.site/api/'
+export const baseURL = import.meta.env.PROD
+  ? 'https://api.zvms.site/api/'
+  : 'http://localhost:8000/api/'
 
 const axiosInstance = axios.create({
   baseURL,
   withCredentials: true,
-  timeout: 24000,
+  timeout: 12000,
   headers: {
     'Content-type': 'application/json',
-    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
+    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? '',
+    'Xuehai-ID': getXuehaiId() && '' + getXuehaiId() || ''
   }
 })
 
@@ -39,8 +40,8 @@ axiosInstance.interceptors.request.use(
   (config) => {
     nprogress.start()
     const token = localStorage.getItem('token')
-    if(token && !config.headers['Authorization']) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    if (token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
@@ -62,46 +63,38 @@ axiosInstance.interceptors.response.use(
     let errorDisplayed = false
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        const token = parseJwt(localStorage.getItem('token') as string)
-        if (token.payload.scope === 'access_token') {
-          if (!errorDisplayed) {
-            errorDisplayed = true
-            ElMessage({
-              message: 'Session expired',
-              type: 'error',
-              grouping: true,
-              plain: true
-            })
-            localStorage.removeItem('token')
-            useUserStore().removeUser().then(() => {
-              router.push('/user/login')
-            })
-          }
-        } else {
+        if (!errorDisplayed) {
+          errorDisplayed = true
+          const token = localStorage.getItem('token')
           ElMessage({
-            message: 'Your password is wrong. Please operate again.',
+            message: token ? '登录已过期' : '未登录',
             type: 'error',
             grouping: true,
             plain: true
-          }).then((r) => Promise.reject(r))
+          })
+          if (token) {
+            localStorage.removeItem('token')
+          }
+          useUserStore()
+            .removeUser()
+            .then(() => {
+              router.replace('/user/login')
+            })
         }
       } else {
         if (!errorDisplayed) {
           errorDisplayed = true
           ElMessage({
             message: error.response?.data?.detail
-              ? 'Error: ' +
+              ? '错误: ' +
                 (typeof error.response?.data?.detail === 'string'
                   ? error.response?.data?.detail
                   : JSON.stringify(error.response?.data?.detail))
-              : 'Something went wrong',
+              : '未知错误',
             type: 'error',
             grouping: true,
             plain: true
           })
-          if (!error.response?.data?.detail && navigator.onLine) {
-            router.push('/sww')
-          }
         }
       }
     } else {
@@ -109,16 +102,13 @@ axiosInstance.interceptors.response.use(
         errorDisplayed = true
         ElMessage({
           message:
-            'Error:' + error.message
+            '错误: ' + error.message
               ? 'data: ' + JSON.stringify(error.message)
-              : 'Something went wrong',
+              : '未知错误',
           type: 'error',
           grouping: true,
           plain: true
         })
-        if (!error.message && navigator.onLine) {
-          router.push('/sww')
-        }
       }
     }
   }
