@@ -16,6 +16,7 @@ import { useRouter } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
 import { ZSelectLanguage } from '@/components'
 import { useI18n } from 'vue-i18n'
+import { modifyPasswordDialogs } from '@/views'
 import api from '@/api'
 
 if (useUserStore().isLogin) {
