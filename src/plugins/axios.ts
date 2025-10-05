@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { parseJwt } from './jwt'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { getXuehaiId } from '@/plugins/ua.ts'
@@ -19,9 +18,13 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
+/*
 export const baseURL = import.meta.env.PROD
   ? 'https://api.zvms.site/api/'
   : 'http://localhost:8000/api/'
+*/
+
+export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
