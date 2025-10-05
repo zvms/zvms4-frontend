@@ -48,7 +48,30 @@ function refresh() {
 }
 
 async function login() {
-  if (loading.value || password.value === '') {
+  if (loading.value || password.value === '' || String(user.value).length !== 8) {
+    return
+  }
+  const strongPasswordValidator = new RegExp(
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+  )
+  if (!strongPasswordValidator.test(password.value)) {
+    await ElMessageBox({
+      message: h(
+        'p',
+        null,
+        [
+          h('span', null, '为防止您的账号被盗，您必须修改密码以保护您的账号。'),
+          h('strong', null, '您必须修改密码后才能继续使用本系统。')
+        ]
+      ),
+      showCancelButton: true,
+      title: '您必须修改密码',
+      confirmButtonText: '修改密码',
+      cancelButtonText: '退出登录',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+    }).then(reset_and_login)
     return
   }
   loading.value = true
@@ -68,13 +91,51 @@ async function login() {
     loading.value = false
     return
   }
-  const id = users?.[0]._id
+  const id = users[0]._id
   await userStore
     .setUser(id, password.value as string)
     .then(() => router.replace('/user'))
     .catch(() => {
       loading.value = false
     })
+}
+
+async function reset_and_login() {
+  loading.value = true
+  const users = (
+    await api.user.read(user.value).catch(() => {
+      loading.value = false
+    })
+  )?.users
+  if (!users) {
+    loading.value = false
+    return
+  }
+  if (users?.length !== 1) {
+    await ElMessageBox.alert('用户不存在', '错误', {
+      type: 'error'
+    })
+    loading.value = false
+    return
+  }
+  const id = users[0]._id
+  const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
+    loading.value = false
+  }))?.token
+  if (!token) {
+    loading.value = false
+    return
+  }
+  await modifyPasswordDialogs(id, 'zh-CN', async (a: string, new_password: string) => {
+    await userStore
+      .setUser(id, new_password)
+      .then(() => router.replace('/user'))
+      .catch(() => {
+        loading.value = false
+      })
+  }, token).catch(() => {
+    loading.value = false
+  })
 }
 
 watch(user, async () => {
@@ -153,6 +214,7 @@ watch(user, async () => {
 .login-field {
   width: 80%;
   height: 296px !important;
+  overflow-y: scroll;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
