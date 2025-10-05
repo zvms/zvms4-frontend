@@ -53,7 +53,6 @@ const visibility: Record<CreateActivityType, boolean | 'need-audit'> = permissio
             icon-right
             :icon="ArrowRight"
           >
-            {{ t('activity.form.actions.submit') }}
           </ElButton>
         </div>
       </ElCard>

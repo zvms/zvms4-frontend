@@ -2,7 +2,6 @@
 import { ElPageHeader, ElButton, ElSpace } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
-import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
 import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { ArrowLeft } from '@element-plus/icons-vue'
@@ -11,7 +10,6 @@ import CreateHome from './CreateHome.vue'
 import { permissions } from '@/components/activity'
 import { useUserStore } from '@/stores/user'
 
-const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
@@ -68,11 +66,6 @@ function mov(mov: string) {
 watch(tab, () => {
   mov(tab.value)
 })
-
-function returnHome() {
-  //router.push('/activity/create')
-  tab.value = ''
-}
 
 const visibility = permissions(user.position as UserPosition[])
 
