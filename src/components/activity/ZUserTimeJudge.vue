@@ -113,11 +113,6 @@ const reportPage = ref(false)
     </ElDialog>-->
     <ElCard
       shadow="hover"
-      v-if="
-        userStore.position.includes('admin') ||
-        userStore.position.includes('department') ||
-        userStore._id === user
-      "
     >
       <ElRow>
         <ElCol :span="12">
@@ -171,14 +166,6 @@ const reportPage = ref(false)
         <ElCol v-if="width > height" :span="2" />
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
-    </ElCard>
-    <ElCard v-else>
-      <ElResult
-        type="error"
-        status="error"
-        icon="error"
-        title="出现错误"
-      />
     </ElCard>
   </div>
 </template>
