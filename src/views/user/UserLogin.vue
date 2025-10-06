@@ -94,7 +94,9 @@ async function login() {
       showClose: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-    }).then(() => reset_and_login(id, token))
+    }).then(() => reset_and_login(id, token)).catch(() => {
+      loading.value = false
+    })
     return
   }
   loading.value = true
