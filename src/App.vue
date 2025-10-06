@@ -33,6 +33,7 @@ import { modifyPasswordDialogs } from '@/views'
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 
 const online = useOnline()
+const cached = ref(localStorage.getItem('cached'))
 
 window.onbeforeunload = (e) => {
   if (location.pathname.startsWith('/activity/create/') || location.pathname.endsWith('/modify')) {
@@ -235,6 +236,13 @@ watch(needRefresh, () => {
   updateServiceWorker()
 })
 
+watch(offlineReady, () => {
+  if (!offlineReady.value) {
+    return
+  }
+  localStorage.setItem('cached','true')
+})
+
 onMounted(() => {
   embedClarity()
   userStore.isLogin && resetPassword()
@@ -252,7 +260,7 @@ onMounted(() => {
         type="error"
         center
         :closable="true"
-        v-if="offlineReady && !online"
+        v-if="(cached || offlineReady) && !online"
         class="hidden-print"
       >
         <template #title>
