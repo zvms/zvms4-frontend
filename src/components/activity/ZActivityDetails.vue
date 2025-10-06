@@ -168,11 +168,11 @@ const activeStatistic = ref(statTable[0])
     style="width: 100%"
   >
     <p class="text-xl pl-4" style="width: 100%">
-      <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
+      <span v-if="!editDescription" @dblclick="editDescription = true">{{ activity.name }}</span>
       <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitInfo">
-        <template #append>
+        <!--<template #append>
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitInfo" />
-        </template>
+        </template>-->
       </ElInput>
       <ElButtonGroup>
         <ZActivityType
