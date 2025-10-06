@@ -164,6 +164,9 @@ const el = useTemplateRef('card')
 const { isSwiping, direction } = useSwipe(el)
 
 watch(isSwiping, (swiping) => {
+  if (loading.value) {
+    return
+  }
   if (swiping && direction.value === 'right') {
     if (activePage.value > 1) {
       activePage.value -= 1
@@ -181,6 +184,9 @@ watch(isSwiping, (swiping) => {
 const { isSwiping: isPointerSwiping, direction: pointerDirection } = usePointerSwipe(el)
 
 watch(isPointerSwiping, (swiping) => {
+  if (loading.value) {
+    return
+  }
   if (swiping && pointerDirection.value === 'left') {
     if (activePage.value > 1) {
       activePage.value -= 1
