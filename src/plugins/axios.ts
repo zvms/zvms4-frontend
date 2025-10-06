@@ -33,7 +33,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-type': 'application/json',
     'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? '',
-    /*'Xuehai-ID': getXuehaiId() && '' + getXuehaiId() || ''*/
+    'Xuehai-ID': getXuehaiId() && '' + getXuehaiId() || '',
   }
 })
 
