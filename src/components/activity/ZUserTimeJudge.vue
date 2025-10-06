@@ -172,7 +172,14 @@ const reportPage = ref(false)
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
     </ElCard>
-    <ElResult v-else type="error"></ElResult>
+    <ElCard v-else>
+      <ElResult
+        type="error"
+        status="error"
+        icon="error"
+        title="出现错误"
+      />
+    </ElCard>
   </div>
 </template>
 
