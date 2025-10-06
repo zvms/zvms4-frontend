@@ -2,9 +2,9 @@ import axios, { AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { parseJwt } from './jwt'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
+import { getXuehaiId } from '@/plugins/ua.ts'
 
 // Function to get the value of a specific cookie
 function getCookieValue(cookieName: string) {
@@ -18,9 +18,13 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
+/*
 export const baseURL = import.meta.env.PROD
   ? 'https://api.zvms.site/api/'
   : 'http://localhost:8000/api/'
+*/
+
+export const baseURL = 'https://api.zvms.site/api/'
 
 const axiosInstance = axios.create({
   baseURL,
@@ -28,7 +32,8 @@ const axiosInstance = axios.create({
   timeout: 12000,
   headers: {
     'Content-type': 'application/json',
-    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? ''
+    'Clarity-ID': getCookieValue('_clck')?.split('%7C')[0] ?? '',
+    'Xuehai-ID': getXuehaiId() && ('' + getXuehaiId()) || '',
   }
 })
 

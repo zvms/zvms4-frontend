@@ -393,7 +393,6 @@ watch(search, refreshMembers)
                     user.position.includes('secretary')) &&
                   !wholesale
                 "
-                :visible="showAddPopover"
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
                 class="no-print"
               >

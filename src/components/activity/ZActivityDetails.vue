@@ -168,11 +168,11 @@ const activeStatistic = ref(statTable[0])
     style="width: 100%"
   >
     <p class="text-xl pl-4" style="width: 100%">
-      <span v-if="!editName" @dblclick="editName = true">{{ activity.name }}</span>
+      <span v-if="!editDescription" @dblclick="editDescription = true">{{ activity.name }}</span>
       <ElInput v-else v-model="name" style="width: 328px" required @keydown.enter="submitInfo">
-        <template #append>
+        <!--<template #append>
           <ElButton class="px-2" type="success" :icon="ArrowRight" @click="submitInfo" />
-        </template>
+        </template>-->
       </ElInput>
       <ElButtonGroup>
         <ZActivityType
@@ -231,7 +231,7 @@ const activeStatistic = ref(statTable[0])
         :activity="activity"
         @refresh="refresh"
       />
-      <ZButtonOrCard
+      <!--<ZButtonOrCard
         class="px-2"
         v-model:open="openStatistics"
         mode="button"
@@ -292,7 +292,7 @@ const activeStatistic = ref(statTable[0])
           />
         </template>
         <template #text> Statistics </template>
-      </ZButtonOrCard>
+      </ZButtonOrCard>-->
     </div>
     <ElRow>
       <ElCol :span="6">

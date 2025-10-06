@@ -74,9 +74,9 @@ function handleSearch() {
             />
           </template>
           <template #default="{ row }">
-            <ElButton type="primary" size="small" text bg @click="router.push(`/group/${row._id}`)">
-              {{ t('manage.groupList.columns.details') }}
-            </ElButton>
+            <ElButton type="primary" size="small" text bg @click="router.push(`/group/${row._id}`)">查看</ElButton>
+            <ElButton type="info" size="small" text bg disabled>重命名</ElButton>
+            <ElButton type="danger" size="small" text bg disabled>删除</ElButton>
           </template>
         </ElTableColumn>
       </ElTable>

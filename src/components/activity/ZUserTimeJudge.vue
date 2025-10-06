@@ -113,15 +113,10 @@ const reportPage = ref(false)
     </ElDialog>-->
     <ElCard
       shadow="hover"
-      v-if="
-        userStore.position.includes('admin') ||
-        userStore.position.includes('department') ||
-        userStore._id === user
-      "
     >
       <ElRow>
         <ElCol :span="12">
-          <p class="text-lg">{{ t('home.panels.time.title') }}</p>
+          <span class="text-lg">{{ t('home.panels.time.title') }}</span>
         </ElCol>
         <ElCol :span="12" style="text-align: right">
           <!--<ElButton :icon="TableReport" text bg circle @click="reportPage = true"> </ElButton>
@@ -172,7 +167,6 @@ const reportPage = ref(false)
       </ElRow>
       <ElSkeleton v-else :throttle="200" :rows="4" animated />
     </ElCard>
-    <ElResult v-else type="error"></ElResult>
   </div>
 </template>
 

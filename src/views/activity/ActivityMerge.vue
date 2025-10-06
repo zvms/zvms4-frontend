@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/*
 import { ZActivityList } from '@/components/activity'
 import {
   ElForm,
@@ -26,7 +27,7 @@ const { t } = useI18n()
 const user = useUserStore()
 const { height } = useWindowSize()
 const dark = useDark()
-const { router } = useRouter()
+const router = useRouter()
 
 const typesOfActivity = ref<ActivityType[]>(['specified', 'social', 'scale'])
 
@@ -44,6 +45,7 @@ const mergeForm = reactive({
 
 const overwriteTime = ref(false)
 
+
 async function mergeActivity() {
   await api.activity.merge(
     mergeForm.list,
@@ -56,10 +58,11 @@ async function mergeActivity() {
 
   await router.push('/activities/campus')
 }
+ */
 </script>
 
 <template>
-  <div class="py-6 px-12">
+  <!--<div class="py-6 px-12">
     <ElCard shadow="never">
       <ElForm class="px-2" label-position="right" label-width="80px">
         <ElScrollbar ElScrollbar :height="tableMaxHeight + 'px'">
@@ -123,7 +126,7 @@ async function mergeActivity() {
         </div>
       </ElForm>
     </ElCard>
-  </div>
+  </div>-->
 </template>
 
 <style scoped></style>

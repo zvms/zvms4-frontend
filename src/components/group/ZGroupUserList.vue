@@ -240,6 +240,7 @@ function handleSelectionChange(val: string[]) {
           <template #default="{ row }">
             <ElButton
               v-if="!selectable"
+              type="primary"
               text
               bg
               size="small"

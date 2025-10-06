@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, h } from 'vue'
 import {
   ElInput,
   ElForm,
@@ -8,17 +8,18 @@ import {
   ElRow,
   ElCol,
   ElCard,
-  ElMessageBox
+  ElMessageBox,
+  ElMessage,
 } from 'element-plus'
 import {
   InfoFilled
 } from '@element-plus/icons-vue'
-import { Refresh, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { useHeaderStore } from '@/stores/header'
 import { useRouter } from 'vue-router'
-import { useWindowSize } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { modifyPasswordDialogs } from '@/views'
 import api from '@/api'
 
 if (useUserStore().isLogin) {
@@ -29,7 +30,6 @@ if (useUserStore().isLogin) {
 
 const header = useHeaderStore()
 
-const { height } = useWindowSize()
 const { t } = useI18n()
 
 const user = ref('')
@@ -41,14 +41,60 @@ const loading = ref(false)
 
 header.setHeader(t('nav.login.actions.login'))
 
-function refresh() {
-  user.value = ''
-  password.value = ''
-  loading.value = false
-}
-
 async function login() {
-  if (loading.value || password.value === '') {
+  if (loading.value || password.value === '' || String(user.value).length !== 8) {
+    return
+  }
+  const strongPasswordValidator = new RegExp(
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+  )
+  if (!strongPasswordValidator.test(password.value)) {
+    loading.value = true
+    const users = (
+      await api.user.read(user.value).catch(() => {
+        loading.value = false
+      })
+    )?.users
+    if (!users) {
+      loading.value = false
+      return
+    }
+    if (users?.length !== 1) {
+      ElMessage({
+        message: '用户不存在',
+        type: 'error',
+        grouping: true,
+        plain: true
+      })
+      loading.value = false
+      return
+    }
+    
+    const id = users[0]._id
+    const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
+      loading.value = false
+    }))?.token
+    if (!token) {
+      loading.value = false
+      return
+    }
+    await ElMessageBox({
+      message: h(
+        'p',
+        null,
+        [
+          h('span', null, '为防止您的账号被盗，您必须修改密码以保护您的账号。'),
+          h('strong', null, '您必须修改密码后才能继续使用本系统。')
+        ]
+      ),
+      showCancelButton: true,
+      title: '您必须修改密码',
+      confirmButtonText: '修改密码',
+      cancelButtonText: '取消',
+      showClose: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+    }).then(() => reset_and_login(id, token))
     return
   }
   loading.value = true
@@ -62,19 +108,38 @@ async function login() {
     return
   }
   if (users?.length !== 1) {
-    await ElMessageBox.alert('用户不存在', '错误', {
-      type: 'error'
+    ElMessage({
+      message: '用户不存在',
+      type: 'error',
+      grouping: true,
+      plain: true
     })
     loading.value = false
     return
   }
-  const id = users?.[0]._id
+  const id = users[0]._id
   await userStore
     .setUser(id, password.value as string)
     .then(() => router.replace('/user'))
     .catch(() => {
       loading.value = false
     })
+}
+
+async function reset_and_login(id: string, token: string) {
+  await modifyPasswordDialogs(id, 'zh-CN', async (a: string, new_password: string) => {
+    await api.user.password.put(id, new_password, token).catch(() => {
+      loading.value = false
+    })
+    await userStore
+      .setUser(id, new_password)
+      .then(() => router.replace('/user'))
+      .catch(() => {
+        loading.value = false
+      })
+  }, token).catch(() => {
+    loading.value = false
+  })
 }
 
 watch(user, async () => {
@@ -116,7 +181,7 @@ watch(user, async () => {
             v-model="password"
             clearable
             show-password
-            @keydown.enter="login"
+            @keyup.enter="login"
           />
         </ElFormItem>
       </ElForm>
@@ -153,6 +218,7 @@ watch(user, async () => {
 .login-field {
   width: 80%;
   height: 296px !important;
+  overflow-y: scroll;
   text-align: center;
   margin-left: auto;
   margin-right: auto;

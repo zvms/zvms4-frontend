@@ -21,16 +21,14 @@ import { useRouter, useRoute } from 'vue-router'
 import Password from '@/icons/MaterialSymbolsPasswordRounded.vue'
 import UserNav from '@/views/user/UserNav.vue'
 import { useHeaderStore } from './stores/header'
-import { useWindowSize, useDark, useOnline, useTitle } from '@vueuse/core'
+import { useWindowSize, useDark, useOnline } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { watch, ref, onMounted, h, reactive } from 'vue'
-import { zhCn, en } from 'element-plus/es/locale/index.mjs'
+import { zhCn } from 'element-plus/es/locale/index.mjs'
 import ZVerticalNav from '@/components/form/ZVerticalNav.vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { CarbonCloudOffline } from '@/icons'
 import { modifyPasswordDialogs } from '@/views'
-import { Instruction } from '@icon-park/vue-next'
-import { pad } from '@/plugins/ua.ts'
 
 const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW()
 

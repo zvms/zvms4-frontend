@@ -88,7 +88,7 @@ const refresh = () => emits('refresh')
       v-else-if="error"
       icon="error"
       status="error"
-      :title="t('nav.pages.SomethingWentWrong.title')"
+      title="出现错误"
     />
   </div>
   <ElSkeleton v-else v-model="loading" :rows="4" animated :throttle="500" />

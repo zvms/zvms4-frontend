@@ -39,11 +39,11 @@ async function getUser() {
   loading.close()
 }
 
-getUser()
-
-if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value.group[0] === userStore.class_id)) {
-  router.replace('/not-found')
-}
+getUser().then(() => {
+  if (!(userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && user.value?.group[0] === userStore.class_id)) {
+    router.replace('/not-found')
+  }
+})
 
 const curPage = route.params.action?.toString()
 
@@ -109,16 +109,16 @@ watch(
         </ElSegmented>
       </template>
     </ElPageHeader>
-    <div v-if="current === 'info'">
+    <div v-if="user && current === 'info'">
       <ZActivityMember :id="id" mode="card" />
     </div>
-    <div v-else-if="current === 'activity'">
+    <div v-else-if="user && current === 'activity'">
       <ZActivityList :perspective="id" role="mine" :key="id" />
     </div>
-    <div v-else-if="current === 'modify'">
+    <div v-else-if="user && current === 'modify'">
       <ZUserModification :id="id" mode="modify" cid="" />
     </div>
-    <div v-else-if="current === 'logs'">
+    <div v-else-if="user && current === 'logs'">
       <ZLogList :user="id" />
     </div>
   </div>

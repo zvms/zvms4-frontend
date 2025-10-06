@@ -65,7 +65,7 @@ const activity = reactive<Activity>({
   origin: 'other'
 })
 
-const createdId = ref('')
+const createdId = ref<string | void>('')
 
 const token = localStorage.getItem('token')
 const remindText = ref(
@@ -76,7 +76,7 @@ const remindCategory = ref<string[]>([])
 const approveStudent = ref('')
 
 const activityCategories =
-  Object.getOwnPropertyDescriptor(categories, locale.value)?.value ?? categories['en-US']
+  Object.getOwnPropertyDescriptor(categories, locale.value)?.value ?? categories['zh-CN']
 
 const members = reactive<ActivityMember[]>([])
 
@@ -347,7 +347,7 @@ function checkReviewAllowed() {
               bg
               @click="nextStep"
             >
-              {{ t('activity.batch.steps.next') }}
+              {{ activePage === 'member' ? '完成' : t('activity.batch.steps.next') }}
             </ElButton>
           </div>
         </ElForm>

@@ -2,7 +2,6 @@
 import { ElPageHeader, ElButton, ElSpace } from 'element-plus'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
-import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
 import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { ArrowLeft } from '@element-plus/icons-vue'
@@ -11,7 +10,6 @@ import CreateHome from './CreateHome.vue'
 import { permissions } from '@/components/activity'
 import { useUserStore } from '@/stores/user'
 
-const header = useHeaderStore()
 const { t } = useI18n()
 const user = useUserStore()
 
@@ -69,14 +67,8 @@ watch(tab, () => {
   mov(tab.value)
 })
 
-function returnHome() {
-  //router.push('/activity/create')
-  tab.value = ''
-}
-
 const visibility = permissions(user.position as UserPosition[])
 
-header.setHeader(t('nav.create'))
 </script>
 
 <template>
@@ -101,25 +93,9 @@ header.setHeader(t('nav.create'))
             {{ t(`activity.createMinimized.${button.value}`) }}
           </ElButton>
         </ElSpace>
-     </template>
-   </ElPageHeader>
-   <Transition
-     v-if="show && tab"
-     enter-active-class="animate__animated animate__fadeInUp"
-     leave-active-class="animate__animated animate__fadeOutUp"
-     appear
-     key="1"
-   >
-     <RouterView :key="tab" />
-   </Transition>
-   <Transition
-     v-else-if="show && !tab"
-     enter-active-class="animate__animated animate__fadeIn"
-     leave-active-class="animate__animated animate__fadeOut"
-     appear
-     key="0"
-    >
-      <CreateHome @move="mov" />
-    </Transition>
+      </template>
+    </ElPageHeader>
+    <RouterView v-if="show && tab" :key="tab" />
+    <CreateHome v-else-if="show && !tab" @move="mov" />
   </div>
 </template>
