@@ -231,7 +231,7 @@ const activeStatistic = ref(statTable[0])
         :activity="activity"
         @refresh="refresh"
       />
-      <ZButtonOrCard
+      <!--<ZButtonOrCard
         class="px-2"
         v-model:open="openStatistics"
         mode="button"
@@ -292,7 +292,7 @@ const activeStatistic = ref(statTable[0])
           />
         </template>
         <template #text> Statistics </template>
-      </ZButtonOrCard>
+      </ZButtonOrCard>-->
     </div>
     <ElRow>
       <ElCol :span="6">
