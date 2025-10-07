@@ -9,6 +9,7 @@ import { useUserStore } from '@/stores/user.ts'
 import ZUserPosition from '../tags/ZUserPosition.vue'
 import { Search } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/stores/user'
 
 const groups = ref<Group[]>([])
 const { height } = useWindowSize()
@@ -19,6 +20,7 @@ const loading = ref(false)
 const search = ref('')
 const total = ref(0)
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const tableHeight = ref(height.value * 0.6)
 
