@@ -142,7 +142,7 @@ function startOpen() {
   <div v-if="mode === 'card'">
     <ElCard
       v-if="mode === 'card'"
-      shadow="hover"
+      shadow="never"
       v-loading="loading"
       :class="[wFull ? 'w-full' : '']"
     >
