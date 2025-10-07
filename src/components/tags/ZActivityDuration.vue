@@ -52,7 +52,7 @@ async function modify() {
       width="328px"
       trigger="click"
       v-if="
-        (user.position.includes('admin') || user.position.includes('department')) &&
+        (user.position.includes('admin') || user.position.includes('department')) || userStore.position.includes('secretary') &&
         id &&
         uid &&
         record
@@ -80,7 +80,7 @@ async function modify() {
             bg
             type="primary"
             @click="modify"
-            :disabled="modification <= 0 || modification > 18"
+            :disabled="modification <= 0 || modification > 30"
           >
             {{ t('activity.form.actions.modify') }}
           </ElButton>
