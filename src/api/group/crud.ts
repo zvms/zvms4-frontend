@@ -67,16 +67,6 @@ export async function editGroupDescription(gid: string, description: string) {
   return data.status === 'ok'
 }
 
-export async function editGroupPermissions(gid: string, permissions: UserPosition[]) {
-  const response = await axios({
-    method: 'put',
-    url: `/groups/${gid}/permissions`,
-    data: { permissions }
-  })
-  const data = response.data as Response<null>
-  return data.status === 'ok'
-}
-
 export async function deleteGroup(uid: string, gid: string) {
   const token = await temporaryToken(uid)
   const response = await axios({
@@ -93,5 +83,4 @@ export async function deleteGroup(uid: string, gid: string) {
 export const updateMethods = {
   name: editGroupName,
   description: editGroupDescription,
-  permissions: editGroupPermissions
 }
