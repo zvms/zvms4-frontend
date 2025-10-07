@@ -16,6 +16,7 @@ const page = ref(1)
 const router = useRouter()
 const perpage = ref(10)
 const loading = ref(false)
+const submission = ref(false)
 const search = ref('')
 const total = ref(0)
 const { t } = useI18n()
@@ -51,6 +52,20 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
+
+/*
+async function remove(id) {
+  submission.value = true
+  try {
+    await api.group.delete(userStore._id, id)
+  } catch (_) {
+    submission.value = false
+    return
+  }
+  submission.value = false
+  refresh()
+}
+*/
 </script>
 
 <template>
