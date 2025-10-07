@@ -32,6 +32,7 @@ const props = withDefaults(
 const { id, icon, color, mode } = toRefs(props)
 const person = ref<User>()
 const loading = ref(true)
+const loading2 = ref(false)
 const error = ref(false)
 const userStore = useUserStore()
 const past = ref<string[]>([])
@@ -73,8 +74,9 @@ function refresh() {
 refresh()
 
 async function resetMemberPassword() {
-  const user = await api.user.readOne(id.value)
-  const password = user?.id.toString()
+  loading2.value = true
+  const user = person.value
+  const password = user?.id?.toString()
   if (password) {
     const token = await temporaryToken(userStore._id)
     await api.user.password.put(id.value, password, token, true).then(
@@ -82,8 +84,11 @@ async function resetMemberPassword() {
         title: '密码重置成功',
         type: 'success'
       })
-    )
+    ).catch(() => {
+      loading2.value = false
+    })
   }
+  loading2.value = false
 }
 
 const vert = ref(width.value < height.value * 1.2)
@@ -231,6 +236,7 @@ async function insertUserPast() {
         class="w-full"
         :icon="Refresh"
         @click="resetMemberPassword"
+        :loading="loading2"
       >
         {{ t('manage.personalPanel.resetPassword') }}
       </ElButton>
