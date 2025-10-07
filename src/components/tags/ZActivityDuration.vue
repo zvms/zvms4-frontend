@@ -35,7 +35,7 @@ async function modify() {
     uid.value &&
     record.value &&
     modification.value > 0 &&
-    modification.value <= 18 &&
+    modification.value <= 30 &&
     mode.value
   ) {
     await api.activity.duration.modify(record.value, id.value, modification.value, mode.value)
