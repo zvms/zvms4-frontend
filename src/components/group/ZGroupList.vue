@@ -9,7 +9,6 @@ import { useUserStore } from '@/stores/user.ts'
 import ZUserPosition from '../tags/ZUserPosition.vue'
 import { Search } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/stores/user'
 
 const groups = ref<Group[]>([])
 const { height } = useWindowSize()
