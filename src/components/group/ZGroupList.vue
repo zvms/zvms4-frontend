@@ -54,7 +54,7 @@ function handleSearch() {
 
 <template>
   <div class="px-2">
-    <ElCard shadow="hover" v-loading="loading">
+    <ElCard shadow="never" v-loading="loading">
       <ElTable :data="groups">
         <ElTableColumn prop="name" :label="t('manage.groupList.columns.name')"></ElTableColumn>
         <ElTableColumn prop="permission" :label="t('manage.groupList.columns.permission')">
