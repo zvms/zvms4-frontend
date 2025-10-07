@@ -29,6 +29,7 @@ watch(
     } else {
       tab.value = 'mine'
     }
+    header.setHeader(t('nav.activity'))
   },
   { immediate: true }
 )
