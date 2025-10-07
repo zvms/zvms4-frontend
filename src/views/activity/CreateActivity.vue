@@ -58,9 +58,7 @@ function mov(mov: string) {
   } else {
     router.replace(`/activity/create/${mov}`)
   }
-  setTimeout(() => {
-    show.value = true
-  }, 80)
+  show.value = true
 }
 
 watch(tab, () => {
