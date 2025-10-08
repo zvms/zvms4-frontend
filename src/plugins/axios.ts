@@ -89,7 +89,7 @@ axiosInstance.interceptors.response.use(
           errorDisplayed = true
           ElMessage({
             message: error.response?.data?.detail
-              ? '错误: ' +
+              ? '' +
                 (typeof error.response?.data?.detail === 'string'
                   ? error.response?.data?.detail
                   : JSON.stringify(error.response?.data?.detail))
