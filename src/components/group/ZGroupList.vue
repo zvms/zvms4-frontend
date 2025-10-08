@@ -16,9 +16,11 @@ const page = ref(1)
 const router = useRouter()
 const perpage = ref(10)
 const loading = ref(false)
+const submission = ref(false)
 const search = ref('')
 const total = ref(0)
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const tableHeight = ref(height.value * 0.6)
 
@@ -50,11 +52,23 @@ function handleSearch() {
   page.value = 1
   refresh()
 }
+
+async function remove(id) {
+  submission.value = true
+  try {
+    await api.group.delete(userStore._id, id)
+  } catch (_) {
+    submission.value = false
+    return
+  }
+  submission.value = false
+  refresh()
+}
 </script>
 
 <template>
   <div class="px-2">
-    <ElCard shadow="hover" v-loading="loading">
+    <ElCard shadow="never" v-loading="loading">
       <ElTable :data="groups">
         <ElTableColumn prop="name" :label="t('manage.groupList.columns.name')"></ElTableColumn>
         <ElTableColumn prop="permission" :label="t('manage.groupList.columns.permission')">
@@ -76,7 +90,7 @@ function handleSearch() {
           <template #default="{ row }">
             <ElButton type="primary" size="small" text bg @click="router.push(`/group/${row._id}`)">查看</ElButton>
             <ElButton type="info" size="small" text bg disabled>重命名</ElButton>
-            <ElButton type="danger" size="small" text bg disabled>删除</ElButton>
+            <ElButton type="danger" size="small" text bg :disabled="submission" @click="remove(row._id)">删除</ElButton>
           </template>
         </ElTableColumn>
       </ElTable>

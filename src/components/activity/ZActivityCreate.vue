@@ -323,7 +323,7 @@ function checkReviewAllowed() {
               </p>
             </ElFormItem>
           </ElScrollbar>
-          <span class="text-sm text-gray-500 dark:text-gray-300 px-16" v-if="activePage === 'info'">
+          <span class="text-sm text-gray-500 dark:text-gray-300 pl-16" v-if="activePage === 'info'">
             {{ t('activity.creating_guide.info.next') }}
           </span>
           <div class="actions text-right pt-2">

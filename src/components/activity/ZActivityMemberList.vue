@@ -122,7 +122,7 @@ async function parsePastedContent() {
   const lines = pastedContent.value.split('\n').map((x) => x.trim())
   const usersToAdd = await Promise.all(
     lines.map(async (line) => {
-      const trimmedLine = line.trim()
+      const trimmedLine = line
       try {
         if (trimmedLine) {
           const user = await api.user.read(trimmedLine, 1, 1)
@@ -155,7 +155,7 @@ async function parsePastedContent() {
   const failed = usersToAdd.filter((item) => item.status === 'error')
   loading.close()
   if (failed.length > 0) {
-    pastedContent.value = failed.map((item) => item.content).join('\n')
+    // pastedContent.value = failed.map((item) => item.content).join('\n')
     ElMessage({
       message: 'There are ' + failed.length + ' errors in the pasted content.',
       type: 'error',
@@ -507,6 +507,9 @@ watch(search, refreshMembers)
                         {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
                       </p>
                     </ElFormItem>
+                    <p class="py-0.5" v-else>
+                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
+                    </p>
                     <ElFormItem :label="t('activity.batch.batch.mode')">
                       <!-- @vue-ignore -->
                       <ZSelectActivityMode
@@ -561,10 +564,10 @@ watch(search, refreshMembers)
                   <div style="text-align: right">
                     <ElButton
                       :disabled="
-                        appending.member === '' ||
-                        appending.duration <= 0 ||
-                        appending.duration > 30 ||
-                        members.find(
+                        appending?.member === '' ||
+                        appending?.duration <= 0 ||
+                        appending?.duration > 30 ||
+                        members?.find(
                           (x) => x._id === appending.member && x.mode === appending.mode
                         ) !== undefined
                       "
