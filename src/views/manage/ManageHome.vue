@@ -50,7 +50,7 @@ const tabs = ref([
   },
 ])
 
-if (userStore.position.includes('department')) {
+if (userStore.position.includes('admin')) {
   tabs.value[tabs.value.length] = {
     label: 'Logs',
     value: 'logs',

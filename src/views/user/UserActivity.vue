@@ -72,7 +72,7 @@ function moveTo(type: string) {
       <span class="text-xl">
         {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
       </span>
-      <div class="flex justify-end" style="width: 100%;">
+      <div class="flex justify-end" style="flex-grow: 1;">
         <ElSpace v-if="panes.length > 1">
           <ElButton
             text
