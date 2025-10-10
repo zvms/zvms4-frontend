@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityMode } from '@/../types'
+import type { ActivityMode, ActivityMember } from '@/../types'
 import { ref, toRefs } from 'vue'
 import { ZActivityMode, ZInputDuration } from '@/components'
 import { ElButton, ElButtonGroup, ElForm, ElFormItem, ElPopover } from 'element-plus'
@@ -38,7 +38,7 @@ async function modify() {
     modification.value <= 30 &&
     mode.value
   ) {
-    await api.activity.duration.modify(record.value, id.value, modification.value, mode.value)
+    await api.activity.duration.modify(record.value, id.value, modification.value, mode.value as ActivityMember['mode'])
     emits('update:duration', modification.value)
   }
 }
@@ -46,13 +46,13 @@ async function modify() {
 
 <template>
   <ElButtonGroup>
-    <ZActivityMode :force="force" :mode="mode" />
+    <ZActivityMode :force="force" :mode="mode as ActivityMode" v-if="mode" />
 
     <ElPopover
       width="328px"
       trigger="click"
       v-if="
-        (user.position.includes('admin') || user.position.includes('department')) || userStore.position.includes('secretary') &&
+        (user.position.includes('admin') || user.position.includes('department') || user.position.includes('secretary')) &&
         id &&
         uid &&
         record

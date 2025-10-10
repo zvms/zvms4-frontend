@@ -53,7 +53,7 @@ function handleSearch() {
   refresh()
 }
 
-async function remove(id) {
+async function remove(id: string) {
   submission.value = true
   try {
     await api.group.delete(userStore._id, id)
@@ -73,7 +73,7 @@ async function remove(id) {
         <ElTableColumn prop="name" :label="t('manage.groupList.columns.name')"></ElTableColumn>
         <ElTableColumn prop="permission" :label="t('manage.groupList.columns.permission')">
           <template #default="{ row }">
-            <ZUserPosition v-for="p in row.permissions" :key="p" :position="p" />
+            <ZUserPosition v-for="p in row.permissions" :key="p" :position="[p]" />
           </template>
         </ElTableColumn>
         <ElTableColumn label="Action">

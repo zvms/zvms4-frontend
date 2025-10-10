@@ -121,7 +121,7 @@ watch(
 )
 
 // force insecure sessions to log out
-const security = ref((localStorage.getItem('security') || '0') - 0)
+const security = ref(Number(localStorage.getItem('security') || '0') - 0)
 
 if (security.value < 2) {
   security.value = 2
@@ -141,7 +141,9 @@ const dark = useDark()
 watch(
   () => route.path,
   () => {
-    headerStore.resetHeader()
+    if (!location.pathname.startsWith('/activities/')) {
+      headerStore.resetHeader()
+    }
     if (!userStore.isLogin && !route.fullPath.endsWith('login') && !route.fullPath.endsWith('about')) {
       router.replace('/user/login')
     }

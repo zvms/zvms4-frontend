@@ -48,17 +48,15 @@ const tabs = ref([
     value: 'time',
     icon: TablerSum
   },
-  {
+])
+
+if (userStore.position.includes('admin')) {
+  tabs.value[tabs.value.length] = {
     label: 'Logs',
     value: 'logs',
     icon: Log
-  } /*,
-  {
-    label: 'Import',
-    value: 'import',
-    icon: Upload
-  }*/
-])
+  }
+}
 
 watch(current, () => {
   router.replace('/manage/' + current.value)
@@ -76,7 +74,7 @@ watch(
 
 <template>
   <div class="px-16 py-8">
-    <ElPageHeader :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+    <ElPageHeader :icon="ArrowLeft" @back="() => router.back()" class="py-4">
       <template #content>
         {{ t('manage.manage.tabs.' + current) }}
       </template>

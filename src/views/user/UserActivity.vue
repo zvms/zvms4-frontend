@@ -72,7 +72,7 @@ function moveTo(type: string) {
       <span class="text-xl">
         {{ t(`activity.view.panels.${tab ? tab : 'mine'}.name`) }}
       </span>
-      <div class="flex justify-end">
+      <div class="flex justify-end" style="flex-grow: 1;">
         <ElSpace v-if="panes.length > 1">
           <ElButton
             text
@@ -90,6 +90,6 @@ function moveTo(type: string) {
         </ElSpace>
       </div>
     </div>
-    <ZActivityList class="mx-12" :role="tab" :key="tab" />
+    <ZActivityList class="mx-12" :role="tab as ('campus' | 'class' | 'mine')" :key="tab" />
   </div>
 </template>
