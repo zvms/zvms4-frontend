@@ -90,6 +90,6 @@ function moveTo(type: string) {
         </ElSpace>
       </div>
     </div>
-    <ZActivityList class="mx-12" :role="tab" :key="tab" />
+    <ZActivityList class="mx-12" :role="tab as ('campus' | 'class' | 'mine')" :key="tab" />
   </div>
 </template>
