@@ -20,7 +20,7 @@ const targetsOfDuration = {
 
 const props = withDefaults(
   defineProps<{
-    mode?: Activity['type']
+    mode: Activity['type']
     size?: 'large' | 'default' | 'small'
     force?: 'full' | 'short'
     bg?: boolean
@@ -79,7 +79,7 @@ watch(timeOfMine, (newVal) => {
 watch(mode, (newVal) => {
   percentOfMine.value =
     newVal !== 'hybrid'
-      ? Math.floor((timeOfMine.value[newVal] / targetsOfDuration[newVal]) * 100)
+      ? Math.floor((timeOfMine.value[newVal as ActivityMember['mode']] / targetsOfDuration[newVal as ActivityMember['mode']]) * 100)
       : 0
 
   if (percentOfMine.value > 100) {

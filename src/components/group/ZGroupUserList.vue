@@ -13,7 +13,6 @@ import {
   ElRow,
   ElPopover
 } from 'element-plus'
-import type { TableInstance } from 'element-plus'
 import { ref, onMounted, toRefs, watch } from 'vue'
 import api from '@/api'
 import { useI18n } from 'vue-i18n'

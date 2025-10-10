@@ -44,9 +44,7 @@ const {
   type,
   size,
   mode,
-  special,
   status,
-  showSpecial,
   force,
   bg,
   statusModifiable,
@@ -72,14 +70,6 @@ const effective = type?.value in types
     >
       {{ t(`activity.mode.${type}.${mode === 'full' ? 'name' : 'short'}`) }}
     </ZButtonTag>
-    <!--    <ZSpecialActivityClassify-->
-    <!--      v-if="special && showSpecial && type === 'hybrid'"-->
-    <!--      :classify="special"-->
-    <!--      :size="size"-->
-    <!--      :force="force"-->
-    <!--      :mode="mode"-->
-    <!--      :bg="bg"-->
-    <!--    />-->
     <ZActivityStatus
       v-if="status"
       :activity="activity"
