@@ -52,7 +52,7 @@ async function modify() {
       width="328px"
       trigger="click"
       v-if="
-        (user.position.includes('admin') || user.position.includes('department')) || userStore.position.includes('secretary') &&
+        (user.position.includes('admin') || user.position.includes('department') || user.position.includes('secretary')) &&
         id &&
         uid &&
         record
