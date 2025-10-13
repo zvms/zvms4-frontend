@@ -14,7 +14,7 @@ header.setHeader(t('nav.about'))
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.6.1.20251010"
+        sub-title="v4.1.6.2.20251013"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
@@ -23,7 +23,7 @@ header.setHeader(t('nav.about'))
           <!--<ElButton text bg type="primary" disabled>{{
             '检查更新'
           }}</ElButton>-->
-          <div style="opacity: .5; font-size: smaller;">
+          <div style="opacity: .5;">
             &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
           </div>
         </template>
