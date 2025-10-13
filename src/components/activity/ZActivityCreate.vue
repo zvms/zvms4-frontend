@@ -174,14 +174,7 @@ async function nextStep() {
     if (checkReviewAllowed()) {
       await api.activity.update.status(createdId.value, 'effective')
     }*/
-    await router.push(
-      '/activities/' +
-        (userStore.position.includes('admin') || userStore.position.includes('department')
-          ? 'campus'
-          : userStore.position.includes('secretary')
-            ? 'class'
-            : 'mine')
-    )
+    await router.push(`/activity/${activity._id}`)
   }
   load.value = false
 }

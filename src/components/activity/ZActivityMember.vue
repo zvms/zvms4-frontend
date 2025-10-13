@@ -79,12 +79,12 @@ async function resetMemberPassword() {
   const password = user?.id?.toString()
   if (password) {
     const token = await temporaryToken(userStore._id)
-    await api.user.password.put(id.value, password, token, true).then(
+    await api.user.password.put(id.value, password, token, true).then(() => {
       ElNotification({
         title: '密码重置成功',
         type: 'success'
       })
-    ).catch(() => {
+    }).catch(() => {
       loading2.value = false
     })
   }
@@ -109,6 +109,7 @@ async function removeUserPast(tag: string) {
   }
 }
 
+/*
 const inputVisible = ref(false)
 
 const inputValue = ref('')
@@ -122,6 +123,7 @@ async function insertUserPast() {
     past.value.push(value)
   }
 }
+*/
 </script>
 
 <template>
