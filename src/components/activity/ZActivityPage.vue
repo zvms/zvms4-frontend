@@ -21,14 +21,14 @@ import {
 import { ArrowLeft, ArrowRight, Clock, Location, Plus, Timer, Edit } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from '@/plugins/dayjs'
 import api from '@/api'
 
 const user = useUserStore()
-const route = useRoute()
+const router = useRouter()
 const { width, height } = useWindowSize()
 const { t } = useI18n()
 
@@ -91,29 +91,9 @@ watch(height, () => {
 
 <template>
   <div v-loading="loading" v-if="activity">
-    <ElPageHeader v-if="activity?._id" :icon="ArrowLeft" @back="() => $router.back()" class="py-4">
+    <ElPageHeader v-if="activity?._id" :icon="ArrowLeft" @back="() => router.back()" class="py-4">
       <template #content>
         {{ activity.name }}
-      </template>
-      <template #extra> </template>
-      <template #breadcrumb>
-        <ElBreadcrumb :separator-icon="ArrowRight" class="no-print">
-          <ElBreadcrumbItem>
-            <ElButton text size="small" @click="$router.push('/activities')">
-              {{ t('nav.breadcrumbs.view.home') }}
-            </ElButton>
-          </ElBreadcrumbItem>
-          <ElBreadcrumbItem>
-            <ElButton text size="small">
-              {{ t('nav.breadcrumbs.view.specific') }}
-            </ElButton>
-          </ElBreadcrumbItem>
-          <ElBreadcrumbItem>
-            <ElButton text size="small" type="info">
-              {{ activity?.name ?? route.path.split('/').pop() }}
-            </ElButton>
-          </ElBreadcrumbItem>
-        </ElBreadcrumb>
       </template>
     </ElPageHeader>
     <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
@@ -128,11 +108,9 @@ watch(height, () => {
       <ElDescriptionsItem :label="t('activity.form.type')">
         <ZActivityType
           force="full"
-          v-if="activity?.type !== 'hybrid'"
-          :type="activity?.type ?? 'hybrid'"
+          :type="activity?.type"
           :bg="false"
         />
-        <ZActivityType force="full" v-else type="hybrid" :special="activity?.origin" :bg="false" />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.registration.status.title')">
         <ZActivityStatus force="full" :type="activity?.status ?? 'effective'" :bg="false" />
@@ -152,7 +130,6 @@ watch(height, () => {
           class="px-2"
           :activity="activity"
           :members-count="membersCount"
-          @refresh="refresh"
         />
       </ElDescriptionsItem>
     </ElDescriptions>
@@ -165,7 +142,15 @@ watch(height, () => {
       :column="vert ? 2 : undefined"
     >
       <ElDescriptionsItem :label="t('activity.registration.status.title')">
-        <ZActivityStatus force="full" :type="mine?.status ?? 'effective'" :bg="false" />
+        <ZActivityStatus
+          force="full"
+          :type="mine?.status ?? 'effective'"
+          :bg="false" 
+          :modifiable="
+            user.position.includes('admin') ||
+            user.position.includes('department')
+          "
+        />
       </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.duration')">
         <ElButton :icon="Timer" type="info" text round size="small">

@@ -174,7 +174,7 @@ async function nextStep() {
     if (checkReviewAllowed()) {
       await api.activity.update.status(createdId.value, 'effective')
     }*/
-    await router.push(`/activity/${activity._id}`)
+    await router.push(`/activity/details/${activity._id}`)
   }
   load.value = false
 }
