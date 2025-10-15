@@ -50,27 +50,8 @@ async function login() {
   )
   if (!strongPasswordValidator.test(password.value)) {
     loading.value = true
-    const users = (
-      await api.user.read(user.value).catch(() => {
-        loading.value = false
-      })
-    )?.users
-    if (!users) {
-      loading.value = false
-      return
-    }
-    if (users?.length !== 1) {
-      ElMessage({
-        message: '用户不存在',
-        type: 'error',
-        grouping: true,
-        plain: true
-      })
-      loading.value = false
-      return
-    }
     
-    const id = users[0]._id
+    const id = user.value
     const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
       loading.value = false
     }))?.token
@@ -100,26 +81,7 @@ async function login() {
     return
   }
   loading.value = true
-  const users = (
-    await api.user.read(user.value).catch(() => {
-      loading.value = false
-    })
-  )?.users
-  if (!users) {
-    loading.value = false
-    return
-  }
-  if (users?.length !== 1) {
-    ElMessage({
-      message: '用户不存在',
-      type: 'error',
-      grouping: true,
-      plain: true
-    })
-    loading.value = false
-    return
-  }
-  const id = users[0]._id
+  const id = user.value
   await userStore
     .setUser(id, password.value as string)
     .then(() => router.replace('/user'))

@@ -93,7 +93,7 @@ async function resetPassword() {
     })
       .then(async () => {
         try {
-          await modifyPasswordDialogs(userStore._id, 'zh-CN', userStore.resetPassword)
+          await modifyPasswordDialogs(String(userStore.id), 'zh-CN', userStore.resetPassword)
           .catch(async () => {
             userStore.shouldResetPassword = false
             await userStore.removeUser()
@@ -217,7 +217,7 @@ const panelButtons = [
   {
     icon: Password,
     async click() {
-      await modifyPasswordDialogs(userStore._id, locale.value, userStore.resetPassword)
+      await modifyPasswordDialogs(String(userStore.id), locale.value, userStore.resetPassword)
     },
     text: 'reset'
   },

@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', {
       )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
-        const information = (await api.user.readOne(user)) as User
+        const information = (await api.user.readOne(result._id)) as User
         await this.setUserInformation(information)
         if (!strongPasswordValidator.test(password)) {
           this.shouldResetPassword = true
@@ -94,8 +94,8 @@ export const useUserStore = defineStore('user', {
         type: 'success'
       })
       await this.removeUser()
-      const router = useRouter()
-      await router.replace('/user/login')
+      // const router = useRouter()
+      // await router.replace('/user/login')
     },
     setTime(time: { onCampus: number; offCampus: number; socialPractice: number }) {
       this.time.onCampus = time.onCampus

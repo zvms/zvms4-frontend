@@ -4,31 +4,28 @@ import {
   ElDescriptions,
   ElDescriptionsItem,
   ElButton,
-  ElDivider,
   ElCard,
   ElSkeleton
 } from 'element-plus'
-import MaterialSymbolsDescriptionOutline from '@/icons/MaterialSymbolsDescriptionOutline.vue'
 import { Refresh } from '@element-plus/icons-vue'
 import dayjs from '@/plugins/dayjs'
 import { ref } from 'vue'
 import { useHeaderStore } from '@/stores/header'
 import { useI18n } from 'vue-i18n'
-import { reactive } from 'vue'
-import type { UserActivityTimeSums } from '@/../types'
+import { reactive, watch } from 'vue'
 import ZUserGroup from '@/components/tags/ZUserGroup.vue'
 import ZUserTimeJudge from '@/components/activity/ZUserTimeJudge.vue'
 import { useWindowSize } from '@vueuse/core'
-import { ZActivityList } from '@/components'
 import { useRouter } from 'vue-router'
 
 const header = useHeaderStore()
 const user = useUserStore()
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const { width, height } = useWindowSize()
+const router = useRouter()
 
 if (!user.isLogin) {
-  useRouter().replace('/user/login')
+  router.replace('/user/login')
 }
 
 header.setHeader(t('nav.home'))
@@ -48,6 +45,16 @@ async function refreshUser() {
   await user.refreshUser()
   loading.value = false
 }
+
+watch(
+  () => user.isLogin,
+  (v) => {
+    if (v) {
+      return
+    }
+    router.replace('/user/login')
+  }
+)
 </script>
 
 <template>

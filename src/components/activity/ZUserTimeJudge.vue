@@ -69,7 +69,6 @@ base.socialPractice = socialPractice.value
 async function getTime() {
   loading.value = true
   const result = await api.user.time.read(user.value)
-  console.log(result)
   if (result) {
     base.onCampus = result['on-campus']
     base.offCampus = result['off-campus']
