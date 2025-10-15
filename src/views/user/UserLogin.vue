@@ -52,9 +52,12 @@ async function login() {
     loading.value = true
     
     const id = user.value
-    const token = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
+    const { token, _id } = (await api.user.auth.useLongTermAuth(id, password.value, 'short').catch(() => {
       loading.value = false
-    }))?.token
+    })) || {
+      token: '',
+      _id: '',
+    }
     if (!token) {
       loading.value = false
       return
@@ -75,7 +78,7 @@ async function login() {
       showClose: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-    }).then(() => reset_and_login(id, token)).catch(() => {
+    }).then(() => reset_and_login(_id, token)).catch(() => {
       loading.value = false
     })
     return
