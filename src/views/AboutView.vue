@@ -14,7 +14,7 @@ header.setHeader(t('nav.about'))
       <ElResult
         icon="info"
         title="ZVMS 4"
-        sub-title="v4.1.6.2.20251013"
+        sub-title="v4.1.6.3.20251015"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
