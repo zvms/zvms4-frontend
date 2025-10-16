@@ -65,7 +65,7 @@ const navs: Array<{
     icon: CirclePlusFilled,
     name: 'create',
     path: '/activity/create',
-    show: user.position.filter((x) => x !== 'student').length > 0,
+    show: user.position.includes('admin') || user.position.includes('department'),
     judge: (path) => path.startsWith('/activity/create')
   },
   {
