@@ -64,7 +64,7 @@ export async function modifyPasswordDialogs(
     throw new Error('Authorization canceled')
   }
   const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
   )
   const input = await ElMessageBox.prompt(
     locales['zh-CN'].password.message,

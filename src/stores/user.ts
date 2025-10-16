@@ -40,7 +40,7 @@ export const useUserStore = defineStore('user', {
     },
     async setUser(user: string, password: string) {
       const strongPasswordValidator = new RegExp(
-        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
       )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {

@@ -46,7 +46,7 @@ async function login() {
     return
   }
   const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
   )
   if (!strongPasswordValidator.test(password.value)) {
     loading.value = true
@@ -120,13 +120,13 @@ watch(user, async () => {
     <ElCard class="login-field text-center px-4 w-full" shadow="hover" style="flex-grow: 0;">
       <ElRow class="w-full py-1">
         <ElCol :span="8" />
-        <ElCol :span="6">
+        <ElCol :span="8">
           <p class="text-2xl py-1 pl-8" style="text-align: center">
             {{ t('nav.login.actions.login') }}
           </p>
         </ElCol>
-        <ElCol :span="10">
-          <p class="align-right motto" style="text-align: right">{{ t('nav.login.motto') }}</p>
+        <ElCol :span="8">
+          <!--<p class="align-right motto" style="text-align: right">{{ t('nav.login.motto') }}</p>-->
         </ElCol>
       </ElRow>
       <ElForm ref="loginfield" label-position="right" label-width="48px">
@@ -138,8 +138,6 @@ watch(user, async () => {
             clearable
             type="number"
             class="w-full"
-            :min="8"
-            :max="8"
           />
         </ElFormItem>
         <ElFormItem :label="t('nav.login.form.password')" prop="password" class="py-1">

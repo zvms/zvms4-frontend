@@ -123,8 +123,8 @@ watch(
 // force insecure sessions to log out
 const security = ref(Number(localStorage.getItem('security') || '0') - 0)
 
-if (security.value < 2) {
-  security.value = 2
+if (security.value < 3) {
+  security.value = 3
   localStorage.setItem('security', '' + security.value)
   userStore.removeUser()
   router.replace('/user/login')
