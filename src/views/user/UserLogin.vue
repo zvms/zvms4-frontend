@@ -46,7 +46,7 @@ async function login() {
     return
   }
   const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,14}$'
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
   )
   if (!strongPasswordValidator.test(password.value)) {
     loading.value = true
