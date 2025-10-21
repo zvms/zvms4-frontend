@@ -49,10 +49,6 @@ window.oncontextmenu = (e) => {
 
 const { t, locale } = useI18n()
 
-function getLocale(ident: string) {
-  return zhCn
-}
-
 const langPack = ref(zhCn)
 
 const route = useRoute()
@@ -123,8 +119,8 @@ watch(
 // force insecure sessions to log out
 const security = ref(Number(localStorage.getItem('security') || '0') - 0)
 
-if (security.value < 3) {
-  security.value = 3
+if (security.value < 4) {
+  security.value = 4
   localStorage.setItem('security', '' + security.value)
   userStore.removeUser()
   router.replace('/user/login')

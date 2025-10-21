@@ -206,9 +206,9 @@ const appending = ref<ActivityMember>({
 const loading = ref<string | 'add'>('')
 const openBatchImportWindow = ref(false)
 
-const isOnlyMonitor = user.position.includes('secretary') && user.position.length === 2
+const isOnlyMonitor = ref(false)
 
-const selectedClassID = ref(isOnlyMonitor ? user.class_id : '')
+const selectedClassID = ref(isOnlyMonitor.value ? user.class_id : '')
 
 const memberFunctions = {
   async add() {
@@ -374,8 +374,7 @@ watch(search, refreshMembers)
             fixed="right"
             v-if="
               (user.position.includes('admin') ||
-                user.position.includes('department') ||
-                user.position.includes('secretary')) &&
+                user.position.includes('department')) &&
               !wholesale &&
               !selectable
             "
@@ -389,8 +388,7 @@ watch(search, refreshMembers)
                 v-if="
                   (user._id === activity.creator ||
                     user.position.includes('admin') ||
-                    user.position.includes('department') ||
-                    user.position.includes('secretary')) &&
+                    user.position.includes('department')) &&
                   !wholesale
                 "
                 :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
@@ -406,7 +404,7 @@ watch(search, refreshMembers)
                     text
                     bg
                     type="success"
-                    @click="showAddPopover = true"
+                    @click="openBatchImportWindow = true"
                   >
                     {{ t('activity.member.dialog.actions.add') }}
                   </ElButton>
