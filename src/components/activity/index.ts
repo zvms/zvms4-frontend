@@ -16,8 +16,7 @@ export function permissions(positions: UserPosition[]) {
   function upperStudent(positions: UserPosition[]) {
     const result =
       positions.includes('admin') ||
-      positions.includes('department') ||
-      positions.includes('secretary')
+      positions.includes('department')
         ? true
         : false
     return result

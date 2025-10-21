@@ -208,14 +208,14 @@ async function insertUserPast() {
       </ElDescriptions>
       <ZUserTimeJudge
         class="py-2"
-        v-if="userStore.position.includes('department') || userStore.position.includes('admin') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id"
+        v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
         :user="id"
         discount
       />
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id)
+          (userStore.position.includes('admin') || userStore.position.includes('department'))
         "
         text
         bg
@@ -227,7 +227,7 @@ async function insertUserPast() {
       </ElButton>
       <ElButton
         v-if="
-          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id) &&
+          (userStore.position.includes('admin') || userStore.position.includes('department')) &&
           id &&
           id !== userStore._id &&
           mode === 'card'
