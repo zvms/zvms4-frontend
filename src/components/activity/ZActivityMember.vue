@@ -78,7 +78,12 @@ async function resetMemberPassword() {
   const user = person.value
   const password = user?.id?.toString()
   if (password) {
-    const token = await temporaryToken(userStore._id)
+    const token = await temporaryToken(userStore._id).catch(() => {
+      loading2.value = false
+    })
+    if (!token) {
+      return
+    }
     await api.user.password.put(id.value, password, token, true).then(() => {
       ElNotification({
         title: '密码重置成功',
@@ -208,14 +213,14 @@ async function insertUserPast() {
       </ElDescriptions>
       <ZUserTimeJudge
         class="py-2"
-        v-if="userStore.position.includes('department') || userStore.position.includes('admin')"
+        v-if="userStore.position.includes('department') || userStore.position.includes('admin') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id"
         :user="id"
         discount
       />
       <ElButton
         v-if="
           mode === 'button' &&
-          (userStore.position.includes('admin') || userStore.position.includes('department'))
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id)
         "
         text
         bg
@@ -227,7 +232,7 @@ async function insertUserPast() {
       </ElButton>
       <ElButton
         v-if="
-          (userStore.position.includes('admin') || userStore.position.includes('department')) &&
+          (userStore.position.includes('admin') || userStore.position.includes('department') || userStore.position.includes('secretary') && person?.group[0] === userStore.class_id) &&
           id &&
           id !== userStore._id &&
           mode === 'card'
