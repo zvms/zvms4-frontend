@@ -271,8 +271,11 @@ async function addMembers_() {
     duration: appendingDuration.value,
     mode: appendingMode.value
   })) as ActivityMember[]
-  const result = await api.activity.member.insertMany(activity.value._id, data)
-  return result
+  await api.activity.member.insertMany(activity.value._id, data)
+  showAddPopover.value = false
+  openBatchImportWindow.value = false
+  loading.value = ''
+  await refreshMembers()
 }
 
 async function addMembers() {
@@ -543,7 +546,7 @@ watch(search, refreshMembers)
                       bg
                       type="success"
                       :icon="ArrowRight"
-                      @click="addMembers"
+                      @click="addMembers_"
                       :loading="loading === 'add'"
                       :disabled="
                         (!addedUsers.length && !usersSelected.length) ||
