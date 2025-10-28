@@ -258,6 +258,23 @@ const show = ref(false)
 
 show.value = true
 
+async function addMembers_() {
+  modified.value = true
+  loading.value = 'add'
+  const target = addedUsers.value.map((x) => x._id)
+  target.push(...usersSelected.value.map((x) => x.member))
+  const data = target.map((mem) => ({
+    _id: '',
+    member: mem.toString(),
+    activity: activity.value._id,
+    status: 'effective',
+    duration: appendingDuration.value,
+    mode: appendingMode.value
+  })) as ActivityMember[]
+  const result = await api.activity.member.insertMany(activity.value._id, data)
+  return result
+}
+
 async function addMembers() {
   modified.value = true
   loading.value = 'add'
