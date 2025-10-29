@@ -258,6 +258,26 @@ const show = ref(false)
 
 show.value = true
 
+async function addMembers_() {
+  modified.value = true
+  loading.value = 'add'
+  const target = addedUsers.value.map((x) => x._id)
+  target.push(...usersSelected.value.map((x) => x.member))
+  const data = target.map((mem) => ({
+    _id: '',
+    member: mem.toString(),
+    activity: activity.value._id,
+    status: 'effective',
+    duration: appendingDuration.value,
+    mode: appendingMode.value
+  })) as ActivityMember[]
+  await api.activity.member.insertMany(activity.value._id, data)
+  showAddPopover.value = false
+  openBatchImportWindow.value = false
+  loading.value = ''
+  await refreshMembers()
+}
+
 async function addMembers() {
   modified.value = true
   loading.value = 'add'
@@ -381,206 +401,135 @@ watch(search, refreshMembers)
             class="no-print"
           >
             <template #header>
-              <ElPopover
-                width="384px"
-                placement="right"
-                trigger="click"
-                v-if="
-                  (user._id === activity.creator ||
-                    user.position.includes('admin') ||
-                    user.position.includes('department')) &&
-                  !wholesale
+              <ZButtonOrCard
+                mode="button"
+                pop-type="drawer"
+                fullscreen
+                v-model:open="openBatchImportWindow"
+                width="100%"
+                size="small"
+                :icon="Plus"
+                round
+                v-loading="batchWindowLoading"
+                type="success"
+                :title="
+                  t('activity.member.dialog.actions.title', {
+                    activity: activity.name || t('activity.form.unnamed')
+                  })
                 "
-                :title="t('activity.member.dialog.actions.title', { activity: activity.name })"
-                class="no-print"
               >
-                <template #reference>
-                  <ElButton
-                    mode="button"
-                    pop-type="dialog"
-                    size="small"
-                    :icon="Plus"
-                    round
-                    text
-                    bg
-                    type="success"
-                    @click="openBatchImportWindow = true"
-                  >
-                    {{ t('activity.member.dialog.actions.add') }}
-                  </ElButton>
+                <template #text>
+                  {{ t('activity.member.dialog.actions.add') }}
                 </template>
-                <ZButtonOrCard
-                  mode="button"
-                  pop-type="drawer"
-                  fullscreen
-                  v-model:open="openBatchImportWindow"
-                  width="100%"
-                  size="default"
-                  class="w-full"
-                  :icon="Merge"
-                  :round="false"
-                  v-loading="batchWindowLoading"
-                  type="warning"
-                  :title="
-                    t('activity.member.dialog.actions.title', {
-                      activity: activity.name || t('activity.form.unnamed')
-                    })
-                  "
-                >
-                  <template #text>
-                    {{ t('activity.batch.batch_import') }}
-                  </template>
-                  <ElForm>
-                    <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
-                      <ElSegmented v-model="batchOrigin" :options="batchOriginTags" />
-                    </ElFormItem>
-                    <ElFormItem
-                      :label="t('activity.batch.batch.classid')"
-                      v-if="!isOnlyMonitor && batchOrigin === '从列表选择'"
-                    >
-                      <ZSelectClass v-model="selectedClassID" clearable />
-                    </ElFormItem>
-                    <ElFormItem
-                      :label="t('activity.batch.batch.members')"
-                      class="w-full"
-                      v-if="batchOrigin === '手动粘贴或输入名单 / 学号'"
-                    >
-                      <ElInput
-                        v-model="pastedContent"
-                        type="textarea"
-                        autosize
-                        @blur="parsePastedContent"
-                      />
-                    </ElFormItem>
-                    <ElFormItem
-                      label="Activity Name"
-                      v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
-                    >
-                      <ElSelect
-                        :remote-method="searchActivity"
-                        class="w-full"
-                        filterable
-                        remote
-                        reserve-keyword
-                        v-model="activitySearch"
-                        :loading="searchActivityLoading"
-                      >
-                        <ElOption
-                          v-for="activity in activitySearchResult"
-                          :key="activity.value"
-                          :label="activity.label"
-                          :value="activity.value"
-                        />
-                      </ElSelect>
-                    </ElFormItem>
-                    <ElFormItem
-                      label="Activity Members"
-                      v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
-                    >
-                      <ZActivityMemberList
-                        v-if="activitySelected"
-                        :activity="activitySelected"
-                        :members-count="activitySelectedMembersCount"
-                        selectable
-                        class="w-full"
-                        v-model="usersSelected"
-                        mode="card"
-                      />
-                      {{ usersSelected.length }} students selected.
-                    </ElFormItem>
-                    <ElFormItem
-                      :label="t('activity.batch.batch.members')"
-                      class="w-full"
-                      v-if=" batchOrigin === '从列表选择'"
-                    >
-                      <!-- @vue-ignore -->
-                      <ZGroupUserList
-                        class="w-full"
-                        :id="selectedClassID"
-                        selectable
-                        :selector-callback="selectorCallback"
-                        v-model="addedUsers"
-                      />
-                      <p class="py-0.5">
-                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
-                      </p>
-                    </ElFormItem>
-                    <p class="py-0.5" v-else>
-                        {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
-                    </p>
-                    <ElFormItem :label="t('activity.batch.batch.mode')">
-                      <!-- @vue-ignore -->
-                      <ZSelectActivityMode
-                        v-model="appendingMode"
-                        :allow="getAllowed()"
-                        class="w-full"
-                      />
-                    </ElFormItem>
-                    <ElFormItem :label="t('activity.batch.batch.duration')">
-                      <ZInputDuration v-model="appendingDuration" class="w-full" />
-                    </ElFormItem>
-                  </ElForm>
-                  <div style="text-align: right">
-                    <ElButton
-                      text
-                      bg
-                      type="success"
-                      :icon="ArrowRight"
-                      @click="addMembers"
-                      :loading="loading === 'add'"
-                      :disabled="
-                        (!addedUsers.length && !usersSelected.length) ||
-                        !appendingMode ||
-                        appendingDuration <= 0 ||
-                        appendingDuration > 30
-                      "
-                    >
-                      {{ t('activity.member.dialog.actions.add') }}
-                    </ElButton>
-                  </div>
-                </ZButtonOrCard>
-                <ElDivider>{{ t('activity.batch.or') }}</ElDivider>
                 <ElForm>
-                  <ElFormItem :label="t('activity.batch.manual.member')">
-                    <ZSelectPerson
-                      full-width
-                      v-model="appending.member"
-                      :filter-start="6"
-                    ></ZSelectPerson>
+                  <ElFormItem :label="t('activity.batch.batch.classid')" v-if="!isOnlyMonitor">
+                    <ElSegmented v-model="batchOrigin" :options="batchOriginTags" />
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.batch.manual.mode')">
+                  <ElFormItem
+                    :label="t('activity.batch.batch.classid')"
+                    v-if="!isOnlyMonitor && batchOrigin === '从列表选择'"
+                  >
+                    <ZSelectClass v-model="selectedClassID" clearable />
+                  </ElFormItem>
+                  <ElFormItem
+                    :label="t('activity.batch.batch.members')"
+                    class="w-full"
+                    v-if="batchOrigin === '手动粘贴或输入名单 / 学号'"
+                  >
+                    <ElInput
+                      v-model="pastedContent"
+                      type="textarea"
+                      autosize
+                      @blur="parsePastedContent"
+                    />
+                  </ElFormItem>
+                  <ElFormItem
+                    label="Activity Name"
+                    v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
+                  >
+                    <ElSelect
+                      :remote-method="searchActivity"
+                      class="w-full"
+                      filterable
+                      remote
+                      reserve-keyword
+                      v-model="activitySearch"
+                      :loading="searchActivityLoading"
+                    >
+                      <ElOption
+                        v-for="activity in activitySearchResult"
+                        :key="activity.value"
+                        :label="activity.label"
+                        :value="activity.value"
+                      />
+                    </ElSelect>
+                  </ElFormItem>
+                  <ElFormItem
+                    label="Activity Members"
+                    v-if="!isOnlyMonitor && batchOrigin === 'From Past Activities'"
+                  >
+                    <ZActivityMemberList
+                      v-if="activitySelected"
+                      :activity="activitySelected"
+                      :members-count="activitySelectedMembersCount"
+                      selectable
+                      class="w-full"
+                      v-model="usersSelected"
+                      mode="card"
+                    />
+                    {{ usersSelected.length }} students selected.
+                  </ElFormItem>
+                  <ElFormItem
+                    :label="t('activity.batch.batch.members')"
+                    class="w-full"
+                    v-if=" batchOrigin === '从列表选择'"
+                  >
+                    <!-- @vue-ignore -->
+                    <ZGroupUserList
+                      class="w-full"
+                      :id="selectedClassID"
+                      selectable
+                      :selector-callback="selectorCallback"
+                      v-model="addedUsers"
+                    />
+                    <p class="py-0.5">
+                      {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
+                    </p>
+                  </ElFormItem>
+                  <p class="py-0.5" v-else>
+                      {{ t('activity.batch.batch.selected', { count: addedUsers.length }) }}
+                  </p>
+                  <ElFormItem :label="t('activity.batch.batch.mode')">
                     <!-- @vue-ignore -->
                     <ZSelectActivityMode
-                      v-model="appending.mode"
+                      v-model="appendingMode"
                       :allow="getAllowed()"
                       class="w-full"
                     />
                   </ElFormItem>
-                  <ElFormItem :label="t('activity.batch.manual.duration')">
-                    <ZInputDuration v-model="appending.duration" class="w-full" />
+                  <ElFormItem :label="t('activity.batch.batch.duration')">
+                    <ZInputDuration v-model="appendingDuration" class="w-full" />
                   </ElFormItem>
-                  <div style="text-align: right">
-                    <ElButton
-                      :disabled="
-                        appending?.member === '' ||
-                        appending?.duration <= 0 ||
-                        appending?.duration > 30 ||
-                        members?.find(
-                          (x) => x._id === appending.member && x.mode === appending.mode
-                        ) !== undefined
-                      "
-                      text
-                      bg
-                      type="success"
-                      @click="memberFunctions.add"
-                      :icon="ArrowRight"
-                      :loading="loading === 'add'"
-                    >
-                      {{ t('activity.member.dialog.actions.add') }}
-                    </ElButton>
-                  </div>
                 </ElForm>
-              </ElPopover>
+                <div style="text-align: right">
+                  <ElButton
+                    text
+                    bg
+                    type="success"
+                    :icon="ArrowRight"
+                    @click="addMembers_"
+                    :loading="loading === 'add'"
+                    :disabled="
+                      (!addedUsers.length && !usersSelected.length) ||
+                      !appendingMode ||
+                      appendingDuration <= 0 ||
+                      appendingDuration > 30
+                    "
+                  >
+                    {{ t('activity.member.dialog.actions.add') }}
+                  </ElButton>
+                </div>
+              </ZButtonOrCard>
             </template>
             <template #default="scope">
               <ElPopconfirm
