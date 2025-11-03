@@ -39,14 +39,11 @@ export const useUserStore = defineStore('user', {
       this.position = await getUserPositions(user)
     },
     async setUser(user: string, password: string) {
-      const strongPasswordValidator = new RegExp(
-        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
-      )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(result._id)) as User
         await this.setUserInformation(information)
-        if (!strongPasswordValidator.test(password)) {
+        if (!this.validatePasswordStrength(password)) {
           this.shouldResetPassword = true
         }
         this.isLogin = true
@@ -103,13 +100,31 @@ export const useUserStore = defineStore('user', {
       this.time.socialPractice = time.socialPractice
     },
     relatedGroup(group: string): boolean {
-      console.log(this.position)
       if (this.position.includes('admin') || this.position.includes('department')) {
         return true
       } else if (this.position.includes('secretary')) {
         return group === this.class_id
       } else return false
-    }
+    },
+    validatePasswordStrength(pwd: string): boolean {
+      let strength = 0
+      if (/^[ -\x7e]{8,14}/.test(pwd)) {
+        return false
+      }
+      if (/^(?=.*[a-z])/.test(pwd)) {
+        strength += 1
+      }
+      if (/^(?=.*[A-Z])/.test(pwd)) {
+        strength += 1
+      }
+      if (/^(?=.*[0-9])/.test(pwd)) {
+        strength += 1
+      }
+      if (/^(?=.*[^a-zA-Z0-9])/.test(pwd)) {
+        strength += 1
+      }
+      return strength >= 3
+    },
   },
   persist: {
     storage: localStorage

@@ -29,7 +29,7 @@ const locales: Record<
       message: '请输入新密码',
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      inputErrorMessage: '密码至少8位，至多14位，且至少包含一个大写字母，一个小写字母，一个数字和一个特殊字符'
+      inputErrorMessage: '密码至少8位，至多14位，且至少包含大/小写字母，数字和特殊字符中的3种'
     },
     password_confirm: {
       title: '修改密码',
@@ -59,20 +59,36 @@ export async function modifyPasswordDialogs(
   caller: (a: string, b: string) => Promise<void>,
   token_?: string
 ) {
+    function validatePasswordStrength(pwd: string): boolean {
+      let strength = 0
+    if (/^[ -\x7e]{8,14}/.test(pwd)) {
+      return false
+    }
+    if (/^(?=.*[a-z])/.test(pwd)) {
+      strength += 1
+    }
+    if (/^(?=.*[A-Z])/.test(pwd)) {
+      strength += 1
+    }
+    if (/^(?=.*[0-9])/.test(pwd)) {
+      strength += 1
+    }
+    if (/^(?=.*[^a-zA-Z0-9])/.test(pwd)) {
+      strength += 1
+    }
+    return strength >= 3
+  }
   const token = token_ || (await temporaryToken(user))
   if (!token) {
     throw new Error('Authorization canceled')
   }
-  const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
-  )
   const input = await ElMessageBox.prompt(
     locales['zh-CN'].password.message,
     locales['zh-CN'].password.title,
     {
       confirmButtonText: locales['zh-CN'].password.confirmButtonText,
       cancelButtonText: locales['zh-CN'].password.cancelButtonText,
-      inputValidator: (ipt: string) => strongPasswordValidator.test(ipt),
+      inputValidator: validatePasswordStrength,
       inputType: 'password',
       inputErrorMessage: locales['zh-CN'].password.inputErrorMessage,
       showClose: false,
