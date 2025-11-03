@@ -45,10 +45,7 @@ async function login() {
   if (loading.value || password.value === '' || String(user.value).length !== 8) {
     return
   }
-  const strongPasswordValidator = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
-  )
-  if (!strongPasswordValidator.test(password.value)) {
+  if (!userStore.validatePasswordStrength(password.value)) {
     loading.value = true
     
     const id = user.value
