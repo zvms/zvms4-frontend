@@ -64,7 +64,7 @@ async function login() {
         'p',
         null,
         [
-          h('span', null, '为防止您的账号被盗，您必须修改密码以保护您的账号。'),
+          h('span', null, '为确保您的账号安全，'),
           h('strong', null, '您必须修改密码后才能继续使用本系统。')
         ]
       ),
