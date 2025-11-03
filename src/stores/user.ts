@@ -91,8 +91,6 @@ export const useUserStore = defineStore('user', {
         type: 'success'
       })
       await this.removeUser()
-      // const router = useRouter()
-      // await router.replace('/user/login')
     },
     setTime(time: { onCampus: number; offCampus: number; socialPractice: number }) {
       this.time.onCampus = time.onCampus
@@ -108,7 +106,7 @@ export const useUserStore = defineStore('user', {
     },
     validatePasswordStrength(pwd: string): boolean {
       let strength = 0
-      if (/^[ -\x7e]{8,14}/.test(pwd)) {
+      if (!(/^[ -\x7e]{8,14}/.test(pwd))) {
         return false
       }
       if (/^(?=.*[a-z])/.test(pwd)) {
