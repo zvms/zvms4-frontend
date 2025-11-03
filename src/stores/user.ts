@@ -39,14 +39,11 @@ export const useUserStore = defineStore('user', {
       this.position = await getUserPositions(user)
     },
     async setUser(user: string, password: string) {
-      const strongPasswordValidator = new RegExp(
-        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[ -}]{8,14}$'
-      )
       const result = await api.user.auth.useLongTermAuth(user, password)
       if (result) {
         const information = (await api.user.readOne(result._id)) as User
         await this.setUserInformation(information)
-        if (!strongPasswordValidator.test(password)) {
+        if (!this.validatePasswordStrength(password)) {
           this.shouldResetPassword = true
         }
         this.isLogin = true
