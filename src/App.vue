@@ -59,7 +59,7 @@ const headerStore = useHeaderStore()
 async function resetPassword() {
   if (userStore.shouldResetPassword) {
     const messages = {
-      'zh-CN': '、',
+      'zh-CN': '',
       'en-US': ''
     }
     const advice = {
@@ -67,7 +67,7 @@ async function resetPassword() {
       'en-US': ''
     }
     const threaten = {
-      'zh-CN': '、',
+      'zh-CN': '',
       'en-US': ''
     }
     await ElMessageBox({
