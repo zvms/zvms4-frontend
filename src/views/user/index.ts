@@ -61,7 +61,7 @@ export async function modifyPasswordDialogs(
 ) {
     function validatePasswordStrength(pwd: string): boolean {
       let strength = 0
-    if (!/^[ -\x7e]{8,14}/.test(pwd)) {
+    if (!/^[ -\x7e]{8,14}$/.test(pwd)) {
       return false
     }
     if (/^(?=.*[a-z])/.test(pwd)) {
