@@ -148,6 +148,10 @@ watch(
 
 function embedClarity() {
 
+  if ('xhBrowserJava' in window) {
+    return
+  }
+
   type ClarityFunction = {
     (config: { [key: string]: unknown }): void
     q?: IArguments[]
