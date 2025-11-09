@@ -146,9 +146,21 @@ watch(
   }
 )
 
+// Function to get the value of a specific cookie
+function getCookieValue(cookieName: string) {
+  const cookies = document.cookie.split('; ')
+  for (const cookie of cookies) {
+    const [name, value] = cookie.split('=')
+    if (name === cookieName) {
+      return value
+    }
+  }
+  return null
+}
+
 function embedClarity() {
 
-  if ('xhBrowserJava' in window) {
+  if (('xhBrowserJava' in window) &&      getCookieValue('_clck')) {
     return
   }
 
