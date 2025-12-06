@@ -300,6 +300,7 @@ export const zhCN = {
         status: '修改义工 {activity} 的状态',
         effective: '批准',
         refused: '拒绝',
+        pending: '打回重审',
         confirm: '请确认对义工状态的修改'
       },
       refresh: '刷新'
@@ -346,7 +347,7 @@ export const zhCN = {
     title: '状态',
     pending: '审核中',
     effective: '有效',
-    refused: '拒绝'
+    refused: '无效'
   },
   member: {
     name: '姓名',

@@ -230,7 +230,7 @@ const memberFunctions = {
 }
 
 watch(open, () => {
-  refreshMembers()
+  // refreshMembers()
   if (open.value) {
     modified.value = false
   }
@@ -359,7 +359,6 @@ watch(search, refreshMembers)
     round
     type="danger"
     :button-loading="pageLoading"
-    @click="refreshMembers"
     :title="t('activity.member.dialog.title', { name: activity.name })"
   >
     <template #text> {{ size }} {{ t('activity.units.person', membersCount) }} </template>
