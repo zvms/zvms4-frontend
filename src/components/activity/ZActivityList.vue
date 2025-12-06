@@ -277,7 +277,7 @@ watch(isPointerSwiping, (swiping) => {
               :status="row?.status"
               :status-modifiable="
                 user.position.includes('admin') ||
-                user.position.includes('department')
+                (user.position.includes('department') && row?.status == 'pending')
               "
               :activity="row"
               :refresh="refresh"
