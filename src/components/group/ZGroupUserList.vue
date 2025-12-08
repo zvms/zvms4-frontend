@@ -59,15 +59,19 @@ watch(height, () => {
 })
 
 onMounted(() => {
-  api.group.readOne(id.value).then((res) => {
-    group.value = res
-  })
+  if (id.value) {
+    api.group.readOne(id.value).then((res) => {
+      group.value = res
+    })
+  }
 })
 
 watch(id, () => {
-  api.group.readOne(id.value).then((res) => {
-    group.value = res
-  })
+  if (id.value) {
+    api.group.readOne(id.value).then((res) => {
+      group.value = res
+    })
+  }
 })
 
 const refresh = () => {

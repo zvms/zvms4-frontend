@@ -40,10 +40,10 @@ const { type, size, activity, callWhenModify } = toRefs(props)
 
 const effective = type?.value in classifications.member
 
-const results: ('effective' | 'refused')[] = ['refused', 'effective']
+const results: (Activity['status'])[] = ['refused', 'pending', 'effective']
 const visible = ref(false)
 
-async function modify(status: 'effective' | 'refused') {
+async function modify(status: Activity['status']) {
   if (!activity?.value) return
   if (!activity?.value?._id) return
   if (callWhenModify.value) {
@@ -61,7 +61,7 @@ const divider = h(ElDivider, { direction: 'vertical' })
 
 <template>
   <ZButtonTag
-    v-if="!modifiable || type !== 'pending'"
+    v-if="!modifiable"
     :size="size ?? 'small'"
     :type="classifications.member[type].color"
     :icon="classifications.member[type].icon"
@@ -82,12 +82,12 @@ const divider = h(ElDivider, { direction: 'vertical' })
     <template #reference>
       <ZButtonTag
         :size="size"
-        :type="classifications.member.pending.color"
-        :icon="classifications.member.pending.icon"
+        :type="classifications.member[type].color"
+        :icon="classifications.member[type].icon"
         force="full"
         :bg="bg"
       >
-        {{ t('activity.status.pending') }}
+        {{ t('activity.status.' + type) }}
       </ZButtonTag>
     </template>
     <div class="flex justify-end py-1">
