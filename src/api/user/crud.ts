@@ -79,7 +79,7 @@ async function putUser(
   const result = (
     await axios({
       method: create ? 'post' : 'put',
-      url: `/users/${target}`,
+      url: create ? '/users' : `/users/${target}`,
       data: { name, group, id, sex: 'unknown', past: [] },
       headers: {
         Authorization: 'Bearer ' + token
