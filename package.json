@@ -38,7 +38,7 @@
     "dompurify": "^3.2.6",
     "oxlint": "^1.6.0",
     "pinia": "^3.0.3",
-    "pnpm": "^10.12.4",
+    "pnpm": "^10.27.0",
     "socket.io-client": "^4.8.1",
     "ua-parser-js": "^2.0.4",
     "universal-cookie": "^8.0.1",
@@ -116,7 +116,7 @@
     "vite-plugin-vue-devtools": "7.7.7",
     "vitepress": "1.6.3",
     "vitest": "^3.2.4",
-    "vue-i18n": "^11.1.9",
+    "vue-i18n": "^11.2.8",
     "vue-tsc": "^3.0.1"
   },
   "config": {
