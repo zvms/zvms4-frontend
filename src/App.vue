@@ -160,7 +160,7 @@ function getCookieValue(cookieName: string) {
 
 function embedClarity() {
 
-  if (('xhBrowserJava' in window) &&      getCookieValue('_clck')) {
+  if (('xhBrowserJava' in window)) {
     return
   }
 
