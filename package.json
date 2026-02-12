@@ -38,7 +38,7 @@
     "dompurify": "^3.2.6",
     "oxlint": "^1.6.0",
     "pinia": "^3.0.3",
-    "pnpm": "^10.27.0",
+    "pnpm": "^10.28.2",
     "socket.io-client": "^4.8.1",
     "ua-parser-js": "^2.0.4",
     "universal-cookie": "^8.0.1",
