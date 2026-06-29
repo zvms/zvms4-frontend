@@ -11,7 +11,7 @@ const props = withDefaults(
   defineProps<{
     _id: string
     userSession?: string
-    mode?: 'mine' | 'class' | 'campus' | 'register'
+    mode?: 'mine' | 'class' | 'campus'
     perspective?: string // `mine` with other's user ObjectId
     showDetails?: boolean
     local?: boolean

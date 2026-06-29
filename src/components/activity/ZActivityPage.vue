@@ -24,6 +24,7 @@ import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from '@/plugins/dayjs'
 import api from '@/api'
+import { ZActivityDetails } from '.'
 
 const user = useUserStore()
 const router = useRouter()
@@ -94,7 +95,12 @@ watch(height, () => {
         {{ activity.name }}
       </template>
     </ElPageHeader>
-    <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
+    <ZActivityDetails
+      :activity="activity"
+      mode="campus"
+      :members-count="membersCount"
+    />
+    <!--<p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
       {{ activity?.description }}
     </p>
     <ElDescriptions
@@ -125,7 +131,7 @@ watch(height, () => {
           :members-count="membersCount"
         />
       </ElDescriptionsItem>
-    </ElDescriptions>
+    </ElDescriptions>-->
     <ElDescriptions
       v-if="mine"
       border
@@ -134,17 +140,6 @@ watch(height, () => {
       :direction="vert ? 'vertical' : 'horizontal'"
       :column="vert ? 2 : undefined"
     >
-      <ElDescriptionsItem :label="t('activity.registration.status.title')">
-        <ZActivityStatus
-          force="full"
-          :type="mine?.status ?? 'effective'"
-          :bg="false" 
-          :modifiable="
-            user.position.includes('admin') ||
-            user.position.includes('department')
-          "
-        />
-      </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.duration')">
         <ElButton :icon="Timer" type="info" text round size="small">
           {{ mine?.duration ?? 0 }} h
