@@ -13,14 +13,12 @@ import {
   ElPageHeader,
   ElButton,
   ElButtonGroup,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
   ElDescriptions,
   ElDescriptionsItem
 } from 'element-plus'
 import { ArrowLeft, ArrowRight, Clock, Location, Plus, Timer, Edit } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
-import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
+import { StreamlineUserEdit } from '@/icons'
 import { useRouter } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -120,11 +118,6 @@ watch(height, () => {
           dayjs(activity?.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem v-if="activity?.place" :label="t('activity.registration.location')">
-        <ElButton round size="small" :icon="Location" text type="info">
-          {{ activity?.place }}
-        </ElButton>
-      </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person')" v-if="activity">
         <ZActivityMemberList
           class="px-2"
@@ -170,9 +163,7 @@ watch(height, () => {
     <div class="py-2 flex justify-end">
       <ZActivityMember
         :id="activity?.creator ?? ''"
-        :icon="
-          StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
-        "
+        :icon="StreamlineUserEdit"
       />
       <ElButtonGroup class="px-2">
         <ElButton text bg round size="small" type="success" :icon="Plus">

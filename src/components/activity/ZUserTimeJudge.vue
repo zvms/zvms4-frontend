@@ -59,7 +59,7 @@ const exceed = ref(discount.value)
 function getDiscount(on: number, exceed: number, rate: number) {
   if (on <= exceed) return 0
   const result = Math.round((on - exceed) / rate)
-  return result > 6 ? 6 : result
+  return result
 }
 
 base.onCampus = onCampus.value

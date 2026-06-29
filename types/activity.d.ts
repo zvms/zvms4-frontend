@@ -27,7 +27,7 @@ export interface ActivityMember {
 
 export type ActivityType = Activity['type']
 
-export type CreateActivityType = 'normal' | 'special' | 'merge' | 'upload'
+export type CreateActivityType = 'normal' |'upload'
 
 export type MemberActivityStatus = ActivityMember['status']
 

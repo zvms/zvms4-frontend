@@ -58,17 +58,8 @@ const headerStore = useHeaderStore()
 
 async function resetPassword() {
   if (userStore.shouldResetPassword) {
-    const messages = {
-      'zh-CN': '',
-      'en-US': ''
-    }
     const advice = {
-      'zh-CN': '您必须修改密码',
-      'en-US': ''
-    }
-    const threaten = {
-      'zh-CN': '',
-      'en-US': ''
+      'zh-CN': '您必须修改密码'
     }
     await ElMessageBox({
       message: h(
@@ -126,11 +117,11 @@ if (security.value < 4) {
   router.replace('/user/login')
 }
 
-const watermark = reactive({
-  color: 'rgba(0, 0, 0, .05)',
-  text: '',
-  fontSize: 14
-})
+let sid = localStorage.getItem('deviceId')
+if (!sid) {
+  sid = Math.random().toString(36).substring(2, 11)
+  localStorage.setItem('deviceId', sid)
+}
 
 const dark = useDark()
 
@@ -145,49 +136,6 @@ watch(
     }
   }
 )
-
-// Function to get the value of a specific cookie
-function getCookieValue(cookieName: string) {
-  const cookies = document.cookie.split('; ')
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split('=')
-    if (name === cookieName) {
-      return value
-    }
-  }
-  return null
-}
-
-function embedClarity() {
-
-  if (('xhBrowserJava' in window)) {
-    return
-  }
-
-  type ClarityFunction = {
-    (config: { [key: string]: unknown }): void
-    q?: IArguments[]
-  }
-
-  const scriptId = 'jwc2tctpr3'
-
-  const setupClarity: ClarityFunction = (window.clarity =
-    window.clarity ||
-    function () {
-      ;(window.clarity.q = window.clarity.q || []).push(arguments)
-    })
-
-  setupClarity({})
-
-  const scriptElement: HTMLScriptElement = document.createElement('script') as HTMLScriptElement
-  scriptElement.async = true
-  scriptElement.src = `https://www.clarity.ms/tag/${scriptId}`
-
-  const firstScriptTag: HTMLScriptElement = document.getElementsByTagName(
-    'script'
-  )[0] as HTMLScriptElement
-  firstScriptTag.parentNode!.insertBefore(scriptElement, firstScriptTag)
-}
 
 locale.value = 'zh-CN'
 
@@ -215,12 +163,6 @@ const locales: Record<
     disconnected: {
       title: '连接已断开',
       message: '已加载备用缓存数据但无法进行操作。'
-    }
-  },
-  'en-US': {
-    disconnected: {
-      title: '',
-      message: ''
     }
   }
 }
@@ -258,7 +200,6 @@ watch(offlineReady, () => {
 })
 
 onMounted(() => {
-  embedClarity()
   userStore.isLogin && resetPassword()
 })
 </script>

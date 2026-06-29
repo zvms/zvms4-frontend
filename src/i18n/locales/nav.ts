@@ -1,72 +1,3 @@
-export const enUS = {
-  home: '',
-  activity: '',
-  create: '',
-  manage: '',
-  about: '',
-  logout: '',
-  reset: '',
-  language: '',
-  dark: '',
-  languages: {
-    'zh-CN': '',
-    'en-US': '',
-  },
-  pages: {
-    NotFound: {
-      title: '',
-      description: '',
-      action: {
-        back: '',
-        report: '',
-      },
-    },
-    SomethingWentWrong: {
-      title: '',
-      description: '',
-    },
-  },
-  login: {
-    actions: {
-      login: '',
-      reset: '',
-      logout: '',
-    },
-    motto: '',
-    form: {
-      account: '',
-      password: '',
-    },
-  },
-  breadcrumbs: {
-    view: {
-      home: '',
-      specific: '',
-    },
-    actions: {
-      create: '',
-      edit: '',
-      delete: '',
-      search: '',
-      filter: '',
-      sort: '',
-      refresh: '',
-    },
-    about: {
-      home: '',
-      developer: '',
-      project: '',
-      version: '',
-    },
-    settings: {
-      profile: '',
-      language: '',
-      logout: '',
-    },
-    manage: '',
-  },
-}
-
 export const zhCN = {
   home: '首页',
   activity: '义工列表',
@@ -123,7 +54,6 @@ export const zhCN = {
     },
     settings: {
       profile: '个人资料',
-      language: '',
       logout: '登出',
     },
     manage: '管理',

@@ -101,7 +101,7 @@ async function deleteActivity(id: string) {
 }
 
 const refresh = () => emits('refresh')
-
+/*
 const statistics = ref<{
   description: Record<string, number>
   layers: Array<{ value: number; count: number }>
@@ -158,6 +158,7 @@ watch(openStatistics, () => {
 
 const statTable = ['Description', 'Layers']
 const activeStatistic = ref(statTable[0])
+*/
 </script>
 
 <template>
@@ -307,23 +308,11 @@ const activeStatistic = ref(statTable[0])
       </ElCol>
       <ElCol :span="18">
         <div class="pl-4 py-2" style="text-align: right">
-          <ElButton
-            v-if="showDetails"
-            type="info"
-            :icon="Plus"
-            text
-            bg
-            round
-            size="small"
-            @click="$router.push('/activity/details/' + activity._id)"
-          >
-            {{ t('activity.form.detail') }}
-          </ElButton>
           <ElPopconfirm
             v-if="
               mode !== 'mine' &&
               !local &&
-              (user._id === activity.creator || user.position.includes('admin'))
+              (user._id === activity.creator || user.position.includes('admin') || user.position.includes('department'))
             "
             :title="t('activity.form.actions.delete.confirm')"
             width="328px"

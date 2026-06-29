@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { ElResult, ElButton, ElCard } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const router = useRouter()
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const { t } = useI18n()
         :sub-title="t('nav.pages.NotFound.description')"
       >
         <template #extra>
-          <ElButton text bg type="primary" @click="$router.push('/')">{{
+          <ElButton text bg type="primary" @click="router.push('/')">{{
             t('nav.pages.NotFound.action.back')
           }}</ElButton>
         </template>

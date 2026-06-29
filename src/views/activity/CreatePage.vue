@@ -3,8 +3,8 @@ import { useRoute } from 'vue-router'
 import { ElResult, ElCard } from 'element-plus'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ActivityType, CreateActivityType } from '@/../types'
-import { ZActivityCreate, ZActivityMerge, ZUploadFile } from '@/components'
+import type { CreateActivityType } from '@/../types'
+import { ZActivityCreate, ZUploadFile } from '@/components'
 import { useHeaderStore } from '@/stores/header'
 
 const route = useRoute()
@@ -13,11 +13,11 @@ const header = useHeaderStore()
 
 header.setHeader(t('nav.create'))
 
-const type = route.params?.type as CreateActivityType
+const type = (route.params?.type as CreateActivityType) ?? 'normal'
 
 const effective = ref(false)
 
-if (typeof type === 'string' && ['normal', 'special', 'upload', 'merge'].includes(type as string)) {
+if (typeof type === 'string' && ['normal', 'upload'].includes(type as string)) {
   effective.value = true
 }
 </script>
@@ -33,7 +33,6 @@ if (typeof type === 'string' && ['normal', 'special', 'upload', 'merge'].include
       />
     </ElCard>
     <ZUploadFile v-else-if="type === 'upload'" />
-    <ZActivityCreate v-else-if="type !== 'merge'" :type="type" />
-    <ZActivityMerge v-else />
+    <ZActivityCreate v-else :type="type" />
   </div>
 </template>

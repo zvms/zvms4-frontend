@@ -363,12 +363,11 @@ watch(search, refreshMembers)
   >
     <template #text> {{ size }} {{ t('activity.units.person', membersCount) }} </template>
     <template #default>
-      <div v-if="show">
+      <div v-if="show" v-loading="pageLoading">
         <ElTable
           :data="members"
           stripe
           :height="max"
-          v-loading="pageLoading"
           row-key="member"
           @selection-change="handleSelectionChange"
         >
