@@ -22,7 +22,6 @@ import { TablerSum } from '@/icons'
 import api from '@/api'
 import { Certificate, TableReport } from '@icon-park/vue-next'
 import { pad } from '@/plugins/ua.ts'
-import ZDetailedAnalysis from './ZDetailedAnalysis.vue'
 
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
