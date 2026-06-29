@@ -6,7 +6,6 @@ import { useI18n } from 'vue-i18n'
 import type { ActivityType, CreateActivityType, UserPosition } from '@/../types'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import classifications from '@/components/tags/classifications'
-import CreateHome from './CreateHome.vue'
 import { permissions } from '@/components/activity'
 import { useUserStore } from '@/stores/user'
 
@@ -41,7 +40,7 @@ watch(
 
 const tabs = Object.entries(classifications.create).map(([key, value]) => ({
   label: '',
-  value: key as ActivityType,
+  value: key as CreateActivityType,
   color: value.color,
   icon: value.icon
 }))
@@ -78,7 +77,7 @@ const visibility = permissions(user.position as UserPosition[])
       <template #extra>
         <ElSpace>
           <ElButton
-            v-for="button in tabs.filter((x) => visibility[x.value as CreateActivityType])"
+            v-for="button in tabs.filter((x) => visibility[x.value])"
             :key="button.value"
             @click="mov(button.value)"
             text
@@ -93,7 +92,6 @@ const visibility = permissions(user.position as UserPosition[])
         </ElSpace>
       </template>
     </ElPageHeader>
-    <RouterView v-if="show && tab" :key="tab" />
-    <CreateHome v-else-if="show && !tab" @move="mov" />
+    <RouterView v-if="show" :key="tab" />
   </div>
 </template>
