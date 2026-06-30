@@ -22,7 +22,6 @@ import { TablerSum } from '@/icons'
 import api from '@/api'
 import { Certificate, TableReport } from '@icon-park/vue-next'
 import { pad } from '@/plugins/ua.ts'
-import ZDetailedAnalysis from './ZDetailedAnalysis.vue'
 
 const { width, height } = useWindowSize()
 const userStore = useUserStore()
@@ -59,7 +58,7 @@ const exceed = ref(discount.value)
 function getDiscount(on: number, exceed: number, rate: number) {
   if (on <= exceed) return 0
   const result = Math.round((on - exceed) / rate)
-  return result > 6 ? 6 : result
+  return result
 }
 
 base.onCampus = onCampus.value

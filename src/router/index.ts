@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      redirect: '/user/login'
     },
     {
       path: '/about',
@@ -42,7 +41,7 @@ const router = createRouter({
         {
           path: '/activity/create',
           name: 'activity-create-home',
-          component: () => import('../views/activity/CreateHome.vue')
+          component: () => import('../views/activity/CreatePage.vue')
         },
         {
           path: '/activity/create/:type',
@@ -85,11 +84,6 @@ const router = createRouter({
       path: '/activity/details/:id',
       name: 'activity-view',
       component: () => import('../views/activity/ActivityPage.vue')
-    },
-    {
-      path: '/sww',
-      name: 'something-went-wrong',
-      component: () => import('../views/SomethingWrong.vue')
     },
     {
       path: '/:pathMatch(.*)*',

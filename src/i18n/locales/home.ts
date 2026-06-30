@@ -1,39 +1,3 @@
-export const enUS = {
-  greeting: '{greet}, {name}!',
-  greetings: {
-    morning: 'Morning',
-    afternoon: 'Afternoon',
-    evening: 'Evening'
-  },
-  positions: {
-    student: 'Student',
-    secretary: 'Secretary',
-    department: 'Department',
-    admin: 'Admin'
-  },
-  labels: {
-    name: 'Name',
-    number: 'Student ID',
-    class: 'Class',
-    identify: 'User Group',
-    past: 'Used Identities',
-    nonPast: 'None'
-  },
-  panels: {
-    information: {
-      title: 'Personal Information'
-    },
-    time: {
-      title: 'Activity Time',
-      discount: 'Show Discount',
-      discount_desc:
-        'According to certain rules, on-campus activity credits exceeding the baseline can convert to off-campus credits in a rate of 1/3, whereas off-campus credits exceeding the baseline can convert to on-campus credits in a rate of 1/2. Each type of credit, also called "discount," should be no more than 6 hours every mode.',
-      unit: 'Hour | Hours',
-      least: '{type}: {least} Hours at least'
-    }
-  }
-}
-
 export const zhCN = {
   greeting: '{greet}，{name}！',
   greetings: {

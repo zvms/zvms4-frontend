@@ -12,17 +12,6 @@ const props = defineProps<{
 }>()
 
 const { log } = toRefs(props)
-const loadingLookup = ref(false)
-
-const lookupResult = ref({
-  country: '',
-  region: '',
-  city: '',
-  isp: '',
-  longitude: 0,
-  latitude: 0,
-  timezone: ''
-})
 
 </script>
 
@@ -47,19 +36,6 @@ const lookupResult = ref({
         </ElFormItem>
         <ElFormItem label="Clarity ID" v-if="log.clarity">
           {{ log.clarity }}
-          <!--<ElButton
-            v-if="!pad()"
-            text
-            bg
-            round
-            size="small"
-            class="px-2"
-            tag="a"
-            target="_blank"
-            :href="`https://clarity.microsoft.com/projects/view/jwc2tctpr3/impressions?UserId=is%3B${log.clarity}&date=Last%203%20days`"
-          >
-            Track
-          </ElButton>-->
         </ElFormItem>
         <ElFormItem label="学海 ID" v-if="log.xuehai || log.xuehai_id">
           {{ log.xuehai || log.xuehai_id }}

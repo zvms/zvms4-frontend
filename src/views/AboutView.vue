@@ -13,8 +13,8 @@ header.setHeader(t('nav.about'))
     <ElCard shadow="never">
       <ElResult
         icon="info"
-        title="ZVMS 4"
-        sub-title="v4.1.11.1.20251209"
+        title="义工平台 4"
+        sub-title="v4.1.12"
       >
         <template #icon>
             <img src="/favicon.png" alt="logo" style="width: 128px; height: 128px; border-radius: .75rem;"/>
@@ -24,7 +24,7 @@ header.setHeader(t('nav.about'))
             '检查更新'
           }}</ElButton>-->
           <div style="opacity: .5;">
-            &copy; 2018-2025 | {{ t('about.footer') }} | {{ t('about.license') }}
+            &copy; 2018-2026 | {{ t('about.footer') }} | {{ t('about.license') }}
           </div>
         </template>
       </ElResult>

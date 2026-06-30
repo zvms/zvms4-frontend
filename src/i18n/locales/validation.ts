@@ -1,39 +1,3 @@
-export const enUS = {
-  create: {
-    name: {
-      required: 'Name is required.'
-    },
-    date: {
-      required: 'Date is required.',
-      format: 'Date format is invalid.'
-    },
-    classify: {
-      required: 'Origin of activity is required.'
-    },
-    upload: {
-      required: 'Upload is required.'
-    },
-    mode: {
-      required: 'Mode is required.'
-    },
-    type: {
-      required: 'Type is required.'
-    },
-    member: {
-      person: {
-        required: 'Person is required.'
-      },
-      mode: {
-        required: 'Mode is required.'
-      },
-      duration: {
-        required: 'Duration is required.',
-        invalid: 'Duration is invalid. It should be a number and greater than 0 and less than 18.'
-      }
-    }
-  }
-}
-
 export const zhCN = {
   create: {
     name: {

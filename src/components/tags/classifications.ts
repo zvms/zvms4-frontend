@@ -18,13 +18,15 @@ interface IconAndColor {
   color: 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 
-type set = 'mode' | 'status' | 'type' | 'specials' | 'member' | 'create'
+type set = 'mode' | 'status' | 'type' | 'member' | 'create'
 type typing =
   | ActivityMode
   | ActivityStatus
   | ActivityType
   | SpecialActivityClassification
   | MemberActivityStatus
+  | CreateActivityType
+  | ''
 
 export default {
   mode: {
@@ -70,10 +72,6 @@ export default {
     normal: {
       color: 'primary',
       icon: LucideWorkflow
-    },
-    merge: {
-      color: 'success',
-      icon: Merge
     },
     upload: {
       color: 'warning',

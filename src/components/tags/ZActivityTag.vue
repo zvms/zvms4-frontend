@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { toRefs } from 'vue'
+import { ref, toRefs } from 'vue'
 import { ZButtonTag } from '@/components'
 import classifications from './classifications'
 import type { TypeSet, Set } from './classifications'
@@ -17,14 +17,16 @@ const props = defineProps<{
 
 const { type, size, set } = toRefs(props)
 
+const type_ = ref(type.value as TypeSet)
+
 const effective = type?.value && type?.value in classifications[set.value]
 </script>
 
 <template>
   <ZButtonTag
     :size="size ?? 'small'"
-    :type="classifications[set][type as TypeSet].color"
-    :icon="classifications[set][type as TypeSet].icon"
+    :type="classifications[set][type_].color"
+    :icon="classifications[set][type_].icon"
     :unknown="!effective"
   >
     {{ t(i18n.replace('{type}', type ?? '')) }}

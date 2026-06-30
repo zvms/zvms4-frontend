@@ -1,38 +1,3 @@
-export const enUS = {
-  about: {
-    project: 'About ZVMS',
-    developers: 'About Developers'
-  },
-  footer:
-    'ZVMS Developer Team (from ZZDev) & Practice Department of the Student Union of Zhenhai High School',
-  license: 'MIT Licensed',
-  repository: {
-    license: 'License',
-    version: {
-      '0': 'Version',
-      '1': 'is developed by',
-      '2': '. Thanks!'
-    },
-    thank: {
-      mean: 'Meanwhile, thanks to',
-      icon: 'for providing the off-campus server, and',
-      test: 'for the brand new icon, also',
-      end: 'for his crazy robustness testing.'
-    },
-    v4More: {
-      '0': 'After the release of V4,',
-      '1': 'also participated (or participating) maintenance.'
-    }
-  },
-  privacy: {
-    title: 'Privacy Policy',
-    content:
-      'This site partners with Microsoft Clarity and Microsoft Advertising to capture how you use and interact with this site through behavioral metrics, heatmaps, and session replays to improve your browsing experience on this site. We use first and third-party cookies and other tracking technologies to obtain website usage data to determine the popularity of this site and online activities. Additionally, we use this information for political and educational management and review, website optimization, and security purposes. For more information on how Microsoft collects and uses your data, please visit the Microsoft Privacy Statement (https://privacy.microsoft.com/privacystatement).'
-  },
-  bio: 'An open-source project with long history.',
-  alternative: ''
-}
-
 export const zhCN = {
   about: {
     project: '关于 ZVMS',

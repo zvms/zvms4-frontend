@@ -13,19 +13,18 @@ import {
   ElPageHeader,
   ElButton,
   ElButtonGroup,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
   ElDescriptions,
   ElDescriptionsItem
 } from 'element-plus'
 import { ArrowLeft, ArrowRight, Clock, Location, Plus, Timer, Edit } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
-import { StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite } from '@/icons'
+import { StreamlineUserEdit } from '@/icons'
 import { useRouter } from 'vue-router'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from '@/plugins/dayjs'
 import api from '@/api'
+import { ZActivityDetails } from '.'
 
 const user = useUserStore()
 const router = useRouter()
@@ -96,7 +95,12 @@ watch(height, () => {
         {{ activity.name }}
       </template>
     </ElPageHeader>
-    <p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
+    <ZActivityDetails
+      :activity="activity"
+      mode="campus"
+      :members-count="membersCount"
+    />
+    <!--<p class="text-gray-500 dark:text-gray-400 px-4 py-2" style="white-space: pre-wrap">
       {{ activity?.description }}
     </p>
     <ElDescriptions
@@ -120,11 +124,6 @@ watch(height, () => {
           dayjs(activity?.date).format('YYYY-MM-DD HH:mm')
         }}</ElButton>
       </ElDescriptionsItem>
-      <ElDescriptionsItem v-if="activity?.place" :label="t('activity.registration.location')">
-        <ElButton round size="small" :icon="Location" text type="info">
-          {{ activity?.place }}
-        </ElButton>
-      </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.person')" v-if="activity">
         <ZActivityMemberList
           class="px-2"
@@ -132,7 +131,7 @@ watch(height, () => {
           :members-count="membersCount"
         />
       </ElDescriptionsItem>
-    </ElDescriptions>
+    </ElDescriptions>-->
     <ElDescriptions
       v-if="mine"
       border
@@ -141,17 +140,6 @@ watch(height, () => {
       :direction="vert ? 'vertical' : 'horizontal'"
       :column="vert ? 2 : undefined"
     >
-      <ElDescriptionsItem :label="t('activity.registration.status.title')">
-        <ZActivityStatus
-          force="full"
-          :type="mine?.status ?? 'effective'"
-          :bg="false" 
-          :modifiable="
-            user.position.includes('admin') ||
-            user.position.includes('department')
-          "
-        />
-      </ElDescriptionsItem>
       <ElDescriptionsItem :label="t('activity.form.duration')">
         <ElButton :icon="Timer" type="info" text round size="small">
           {{ mine?.duration ?? 0 }} h
@@ -170,9 +158,7 @@ watch(height, () => {
     <div class="py-2 flex justify-end">
       <ZActivityMember
         :id="activity?.creator ?? ''"
-        :icon="
-          StreamlineInterfaceUserEditActionsCloseEditGeometricHumanPencilPersonSingleUpUserWrite
-        "
+        :icon="StreamlineUserEdit"
       />
       <ElButtonGroup class="px-2">
         <ElButton text bg round size="small" type="success" :icon="Plus">

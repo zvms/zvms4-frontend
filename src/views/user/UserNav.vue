@@ -15,7 +15,6 @@ import type { Component as VueComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { ZSelectLanguage } from '@/components'
 import { watch } from 'vue'
 import { pad, getTabletType } from '@/plugins/ua'
 
@@ -26,10 +25,6 @@ const dark = useDark()
 const { t } = useI18n({
   useScope: 'global'
 })
-
-if (getTabletType() !== 'p615') {
-  dark.value = false
-}
 
 const path = ref(route.fullPath)
 
@@ -138,7 +133,6 @@ function routeTo(page: string) {
 <style scoped>
 .menu {
   width: 4rem;
-  min-height: v-bind(height * 0.92 + 'px');
 }
 
 .full {
