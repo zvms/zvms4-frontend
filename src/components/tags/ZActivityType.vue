@@ -4,7 +4,7 @@ import { toRefs } from 'vue'
 import type { SpecialActivityClassification, ActivityStatus } from '@/../types'
 import type { Activity } from '@/../types/v2'
 import { ZButtonTag } from '@/components'
-import { ZSpecialActivityClassify, ZActivityStatus } from '@/components'
+import { ZActivityStatus } from '@/components'
 import { ElButtonGroup } from 'element-plus'
 import classifications from './classifications'
 
