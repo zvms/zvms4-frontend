@@ -13,7 +13,7 @@ header.setHeader(t('nav.about'))
     <ElCard shadow="never">
       <ElResult
         icon="info"
-        title="义工平台 4"
+        title="义工平台 v4"
         sub-title="v4.1.12"
       >
         <template #icon>
