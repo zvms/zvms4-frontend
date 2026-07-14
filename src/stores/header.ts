@@ -3,8 +3,8 @@ import { useTitle } from '@vueuse/core'
 
 export const useHeaderStore = defineStore('header', {
   state: () => ({
-    header: 'ZVMS 4',
-    base: 'ZVMS 4'
+    header: '义工平台',
+    base: '义工平台'
   }),
   actions: {
     setHeader(header: string) {
