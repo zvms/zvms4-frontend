@@ -405,4 +405,8 @@ div[data-netlify-site-id] {
     font-size: 12px;
   }
 }
+
+.no-back .el-page-header__back {
+  display: none !important;
+}
 </style>
