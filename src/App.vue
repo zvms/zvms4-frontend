@@ -239,14 +239,13 @@ onMounted(() => {
                 :class="[
                   'text-2xl',
                   'w-full',
-                  verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10',
+                  /*verticalMode && userStore.isLogin ? 'pl-1' : 'pl-10'*/'pl-1',
                   'pt-1.5',
                   'flex',
                   'items-center'
                 ]"
-                @dblclick="router.push(userStore.isLogin ? '/user' : '/user/login')"
               >
-                <ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />
+                <!--<ZVerticalNav v-if="verticalMode && userStore.isLogin" class="pl-6" />-->
                 <ElDivider v-if="verticalMode && userStore.isLogin" direction="vertical" />
                 <ElIcon style="border-radius: .25rem;"><img src="/favicon.ico" class="scale-50" style="border-radius: 20%;" alt="favicon" /></ElIcon>
                 <span class="lh-100% ml-2">{{ headerStore.header }}</span>
@@ -284,7 +283,7 @@ onMounted(() => {
           </ElRow>
         </ElHeader>
         <ElContainer class="full">
-          <UserNav style="height: 100%; width: 3.2rem" v-if="userStore.isLogin && !verticalMode" />
+          <UserNav style="height: 100%; width: 3.2rem" v-if="userStore.isLogin /*&& !verticalMode*/" />
           <RouterView
             class="bg-slate-50 dark:bg-gray-950 view fragment-container"
             style="width: 100%; height: 100%; box-sizing: border-box;"
