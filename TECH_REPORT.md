@@ -176,16 +176,7 @@ export const pad = () => {
 ```
 
 **Supported Tablet Models:**
-- Samsung SM-P615C, SM-P200, SM-P335
-
-### Internationalization (i18n)
-
-**Multi-language Support:**
-- **Chinese (Simplified)** - Primary language
-- **English** - Secondary language
-- **Dynamic language switching** with persistent preferences
-- **Contextual translations** for complex UI elements
-- **Number and date localization**
+- Samsung SM-P615C, SM-P200, SM-P335, SM-P620
 
 ### Security Implementation
 
