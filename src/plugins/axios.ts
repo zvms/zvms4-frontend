@@ -18,7 +18,7 @@ function getCookieValue(cookieName: string) {
   return null
 }
 
-export const baseURL = 'https://api.zvms.site/api/'
+export const baseURL = 'https://zvp.xiaobopisces.top/api/'
 
 const axiosInstance = axios.create({
   baseURL,
